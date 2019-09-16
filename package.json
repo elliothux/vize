@@ -1,0 +1,8 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "i": "lerna bootstrap --npm-client=cnpm",
+    "lerna": "^3.16.4"
+  }
+}
