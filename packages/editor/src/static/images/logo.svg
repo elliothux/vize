@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="142px" height="42px" viewBox="0 0 142 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>编组 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="58.3686031%" x2="100%" y2="41.6313969%" id="linearGradient-1">
+            <stop stop-color="#FF4E50" offset="0%"></stop>
+            <stop stop-color="#F9D423" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-5" transform="translate(-1.000000, 0.000000)">
+            <path d="M12.977113,0 L97.6203902,0 C99.8295292,-5.29079356e-15 101.62039,1.790861 101.62039,4 C101.62039,4.30607545 101.58526,4.61113954 101.515689,4.90920334 L93.5797333,38.9092033 C93.1572094,40.7194221 91.5433105,42 89.684435,42 L5.04115771,42 C2.83201871,42 1.04115771,40.209139 1.04115771,38 C1.04115771,37.6939246 1.07628815,37.3888605 1.14585936,37.0907967 L9.08181463,3.09079666 C9.5043386,1.28057794 11.1182374,3.00600516e-15 12.977113,0 Z" id="矩形备份-2" fill="url(#linearGradient-1)"></path>
+            <text id="Visualizatior" font-family="JCfg, PilGi" font-size="23" font-weight="normal" fill="#000000">
+                <tspan x="22.4282227" y="33">Visualizatior</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

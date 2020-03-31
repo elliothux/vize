@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="353px" height="353px" viewBox="0 0 353 353" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>right-column-layout</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="right-column-layout" fill-rule="nonzero">
+            <g id="g4" transform="translate(176.169491, 176.762710) scale(-1, 1) rotate(-180.000000) translate(-176.169491, -176.762710) translate(0.169491, 0.762710)" fill="#4D4D4D">
+                <path d="M0,352 L16,352 L336,352 L352,352 L352,336 L352,16 L352,0 L336,0 L16,0 L0,0 L0,16 L0,336 L0,352 Z M32,320 L32,32 L160,32 L160,320 L32,320 Z M192,320 L192,32 L320,32 L320,320 L192,320 Z" id="path2"></path>
+            </g>
+            <polygon id="path868" fill-opacity="0.32941176" fill="#808080" points="192.95621 176.79183 192.95621 33.06301 256.41383 33.06301 319.87146 33.06301 319.87146 176.79183 319.87146 320.52064 256.41383 320.52064 192.95621 320.52064"></polygon>
+        </g>
+    </g>
+</svg>

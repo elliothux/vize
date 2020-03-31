@@ -1,0 +1,14 @@
+.main-header {
+  background-color: white;
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.06);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 26px;
+
+  .logo {
+    width: 120px;
+    height: auto;
+  }
+}

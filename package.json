@@ -1,8 +1,11 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "i": "lerna bootstrap --npm-client=tnpm"
+  },
   "devDependencies": {
-    "i": "lerna bootstrap --npm-client=cnpm",
-    "lerna": "^3.16.4"
+    "lerna": "^3.16.4",
+    "prettier": "^1.19.1"
   }
 }
