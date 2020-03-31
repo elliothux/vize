@@ -31,18 +31,18 @@ export class OperationBar extends React.Component {
     const debugPort = undefined;
     const isTemplate = false;
     return (
-      <div className="center">
+      <div className="operation_bar center">
         <OperationItem title="undo" icon={FiCornerUpLeft} action={noop} />
         <OperationItem title="redo" icon={FiCornerUpRight} action={noop} />
         <OperationItem title="清除" icon={FiX} action={noop} />
-        <span className="black" />
+        <span className="operation_black" />
         <OperationItem
           title={previewMode ? "切换到编辑模式" : "切换到预览模式"}
           icon={previewMode ? FiEdit : FiEye}
           action={noop}
         />
         <OperationItem title="全屏" icon={FiMaximize2} action={noop} />
-        <span className="black" />
+        <span className="operation_black" />
         <OperationItem
           title={
             isUserValid ? (
@@ -72,13 +72,13 @@ export class OperationBar extends React.Component {
           action={noop}
           disabled={!!debugPort}
         />
-        <span className="black" />
-        <OperationItem
-          title={debugPort ? "Debug 模式不支持下载" : "下载页面 Bundle"}
-          icon={FiDownload}
-          action={noop}
-          disabled={!!debugPort}
-        />
+        <span className="operation_black" />
+        {/*<OperationItem*/}
+        {/*  title={debugPort ? "Debug 模式不支持下载" : "下载页面 Bundle"}*/}
+        {/*  icon={FiDownload}*/}
+        {/*  action={noop}*/}
+        {/*  disabled={!!debugPort}*/}
+        {/*/>*/}
         <OperationItem title="预览" icon={FiPlay} action={noop} />
         <OperationItem
           disabled={isTemplate || !isUserValid || !!debugPort}
@@ -108,7 +108,7 @@ export class OperationBar extends React.Component {
     const hideRight = false;
 
     return (
-      <div className="right">
+      <div className="operation_bar right">
         <Tooltip title="收起左栏">
           <div className={classNames("hide_left", { activated: hideLeft })}>
             <Column />
@@ -117,7 +117,6 @@ export class OperationBar extends React.Component {
         <Tooltip title="收起右栏">
           <div className={classNames("hide_right", { activated: hideRight })}>
             <Column />
-            {/*<img src={COLUMN} alt="hideRight" />*/}
           </div>
         </Tooltip>
       </div>
@@ -126,10 +125,10 @@ export class OperationBar extends React.Component {
 
   render() {
     return (
-      <div className="operation_bar">
+      <>
         {this.renderCenter()}
         {this.renderRight()}
-      </div>
+      </>
     );
   }
 }

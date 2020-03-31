@@ -1,0 +1,16 @@
+.simulator-container {
+  width: 100vw;
+  height: calc(100vh - 50px);
+  position: fixed;
+  top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .simulator {
+    border: 1px solid red;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.18);
+    width: 375px;
+    height: 667px;
+  }
+}

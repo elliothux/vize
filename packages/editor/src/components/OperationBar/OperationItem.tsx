@@ -23,7 +23,7 @@ export function OperationItem(props: OperationItemProps) {
     >
       <div
         onClick={disabled ? noop : props.action}
-        className={classnames({ disabled })}
+        className={classnames("operation_item", { disabled })}
       >
         <Icon />
       </div>
