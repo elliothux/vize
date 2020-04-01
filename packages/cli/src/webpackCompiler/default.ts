@@ -1,22 +1,21 @@
 import { Configuration } from "webpack";
 import { LibPaths } from "../utils";
-import { MaterialsLibConfig } from "../types";
+import { LibConfig } from "../config";
 
 export function getDefaultWebpackConfig(
   { root, mainEntryTemp, metaEntryTemp, output }: LibPaths,
-  { libName }: MaterialsLibConfig
+  { libName }: LibConfig
 ): Configuration {
   return {
-    // libName: `vize-materials-${libName}`,
     context: root,
     entry: {
-      main: mainEntryTempm,
+      main: mainEntryTemp,
       meta: metaEntryTemp
     },
     output: {
       path: output,
       filename: `${libName}.[name].js`,
-      library: "@vize-materials-[name]",
+      library: `@vize-materials-${libName}_[name]`,
       libraryTarget: "window",
       umdNamedDefine: true
     },
@@ -25,7 +24,7 @@ export function getDefaultWebpackConfig(
       antd: "Antd",
       "react-dom": "ReactDom",
       "react-dom/server": "ReactDomServer"
-    },
+    }
     // paths: {
     //   libSrcPath: path.resolve(rootPath, "./src"),
     //   libModulesPath: modulesPath

@@ -18,5 +18,8 @@
     "urllib": "^2.34.2"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/fs-extra": "^8.1.0"
+  }
 }

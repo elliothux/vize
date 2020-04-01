@@ -252,5 +252,5 @@ dist
 # TernJS port file
 .tern-port
 
-/packages/materials-base/.temp/
-/packages/materials-base/build/
+/packages/materials-universal/.temp/
+/packages/materials-universal/build/

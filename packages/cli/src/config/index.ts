@@ -1,17 +1,20 @@
 import * as fs from "fs";
-import { MaterialsLibConfig } from "../types";
 import { LibPaths } from "../utils";
+
+export interface LibConfig {
+  libName: string;
+}
 
 export function getLibConfig({
   config: configPath
-}: LibPaths): MaterialsLibConfig {
+}: LibPaths): LibConfig {
   if (!fs.existsSync(configPath)) {
     throw "no config";
   }
 
   const { libName } = JSON.parse(
     fs.readFileSync(configPath, "utf-8")
-  ) as Partial<MaterialsLibConfig>;
+  ) as Partial<LibConfig>;
 
   return { libName: libName! };
 }
