@@ -1,6 +1,6 @@
 const info = {
-  displayName: "按钮",
-  desc: "基础按钮",
+  displayName: "分享配置",
+  desc: "基础分享配置",
   author: "aedron@github"
 };
 

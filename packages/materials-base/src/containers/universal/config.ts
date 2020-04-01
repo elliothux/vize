@@ -1,6 +1,6 @@
 const info = {
-  displayName: "按钮",
-  desc: "基础按钮",
+  displayName: "通用页面容器",
+  desc: "通用页面容器",
   author: "aedron@github"
 };
 

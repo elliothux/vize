@@ -1,6 +1,6 @@
 const info = {
-  displayName: "按钮",
-  desc: "基础按钮",
+  displayName: "跳转URL",
+  desc: "跳转链接",
   author: "aedron@github"
 };
 
