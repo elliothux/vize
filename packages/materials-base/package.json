@@ -1,5 +1,5 @@
 {
-  "name": "materials-base",
+  "name": "@vize/materials-base",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

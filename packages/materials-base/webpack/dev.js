@@ -1,11 +1,24 @@
 const path = require("path");
 
+const rootPath = path.resolve(__dirname, "../");
+
 module.exports = {
-  entry: path.resolve(__dirname, "../.temp/entry.js"), //入口文件
+  libName: "materials-base",
+  context: rootPath,
+  entry: path.resolve(rootPath, ".temp/entry.js"), //入口文件
   output: {
-    path: path.resolve(__dirname, "../build"), //输出位置
-    filename: "index.js" //输入文件
+    path: path.resolve(rootPath, "build"), //输出位置
+    filename: "index.js"
   },
-  module: {},
-  mode: "development"
+  externals: {
+    react: "React",
+    antd: "Antd",
+    "react-dom": "ReactDom",
+    "react-dom/server": "ReactDomServer"
+  },
+  // paths: {
+  //   libSrcPath: path.resolve(rootPath, "./src"),
+  //   libModulesPath: modulesPath
+  // },
+  modules: []
 };
