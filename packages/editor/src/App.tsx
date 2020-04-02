@@ -8,7 +8,12 @@ export function App() {
     <>
       <Header />
       <Simulator>
-        <SandboxRender />
+        <SandboxRender mountTarget="#vize-main-entry">
+          {doc => {
+            console.log(doc);
+            return <h1>hello</h1>;
+          }}
+        </SandboxRender>
       </Simulator>
     </>
   );
