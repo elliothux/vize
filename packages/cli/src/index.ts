@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import { Command } from "commander";
 import { error, cleanArgs } from "./utils";
+import { dev } from "./commands";
 
 const packageJson = require("../package.json");
 
@@ -15,6 +16,7 @@ program
   .option("-o, --open", "自动打开浏览器")
   .action((name, cmd) => {
     const options = cleanArgs(cmd);
+    dev(options);
   });
 
 program

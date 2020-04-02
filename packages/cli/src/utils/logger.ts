@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import readline from "readline";
 import padStart from "string.prototype.padstart";
-import EventEmitter from "events";
+import { EventEmitter } from "events";
 
 const events = new EventEmitter();
 

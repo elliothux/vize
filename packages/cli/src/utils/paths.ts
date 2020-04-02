@@ -10,19 +10,22 @@ export interface LibPaths {
   plugins: string;
   actions: string;
   containers: string;
+  nodeModules: string;
+  webpackConfigs: string;
+  container: string;
   mainEntryTemp: string;
   metaEntryTemp: string;
 }
 
 let paths: Maybe<LibPaths> = null;
 
-export function getLibPaths(root: string): LibPaths {
+export function getLibPaths(root: string, containerName: string): LibPaths {
   if (paths) {
     return paths;
   }
 
   const src = path.resolve(root, "./src");
-  const temp = path.resolve(root, "./temp");
+  const temp = path.resolve(root, "./.temp");
   const config = path.resolve(root, "./.vizerc");
   const output = path.resolve(root, "./dist");
   const mainEntryTemp = path.resolve(temp, "./entry_main.js");
@@ -31,6 +34,9 @@ export function getLibPaths(root: string): LibPaths {
   const plugins = path.resolve(src, "./plugins");
   const actions = path.resolve(src, "./actions");
   const containers = path.resolve(src, "./containers");
+  const nodeModules = path.resolve(root, "./node_modules");
+  const webpackConfigs = path.resolve(root, "./webpack");
+  const container = path.resolve(containers, containerName);
 
   paths = {
     root,
@@ -43,7 +49,10 @@ export function getLibPaths(root: string): LibPaths {
     components,
     plugins,
     actions,
-    containers
+    containers,
+    webpackConfigs,
+    nodeModules,
+    container
   };
 
   return paths;
