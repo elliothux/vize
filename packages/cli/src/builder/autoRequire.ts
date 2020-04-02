@@ -17,7 +17,6 @@ type PluginsList = MaterialsList;
 type ActionsList = MaterialsList;
 
 export async function generateEntryFile({
-  src,
   mainEntryTemp,
   metaEntryTemp,
   components,

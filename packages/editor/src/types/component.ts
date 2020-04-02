@@ -6,6 +6,7 @@ export interface MaterialsComponentInfo {
 
 export interface MaterialsComponent {
   id: number;
+  lib: string;
   name: string;
   thumb: string;
   info: MaterialsComponentInfo;
