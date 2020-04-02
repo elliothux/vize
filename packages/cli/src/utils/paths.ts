@@ -13,6 +13,8 @@ export interface LibPaths {
   nodeModules: string;
   webpackConfigs: string;
   container: string;
+  containerEntry: string;
+  containerHTML: string;
   mainEntryTemp: string;
   metaEntryTemp: string;
 }
@@ -37,6 +39,8 @@ export function getLibPaths(root: string, containerName: string): LibPaths {
   const nodeModules = path.resolve(root, "./node_modules");
   const webpackConfigs = path.resolve(root, "./webpack");
   const container = path.resolve(containers, containerName);
+  const containerEntry = path.resolve(container, "./index");
+  const containerHTML = path.resolve(container, "./index.html.ejs");
 
   paths = {
     root,
@@ -52,7 +56,9 @@ export function getLibPaths(root: string, containerName: string): LibPaths {
     containers,
     webpackConfigs,
     nodeModules,
-    container
+    container,
+    containerEntry,
+    containerHTML
   };
 
   return paths;

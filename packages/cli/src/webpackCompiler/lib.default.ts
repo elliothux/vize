@@ -14,7 +14,9 @@ export function getLibDefaultWebpackConfig(
     output,
     nodeModules,
     src,
-    container
+    container,
+    containerEntry,
+    containerHTML
   }: LibPaths,
   { libName }: LibConfig,
   isProd: boolean
@@ -23,7 +25,9 @@ export function getLibDefaultWebpackConfig(
     context: root,
     entry: {
       main: mainEntryTemp,
-      meta: metaEntryTemp
+      meta: metaEntryTemp,
+      entry: containerEntry,
+      html: containerHTML
     },
     output: {
       path: output,
@@ -100,16 +104,14 @@ export function getLibDefaultWebpackConfig(
         {
           test: /\.(jpe?g|png|gif|ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
           loader: "base64-inline-loader"
+        },
+        {
+          test: /\.ejs$/,
+          use: "raw-loader"
         }
       ]
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        template: path.resolve(container, "./index.ejs"),
-        filename: "index.html",
-        cache: false
-        // templateParameters: templateData
-      }),
       new webpack.HashedModuleIdsPlugin({
         hashFunction: "sha256",
         hashDigest: "hex",
@@ -118,11 +120,11 @@ export function getLibDefaultWebpackConfig(
       new MiniCssExtractPlugin({
         filename: "[name].[contenthash].css",
         chunkFilename: "[id].[contenthash].css"
-      }),
-      new webpack.EnvironmentPlugin({
-        SSR: false,
-        WEBPACK_ENV: "production"
       })
+      // new webpack.EnvironmentPlugin({
+      //   SSR: false,
+      //   WEBPACK_ENV: "production"
+      // })
     ],
     mode: isProd ? "production" : "development",
     devtool: "source-map",
