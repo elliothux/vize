@@ -1,5 +1,5 @@
 import { observable } from "mobx";
-import { MaterialsComponent, Maybe } from "types";
+import { Maybe } from "types";
 import { getQueryParams } from "../utils";
 
 export class GlobalStore {

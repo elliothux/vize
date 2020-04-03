@@ -55,7 +55,9 @@ async function generateEntry(
   actionsList: ActionsList
 ): Promise<void> {
   const genItemContent = ({ name, mainPath, metaPath }: MaterialsItem) => {
-    return `${name}: require("${type === "main" ? mainPath : metaPath}"),`;
+    return `${name}: require("${
+      type === "main" ? mainPath : metaPath
+    }").default,`;
   };
 
   const content = `export default {

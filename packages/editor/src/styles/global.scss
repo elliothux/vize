@@ -1,3 +1,16 @@
 body {
   background-color: #f5f5f7;
 }
+
+.editor-loading {
+  height: 100vh;
+
+  .ant-spin {
+    height: 85vh !important;
+    max-height: 85vh !important;
+  }
+
+  .ant-spin-container {
+    height: 100vh;
+  }
+}

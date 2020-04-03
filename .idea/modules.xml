@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/V.iml" filepath="$PROJECT_DIR$/.idea/V.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../vize/.idea/vize.iml" filepath="$PROJECT_DIR$/../vize/.idea/vize.iml" />
     </modules>
   </component>
 </project>

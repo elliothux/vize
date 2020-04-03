@@ -1,8 +1,8 @@
 import { MaterialsInfo } from "./materials";
 
-export interface MaterialsComponentMeta {
+export interface MaterialsActionMeta {
   identityName: string;
-  lib: string;
+   lib: string;
   readonly name: string;
   readonly thumb: string;
   readonly info: MaterialsInfo;

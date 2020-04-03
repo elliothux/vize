@@ -1,4 +1,4 @@
-enum MaterialsFileType {
+export enum MaterialsFileType {
   Main = "main",
   Meta = "meta",
   Entry = "entry",
@@ -10,27 +10,29 @@ interface MaterialsFileInfo {
   entryName: string;
 }
 
-function getFileInfo(
-  file: MaterialsFileType,
+export function getMaterialsFileInfo(
+  fileType: MaterialsFileType,
   libName: string,
   debugPort?: number
 ): MaterialsFileInfo {
   // TODO
   return {
-    url: `http://127.0.0.1:${debugPort!}/@vize-materials-${libName}-${file}.js`,
-    entryName: `@vize-materials-${libName}-${file}`
+    url: `http://127.0.0.1:${debugPort!}/@vize-materials-${libName}-${fileType}.js`,
+    entryName: `@vize-materials-${libName}-${fileType}`
   };
 }
 
-function loadUMDModule<T>(
+export function loadUMDModule<T>(
   { url, entryName }: MaterialsFileInfo,
-  win: Window,
-  remove: boolean
+  win: Window = window,
+  remove: boolean = true
 ): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const doc = win.document;
     const script = doc.createElement("script");
+
     script.setAttribute("src", url);
+    script.addEventListener("error", reject);
     script.addEventListener("load", () => {
       if (remove) {
         doc.body.removeChild(script);
@@ -40,14 +42,10 @@ function loadUMDModule<T>(
       if (!result) {
         return reject(`Cannot find UMD modules "${entryName}"`);
       }
-      return resolve(result);
+
+      return resolve(result.default as T);
     });
+
     doc.body.appendChild(script);
   });
 }
-
-function loadMain() {
-
-}
-
-export function loadMaterials(libName: string, debugPort?: number) {}
