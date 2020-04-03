@@ -1,18 +1,20 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Maybe } from "types";
-import { defaultHTML } from "./defaultHTML";
+import { noop } from "../../utils";
+
 import "./index.scss";
 
 interface Props {
-  htmlContent?: string;
+  htmlContent: string;
   mountTarget: string;
   children: (doc: Document, win: Window) => React.ReactElement;
+  iframeDidMount?: (doc: Document, win: Window) => void;
 }
 
 export class SandboxRender extends React.Component<Props> {
   static defaultProps = {
-    htmlContent: defaultHTML
+    iframeDidMount: noop
   };
 
   public state = {
@@ -72,6 +74,7 @@ export class SandboxRender extends React.Component<Props> {
     this.initialRender = false;
     this.htmlWriterTimer = window.setInterval(() => {
       if (doc.body) {
+        this.props.iframeDidMount!(doc, doc.defaultView!);
         this.setState({ loaded: true });
         window.clearInterval(this.htmlWriterTimer!);
       }

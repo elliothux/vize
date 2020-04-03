@@ -23,7 +23,12 @@ export async function loadMaterials(libName: string, debugPort?: number) {
     loadEntry(libName, debugPort)
   ]);
 
-  debugger;
+  return {
+    containerHTML,
+    meta,
+    main,
+    entry
+  };
 }
 
 export function loadMain(

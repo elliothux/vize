@@ -2,10 +2,9 @@ import * as React from "react";
 import { useMount } from "react-use";
 import { Spin } from "antd";
 import { Header } from "./components/Header";
-import { SandboxRender } from "./components/SandboxRender";
 import { Simulator } from "./components/Simulator";
-import { loadMaterials } from "./utils";
-import { globalStore } from "./states";
+import { Renderer } from "./components/Render";
+import { materialsStore } from "./states";
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -23,19 +22,11 @@ export function App() {
       wrapperClassName="editor-loading"
     >
       <Header />
-      <Simulator>
-        <SandboxRender mountTarget="#vize-main-entry">
-          {doc => {
-            console.log(doc);
-            return <h1>hello</h1>;
-          }}
-        </SandboxRender>
-      </Simulator>
+      <Simulator>{loading ? null : <Renderer />}</Simulator>
     </Spin>
   );
 }
 
-async function init() {
-  const { libName, debugPort } = globalStore;
-  await loadMaterials(libName, debugPort || undefined);
+function init() {
+  return materialsStore.init();
 }
