@@ -81,3 +81,5 @@ export function loadContainerHTML(libName: string, debugPort?: number) {
   const info = getMaterialsFileInfo(MaterialsFileType.HTML, libName, debugPort);
   return loadUMDModule<string>(info);
 }
+
+export * from "./inject";

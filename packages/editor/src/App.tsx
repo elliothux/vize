@@ -3,7 +3,7 @@ import { useMount } from "react-use";
 import { Spin } from "antd";
 import { Header } from "./components/Header";
 import { Simulator } from "./components/Simulator";
-import { Renderer } from "./components/Render";
+import { Renderer } from "./components/Renderer";
 import { materialsStore } from "./states";
 
 export function App() {
