@@ -3,7 +3,7 @@ import { SandboxRender } from "../SandboxRender";
 import { observer } from "mobx-react";
 import { materialsStore } from "../../states";
 import { injectStyle, loadUMDModuleFromString } from "../../utils/loader";
-import { Maybe } from "../../types";
+import { Maybe, RenderEntry, RenderEntryParams } from "../../types";
 
 @observer
 export class Renderer extends React.Component {
@@ -11,18 +11,7 @@ export class Renderer extends React.Component {
     ready: false
   };
 
-  private renderEntry: Maybe<Function> = null;
-
-  private callRender = (
-    renderer: (content: React.ReactNode) => React.ReactNode,
-    content: React.ReactNode
-  ): React.ReactNode => {
-    if (this.state.ready) {
-      debugger;
-      this.renderEntry!({ render: () => renderer(content) });
-    }
-    return null;
-  };
+  // private renderEntry: Maybe<RenderEntry> = null;
 
   private iframeDidMount = async (doc: Document, win: Window) => {
     const {
@@ -36,13 +25,27 @@ export class Renderer extends React.Component {
 
     const [main, entry] = await Promise.all([
       loadUMDModuleFromString(mainScript, mainEntryName, win),
-      loadUMDModuleFromString<Function>(entryScript, entryEntryName, win),
+      loadUMDModuleFromString<RenderEntry>(entryScript, entryEntryName, win),
       mainStyle ? injectStyle(mainStyle, win) : Promise.resolve(),
       entryStyle ? injectStyle(entryStyle, win) : Promise.resolve()
     ]);
 
-    this.renderEntry = entry as Function;
-    this.setState({ ready: true });
+    // this.renderEntry = entry as RenderEntry;
+    if (entry) {
+      this.callRenderEntry(entry as RenderEntry);
+    }
+  };
+
+  private callRenderEntry = (renderEntry: RenderEntry) => {
+    renderEntry({ render: () => this.setState({ ready: true }) });
+  };
+
+  private renderContent = () => {
+    if (!this.state.ready) {
+      return null;
+    }
+
+    return <h1>hello</h1>;
   };
 
   public render() {
@@ -54,7 +57,7 @@ export class Renderer extends React.Component {
         htmlContent={containerHTML}
         iframeDidMount={this.iframeDidMount}
       >
-        {renderer => this.callRender(renderer, <h1>hello</h1>)}
+        {this.renderContent}
       </SandboxRender>
     );
   }

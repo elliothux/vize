@@ -1,6 +1,7 @@
 import { MaterialsComponentMeta } from "./component";
 import { MaterialsPluginMeta } from "./plugins";
 import { MaterialsActionMeta } from "./actions";
+import * as React from "react";
 
 export interface MaterialsInfo {
   name: string;
@@ -19,3 +20,9 @@ export interface MaterialsMeta {
     [name: string]: MaterialsActionMeta;
   };
 }
+
+export interface RenderEntryParams {
+  render: Function;
+}
+
+export type RenderEntry = (params: RenderEntryParams) => void;

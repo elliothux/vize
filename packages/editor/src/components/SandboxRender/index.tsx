@@ -8,11 +8,7 @@ import "./index.scss";
 interface Props {
   htmlContent: string;
   mountTarget: string;
-  children: (
-    renderContent: (content: React.ReactNode) => React.ReactNode,
-    doc: Document,
-    win: Window
-  ) => React.ReactNode;
+  children: (doc: Document, win: Window) => React.ReactNode;
   iframeDidMount?: (doc: Document, win: Window) => void;
 }
 
@@ -85,10 +81,6 @@ export class SandboxRender extends React.Component<Props> {
     }, 200);
   };
 
-  private renderer = (content: React.ReactNode) => {
-    return createPortal(content, this.getMountTarget());
-  };
-
   private renderContent = () => {
     const doc = this.getDoc();
     if (!doc) {
@@ -104,9 +96,8 @@ export class SandboxRender extends React.Component<Props> {
       return null;
     }
 
-    // const content = this.props.children(doc, doc.defaultView!);
-    // return createPortal(content, this.getMountTarget());
-    return this.props.children(this.renderer, doc, doc.defaultView!);
+    const content = this.props.children(doc, doc.defaultView!);
+    return createPortal(content, this.getMountTarget());
   };
 
   public render() {
