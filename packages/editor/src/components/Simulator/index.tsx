@@ -5,7 +5,9 @@ import "./index.scss";
 interface Props extends WithReactChildren {}
 
 export function Simulator({ children }: Props) {
-  return <div className="simulator-container">
-    <div className="simulator">{children}</div>
-  </div>;
+  return (
+    <div className="vize-simulator-container">
+      <div className="simulator">{children}</div>
+    </div>
+  );
 }

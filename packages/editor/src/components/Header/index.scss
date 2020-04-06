@@ -1,11 +1,13 @@
+@import "styles/helper";
+
 .main-header {
-  background-color: white;
-  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.06);
+  background: white;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 26px;
+  border-bottom: $main-border;
 
   .logo {
     width: 120px;

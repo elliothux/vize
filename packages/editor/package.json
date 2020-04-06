@@ -6,6 +6,7 @@
     "start": "react-scripts start"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.0.5",
     "antd": "^4.1.0",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
@@ -27,7 +28,8 @@
     "@types/ramda": "^0.27.3",
     "@types/react": "^16.9.29",
     "@types/react-dom": "^16.9.5",
-    "node-sass": "^4.13.1"
+    "node-sass": "^4.13.1",
+    "react-rnd": "^10.1.8"
   },
   "browserslist": {
     "production": [

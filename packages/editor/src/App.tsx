@@ -5,6 +5,8 @@ import { Header } from "./components/Header";
 import { Simulator } from "./components/Simulator";
 import { Renderer } from "./components/Renderer";
 import { materialsStore } from "./states";
+import { MaterialsView } from "./components/MaterialsView";
+import { AttributesEditor } from "./components/AttributesEditor";
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -22,7 +24,11 @@ export function App() {
       wrapperClassName="editor-loading"
     >
       <Header />
-      <Simulator>{loading ? null : <Renderer />}</Simulator>
+      <main className="vize-main">
+        <MaterialsView />
+        <Simulator>{loading ? null : <Renderer />}</Simulator>
+        <AttributesEditor />
+      </main>
     </Spin>
   );
 }
