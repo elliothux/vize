@@ -1,14 +1,18 @@
 @import "styles/helper";
 
 .vize-materials-view {
-  background-color: #fbfbfb;
+  background-color: #f2f2f2;
   border-right: $main-border;
 
   .pages {
+    background-color: #fafafa;
+    padding-top: 16px;
+    padding-bottom: 28px;
+
     header {
       display: flex;
       justify-content: space-between;
-      margin: 16px 0 12px;
+      margin-bottom: 12px;
       padding: 0 10px;
       font-size: 13px;
 

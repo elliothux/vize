@@ -1,0 +1,63 @@
+@import "styles/helper";
+
+.vize-materials-tree {
+  .ant-tree-directory {
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0.85);
+    z-index: 1;
+    font-size: 12px;
+
+    .ant-tree-treenode {
+      padding: 0;
+    }
+
+    .ant-tree-node-content-wrapper {
+      padding: 0;
+
+      & > span {
+        font-size: 13px;
+      }
+
+      &,
+      & > .ant-tree-iconEle {
+        min-height: 36px;
+        line-height: 36px;
+      }
+    }
+
+    .ant-tree-switcher {
+      min-height: 36px;
+      line-height: 36px;
+    }
+
+    .ant-tree-indent-unit {
+      width: 6px;
+    }
+
+    .ant-tree-treenode.ant-tree-treenode-selected:before {
+      border-radius: 3px;
+      top: 4px;
+      right: 6px;
+      bottom: 4px;
+      left: 6px;
+    }
+  }
+
+  .ant-tree-list-holder-inner {
+    & > .ant-tree-treenode:first-child::before {
+      border-radius: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-bottom: $main-border;
+    }
+
+    .ant-tree-treenode-switcher-open,
+    .ant-tree-treenode-switcher-close {
+      &::before {
+        border-top: $main-border;
+      }
+    }
+  }
+}

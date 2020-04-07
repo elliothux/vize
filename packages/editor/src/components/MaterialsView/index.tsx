@@ -4,6 +4,7 @@ import { Tabs } from "antd";
 import { PlusOutlined, UpOutlined } from "@ant-design/icons";
 // import { Rnd } from "react-rnd";
 import "./index.scss";
+import { MaterialsTree } from "./MaterialsTree";
 
 const { TabPane } = Tabs;
 
@@ -36,6 +37,7 @@ export class MaterialsView extends React.Component {
       <div className="vize-materials-view">
         {this.renderPages()}
         {this.renderSearch()}
+        <MaterialsTree />
       </div>
     );
   }
