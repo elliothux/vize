@@ -4,6 +4,15 @@ const info = {
   author: "aedron@github"
 };
 
+const dataForm = {
+  text: {
+    title: "按钮文字",
+    default: "按钮",
+    type: "string"
+  }
+};
+
 export default {
-  info
+  info,
+  dataForm
 };

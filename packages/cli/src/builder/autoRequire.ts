@@ -57,19 +57,19 @@ async function generateEntry(
   const genItemContent = ({ name, mainPath, metaPath }: MaterialsItem) => {
     return `${name}: require("${
       type === "main" ? mainPath : metaPath
-    }").default,`;
+    }").default`;
   };
 
   const content = `export default {
   components: {
-    ${componentsList.map(genItemContent)}
+    ${componentsList.map(genItemContent).join(",")}
   },
   plugins: {
-    ${pluginsList.map(genItemContent)}
+    ${pluginsList.map(genItemContent).join(",")}
   },
   actions: {
-    ${actionsList.map(genItemContent)}
-  },
+    ${actionsList.map(genItemContent).join(",")}
+  }
 }`;
 
   if (fs.existsSync(targetPath)) {

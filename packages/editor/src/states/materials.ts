@@ -1,12 +1,11 @@
-import { action, observable } from "mobx";
+import { action, observable, toJS } from "mobx";
 import {
   MaterialsActionMeta,
   MaterialsComponentMeta,
   MaterialsPluginMeta,
-  Maybe,
-  RequestStatus
+  Maybe
 } from "types";
-import { loadMaterials } from "../utils/loader";
+import { loadMaterials, injectGlobal } from "../utils";
 import { globalStore } from "./global";
 
 export class MaterialsStore {
@@ -14,9 +13,6 @@ export class MaterialsStore {
   public readonly init = async () => {
     return this.loadMaterials();
   };
-
-  // @observable
-  // materialsStatus: RequestStatus = RequestStatus.LOADING;
 
   @observable
   public components: { [id: number]: MaterialsComponentMeta } = {};
@@ -120,3 +116,5 @@ export class MaterialsStore {
 }
 
 export const materialsStore = new MaterialsStore();
+
+injectGlobal("vize_materials_store", () => toJS(materialsStore));

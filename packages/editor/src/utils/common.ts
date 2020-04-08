@@ -1,5 +1,7 @@
 import { parseUrl } from "query-string";
-import { Maybe } from "../types";
+import { JsonSchemaProperties, Maybe } from "../types";
+import getDefaults from "json-schema-defaults";
+import { createSchema } from "./create";
 
 export const noop = () => {};
 
@@ -30,10 +32,38 @@ export function promiseWrapper<T>(p: Promise<T>): PromiseResult<T> {
   });
 }
 
-export function isNumber(v: any): boolean {
-  return typeof v === "number";
-}
-
 export function wait(time: number): Promise<void> {
   return new Promise<void>(resolve => setTimeout(resolve, time));
+}
+
+export function injectGlobal(key: string, value: any) {
+  return Object.defineProperty(window, key, {
+    get() {
+      return typeof value === "function" ? value() : value;
+    }
+  });
+}
+
+export function downloadString(
+  text: string,
+  fileType: string,
+  fileName: string
+) {
+  const blob = new Blob([text], { type: fileType });
+
+  const a = document.createElement("a");
+  a.download = fileName;
+  a.href = URL.createObjectURL(blob);
+  a.dataset.downloadurl = [fileType, a.download, a.href].join(":");
+  a.style.display = "none";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function() {
+    URL.revokeObjectURL(a.href);
+  }, 1500);
+}
+
+export function getSchemaDefault(schema: JsonSchemaProperties) {
+  return getDefaults(createSchema(schema));
 }

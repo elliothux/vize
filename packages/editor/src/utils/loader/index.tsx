@@ -45,7 +45,10 @@ export function loadEntry(
   return loadFileAsString(MaterialsFileType.Entry, libName, debugPort);
 }
 
-export async function loadMeta(libName: string, debugPort?: number) {
+export async function loadMeta(
+  libName: string,
+  debugPort?: number
+): Promise<MaterialsMeta> {
   const info = getMaterialsFileInfo(MaterialsFileType.Meta, libName, debugPort);
   const [meta, [, err]] = await Promise.all([
     loadUMDModule<MaterialsMeta>(info),
@@ -59,21 +62,40 @@ export async function loadMeta(libName: string, debugPort?: number) {
     );
   }
 
-  const handler = R.partial(handleMaterials, [libName]);
-  R.mapObjIndexed(handler, meta.components);
-  R.mapObjIndexed(handler, meta.plugins);
-  R.mapObjIndexed(handler, meta.actions);
+  const components: MaterialsMeta["components"] = {};
+  R.mapObjIndexed((i, key) => {
+    const item = generateMaterials(libName, i, key);
+    components[item.identityName] = item;
+  }, meta.components);
 
-  return meta;
+  const plugins: MaterialsMeta["plugins"] = {};
+  R.mapObjIndexed((i, key) => {
+    const item = generateMaterials(libName, i, key);
+    plugins[item.identityName] = item;
+  }, meta.plugins);
 
-  function handleMaterials(
-    libName: string,
-    item: MaterialsComponentMeta | MaterialsPluginMeta | MaterialsActionMeta,
-    name: string
-  ) {
-    item.lib = libName.toLowerCase();
-    item.name = name;
-    item.identityName = `${item.lib}_${item.name.toLowerCase()}`;
+  const actions: MaterialsMeta["actions"] = {};
+  R.mapObjIndexed((i, key) => {
+    const item = generateMaterials(libName, i, key);
+    actions[item.identityName] = item;
+  }, meta.actions);
+
+  return {
+    components,
+    actions,
+    plugins
+  };
+
+  function generateMaterials<
+    T = MaterialsComponentMeta | MaterialsPluginMeta | MaterialsActionMeta
+  >(libName: string, item: T, name: string): T {
+    const lib = libName.toLowerCase();
+    return {
+      ...item,
+      name,
+      lib: libName.toLowerCase(),
+      identityName: `${lib}_${name.toLowerCase()}`
+    };
   }
 }
 

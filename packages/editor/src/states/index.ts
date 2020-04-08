@@ -1,9 +1,7 @@
 import { configure } from "mobx";
 
 configure({
-  enforceActions: "strict",
-  reactionRequiresObservable: true,
-  observableRequiresReaction: true
+  enforceActions: "always"
 });
 
 export * from "./global";

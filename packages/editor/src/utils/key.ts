@@ -1,4 +1,4 @@
-import { isNumber } from "./common";
+import { isNumber } from "./is";
 
 const keyMap = new Map<KeyType, number>();
 
@@ -39,5 +39,6 @@ function createFromType(type: KeyType) {
 export enum KeyType {
   Comppnent = "component",
   Plugin = "plugin",
-  Action = "action"
+  Action = "action",
+  Page = 'page'
 }

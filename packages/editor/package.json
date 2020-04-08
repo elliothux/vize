@@ -7,19 +7,25 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.5",
+    "@formily/antd": "^1.1.0",
+    "@formily/antd-components": "^1.1.0",
     "antd": "^4.1.0",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
+    "json-schema": "^0.2.5",
+    "json-schema-defaults": "^0.4.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "next": "^9.3.3",
     "query-string": "^6.11.1",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
+    "react-color": "^2.18.0",
     "react-dom": "^16.13.1",
     "react-icons": "^3.9.0",
     "react-scripts": "3.4.1",
     "react-use": "^13.27.1",
+    "throttle-debounce": "^2.1.0",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
@@ -28,6 +34,7 @@
     "@types/ramda": "^0.27.3",
     "@types/react": "^16.9.29",
     "@types/react-dom": "^16.9.5",
+    "@types/throttle-debounce": "^2.1.0",
     "node-sass": "^4.13.1",
     "react-rnd": "^10.1.8"
   },
