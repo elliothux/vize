@@ -4,8 +4,12 @@ import { App } from "./App";
 import "./states";
 import "./styles/index.scss";
 
-function init() {
-  return render(<App />, document.getElementById("main-entry"));
+function init(callback: Function) {
+  document.addEventListener("contextmenu", e => {
+    e.preventDefault();
+  });
+
+  callback();
 }
 
-init();
+init(() => render(<App />, document.getElementById("main-entry")));

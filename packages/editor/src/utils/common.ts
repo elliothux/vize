@@ -1,7 +1,15 @@
+import * as React from "react";
+import { message } from "antd";
 import { parseUrl } from "query-string";
 import { JsonSchemaProperties, Maybe } from "../types";
 import getDefaults from "json-schema-defaults";
 import { createSchema } from "./create";
+
+message.config({
+  top: 60,
+  duration: 2,
+  maxCount: 3
+});
 
 export const noop = () => {};
 
@@ -66,4 +74,19 @@ export function downloadString(
 
 export function getSchemaDefault(schema: JsonSchemaProperties) {
   return getDefaults(createSchema(schema));
+}
+
+export function preventSyntheticEvent<T = HTMLElement, E = Event>(
+  e: React.SyntheticEvent<T, E> | Event
+) {
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+}
+
+export function withPreventEvent<T = HTMLElement, E = Event>(action: Function) {
+  return (e: React.SyntheticEvent<T, E> | Event) => {
+    action();
+    return preventSyntheticEvent(e);
+  };
 }

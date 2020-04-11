@@ -2,8 +2,7 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, UpOutlined } from "@ant-design/icons";
 import { pagesStore } from "../../../states";
-import { PageInstance } from "../../../types";
-import classNames from "classnames";
+import { PageItem } from "./PageItem";
 import "./index.scss";
 
 @observer
@@ -24,34 +23,16 @@ export class PagesList extends React.Component {
     );
   };
 
-  private renderPageItem = (
-    { name, key, isHome }: PageInstance,
-    index: number,
-    currentPage: PageInstance
-  ) => {
-    return (
-      <div
-        className={classNames("page-item", {
-          activated: currentPage.key === key
-        })}
-        onClick={() => pagesStore.setCurrentPage(index)}
-        key={key.toString()}
-      >
-        {name}
-      </div>
-    );
-  };
-
   public render() {
-    const { pages, currentPage } = pagesStore;
+    const { pages } = pagesStore;
 
     return (
       <div className="vize-pages-list">
         {this.renderHeader()}
         <main>
-          {pages.map((page, index) =>
-            this.renderPageItem(page, index, currentPage)
-          )}
+          {pages.map((page, index) => (
+            <PageItem key={page.key.toString()} instance={page} index={index} />
+          ))}
         </main>
       </div>
     );
