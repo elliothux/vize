@@ -1,9 +1,11 @@
 import * as React from "react";
 import { SandboxRender } from "../SandboxRender";
 import { observer } from "mobx-react";
+import { contextMenu } from "react-contexify";
 import { materialsStore } from "../../states";
 import { injectStyle, loadUMDModuleFromString } from "../../utils/loader";
 import { Maybe, RenderEntry, RenderEntryParams } from "../../types";
+import { initDocument } from "../../utils";
 
 @observer
 export class Renderer extends React.Component {
@@ -11,29 +13,37 @@ export class Renderer extends React.Component {
     ready: false
   };
 
-  // private renderEntry: Maybe<RenderEntry> = null;
+  private initIframeDocument = (
+    doc: Document,
+    win: Window,
+    callback: Function
+  ) => {
+    win.addEventListener("click", contextMenu.hideAll);
+    initDocument(doc, callback);
+  };
 
   private iframeDidMount = async (doc: Document, win: Window) => {
-    const {
-      mainScript,
-      mainStyle,
-      mainEntryName,
-      entryScript,
-      entryStyle,
-      entryEntryName
-    } = materialsStore;
+    this.initIframeDocument(doc, win, async () => {
+      const {
+        mainScript,
+        mainStyle,
+        mainEntryName,
+        entryScript,
+        entryStyle,
+        entryEntryName
+      } = materialsStore;
 
-    const [main, entry] = await Promise.all([
-      loadUMDModuleFromString(mainScript, mainEntryName, win),
-      loadUMDModuleFromString<RenderEntry>(entryScript, entryEntryName, win),
-      mainStyle ? injectStyle(mainStyle, win) : Promise.resolve(),
-      entryStyle ? injectStyle(entryStyle, win) : Promise.resolve()
-    ]);
+      const [main, entry] = await Promise.all([
+        loadUMDModuleFromString(mainScript, mainEntryName, win),
+        loadUMDModuleFromString<RenderEntry>(entryScript, entryEntryName, win),
+        mainStyle ? injectStyle(mainStyle, win) : Promise.resolve(),
+        entryStyle ? injectStyle(entryStyle, win) : Promise.resolve()
+      ]);
 
-    // this.renderEntry = entry as RenderEntry;
-    if (entry) {
-      this.callRenderEntry(entry as RenderEntry);
-    }
+      if (entry) {
+        this.callRenderEntry(entry as RenderEntry);
+      }
+    });
   };
 
   private callRenderEntry = (renderEntry: RenderEntry) => {

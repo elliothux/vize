@@ -6,7 +6,7 @@ import { componentsStore } from "./components";
 
 export class PagesStore {
   public init = () => {
-    this.addPage(true);
+    this.addPage(true, "index");
   };
 
   @observable
@@ -26,8 +26,13 @@ export class PagesStore {
   };
 
   @action
-  public addPage = (isHome?: boolean): void => {
-    const page = createPage("new page", isHome);
+  public setPageEditing = (pageIndex: number, editing: boolean) => {
+    this.pages[pageIndex]!.isNameEditing = editing;
+  };
+
+  @action
+  public addPage = (isHome?: boolean, name?: string): void => {
+    const page = createPage(name || "new page", isHome);
     this.pages.push(page);
     componentsStore.addComponentInstancesMap(page.key);
   };
@@ -37,6 +42,10 @@ export class PagesStore {
     if (this.pages.length === 1) {
       message.warn("至少保留一个页面");
       return;
+    }
+
+    if (!this.pages[pageIndex]) {
+      debugger;
     }
 
     const { key, isHome } = this.pages[pageIndex]!;

@@ -16,7 +16,10 @@ export function createSchema(
   };
 }
 
-export function createPage(name: string, isHome: boolean = false): PageInstance {
+export function createPage(
+  name: string,
+  isHome: boolean = false
+): PageInstance {
   const key = generateKey(KeyType.Page);
   const data: PageData = {
     global: {},
@@ -29,6 +32,7 @@ export function createPage(name: string, isHome: boolean = false): PageInstance 
     key,
     name,
     path: key.toString(),
-    isHome
+    isHome,
+    isNameEditing: false
   };
 }

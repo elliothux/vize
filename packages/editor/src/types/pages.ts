@@ -7,6 +7,7 @@ export interface PageInstance {
   name: string;
   path: string;
   isHome: boolean;
+  isNameEditing: boolean;
 }
 
 export interface PageData {

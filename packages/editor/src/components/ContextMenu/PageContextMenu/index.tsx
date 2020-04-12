@@ -1,9 +1,9 @@
 import * as React from "react";
-import { FiDelete, FiHome } from "react-icons/fi";
-import { Menu, Item, theme, animation } from "react-contexify";
+import { FiDelete, FiHome, FiCopy, FiEdit } from "react-icons/fi";
+import { Menu, Item, theme, animation, Separator } from "react-contexify";
 import { useCallback } from "react";
 import { pagesStore } from "states";
-import { showContextMenu } from "utils";
+import { noop, showContextMenu } from "utils";
 
 interface Props {
   index: number;
@@ -11,24 +11,33 @@ interface Props {
 }
 
 export function PageContextMenu({ index, pageKey }: Props) {
-  const onDelete = useCallback(() => pagesStore.deletePage(index), []);
-  const onSetHome = useCallback(() => pagesStore.setPageHome(index), []);
+  const deps = [index];
+  const onDelete = useCallback(() => pagesStore.deletePage(index), deps);
+  const onSetHome = useCallback(() => pagesStore.setPageHome(index), deps);
+  const onRename = useCallback(
+    () => pagesStore.setPageEditing(index, true),
+    deps
+  );
 
   return (
     <Menu id={getID(pageKey)} theme={theme.dark} animation={animation.zoom}>
-      <Item onClick={onDelete}>
-        <FiDelete />
-        <span>删除</span>
+      <Item onClick={onRename}>
+        <FiEdit />
+        <span>重命名</span>
       </Item>
       <Item onClick={onSetHome}>
         <FiHome />
         <span>设为主页面</span>
       </Item>
-      {/*<Item onClick={onCopy}>*/}
-      {/*  <FiCopy />*/}
-      {/*  <span>复制</span>*/}
-      {/*</Item>*/}
-      {/*<Separator />*/}
+      <Separator />
+      <Item onClick={onDelete}>
+        <FiDelete />
+        <span>删除</span>
+      </Item>
+      <Item onClick={noop}>
+        <FiCopy />
+        <span>复制</span>
+      </Item>
     </Menu>
   );
 }

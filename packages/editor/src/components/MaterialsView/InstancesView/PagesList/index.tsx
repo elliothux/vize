@@ -1,9 +1,9 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, UpOutlined } from "@ant-design/icons";
-import { pagesStore } from "../../../states";
+import { pagesStore } from "states";
 import { PageItem } from "./PageItem";
-import "./index.scss";
+import { HeaderOptions, MaterialsViewType } from "../../HeaderOptions";
 
 @observer
 export class PagesList extends React.Component {
@@ -13,13 +13,12 @@ export class PagesList extends React.Component {
 
   private renderHeader = () => {
     return (
-      <header>
-        <p>页面</p>
+      <HeaderOptions type={MaterialsViewType.INSTANCES}>
         <div>
           <PlusOutlined onClick={this.addPage} />
           <UpOutlined />
         </div>
-      </header>
+      </HeaderOptions>
     );
   };
 

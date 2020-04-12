@@ -7,6 +7,7 @@ export interface MaterialsInfo {
   name: string;
   desc: string;
   author: string;
+  tags?: string[];
 }
 
 export interface MaterialsMeta {

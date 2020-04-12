@@ -4,6 +4,7 @@ export * from "./contextMenu";
 export * from "./create";
 export * from "./eventEmiter";
 export * from "./eventProxy";
+export * from "./init";
 export * from "./is";
 export * from "./key";
 export * from "./materialsMap";

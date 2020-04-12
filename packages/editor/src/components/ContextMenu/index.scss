@@ -4,6 +4,7 @@
   border-radius: 2px;
   padding: 3px 0;
   background-color: rgba(40, 40, 40, 0.85);
+  z-index: 999;
 
   &.react-contexify__will-enter--zoom {
     animation-duration: 200ms;
@@ -22,5 +23,9 @@
         margin-right: 8px;
       }
     }
+  }
+
+  .react-contexify__separator {
+    opacity: 0.8;
   }
 }
