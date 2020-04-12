@@ -1,5 +1,5 @@
 const info = {
-  displayName: "Alert",
+  name: "Alert",
   desc: "弹窗提示",
   author: "aedron@github"
 };

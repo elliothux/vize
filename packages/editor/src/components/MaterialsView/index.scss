@@ -64,41 +64,8 @@
     background-color: #e4e4e4;
   }
 
-  &.editing {
-    .ant-tag,
-    .page-item-menu {
-      display: none;
-    }
-  }
-
-  .ant-tag {
-    margin-left: 12px;
-    transform: scale(0.9) translateY(0.5px);
-    font-weight: bold;
-
-    & > svg {
-      margin-right: 3px;
-      position: relative;
-      top: 1px;
-    }
-  }
-
-  .page-item-menu {
-    font-size: 18px;
-    float: right;
-    height: 28px;
-    width: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-
-    &:hover {
-      color: dodgerblue;
-    }
-
-    & > svg {
-      transform: scale(1.3);
-    }
+  &.focus {
+    background-color: $main-color;
+    color: white;
   }
 }

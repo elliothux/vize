@@ -5,6 +5,7 @@ import { HeaderOptions, MaterialsViewType } from "../../HeaderOptions";
 import { MaterialsComponentMeta, MaterialsPluginMeta } from "types";
 import { generateTagsMap, MaterialsTagsList } from "./utils";
 import * as R from "ramda";
+import "./index.scss";
 
 interface Props<T extends MaterialsComponentMeta & MaterialsPluginMeta> {
   view: MaterialsViewType;
@@ -58,6 +59,7 @@ export class WithTagsList<
           <main>
             {this.tagNames.map((tag, index) => (
               <TagItem
+                key={tag}
                 name={tag}
                 index={index}
                 currentIndex={this.state.currentTagIndex}
@@ -66,7 +68,7 @@ export class WithTagsList<
             ))}
           </main>
         </div>
-        <div className="vize-materials-list>">{this.renderContent()}</div>
+        <div className="vize-materials-list">{this.renderContent()}</div>
       </>
     );
   }

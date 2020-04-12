@@ -9,6 +9,7 @@ import { useCallback } from "react";
 import { FiHome } from "react-icons/fi";
 import { EllipsisOutlined } from "@ant-design/icons";
 import { EditableText } from "components/EditableText";
+import { useState } from "react";
 
 interface Props {
   instance: PageInstance;
@@ -17,6 +18,8 @@ interface Props {
 
 function IPageItem({ instance, index }: Props) {
   const { name, key, isHome, isNameEditing } = instance;
+
+  const [focus, setFocus] = useState(false);
 
   const onClick = useCallback(
     (e: React.MouseEvent) => {
@@ -34,6 +37,9 @@ function IPageItem({ instance, index }: Props) {
     },
     [key]
   );
+
+  const onFocus = useCallback(() => setFocus(true), [setFocus]);
+  const onBlur = useCallback(() => setFocus(false), [setFocus]);
 
   const onRename = useCallback(
     (name: string) => {
@@ -54,10 +60,14 @@ function IPageItem({ instance, index }: Props) {
       <div
         className={classNames("vize-page-item", {
           activated: pagesStore.currentPage.key === key,
-          editing: isNameEditing
+          editing: isNameEditing,
+          focus
         })}
+        tabIndex={-1}
         onClick={onClick}
         onContextMenu={onContextMenu}
+        onFocus={onFocus}
+        onBlur={onBlur}
       >
         <EditableText
           onChange={onRename}

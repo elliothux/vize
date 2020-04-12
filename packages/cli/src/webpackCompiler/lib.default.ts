@@ -102,11 +102,11 @@ export function getLibDefaultWebpackConfig(
           ]
         },
         {
-          test: /\.(jpe?g|png|gif|ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+          test: /\.(jpe?g|png|gif|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
           loader: "base64-inline-loader"
         },
         {
-          test: /\.ejs$/,
+          test: /\.(ejs|svg)$/,
           use: "raw-loader"
         }
       ]

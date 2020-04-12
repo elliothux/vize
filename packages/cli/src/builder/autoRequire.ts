@@ -64,7 +64,7 @@ async function generateEntry(
   }: MaterialsItem) => {
     const thumb = findThumb(entry);
     const preview = findPreview(entry);
-    return `${name}: { ${thumb ? `thumb: require("${thumb}"), ` : ""}${
+    return `${name}: { ${thumb ? `thumb: require("${thumb}").default, ` : ""}${
       preview ? `preview: require("${preview}"), ` : ""
     }...require("${type === "main" ? mainPath : metaPath}").default }`;
   };

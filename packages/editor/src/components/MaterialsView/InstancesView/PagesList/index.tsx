@@ -4,6 +4,7 @@ import { PlusOutlined, UpOutlined } from "@ant-design/icons";
 import { pagesStore } from "states";
 import { PageItem } from "./PageItem";
 import { HeaderOptions, MaterialsViewType } from "../../HeaderOptions";
+import "./index.scss";
 
 @observer
 export class PagesList extends React.Component {
