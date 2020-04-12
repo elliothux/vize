@@ -1,9 +1,11 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 import { LibPaths } from "../utils";
+import { findPreview, findThumb } from "./utils";
 
 interface MaterialsItem {
   name: string;
+  entry: string;
   mainPath: string;
   metaPath: string;
 }
@@ -54,10 +56,17 @@ async function generateEntry(
   pluginsList: PluginsList,
   actionsList: ActionsList
 ): Promise<void> {
-  const genItemContent = ({ name, mainPath, metaPath }: MaterialsItem) => {
-    return `${name}: require("${
-      type === "main" ? mainPath : metaPath
-    }").default`;
+  const genItemContent = ({
+    name,
+    entry,
+    mainPath,
+    metaPath
+  }: MaterialsItem) => {
+    const thumb = findThumb(entry);
+    const preview = findPreview(entry);
+    return `${name}: { ${thumb ? `thumb: require("${thumb}"), ` : ""}${
+      preview ? `preview: require("${preview}"), ` : ""
+    }...require("${type === "main" ? mainPath : metaPath}").default }`;
   };
 
   const content = `export default {
@@ -85,6 +94,7 @@ async function getItemList(folderPath: string): Promise<MaterialsList> {
     const itemPath = path.resolve(folderPath, name);
     return {
       name,
+      entry: itemPath,
       mainPath: path.resolve(itemPath, "index"),
       metaPath: path.resolve(itemPath, "config")
     };
