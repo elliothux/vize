@@ -5,7 +5,6 @@ import { materialsStore } from "states";
 import { WithTagsList } from "../WithTagsList";
 import { MaterialsViewType } from "../../HeaderOptions";
 import { MaterialsComponentItem } from "./MaterialsComponentItem";
-import "./index.scss";
 import { MaterialsComponentPreview } from "./MaterialsComponentPreview";
 
 interface State {

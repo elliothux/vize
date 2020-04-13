@@ -1,10 +1,12 @@
 @import "styles/helper";
 
-.vize-components-library {
+.vize-components-library,
+.vize-plugins-library {
   position: relative;
 }
 
-.vize-materials-component-item {
+.vize-materials-component-item,
+.vize-materials-plugin-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -61,7 +63,8 @@
   }
 }
 
-.vize-materials-component-preview {
+.vize-materials-component-preview,
+.vize-materials-plugin-preview {
   position: fixed;
   left: 0;
   bottom: 0;
