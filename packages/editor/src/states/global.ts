@@ -1,21 +1,17 @@
-import { observable } from "mobx";
-import { Maybe } from "types";
+// import { observable } from "mobx";
 import { getQueryParams } from "../utils";
 
 export class GlobalStore {
-  constructor(libName: string, debugPort: Maybe<number>) {
-    this.libName = libName;
-    this.debugPort = debugPort;
-    this.isDebug = !!debugPort;
+  constructor(libNames: string[], debugPorts: number[]) {
+    this.libNames = libNames;
+    this.debugPorts = debugPorts;
   }
 
-  libName: string;
+  libNames: string[];
 
-  debugPort: Maybe<number>;
-
-  isDebug: boolean = false;
+  debugPorts: number[];
 }
 
-const { lib, debugPort } = getQueryParams();
+const { libs, debugPorts } = getQueryParams();
 
-export const globalStore = new GlobalStore(lib, debugPort);
+export const globalStore = new GlobalStore(libs, debugPorts);

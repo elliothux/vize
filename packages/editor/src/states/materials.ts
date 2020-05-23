@@ -10,8 +10,13 @@ import { globalStore } from "./global";
 
 export class MaterialsStore {
   @action
-  public readonly init = async () => {
-    return this.loadMaterials();
+  public readonly init = () => {
+    const { libNames, debugPorts } = globalStore;
+    return Promise.all(
+      libNames.map((name, index) => {
+        return this.loadMaterials(name, debugPorts[index]);
+      })
+    );
   };
 
   @observable
@@ -93,8 +98,10 @@ export class MaterialsStore {
   };
 
   @action
-  private readonly loadMaterials = async () => {
-    const { libName, debugPort } = globalStore;
+  private readonly loadMaterials = async (
+    libName: string,
+    debugPort?: number
+  ): Promise<void> => {
     const {
       containerHTML,
       meta: { components, actions, plugins },

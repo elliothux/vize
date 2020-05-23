@@ -14,17 +14,30 @@ message.config({
 export const noop = () => {};
 
 interface QueryParams {
-  lib: string;
-  debugPort: Maybe<number>;
+  libs: string[];
+  debugPorts: number[];
 }
 
 export function getQueryParams(): QueryParams {
   const {
-    query: { lib, debugPort }
+    query: { libs, debugPorts }
   } = parseUrl(window.location.href);
+
+  if (!libs) {
+    throw new Error("No materials libs");
+  }
+
   return {
-    lib: lib as string,
-    debugPort: debugPort ? parseInt(debugPort as string, 10) : null
+    libs: libs
+      .toString()
+      .split(",")
+      .map(i => i.trim()),
+    debugPorts: debugPorts
+      ? debugPorts
+          .toString()
+          .split(",")
+          .map(i => parseInt(i.trim(), 10))
+      : []
   };
 }
 

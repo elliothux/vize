@@ -20,7 +20,7 @@ export function PageContextMenu({ index, pageKey }: Props) {
   );
 
   return (
-    <Menu id={getID(pageKey)} theme={theme.dark} animation={animation.zoom}>
+    <Menu id={getID(pageKey)} theme={theme.dark}>
       <Item onClick={onRename}>
         <FiEdit />
         <span>重命名</span>

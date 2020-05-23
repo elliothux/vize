@@ -27,7 +27,8 @@
     "react-scripts": "3.4.1",
     "react-use": "^13.27.1",
     "throttle-debounce": "^2.1.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "4.42.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",

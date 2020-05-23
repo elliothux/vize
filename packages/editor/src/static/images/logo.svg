@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="142px" height="42px" viewBox="0 0 142 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+<svg width="83px" height="44px" viewBox="0 0 83 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>编组 5</title>
-    <desc>Created with Sketch.</desc>
     <defs>
-        <linearGradient x1="0%" y1="58.3686031%" x2="100%" y2="41.6313969%" id="linearGradient-1">
+        <linearGradient x1="0%" y1="65.9402392%" x2="100%" y2="34.0597608%" id="linearGradient-1">
             <stop stop-color="#FF4E50" offset="0%"></stop>
             <stop stop-color="#F9D423" offset="100%"></stop>
         </linearGradient>
     </defs>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="编组-5" transform="translate(-1.000000, 0.000000)">
-            <path d="M12.977113,0 L97.6203902,0 C99.8295292,-5.29079356e-15 101.62039,1.790861 101.62039,4 C101.62039,4.30607545 101.58526,4.61113954 101.515689,4.90920334 L93.5797333,38.9092033 C93.1572094,40.7194221 91.5433105,42 89.684435,42 L5.04115771,42 C2.83201871,42 1.04115771,40.209139 1.04115771,38 C1.04115771,37.6939246 1.07628815,37.3888605 1.14585936,37.0907967 L9.08181463,3.09079666 C9.5043386,1.28057794 11.1182374,3.00600516e-15 12.977113,0 Z" id="矩形备份-2" fill="url(#linearGradient-1)"></path>
-            <text id="Visualizatior" font-family="JCfg, PilGi" font-size="23" font-weight="normal" fill="#000000">
-                <tspan x="22.4282227" y="33">Visualizatior</tspan>
+        <g id="编组-5">
+            <path d="M16.2106408,0 L68.7110674,0 C70.9202064,0 72.4244536,1.790861 72.0708975,4 C72.0370353,4.21158258 71.9864388,4.42283163 71.9195844,4.63175858 L61.6799152,36.6317586 C61.0589447,38.5723542 59.1563206,40 57.1910584,40 L4.69063179,40 C2.48149279,40 0.977245631,38.209139 1.33080172,36 C1.36466392,35.7884174 1.41526039,35.5771684 1.48211486,35.3682414 L11.721784,3.36824142 C12.3427545,1.42764576 14.2453787,0 16.2106408,0 Z" id="矩形备份-2" fill="url(#linearGradient-1)"></path>
+            <text id="Vize" font-family="JCfg, PilGi" font-size="38" font-weight="normal" fill="#000000">
+                <tspan x="18.0869141" y="36">Vize</tspan>
             </text>
         </g>
     </g>
