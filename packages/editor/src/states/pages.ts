@@ -1,7 +1,7 @@
 import { action, computed, observable } from "mobx";
 import { message } from "antd";
 import { PageInstance } from "types";
-import { createPage } from "../utils";
+import { createPageInstance } from "../utils";
 import { componentsStore } from "./components";
 
 export class PagesStore {
@@ -32,7 +32,7 @@ export class PagesStore {
 
   @action
   public addPage = (isHome?: boolean, name?: string): void => {
-    const page = createPage(name || "new page", isHome);
+    const page = createPageInstance(name || "new page", isHome);
     this.pages.push(page);
     componentsStore.addComponentInstancesMap(page.key);
   };

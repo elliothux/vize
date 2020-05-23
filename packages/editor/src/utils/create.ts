@@ -1,11 +1,15 @@
 import {
+  ComponentInstance,
   JSONSchemaDefinition,
   JsonSchemaProperties,
+  MaterialsComponentMeta,
   PageData,
   PageInstance
 } from "../types";
 import { generateKey, KeyType } from "./key";
 import { setPageData } from "./page";
+import { getSchemaDefault } from "./common";
+import { isFunction } from "./is";
 
 export function createSchema(
   schema: JsonSchemaProperties
@@ -16,7 +20,7 @@ export function createSchema(
   };
 }
 
-export function createPage(
+export function createPageInstance(
   name: string,
   isHome: boolean = false
 ): PageInstance {
@@ -34,5 +38,23 @@ export function createPage(
     path: key.toString(),
     isHome,
     isNameEditing: false
+  };
+}
+
+export function createComponentInstance({
+  identityName,
+  dataForm
+}: MaterialsComponentMeta): ComponentInstance {
+  const key = generateKey(KeyType.Comppnent);
+  const data = isFunction(dataForm)
+    ? {}
+    : getSchemaDefault(dataForm as JsonSchemaProperties);
+
+  return {
+    key,
+    component: identityName,
+    data,
+    style: {},
+    actions: []
   };
 }

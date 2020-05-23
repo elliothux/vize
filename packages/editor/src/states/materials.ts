@@ -15,7 +15,7 @@ export class MaterialsStore {
   };
 
   @observable
-  public components: { [id: number]: MaterialsComponentMeta } = {};
+  public components: { [id: string]: MaterialsComponentMeta } = {};
 
   @action
   private readonly setComponents = (

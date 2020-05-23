@@ -24,6 +24,7 @@ export async function loadMaterials(libName: string, debugPort?: number) {
   ]);
 
   return {
+    libName,
     containerHTML,
     meta,
     main,
