@@ -56,18 +56,8 @@ async function generateEntry(
   pluginsList: PluginsList,
   actionsList: ActionsList
 ): Promise<void> {
-  const genItemContent = ({
-    name,
-    entry,
-    mainPath,
-    metaPath
-  }: MaterialsItem) => {
-    const thumb = findThumb(entry);
-    const preview = findPreview(entry);
-    return `${name}: { ${thumb ? `thumb: require("${thumb}").default, ` : ""}${
-      preview ? `preview: require("${preview}"), ` : ""
-    }...require("${type === "main" ? mainPath : metaPath}").default }`;
-  };
+  const genItemContent =
+    type === "main" ? genItemMainContent : genItemMetaContent;
 
   const content = `export default {
   components: {
@@ -86,6 +76,22 @@ async function generateEntry(
   }
 
   return fs.writeFile(targetPath, content, { encoding: "utf-8" });
+}
+
+function genItemMainContent({ name, mainPath }: MaterialsItem) {
+  return `${name}: require("${mainPath}").default`;
+}
+
+function genItemMetaContent({ name, entry, metaPath }: MaterialsItem) {
+  const thumb = findThumb(entry);
+  const preview = findPreview(entry);
+  return `${name}: { ${
+    thumb ? `thumb: require("${thumb}").default || require("${thumb}"), ` : ""
+  }${
+    preview
+      ? `preview: require("${preview}").default || require("${preview}"), `
+      : ""
+  }...(require("${metaPath}").default) }`;
 }
 
 async function getItemList(folderPath: string): Promise<MaterialsList> {
