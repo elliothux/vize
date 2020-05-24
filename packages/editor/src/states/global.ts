@@ -2,16 +2,19 @@
 import { getQueryParams } from "../utils";
 
 export class GlobalStore {
-  constructor(libNames: string[], debugPorts: number[]) {
-    this.libNames = libNames;
+  constructor() {
+    const { libs, debugPorts } = getQueryParams();
+
+    this.libNames = libs;
+    this.mainLib = libs[0];
     this.debugPorts = debugPorts;
   }
 
   libNames: string[];
 
+  mainLib: string;
+
   debugPorts: number[];
 }
 
-const { libs, debugPorts } = getQueryParams();
-
-export const globalStore = new GlobalStore(libs, debugPorts);
+export const globalStore = new GlobalStore();

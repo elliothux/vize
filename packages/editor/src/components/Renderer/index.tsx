@@ -2,10 +2,15 @@ import * as React from "react";
 import { SandboxRender } from "../SandboxRender";
 import { observer } from "mobx-react";
 import { contextMenu } from "react-contexify";
-import { materialsStore } from "../../states";
+import { globalStore, materialsStore } from "../../states";
 import { injectStyle, loadUMDModuleFromString } from "../../utils/loader";
-import { Maybe, RenderEntry, RenderEntryParams } from "../../types";
-import { initDocument } from "../../utils";
+import {
+  MaterialsMain,
+  Maybe,
+  ContainerRenderEntry,
+  RenderEntryParams
+} from "../../types";
+import { initDocument, setMaterialsMap } from "../../utils";
 
 @observer
 export class Renderer extends React.Component {
@@ -23,30 +28,57 @@ export class Renderer extends React.Component {
   };
 
   private iframeDidMount = async (doc: Document, win: Window) => {
-    this.initIframeDocument(doc, win, async () => {
-      const {
-        mainScript,
-        mainStyle,
-        mainEntryName,
-        entryScript,
-        entryStyle,
-        entryEntryName
-      } = materialsStore;
+    let renderEntry: Maybe<ContainerRenderEntry> = null;
 
-      const [main, entry] = await Promise.all([
-        loadUMDModuleFromString(mainScript, mainEntryName, win),
-        loadUMDModuleFromString<RenderEntry>(entryScript, entryEntryName, win),
-        mainStyle ? injectStyle(mainStyle, win) : Promise.resolve(),
-        entryStyle ? injectStyle(entryStyle, win) : Promise.resolve()
-      ]);
+    await Promise.all(
+      globalStore.libNames.map(async libName => {
+        const [main, entry] = await this.initMaterialsWithIframeContext(
+          libName,
+          doc,
+          win
+        );
 
-      if (entry) {
-        this.callRenderEntry(entry as RenderEntry);
-      }
-    });
+        setMaterialsMap(libName, main);
+
+        if (entry) {
+          renderEntry = entry;
+        }
+      })
+    );
+
+    this.callContainerRenderEntry(renderEntry!);
   };
 
-  private callRenderEntry = (renderEntry: RenderEntry) => {
+  private initMaterialsWithIframeContext = async (
+    libName: string,
+    doc: Document,
+    win: Window
+  ): Promise<[MaterialsMain, Maybe<ContainerRenderEntry>, void, void]> => {
+    const {
+      isMainLib,
+      mainScript,
+      mainStyle,
+      mainEntryName,
+      entryScript,
+      entryStyle,
+      entryEntryName
+    } = materialsStore.materialsLibs[libName]!;
+
+    return Promise.all([
+      loadUMDModuleFromString<MaterialsMain>(mainScript, mainEntryName, win),
+      isMainLib
+        ? loadUMDModuleFromString<ContainerRenderEntry>(
+            entryScript!,
+            entryEntryName!,
+            win
+          )
+        : Promise.resolve(null),
+      mainStyle ? injectStyle(mainStyle, win) : Promise.resolve(),
+      isMainLib && entryStyle ? injectStyle(entryStyle, win) : Promise.resolve()
+    ]);
+  };
+
+  private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
     renderEntry({ render: () => this.setState({ ready: true }) });
   };
 

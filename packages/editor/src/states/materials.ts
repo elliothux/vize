@@ -1,4 +1,4 @@
-import { action, observable, toJS } from "mobx";
+import { action, observable, computed, toJS } from "mobx";
 import {
   MaterialsActionMeta,
   MaterialsComponentMeta,
@@ -7,6 +7,18 @@ import {
 } from "types";
 import { loadMaterials, injectGlobal } from "../utils";
 import { globalStore } from "./global";
+
+interface MaterialsLibItem {
+  readonly isMainLib: boolean;
+  readonly libName: string;
+  readonly containerHTML: Maybe<string>;
+  readonly mainScript: string;
+  readonly mainStyle: Maybe<string>;
+  readonly mainEntryName: string;
+  readonly entryScript: Maybe<string>;
+  readonly entryStyle: Maybe<string>;
+  readonly entryEntryName: Maybe<string>;
+}
 
 export class MaterialsStore {
   @action
@@ -46,56 +58,13 @@ export class MaterialsStore {
   };
 
   @observable
-  public containerHTML: string = "";
+  public materialsLibs: { [libName: string]: MaterialsLibItem } = {};
 
-  @action
-  private readonly setContainerHTML = (html: string) => {
-    this.containerHTML = html;
-  };
-
-  @observable
-  public mainScript: string = "";
-
-  @observable
-  public mainStyle: Maybe<string> = null;
-
-  @observable
-  public mainEntryName: string = "";
-
-  @action
-  private readonly setMain = (
-    script: string,
-    style: Maybe<string>,
-    entryName: string
-  ) => {
-    this.mainScript = script;
-    this.mainEntryName = entryName;
-    if (style) {
-      this.mainStyle = style;
-    }
-  };
-
-  @observable
-  public entryScript: string = "";
-
-  @observable
-  public entryStyle: Maybe<string> = null;
-
-  @observable
-  public entryEntryName: string = "";
-
-  @action
-  private readonly setEntry = (
-    script: string,
-    style: Maybe<string>,
-    entryName: string
-  ) => {
-    this.entryScript = script;
-    this.entryEntryName = entryName;
-    if (style) {
-      this.entryStyle = style;
-    }
-  };
+  @computed
+  public get containerHTML(): string {
+    const { containerHTML = "" } = this.materialsLibs[globalStore.mainLib]!;
+    return containerHTML!;
+  }
 
   @action
   private readonly loadMaterials = async (
@@ -113,12 +82,23 @@ export class MaterialsStore {
       }
     } = await loadMaterials(libName, debugPort || undefined);
 
-    this.setContainerHTML(containerHTML);
     this.setComponents(components);
     this.setPlugins(plugins);
     this.setActions(actions);
-    this.setMain(mainScript, mainStyle, mainEntryName);
-    this.setEntry(entryScript, entryStyle, entryEntryName);
+
+    const isMainLib = globalStore.mainLib === libName;
+
+    this.materialsLibs[libName] = {
+      isMainLib,
+      libName,
+      containerHTML: isMainLib ? containerHTML : null,
+      mainScript,
+      mainStyle,
+      mainEntryName,
+      entryScript: isMainLib ? entryScript : null,
+      entryStyle: isMainLib ? entryStyle : null,
+      entryEntryName: isMainLib ? entryEntryName : null
+    };
   };
 }
 

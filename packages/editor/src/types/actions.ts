@@ -33,3 +33,6 @@ export enum BaseActionTrigger {
 }
 
 export type ActionTrigger = BaseActionTrigger | "string";
+
+// TODO
+export type MaterialsAction = () => void;

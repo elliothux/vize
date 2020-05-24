@@ -1,6 +1,6 @@
-import { MaterialsComponentMeta } from "./component";
-import { MaterialsPluginMeta } from "./plugins";
-import { MaterialsActionMeta } from "./actions";
+import { MaterialsComponent, MaterialsComponentMeta } from "./component";
+import { MaterialsPlugin, MaterialsPluginMeta } from "./plugins";
+import { MaterialsAction, MaterialsActionMeta } from "./actions";
 import * as React from "react";
 
 export interface MaterialsInfo {
@@ -22,8 +22,20 @@ export interface MaterialsMeta {
   };
 }
 
+export interface MaterialsMain {
+  components: {
+    [name: string]: MaterialsComponent;
+  };
+  plugins: {
+    [name: string]: MaterialsPlugin;
+  };
+  actions: {
+    [name: string]: MaterialsAction;
+  };
+}
+
 export interface RenderEntryParams {
   render: Function;
 }
 
-export type RenderEntry = (params: RenderEntryParams) => void;
+export type ContainerRenderEntry = (params: RenderEntryParams) => void;

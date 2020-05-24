@@ -13,7 +13,7 @@ import {
   MaterialsMeta,
   MaterialsPluginMeta
 } from "../../types";
-import { promiseWrapper } from "../common";
+import { getMaterialsIdentityName, promiseWrapper } from "../common";
 
 export async function loadMaterials(libName: string, debugPort?: number) {
   const [containerHTML, meta, main, entry] = await Promise.all([
@@ -90,12 +90,11 @@ export async function loadMeta(
   function generateMaterials<
     T = MaterialsComponentMeta | MaterialsPluginMeta | MaterialsActionMeta
   >(libName: string, item: T, name: string): T {
-    const lib = libName.toLowerCase();
     return {
       ...item,
       name,
       lib: libName.toLowerCase(),
-      identityName: `${lib}_${name.toLowerCase()}`
+      identityName: getMaterialsIdentityName(libName, name)
     };
   }
 }

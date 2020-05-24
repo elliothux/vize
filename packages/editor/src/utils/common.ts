@@ -103,3 +103,7 @@ export function withPreventEvent<T = HTMLElement, E = Event>(action: Function) {
     return preventSyntheticEvent(e);
   };
 }
+
+export function getMaterialsIdentityName(libName: string, name: string) {
+  return `${libName}_${name}`.toLocaleLowerCase();
+}

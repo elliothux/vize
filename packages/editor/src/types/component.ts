@@ -1,3 +1,4 @@
+import * as React from "react";
 import { MaterialsInfo } from "./materials";
 import { ActionInstance } from "./actions";
 import { JsonSchemaProperties } from "./helper";
@@ -22,3 +23,12 @@ export interface ComponentInstance {
   children?: ComponentInstance[];
   parent?: ComponentInstance;
 }
+
+export interface ComponentProps
+  extends Pick<ComponentInstance, "key" | "data" | "style"> {
+  instance: ComponentInstance;
+  parentInstance?: ComponentInstance;
+  childrenInstances?: ComponentInstance[];
+}
+
+export type MaterialsComponent = React.ComponentType<ComponentProps>;

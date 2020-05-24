@@ -17,3 +17,6 @@ export interface PluginInstance {
   plugin: Readonly<string>;
   data: { [key: string]: any };
 }
+
+// TODO
+export type MaterialsPlugin = () => void;
