@@ -1,11 +1,11 @@
-import { action, observable, computed, toJS } from "mobx";
+import { action, observable, computed, toJS, runInAction } from "mobx";
 import {
   MaterialsActionMeta,
   MaterialsComponentMeta,
   MaterialsPluginMeta,
   Maybe
 } from "types";
-import { loadMaterials, injectGlobal } from "../utils";
+import { loadMaterials, injectGlobalReadonlyGetter } from "../utils";
 import { globalStore } from "./global";
 
 interface MaterialsLibItem {
@@ -34,28 +34,17 @@ export class MaterialsStore {
   @observable
   public components: { [id: string]: MaterialsComponentMeta } = {};
 
-  @action
-  private readonly setComponents = (
-    components: MaterialsStore["components"]
-  ) => {
-    this.components = components;
-  };
+  public getComponentMeta = (id: string) => this.components[id];
 
   @observable
-  public plugins: { [id: number]: MaterialsPluginMeta } = {};
+  public plugins: { [id: string]: MaterialsPluginMeta } = {};
 
-  @action
-  private readonly setPlugins = (plugins: MaterialsStore["plugins"]) => {
-    this.plugins = plugins;
-  };
+  public getPluginMeta = (id: string) => this.plugins[id];
 
   @observable
-  public actions: { [id: number]: MaterialsActionMeta } = {};
+  public actions: { [id: string]: MaterialsActionMeta } = {};
 
-  @action
-  private readonly setActions = (actions: MaterialsStore["actions"]) => {
-    this.actions = actions;
-  };
+  public getActionMeta = (id: string) => this.actions[id];
 
   @observable
   public materialsLibs: { [libName: string]: MaterialsLibItem } = {};
@@ -82,26 +71,28 @@ export class MaterialsStore {
       }
     } = await loadMaterials(libName, debugPort || undefined);
 
-    this.setComponents(components);
-    this.setPlugins(plugins);
-    this.setActions(actions);
+    runInAction(() => {
+      this.components = components;
+      this.plugins = plugins;
+      this.actions = actions;
 
-    const isMainLib = globalStore.mainLib === libName;
+      const isMainLib = globalStore.mainLib === libName;
 
-    this.materialsLibs[libName] = {
-      isMainLib,
-      libName,
-      containerHTML: isMainLib ? containerHTML : null,
-      mainScript,
-      mainStyle,
-      mainEntryName,
-      entryScript: isMainLib ? entryScript : null,
-      entryStyle: isMainLib ? entryStyle : null,
-      entryEntryName: isMainLib ? entryEntryName : null
-    };
+      this.materialsLibs[libName] = {
+        isMainLib,
+        libName,
+        containerHTML: isMainLib ? containerHTML : null,
+        mainScript,
+        mainStyle,
+        mainEntryName,
+        entryScript: isMainLib ? entryScript : null,
+        entryStyle: isMainLib ? entryStyle : null,
+        entryEntryName: isMainLib ? entryEntryName : null
+      };
+    });
   };
 }
 
 export const materialsStore = new MaterialsStore();
 
-injectGlobal("vize_materials_store", () => toJS(materialsStore));
+injectGlobalReadonlyGetter("vize_materials_store", () => toJS(materialsStore));

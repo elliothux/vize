@@ -1,8 +1,8 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, toJS } from "mobx";
 import { ComponentInstance, Maybe } from "types";
 import { pagesStore } from "./pages";
 import { materialsStore } from "./materials";
-import { createComponentInstance, isNumber } from "../utils";
+import { createComponentInstance, injectGlobalReadonlyGetter, isNumber } from "../utils";
 import { selectStore } from "./select";
 
 export class ComponentsStore {
@@ -13,6 +13,7 @@ export class ComponentsStore {
 
   @computed
   public get componentInstances(): ComponentInstance[] {
+    console.log("get componentInstances");
     return this.pagesComponentInstancesMap[pagesStore.currentPage.key];
   }
 
@@ -28,11 +29,14 @@ export class ComponentsStore {
 
   @action
   public addComponentInstance = (componentID: string) => {
+    console.log("add");
     const component = materialsStore.components[componentID];
     const instance = createComponentInstance(component);
-    this.componentInstances.push(instance);
+    this.pagesComponentInstancesMap[pagesStore.currentPage.key].push(instance);
     selectStore.selectComponent(instance.key);
   };
 }
 
 export const componentsStore = new ComponentsStore();
+
+injectGlobalReadonlyGetter("vize_components_store", () => toJS(componentsStore));

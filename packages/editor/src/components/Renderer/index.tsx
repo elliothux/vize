@@ -1,16 +1,13 @@
 import * as React from "react";
-import { SandboxRender } from "../SandboxRender";
+import { RenderSandbox } from "../RenderSandbox";
 import { observer } from "mobx-react";
 import { contextMenu } from "react-contexify";
 import { globalStore, materialsStore } from "../../states";
 import { injectStyle, loadUMDModuleFromString } from "../../utils/loader";
-import {
-  MaterialsMain,
-  Maybe,
-  ContainerRenderEntry,
-  RenderEntryParams
-} from "../../types";
+import { MaterialsMain, Maybe, ContainerRenderEntry } from "../../types";
 import { initDocument, setMaterialsMap } from "../../utils";
+import { ComponentsRender } from "../ComponentsRender";
+import { injectRuntime, setUserAgent } from "./utils";
 
 @observer
 export class Renderer extends React.Component {
@@ -28,6 +25,20 @@ export class Renderer extends React.Component {
   };
 
   private iframeDidMount = async (doc: Document, win: Window) => {
+    injectRuntime(win);
+    setUserAgent(win);
+
+    const renderEntry = await this.initMaterials(doc, win);
+    if (!renderEntry) {
+      throw new Error("No renderEntry");
+    }
+    this.callContainerRenderEntry(renderEntry);
+  };
+
+  private initMaterials = async (
+    doc: Document,
+    win: Window
+  ): Promise<Maybe<ContainerRenderEntry>> => {
     let renderEntry: Maybe<ContainerRenderEntry> = null;
 
     await Promise.all(
@@ -46,7 +57,7 @@ export class Renderer extends React.Component {
       })
     );
 
-    this.callContainerRenderEntry(renderEntry!);
+    return renderEntry;
   };
 
   private initMaterialsWithIframeContext = async (
@@ -87,20 +98,20 @@ export class Renderer extends React.Component {
       return null;
     }
 
-    return <h1>hello</h1>;
+    return <ComponentsRender />;
   };
 
   public render() {
     const { containerHTML } = materialsStore;
 
     return (
-      <SandboxRender
+      <RenderSandbox
         mountTarget="#vize-main-entry"
         htmlContent={containerHTML}
         iframeDidMount={this.iframeDidMount}
       >
         {this.renderContent}
-      </SandboxRender>
+      </RenderSandbox>
     );
   }
 }

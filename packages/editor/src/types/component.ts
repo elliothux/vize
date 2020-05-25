@@ -27,8 +27,6 @@ export interface ComponentInstance {
 export interface ComponentProps
   extends Pick<ComponentInstance, "key" | "data" | "style"> {
   instance: ComponentInstance;
-  parentInstance?: ComponentInstance;
-  childrenInstances?: ComponentInstance[];
 }
 
 export type MaterialsComponent = React.ComponentType<ComponentProps>;

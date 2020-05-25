@@ -7,6 +7,6 @@ interface Props {
 }
 
 // @ts-ignore
-export default function({ data: { text } }: Props) {
+export default function({ data: { text = "test" } }: Props) {
   return <p>{text}</p>;
 }
