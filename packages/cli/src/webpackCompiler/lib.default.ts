@@ -118,8 +118,8 @@ export function getLibDefaultWebpackConfig(
         hashDigestLength: 20
       }),
       new MiniCssExtractPlugin({
-        filename: "[name].[contenthash].css",
-        chunkFilename: "[id].[contenthash].css"
+        filename: `@vize-materials-${libName}-[name].css`,
+        chunkFilename: `@vize-materials-${libName}-[name].css`
       })
       // new webpack.EnvironmentPlugin({
       //   SSR: false,

@@ -9,5 +9,5 @@ interface Props {
 
 // @ts-ignore
 export default function({ data: { text } }: Props) {
-  return <button>{text}</button>;
+  return <button className="vize-materials-universal button">{text}</button>;
 }
