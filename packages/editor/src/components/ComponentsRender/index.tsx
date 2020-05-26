@@ -1,24 +1,15 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { componentsStore } from "../../states";
-import { getMaterialsComponent } from "../../utils";
+import { ComponentItem } from "../ComponentItem";
 
 function IComponentsRender() {
   const { componentInstances } = componentsStore;
   return (
     <>
-      {componentInstances.map(instance => {
-        const { key, component, data } = instance;
-        const ComponentRender = getMaterialsComponent(component)!;
-        return (
-          <ComponentRender
-            key={key}
-            data={data}
-            style={{}}
-            instance={instance}
-          />
-        );
-      })}
+      {componentInstances.map(instance => (
+        <ComponentItem key={instance.key} instance={instance} />
+      ))}
     </>
   );
 }

@@ -32,19 +32,20 @@ export class MaterialsStore {
   };
 
   @observable
-  public components: { [id: string]: MaterialsComponentMeta } = {};
+  public components: { [identityName: string]: MaterialsComponentMeta } = {};
 
-  public getComponentMeta = (id: string) => this.components[id];
-
-  @observable
-  public plugins: { [id: string]: MaterialsPluginMeta } = {};
-
-  public getPluginMeta = (id: string) => this.plugins[id];
+  public getComponentMeta = (identityName: string) =>
+    this.components[identityName];
 
   @observable
-  public actions: { [id: string]: MaterialsActionMeta } = {};
+  public plugins: { [identityName: string]: MaterialsPluginMeta } = {};
 
-  public getActionMeta = (id: string) => this.actions[id];
+  public getPluginMeta = (identityName: string) => this.plugins[identityName];
+
+  @observable
+  public actions: { [identityName: string]: MaterialsActionMeta } = {};
+
+  public getActionMeta = (identityName: string) => this.actions[identityName];
 
   @observable
   public materialsLibs: { [libName: string]: MaterialsLibItem } = {};

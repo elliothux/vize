@@ -25,7 +25,8 @@ export interface ComponentInstance {
 }
 
 export interface ComponentProps
-  extends Pick<ComponentInstance, "key" | "data" | "style"> {
+  extends Pick<ComponentInstance, "data" | "style"> {
+  componentKey: Readonly<number>;
   instance: ComponentInstance;
 }
 

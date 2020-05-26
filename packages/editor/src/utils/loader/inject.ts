@@ -34,14 +34,19 @@ export function loadUMDModuleFromString<T>(
 
 export function injectStyle(
   styleContent: string,
-  win: Window
+  win: Window,
+  className?: string
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const doc = win.document;
     const style = doc.createElement("style");
 
+    style.innerText = styleContent;
     style.setAttribute("type", "text/css");
-    style.setAttribute("innerText", styleContent);
+    if (className) {
+      style.setAttribute("class", className);
+    }
+
     style.addEventListener("error", reject);
     style.addEventListener("load", R.nAry(0, resolve));
 

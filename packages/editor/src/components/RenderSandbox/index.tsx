@@ -104,7 +104,7 @@ export class RenderSandbox extends React.Component<Props> {
     return (
       <iframe
         title="vize-sandbox-renderer"
-        className="sandbox_render"
+        className="render_sandbox"
         ref={this.setNodeRef}
       >
         {this.renderContent()}
