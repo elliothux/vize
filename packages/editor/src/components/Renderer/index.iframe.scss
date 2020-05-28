@@ -1,0 +1,18 @@
+@import "styles/helper";
+
+* {
+  @include hide-scroll-bar;
+  box-sizing: border-box;
+}
+
+body {
+  user-select: none;
+}
+
+img {
+  pointer-events: none;
+}
+
+.vize-main-entry {
+  min-height: 100vh;
+}

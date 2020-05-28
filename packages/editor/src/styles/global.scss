@@ -3,6 +3,10 @@ body {
   user-select: none;
 }
 
+img {
+  pointer-events: none;
+}
+
 //img {
 //  pointer-events: none;
 //}

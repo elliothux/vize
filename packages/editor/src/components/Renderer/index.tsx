@@ -6,8 +6,13 @@ import { globalStore, materialsStore } from "../../states";
 import { injectStyle, loadUMDModuleFromString } from "../../utils/loader";
 import { MaterialsMain, Maybe, ContainerRenderEntry } from "../../types";
 import { initDocument, setMaterialsMap } from "../../utils";
-import { ComponentsRender } from "../ComponentsRender";
+import { LayoutRender } from "../LayoutRender";
 import { injectRuntime, setUserAgent } from "./utils";
+import { InjectedStylesRender } from "../InjectedStylesRender";
+
+import iframeStyle from "./index.iframe.scss";
+
+globalStore.setIframeStyle("Renderer", iframeStyle);
 
 @observer
 export class Renderer extends React.Component {
@@ -15,24 +20,21 @@ export class Renderer extends React.Component {
     ready: false
   };
 
-  private initIframeDocument = (
-    doc: Document,
-    win: Window,
-    callback: Function
-  ) => {
-    win.addEventListener("click", contextMenu.hideAll);
-    initDocument(doc, callback);
-  };
-
   private iframeDidMount = async (doc: Document, win: Window) => {
     injectRuntime(win);
     setUserAgent(win);
+    this.initIframeDocument(doc, win);
 
     const renderEntry = await this.initMaterials(doc, win);
     if (!renderEntry) {
       throw new Error("No renderEntry");
     }
     this.callContainerRenderEntry(renderEntry);
+  };
+
+  private initIframeDocument = (doc: Document, win: Window) => {
+    win.addEventListener("click", contextMenu.hideAll);
+    initDocument(doc);
   };
 
   private initMaterials = async (
@@ -98,7 +100,12 @@ export class Renderer extends React.Component {
       return null;
     }
 
-    return <ComponentsRender />;
+    return (
+      <>
+        <InjectedStylesRender />
+        <LayoutRender />
+      </>
+    );
   };
 
   public render() {

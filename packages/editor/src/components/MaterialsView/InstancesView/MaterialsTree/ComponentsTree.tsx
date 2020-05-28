@@ -1,15 +1,11 @@
 import * as React from "react";
-import * as R from "ramda";
 import { Tree } from "antd";
-import { FiLayers, FiFolder, FiArchive } from "react-icons/fi";
+import { FiLayers, FiFolder } from "react-icons/fi";
 import { observer } from "mobx-react";
 import { EventDataNode } from "rc-tree/es/interface";
 import { componentsStore, materialsStore } from "../../../../states";
 import { ComponentInstance } from "../../../../types";
-import {
-  ComponentContextMenu,
-  showComponentContextMenu
-} from "../../../ContextMenu/ComponentMenu";
+import { showComponentContextMenu } from "../../../ContextMenu/ComponentMenu";
 
 const { DirectoryTree, TreeNode } = Tree;
 
@@ -23,17 +19,7 @@ export class ComponentsTree extends React.Component {
     const nodeKey = `component-${key}`;
 
     return (
-      <TreeNode
-        key={nodeKey}
-        title={title}
-        isLeaf={true}
-        icon={
-          <>
-            <FiLayers />
-            <ComponentContextMenu instance={instance} />
-          </>
-        }
-      />
+      <TreeNode key={nodeKey} title={title} isLeaf={true} icon={<FiLayers />} />
     );
   };
 

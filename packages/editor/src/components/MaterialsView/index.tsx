@@ -5,9 +5,13 @@ import { EventEmitTypes, events } from "../../utils";
 import { MaterialsViewType } from "./HeaderOptions";
 import "./index.scss";
 
-export class MaterialsView extends React.Component {
+interface Props {
+  loading: boolean;
+}
+
+export class MaterialsView extends React.Component<Props> {
   public state = {
-    view: MaterialsViewType.INSTANCES
+    view: MaterialsViewType.COMPONENTS
   };
 
   private onSetView = (view: MaterialsViewType) => {
@@ -25,17 +29,19 @@ export class MaterialsView extends React.Component {
   public render() {
     const { view } = this.state;
 
-    let content: React.ReactNode;
-    switch (view) {
-      case MaterialsViewType.COMPONENTS:
-        content = <ComponentsLibrary />;
-        break;
-      case MaterialsViewType.PLUGINS:
-        content = <PluginsLibrary />;
-        break;
-      case MaterialsViewType.INSTANCES:
-        content = <InstancesView />;
-        break;
+    let content: React.ReactNode = null;
+    if (!this.props.loading) {
+      switch (view) {
+        case MaterialsViewType.COMPONENTS:
+          content = <ComponentsLibrary />;
+          break;
+        case MaterialsViewType.PLUGINS:
+          content = <PluginsLibrary />;
+          break;
+        case MaterialsViewType.INSTANCES:
+          content = <InstancesView />;
+          break;
+      }
     }
 
     return <div className="vize-materials-view">{content}</div>;

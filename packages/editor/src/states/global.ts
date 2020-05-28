@@ -1,5 +1,6 @@
-// import { observable } from "mobx";
+import { action, observable } from "mobx";
 import { getQueryParams } from "../utils";
+import { LayoutMode } from "../types";
 
 export class GlobalStore {
   constructor() {
@@ -15,6 +16,16 @@ export class GlobalStore {
   mainLib: string;
 
   debugPorts: number[];
+
+  layoutMode: LayoutMode = LayoutMode.STREAM;
+
+  @observable
+  iframeStyleMap: { [name: string]: string } = {};
+
+  @action
+  setIframeStyle = (name: string, style: string) => {
+    this.iframeStyleMap[name] = style;
+  };
 }
 
 export const globalStore = new GlobalStore();

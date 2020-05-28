@@ -2,7 +2,7 @@ import * as React from "react";
 import { FiDelete, FiHome, FiCopy, FiEdit } from "react-icons/fi";
 import { Menu, Item, theme, Separator } from "react-contexify";
 import { useCallback } from "react";
-import { componentsStore, pagesStore } from "states";
+import { componentsStore, pagesStore, selectStore } from "states";
 import { noop, showContextMenu } from "utils";
 import { ComponentInstance } from "../../../types";
 
@@ -43,6 +43,7 @@ export function showComponentContextMenu(
   e: React.MouseEvent,
   componentKey: number
 ) {
+  selectStore.selectComponent(componentKey);
   return showContextMenu(e as any, getID(componentKey));
 }
 

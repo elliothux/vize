@@ -1,3 +1,4 @@
+import "./index.scss";
 import * as React from "react";
 
 interface Props {
@@ -8,5 +9,5 @@ interface Props {
 
 // @ts-ignore
 export default function({ data: { text = "test" } }: Props) {
-  return <p>{text}</p>;
+  return <p className="vize-materials-universal text">{text}</p>;
 }

@@ -4,7 +4,7 @@ import { Spin } from "antd";
 import { Header } from "./components/Header";
 import { Simulator } from "./components/Simulator";
 import { Renderer } from "./components/Renderer";
-import { materialsStore } from "./states";
+import { initStore } from "./states";
 import { MaterialsView } from "./components/MaterialsView";
 import { AttributesEditor } from "./components/AttributesEditor";
 
@@ -25,14 +25,14 @@ export function App() {
     >
       <Header />
       <main className="vize-main">
-        <MaterialsView />
+        <MaterialsView loading={loading} />
         <Simulator>{loading ? null : <Renderer />}</Simulator>
-        <AttributesEditor />
+        <AttributesEditor loading={loading} />
       </main>
     </Spin>
   );
 }
 
 function init() {
-  return materialsStore.init();
+  return initStore();
 }
