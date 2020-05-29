@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import { componentsStore, pagesStore, selectStore } from "states";
 import { noop, showContextMenu } from "utils";
 import { ComponentInstance } from "../../../types";
+import { getSimulatorClientRect } from "../../Simulator";
 
 interface Props {
   instance: ComponentInstance;
@@ -41,10 +42,42 @@ export function ComponentContextMenu({ instance }: Props) {
 
 export function showComponentContextMenu(
   e: React.MouseEvent,
-  componentKey: number
+  componentKey: number,
+  fromIFrame: boolean = false
 ) {
   selectStore.selectComponent(componentKey);
-  return showContextMenu(e as any, getID(componentKey));
+  return showContextMenu(
+    fromIFrame ? createMouseEventFromIframe(e) : e,
+    getID(componentKey)
+  );
+}
+
+function createMouseEventFromIframe(e: React.MouseEvent): MouseEvent {
+  e.persist();
+
+  const [deltaX, deltaY] = getSimulatorClientRect();
+  const event = document.createEvent("MouseEvent");
+  debugger;
+  event.initMouseEvent(
+    e.type,
+    e.cancelable,
+    e.cancelable,
+    window,
+    e.detail,
+    e.screenX,
+    e.screenY,
+    e.clientX + deltaX,
+    e.clientY + deltaY,
+    e.ctrlKey,
+    e.altKey,
+    e.shiftKey,
+    e.metaKey,
+    e.button,
+    null
+  );
+  (event as any).nativeEvent = event;
+
+  return event;
 }
 
 function getID(componentKey: number) {

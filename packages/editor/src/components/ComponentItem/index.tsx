@@ -28,7 +28,7 @@ export class ComponentItem extends React.Component<Props> {
   };
 
   onContextMenu = (e: React.MouseEvent) => {
-    showComponentContextMenu(e, this.props.instance.key);
+    showComponentContextMenu(e, this.props.instance.key, true);
   };
 
   render() {

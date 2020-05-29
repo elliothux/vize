@@ -29,7 +29,7 @@
     }
 
     & > span {
-      @include border-bottom-radius(2px);
+      border-top-right-radius: 6px;
       display: none;
       background-color: $main-color;
       color: white;
@@ -38,7 +38,7 @@
       font-size: 12px;
       line-height: 14px;
       bottom: 0;
-      left: -1px;
+      left: 0;
       opacity: 0.9;
     }
   }
