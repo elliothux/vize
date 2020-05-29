@@ -1,0 +1,12 @@
+/node_modules
+
+/packages/cli/bin
+/packages/cli/dist
+/packages/cli/node_modules
+
+/packages/editor/node_modules
+/packages/editor/public
+
+/packages/materials-universal/.temp
+/packages/materials-universal/dist
+/packages/materials-universal/node_modules

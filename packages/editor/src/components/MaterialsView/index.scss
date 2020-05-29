@@ -1,71 +1,71 @@
-@import "styles/helper";
+@import 'styles/helper';
 
 .vize-materials-view {
-  background-color: #f2f2f2;
-  border-right: $main-border;
+    background-color: #f2f2f2;
+    border-right: $main-border;
 }
 
 .vize-pages-list,
 .vize-tags-list {
-  background-color: #fafafa;
-  padding-top: 12px;
-  padding-bottom: 28px;
+    background-color: #fafafa;
+    padding-top: 12px;
+    padding-bottom: 28px;
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    padding: 0 10px;
-    font-size: 13px;
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 0 10px;
+        font-size: 13px;
 
-    .header-options {
-      p {
-        display: inline-block;
-        padding: 6px 2px 0 2px;
-        cursor: pointer;
-        margin-right: 8px;
-        border-top: 2px solid white;
+        .header-options {
+            p {
+                display: inline-block;
+                padding: 6px 2px 0 2px;
+                cursor: pointer;
+                margin-right: 8px;
+                border-top: 2px solid white;
 
-        &:hover {
-          color: $main-color;
+                &:hover {
+                    color: $main-color;
+                }
+            }
+
+            p.activated {
+                font-weight: bold;
+                border-color: $main-color;
+            }
         }
-      }
 
-      p.activated {
-        font-weight: bold;
-        border-color: $main-color;
-      }
+        span.anticon {
+            font-size: 16px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
     }
-
-    span.anticon {
-      font-size: 16px;
-      margin-left: 8px;
-      cursor: pointer;
-    }
-  }
 }
 
 .vize-page-item,
 .vize-tag-item {
-  margin: 6px;
-  color: #373737;
-  border-radius: 3px;
-  font-size: 12px;
-  line-height: calc(12px + 8px * 2);
-  padding: 0 0 0 18px;
-  cursor: pointer;
+    margin: 6px;
+    color: #373737;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: calc(12px + 8px * 2);
+    padding: 0 0 0 18px;
+    cursor: pointer;
 
-  &:hover {
-    color: $main-color;
-  }
+    &:hover {
+        color: $main-color;
+    }
 
-  &.activated {
-    background-color: #e4e4e4;
-  }
+    &.activated {
+        background-color: #e4e4e4;
+    }
 
-  &.focus {
-    background-color: $main-color;
-    color: white;
-  }
+    &.focus {
+        background-color: $main-color;
+        color: white;
+    }
 }

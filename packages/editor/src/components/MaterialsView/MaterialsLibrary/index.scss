@@ -1,124 +1,124 @@
-@import "styles/helper";
+@import 'styles/helper';
 
 .vize-components-library,
 .vize-plugins-library {
-  position: relative;
+    position: relative;
 }
 
 .vize-materials-component-item,
 .vize-materials-plugin-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: grab;
-  border-bottom: $main-border;
-
-  &:hover {
-    color: $main-color;
-  }
-
-  &.activated {
-    background-color: #e4e4e4;
-  }
-
-  &.focus {
-    color: white;
-    background-color: $main-color;
-  }
-
-  .content {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 6px 0 6px 16px;
+    justify-content: space-between;
+    cursor: grab;
+    border-bottom: $main-border;
 
-    span.svg-render > svg {
-      width: 32px;
-      height: 32px;
-      margin-right: 8px;
+    &:hover {
+        color: $main-color;
     }
 
-    & > div > p {
-      font-size: 13px;
-      letter-spacing: 0.05em;
+    &.activated {
+        background-color: #e4e4e4;
     }
 
-    p.name {
-      font-size: 14px;
-      margin-bottom: 4px;
+    &.focus {
+        color: white;
+        background-color: $main-color;
     }
 
-    p.desc {
-      font-size: 12px;
-    }
-  }
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 6px 0 6px 16px;
 
-  .button {
-    font-size: 18px;
-    cursor: pointer;
-    width: 45px;
-    height: 43px;
-    text-align: center;
-    line-height: 47px;
-  }
+        span.svg-render > svg {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+        }
+
+        & > div > p {
+            font-size: 13px;
+            letter-spacing: 0.05em;
+        }
+
+        p.name {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        p.desc {
+            font-size: 12px;
+        }
+    }
+
+    .button {
+        font-size: 18px;
+        cursor: pointer;
+        width: 45px;
+        height: 43px;
+        text-align: center;
+        line-height: 47px;
+    }
 }
 
 .vize-materials-component-preview,
 .vize-materials-plugin-preview {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  background-color: white;
-  border-top: $main-border;
-  padding: 16px 8px;
-  width: 259px;
-  text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    border-top: $main-border;
+    padding: 16px 8px;
+    width: 259px;
+    text-align: center;
 
-  & > img {
-    max-width: 70%;
-    max-height: 120px;
-    margin-bottom: 24px;
-    margin-top: 6px;
-  }
-
-  .detail {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-
-    .svg-render > svg {
-      width: 32px;
-      height: 32px;
-      margin-right: 8px;
+    & > img {
+        max-width: 70%;
+        max-height: 120px;
+        margin-bottom: 24px;
+        margin-top: 6px;
     }
 
-    & > div {
-      text-align: left;
+    .detail {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
 
-      .name {
-        font-weight: bold;
-        font-size: 14px;
-        margin-bottom: 8px;
-      }
-
-      .desc {
-        margin-bottom: 12px;
-      }
-
-      .lib {
-        margin-bottom: 4px;
-      }
-
-      .author,
-      .lib {
-        color: #9c9c9c;
-
-        span {
-          font-weight: bold;
-          color: rgba(0, 0, 0, 0.65);
+        .svg-render > svg {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
         }
-      }
+
+        & > div {
+            text-align: left;
+
+            .name {
+                font-weight: bold;
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .desc {
+                margin-bottom: 12px;
+            }
+
+            .lib {
+                margin-bottom: 4px;
+            }
+
+            .author,
+            .lib {
+                color: #9c9c9c;
+
+                span {
+                    font-weight: bold;
+                    color: rgba(0, 0, 0, 0.65);
+                }
+            }
+        }
     }
-  }
 }

@@ -1,19 +1,19 @@
-import { configure } from "mobx";
-import { pagesStore } from "./pages";
-import { materialsStore } from "./materials";
+import { configure } from 'mobx';
+import { pagesStore } from './pages';
+import { materialsStore } from './materials';
 
 configure({
-  enforceActions: "always"
+    enforceActions: 'always',
 });
 
 export async function initStore() {
-  pagesStore.init();
-  await materialsStore.init();
+    pagesStore.init();
+    await materialsStore.init();
 }
 
-export * from "./components";
-export * from "./global";
-export * from "./materials";
-export * from "./pages";
-export * from "./plugins";
-export * from "./select";
+export * from './components';
+export * from './global';
+export * from './materials';
+export * from './pages';
+export * from './plugins';
+export * from './select';

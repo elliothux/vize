@@ -1,17 +1,17 @@
-@import "styles/helper";
+@import 'styles/helper';
 
 * {
-  @include hide-scroll-bar;
+    @include hide-scroll-bar;
 }
 
 body {
-  user-select: none;
+    user-select: none;
 }
 
 img {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 .vize-main-entry {
-  min-height: 100vh;
+    min-height: 100vh;
 }

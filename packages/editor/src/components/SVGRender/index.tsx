@@ -1,14 +1,9 @@
-import * as React from "react";
+import * as React from 'react';
 
 interface Props {
-  content: string;
+    content: string;
 }
 
 export function SVGRender({ content }: Props) {
-  return (
-    <span
-      className="svg-render"
-      dangerouslySetInnerHTML={{ __html: content }}
-    />
-  );
+    return <span className="svg-render" dangerouslySetInnerHTML={{ __html: content }} />;
 }

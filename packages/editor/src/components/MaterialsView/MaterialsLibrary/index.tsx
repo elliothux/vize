@@ -1,4 +1,4 @@
-import "./index.scss";
+import './index.scss';
 
-export * from "./ComponentsLibrary";
-export * from "./PluginsLibrary";
+export * from './ComponentsLibrary';
+export * from './PluginsLibrary';

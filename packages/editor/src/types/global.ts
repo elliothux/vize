@@ -1,4 +1,4 @@
 export enum LayoutMode {
-  STREAM = "stream",
-  FREE = "free"
+    STREAM = 'stream',
+    FREE = 'free',
 }

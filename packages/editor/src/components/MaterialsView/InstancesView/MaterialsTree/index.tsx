@@ -1,14 +1,14 @@
-import * as React from "react";
-import { ComponentsTree } from "./ComponentsTree";
-import { PluginsTree } from "./PluginsTree";
+import * as React from 'react';
+import { ComponentsTree } from './ComponentsTree';
+import { PluginsTree } from './PluginsTree';
 
-import "./index.scss";
+import './index.scss';
 
 export function MaterialsTree() {
-  return (
-    <div className="vize-materials-tree">
-      <ComponentsTree />
-      <PluginsTree />
-    </div>
-  );
+    return (
+        <div className="vize-materials-tree">
+            <ComponentsTree />
+            <PluginsTree />
+        </div>
+    );
 }
