@@ -19,4 +19,8 @@ export interface PluginInstance {
 }
 
 // TODO
-export type MaterialsPlugin = () => void;
+export interface PluginParams {
+    data: object;
+}
+
+export type MaterialsPlugin = (params: PluginParams) => void;

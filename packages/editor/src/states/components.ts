@@ -1,9 +1,10 @@
 import { action, computed, observable, toJS } from 'mobx';
-import { ComponentInstance, Maybe } from 'types';
+import { ComponentInstance } from 'types';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import {
     addPageComponentInstanceMap,
+    batchUpdateCurrentPageComponentIndex,
     createComponentInstance,
     deleteCurrentPageComponentIndex,
     deletePageComponentInstanceMap,
@@ -53,6 +54,18 @@ export class ComponentsStore {
         const index = deleteCurrentPageComponentIndex(key, instances);
         instances.splice(index[0], 1);
         selectStore.selectPage(selectStore.pageIndex);
+    };
+
+    @action
+    public resortComponentInstance = (oldIndex: number, newIndex: number) => {
+        if (oldIndex === newIndex) {
+            return;
+        }
+
+        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+        const [instance] = instances.splice(oldIndex, 1);
+        instances.splice(newIndex, 0, instance);
+        batchUpdateCurrentPageComponentIndex(oldIndex, newIndex, instances);
     };
 }
 

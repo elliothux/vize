@@ -30,11 +30,11 @@ export function deleteCurrentPageComponentIndex(
 ): Index {
     const indexMap = getCurrentPageComponentIndexMap();
     const componentIndex = indexMap.get(componentKey)!;
+    indexMap.delete(componentKey);
 
     let [currentIndex] = componentIndex;
-    indexMap.delete(currentPageComponentInstances[currentIndex]!.key);
-
-    while (currentIndex < currentPageComponentInstances.length - 1) {
+    currentIndex++;
+    while (currentIndex < currentPageComponentInstances.length) {
         const { key } = currentPageComponentInstances[currentIndex]!;
         const index = indexMap.get(key)!;
         index[0] -= 1;
@@ -42,4 +42,18 @@ export function deleteCurrentPageComponentIndex(
     }
 
     return componentIndex;
+}
+
+export function batchUpdateCurrentPageComponentIndex(
+    oldIndex: number,
+    newIndex: number,
+    currentPageComponentInstances: ComponentInstance[],
+) {
+    const indexMap = getCurrentPageComponentIndexMap();
+    const [start, end] = oldIndex > newIndex ? [newIndex, oldIndex] : [oldIndex, newIndex];
+    for (let currentIndex = start; currentIndex <= end; currentIndex++) {
+        const { key } = currentPageComponentInstances[currentIndex]!;
+        const index = indexMap.get(key)!;
+        index[0] = currentIndex;
+    }
 }

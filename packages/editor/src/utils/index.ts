@@ -2,6 +2,7 @@ export * from './loader';
 export * from './common';
 export * from './contextMenu';
 export * from './create';
+export * from './dom';
 export * from './eventEmiter';
 export * from './eventProxy';
 export * from './indexMap';

@@ -8,7 +8,7 @@ import './index.scss';
 interface Props {
     htmlContent: string;
     mountTarget: string;
-    children: (doc: Document, win: Window) => React.ReactNode;
+    children: (doc: Document, win: Window, mountTarget: HTMLDivElement) => React.ReactNode;
     iframeDidMount?: (doc: Document, win: Window) => void;
 }
 
@@ -94,8 +94,9 @@ export class RenderSandbox extends React.Component<Props> {
             return null;
         }
 
-        const content = this.props.children(doc, doc.defaultView!);
-        return createPortal(content, this.getMountTarget());
+        const mountTarget = this.getMountTarget();
+        const content = this.props.children(doc, doc.defaultView!, mountTarget);
+        return createPortal(content, mountTarget);
     };
 
     public render() {

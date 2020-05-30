@@ -4,15 +4,19 @@ import { globalStore } from 'states';
 import { LayoutMode } from 'types';
 import { StreamLayoutRender } from './StreamLayoutRender';
 
-function ILayoutRender() {
+interface Props {
+    mountTarget: HTMLDivElement;
+}
+
+function ILayoutRender({ mountTarget }: Props) {
     const { layoutMode } = globalStore;
 
     if (layoutMode === LayoutMode.STREAM) {
-        return <StreamLayoutRender />;
+        return <StreamLayoutRender mountTarget={mountTarget} />;
     }
 
     // TODO
-    return <StreamLayoutRender />;
+    return <StreamLayoutRender mountTarget={mountTarget} />;
 }
 
 export const LayoutRender = observer(ILayoutRender);

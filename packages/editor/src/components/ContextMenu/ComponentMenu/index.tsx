@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { FiDelete, FiHome, FiCopy, FiEdit } from 'react-icons/fi';
-import { Menu, Item, theme, Separator } from 'react-contexify';
+import { Menu, Item, theme, Separator, animation } from 'react-contexify';
 import { useCallback } from 'react';
 import { componentsStore, pagesStore, selectStore } from 'states';
 import { noop, showContextMenu } from 'utils';
 import { ComponentInstance } from 'types';
-import { getSimulatorClientRect } from '../../Simulator';
+import { getSimulatorNodeOffset } from '../../Simulator';
 
 interface Props {
     instance: ComponentInstance;
@@ -20,7 +20,7 @@ export function ComponentContextMenu({ instance }: Props) {
     // );
 
     return (
-        <Menu id={getID(instance.key)} theme={theme.dark}>
+        <Menu id={getID(instance.key)} theme={theme.dark} animation={animation.fade}>
             {/*<Item onClick={onRename}>*/}
             {/*  <FiEdit />*/}
             {/*  <span>重命名</span>*/}
@@ -45,7 +45,7 @@ export function showComponentContextMenu(e: React.MouseEvent, componentKey: numb
 function createMouseEventFromIframe(e: React.MouseEvent): MouseEvent {
     e.persist();
 
-    const [deltaX, deltaY] = getSimulatorClientRect();
+    const [deltaX, deltaY] = getSimulatorNodeOffset();
     const event = document.createEvent('MouseEvent');
     event.initMouseEvent(
         e.type,

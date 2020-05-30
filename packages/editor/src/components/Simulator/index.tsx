@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { WithReactChildren } from 'types';
 import { useCallback, useEffect, useRef } from 'react';
+import { getOffsetToViewport } from '../../utils';
+
 import './index.scss';
-import { useMount } from 'react-use';
 
 type Props = WithReactChildren;
 
@@ -10,8 +11,8 @@ export function Simulator({ children }: Props) {
     const ref = useRef<HTMLDivElement>(null);
 
     const setClientRect = useCallback(() => {
-        const { x, y } = ref.current!.getBoundingClientRect();
-        [clientX, clientY] = [x, y];
+        const { top, left } = getOffsetToViewport(ref.current!);
+        [clientX, clientY] = [left, top];
     }, []);
 
     useEffect(() => {
@@ -26,14 +27,16 @@ export function Simulator({ children }: Props) {
     }, [ref.current]);
 
     return (
-        <div className="vize-simulator-container" ref={ref}>
-            <div className="simulator">{children}</div>
+        <div className="vize-simulator-container">
+            <div className="simulator" ref={ref}>
+                {children}
+            </div>
         </div>
     );
 }
 
 let [clientX, clientY] = [0, 0];
 
-export function getSimulatorClientRect() {
+export function getSimulatorNodeOffset() {
     return [clientX, clientY];
 }

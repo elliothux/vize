@@ -1,4 +1,6 @@
 import { action, observable } from 'mobx';
+import { getCurrentPageComponentIndex } from '../utils';
+import { componentsStore } from './components';
 
 export enum SelectType {
     PAGE,
@@ -30,6 +32,12 @@ export class SelectStore {
     public selectComponent = (key: number) => {
         this.selectType = SelectType.COMPONENT;
         this.componentKey = key;
+    };
+
+    @action
+    public selectComponentByIndex = (index: number) => {
+        this.selectType = SelectType.COMPONENT;
+        this.componentKey = componentsStore.componentInstances[index]!.key;
     };
 
     public isCurrentComponent = (key: number) => {

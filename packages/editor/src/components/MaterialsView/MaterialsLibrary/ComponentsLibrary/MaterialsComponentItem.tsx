@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { MaterialsComponentMeta, Maybe } from 'types';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { componentsStore } from 'states';
 import { SVGRender } from 'components/SVGRender';
@@ -25,6 +25,15 @@ export function MaterialsComponentItem({ item, currentItem, onSelect }: Props) {
 
     const onClick = useCallback(() => onSelect(item), [item]);
     const onClickAdd = useCallback(() => componentsStore.addComponentInstance(identityName), [identityName]);
+
+    // TODO: REMOVE
+    useEffect(() => {
+        setTimeout(() => {
+            onClickAdd();
+            onClickAdd();
+            onClickAdd();
+        }, 1000);
+    }, []);
 
     return (
         <div

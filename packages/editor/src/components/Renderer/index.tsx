@@ -11,6 +11,7 @@ import { injectRuntime, setUserAgent } from './utils';
 import { InjectedStylesRender } from '../InjectedStylesRender';
 
 import iframeStyle from './index.iframe.scss';
+import { executePlugins } from './pluginExecutor';
 
 globalStore.setIframeStyle('Renderer', iframeStyle);
 
@@ -29,6 +30,8 @@ export class Renderer extends React.Component {
         if (!renderEntry) {
             throw new Error('No renderEntry');
         }
+
+        executePlugins(win);
         this.callContainerRenderEntry(renderEntry);
     };
 
@@ -84,7 +87,7 @@ export class Renderer extends React.Component {
         renderEntry({ render: () => this.setState({ ready: true }) });
     };
 
-    private renderContent = () => {
+    private renderContent = (doc: Document, win: Window, mountTarget: HTMLDivElement) => {
         if (!this.state.ready) {
             return null;
         }
@@ -92,7 +95,7 @@ export class Renderer extends React.Component {
         return (
             <>
                 <InjectedStylesRender />
-                <LayoutRender />
+                <LayoutRender mountTarget={mountTarget} />
             </>
         );
     };
