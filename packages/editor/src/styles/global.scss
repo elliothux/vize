@@ -37,6 +37,11 @@ img {
         height: 100%;
     }
 
+    .vize-materials-view,
+    .vize-attributes-editor {
+        overflow: scroll;
+    }
+
     .vize-materials-view {
         width: 260px;
     }

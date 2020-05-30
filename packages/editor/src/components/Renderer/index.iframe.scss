@@ -12,6 +12,8 @@ img {
     pointer-events: none;
 }
 
-.vize-main-entry {
-    min-height: 100vh;
+#vize-main-entry {
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
 }
