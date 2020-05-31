@@ -1,5 +1,5 @@
 import { action, computed, observable, toJS } from 'mobx';
-import { ComponentInstance } from 'types';
+import { ComponentInstance, LayoutMode } from 'types';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import {
@@ -8,10 +8,12 @@ import {
     createComponentInstance,
     deleteCurrentPageComponentIndex,
     deletePageComponentInstanceMap,
+    getMaxNodeBottomOffset,
     injectGlobalReadonlyGetter,
     setCurrentPageComponentIndex,
 } from '../utils';
 import { selectStore } from './select';
+import { globalStore } from './global';
 
 export class ComponentsStore {
     @observable
@@ -39,7 +41,10 @@ export class ComponentsStore {
     @action
     public addComponentInstance = (componentID: string) => {
         const component = materialsStore.components[componentID];
-        const instance = createComponentInstance(component);
+        const instance =
+            globalStore.layoutMode === LayoutMode.FREE
+                ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
+                : createComponentInstance(component, false);
 
         const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
         instances.push(instance);

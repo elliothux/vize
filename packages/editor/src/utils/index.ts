@@ -1,5 +1,6 @@
 export * from './loader';
 export * from './common';
+export * from './componentNodes';
 export * from './contextMenu';
 export * from './create';
 export * from './dom';

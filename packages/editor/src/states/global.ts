@@ -5,7 +5,6 @@ import { LayoutMode } from '../types';
 export class GlobalStore {
     constructor() {
         const { libs, debugPorts } = getQueryParams();
-
         this.libNames = libs;
         this.mainLib = libs[0];
         this.debugPorts = debugPorts;
@@ -17,7 +16,7 @@ export class GlobalStore {
 
     debugPorts: number[];
 
-    layoutMode: LayoutMode = LayoutMode.STREAM;
+    layoutMode: LayoutMode = LayoutMode.FREE;
 
     @observable
     iframeStyleMap: { [name: string]: string } = {};

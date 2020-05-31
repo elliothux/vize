@@ -29,8 +29,8 @@ export function MaterialsComponentItem({ item, currentItem, onSelect }: Props) {
     // TODO: REMOVE
     useEffect(() => {
         setTimeout(() => {
-            onClickAdd();
-            onClickAdd();
+            // onClickAdd();
+            // onClickAdd();
             onClickAdd();
         }, 1000);
     }, []);

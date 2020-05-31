@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MaterialsInfo } from './materials';
 import { ActionInstance } from './actions';
-import { JsonSchemaProperties } from './helper';
+import { JsonSchemaProperties, Maybe } from './helper';
 import { OverrideFormComponent } from '../components/Form/OverrideForm';
 
 export interface MaterialsComponentMeta {
@@ -14,6 +14,16 @@ export interface MaterialsComponentMeta {
     readonly preview?: string;
 }
 
+interface ComponentPosition {
+    x: number;
+    y: number;
+}
+
+interface ComponentSize {
+    width: number;
+    height: number;
+}
+
 export interface ComponentInstance {
     key: Readonly<number>;
     component: Readonly<string>;
@@ -22,6 +32,10 @@ export interface ComponentInstance {
     actions: ActionInstance[];
     children?: ComponentInstance[];
     parent?: ComponentInstance;
+    layout?: {
+        position: ComponentPosition;
+        size: Maybe<ComponentSize>;
+    };
 }
 
 export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'> {

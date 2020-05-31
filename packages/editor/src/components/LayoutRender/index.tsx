@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { globalStore } from 'states';
 import { LayoutMode } from 'types';
 import { StreamLayoutRender } from './StreamLayoutRender';
+import { FreeLayoutRender } from './FreeLayoutRender';
 
 interface Props {
     mountTarget: HTMLDivElement;
@@ -16,7 +17,7 @@ function ILayoutRender({ mountTarget }: Props) {
     }
 
     // TODO
-    return <StreamLayoutRender mountTarget={mountTarget} />;
+    return <FreeLayoutRender />;
 }
 
 export const LayoutRender = observer(ILayoutRender);

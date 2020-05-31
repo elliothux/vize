@@ -4,9 +4,10 @@ import { ComponentView } from './ComponentView';
 import { globalStore, selectStore } from 'states';
 import classNames from 'classnames';
 import { ComponentMask } from './ComponentMask';
+import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/ComponentMenu';
+import { setComponentNode } from '../../utils';
 
 import iframeStyle from './index.iframe.scss';
-import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/ComponentMenu';
 
 globalStore.setIframeStyle('ComponentItem', iframeStyle);
 
@@ -16,7 +17,11 @@ interface Props {
 }
 
 export class ComponentItem extends React.Component<Props> {
-    onSelect = () => {
+    private setRef = (node: HTMLDivElement) => {
+        setComponentNode(this.props.instance.key, node);
+    };
+
+    private onSelect = () => {
         const {
             instance: { key },
         } = this.props;
@@ -24,7 +29,7 @@ export class ComponentItem extends React.Component<Props> {
         selectStore.selectComponent(key);
     };
 
-    onContextMenu = (e: React.MouseEvent) => {
+    private onContextMenu = (e: React.MouseEvent) => {
         showComponentContextMenu(e, this.props.instance.key, true);
     };
 
@@ -33,7 +38,7 @@ export class ComponentItem extends React.Component<Props> {
         const selected = instance.key === currentSelectedKey;
 
         return (
-            <div className={classNames('vize-component-item', { selected })} data-key={instance.key}>
+            <div ref={this.setRef} className={classNames('vize-component-item', { selected })} data-key={instance.key}>
                 <ComponentView instance={instance} />
                 <ComponentMask
                     instance={instance}
