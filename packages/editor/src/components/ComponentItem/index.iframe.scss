@@ -2,6 +2,7 @@
 
 .vize-component-item {
     position: relative;
+    overflow: hidden;
 
     &.selected {
         .vize-component-item-mask {

@@ -1,9 +1,18 @@
 import * as React from 'react';
-import { componentsStore } from 'states';
+import { componentsStore, globalStore } from 'states';
 import { observer } from 'mobx-react';
 import { DraggableComponentItem } from './DraggableComponentItem';
 
-function IFreeLayoutRender() {
+import iframeStyle from './index.iframe.scss';
+
+globalStore.setIframeStyle('FreeLayoutRender', iframeStyle);
+
+interface Props {
+    mountTarget: HTMLDivElement;
+    renderContext: Window;
+}
+
+function IFreeLayoutRender({}: Props) {
     const { componentInstances } = componentsStore;
 
     return (

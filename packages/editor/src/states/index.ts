@@ -13,6 +13,7 @@ export async function initStore() {
 
 export * from './components';
 export * from './global';
+export * from './history';
 export * from './materials';
 export * from './pages';
 export * from './plugins';

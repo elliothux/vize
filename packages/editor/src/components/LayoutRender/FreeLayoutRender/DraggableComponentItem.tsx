@@ -1,12 +1,13 @@
 import * as React from 'react';
+import { useCallback, useMemo } from 'react';
+import { observer } from 'mobx-react';
 import { ComponentItem } from 'components/ComponentItem';
 import { Position, ResizableDelta, Rnd } from 'react-rnd';
 import { ComponentInstance, ComponentSize } from 'types';
-import { componentsStore, selectStore } from '../../../states';
+import { componentsStore, selectStore } from 'states';
 import { DraggableData, DraggableEvent } from 'react-draggable';
-import { useCallback, useMemo } from 'react';
-import { observer } from 'mobx-react';
 import { ResizeDirection } from 're-resizable';
+import { toJS } from 'mobx';
 
 interface Props {
     index: number;
@@ -34,8 +35,8 @@ function IDraggableComponentItem({ instance, index }: Props) {
             position: Position,
         ) => {
             const size: ComponentSize = {
-                width: parseInt(ref.style.width, 10),
-                height: parseInt(ref.style.height, 10),
+                width: ref.offsetWidth,
+                height: ref.offsetHeight,
             };
             return componentsStore.resizeComponentInstance(instance.key, position, size);
         },
@@ -43,7 +44,18 @@ function IDraggableComponentItem({ instance, index }: Props) {
     );
 
     return (
-        <Rnd position={position} size={size} style={style} onDragStop={onMove} onResizeStop={onResize}>
+        <Rnd
+            position={position}
+            size={size}
+            style={style}
+            onDragStop={onMove}
+            onResize={onResize}
+            maxWidth="100%"
+            dragGrid={[1, 1]}
+            resizeGrid={[1, 1]}
+            // enableResizing={{}}
+            // bounds="parent"
+        >
             <ComponentItem instance={instance} currentSelectedKey={selectStore.componentKey} />
         </Rnd>
     );

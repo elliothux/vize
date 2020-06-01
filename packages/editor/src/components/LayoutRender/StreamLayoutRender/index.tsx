@@ -20,6 +20,7 @@ const SortableComponentItem = sortableElement(ComponentItem);
 
 interface Props {
     mountTarget: HTMLDivElement;
+    renderContext: Window;
 }
 
 function IStreamLayoutRender({ mountTarget }: Props) {

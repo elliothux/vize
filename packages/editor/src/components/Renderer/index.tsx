@@ -95,7 +95,7 @@ export class Renderer extends React.Component {
         return (
             <>
                 <InjectedStylesRender />
-                <LayoutRender mountTarget={mountTarget} />
+                <LayoutRender mountTarget={mountTarget} renderContext={win} />
             </>
         );
     };

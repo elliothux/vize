@@ -7,17 +7,17 @@ import { FreeLayoutRender } from './FreeLayoutRender';
 
 interface Props {
     mountTarget: HTMLDivElement;
+    renderContext: Window;
 }
 
-function ILayoutRender({ mountTarget }: Props) {
+function ILayoutRender({ mountTarget, renderContext }: Props) {
     const { layoutMode } = globalStore;
 
     if (layoutMode === LayoutMode.STREAM) {
-        return <StreamLayoutRender mountTarget={mountTarget} />;
+        return <StreamLayoutRender mountTarget={mountTarget} renderContext={renderContext} />;
     }
 
-    // TODO
-    return <FreeLayoutRender />;
+    return <FreeLayoutRender mountTarget={mountTarget} renderContext={renderContext} />;
 }
 
 export const LayoutRender = observer(ILayoutRender);
