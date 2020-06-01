@@ -50,6 +50,6 @@ export function createComponentInstance(
         data,
         style: {},
         actions: [],
-        layout: freeLayout ? { position: { x: 0, y: initY }, size: null } : undefined,
+        layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
     };
 }

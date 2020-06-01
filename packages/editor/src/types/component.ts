@@ -14,12 +14,12 @@ export interface MaterialsComponentMeta {
     readonly preview?: string;
 }
 
-interface ComponentPosition {
+export interface ComponentPosition {
     x: number;
     y: number;
 }
 
-interface ComponentSize {
+export interface ComponentSize {
     width: number;
     height: number;
 }
@@ -34,7 +34,7 @@ export interface ComponentInstance {
     parent?: ComponentInstance;
     layout?: {
         position: ComponentPosition;
-        size: Maybe<ComponentSize>;
+        size?: ComponentSize;
     };
 }
 

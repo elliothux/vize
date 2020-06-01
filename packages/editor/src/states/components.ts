@@ -1,5 +1,5 @@
 import { action, computed, observable, toJS } from 'mobx';
-import { ComponentInstance, LayoutMode } from 'types';
+import { ComponentInstance, ComponentPosition, ComponentSize, LayoutMode } from 'types';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import {
@@ -8,6 +8,7 @@ import {
     createComponentInstance,
     deleteCurrentPageComponentIndex,
     deletePageComponentInstanceMap,
+    getCurrentPageComponentIndex,
     getMaxNodeBottomOffset,
     injectGlobalReadonlyGetter,
     setCurrentPageComponentIndex,
@@ -71,6 +72,25 @@ export class ComponentsStore {
         const [instance] = instances.splice(oldIndex, 1);
         instances.splice(newIndex, 0, instance);
         batchUpdateCurrentPageComponentIndex(oldIndex, newIndex, instances);
+    };
+
+    @action
+    public moveComponentInstance = (key: number, position: ComponentPosition) => {
+        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+        const [index] = getCurrentPageComponentIndex(key)!;
+        const instance = instances[index];
+        instance.layout!.position = position;
+    };
+
+    @action
+    public resizeComponentInstance = (key: number, position: ComponentPosition, size: ComponentSize) => {
+        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+        const [index] = getCurrentPageComponentIndex(key)!;
+        const instance = instances[index];
+        instance.layout = {
+            position,
+            size,
+        };
     };
 }
 
