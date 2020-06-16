@@ -54,7 +54,7 @@ function IDraggableComponentItem({ instance, index }: Props) {
             dragGrid={[1, 1]}
             resizeGrid={[1, 1]}
             // enableResizing={{}}
-            // bounds="parent"
+            bounds="window"
         >
             <ComponentItem instance={instance} currentSelectedKey={selectStore.componentKey} />
         </Rnd>
