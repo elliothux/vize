@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PageController } from 'controller/page.controller';
 import { PageService } from 'service/page.service';
+import { PageSchema } from 'schema/page.schema';
 
 @Module({
-    imports: [MongooseModule.forRoot('mongodb://127.0.0.1/vize')],
+    imports: [MongooseModule.forFeature([{ name: 'Page', schema: PageSchema }])],
     controllers: [PageController],
     providers: [PageService],
 })
-export class AppModule {}
+export class PageModule {}

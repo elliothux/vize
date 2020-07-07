@@ -1,10 +1,10 @@
-import * as path from 'path';
-import { Configuration } from 'webpack';
+import { Configuration, Entry } from 'webpack';
 import { LibPaths } from '../utils';
 import { LibConfig } from '../config';
 import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+const commonDeps = ['react', 'react-dom'];
 
 export function getLibDefaultWebpackConfig(
     {
@@ -14,33 +14,23 @@ export function getLibDefaultWebpackConfig(
         output,
         nodeModules,
         src,
-        container,
         containerEntry,
         containerHTML,
+        componentsList,
+        pluginsList,
+        actionsList,
     }: LibPaths,
     { libName }: LibConfig,
     isProd: boolean,
 ): Configuration {
-    return {
+    const config = <Configuration>{
         context: root,
-        entry: {
-            main: mainEntryTemp,
-            meta: metaEntryTemp,
-            entry: containerEntry,
-            html: containerHTML,
-        },
         output: {
             path: output,
             filename: `@vize-materials-${libName}-[name].js`,
             library: `@vize-materials-${libName}-[name]`,
             libraryTarget: 'window',
             umdNamedDefine: true,
-        },
-        externals: {
-            react: 'React',
-            antd: 'Antd',
-            'react-dom': 'ReactDom',
-            'react-dom/server': 'ReactDomServer',
         },
         resolve: {
             extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.scss', '.css'],
@@ -133,4 +123,62 @@ export function getLibDefaultWebpackConfig(
             noEmitOnErrors: true,
         },
     };
+
+    if (isProd) {
+        const entry: Entry = { meta: metaEntryTemp };
+        componentsList.forEach(({ name, mainPath }) => (entry[`component-${name}`] = [...commonDeps, mainPath]));
+        pluginsList.forEach(({ name, mainPath }) => (entry[`plugin-${name}`] = [...commonDeps, mainPath]));
+        actionsList.forEach(({ name, mainPath }) => (entry[`action-${name}`] = [...commonDeps, mainPath]));
+
+        config.entry = entry;
+        config.optimization.splitChunks = {
+            chunks: 'all',
+            minSize: 30,
+            maxSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 6,
+            maxInitialRequests: 4,
+            automaticNameDelimiter: '~',
+            cacheGroups: {
+                vendor: {
+                    name: 'vendor',
+                    chunks: 'initial',
+                    priority: 2,
+                    minChunks: 2,
+                },
+                // deps: {
+                //     name: 'deps',
+                //     test: module => {
+                //         return /react|redux|prop-types/.test(module.context);
+                //     },
+                //     chunks: 'initial',
+                //     priority: 10,
+                // },
+                styles: {
+                    name: 'styles',
+                    test: /\.css$/,
+                    chunks: 'all',
+                    enforce: true,
+                    priority: 20,
+                },
+            },
+        };
+    } else {
+        config.entry = {
+            main: mainEntryTemp,
+            meta: metaEntryTemp,
+            entry: containerEntry,
+            html: containerHTML,
+        };
+        config.externals = {
+            react: 'React',
+            antd: 'Antd',
+            'react-dom': 'ReactDom',
+            'react-dom/server': 'ReactDomServer',
+        };
+    }
+
+    console.log(config);
+
+    return config;
 }

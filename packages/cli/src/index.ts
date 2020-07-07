@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { Command } from 'commander';
-import { error, cleanArgs } from './utils';
-import { dev } from './commands';
+import { cleanArgs } from './utils';
+import { dev, dist } from './commands';
 
 // eslint-disable-next-line
 const packageJson = require('../package.json');
@@ -25,11 +25,7 @@ program
     .description('构建素材库')
     .action((name, cmd) => {
         const options = cleanArgs(cmd);
-        try {
-        } catch (e) {
-            error(e);
-            process.exit(0);
-        }
+        dist(options);
     });
 
 program.arguments('<command>').action((cmd: string) => {

@@ -1,6 +1,5 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { error } from '../utils';
 
 export function findThumb(entry: string) {
     const svg = path.join(entry, './thumb.svg');

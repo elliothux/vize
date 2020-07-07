@@ -11,8 +11,17 @@ export async function dev(options: object) {
     const paths = getLibPaths(root, containerName);
     const config = getLibConfig(paths);
 
-    const builder = new Builder(paths, config);
+    const builder = new Builder(paths, config, false);
     builder.dev();
+}
+
+export async function dist(options: object) {
+    const root = process.cwd();
+    const paths = getLibPaths(root);
+    const config = getLibConfig(paths);
+
+    const builder = new Builder(paths, config, true);
+    return builder.dist();
 }
 
 async function chooseContainer(root: string): Promise<string> {
