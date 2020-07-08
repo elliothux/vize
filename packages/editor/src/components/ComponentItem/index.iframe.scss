@@ -5,8 +5,17 @@
     overflow: hidden;
 
     &.selected {
-        .vize-component-item-mask {
+        & > .vize-component-item-mask {
             border: 2px solid $main-color !important;
+        }
+    }
+
+    &.selected.container-edit-mode {
+        z-index: $max-overlay-z-index;
+        background-color: white;
+
+        & > .vize-component-item-mask {
+            display: none;
         }
     }
 
@@ -43,4 +52,14 @@
             opacity: 0.9;
         }
     }
+}
+
+.vize-container-edit-mode-mask {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: $min-overlay-z-index + 1;
 }

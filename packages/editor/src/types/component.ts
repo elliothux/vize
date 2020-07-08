@@ -12,6 +12,7 @@ export interface MaterialsComponentMeta {
     readonly dataForm?: JsonSchemaProperties | OverrideFormComponent;
     readonly thumb?: string;
     readonly preview?: string;
+    readonly isContainer?: boolean;
 }
 
 export interface ComponentPosition {

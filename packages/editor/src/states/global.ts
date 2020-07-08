@@ -16,7 +16,7 @@ export class GlobalStore {
 
     debugPorts: number[];
 
-    layoutMode: LayoutMode = LayoutMode.FREE;
+    layoutMode: LayoutMode = LayoutMode.STREAM;
 
     @observable
     iframeStyleMap: { [name: string]: string } = {};
@@ -24,6 +24,14 @@ export class GlobalStore {
     @action
     setIframeStyle = (name: string, style: string) => {
         this.iframeStyleMap[name] = style;
+    };
+
+    @observable
+    containerEditMode = false;
+
+    @action
+    setContainerEditMode = (v: boolean) => {
+        this.containerEditMode = v;
     };
 }
 

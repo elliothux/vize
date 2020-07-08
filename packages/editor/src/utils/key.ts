@@ -37,7 +37,7 @@ function createFromType(type: KeyType) {
 }
 
 export enum KeyType {
-    Comppnent = 'component',
+    Component = 'component',
     Plugin = 'plugin',
     Action = 'action',
     Page = 'page',

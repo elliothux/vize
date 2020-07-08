@@ -33,6 +33,15 @@ export function ComponentContextMenu({ instance }: Props) {
                 <FiCopy />
                 <span>复制</span>
             </Item>
+            {instance.children ? (
+                <>
+                    <Separator />
+                    <Item onClick={noop}>
+                        <FiCopy />
+                        <span>编辑子组件</span>
+                    </Item>
+                </>
+            ) : null}
         </Menu>
     );
 }

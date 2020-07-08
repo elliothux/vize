@@ -37,11 +37,11 @@ export function createPageInstance(name: string, isHome = false): PageInstance {
 }
 
 export function createComponentInstance(
-    { identityName, dataForm }: MaterialsComponentMeta,
+    { identityName, dataForm, isContainer }: MaterialsComponentMeta,
     freeLayout: boolean,
     initY = 0,
 ): ComponentInstance {
-    const key = generateKey(KeyType.Comppnent);
+    const key = generateKey(KeyType.Component);
     const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
 
     return {
@@ -51,5 +51,6 @@ export function createComponentInstance(
         style: {},
         actions: [],
         layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
+        children: isContainer ? [] : undefined,
     };
 }

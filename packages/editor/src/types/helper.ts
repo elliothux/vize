@@ -3,9 +3,7 @@ import { ISchema } from '@formily/antd';
 
 export type Maybe<T> = T | null | undefined;
 
-export interface WithReactChildren {
-    children: React.ReactNode;
-}
+export type WithReactChildren = React.PropsWithChildren<{}>;
 
 export type Function<T = any, U = void> = (param: T) => U;
 

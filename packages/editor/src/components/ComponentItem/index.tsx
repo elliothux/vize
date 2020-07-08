@@ -8,15 +8,17 @@ import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/C
 import { setComponentNode } from '../../utils';
 
 import iframeStyle from './index.iframe.scss';
+import { ContainerComponentView } from './ContainerComponentView';
 
 globalStore.setIframeStyle('ComponentItem', iframeStyle);
 
-interface Props {
+export interface ComponentItemProps {
     instance: ComponentInstance;
     currentSelectedKey: number;
+    containerEditMode: boolean;
 }
 
-export class ComponentItem extends React.Component<Props> {
+export class ComponentItem extends React.Component<ComponentItemProps> {
     private setRef = (node: HTMLDivElement) => {
         setComponentNode(this.props.instance.key, node);
     };
@@ -33,21 +35,53 @@ export class ComponentItem extends React.Component<Props> {
         showComponentContextMenu(e, this.props.instance.key, true);
     };
 
+    private onDoubleClick = () => {
+        if (!this.props.instance.children) {
+            return null;
+        }
+        globalStore.setContainerEditMode(true);
+    };
+
+    private onClickMask = () => {
+        globalStore.setContainerEditMode(false);
+    };
+
     render() {
-        const { instance, currentSelectedKey } = this.props;
+        const { instance, currentSelectedKey, containerEditMode } = this.props;
         const selected = instance.key === currentSelectedKey;
 
         return (
-            <div ref={this.setRef} className={classNames('vize-component-item', { selected })} data-key={instance.key}>
-                <ComponentView instance={instance} />
-                <ComponentMask
-                    instance={instance}
-                    selected={selected}
-                    onClick={this.onSelect}
-                    onContextMenu={this.onContextMenu}
-                />
-                <ComponentContextMenu instance={instance} />
-            </div>
+            <>
+                <div
+                    ref={this.setRef}
+                    className={classNames('vize-component-item', {
+                        selected,
+                        'container-edit-mode': containerEditMode,
+                    })}
+                    data-key={instance.key}
+                    onDoubleClick={this.onDoubleClick}
+                >
+                    {instance.children ? (
+                        React.createElement(ContainerComponentView, this.props)
+                    ) : (
+                        <ComponentView instance={instance} />
+                    )}
+                    <ComponentMask
+                        instance={instance}
+                        selected={selected}
+                        onClick={this.onSelect}
+                        onContextMenu={this.onContextMenu}
+                    />
+                    <ComponentContextMenu instance={instance} />
+                </div>
+                {containerEditMode && selected ? (
+                    <div
+                        className="vize-container-edit-mode-mask"
+                        style={{ display: containerEditMode ? 'block' : 'none' }}
+                        onClick={this.onClickMask}
+                    />
+                ) : null}
+            </>
         );
     }
 }
