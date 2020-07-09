@@ -1,11 +1,16 @@
 import { pagesStore } from '../states';
 import { ComponentInstance, Maybe } from '../types';
+import { isNumber } from './is';
 
-type Index = [number, number?];
-export const pagesComponentIndexMap = new Map<number, Map<number, Index>>();
+type Index = number;
+type ParentIndex = number;
+
+export type ComponentIndex = [Index, ParentIndex?];
+
+export const pagesComponentIndexMap = new Map<number, Map<number, ComponentIndex>>();
 
 export function addPageComponentInstanceMap(pageKey: number) {
-    pagesComponentIndexMap.set(pageKey, new Map<number, Index>());
+    pagesComponentIndexMap.set(pageKey, new Map<number, ComponentIndex>());
 }
 
 export function deletePageComponentInstanceMap(pageKey: number) {
@@ -16,29 +21,37 @@ function getCurrentPageComponentIndexMap() {
     return pagesComponentIndexMap.get(pagesStore.currentPage.key)!;
 }
 
-export function getCurrentPageComponentIndex(componentKey: number): Maybe<Index> {
+export function getCurrentPageComponentIndex(componentKey: number): Maybe<ComponentIndex> {
     return getCurrentPageComponentIndexMap().get(componentKey);
 }
 
-export function setCurrentPageComponentIndex(componentKey: number, index: Index) {
+export function setCurrentPageComponentIndex(componentKey: number, index: ComponentIndex) {
     return getCurrentPageComponentIndexMap().set(componentKey, index);
 }
 
 export function deleteCurrentPageComponentIndex(
     componentKey: number,
     currentPageComponentInstances: ComponentInstance[],
-): Index {
+): ComponentIndex {
     const indexMap = getCurrentPageComponentIndexMap();
     const componentIndex = indexMap.get(componentKey)!;
     indexMap.delete(componentKey);
 
-    let [currentIndex] = componentIndex;
-    currentIndex++;
-    while (currentIndex < currentPageComponentInstances.length) {
-        const { key } = currentPageComponentInstances[currentIndex]!;
+    const [currentIndex, parentIndex] = componentIndex;
+    const isContainerChildren = isNumber(parentIndex);
+
+    // Update all index after current component
+    let i = currentIndex + 1;
+    let componentInstances = currentPageComponentInstances;
+    if (isContainerChildren) {
+        componentInstances = currentPageComponentInstances[parentIndex!].children!;
+    }
+
+    while (i < componentInstances.length) {
+        const { key } = componentInstances[i]!;
         const index = indexMap.get(key)!;
-        index[0] -= 1;
-        currentIndex++;
+        index[isContainerChildren ? 1 : 0] -= 1;
+        i++;
     }
 
     return componentIndex;
@@ -57,4 +70,11 @@ export function batchUpdateCurrentPageComponentIndex(
         const index = indexMap.get(key)!;
         index[isContainerChildren ? 1 : 0] = currentIndex;
     }
+}
+
+export function findComponentInstanceByIndex(
+    componentInstances: ComponentInstance[],
+    [index, parentIndex]: ComponentIndex,
+) {
+    return isNumber(parentIndex) ? componentInstances[parentIndex!].children![index] : componentInstances[index];
 }

@@ -8,6 +8,7 @@ import {
     createComponentInstance,
     deleteCurrentPageComponentIndex,
     deletePageComponentInstanceMap,
+    findComponentInstanceByIndex,
     getCurrentPageComponentIndex,
     getMaxNodeBottomOffset,
     injectGlobalReadonlyGetter,
@@ -19,6 +20,10 @@ import { globalStore } from './global';
 // import { withHistory } from './history';
 
 export class ComponentsStore {
+    /**
+     * @desc PageComponentsMap
+     * @struct Map<Page, ComponentInstance[]>
+     */
     @observable
     private pagesComponentInstancesMap: {
         [key: number]: ComponentInstance[];
@@ -41,6 +46,10 @@ export class ComponentsStore {
         deletePageComponentInstanceMap(pageKey);
     };
 
+    /**
+     * @desc ComponentInstances
+     * @struct ComponentInstance[]
+     */
     @action
     public addComponentInstance = (componentID: string) => {
         const component = materialsStore.components[componentID];
@@ -65,13 +74,21 @@ export class ComponentsStore {
         const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
         const [index] = getCurrentPageComponentIndex(selectStore.componentKey)!;
         instances[index]!.children!.push(instance);
+
+        setCurrentPageComponentIndex(instance.key, [index, instances.length - 1]);
+        selectStore.selectComponent(instance.key);
     };
 
     @action
     public deleteComponentInstance = (key: number) => {
-        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-        const index = deleteCurrentPageComponentIndex(key, instances);
-        instances.splice(index[0], 1);
+        let instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+        const [index, parentIndex] = deleteCurrentPageComponentIndex(key, instances);
+
+        if (isNumber(parentIndex)) {
+            instances = instances[parentIndex!].children!;
+        }
+
+        instances.splice(index, 1);
         selectStore.selectPage(selectStore.pageIndex);
     };
 
@@ -98,17 +115,19 @@ export class ComponentsStore {
 
     @action
     public moveComponentInstance = (key: number, position: ComponentPosition) => {
-        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-        const [index] = getCurrentPageComponentIndex(key)!;
-        const instance = instances[index];
+        const instance = findComponentInstanceByIndex(
+            this.pagesComponentInstancesMap[pagesStore.currentPage.key],
+            getCurrentPageComponentIndex(key)!,
+        );
         instance.layout!.position = position;
     };
 
     @action
     public resizeComponentInstance = (key: number, position: ComponentPosition, size: ComponentSize) => {
-        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-        const [index] = getCurrentPageComponentIndex(key)!;
-        const instance = instances[index];
+        const instance = findComponentInstanceByIndex(
+            this.pagesComponentInstancesMap[pagesStore.currentPage.key],
+            getCurrentPageComponentIndex(key)!,
+        );
         instance.layout = {
             position,
             size,
