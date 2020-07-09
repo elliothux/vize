@@ -50,7 +50,7 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
     };
 
     render() {
-        const { instance, currentSelectedKey, containerEditMode } = this.props;
+        const { instance, currentSelectedKey, containerEditMode, children } = this.props;
         const selected = instance.key === currentSelectedKey;
 
         return (
@@ -64,14 +64,14 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
                     data-key={instance.key}
                     onDoubleClick={this.onDoubleClick}
                 >
-                    {instance.children ? (
+                    {!children && instance.children ? (
                         <LayoutRender
                             mountTarget={this.refNode!}
                             componentInstances={instance.children}
                             containerComponentInstance={instance}
                         />
                     ) : (
-                        <ComponentView instance={instance} />
+                        <ComponentView instance={instance}>{children}</ComponentView>
                     )}
                     <ComponentMask
                         instance={instance}
