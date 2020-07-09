@@ -29,13 +29,17 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
     const { containerEditMode } = globalStore;
 
     const onSortStart = useCallback(
-        ({ index }: SortStart) => selectStore.selectComponent(componentInstances[index].key),
-        [],
+        ({ index }: SortStart) => {
+            selectStore.selectComponent(componentInstances[index].key);
+        },
+        [componentInstances],
     );
 
     const onSortEnd = useCallback(
-        ({ oldIndex, newIndex }: SortEnd) => componentsStore.resortComponentInstance(oldIndex, newIndex),
-        [],
+        ({ oldIndex, newIndex }: SortEnd) => {
+            componentsStore.resortComponentInstance(componentInstances[oldIndex].key, oldIndex, newIndex);
+        },
+        [componentInstances],
     );
 
     const getContainer = useCallback(() => mountTarget, [mountTarget]);

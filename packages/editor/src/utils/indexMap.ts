@@ -1,11 +1,11 @@
 import { pagesStore } from '../states';
 import { ComponentInstance, Maybe } from '../types';
 
-type Index = number[];
+type Index = [number, number?];
 export const pagesComponentIndexMap = new Map<number, Map<number, Index>>();
 
 export function addPageComponentInstanceMap(pageKey: number) {
-    pagesComponentIndexMap.set(pageKey, new Map<number, number[]>());
+    pagesComponentIndexMap.set(pageKey, new Map<number, Index>());
 }
 
 export function deletePageComponentInstanceMap(pageKey: number) {
@@ -45,15 +45,16 @@ export function deleteCurrentPageComponentIndex(
 }
 
 export function batchUpdateCurrentPageComponentIndex(
+    currentPageComponentInstances: ComponentInstance[],
     oldIndex: number,
     newIndex: number,
-    currentPageComponentInstances: ComponentInstance[],
+    isContainerChildren = false,
 ) {
     const indexMap = getCurrentPageComponentIndexMap();
     const [start, end] = oldIndex > newIndex ? [newIndex, oldIndex] : [oldIndex, newIndex];
     for (let currentIndex = start; currentIndex <= end; currentIndex++) {
         const { key } = currentPageComponentInstances[currentIndex]!;
         const index = indexMap.get(key)!;
-        index[0] = currentIndex;
+        index[isContainerChildren ? 1 : 0] = currentIndex;
     }
 }

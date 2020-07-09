@@ -11,6 +11,7 @@ import {
     getCurrentPageComponentIndex,
     getMaxNodeBottomOffset,
     injectGlobalReadonlyGetter,
+    isNumber,
     setCurrentPageComponentIndex,
 } from '../utils';
 import { selectStore } from './select';
@@ -75,15 +76,24 @@ export class ComponentsStore {
     };
 
     @action
-    public resortComponentInstance = (oldIndex: number, newIndex: number) => {
+    public resortComponentInstance = (key: number, oldIndex: number, newIndex: number) => {
         if (oldIndex === newIndex) {
             return;
         }
 
         const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+
+        const [index, childIndex] = getCurrentPageComponentIndex(key)!;
+        if (isNumber(childIndex)) {
+            const childrenInstances = instances[index]!.children!;
+            const [childInstance] = childrenInstances.splice(oldIndex, 1);
+            childrenInstances.splice(newIndex, 0, childInstance);
+            return batchUpdateCurrentPageComponentIndex(childrenInstances, oldIndex, newIndex, true);
+        }
+
         const [instance] = instances.splice(oldIndex, 1);
         instances.splice(newIndex, 0, instance);
-        batchUpdateCurrentPageComponentIndex(oldIndex, newIndex, instances);
+        return batchUpdateCurrentPageComponentIndex(instances, oldIndex, newIndex);
     };
 
     @action
