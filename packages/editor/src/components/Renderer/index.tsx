@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RenderSandbox } from '../RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
-import { globalStore, materialsStore } from 'states';
+import { componentsStore, globalStore, materialsStore } from 'states';
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry } from 'types';
 import { initDocument, setMaterialsMap } from 'utils';
@@ -95,7 +95,11 @@ export class Renderer extends React.Component {
         return (
             <>
                 <InjectedStylesRender />
-                <LayoutRender mountTarget={mountTarget} renderContext={win} />
+                <LayoutRender
+                    mountTarget={mountTarget}
+                    // renderContext={win}
+                    componentInstances={componentsStore.componentInstances}
+                />
             </>
         );
     };

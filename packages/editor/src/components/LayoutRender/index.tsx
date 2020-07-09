@@ -1,23 +1,31 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { globalStore } from 'states';
-import { LayoutMode } from 'types';
+import { ComponentInstance, LayoutMode } from 'types';
 import { StreamLayoutRender } from './StreamLayoutRender';
 import { FreeLayoutRender } from './FreeLayoutRender';
 
 interface Props {
     mountTarget: HTMLDivElement;
-    renderContext: Window;
+    // renderContext: Window;
+    componentInstances: ComponentInstance[];
+    containerComponentInstance?: ComponentInstance;
 }
 
-function ILayoutRender({ mountTarget, renderContext }: Props) {
+function ILayoutRender({ componentInstances, mountTarget, containerComponentInstance }: Props) {
     const { layoutMode } = globalStore;
 
     if (layoutMode === LayoutMode.STREAM) {
-        return <StreamLayoutRender mountTarget={mountTarget} renderContext={renderContext} />;
+        return (
+            <StreamLayoutRender
+                mountTarget={mountTarget}
+                componentInstances={componentInstances}
+                containerComponentInstance={containerComponentInstance}
+            />
+        );
     }
 
-    return <FreeLayoutRender mountTarget={mountTarget} renderContext={renderContext} />;
+    return <FreeLayoutRender componentInstances={componentInstances} />;
 }
 
 export const LayoutRender = observer(ILayoutRender);

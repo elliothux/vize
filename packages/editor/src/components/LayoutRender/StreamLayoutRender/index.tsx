@@ -5,7 +5,7 @@ import {
     SortEnd,
     SortStart,
 } from 'react-sortable-hoc';
-import { WithReactChildren } from 'types';
+import { ComponentInstance, WithReactChildren } from 'types';
 import { ComponentItem } from 'components/ComponentItem';
 import { componentsStore, globalStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
@@ -20,13 +20,18 @@ const SortableComponentItem = sortableElement(ComponentItem);
 
 interface Props {
     mountTarget: HTMLDivElement;
-    renderContext: Window;
+    componentInstances: ComponentInstance[];
+    containerComponentInstance?: ComponentInstance;
 }
 
-function IStreamLayoutRender({ mountTarget }: Props) {
-    const { componentInstances } = componentsStore;
+function IStreamLayoutRender({ containerComponentInstance, componentInstances, mountTarget }: Props) {
+    const { componentKey } = selectStore;
+    const { containerEditMode } = globalStore;
 
-    const onSortStart = useCallback(({ index }: SortStart) => selectStore.selectComponentByIndex(index), []);
+    const onSortStart = useCallback(
+        ({ index }: SortStart) => selectStore.selectComponent(componentInstances[index].key),
+        [],
+    );
 
     const onSortEnd = useCallback(
         ({ oldIndex, newIndex }: SortEnd) => componentsStore.resortComponentInstance(oldIndex, newIndex),
@@ -35,17 +40,31 @@ function IStreamLayoutRender({ mountTarget }: Props) {
 
     const getContainer = useCallback(() => mountTarget, [mountTarget]);
 
+    const children = componentInstances.map((instance, index) => (
+        <SortableComponentItem
+            key={instance.key}
+            index={index}
+            instance={instance}
+            currentSelectedKey={componentKey}
+            containerEditMode={containerEditMode}
+        />
+    ));
+
+    const content = containerComponentInstance ? (
+        <ComponentItem
+            instance={containerComponentInstance}
+            currentSelectedKey={componentKey}
+            containerEditMode={containerEditMode}
+        >
+            {children}
+        </ComponentItem>
+    ) : (
+        children
+    );
+
     return (
         <SortableContainer onSortStart={onSortStart} onSortEnd={onSortEnd} getContainer={getContainer}>
-            {componentInstances.map((instance, index) => (
-                <SortableComponentItem
-                    key={instance.key}
-                    index={index}
-                    instance={instance}
-                    containerEditMode={globalStore.containerEditMode}
-                    currentSelectedKey={selectStore.componentKey}
-                />
-            ))}
+            {content}
         </SortableContainer>
     );
 }

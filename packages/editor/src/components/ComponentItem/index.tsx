@@ -1,25 +1,28 @@
 import * as React from 'react';
-import { ComponentInstance } from 'types';
+import { ComponentInstance, Maybe, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
 import { globalStore, selectStore } from 'states';
 import classNames from 'classnames';
 import { ComponentMask } from './ComponentMask';
 import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/ComponentMenu';
+import { LayoutRender } from '../LayoutRender';
 import { setComponentNode } from '../../utils';
 
 import iframeStyle from './index.iframe.scss';
-import { ContainerComponentView } from './ContainerComponentView';
 
 globalStore.setIframeStyle('ComponentItem', iframeStyle);
 
-export interface ComponentItemProps {
+export interface ComponentItemProps extends WithReactChildren {
     instance: ComponentInstance;
     currentSelectedKey: number;
     containerEditMode: boolean;
 }
 
 export class ComponentItem extends React.Component<ComponentItemProps> {
+    private refNode: Maybe<HTMLDivElement> = null;
+
     private setRef = (node: HTMLDivElement) => {
+        this.refNode = node;
         setComponentNode(this.props.instance.key, node);
     };
 
@@ -62,7 +65,11 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
                     onDoubleClick={this.onDoubleClick}
                 >
                     {instance.children ? (
-                        React.createElement(ContainerComponentView, this.props)
+                        <LayoutRender
+                            mountTarget={this.refNode!}
+                            componentInstances={instance.children}
+                            containerComponentInstance={instance}
+                        />
                     ) : (
                         <ComponentView instance={instance} />
                     )}
@@ -74,6 +81,7 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
                     />
                     <ComponentContextMenu instance={instance} />
                 </div>
+
                 {containerEditMode && selected ? (
                     <div
                         className="vize-container-edit-mode-mask"

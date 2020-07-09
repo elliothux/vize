@@ -1,5 +1,4 @@
 import { action, observable } from 'mobx';
-import { getCurrentPageComponentIndex } from '../utils';
 import { componentsStore } from './components';
 
 export enum SelectType {

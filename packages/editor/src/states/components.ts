@@ -15,7 +15,7 @@ import {
 } from '../utils';
 import { selectStore } from './select';
 import { globalStore } from './global';
-import { withHistory } from './history';
+// import { withHistory } from './history';
 
 export class ComponentsStore {
     @observable
