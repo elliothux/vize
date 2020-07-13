@@ -58,7 +58,7 @@ export class ComponentsStore {
                 ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
                 : createComponentInstance(component, false);
 
-        if (globalStore.containerEditMode) {
+        if (selectStore.containerComponentKey > -1) {
             return this.addComponentInstanceAsChildren(instance);
         }
 

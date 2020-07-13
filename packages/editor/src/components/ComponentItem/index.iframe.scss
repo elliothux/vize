@@ -10,7 +10,7 @@
         }
     }
 
-    &.selected.container-edit-mode {
+    &.selected-as-container {
         z-index: $max-overlay-z-index;
         background-color: white;
 

@@ -25,14 +25,6 @@ export class GlobalStore {
     setIframeStyle = (name: string, style: string) => {
         this.iframeStyleMap[name] = style;
     };
-
-    @observable
-    containerEditMode = false;
-
-    @action
-    setContainerEditMode = (v: boolean) => {
-        this.containerEditMode = v;
-    };
 }
 
 export const globalStore = new GlobalStore();

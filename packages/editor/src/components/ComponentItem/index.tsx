@@ -15,7 +15,7 @@ globalStore.setIframeStyle('ComponentItem', iframeStyle);
 export interface ComponentItemProps extends WithReactChildren {
     instance: ComponentInstance;
     currentSelectedKey: number;
-    containerEditMode: boolean;
+    currentSelectedContainerKey: number;
 }
 
 export class ComponentItem extends React.Component<ComponentItemProps> {
@@ -39,19 +39,32 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
     };
 
     private onDoubleClick = () => {
-        if (!this.props.instance.children) {
+        const { instance } = this.props;
+        if (!instance.children) {
             return null;
         }
-        globalStore.setContainerEditMode(true);
+        selectStore.selectContainerComponent(instance.key);
     };
 
     private onClickMask = () => {
-        globalStore.setContainerEditMode(false);
+        selectStore.selectComponent(this.props.currentSelectedContainerKey);
+        selectStore.selectContainerComponent(-1);
     };
 
     render() {
-        const { instance, currentSelectedKey, containerEditMode, children } = this.props;
+        const { instance, currentSelectedKey, currentSelectedContainerKey, children } = this.props;
         const selected = instance.key === currentSelectedKey;
+        const selectedAsContainer = instance.key === currentSelectedContainerKey;
+
+        if (!children && instance.children) {
+            return (
+                <LayoutRender
+                    mountTarget={this.refNode!}
+                    componentInstances={instance.children}
+                    containerComponentInstance={instance}
+                />
+            );
+        }
 
         return (
             <>
@@ -59,20 +72,12 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
                     ref={this.setRef}
                     className={classNames('vize-component-item', {
                         selected,
-                        'container-edit-mode': containerEditMode,
+                        'selected-as-container': selectedAsContainer,
                     })}
                     data-key={instance.key}
                     onDoubleClick={this.onDoubleClick}
                 >
-                    {!children && instance.children ? (
-                        <LayoutRender
-                            mountTarget={this.refNode!}
-                            componentInstances={instance.children}
-                            containerComponentInstance={instance}
-                        />
-                    ) : (
-                        <ComponentView instance={instance}>{children}</ComponentView>
-                    )}
+                    <ComponentView instance={instance}>{children}</ComponentView>
                     <ComponentMask
                         instance={instance}
                         selected={selected}
@@ -82,12 +87,8 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
                     <ComponentContextMenu instance={instance} />
                 </div>
 
-                {containerEditMode && selected ? (
-                    <div
-                        className="vize-container-edit-mode-mask"
-                        style={{ display: containerEditMode ? 'block' : 'none' }}
-                        onClick={this.onClickMask}
-                    />
+                {selectedAsContainer ? (
+                    <div className="vize-container-edit-mode-mask" onClick={this.onClickMask} />
                 ) : null}
             </>
         );

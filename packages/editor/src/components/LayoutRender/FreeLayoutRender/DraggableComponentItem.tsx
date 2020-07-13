@@ -58,7 +58,7 @@ function IDraggableComponentItem({ instance, index }: Props) {
             <ComponentItem
                 instance={instance}
                 currentSelectedKey={selectStore.componentKey}
-                containerEditMode={globalStore.containerEditMode}
+                currentSelectedContainerKey={selectStore.containerComponentKey}
             />
         </Rnd>
     );

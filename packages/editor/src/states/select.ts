@@ -33,10 +33,20 @@ export class SelectStore {
         this.componentKey = key;
     };
 
+    // @action
+    // public selectComponentByIndex = (index: number) => {
+    //     this.selectType = SelectType.COMPONENT;
+    //     const { key, parent } = componentsStore.componentInstances[index]!;
+    //     this.selectComponent(key, parent!.key);
+    // };
+
+    @observable
+    public containerComponentKey = -1;
+
     @action
-    public selectComponentByIndex = (index: number) => {
+    public selectContainerComponent = (key: number) => {
         this.selectType = SelectType.COMPONENT;
-        this.componentKey = componentsStore.componentInstances[index]!.key;
+        this.containerComponentKey = key;
     };
 
     public isCurrentComponent = (key: number) => {
