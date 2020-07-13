@@ -6,7 +6,7 @@ import { StreamLayoutRender } from './StreamLayoutRender';
 import { FreeLayoutRender } from './FreeLayoutRender';
 
 interface Props {
-    mountTarget: HTMLDivElement;
+    mountTarget?: HTMLDivElement;
     // renderContext: Window;
     componentInstances: ComponentInstance[];
     containerComponentInstance?: ComponentInstance;

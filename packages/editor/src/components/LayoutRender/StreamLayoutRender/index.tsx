@@ -7,9 +7,9 @@ import {
 } from 'react-sortable-hoc';
 import { ComponentInstance, WithReactChildren } from 'types';
 import { ComponentItem } from 'components/ComponentItem';
-import { componentsStore, globalStore, selectStore } from 'states';
+import { componentsStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 function ISortableContainer({ children }: WithReactChildren) {
     return <>{children}</>;
@@ -19,7 +19,7 @@ const SortableContainer = sortableContainer(ISortableContainer);
 const SortableComponentItem = sortableElement(ComponentItem);
 
 interface Props {
-    mountTarget: HTMLDivElement;
+    mountTarget?: HTMLDivElement;
     componentInstances: ComponentInstance[];
     containerComponentInstance?: ComponentInstance;
 }
@@ -41,7 +41,7 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
         [componentInstances],
     );
 
-    const getContainer = useCallback(() => mountTarget, [mountTarget]);
+    const getContainer = useMemo(() => (mountTarget ? () => mountTarget : undefined), [mountTarget]);
 
     const children = componentInstances.map((instance, index) => (
         <SortableComponentItem

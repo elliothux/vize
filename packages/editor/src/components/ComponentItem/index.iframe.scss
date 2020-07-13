@@ -63,3 +63,8 @@
     background-color: rgba(0, 0, 0, 0.4);
     z-index: $min-overlay-z-index + 1;
 }
+
+// dragging sortable component
+body > .vize-component-item {
+    z-index: $max-overlay-z-index;
+}

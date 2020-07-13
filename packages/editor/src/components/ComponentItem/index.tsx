@@ -57,13 +57,7 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
         const selectedAsContainer = instance.key === currentSelectedContainerKey;
 
         if (!children && instance.children) {
-            return (
-                <LayoutRender
-                    mountTarget={this.refNode!}
-                    componentInstances={instance.children}
-                    containerComponentInstance={instance}
-                />
-            );
+            return <LayoutRender componentInstances={instance.children} containerComponentInstance={instance} />;
         }
 
         return (
