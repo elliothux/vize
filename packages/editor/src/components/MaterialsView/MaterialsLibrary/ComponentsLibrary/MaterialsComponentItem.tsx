@@ -10,13 +10,15 @@ interface Props {
     item: MaterialsComponentMeta;
     currentItem: Maybe<string>;
     onSelect: (i: MaterialsComponentMeta) => void;
+    currentContainerComponentKey: number;
 }
 
-export function MaterialsComponentItem({ item, currentItem, onSelect }: Props) {
+export function MaterialsComponentItem({ item, currentItem, onSelect, currentContainerComponentKey }: Props) {
     const {
         identityName,
         info: { name, desc },
         thumb,
+        isContainer,
     } = item;
 
     const [focus, setFocus] = React.useState(false);
@@ -35,16 +37,19 @@ export function MaterialsComponentItem({ item, currentItem, onSelect }: Props) {
         }, 1000);
     }, []);
 
+    const disabled = currentContainerComponentKey > -1 && isContainer;
+
     return (
         <div
             className={classNames('vize-materials-component-item', {
-                activated: currentItem === identityName,
+                activated: !disabled && currentItem === identityName,
+                disabled,
                 focus,
             })}
             tabIndex={-1}
-            onFocus={onFocus}
+            onFocus={disabled ? undefined : onFocus}
             onBlur={onBlur}
-            onClick={onClick}
+            onClick={disabled ? undefined : onClick}
         >
             <div className="content">
                 {thumb && <SVGRender content={thumb} />}
@@ -53,7 +58,7 @@ export function MaterialsComponentItem({ item, currentItem, onSelect }: Props) {
                     <p className="desc">{desc}</p>
                 </div>
             </div>
-            <div className="button" onClick={onClickAdd}>
+            <div className="button" onClick={disabled ? undefined : onClickAdd}>
                 <FiPlus />
             </div>
         </div>

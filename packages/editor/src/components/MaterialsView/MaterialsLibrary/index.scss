@@ -26,6 +26,16 @@
         background-color: $main-color;
     }
 
+    &.disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+        color: inherit;
+
+        .button {
+            cursor: not-allowed;
+        }
+    }
+
     .content {
         display: flex;
         align-items: center;

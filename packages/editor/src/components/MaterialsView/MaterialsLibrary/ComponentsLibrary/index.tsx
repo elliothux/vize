@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { MaterialsComponentMeta, Maybe } from 'types';
-import { materialsStore } from 'states';
+import { materialsStore, selectStore } from 'states';
 import { WithTagsList } from '../WithTagsList';
 import { MaterialsViewType } from '../../HeaderOptions';
 import { MaterialsComponentItem } from './MaterialsComponentItem';
@@ -21,7 +21,7 @@ export class ComponentsLibrary extends React.Component {
         this.setState({ currentComponent });
     };
 
-    private renderItem = (item: MaterialsComponentMeta) => {
+    private renderItem = (currentContainerComponentKey: number) => (item: MaterialsComponentMeta) => {
         const { currentComponent } = this.state;
         return (
             <MaterialsComponentItem
@@ -29,6 +29,7 @@ export class ComponentsLibrary extends React.Component {
                 item={item}
                 currentItem={currentComponent ? currentComponent.identityName : null}
                 onSelect={this.onSelectItem}
+                currentContainerComponentKey={currentContainerComponentKey}
             />
         );
     };
@@ -45,7 +46,7 @@ export class ComponentsLibrary extends React.Component {
         return (
             <div className="vize-components-library">
                 <WithTagsList view={MaterialsViewType.COMPONENTS} itemsMap={materialsStore.components}>
-                    {this.renderItem}
+                    {this.renderItem(selectStore.containerComponentKey)}
                 </WithTagsList>
                 {this.renderPreview()}
             </div>
