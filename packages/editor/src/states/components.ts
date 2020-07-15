@@ -65,24 +65,29 @@ export class ComponentsStore {
         const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
         instances.push(instance);
 
-        setCurrentPageComponentIndex(instance.key, [instances.length - 1]);
+        setCurrentPageComponentIndex(instance.key, { index: instances.length - 1 });
         selectStore.selectComponent(instance.key);
     };
 
     @action
     private addComponentInstanceAsChildren = (instance: ComponentInstance) => {
         const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-        const [index] = getCurrentPageComponentIndex(selectStore.componentKey)!;
-        instances[index]!.children!.push(instance);
+        const { index: parentIndex } = getCurrentPageComponentIndex(selectStore.containerComponentKey)!;
 
-        setCurrentPageComponentIndex(instance.key, [index, instances.length - 1]);
+        const containerChildren = instances[parentIndex!].children!;
+        containerChildren.push(instance);
+
+        setCurrentPageComponentIndex(instance.key, {
+            index: containerChildren.length - 1,
+            parentIndex,
+        });
         selectStore.selectComponent(instance.key);
     };
 
     @action
     public deleteComponentInstance = (key: number) => {
         let instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-        const [index, parentIndex] = deleteCurrentPageComponentIndex(key, instances);
+        const { index, parentIndex } = deleteCurrentPageComponentIndex(key, instances);
 
         if (isNumber(parentIndex)) {
             instances = instances[parentIndex!].children!;
@@ -100,12 +105,12 @@ export class ComponentsStore {
 
         const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
 
-        const [index, childIndex] = getCurrentPageComponentIndex(key)!;
-        if (isNumber(childIndex)) {
-            const childrenInstances = instances[index]!.children!;
+        const { parentIndex } = getCurrentPageComponentIndex(key)!;
+        if (isNumber(parentIndex)) {
+            const childrenInstances = instances[parentIndex!]!.children!;
             const [childInstance] = childrenInstances.splice(oldIndex, 1);
             childrenInstances.splice(newIndex, 0, childInstance);
-            return batchUpdateCurrentPageComponentIndex(childrenInstances, oldIndex, newIndex, true);
+            return batchUpdateCurrentPageComponentIndex(childrenInstances, oldIndex, newIndex);
         }
 
         const [instance] = instances.splice(oldIndex, 1);
@@ -132,6 +137,17 @@ export class ComponentsStore {
             position,
             size,
         };
+    };
+
+    public getCurrentPageComponentInstance = (componentKey: number): ComponentInstance => {
+        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+        const { index, parentIndex } = getCurrentPageComponentIndex(componentKey)!;
+
+        if (isNumber(parentIndex)) {
+            return instances[parentIndex!].children![index];
+        }
+
+        return instances[index];
     };
 }
 
