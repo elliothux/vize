@@ -2,9 +2,6 @@ import { componentsStore, pagesStore } from '../states';
 import { ComponentInstance, Maybe } from '../types';
 import { isNumber } from './is';
 
-type Index = number;
-type ParentIndex = number;
-
 export interface ComponentIndex {
     index: number;
     parentIndex?: number;
@@ -50,11 +47,6 @@ export function deleteCurrentPageComponentIndex(
     const componentInstances = isChildrenComponent
         ? currentPageComponentInstances[parentIndex!].children!
         : currentPageComponentInstances;
-
-    // TODO: REMOVE
-    if (!componentInstances) {
-        debugger;
-    }
 
     let i = index + 1;
     while (i < componentInstances.length) {

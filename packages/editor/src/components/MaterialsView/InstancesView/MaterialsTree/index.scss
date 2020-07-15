@@ -22,15 +22,12 @@
             & > .ant-tree-iconEle {
                 min-height: 36px;
                 line-height: 36px;
-            }
 
-            //&.ant-tree-node-selected {
-            //  color: rgba(0, 0, 0, 0.85) !important;
-            //
-            //  .ant-tree-switcher {
-            //    color: rgba(0, 0, 0, 0.85) !important;
-            //  }
-            //}
+                svg {
+                    position: relative;
+                    top: 2px;
+                }
+            }
         }
 
         .ant-tree-switcher {
@@ -59,15 +56,22 @@
             bottom: 0;
             left: 0;
             border-bottom: $main-border;
-            //background-color: #fafafa;
-            //color: rgba(0, 0, 0, 0.85);
         }
 
         .ant-tree-treenode-switcher-open,
         .ant-tree-treenode-switcher-close {
-            &::before {
-                border-top: $main-border;
+            &:first-child,
+            &:last-child {
+                &::before {
+                    border-top: $main-border;
+                }
             }
+        }
+    }
+
+    .child-component-tree-node {
+        .ant-tree-switcher-noop {
+            width: 42px;
         }
     }
 }

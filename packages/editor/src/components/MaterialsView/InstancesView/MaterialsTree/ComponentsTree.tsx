@@ -6,21 +6,14 @@ import { EventDataNode } from 'rc-tree/es/interface';
 import { componentsStore, materialsStore } from 'states';
 import { ComponentInstance } from 'types';
 import { showComponentContextMenu } from 'components/ContextMenu';
+import { ComponentProps } from 'react';
+import { getMaterialsComponent } from '../../../../utils';
+import { is } from 'ramda';
 
 const { DirectoryTree, TreeNode } = Tree;
 
 @observer
 export class ComponentsTree extends React.Component {
-    renderTreeNode = (instance: ComponentInstance, index: number) => {
-        const { key } = instance;
-        const { info } = materialsStore.getComponentMeta(instance.component);
-
-        const title = `${info.name} (key=${key})`;
-        const nodeKey = `component-${key}`;
-
-        return <TreeNode key={nodeKey} title={title} isLeaf={true} icon={<FiLayers />} />;
-    };
-
     onRightClick = (info: { event: React.MouseEvent; node: EventDataNode }) => {
         const { event, node } = info;
         const key = parseInt(node.key.toString().split('-')[1], 10);
@@ -28,21 +21,46 @@ export class ComponentsTree extends React.Component {
     };
 
     render() {
-        const { componentInstances } = componentsStore;
-
         return (
             <DirectoryTree
                 className="components-tree"
-                multiple
                 defaultExpandAll
                 onRightClick={this.onRightClick}
+                selectedKeys={[]}
                 // onSelect={onSelect}
                 // onExpand={onExpand}
-            >
-                <TreeNode title="已添加的组件" key="components" isLeaf={false} icon={<FiFolder />} selectable={false}>
-                    {componentInstances.map(this.renderTreeNode)}
-                </TreeNode>
-            </DirectoryTree>
+                treeData={[
+                    {
+                        title: '已添加的组件',
+                        key: 'components',
+                        isLeaf: false,
+                        icon: <FiFolder />,
+                        selectable: false,
+                        children: ComponentsTree.generateTreeData(componentsStore.componentInstances),
+                    },
+                ]}
+            />
         );
     }
+
+    static generateTreeData = (
+        componentInstances: ComponentInstance[],
+        isChildren = false,
+    ): ComponentProps<typeof DirectoryTree>['treeData'] => {
+        return componentInstances.map(({ key, children, component }) => {
+            const {
+                info: { name },
+            } = materialsStore.getComponentMeta(component);
+            const isContainer = !!children;
+
+            return {
+                key,
+                title: `${name} (key=${key})`,
+                isLeaf: !isContainer,
+                icon: isContainer ? <FiLayers /> : <FiLayers />,
+                children: isContainer ? ComponentsTree.generateTreeData(children!, true) : undefined,
+                className: isChildren ? 'child-component-tree-node' : undefined,
+            };
+        });
+    };
 }
