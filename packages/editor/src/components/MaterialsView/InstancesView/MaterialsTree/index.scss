@@ -57,21 +57,20 @@
             left: 0;
             border-bottom: $main-border;
         }
-
-        .ant-tree-treenode-switcher-open,
-        .ant-tree-treenode-switcher-close {
-            &:first-child,
-            &:last-child {
-                &::before {
-                    border-top: $main-border;
-                }
-            }
-        }
     }
 
     .child-component-tree-node {
         .ant-tree-switcher-noop {
             width: 42px;
+        }
+    }
+
+    .tree-root-node {
+        &.ant-tree-treenode-switcher-open,
+        &.ant-tree-treenode-switcher-close {
+            &::before {
+                border-top: $main-border;
+            }
         }
     }
 }

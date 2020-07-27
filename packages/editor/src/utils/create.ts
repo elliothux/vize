@@ -3,8 +3,10 @@ import {
     JSONSchemaDefinition,
     JsonSchemaProperties,
     MaterialsComponentMeta,
+    MaterialsPluginMeta,
     PageData,
     PageInstance,
+    PluginInstance,
 } from '../types';
 import { generateKey, KeyType } from './key';
 import { setPageData } from './page';
@@ -52,5 +54,16 @@ export function createComponentInstance(
         actions: [],
         layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
         children: isContainer ? [] : undefined,
+    };
+}
+
+export function createPluginInstance({ identityName, dataForm }: MaterialsPluginMeta): PluginInstance {
+    const key = generateKey(KeyType.Plugin);
+    const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
+
+    return {
+        key,
+        plugin: identityName,
+        data,
     };
 }

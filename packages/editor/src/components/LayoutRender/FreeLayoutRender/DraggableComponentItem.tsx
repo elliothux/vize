@@ -20,7 +20,7 @@ function IDraggableComponentItem({ instance, index }: Props) {
 
     const onMove = useCallback(
         (e: DraggableEvent, { x, y }: DraggableData) => {
-            return componentsStore.moveComponentInstance(instance.key, { x, y });
+            return componentsStore.dragMoveComponentInstance(instance.key, { x, y });
         },
         [instance.key],
     );

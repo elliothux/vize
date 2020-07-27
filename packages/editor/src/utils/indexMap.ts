@@ -9,8 +9,9 @@ export interface ComponentIndex {
 
 export const pagesComponentIndexMap = new Map<number, Map<number, ComponentIndex>>();
 
-export function addPageComponentInstanceMap(pageKey: number) {
-    pagesComponentIndexMap.set(pageKey, new Map<number, ComponentIndex>());
+type ComponentIndexMapEntries = (readonly [number, ComponentIndex])[];
+export function addPageComponentInstanceMap(pageKey: number, entries?: ComponentIndexMapEntries) {
+    pagesComponentIndexMap.set(pageKey, new Map<number, ComponentIndex>(entries));
 }
 
 export function deletePageComponentInstanceMap(pageKey: number) {
@@ -38,7 +39,7 @@ export function deleteCurrentPageComponentIndex(
     const instance = componentsStore.getCurrentPageComponentInstance(componentKey);
 
     indexMap.delete(componentKey);
-    instance.children?.forEach(({ key }) => indexMap.delete(key));
+    instance?.children?.forEach(({ key }) => indexMap.delete(key));
 
     const { index, parentIndex } = componentIndex;
     const isChildrenComponent = isNumber(parentIndex);
@@ -75,6 +76,10 @@ export function batchUpdateCurrentPageComponentIndex(
     for (let currentIndex = start; currentIndex <= end; currentIndex++) {
         const { key, children } = currentPageComponentInstances[currentIndex]!;
         const componentIndex = indexMap.get(key)!;
+        if (!componentIndex) {
+            debugger;
+        }
+
         componentIndex.index = currentIndex;
 
         children?.forEach(({ key }) => {
@@ -82,6 +87,22 @@ export function batchUpdateCurrentPageComponentIndex(
             componentIndex.parentIndex = currentIndex;
         });
     }
+}
+
+export function regenerateCurrentPageComponentIndex(currentPageComponentInstances: ComponentInstance[]) {
+    deletePageComponentInstanceMap(pagesStore.currentPage.key);
+    const entries = currentPageComponentInstances.reduce<ComponentIndexMapEntries>((accu, { key, children }, index) => {
+        accu.push([key, { index }]);
+        children?.forEach(({ key }, childIndex) => {
+            accu.push([key, { parentIndex: index, index: childIndex }]);
+        });
+        return accu;
+    }, []);
+    addPageComponentInstanceMap(pagesStore.currentPage.key, entries);
+}
+
+export function compareComponentIndex(a: ComponentIndex, b: ComponentIndex) {
+    return a.index === b.index && a.parentIndex === b.parentIndex;
 }
 
 export function findComponentInstanceByIndex(

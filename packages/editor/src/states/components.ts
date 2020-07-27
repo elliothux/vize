@@ -5,6 +5,8 @@ import { materialsStore } from './materials';
 import {
     addPageComponentInstanceMap,
     batchUpdateCurrentPageComponentIndex,
+    compareComponentIndex,
+    ComponentIndex,
     createComponentInstance,
     deleteCurrentPageComponentIndex,
     deletePageComponentInstanceMap,
@@ -119,7 +121,34 @@ export class ComponentsStore {
     };
 
     @action
-    public moveComponentInstance = (key: number, position: ComponentPosition) => {
+    public moveComponentInstance = (oldIndex: ComponentIndex, newIndex: ComponentIndex) => {
+        if (compareComponentIndex(oldIndex, newIndex)) {
+            return;
+        }
+
+        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+        let instance: ComponentInstance;
+        if (isNumber(oldIndex.parentIndex)) {
+            const childrenInstances = instances[oldIndex.parentIndex!]!.children!;
+            [instance] = childrenInstances.splice(oldIndex.index, 1);
+        } else {
+            [instance] = instances.splice(oldIndex.index, 1)!;
+        }
+        deleteCurrentPageComponentIndex(instance.key, instances);
+        setCurrentPageComponentIndex(instance.key, newIndex);
+
+        if (isNumber(newIndex.parentIndex)) {
+            const childrenInstances = instances[newIndex.parentIndex!]!.children!;
+            childrenInstances.splice(newIndex.index, 0, instance);
+            batchUpdateCurrentPageComponentIndex(childrenInstances, newIndex.index, childrenInstances.length - 1);
+        } else {
+            instances.splice(newIndex.index, 0, instance);
+            batchUpdateCurrentPageComponentIndex(instances, newIndex.index, instances.length - 1);
+        }
+    };
+
+    @action
+    public dragMoveComponentInstance = (key: number, position: ComponentPosition) => {
         const instance = findComponentInstanceByIndex(
             this.pagesComponentInstancesMap[pagesStore.currentPage.key],
             getCurrentPageComponentIndex(key)!,

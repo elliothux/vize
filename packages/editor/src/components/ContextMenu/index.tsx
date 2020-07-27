@@ -3,3 +3,4 @@ import './index.scss';
 
 export * from './PageContextMenu';
 export * from './ComponentMenu';
+export * from './PluginMenu';

@@ -54,17 +54,17 @@ export class SelectStore {
     };
 
     @observable
-    public pluginIndex = -1;
+    public pluginKey = -1;
 
     @action
-    public selectPlugin = (index: number) => {
+    public selectPlugin = (key: number) => {
         this.selectType = SelectType.PLUGIN;
-        this.pluginIndex = index;
+        this.pluginKey = key;
     };
 
     @action
-    public isCurrentPlugin = (index: number) => {
-        return this.selectType === SelectType.PLUGIN && this.pluginIndex === index;
+    public isCurrentPlugin = (key: number) => {
+        return this.selectType === SelectType.PLUGIN && this.pluginKey === key;
     };
 }
 

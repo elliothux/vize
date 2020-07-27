@@ -4,6 +4,7 @@ import { MaterialsPluginMeta, Maybe } from 'types';
 import { useCallback } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { SVGRender } from 'components/SVGRender';
+import { pluginsStore } from '../../../../states';
 
 interface Props {
     item: MaterialsPluginMeta;
@@ -23,6 +24,7 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
     const onBlur = useCallback(() => setFocus(false), [setFocus]);
 
     const onClick = useCallback(() => onSelect(item), [item]);
+    const onAdd = useCallback(() => pluginsStore.addPluginInstance(identityName), [identityName]);
 
     return (
         <div
@@ -42,7 +44,7 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
                     <p className="desc">{desc}</p>
                 </div>
             </div>
-            <div className="button">
+            <div className="button" onClick={onAdd}>
                 <FiPlus />
             </div>
         </div>
