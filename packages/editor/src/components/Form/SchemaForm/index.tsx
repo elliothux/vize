@@ -2,9 +2,12 @@ import * as React from 'react';
 import { useCallback, useMemo } from 'react';
 import { throttle } from 'throttle-debounce';
 import { SchemaForm as USchemaForm } from '@formily/antd';
+import { setup } from '@formily/antd-components';
 import { JsonSchemaProperties } from 'types';
 import { noop, createSchema } from 'utils';
 import './index.scss';
+
+setup();
 
 export interface SchemaFormProps {
     schema: JsonSchemaProperties;

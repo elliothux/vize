@@ -1,6 +1,6 @@
-import { componentsStore, pagesStore } from '../states';
-import { ComponentInstance, Maybe } from '../types';
-import { isNumber } from './is';
+import { componentsStore, pagesStore } from 'states';
+import { ComponentInstance, Maybe } from 'types';
+import { isNumber } from '../is';
 
 export interface ComponentIndex {
     index: number;

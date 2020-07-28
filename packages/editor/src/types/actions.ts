@@ -1,6 +1,5 @@
-import { MaterialsInfo } from './materials';
-import { JsonSchemaProperties, Maybe } from './helper';
-import { OverrideFormComponent } from '../components/Form/OverrideForm';
+import { MaterialsForm, MaterialsInfo } from './materials';
+import { Maybe } from './helper';
 
 export interface MaterialsActionMeta {
     identityName: string;
@@ -8,7 +7,7 @@ export interface MaterialsActionMeta {
     name: string;
     readonly thumb: string;
     readonly info: MaterialsInfo;
-    readonly dataForm?: JsonSchemaProperties | OverrideFormComponent;
+    readonly dataForm?: MaterialsForm;
 }
 
 export interface ActionInstance {

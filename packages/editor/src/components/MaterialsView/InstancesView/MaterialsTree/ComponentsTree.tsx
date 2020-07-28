@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ComponentProps, useMemo } from 'react';
 import { Tree } from 'antd';
-import { FiFolder, FiLayers } from 'react-icons/fi';
+import { FiArchive, FiFolder, FiLayers } from 'react-icons/fi';
 import { observer } from 'mobx-react';
 import { componentsStore, materialsStore, selectStore, SelectType } from 'states';
 import { ComponentInstance, FirstParameter, Maybe, MustBe } from 'types';
@@ -132,7 +132,7 @@ function generateTreeData(componentInstances: ComponentInstance[], isChildren = 
             key,
             title: `${name} (key=${key})`,
             isLeaf: !isContainer,
-            icon: isContainer ? <FiLayers /> : <FiLayers />,
+            icon: isContainer ? <FiArchive /> : <FiLayers />,
             children: isContainer ? generateTreeData(children!, true) : undefined,
             className: isChildren ? 'child-component-tree-node' : undefined,
         };

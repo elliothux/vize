@@ -1,13 +1,11 @@
-import { MaterialsInfo } from './materials';
-import { JsonSchemaProperties } from './helper';
-import { OverrideFormComponent } from '../components/Form/OverrideForm';
+import { MaterialsForm, MaterialsInfo } from './materials';
 
 export interface MaterialsPluginMeta {
     identityName: string;
     lib: string;
     name: string;
     readonly info: MaterialsInfo;
-    readonly dataForm?: JsonSchemaProperties | OverrideFormComponent;
+    readonly dataForm?: MaterialsForm;
     readonly thumb?: string;
     readonly preview?: string;
 }

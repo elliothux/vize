@@ -1,7 +1,8 @@
 import { MaterialsComponent, MaterialsComponentMeta } from './component';
 import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsAction, MaterialsActionMeta } from './actions';
-import * as React from 'react';
+import { JsonSchemaProperties } from './helper';
+import { OverrideFormComponent } from '../components/Form/OverrideForm';
 
 export interface MaterialsInfo {
     name: string;
@@ -39,3 +40,5 @@ export interface RenderEntryParams {
 }
 
 export type ContainerRenderEntry = (params: RenderEntryParams) => void;
+
+export type MaterialsForm = JsonSchemaProperties | OverrideFormComponent;

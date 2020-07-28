@@ -178,6 +178,26 @@ export class ComponentsStore {
 
         return instances[index];
     };
+
+    @action
+    private setCurrentComponentInstanceProp = (key: 'data' | 'style', value: object) => {
+        const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+        const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
+        const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
+
+        instance[key] = value;
+        return value;
+    };
+
+    @action
+    public setCurrentComponentInstanceData = (data: object) => {
+        return this.setCurrentComponentInstanceProp('data', data);
+    };
+
+    @action
+    public setCurrentComponentInstanceStyle = (style: object) => {
+        return this.setCurrentComponentInstanceProp('style', style);
+    };
 }
 
 export const componentsStore = new ComponentsStore();

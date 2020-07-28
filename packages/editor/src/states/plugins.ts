@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 import { PluginInstance } from 'types';
 import { materialsStore } from './materials';
-import { createPluginInstance } from '../utils';
+import { createPluginInstance, getPluginIndex, regeneratePluginIndexMap, setPluginIndex } from '../utils';
 import { selectStore } from './select';
 
 export class PluginsStore {
@@ -16,13 +16,27 @@ export class PluginsStore {
         this.pluginsInstances.push(instance);
 
         selectStore.selectPlugin(instance.key);
+        setPluginIndex(instance.key, this.pluginsInstances.length - 1);
     };
 
     @action
     public deletePluginInstance = (key: number) => {
-        const index = this.pluginsInstances.findIndex(i => i.key === key);
+        const index = getPluginIndex(key)!;
         this.pluginsInstances.splice(index, 1);
         selectStore.selectPage(selectStore.pageIndex);
+        regeneratePluginIndexMap(this.pluginsInstances);
+    };
+
+    public getPluginInstance = (key: number): PluginInstance => {
+        const index = getPluginIndex(key)!;
+        return this.pluginsInstances[index];
+    };
+
+    @action
+    public setPluginData = (data: object) => {
+        const instance = this.getPluginInstance(selectStore.pluginKey);
+        instance.data = data;
+        return data;
     };
 
     // @action
