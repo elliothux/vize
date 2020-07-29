@@ -186,6 +186,7 @@ export class ComponentsStore {
         const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
 
         instance[key] = value;
+        console.log(instance);
         return value;
     };
 

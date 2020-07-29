@@ -2,12 +2,13 @@ import * as React from 'react';
 import { ComponentInstance, WithReactChildren } from 'types';
 import { useMemo } from 'react';
 import { getMaterialsComponent } from 'utils';
+import { observer } from 'mobx-react';
 
 interface Props extends WithReactChildren {
     instance: ComponentInstance;
 }
 
-export function ComponentView({ instance, children }: Props) {
+function IComponentView({ instance, children }: Props) {
     const { key, component, data } = instance;
 
     const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
@@ -18,3 +19,5 @@ export function ComponentView({ instance, children }: Props) {
         </ComponentRender>
     );
 }
+
+export const ComponentView = observer(IComponentView);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { MaterialsPluginMeta, Maybe } from 'types';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { SVGRender } from 'components/SVGRender';
 import { pluginsStore } from '../../../../states';
@@ -26,16 +26,19 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
     const onClick = useCallback(() => onSelect(item), [item]);
     const onAdd = useCallback(() => pluginsStore.addPluginInstance(identityName), [identityName]);
 
+    const disabled = pluginsStore.pluginsInstances.findIndex(i => i.plugin === identityName) > -1;
+
     return (
         <div
             className={classNames('vize-materials-plugin-item', {
-                activated: currentItem === identityName,
-                focus,
+                activated: !disabled && currentItem === identityName,
+                disabled,
+                focus: !disabled && focus,
             })}
             tabIndex={-1}
-            onFocus={onFocus}
+            onFocus={disabled ? undefined : onFocus}
             onBlur={onBlur}
-            onClick={onClick}
+            onClick={disabled ? undefined : onClick}
         >
             <div className="content">
                 {thumb && <SVGRender content={thumb} />}
