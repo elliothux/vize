@@ -2,6 +2,7 @@
 
 ## 开发指南
 
+-   先安装`npm i lerna -g`
 -   项目根目录下运行 `npm i`
 -   项目根目录下运行 `lerna bootstrap`
 -   构建 CLI：在 `package/cli` 下运行 `npm run dist`
