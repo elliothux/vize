@@ -22,6 +22,7 @@ function IComponentForm() {
 
     const { dataForm, styleForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
 
+    console.log(styleForm);
     return (
         <>
             {dataForm ? (
