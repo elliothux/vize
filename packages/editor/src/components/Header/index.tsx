@@ -6,7 +6,9 @@ import './index.scss';
 export function Header() {
     return (
         <div className="main-header">
-            <a href="/">{/*<img className="logo" src={LOGO} alt="logo" />*/}</a>
+            <a href="/">
+                <img className="logo" src={LOGO} alt="logo" />
+            </a>
             <OperationBar />
         </div>
     );

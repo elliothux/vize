@@ -1,13 +1,16 @@
-import { Configuration, Entry } from 'webpack';
+/* eslint-disable max-lines */
+import webpack, { Configuration, Entry } from 'webpack';
 import { LibPaths } from '../utils';
-import { LibConfig } from '../config';
-import webpack from 'webpack';
+import { LibConfig, LibConfigRuntime } from '../config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { getLibRaxWebpackConfig } from './lib.rax';
 
 const commonDeps = ['react', 'react-dom'];
 
-export function getLibDefaultWebpackConfig(
-    {
+// TODO: refactor
+// eslint-disable-next-line max-lines-per-function
+export function getLibDefaultWebpackConfig(libPaths: LibPaths, libConfig: LibConfig, isProd: boolean): Configuration {
+    const {
         root,
         mainEntryTemp,
         metaEntryTemp,
@@ -19,10 +22,9 @@ export function getLibDefaultWebpackConfig(
         componentsList,
         pluginsList,
         actionsList,
-    }: LibPaths,
-    { libName }: LibConfig,
-    isProd: boolean,
-): Configuration {
+    } = libPaths;
+    const { libName, runtime } = libConfig;
+
     const config = <Configuration>{
         context: root,
         output: {
@@ -146,14 +148,6 @@ export function getLibDefaultWebpackConfig(
                     priority: 2,
                     minChunks: 2,
                 },
-                // deps: {
-                //     name: 'deps',
-                //     test: module => {
-                //         return /react|redux|prop-types/.test(module.context);
-                //     },
-                //     chunks: 'initial',
-                //     priority: 10,
-                // },
                 styles: {
                     name: 'styles',
                     test: /\.css$/,
@@ -176,6 +170,10 @@ export function getLibDefaultWebpackConfig(
             'react-dom': 'ReactDom',
             'react-dom/server': 'ReactDomServer',
         };
+    }
+
+    if (runtime === LibConfigRuntime.RAX) {
+        return getLibRaxWebpackConfig(config);
     }
 
     console.log(config);
