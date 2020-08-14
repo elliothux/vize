@@ -12,6 +12,7 @@ export interface MaterialsComponentMeta {
     readonly thumb?: string;
     readonly preview?: string;
     readonly isContainer?: boolean;
+    readonly runtime?: 'react' | 'rax';
 }
 
 export interface ComponentPosition {

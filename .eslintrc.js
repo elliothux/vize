@@ -42,5 +42,12 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 0,
         '@typescript-eslint/no-non-null-assertion': 0,
         'react-hooks/exhaustive-deps': 0,
+        'react/react-in-jsx-scope': 0,
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "varsIgnorePattern": "^createElement$"
+            }
+        ],
     },
 };

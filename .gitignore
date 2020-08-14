@@ -254,6 +254,8 @@ dist
 
 /packages/materials-universal/.temp/
 /packages/materials-universal/build/
+/packages/materials-universal-rax/.temp/
+/packages/materials-universal-rax/build/
 
 # compiled output
 /dist

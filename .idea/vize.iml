@@ -9,6 +9,8 @@
       <excludeFolder url="file://$MODULE_DIR$/../V/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cgi/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cgi/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/cli/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/materials-universal-rax/.temp" />
       <excludeFolder url="file://$MODULE_DIR$/packages/materials-universal/dist" />
     </content>
     <orderEntry type="inheritedJdk" />
