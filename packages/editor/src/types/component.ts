@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
-import { ActionInstance } from './actions';
+import { ActionInstance, ComponentActionsInstance } from './actions';
 
 export interface MaterialsComponentMeta {
     identityName: string;
@@ -34,6 +34,7 @@ export interface ComponentInstance {
     data: { [key: string]: any };
     style: { [key: string]: any };
     actions: ActionInstance[];
+    componentActions: ComponentActionsInstance[];
     children?: ComponentInstance[];
     parent?: ComponentInstance;
     layout?: {

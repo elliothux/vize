@@ -23,7 +23,6 @@ export function createSchema(schema: JsonSchemaProperties): JSONSchemaDefinition
 export function createPageInstance(name: string, isHome = false): PageInstance {
     const key = generateKey(KeyType.Page);
     const data: PageData = {
-        global: {},
         components: [],
         plugins: [],
         actions: [],
@@ -52,6 +51,7 @@ export function createComponentInstance(
         data,
         style: {},
         actions: [],
+        componentActions: [],
         layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
         children: isContainer ? [] : undefined,
     };
