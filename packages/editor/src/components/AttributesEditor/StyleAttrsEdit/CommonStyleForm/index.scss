@@ -1,0 +1,82 @@
+@import 'styles/helper';
+
+ant-collapse-content-box .ant-collapse-item {
+  &:last-child {
+    border-bottom: none !important;
+  }
+}
+
+.editor-attr-edit.component .common-style-form {
+  & > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+    padding: 0;
+  }
+}
+
+.position-style-form {
+  .fixed-outset {
+    position: relative;
+    margin-top: 8px;
+    height: 54px;
+    border: $default-border;
+    background-color: $default-background-color;
+    text-align: center;
+    font-size: 13px;
+    line-height: 54px;
+
+    & > div {
+      position: absolute;
+      width: 50%;
+      height: 35%;
+      cursor: pointer;
+
+      $distance: 2px;
+
+      &.activated,
+      &:hover {
+        svg rect {
+          fill: $main-color;
+        }
+      }
+
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: 100%;
+
+        rect {
+          fill: gray;
+        }
+      }
+      &.top {
+        top: $distance;
+      }
+      &.bottom {
+        bottom: $distance;
+
+        @include flipY;
+      }
+      &.left {
+        left: $distance;
+      }
+      &.right {
+        right: $distance;
+
+        @include flipX;
+      }
+      &.right.bottom {
+        @include flipXY;
+      }
+    }
+  }
+}
+
+.common-background-style-form {
+  & > .editor-attr-form-item > .ant-input-affix-wrapper {
+    width: 211px;
+  }
+  .ant-select {
+    width: 200px;
+  }
+}

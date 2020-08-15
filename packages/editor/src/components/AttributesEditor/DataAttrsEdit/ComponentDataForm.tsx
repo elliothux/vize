@@ -7,31 +7,31 @@ import { SchemaForm } from 'components/Form';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 
-function IComponentAttrForm() {
-    const { componentInstances } = componentsStore;
-    const { componentKey } = selectStore;
-    const { index, parentIndex } = useMemo(() => getCurrentPageComponentIndex(componentKey)!, [
-        componentKey,
-        componentInstances,
-    ]);
-    const { data, component, key } = useMemo<ComponentInstance>(() => {
-        return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
-    }, [index, parentIndex, componentInstances]);
+function IComponentDataForm() {
+  const { componentInstances } = componentsStore;
+  const { componentKey } = selectStore;
+  const { index, parentIndex } = useMemo(() => getCurrentPageComponentIndex(componentKey)!, [
+    componentKey,
+    componentInstances,
+  ]);
+  const { data, component, key } = useMemo<ComponentInstance>(() => {
+    return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
+  }, [index, parentIndex, componentInstances]);
 
-    const { dataForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
+  const { dataForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
 
-    return (
-        <>
-            {dataForm ? (
-                <SchemaForm
-                    instanceKey={key}
-                    form={dataForm}
-                    data={toJS(data)}
-                    onChange={componentsStore.setCurrentComponentInstanceData}
-                />
-            ) : null}
+  return (
+    <>
+      {dataForm ? (
+        <SchemaForm
+          instanceKey={key}
+          form={dataForm}
+          data={toJS(data)}
+          onChange={componentsStore.setCurrentComponentInstanceData}
+        />
+      ) : null}
 
-            {/* {styleForm ? (
+      {/* {styleForm ? (
                 <SchemaForm
                     instanceKey={key}
                     form={styleForm}
@@ -39,8 +39,8 @@ function IComponentAttrForm() {
                     onChange={componentsStore.setCurrentComponentInstanceStyle}
                 />
             ) : null} */}
-        </>
-    );
+    </>
+  );
 }
 
-export const ComponentAttrForm = observer(IComponentAttrForm);
+export const ComponentDataForm = observer(IComponentDataForm);

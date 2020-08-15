@@ -4,23 +4,23 @@ import { SelectType } from 'states';
 // import { componentsStore, materialsStore } from 'states';
 // import { useMemo } from 'react';
 // import { getCurrentPageComponentIndex } from 'utils';
-import { ComponentAttrForm } from './ComponentDataForm';
+import { ComponentDataForm } from './ComponentDataForm';
 
 interface Props {
-    selectType: number;
+  selectType: number;
 }
 
 function Empty() {
-    return <div>empty</div>;
+  return <div>empty</div>;
 }
 
 function IDataAttrsEdit({ selectType }: Props) {
-    if (selectType === SelectType.COMPONENT) {
-        return <ComponentAttrForm />;
-    } else if (selectType === SelectType.PLUGIN) {
-        return <div>{'plugin'}</div>;
-    }
-    return <Empty />;
+  if (selectType === SelectType.COMPONENT) {
+    return <ComponentDataForm />;
+  } else if (selectType === SelectType.PLUGIN) {
+    return <div>{'plugin'}</div>;
+  }
+  return <Empty />;
 }
 
 export default IDataAttrsEdit;

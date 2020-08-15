@@ -8,46 +8,45 @@ import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 
 function IComponentForm() {
-    const { componentInstances } = componentsStore;
-    const { componentKey } = selectStore;
-    console.log(componentKey);
-    console.log(componentInstances);
+  const { componentInstances } = componentsStore;
+  const { componentKey } = selectStore;
+  console.log(componentKey);
+  console.log(componentInstances);
 
-    console.log(getCurrentPageComponentIndex(componentKey));
-    const { index, parentIndex } = useMemo(() => getCurrentPageComponentIndex(componentKey)!, [
-        componentKey,
-        componentInstances,
-    ]);
+  const { index, parentIndex } = useMemo(() => getCurrentPageComponentIndex(componentKey)!, [
+    componentKey,
+    componentInstances,
+  ]);
 
-    console.log(index);
+  console.log(index);
 
-    const { data, style, component, key } = useMemo<ComponentInstance>(() => {
-        return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
-    }, [index, parentIndex, componentInstances]);
+  const { data, style, component, key } = useMemo<ComponentInstance>(() => {
+    return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
+  }, [index, parentIndex, componentInstances]);
 
-    const { dataForm, styleForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
+  const { dataForm, styleForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
 
-    return (
-        <>
-            {dataForm ? (
-                <SchemaForm
-                    instanceKey={key}
-                    form={dataForm}
-                    data={toJS(data)}
-                    onChange={componentsStore.setCurrentComponentInstanceData}
-                />
-            ) : null}
+  return (
+    <>
+      {dataForm ? (
+        <SchemaForm
+          instanceKey={key}
+          form={dataForm}
+          data={toJS(data)}
+          onChange={componentsStore.setCurrentComponentInstanceData}
+        />
+      ) : null}
 
-            {styleForm ? (
-                <SchemaForm
-                    instanceKey={key}
-                    form={styleForm}
-                    data={toJS(style)}
-                    onChange={componentsStore.setCurrentComponentInstanceStyle}
-                />
-            ) : null}
-        </>
-    );
+      {styleForm ? (
+        <SchemaForm
+          instanceKey={key}
+          form={styleForm}
+          data={toJS(style)}
+          onChange={componentsStore.setCurrentComponentInstanceStyle}
+        />
+      ) : null}
+    </>
+  );
 }
 
 export const ComponentForm = observer(IComponentForm);
