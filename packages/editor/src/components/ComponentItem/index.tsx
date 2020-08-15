@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ComponentInstance, Maybe, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
-import { globalStore, selectStore } from 'states';
+import { globalStore, selectStore, SelectType } from 'states';
 import classNames from 'classnames';
 import { ComponentMask } from './ComponentMask';
 import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/ComponentMenu';
@@ -14,6 +14,7 @@ globalStore.setIframeStyle('ComponentItem', iframeStyle);
 
 export interface ComponentItemProps extends WithReactChildren {
     instance: ComponentInstance;
+    currentSelectedType: SelectType;
     currentSelectedKey: number;
     currentSelectedContainerKey: number;
 }
@@ -52,8 +53,8 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
     };
 
     render() {
-        const { instance, currentSelectedKey, currentSelectedContainerKey, children } = this.props;
-        const selected = instance.key === currentSelectedKey;
+        const { instance, currentSelectedKey, currentSelectedContainerKey, currentSelectedType, children } = this.props;
+        const selected = currentSelectedType === SelectType.COMPONENT && instance.key === currentSelectedKey;
         const selectedAsContainer = instance.key === currentSelectedContainerKey;
 
         if (!children && instance.children) {

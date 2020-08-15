@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import { Tag } from 'antd';
-import { pagesStore } from 'states';
+import { pagesStore, selectStore } from 'states';
 import { PageInstance } from 'types';
 import { PageContextMenu, showPageContextMenu } from 'components/ContextMenu';
 import { useCallback } from 'react';
@@ -21,15 +21,7 @@ function IPageItem({ instance, index }: Props) {
 
     const [focus, setFocus] = useState(false);
 
-    const onClick = useCallback(
-        (e: React.MouseEvent) => {
-            // if (e.target !== e.currentTarget) {
-            //   return;
-            // }
-            pagesStore.setCurrentPage(index);
-        },
-        [index],
-    );
+    const onClick = useCallback(() => selectStore.selectPage(index), [index]);
 
     const onContextMenu = useCallback(
         (e: React.MouseEvent) => {

@@ -25,7 +25,7 @@ interface Props {
 }
 
 function IStreamLayoutRender({ containerComponentInstance, componentInstances, mountTarget }: Props) {
-    const { componentKey, containerComponentKey } = selectStore;
+    const { selectType, componentKey, containerComponentKey } = selectStore;
 
     const onSortStart = useCallback(
         ({ index }: SortStart) => {
@@ -49,6 +49,7 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
             index={index}
             instance={instance}
             currentSelectedKey={componentKey}
+            currentSelectedType={selectType}
             currentSelectedContainerKey={containerComponentKey}
         />
     ));
@@ -56,6 +57,7 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
     const content = containerComponentInstance ? (
         <ComponentItem
             instance={containerComponentInstance}
+            currentSelectedType={selectType}
             currentSelectedKey={componentKey}
             currentSelectedContainerKey={containerComponentKey}
         >
