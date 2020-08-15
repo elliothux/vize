@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 import { getQueryParams } from '../utils';
-import { LayoutMode } from '../types';
+import { LayoutMode, Maybe, PageMeta } from '../types';
 
 export class GlobalStore {
     constructor() {
@@ -10,20 +10,56 @@ export class GlobalStore {
         this.debugPorts = debugPorts;
     }
 
-    libNames: string[];
+    public libNames: string[];
 
-    mainLib: string;
+    public mainLib: string;
 
-    debugPorts: number[];
+    public debugPorts: number[];
 
-    layoutMode: LayoutMode = LayoutMode.STREAM;
+    public layoutMode: LayoutMode = LayoutMode.STREAM;
 
     @observable
-    iframeStyleMap: { [name: string]: string } = {};
+    public iframeStyleMap: { [name: string]: string } = {};
 
     @action
-    setIframeStyle = (name: string, style: string) => {
+    public setIframeStyle = (name: string, style: string) => {
         this.iframeStyleMap[name] = style;
+    };
+
+    @observable
+    public globalProps: object = {};
+
+    @action
+    public setGlobalProps = (data: object) => {
+        this.globalProps = data;
+    };
+
+    @observable
+    public metaInfo: PageMeta = {
+        title: 'vize page',
+        desc: '',
+        duration: null,
+        expiredJump: '',
+    };
+
+    @action
+    public setPageTitle = (title: string) => {
+        this.metaInfo.title = title;
+    };
+
+    @action
+    public setPageDesc = (desc: string) => {
+        this.metaInfo.desc = desc;
+    };
+
+    @action
+    public setPageDuration = (duration: Maybe<[number, number]>) => {
+        this.metaInfo.duration = duration;
+    };
+
+    @action
+    public setPageExpiredJumpURL = (url: string) => {
+        this.metaInfo.expiredJump = url;
     };
 }
 

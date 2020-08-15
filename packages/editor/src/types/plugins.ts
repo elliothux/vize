@@ -1,4 +1,5 @@
 import { MaterialsForm, MaterialsInfo } from './materials';
+import { MaterialsCustomEvent } from './events';
 
 export interface MaterialsPluginMeta {
     identityName: string;
@@ -8,6 +9,8 @@ export interface MaterialsPluginMeta {
     readonly dataForm?: MaterialsForm;
     readonly thumb?: string;
     readonly preview?: string;
+    readonly onEvents?: MaterialsCustomEvent[];
+    readonly emitEvents?: MaterialsCustomEvent[];
 }
 
 export interface PluginInstance {

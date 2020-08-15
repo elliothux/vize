@@ -1,5 +1,7 @@
 export * from './actions';
 export * from './component';
+export * from './eventListeners';
+export * from './events';
 export * from './global';
 export * from './helper';
 export * from './materials';

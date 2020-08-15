@@ -11,6 +11,7 @@ message.config({
     maxCount: 3,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
 
 interface QueryParams {
@@ -116,6 +117,16 @@ export function withPreventEvent<T = HTMLElement, E = Event>(action: Function) {
     return (e: React.SyntheticEvent<T, E> | Event) => {
         action();
         return preventSyntheticEvent(e);
+    };
+}
+
+type ReactEventHandler<T> = (e: T) => void;
+export function withPersistReactEvent<T extends React.BaseSyntheticEvent = React.SyntheticEvent>(
+    handler: ReactEventHandler<T>,
+): ReactEventHandler<T> {
+    return (e: T) => {
+        e.persist();
+        return handler(e);
     };
 }
 

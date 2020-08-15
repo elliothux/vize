@@ -1,5 +1,6 @@
 import { MaterialsForm, MaterialsInfo } from './materials';
-import { Maybe } from './helper';
+import { MaterialsCustomEvent } from './events';
+import { PageMeta } from './pages';
 
 export interface MaterialsActionMeta {
     identityName: string;
@@ -8,6 +9,7 @@ export interface MaterialsActionMeta {
     readonly thumb: string;
     readonly info: MaterialsInfo;
     readonly dataForm?: MaterialsForm;
+    readonly emitEvents?: MaterialsCustomEvent[];
 }
 
 export interface ActionInstance {
@@ -15,7 +17,11 @@ export interface ActionInstance {
     action: Readonly<string>;
     data: { [key: string]: any };
     trigger: ActionTrigger;
-    target: Maybe<number>;
+    actions: ActionInstance | ComponentActionsInstance;
+}
+
+export interface ComponentActionsInstance extends Exclude<ActionInstance, 'actions'> {
+    target: number;
 }
 
 export const ACTION_TRIGGER_PREFIX = '__vize_action_trigger_';
@@ -34,4 +40,10 @@ export enum BaseActionTrigger {
 export type ActionTrigger = BaseActionTrigger | 'string';
 
 // TODO
-export type MaterialsAction = () => void;
+export interface ActionParams {
+    data: object;
+    global: object;
+    meta: PageMeta;
+}
+
+export type MaterialsAction = (params: ActionParams) => void;
