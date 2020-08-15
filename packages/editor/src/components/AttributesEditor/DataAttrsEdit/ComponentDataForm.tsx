@@ -7,25 +7,18 @@ import { SchemaForm } from 'components/Form';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 
-function IComponentForm() {
+function IComponentAttrForm() {
     const { componentInstances } = componentsStore;
     const { componentKey } = selectStore;
-    console.log(componentKey);
-    console.log(componentInstances);
-
-    console.log(getCurrentPageComponentIndex(componentKey));
     const { index, parentIndex } = useMemo(() => getCurrentPageComponentIndex(componentKey)!, [
         componentKey,
         componentInstances,
     ]);
-
-    console.log(index);
-
-    const { data, style, component, key } = useMemo<ComponentInstance>(() => {
+    const { data, component, key } = useMemo<ComponentInstance>(() => {
         return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
     }, [index, parentIndex, componentInstances]);
 
-    const { dataForm, styleForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
+    const { dataForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
 
     return (
         <>
@@ -38,16 +31,16 @@ function IComponentForm() {
                 />
             ) : null}
 
-            {styleForm ? (
+            {/* {styleForm ? (
                 <SchemaForm
                     instanceKey={key}
                     form={styleForm}
                     data={toJS(style)}
                     onChange={componentsStore.setCurrentComponentInstanceStyle}
                 />
-            ) : null}
+            ) : null} */}
         </>
     );
 }
 
-export const ComponentForm = observer(IComponentForm);
+export const ComponentAttrForm = observer(IComponentAttrForm);
