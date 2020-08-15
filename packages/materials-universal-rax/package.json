@@ -9,12 +9,10 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "antd-mobile": "^2.3.1",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1"
+        "rax": "^1.1.4"
     },
     "devDependencies": {
-        "antd-mobile": "^2.3.1",
+        "@babel/core": "^7.9.0",
         "@babel/plugin-proposal-class-properties": "^7.5.5",
         "@babel/plugin-proposal-decorators": "^7.4.4",
         "@babel/plugin-proposal-export-default-from": "^7.5.2",
@@ -27,8 +25,10 @@
         "@babel/preset-react": "^7.0.0",
         "@babel/preset-typescript": "^7.9.0",
         "@types/node": "^13.9.8",
+        "@types/rax": "^1.0.1",
         "@types/react": "^16.9.29",
         "@types/react-dom": "^16.9.5",
+        "babel-plugin-transform-rename-import": "^2.3.0",
         "babel-loader": "^8.1.0",
         "base64-inline-loader": "^1.1.1",
         "dart-sass": "^1.25.0",

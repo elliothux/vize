@@ -12,3 +12,7 @@ export function isEmpty(i: any): boolean {
 export function isFunction(i: any): boolean {
     return typeof i === 'function';
 }
+
+export function isString(i: any): boolean {
+    return typeof i === 'string';
+}
