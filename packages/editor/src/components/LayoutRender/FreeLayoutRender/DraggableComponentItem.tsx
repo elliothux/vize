@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { ComponentItem } from 'components/ComponentItem';
 import { Position, ResizableDelta, Rnd } from 'react-rnd';
 import { ComponentInstance, ComponentSize } from 'types';
-import { componentsStore, globalStore, selectStore } from 'states';
+import { componentsStore, selectStore } from 'states';
 import { DraggableData, DraggableEvent } from 'react-draggable';
 import { ResizeDirection } from 're-resizable';
 
@@ -57,6 +57,7 @@ function IDraggableComponentItem({ instance, index }: Props) {
         >
             <ComponentItem
                 instance={instance}
+                currentSelectedType={selectStore.selectType}
                 currentSelectedKey={selectStore.componentKey}
                 currentSelectedContainerKey={selectStore.containerComponentKey}
             />

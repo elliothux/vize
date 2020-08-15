@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { Maybe } from 'types';
+import { ComponentInstance, Maybe } from 'types';
 import { noop } from 'utils';
 
 import './index.scss';
@@ -8,7 +8,13 @@ import './index.scss';
 interface Props {
     htmlContent: string;
     mountTarget: string;
-    children: (doc: Document, win: Window, mountTarget: HTMLDivElement) => React.ReactNode;
+    children: (
+        doc: Document,
+        win: Window,
+        mountTarget: HTMLDivElement,
+        componentInstance: ComponentInstance[],
+    ) => React.ReactNode;
+    componentInstances: ComponentInstance[];
     iframeDidMount?: (doc: Document, win: Window) => void;
 }
 
@@ -95,7 +101,7 @@ export class RenderSandbox extends React.Component<Props> {
         }
 
         const mountTarget = this.getMountTarget();
-        const content = this.props.children(doc, doc.defaultView!, mountTarget);
+        const content = this.props.children(doc, doc.defaultView!, mountTarget, this.props.componentInstances);
         return createPortal(content, mountTarget);
     };
 

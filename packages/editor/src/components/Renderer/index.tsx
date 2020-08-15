@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
 import { componentsStore, globalStore, materialsStore } from 'states';
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
-import { MaterialsMain, Maybe, ContainerRenderEntry } from 'types';
+import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
 import { initDocument, setMaterialsMap } from 'utils';
 import { LayoutRender } from '../LayoutRender';
 import { injectRuntime, setUserAgent } from './utils';
@@ -87,7 +87,12 @@ export class Renderer extends React.Component {
         renderEntry({ render: () => this.setState({ ready: true }) });
     };
 
-    private renderContent = (doc: Document, win: Window, mountTarget: HTMLDivElement) => {
+    private renderContent = (
+        doc: Document,
+        win: Window,
+        mountTarget: HTMLDivElement,
+        componentInstances: ComponentInstance[],
+    ) => {
         if (!this.state.ready) {
             return null;
         }
@@ -98,7 +103,7 @@ export class Renderer extends React.Component {
                 <LayoutRender
                     mountTarget={mountTarget}
                     // renderContext={win}
-                    componentInstances={componentsStore.componentInstances}
+                    componentInstances={componentInstances}
                 />
             </>
         );
@@ -106,12 +111,14 @@ export class Renderer extends React.Component {
 
     public render() {
         const { containerHTML } = materialsStore;
+        const { componentInstances } = componentsStore;
 
         return (
             <RenderSandbox
                 mountTarget="#vize-main-entry"
                 htmlContent={containerHTML}
                 iframeDidMount={this.iframeDidMount}
+                componentInstances={componentInstances}
             >
                 {this.renderContent}
             </RenderSandbox>

@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { PageInstance } from 'types';
 import { createPageInstance } from '../utils';
 import { componentsStore } from './components';
+import { selectStore } from './select';
 
 export class PagesStore {
     public init = () => {
@@ -12,18 +13,10 @@ export class PagesStore {
     @observable
     public pages: PageInstance[] = [];
 
-    @observable
-    private currentPageIndex = 0;
-
     @computed
     public get currentPage(): PageInstance {
-        return this.pages[this.currentPageIndex];
+        return this.pages[selectStore.pageIndex];
     }
-
-    @action
-    public setCurrentPage = (pageIndex: number): void => {
-        this.currentPageIndex = pageIndex;
-    };
 
     @action
     public setPageEditing = (pageIndex: number, editing: boolean) => {
@@ -35,6 +28,7 @@ export class PagesStore {
         const page = createPageInstance(name || 'new page', isHome);
         this.pages.push(page);
         componentsStore.addComponentInstancesMap(page.key);
+        selectStore.selectPage(this.pages.length - 1);
     };
 
     @action
@@ -52,8 +46,8 @@ export class PagesStore {
         componentsStore.deleteComponentInstancesMap(key);
         this.pages.splice(pageIndex, 1);
 
-        if (this.currentPageIndex >= this.pages.length) {
-            this.currentPageIndex -= 1;
+        if (selectStore.pageIndex >= this.pages.length) {
+            selectStore.selectPage(pageIndex - 1);
         }
 
         if (isHome) {
