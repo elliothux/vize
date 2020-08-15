@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { ComponentProps, useMemo } from 'react';
 import { materialsStore, pluginsStore, selectStore, SelectType } from 'states';
 import { FirstParameter, MustBe, PluginInstance } from 'types';
-import { FiFolder, FiLayers } from 'react-icons/fi';
+import { FiFolder, FiPackage } from 'react-icons/fi';
 import { PluginContextMenu, showPluginContextMenu } from 'components/ContextMenu';
 
 const { DirectoryTree } = Tree;
@@ -88,7 +88,7 @@ function generateTreeData(pluginInstances: PluginInstance[]): TreeData {
             key,
             title: `${name} (key=${key})`,
             isLeaf: true,
-            icon: <FiLayers />,
+            icon: <FiPackage />,
         };
     });
 }

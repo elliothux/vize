@@ -15,7 +15,7 @@ function IGlobalProps() {
             onClick={() => selectPage(pageIndex)}
         >
             <FiGlobe />
-            <span>页面全局属性</span>
+            <span>全局属性</span>
         </div>
     );
 }
