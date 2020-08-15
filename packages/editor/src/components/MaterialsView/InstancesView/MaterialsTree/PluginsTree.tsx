@@ -72,7 +72,7 @@ function getTreeData(pluginInstances: PluginInstance[]): TreeData {
             isLeaf: false,
             icon: <FiFolder />,
             selectable: false,
-            className: 'tree-root-node',
+            className: 'tree-root-node plugins-tree-root-node',
             children: generateTreeData(pluginInstances),
         },
     ];

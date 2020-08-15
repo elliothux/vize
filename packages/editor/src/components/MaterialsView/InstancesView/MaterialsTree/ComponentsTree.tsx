@@ -115,7 +115,7 @@ function getTreeData(componentInstances: ComponentInstance[]): TreeData {
             isLeaf: false,
             icon: <FiFolder />,
             selectable: false,
-            className: 'tree-root-node',
+            className: 'tree-root-node components-tree-root-node',
             children: generateTreeData(componentInstances),
         },
     ];
