@@ -10,173 +10,173 @@ const commonDeps = ['react', 'react-dom'];
 // TODO: refactor
 // eslint-disable-next-line max-lines-per-function
 export function getLibDefaultWebpackConfig(libPaths: LibPaths, libConfig: LibConfig, isProd: boolean): Configuration {
-    const {
-        root,
-        mainEntryTemp,
-        metaEntryTemp,
-        output,
-        nodeModules,
-        src,
-        containerEntry,
-        containerHTML,
-        componentsList,
-        pluginsList,
-        actionsList,
-    } = libPaths;
-    const { libName, runtime } = libConfig;
+  const {
+    root,
+    mainEntryTemp,
+    metaEntryTemp,
+    output,
+    nodeModules,
+    src,
+    containerEntry,
+    containerHTML,
+    componentsList,
+    pluginsList,
+    actionsList,
+  } = libPaths;
+  const { libName, runtime } = libConfig;
 
-    const config = <Configuration>{
-        context: root,
-        output: {
-            path: output,
-            filename: `@vize-materials-${libName}-[name].js`,
-            library: `@vize-materials-${libName}-[name]`,
-            libraryTarget: 'window',
-            umdNamedDefine: true,
-        },
-        resolve: {
-            extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.scss', '.css'],
-            modules: [nodeModules, src],
-        },
-        module: {
-            rules: [
+  const config = <Configuration>{
+    context: root,
+    output: {
+      path: output,
+      filename: `@vize-materials-${libName}-[name].js`,
+      library: `@vize-materials-${libName}-[name]`,
+      libraryTarget: 'window',
+      umdNamedDefine: true,
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.scss', '.css'],
+      modules: [nodeModules, src],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(ts|tsx|js|jsx)$/,
+          loader: 'babel-loader',
+          options: {
+            compact: false,
+            presets: [
+              [
+                '@babel/preset-env',
                 {
-                    test: /\.(ts|tsx|js|jsx)$/,
-                    loader: 'babel-loader',
-                    options: {
-                        compact: false,
-                        presets: [
-                            [
-                                '@babel/preset-env',
-                                {
-                                    targets: {
-                                        chrome: '58',
-                                        ios: '9',
-                                        android: '4.2',
-                                    },
-                                },
-                            ],
-                            '@babel/preset-typescript',
-                            '@babel/preset-react',
-                        ],
-                        plugins: [
-                            '@babel/plugin-transform-async-to-generator',
-                            '@babel/plugin-proposal-class-properties',
-                            ['@babel/plugin-proposal-decorators', { legacy: true }],
-                            '@babel/plugin-proposal-export-default-from',
-                            '@babel/plugin-proposal-export-namespace-from',
-                            '@babel/plugin-proposal-optional-chaining',
-                        ],
-                    },
+                  targets: {
+                    chrome: '58',
+                    ios: '9',
+                    android: '4.2',
+                  },
                 },
-                {
-                    test: /\.(css|scss|sass)$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                modules: false,
-                                importLoaders: 2,
-                                sourceMap: true,
-                            },
-                        },
-                        {
-                            loader: 'sass-loader',
-                            options: {
-                                implementation: require('dart-sass'),
-                                sassOptions: {
-                                    outputStyle: 'expanded',
-                                },
-                                sourceMap: true,
-                            },
-                        },
-                    ],
-                },
-                {
-                    test: /\.(jpe?g|png|gif|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-                    loader: 'base64-inline-loader',
-                },
-                {
-                    test: /\.(ejs|svg)$/,
-                    use: 'raw-loader',
-                },
+              ],
+              '@babel/preset-typescript',
+              '@babel/preset-react',
             ],
+            plugins: [
+              '@babel/plugin-transform-async-to-generator',
+              '@babel/plugin-proposal-class-properties',
+              ['@babel/plugin-proposal-decorators', { legacy: true }],
+              '@babel/plugin-proposal-export-default-from',
+              '@babel/plugin-proposal-export-namespace-from',
+              '@babel/plugin-proposal-optional-chaining',
+            ],
+          },
         },
-        plugins: [
-            new webpack.HashedModuleIdsPlugin({
-                hashFunction: 'sha256',
-                hashDigest: 'hex',
-                hashDigestLength: 20,
-            }),
-            new MiniCssExtractPlugin({
-                filename: `@vize-materials-${libName}-[name].css`,
-                chunkFilename: `@vize-materials-${libName}-[name].css`,
-            }),
-            // new webpack.EnvironmentPlugin({
-            //   SSR: false,
-            //   WEBPACK_ENV: "production"
-            // })
-        ],
-        mode: isProd ? 'production' : 'development',
-        devtool: 'source-map',
-        optimization: {
-            minimize: false,
-            noEmitOnErrors: true,
-        },
-    };
-
-    if (isProd) {
-        const entry: Entry = { meta: metaEntryTemp };
-        componentsList.forEach(({ name, mainPath }) => (entry[`component-${name}`] = [...commonDeps, mainPath]));
-        pluginsList.forEach(({ name, mainPath }) => (entry[`plugin-${name}`] = [...commonDeps, mainPath]));
-        actionsList.forEach(({ name, mainPath }) => (entry[`action-${name}`] = [...commonDeps, mainPath]));
-
-        config.entry = entry;
-        config.optimization.splitChunks = {
-            chunks: 'all',
-            minSize: 30,
-            maxSize: 0,
-            minChunks: 1,
-            maxAsyncRequests: 6,
-            maxInitialRequests: 4,
-            automaticNameDelimiter: '~',
-            cacheGroups: {
-                vendor: {
-                    name: 'vendor',
-                    chunks: 'initial',
-                    priority: 2,
-                    minChunks: 2,
-                },
-                styles: {
-                    name: 'styles',
-                    test: /\.css$/,
-                    chunks: 'all',
-                    enforce: true,
-                    priority: 20,
-                },
+        {
+          test: /\.(css|scss|sass)$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: false,
+                importLoaders: 2,
+                sourceMap: true,
+              },
             },
-        };
-    } else {
-        config.entry = {
-            main: mainEntryTemp,
-            meta: metaEntryTemp,
-            entry: containerEntry,
-            html: containerHTML,
-        };
-        config.externals = {
-            react: 'React',
-            antd: 'Antd',
-            'react-dom': 'ReactDom',
-            'react-dom/server': 'ReactDomServer',
-        };
-    }
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require('dart-sass'),
+                sassOptions: {
+                  outputStyle: 'expanded',
+                },
+                sourceMap: true,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(jpe?g|png|gif|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+          loader: 'base64-inline-loader',
+        },
+        {
+          test: /\.(ejs|svg)$/,
+          use: 'raw-loader',
+        },
+      ],
+    },
+    plugins: [
+      new webpack.HashedModuleIdsPlugin({
+        hashFunction: 'sha256',
+        hashDigest: 'hex',
+        hashDigestLength: 20,
+      }),
+      new MiniCssExtractPlugin({
+        filename: `@vize-materials-${libName}-[name].css`,
+        chunkFilename: `@vize-materials-${libName}-[name].css`,
+      }),
+      // new webpack.EnvironmentPlugin({
+      //   SSR: false,
+      //   WEBPACK_ENV: "production"
+      // })
+    ],
+    mode: isProd ? 'production' : 'development',
+    devtool: 'source-map',
+    optimization: {
+      minimize: false,
+      noEmitOnErrors: true,
+    },
+  };
 
-    if (runtime === LibConfigRuntime.RAX) {
-        return getLibRaxWebpackConfig(config);
-    }
+  if (isProd) {
+    const entry: Entry = { meta: metaEntryTemp };
+    componentsList.forEach(({ name, mainPath }) => (entry[`component-${name}`] = [...commonDeps, mainPath]));
+    pluginsList.forEach(({ name, mainPath }) => (entry[`plugin-${name}`] = [...commonDeps, mainPath]));
+    actionsList.forEach(({ name, mainPath }) => (entry[`action-${name}`] = [...commonDeps, mainPath]));
 
-    console.log(config);
+    config.entry = entry;
+    config.optimization.splitChunks = {
+      chunks: 'all',
+      minSize: 30,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 6,
+      maxInitialRequests: 4,
+      automaticNameDelimiter: '~',
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          chunks: 'initial',
+          priority: 2,
+          minChunks: 2,
+        },
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true,
+          priority: 20,
+        },
+      },
+    };
+  } else {
+    config.entry = {
+      main: mainEntryTemp,
+      meta: metaEntryTemp,
+      entry: containerEntry,
+      html: containerHTML,
+    };
+    config.externals = {
+      react: 'React',
+      antd: 'Antd',
+      'react-dom': 'ReactDom',
+      'react-dom/server': 'ReactDomServer',
+    };
+  }
 
-    return config;
+  if (runtime === LibConfigRuntime.RAX) {
+    return getLibRaxWebpackConfig(config);
+  }
+
+  console.log(config);
+
+  return config;
 }

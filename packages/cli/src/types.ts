@@ -1,8 +1,8 @@
 export interface MaterialsItem {
-    name: string;
-    entry: string;
-    mainPath: string;
-    metaPath: string;
+  name: string;
+  entry: string;
+  mainPath: string;
+  metaPath: string;
 }
 
 export type MaterialsList = MaterialsItem[];
