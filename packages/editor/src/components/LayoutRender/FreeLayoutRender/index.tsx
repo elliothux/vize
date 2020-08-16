@@ -8,17 +8,17 @@ import iframeStyle from './index.iframe.scss';
 globalStore.setIframeStyle('FreeLayoutRender', iframeStyle);
 
 interface Props {
-    componentInstances: ComponentInstance[];
+  componentInstances: ComponentInstance[];
 }
 
 function IFreeLayoutRender({ componentInstances }: Props) {
-    return (
-        <>
-            {componentInstances.map((instance, index) => (
-                <DraggableComponentItem key={instance.key} index={index} instance={instance} />
-            ))}
-        </>
-    );
+  return (
+    <>
+      {componentInstances.map((instance, index) => (
+        <DraggableComponentItem key={instance.key} index={index} instance={instance} />
+      ))}
+    </>
+  );
 }
 
 export const FreeLayoutRender = observer(IFreeLayoutRender);

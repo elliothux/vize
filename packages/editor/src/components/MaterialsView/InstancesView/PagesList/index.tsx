@@ -8,33 +8,33 @@ import './index.scss';
 
 @observer
 export class PagesList extends React.Component {
-    private addPage = () => {
-        pagesStore.addPage(false);
-    };
+  private addPage = () => {
+    pagesStore.addPage(false);
+  };
 
-    private renderHeader = () => {
-        return (
-            <HeaderOptions type={MaterialsViewType.INSTANCES}>
-                <div>
-                    <PlusOutlined onClick={this.addPage} />
-                    <UpOutlined />
-                </div>
-            </HeaderOptions>
-        );
-    };
+  private renderHeader = () => {
+    return (
+      <HeaderOptions type={MaterialsViewType.INSTANCES}>
+        <div>
+          <PlusOutlined onClick={this.addPage} />
+          <UpOutlined />
+        </div>
+      </HeaderOptions>
+    );
+  };
 
-    public render() {
-        const { pages } = pagesStore;
+  public render() {
+    const { pages } = pagesStore;
 
-        return (
-            <div className="vize-pages-list">
-                {this.renderHeader()}
-                <main>
-                    {pages.map((page, index) => (
-                        <PageItem key={page.key.toString()} instance={page} index={index} />
-                    ))}
-                </main>
-            </div>
-        );
-    }
+    return (
+      <div className="vize-pages-list">
+        {this.renderHeader()}
+        <main>
+          {pages.map((page, index) => (
+            <PageItem key={page.key.toString()} instance={page} index={index} />
+          ))}
+        </main>
+      </div>
+    );
+  }
 }

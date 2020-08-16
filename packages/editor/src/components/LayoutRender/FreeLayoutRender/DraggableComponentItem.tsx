@@ -9,60 +9,60 @@ import { DraggableData, DraggableEvent } from 'react-draggable';
 import { ResizeDirection } from 're-resizable';
 
 interface Props {
-    index: number;
-    instance: ComponentInstance;
+  index: number;
+  instance: ComponentInstance;
 }
 
 function IDraggableComponentItem({ instance, index }: Props) {
-    const { position, size } = instance.layout!;
+  const { position, size } = instance.layout!;
 
-    const style = useMemo(() => ({ zIndex: index }), [index]);
+  const style = useMemo(() => ({ zIndex: index }), [index]);
 
-    const onMove = useCallback(
-        (e: DraggableEvent, { x, y }: DraggableData) => {
-            return componentsStore.dragMoveComponentInstance(instance.key, { x, y });
-        },
-        [instance.key],
-    );
+  const onMove = useCallback(
+    (e: DraggableEvent, { x, y }: DraggableData) => {
+      return componentsStore.dragMoveComponentInstance(instance.key, { x, y });
+    },
+    [instance.key],
+  );
 
-    const onResize = useCallback(
-        (
-            e: MouseEvent | TouchEvent,
-            dir: ResizeDirection,
-            ref: HTMLDivElement,
-            delta: ResizableDelta,
-            position: Position,
-        ) => {
-            const size: ComponentSize = {
-                width: ref.offsetWidth,
-                height: ref.offsetHeight,
-            };
-            return componentsStore.resizeComponentInstance(instance.key, position, size);
-        },
-        [instance.key],
-    );
+  const onResize = useCallback(
+    (
+      e: MouseEvent | TouchEvent,
+      dir: ResizeDirection,
+      ref: HTMLDivElement,
+      delta: ResizableDelta,
+      position: Position,
+    ) => {
+      const size: ComponentSize = {
+        width: ref.offsetWidth,
+        height: ref.offsetHeight,
+      };
+      return componentsStore.resizeComponentInstance(instance.key, position, size);
+    },
+    [instance.key],
+  );
 
-    return (
-        <Rnd
-            position={position}
-            size={size}
-            style={style}
-            onDragStop={onMove}
-            onResize={onResize}
-            maxWidth="100%"
-            dragGrid={[1, 1]}
-            resizeGrid={[1, 1]}
-            // enableResizing={{}}
-            bounds="window"
-        >
-            <ComponentItem
-                instance={instance}
-                currentSelectedType={selectStore.selectType}
-                currentSelectedKey={selectStore.componentKey}
-                currentSelectedContainerKey={selectStore.containerComponentKey}
-            />
-        </Rnd>
-    );
+  return (
+    <Rnd
+      position={position}
+      size={size}
+      style={style}
+      onDragStop={onMove}
+      onResize={onResize}
+      maxWidth="100%"
+      dragGrid={[1, 1]}
+      resizeGrid={[1, 1]}
+      // enableResizing={{}}
+      bounds="window"
+    >
+      <ComponentItem
+        instance={instance}
+        currentSelectedType={selectStore.selectType}
+        currentSelectedKey={selectStore.componentKey}
+        currentSelectedContainerKey={selectStore.containerComponentKey}
+      />
+    </Rnd>
+  );
 }
 
 export const DraggableComponentItem = observer(IDraggableComponentItem);
