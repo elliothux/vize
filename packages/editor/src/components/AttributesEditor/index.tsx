@@ -10,7 +10,8 @@ import { EventEmitTypes, events } from 'utils';
 import { Tabs } from 'antd';
 import { FiDatabase, FiFeather, FiGrid } from 'react-icons/fi';
 import IDataAttrsEdit from './DataAttrsEdit/index';
-import { StyleAttrsForm } from './StyleAttrsEdit/index';
+import { StyleAttrsForm } from './StyleAttrsEdit';
+import { EventAttrForm } from './EventAttrForm';
 
 const { TabPane } = Tabs;
 interface Props {
@@ -26,7 +27,7 @@ export enum AttrEditTab {
 
 function IAttributesEditor({ loading }: Props) {
   const { selectType } = selectStore;
-  const [activeKey, setActiveKey] = useState<string>(AttrEditTab.DATA);
+  const [activeKey, setActiveKey] = useState<string>(AttrEditTab.EVENTS);
 
   const handleSetActiveKey = (newTab: string) => {
     events.emit(EventEmitTypes.CHANGE_ATTR_EDIT_TAB, newTab, activeKey);
@@ -97,7 +98,9 @@ function IAttributesEditor({ loading }: Props) {
               <span>&nbsp;事件</span>
             </div>
           }
-        ></TabPane>
+        >
+          <EventAttrForm selectType={selectType} />
+        </TabPane>
       </Tabs>
       {/* {content} */}
     </div>

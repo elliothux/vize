@@ -16,7 +16,7 @@ export interface ActionInstance {
   key: Readonly<number>;
   action: Readonly<string>;
   data: { [key: string]: any };
-  trigger: ActionTrigger;
+  trigger: EventTrigger;
   actions: ActionInstance | ComponentActionsInstance;
 }
 
@@ -24,9 +24,9 @@ export interface ComponentActionsInstance extends Exclude<ActionInstance, 'actio
   target: number;
 }
 
-export const ACTION_TRIGGER_PREFIX = '__vize_action_trigger_';
+export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
 
-export enum BaseActionTrigger {
+export enum BaseEventTrigger {
   INIT = '__vize_action_trigger_init',
   CLICK = '__vize_action_trigger_click',
   MOUSE_ENTER = '__vize_action_trigger_mouseEnter',
@@ -37,7 +37,7 @@ export enum BaseActionTrigger {
   LEAVE_VIEW = '__vize_action_trigger_leave_view',
 }
 
-export type ActionTrigger = BaseActionTrigger | 'string';
+export type EventTrigger = BaseEventTrigger | 'string';
 
 // TODO
 export interface ActionParams {

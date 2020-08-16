@@ -10,7 +10,6 @@
     "@ant-design/icons": "^4.0.5",
     "@formily/antd": "^1.1.0",
     "@formily/antd-components": "^1.1.0",
-    "@types/react-color": "^3.0.4",
     "antd": "^4.1.0",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
