@@ -11,6 +11,7 @@ export interface MaterialsPluginMeta {
   readonly preview?: string;
   readonly onEvents?: MaterialsCustomEvent[];
   readonly emitEvents?: MaterialsCustomEvent[];
+  readonly isBuildIn?: boolean;
 }
 
 export interface PluginInstance {

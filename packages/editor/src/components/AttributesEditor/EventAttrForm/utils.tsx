@@ -1,63 +1,77 @@
 import * as React from 'react';
-import { BaseEventTrigger } from '../../../types';
+import { BaseComponentEventTriggerType, BasePluginEventTriggerType } from 'types';
 import { MdBlurCircular, MdCallMade, MdCallReceived, MdPanTool } from 'react-icons/md';
 import { FiEye, FiEyeOff, FiMousePointer } from 'react-icons/fi';
 
-export const triggerTextMap = new Map<BaseEventTrigger, React.ReactNode>([
+export const triggerTextMap = new Map<BaseComponentEventTriggerType | BasePluginEventTriggerType, React.ReactNode>([
   [
-    BaseEventTrigger.INIT,
+    BaseComponentEventTriggerType.INIT,
     <>
       <MdBlurCircular />
       初始化
     </>,
   ],
   [
-    BaseEventTrigger.CLICK,
+    BaseComponentEventTriggerType.CLICK,
     <>
       <FiMousePointer />
       点击
     </>,
   ],
   [
-    BaseEventTrigger.MOUSE_ENTER,
+    BaseComponentEventTriggerType.MOUSE_ENTER,
     <>
       <MdCallReceived />
       鼠标移入
     </>,
   ],
   [
-    BaseEventTrigger.MOUSE_LEAVE,
+    BaseComponentEventTriggerType.MOUSE_LEAVE,
     <>
       <MdCallMade />
       鼠标移出
     </>,
   ],
   [
-    BaseEventTrigger.DOUBLE_CLICK,
+    BaseComponentEventTriggerType.DOUBLE_CLICK,
     <>
       <FiMousePointer />
       双击
     </>,
   ],
   [
-    BaseEventTrigger.LONG_PRESS,
+    BaseComponentEventTriggerType.LONG_PRESS,
     <>
       <MdPanTool />
       长按
     </>,
   ],
   [
-    BaseEventTrigger.ENTER_VIEW,
+    BaseComponentEventTriggerType.ENTER_VIEW,
     <>
       <FiEye />
       出现
     </>,
   ],
   [
-    BaseEventTrigger.LEAVE_VIEW,
+    BaseComponentEventTriggerType.LEAVE_VIEW,
     <>
       <FiEyeOff />
       消失
+    </>,
+  ],
+  [
+    BasePluginEventTriggerType.BEFORE_EXEC,
+    <>
+      <MdBlurCircular />
+      执行前
+    </>,
+  ],
+  [
+    BasePluginEventTriggerType.AFTER_EXEC,
+    <>
+      <MdBlurCircular />
+      执行后
     </>,
   ],
 ]);

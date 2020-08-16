@@ -1,28 +1,57 @@
 import './index.scss';
 import * as React from 'react';
-import { observer } from 'mobx-react';
-import { SelectType } from '../../../states';
-import { EventTriggerSelector } from './TriggerSelector';
 import { useState } from 'react';
-import { EventTrigger, Maybe } from '../../../types';
-import { useCurrentComponentMeta } from '../../../hooks';
+import { observer } from 'mobx-react';
+import { SelectType } from 'states';
+import { EventTargetType, EventTriggerType, Maybe } from 'types';
+import { useCurrentComponentMeta, useCurrentPluginMeta } from 'hooks';
+import { EventTriggerSelector } from './TriggerSelector';
+import { TargetSelector, ActionTargetSelector, ComponentTargetSelector, PluginTargetSelector } from './TargetSelector';
 
 interface Props {
   selectType: number;
 }
 
 function IEventAttrForm({ selectType }: Props) {
-  const [trigger, setTrigger] = useState<Maybe<EventTrigger>>(null);
+  const [trigger, setTrigger] = useState<Maybe<EventTriggerType>>(null);
+  const [target, setTarget] = useState<EventTargetType>(EventTargetType.ACTION);
 
-  const meta = useCurrentComponentMeta();
+  const [actionId, setAction] = useState<Maybe<string>>(null);
+  const [component, setComponent] = useState<Maybe<[number, Maybe<string>]>>(null);
+  const [plugin, setPlugin] = useState<Maybe<[number, Maybe<string>]>>(null);
 
-  if (selectType !== SelectType.COMPONENT) {
+  const componentMeta = useCurrentComponentMeta();
+  const pluginMeta = useCurrentPluginMeta();
+
+  if (!(selectType === SelectType.COMPONENT || selectType === SelectType.PLUGIN)) {
     return null;
   }
 
+  let targetForm;
+  switch (target) {
+    case EventTargetType.ACTION:
+      targetForm = <ActionTargetSelector actionId={actionId} setAction={setAction} />;
+      break;
+    case EventTargetType.COMPONENT:
+      targetForm = <ComponentTargetSelector component={component} setComponent={setComponent} />;
+      break;
+    case EventTargetType.PLUGIN:
+      targetForm = <PluginTargetSelector plugin={plugin} setPlugin={setPlugin} />;
+      break;
+  }
+
+  const isComponent = selectType === SelectType.COMPONENT;
+
   return (
     <div className="event-form">
-      <EventTriggerSelector trigger={trigger} setTrigger={setTrigger} customEvents={meta!.emitEvents} />
+      <EventTriggerSelector
+        type={isComponent ? 'component' : 'plugin'}
+        trigger={trigger}
+        setTrigger={setTrigger}
+        customEvents={isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents}
+      />
+      <TargetSelector target={target} setTarget={setTarget} />
+      {targetForm}
     </div>
   );
 }

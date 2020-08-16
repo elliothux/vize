@@ -1,25 +1,26 @@
 .event-form {
-    width: calc(100% - 28px);
-    margin: 0 14px;
+  width: calc(100% - 28px);
+  margin: 0 14px;
 
-    .event-form-prop-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+  .event-form-prop-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
 
-    .event-form-trigger-selector {
-        width: calc(100% - 80px);
-    }
+  .event-form-selector {
+    width: calc(100% - 80px);
+  }
 }
 
-.event-form-trigger-selector-options .ant-select-item-option-content,
-.event-form-trigger-selector .ant-select-selection-item {
-    & > svg {
-        width: 15px;
-        height: auto;
-        margin-right: 8px;
-        position: relative;
-        top: 2px;
-    }
+.event-form-selector-options .ant-select-item-option-content,
+.event-form-selector .ant-select-selection-item {
+  & > svg {
+    width: 15px;
+    height: auto;
+    margin-right: 8px;
+    position: relative;
+    top: 2px;
+  }
 }
