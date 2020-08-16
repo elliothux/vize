@@ -23,9 +23,9 @@ program
 program
   .command('dist [entry]')
   .description('构建素材库')
-  .action((name, cmd) => {
-    const options = cleanArgs(cmd);
-    dist(options);
+  .action(() => {
+    // const options = cleanArgs(cmd);
+    dist();
   });
 
 program.arguments('<command>').action((cmd: string) => {

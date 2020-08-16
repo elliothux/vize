@@ -48,7 +48,7 @@ export class Builder {
 
   private prepareFiles = async () => {
     await this.clearTemp();
-    await generateEntryFile(this.libPaths, this.idProd);
+    await generateEntryFile(this.libPaths, this.libConfig, this.idProd);
   };
 
   public dev = async (port = 4567) => {

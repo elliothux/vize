@@ -1,5 +1,6 @@
 {
   "libName": "universal-rax",
   "author": "Aedron@github",
-  "runtime": "rax"
+  "runtime": "rax",
+  "__isBuildIn": true
 }
