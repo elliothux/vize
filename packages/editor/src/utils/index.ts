@@ -12,3 +12,5 @@ export * from './is';
 export * from './key';
 export * from './materialsMap';
 export * from './request';
+export * from './style';
+export * from './color';

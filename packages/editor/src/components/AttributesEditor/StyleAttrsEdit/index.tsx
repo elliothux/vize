@@ -1,41 +1,59 @@
 import './index.scss';
-import React from 'react';
+import * as React from 'react';
+import { useMemo } from 'react';
 import { SelectType } from 'states';
-// import { componentsStore, materialsStore } from 'states';
-// import { useMemo } from 'react';
+import { componentsStore, selectStore } from 'states';
+import { getCurrentPageComponentIndex } from 'utils';
+import { ComponentInstance } from 'types';
+import CommonStyleForm from './CommonStyleForm';
 import { Collapse } from 'antd';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react';
+
 // import { isEmpty } from 'utils';
 const { Panel } = Collapse;
 
 interface Props {
-    selectType: number;
+  selectType: SelectType;
 }
 
 function Empty() {
-    return <div>empty</div>;
+  return <div>empty</div>;
 }
 
 function IStyleAttrsEdit({ selectType }: Props) {
-    if (selectType === SelectType.PAGE) {
-        return <div>{'page'}</div>;
-    }
+  const { componentInstances } = componentsStore;
+  const { componentKey } = selectStore;
+  const { index, parentIndex } = useMemo(() => getCurrentPageComponentIndex(componentKey)!, [
+    componentKey,
+    componentInstances,
+  ]);
+  const { commonStyle } = useMemo<ComponentInstance>(() => {
+    return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
+  }, [index, parentIndex, componentInstances]);
+  // const { dataForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
 
-    if (selectType !== SelectType.COMPONENT) {
-        return <Empty />;
-    }
+  if (selectType === SelectType.PAGE) {
+    return <div>{'page'}</div>;
+  }
 
-    return (
-        <Collapse
-            bordered={false}
-            defaultActiveKey={['style', 'wrapper', 'common']}
-            className="editor-attr-item editor-attr-style-item"
-        >
-            <Panel header="组件通用样式" key="common">
-                1111
-            </Panel>
-            {/* {isEmpty()} */}
-        </Collapse>
-    );
+  if (selectType !== SelectType.COMPONENT) {
+    return <Empty />;
+  }
+
+  return (
+    <Collapse
+      bordered={false}
+      defaultActiveKey={['style', 'wrapper', 'common']}
+      className="editor-attr-item editor-attr-style-item"
+    >
+      <Panel header="组件通用样式" key="common">
+        <CommonStyleForm style={toJS(commonStyle)} onChange={componentsStore.setCurrentComponentInstanceCommonStyle} />
+      </Panel>
+      {/* {isEmpty()} */}
+    </Collapse>
+  );
 }
+export const StyleAttrsForm = observer(IStyleAttrsEdit);
 
-export default IStyleAttrsEdit;
+// export default IStyleAttrsEdit;

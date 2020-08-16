@@ -9,25 +9,26 @@ import { MaterialsView } from './components/MaterialsView';
 import { AttributesEditor } from './components/AttributesEditor';
 
 export function App() {
-    const [loading, setLoading] = React.useState<boolean>(true);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
-    useMount(async () => {
-        await init();
-        setLoading(false);
-    });
+  useMount(async () => {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    await init();
+    setLoading(false);
+  });
 
-    return (
-        <Spin spinning={loading} tip="loading" size="large" wrapperClassName="editor-loading">
-            <Header />
-            <main className="vize-main">
-                <MaterialsView loading={loading} />
-                <Simulator>{loading ? null : <Renderer />}</Simulator>
-                <AttributesEditor loading={loading} />
-            </main>
-        </Spin>
-    );
+  return (
+    <Spin spinning={loading} tip="loading" size="large" wrapperClassName="editor-loading">
+      <Header />
+      <main className="vize-main">
+        <MaterialsView loading={loading} />
+        <Simulator>{loading ? null : <Renderer />}</Simulator>
+        <AttributesEditor loading={loading} />
+      </main>
+    </Spin>
+  );
 }
 
 function init() {
-    return initStore();
+  return initStore();
 }

@@ -8,48 +8,48 @@ import { MaterialsComponentItem } from './MaterialsComponentItem';
 import { MaterialsComponentPreview } from './MaterialsComponentPreview';
 
 interface State {
-    currentComponent: Maybe<MaterialsComponentMeta>;
+  currentComponent: Maybe<MaterialsComponentMeta>;
 }
 
 @observer
 export class ComponentsLibrary extends React.Component {
-    public state: State = {
-        currentComponent: null,
-    };
+  public state: State = {
+    currentComponent: null,
+  };
 
-    private onSelectItem = (currentComponent: MaterialsComponentMeta) => {
-        this.setState({ currentComponent });
-    };
+  private onSelectItem = (currentComponent: MaterialsComponentMeta) => {
+    this.setState({ currentComponent });
+  };
 
-    private renderItem = (currentContainerComponentKey: number) => (item: MaterialsComponentMeta) => {
-        const { currentComponent } = this.state;
-        return (
-            <MaterialsComponentItem
-                key={item.identityName}
-                item={item}
-                currentItem={currentComponent ? currentComponent.identityName : null}
-                onSelect={this.onSelectItem}
-                currentContainerComponentKey={currentContainerComponentKey}
-            />
-        );
-    };
+  private renderItem = (currentContainerComponentKey: number) => (item: MaterialsComponentMeta) => {
+    const { currentComponent } = this.state;
+    return (
+      <MaterialsComponentItem
+        key={item.identityName}
+        item={item}
+        currentItem={currentComponent ? currentComponent.identityName : null}
+        onSelect={this.onSelectItem}
+        currentContainerComponentKey={currentContainerComponentKey}
+      />
+    );
+  };
 
-    private renderPreview = () => {
-        const { currentComponent } = this.state;
-        if (!currentComponent) {
-            return null;
-        }
-        return <MaterialsComponentPreview item={currentComponent} />;
-    };
-
-    public render() {
-        return (
-            <div className="vize-components-library">
-                <WithTagsList view={MaterialsViewType.COMPONENTS} itemsMap={materialsStore.components}>
-                    {this.renderItem(selectStore.containerComponentKey)}
-                </WithTagsList>
-                {this.renderPreview()}
-            </div>
-        );
+  private renderPreview = () => {
+    const { currentComponent } = this.state;
+    if (!currentComponent) {
+      return null;
     }
+    return <MaterialsComponentPreview item={currentComponent} />;
+  };
+
+  public render() {
+    return (
+      <div className="vize-components-library">
+        <WithTagsList view={MaterialsViewType.COMPONENTS} itemsMap={materialsStore.components}>
+          {this.renderItem(selectStore.containerComponentKey)}
+        </WithTagsList>
+        {this.renderPreview()}
+      </div>
+    );
+  }
 }

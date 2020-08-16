@@ -6,65 +6,65 @@ import { componentsStore } from './components';
 import { selectStore } from './select';
 
 export class PagesStore {
-    public init = () => {
-        this.addPage(true, 'index');
-    };
+  public init = () => {
+    this.addPage(true, 'index');
+  };
 
-    @observable
-    public pages: PageInstance[] = [];
+  @observable
+  public pages: PageInstance[] = [];
 
-    @computed
-    public get currentPage(): PageInstance {
-        return this.pages[selectStore.pageIndex];
+  @computed
+  public get currentPage(): PageInstance {
+    return this.pages[selectStore.pageIndex];
+  }
+
+  @action
+  public setPageEditing = (pageIndex: number, editing: boolean) => {
+    this.pages[pageIndex]!.isNameEditing = editing;
+  };
+
+  @action
+  public addPage = (isHome?: boolean, name?: string): void => {
+    const page = createPageInstance(name || 'new page', isHome);
+    this.pages.push(page);
+    componentsStore.addComponentInstancesMap(page.key);
+    selectStore.selectPage(this.pages.length - 1);
+  };
+
+  @action
+  public deletePage = (pageIndex: number): void => {
+    if (this.pages.length === 1) {
+      message.warn('至少保留一个页面');
+      return;
     }
 
-    @action
-    public setPageEditing = (pageIndex: number, editing: boolean) => {
-        this.pages[pageIndex]!.isNameEditing = editing;
-    };
+    if (!this.pages[pageIndex]) {
+      debugger;
+    }
 
-    @action
-    public addPage = (isHome?: boolean, name?: string): void => {
-        const page = createPageInstance(name || 'new page', isHome);
-        this.pages.push(page);
-        componentsStore.addComponentInstancesMap(page.key);
-        selectStore.selectPage(this.pages.length - 1);
-    };
+    const { key, isHome } = this.pages[pageIndex]!;
+    componentsStore.deleteComponentInstancesMap(key);
+    this.pages.splice(pageIndex, 1);
 
-    @action
-    public deletePage = (pageIndex: number): void => {
-        if (this.pages.length === 1) {
-            message.warn('至少保留一个页面');
-            return;
-        }
+    if (selectStore.pageIndex >= this.pages.length) {
+      selectStore.selectPage(pageIndex - 1);
+    }
 
-        if (!this.pages[pageIndex]) {
-            debugger;
-        }
+    if (isHome) {
+      this.pages[0]!.isHome = true;
+    }
+  };
 
-        const { key, isHome } = this.pages[pageIndex]!;
-        componentsStore.deleteComponentInstancesMap(key);
-        this.pages.splice(pageIndex, 1);
+  @action
+  public setPageHome = (pageIndex: number): void => {
+    this.pages.find(i => i.isHome)!.isHome = false;
+    this.pages[pageIndex].isHome = true;
+  };
 
-        if (selectStore.pageIndex >= this.pages.length) {
-            selectStore.selectPage(pageIndex - 1);
-        }
-
-        if (isHome) {
-            this.pages[0]!.isHome = true;
-        }
-    };
-
-    @action
-    public setPageHome = (pageIndex: number): void => {
-        this.pages.find(i => i.isHome)!.isHome = false;
-        this.pages[pageIndex].isHome = true;
-    };
-
-    @action
-    public setPageName = (pageIndex: number, name: string): void => {
-        this.pages[pageIndex].name = name;
-    };
+  @action
+  public setPageName = (pageIndex: number, name: string): void => {
+    this.pages[pageIndex].name = name;
+  };
 }
 
 export const pagesStore = new PagesStore();

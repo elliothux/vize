@@ -1,0 +1,62 @@
+@import 'styles/helper';
+
+.form-color-picker {
+  position: relative;
+  display: flex;
+
+  &.disabled {
+    .form-color-picker-mask {
+      display: block;
+      cursor: not-allowed !important;
+      pointer-events: all !important;
+    }
+  }
+
+  .form-color-picker-mask {
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .form-color-picker-color {
+    margin-right: 12px;
+    width: 60px;
+    height: 36px;
+    border: $default-border;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .form-color-picker-commons {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100px;
+    height: 36px;
+
+    & > div {
+      margin-right: 4px;
+      margin-bottom: 4px;
+      width: 16px;
+      height: 16px;
+      border: $default-border;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+  }
+}
+
+.form-color-picker-popover {
+  .ant-popover-arrow,
+  .ant-popover-title {
+    display: none;
+  }
+  .ant-popover-inner {
+    background-color: $opacity;
+    box-shadow: none;
+  }
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+}

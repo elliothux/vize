@@ -7,3 +7,4 @@ export * from './helper';
 export * from './materials';
 export * from './pages';
 export * from './plugins';
+export * from './styles';

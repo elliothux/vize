@@ -8,24 +8,24 @@ import { toJS } from 'mobx';
 import { SchemaForm } from 'components/Form';
 
 function IPluginForm() {
-    const { pluginsInstances } = pluginsStore;
-    const { pluginKey } = selectStore;
+  const { pluginsInstances } = pluginsStore;
+  const { pluginKey } = selectStore;
 
-    const index = useMemo(() => getPluginIndex(pluginKey)!, [pluginKey, pluginsInstances]);
+  const index = useMemo(() => getPluginIndex(pluginKey)!, [pluginKey, pluginsInstances]);
 
-    const { data, plugin, key } = useMemo<PluginInstance>(() => {
-        return pluginsInstances[index];
-    }, [index, pluginsInstances]);
+  const { data, plugin, key } = useMemo<PluginInstance>(() => {
+    return pluginsInstances[index];
+  }, [index, pluginsInstances]);
 
-    const { dataForm } = useMemo(() => materialsStore.getPluginMeta(plugin), [plugin]);
+  const { dataForm } = useMemo(() => materialsStore.getPluginMeta(plugin), [plugin]);
 
-    return (
-        <>
-            {dataForm ? (
-                <SchemaForm instanceKey={key} form={dataForm} data={toJS(data)} onChange={pluginsStore.setPluginData} />
-            ) : null}
-        </>
-    );
+  return (
+    <>
+      {dataForm ? (
+        <SchemaForm instanceKey={key} form={dataForm} data={toJS(data)} onChange={pluginsStore.setPluginData} />
+      ) : null}
+    </>
+  );
 }
 
 export const PluginForm = observer(IPluginForm);
