@@ -2,6 +2,8 @@ import { Collapse } from 'antd';
 import * as React from 'react';
 import { CommonStyle } from 'types';
 import PositionForm from './PositionForm';
+import TransformForm from './TransformForm';
+import FontForm from './FontForm';
 
 export interface StyleFormProps<T> {
   style: T;
@@ -29,6 +31,16 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
               })
             }
           />
+        </Panel>
+      )}
+      {style.transform && (
+        <Panel header="变形" key="2">
+          <TransformForm style={style.transform} onChange={newStyle => onChange({ ...style, transform: newStyle })} />
+        </Panel>
+      )}
+      {style.text && (
+        <Panel header="字体" key="3">
+          <FontForm style={style.text} onChange={(newStyle: any) => onChange({ ...style, text: newStyle })} />
         </Panel>
       )}
     </Collapse>

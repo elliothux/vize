@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
 import { ActionInstance, ComponentActionsInstance } from './actions';
-import { CommonStyle, CommonStyleMeta } from './styles';
+import { CommonStyleMeta } from './styles';
 
 export interface MaterialsComponentMeta {
   identityName: string;
@@ -36,8 +36,8 @@ export interface ComponentInstance {
   component: Readonly<string>;
   data: { [key: string]: any };
   style: { [key: string]: any };
-  commonStyle: CommonStyle;
-  wrapperStyle: CommonStyle;
+  commonStyle: { [key: string]: any };
+  wrapperStyle: { [key: string]: any };
   actions: ActionInstance[];
   componentActions: ComponentActionsInstance[];
   children?: ComponentInstance[];
@@ -48,7 +48,7 @@ export interface ComponentInstance {
   };
 }
 
-export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'> {
+export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style' | 'commonStyle'> {
   componentKey: Readonly<number>;
   instance: ComponentInstance;
 }

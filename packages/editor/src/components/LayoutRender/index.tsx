@@ -6,26 +6,26 @@ import { StreamLayoutRender } from './StreamLayoutRender';
 import { FreeLayoutRender } from './FreeLayoutRender';
 
 interface Props {
-    mountTarget?: HTMLDivElement;
-    // renderContext: Window;
-    componentInstances: ComponentInstance[];
-    containerComponentInstance?: ComponentInstance;
+  mountTarget?: HTMLDivElement;
+  // renderContext: Window;
+  componentInstances: ComponentInstance[];
+  containerComponentInstance?: ComponentInstance;
 }
 
 function ILayoutRender({ componentInstances, mountTarget, containerComponentInstance }: Props) {
-    const { layoutMode } = globalStore;
+  const { layoutMode } = globalStore;
 
-    if (layoutMode === LayoutMode.STREAM) {
-        return (
-            <StreamLayoutRender
-                mountTarget={mountTarget}
-                componentInstances={componentInstances}
-                containerComponentInstance={containerComponentInstance}
-            />
-        );
-    }
+  if (layoutMode === LayoutMode.STREAM) {
+    return (
+      <StreamLayoutRender
+        mountTarget={mountTarget}
+        componentInstances={componentInstances}
+        containerComponentInstance={containerComponentInstance}
+      />
+    );
+  }
 
-    return <FreeLayoutRender componentInstances={componentInstances} />;
+  return <FreeLayoutRender componentInstances={componentInstances} />;
 }
 
 export const LayoutRender = observer(ILayoutRender);

@@ -14,7 +14,7 @@ import { observer } from 'mobx-react';
 const { Panel } = Collapse;
 
 interface Props {
-  selectType: number;
+  selectType: SelectType;
 }
 
 function Empty() {
@@ -32,8 +32,6 @@ function IStyleAttrsEdit({ selectType }: Props) {
     return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
   }, [index, parentIndex, componentInstances]);
   // const { dataForm } = useMemo(() => materialsStore.getComponentMeta(component), [component]);
-
-  console.log(toJS(commonStyle));
 
   if (selectType === SelectType.PAGE) {
     return <div>{'page'}</div>;

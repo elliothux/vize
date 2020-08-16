@@ -6,6 +6,9 @@ $max-overlay-z-index: 2147483647;
 
 $opacity-rgb: rgba(0, 0, 0, 0);
 
+$default-border: 1px solid #ccc;
+$opacity: rgba(0, 0, 0, 0);
+
 @function main-color-opacity($opacity: 1) {
     @return rgba(24, 144, 255, $opacity);
 }
@@ -15,13 +18,13 @@ $opacity-rgb: rgba(0, 0, 0, 0);
 }
 
 @mixin flipX {
-    transform: scaleX(-1);
     filter: FlipH();
+    transform: scaleX(-1);
 }
 
 @mixin flipY {
-    transform: scaleY(-1);
     filter: FlipV();
+    transform: scaleY(-1);
 }
 
 @mixin flipXY {
@@ -29,8 +32,8 @@ $opacity-rgb: rgba(0, 0, 0, 0);
 }
 
 @mixin border-bottom-radius($radius) {
-    border-bottom-left-radius: $radius;
     border-bottom-right-radius: $radius;
+    border-bottom-left-radius: $radius;
 }
 
 @mixin border-top-radius($radius) {
@@ -40,8 +43,8 @@ $opacity-rgb: rgba(0, 0, 0, 0);
 
 @mixin hide-scroll-bar {
     &::-webkit-scrollbar {
-        width: 0;
         display: none;
+        width: 0;
     }
 }
 
@@ -63,11 +66,13 @@ $opacity-rgb: rgba(0, 0, 0, 0);
 }
 
 @mixin clearfix() {
+
     &:before,
     &:after {
-        content: '';
         display: table;
+        content: '';
     }
+
     &:after {
         clear: both;
     }

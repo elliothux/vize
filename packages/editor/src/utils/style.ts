@@ -233,3 +233,10 @@ export function getPositionFromMeta(style: DistanceStyle): PositionStyle {
 
   return { ...defaultDistance, ...style, outset };
 }
+
+export function getSliderValue(value: number | [number, number]): number {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return 0;
+}
