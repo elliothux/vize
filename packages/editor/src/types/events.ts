@@ -1,4 +1,4 @@
 export interface MaterialsCustomEvent {
-    displayName: string;
-    eventName: string;
+  displayName: string;
+  eventName: string;
 }

@@ -1,10 +1,10 @@
 body {
-    background-color: #f5f5f5;
-    user-select: none;
+  background-color: #f5f5f5;
+  user-select: none;
 }
 
 img {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 //img {
@@ -12,41 +12,41 @@ img {
 //}
 
 .editor-loading {
+  height: 100vh;
+
+  .ant-spin {
+    height: 85vh !important;
+    max-height: 85vh !important;
+  }
+
+  .ant-spin-container {
     height: 100vh;
-
-    .ant-spin {
-        height: 85vh !important;
-        max-height: 85vh !important;
-    }
-
-    .ant-spin-container {
-        height: 100vh;
-    }
+  }
 }
 
 .vize-main {
-    width: 100vw;
-    height: calc(100vh - 50px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100vw;
+  height: calc(100vh - 50px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    .vize-simulator-container,
-    .vize-materials-view,
-    .vize-attributes-editor {
-        height: 100%;
-    }
+  .vize-simulator-container,
+  .vize-materials-view,
+  .vize-attributes-editor {
+    height: 100%;
+  }
 
-    .vize-materials-view,
-    .vize-attributes-editor {
-        overflow: scroll;
-    }
+  .vize-materials-view,
+  .vize-attributes-editor {
+    overflow: scroll;
+  }
 
-    .vize-materials-view {
-        width: 260px;
-    }
+  .vize-materials-view {
+    width: 260px;
+  }
 
-    .vize-attributes-editor {
-        width: 320px;
-    }
+  .vize-attributes-editor {
+    width: 320px;
+  }
 }

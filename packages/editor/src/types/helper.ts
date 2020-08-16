@@ -12,13 +12,13 @@ export type Function<T = any, U = void> = (param: T) => U;
 export type ValueOfPromise<T> = T extends Promise<infer U> ? U : never;
 
 export type FirstParameter<T extends (...args: any[]) => any> = T extends (firstArg: infer P, ...args: any[]) => any
-    ? P
-    : never;
+  ? P
+  : never;
 
 export enum RequestStatus {
-    LOADING = 'loading',
-    SUCCESS = 'success',
-    FAILED = 'failed',
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  FAILED = 'failed',
 }
 
 /**
@@ -28,5 +28,5 @@ export enum RequestStatus {
 export type JSONSchemaDefinition = ISchema;
 
 export interface JsonSchemaProperties {
-    [key: string]: ISchema;
+  [key: string]: ISchema;
 }

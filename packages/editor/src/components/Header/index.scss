@@ -1,16 +1,16 @@
 @import 'styles/helper';
 
 .main-header {
-    background: white;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 26px;
-    border-bottom: $main-border;
+  background: white;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 26px;
+  border-bottom: $main-border;
 
-    .logo {
-        width: 66px;
-        height: auto;
-    }
+  .logo {
+    width: 66px;
+    height: auto;
+  }
 }

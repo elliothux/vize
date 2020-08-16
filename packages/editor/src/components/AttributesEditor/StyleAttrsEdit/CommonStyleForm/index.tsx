@@ -4,6 +4,9 @@ import { CommonStyle } from 'types';
 import PositionForm from './PositionForm';
 import TransformForm from './TransformForm';
 import FontForm from './FontForm';
+import BackgroundForm from './BackgroundForm';
+import BorderForm from './BorderForm';
+import SizeForm from './SizeForm';
 
 export interface StyleFormProps<T> {
   style: T;
@@ -41,6 +44,24 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
       {style.text && (
         <Panel header="字体" key="3">
           <FontForm style={style.text} onChange={(newStyle: any) => onChange({ ...style, text: newStyle })} />
+        </Panel>
+      )}
+      {style.background && (
+        <Panel header="背景" key="4">
+          <BackgroundForm
+            style={style.background}
+            onChange={newStyle => onChange({ ...style, background: newStyle })}
+          />
+        </Panel>
+      )}
+      {style.border && (
+        <Panel header="边框" key="5">
+          <BorderForm style={style.border} onChange={(newStyle: any) => onChange({ ...style, border: newStyle })} />
+        </Panel>
+      )}
+      {style.size && (
+        <Panel header="尺寸" key="6">
+          <SizeForm style={style.size} onChange={(newStyle: any) => onChange({ ...style, size: newStyle })} />
         </Panel>
       )}
     </Collapse>

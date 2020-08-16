@@ -12,75 +12,75 @@ import { EditableText } from 'components/EditableText';
 import { useState } from 'react';
 
 interface Props {
-    instance: PageInstance;
-    index: number;
+  instance: PageInstance;
+  index: number;
 }
 
 function IPageItem({ instance, index }: Props) {
-    const { name, key, isHome, isNameEditing } = instance;
+  const { name, key, isHome, isNameEditing } = instance;
 
-    const [focus, setFocus] = useState(false);
+  const [focus, setFocus] = useState(false);
 
-    const onClick = useCallback(() => selectStore.selectPage(index), [index]);
+  const onClick = useCallback(() => selectStore.selectPage(index), [index]);
 
-    const onContextMenu = useCallback(
-        (e: React.MouseEvent) => {
-            showPageContextMenu(e, key);
-        },
-        [key],
-    );
+  const onContextMenu = useCallback(
+    (e: React.MouseEvent) => {
+      showPageContextMenu(e, key);
+    },
+    [key],
+  );
 
-    const onFocus = useCallback(() => setFocus(true), [setFocus]);
-    const onBlur = useCallback(() => setFocus(false), [setFocus]);
+  const onFocus = useCallback(() => setFocus(true), [setFocus]);
+  const onBlur = useCallback(() => setFocus(false), [setFocus]);
 
-    const onRename = useCallback(
-        (name: string) => {
-            pagesStore.setPageName(index, name);
-        },
-        [index],
-    );
+  const onRename = useCallback(
+    (name: string) => {
+      pagesStore.setPageName(index, name);
+    },
+    [index],
+  );
 
-    const onChangeEditing = useCallback(
-        (editing: boolean) => {
-            pagesStore.setPageEditing(index, editing);
-        },
-        [index],
-    );
+  const onChangeEditing = useCallback(
+    (editing: boolean) => {
+      pagesStore.setPageEditing(index, editing);
+    },
+    [index],
+  );
 
-    return (
-        <React.Fragment key={key.toString()}>
-            <div
-                className={classNames('vize-page-item', {
-                    activated: pagesStore.currentPage.key === key,
-                    editing: isNameEditing,
-                    focus,
-                })}
-                tabIndex={-1}
-                onClick={onClick}
-                onContextMenu={onContextMenu}
-                onFocus={onFocus}
-                onBlur={onBlur}
-            >
-                <EditableText
-                    onChange={onRename}
-                    editing={isNameEditing}
-                    onChangeEditing={onChangeEditing}
-                    onClickText={onClick}
-                >
-                    {name}
-                </EditableText>
+  return (
+    <React.Fragment key={key.toString()}>
+      <div
+        className={classNames('vize-page-item', {
+          activated: pagesStore.currentPage.key === key,
+          editing: isNameEditing,
+          focus,
+        })}
+        tabIndex={-1}
+        onClick={onClick}
+        onContextMenu={onContextMenu}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      >
+        <EditableText
+          onChange={onRename}
+          editing={isNameEditing}
+          onChangeEditing={onChangeEditing}
+          onClickText={onClick}
+        >
+          {name}
+        </EditableText>
 
-                {isHome ? (
-                    <Tag color="blue" icon={<FiHome />}>
-                        home
-                    </Tag>
-                ) : null}
+        {isHome ? (
+          <Tag color="blue" icon={<FiHome />}>
+            home
+          </Tag>
+        ) : null}
 
-                <EllipsisOutlined className="page-item-menu" onClick={onContextMenu} />
-            </div>
-            <PageContextMenu pageKey={key} index={index} />
-        </React.Fragment>
-    );
+        <EllipsisOutlined className="page-item-menu" onClick={onContextMenu} />
+      </div>
+      <PageContextMenu pageKey={key} index={index} />
+    </React.Fragment>
+  );
 }
 
 export const PageItem = observer(IPageItem);

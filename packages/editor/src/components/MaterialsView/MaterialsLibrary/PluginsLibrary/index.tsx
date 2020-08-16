@@ -8,47 +8,47 @@ import { MaterialsPluginItem } from './MaterialsPluginItem';
 import { MaterialsPluginPreview } from './MaterialsPluginPreview';
 
 interface State {
-    currentPlugin: Maybe<MaterialsPluginMeta>;
+  currentPlugin: Maybe<MaterialsPluginMeta>;
 }
 
 @observer
 export class PluginsLibrary extends React.Component {
-    public state: State = {
-        currentPlugin: null,
-    };
+  public state: State = {
+    currentPlugin: null,
+  };
 
-    private onSelectItem = (currentPlugin: MaterialsPluginMeta) => {
-        this.setState({ currentPlugin });
-    };
+  private onSelectItem = (currentPlugin: MaterialsPluginMeta) => {
+    this.setState({ currentPlugin });
+  };
 
-    private renderItem = (item: MaterialsPluginMeta) => {
-        const { currentPlugin } = this.state;
-        return (
-            <MaterialsPluginItem
-                key={item.identityName}
-                item={item}
-                currentItem={currentPlugin ? currentPlugin.identityName : null}
-                onSelect={this.onSelectItem}
-            />
-        );
-    };
+  private renderItem = (item: MaterialsPluginMeta) => {
+    const { currentPlugin } = this.state;
+    return (
+      <MaterialsPluginItem
+        key={item.identityName}
+        item={item}
+        currentItem={currentPlugin ? currentPlugin.identityName : null}
+        onSelect={this.onSelectItem}
+      />
+    );
+  };
 
-    private renderPreview = () => {
-        const { currentPlugin } = this.state;
-        if (!currentPlugin) {
-            return null;
-        }
-        return <MaterialsPluginPreview item={currentPlugin} />;
-    };
-
-    public render() {
-        return (
-            <div className="vize-plugins-library">
-                <WithTagsList view={MaterialsViewType.PLUGINS} itemsMap={materialsStore.plugins}>
-                    {this.renderItem}
-                </WithTagsList>
-                {this.renderPreview()}
-            </div>
-        );
+  private renderPreview = () => {
+    const { currentPlugin } = this.state;
+    if (!currentPlugin) {
+      return null;
     }
+    return <MaterialsPluginPreview item={currentPlugin} />;
+  };
+
+  public render() {
+    return (
+      <div className="vize-plugins-library">
+        <WithTagsList view={MaterialsViewType.PLUGINS} itemsMap={materialsStore.plugins}>
+          {this.renderItem}
+        </WithTagsList>
+        {this.renderPreview()}
+      </div>
+    );
+  }
 }

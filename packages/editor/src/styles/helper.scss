@@ -10,70 +10,69 @@ $default-border: 1px solid #ccc;
 $opacity: rgba(0, 0, 0, 0);
 
 @function main-color-opacity($opacity: 1) {
-    @return rgba(24, 144, 255, $opacity);
+  @return rgba(24, 144, 255, $opacity);
 }
 
 @mixin default-transition {
-    transition: all ease 300ms;
+  transition: all ease 300ms;
 }
 
 @mixin flipX {
-    filter: FlipH();
-    transform: scaleX(-1);
+  filter: FlipH();
+  transform: scaleX(-1);
 }
 
 @mixin flipY {
-    filter: FlipV();
-    transform: scaleY(-1);
+  filter: FlipV();
+  transform: scaleY(-1);
 }
 
 @mixin flipXY {
-    transform: scaleX(-1) scaleY(-1);
+  transform: scaleX(-1) scaleY(-1);
 }
 
 @mixin border-bottom-radius($radius) {
-    border-bottom-right-radius: $radius;
-    border-bottom-left-radius: $radius;
+  border-bottom-right-radius: $radius;
+  border-bottom-left-radius: $radius;
 }
 
 @mixin border-top-radius($radius) {
-    border-top-left-radius: $radius;
-    border-top-right-radius: $radius;
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
 }
 
 @mixin hide-scroll-bar {
-    &::-webkit-scrollbar {
-        display: none;
-        width: 0;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
 }
 
 @mixin background-cover {
-    background-position: center;
-    background-size: cover;
+  background-position: center;
+  background-size: cover;
 }
 
 @mixin center-flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @mixin center-inline-flex {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @mixin clearfix() {
+  &:before,
+  &:after {
+    display: table;
+    content: '';
+  }
 
-    &:before,
-    &:after {
-        display: table;
-        content: '';
-    }
-
-    &:after {
-        clear: both;
-    }
+  &:after {
+    clear: both;
+  }
 }

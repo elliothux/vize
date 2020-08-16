@@ -1,40 +1,40 @@
 .operation_bar {
-    &.center {
-        height: 100%;
+  &.center {
+    height: 100%;
 
-        & > div {
-            display: inline-block;
-        }
-
-        .operation_item {
-            cursor: pointer;
-            width: 36px;
-            height: 100%;
-            text-align: center;
-            padding: 18px 0;
-
-            svg {
-                width: 16px;
-                height: auto;
-            }
-        }
-
-        .operation_black {
-            width: 22px;
-            height: 1px;
-            display: inline-block;
-        }
+    & > div {
+      display: inline-block;
     }
 
-    &.right {
-        .hide_left,
-        .hide_right {
-            cursor: pointer;
+    .operation_item {
+      cursor: pointer;
+      width: 36px;
+      height: 100%;
+      text-align: center;
+      padding: 18px 0;
 
-            svg {
-                width: 20px;
-                height: auto;
-            }
-        }
+      svg {
+        width: 16px;
+        height: auto;
+      }
     }
+
+    .operation_black {
+      width: 22px;
+      height: 1px;
+      display: inline-block;
+    }
+  }
+
+  &.right {
+    .hide_left,
+    .hide_right {
+      cursor: pointer;
+
+      svg {
+        width: 20px;
+        height: auto;
+      }
+    }
+  }
 }

@@ -1,31 +1,31 @@
 @import 'styles/helper';
 
 .react-contexify {
-    border-radius: 2px;
-    padding: 3px 0;
-    background-color: rgba(40, 40, 40, 0.82);
-    z-index: 999;
+  border-radius: 2px;
+  padding: 3px 0;
+  background-color: rgba(40, 40, 40, 0.82);
+  z-index: 999;
 
-    &.react-contexify__will-enter--zoom {
-        animation-duration: 200ms;
+  &.react-contexify__will-enter--zoom {
+    animation-duration: 200ms;
+  }
+
+  .react-contexify__item {
+    font-size: 14px;
+
+    .react-contexify__item__content {
+      padding: 4px 12px;
+      margin: 2px 0;
+
+      & > svg {
+        width: 14px;
+        height: auto;
+        margin-right: 8px;
+      }
     }
+  }
 
-    .react-contexify__item {
-        font-size: 14px;
-
-        .react-contexify__item__content {
-            padding: 4px 12px;
-            margin: 2px 0;
-
-            & > svg {
-                width: 14px;
-                height: auto;
-                margin-right: 8px;
-            }
-        }
-    }
-
-    .react-contexify__separator {
-        opacity: 0.8;
-    }
+  .react-contexify__separator {
+    opacity: 0.8;
+  }
 }
