@@ -1,5 +1,6 @@
 {
   "libName": "universal",
   "author": "Aedron@github",
-  "runtime": "react"
+  "runtime": "react",
+  "__isBuildIn": true
 }

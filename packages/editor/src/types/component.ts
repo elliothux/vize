@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
-import { ActionInstance, ComponentActionsInstance } from './actions';
+import { ActionInstance, ComponentActionsInstance, PluginActionsInstance } from './actions';
 import { CommonStyleMeta } from './styles';
 
 export interface MaterialsComponentMeta {
@@ -19,6 +19,7 @@ export interface MaterialsComponentMeta {
   readonly runtime?: 'react' | 'rax';
   readonly onEvents?: MaterialsCustomEvent[];
   readonly emitEvents?: MaterialsCustomEvent[];
+  readonly isBuildIn?: boolean;
 }
 
 export interface ComponentPosition {
@@ -40,6 +41,7 @@ export interface ComponentInstance {
   wrapperStyle: { [key: string]: any };
   actions: ActionInstance[];
   componentActions: ComponentActionsInstance[];
+  pluginActions: PluginActionsInstance[];
   children?: ComponentInstance[];
   parent?: ComponentInstance;
   layout?: {

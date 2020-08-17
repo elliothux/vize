@@ -11,14 +11,14 @@ export class Builder {
   constructor(libPaths: LibPaths, libConfig: LibConfig, idProd: boolean) {
     this.libPaths = libPaths;
     this.libConfig = libConfig;
-    this.idProd = idProd;
+    this.isProd = idProd;
   }
 
   private readonly libPaths: LibPaths;
 
   private readonly libConfig: LibConfig;
 
-  private readonly idProd: boolean;
+  private readonly isProd: boolean;
 
   private generateWebpackConfig = (isProd: boolean): Configuration => {
     return getLibWebpackConfig(this.libPaths, this.libConfig, isProd);
@@ -48,7 +48,7 @@ export class Builder {
 
   private prepareFiles = async () => {
     await this.clearTemp();
-    await generateEntryFile(this.libPaths, this.idProd);
+    await generateEntryFile(this.libPaths, this.libConfig, this.isProd);
   };
 
   public dev = async (port = 4567) => {

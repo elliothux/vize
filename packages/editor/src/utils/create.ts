@@ -56,6 +56,7 @@ export function createComponentInstance(
     wrapperStyle: getDefaultCommonStyle(enableStyleGroup),
     actions: [],
     componentActions: [],
+    pluginActions: [],
     layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
     children: isContainer ? [] : undefined,
   };

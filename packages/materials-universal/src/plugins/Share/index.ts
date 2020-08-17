@@ -1,3 +1,3 @@
 export default function() {
-    return console.log('Share');
+  return console.log('Share');
 }
