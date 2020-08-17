@@ -5,6 +5,7 @@ import { materialsStore, pluginsStore } from 'states';
 import { useCallback, useEffect, useMemo } from 'react';
 import { Select } from 'antd';
 import { FiLayers } from 'react-icons/fi';
+import { useUnmount } from 'react-use';
 
 interface Props {
   plugin: Maybe<[number, Maybe<string>]>;
@@ -37,6 +38,8 @@ function IPluginTargetSelector({ plugin, setPlugin }: Props) {
       setPlugin(null);
     }
   }, [pluginsInstances]);
+
+  useUnmount(() => setPlugin(null));
 
   const onChangePlugin = useCallback((key: number) => setPlugin([key, null]), []);
   const onChangeEvent = useCallback((event: string) => setPlugin([pluginKey!, event]), [pluginKey]);

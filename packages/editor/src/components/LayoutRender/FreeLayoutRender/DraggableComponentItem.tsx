@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { ComponentItem } from 'components/ComponentItem';
 import { Position, ResizableDelta, Rnd } from 'react-rnd';
 import { ComponentInstance, ComponentSize } from 'types';
-import { componentsStore, selectStore } from 'states';
+import { componentsStore, globalStore, selectStore } from 'states';
 import { DraggableData, DraggableEvent } from 'react-draggable';
 import { ResizeDirection } from 're-resizable';
 
@@ -14,6 +14,7 @@ interface Props {
 }
 
 function IDraggableComponentItem({ instance, index }: Props) {
+  const { selectMode, selectModeSelectedComponent } = globalStore;
   const { position, size } = instance.layout!;
 
   const style = useMemo(() => ({ zIndex: index }), [index]);
@@ -60,6 +61,8 @@ function IDraggableComponentItem({ instance, index }: Props) {
         currentSelectedType={selectStore.selectType}
         currentSelectedKey={selectStore.componentKey}
         currentSelectedContainerKey={selectStore.containerComponentKey}
+        selectMode={selectMode}
+        selectModeSelectedComponent={selectModeSelectedComponent}
       />
     </Rnd>
   );

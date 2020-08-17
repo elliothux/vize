@@ -78,7 +78,10 @@ export class ComponentsStore {
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index: parentIndex } = getCurrentPageComponentIndex(selectStore.containerComponentKey)!;
 
-    const containerChildren = instances[parentIndex!].children!;
+    const parent = instances[parentIndex!];
+    instance.parent = parent;
+
+    const containerChildren = parent.children!;
     containerChildren.push(instance);
 
     setCurrentPageComponentIndex(instance.key, {

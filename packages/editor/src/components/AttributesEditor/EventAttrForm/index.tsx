@@ -14,7 +14,7 @@ interface Props {
 
 function IEventAttrForm({ selectType }: Props) {
   const [trigger, setTrigger] = useState<Maybe<EventTriggerType>>(null);
-  const [target, setTarget] = useState<EventTargetType>(EventTargetType.ACTION);
+  const [target, setTarget] = useState<EventTargetType>(EventTargetType.COMPONENT);
 
   const [actionId, setAction] = useState<Maybe<string>>(null);
   const [component, setComponent] = useState<Maybe<[number, Maybe<string>]>>(null);

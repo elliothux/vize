@@ -9,17 +9,18 @@ import { LayoutRender } from '../LayoutRender';
 import { setComponentNode } from '../../utils';
 
 import iframeStyle from './index.iframe.scss';
+import { ComponentSelectModeMask } from './ComponentSelectModeMask';
 
 globalStore.setIframeStyle('ComponentItem', iframeStyle);
 
-export interface ComponentItemProps extends WithReactChildren {
+interface Props extends Pick<typeof globalStore, 'selectMode' | 'selectModeSelectedComponent'> {
   instance: ComponentInstance;
   currentSelectedType: SelectType;
   currentSelectedKey: number;
   currentSelectedContainerKey: number;
 }
 
-export class ComponentItem extends React.Component<ComponentItemProps> {
+export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   private refNode: Maybe<HTMLDivElement> = null;
 
   private setRef = (node: HTMLDivElement) => {
@@ -35,6 +36,14 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
     selectStore.selectComponent(key);
   };
 
+  private onSelectWithSelectMode = () => {
+    const {
+      instance: { key, parent },
+    } = this.props;
+
+    globalStore.setSelectModeSelectComponent({ key: key, parentKey: parent?.key });
+  };
+
   private onContextMenu = (e: React.MouseEvent) => {
     showComponentContextMenu(e, this.props.instance.key, true);
   };
@@ -47,15 +56,37 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
     selectStore.selectContainerComponent(instance.key);
   };
 
+  private onDoubleClickWithSelectMode = () => {
+    const { instance } = this.props;
+    if (!instance.children) {
+      return null;
+    }
+    globalStore.setSelectModeSelectComponent({ parentKey: instance.key });
+  };
+
   private onClickMask = () => {
     selectStore.selectComponent(this.props.currentSelectedContainerKey);
     selectStore.selectContainerComponent(-1);
   };
 
+  private onClickMaskWithSelectMode = () => {
+    globalStore.setSelectModeSelectComponent({ key: globalStore.selectModeSelectedComponent?.key });
+  };
+
   render() {
-    const { instance, currentSelectedKey, currentSelectedContainerKey, currentSelectedType, children } = this.props;
-    const selected = currentSelectedType === SelectType.COMPONENT && instance.key === currentSelectedKey;
-    const selectedAsContainer = instance.key === currentSelectedContainerKey;
+    const {
+      instance,
+      instance: { key },
+      currentSelectedKey,
+      currentSelectedContainerKey,
+      currentSelectedType,
+      selectMode,
+      selectModeSelectedComponent,
+      children,
+    } = this.props;
+    const selected = currentSelectedType === SelectType.COMPONENT && key === currentSelectedKey;
+    const selectedWithSelectMode = selectModeSelectedComponent?.key === key;
+    const selectedAsContainer = key === currentSelectedContainerKey || key === selectModeSelectedComponent?.parentKey;
 
     if (!children && instance.children) {
       return <LayoutRender componentInstances={instance.children} containerComponentInstance={instance} />;
@@ -67,22 +98,41 @@ export class ComponentItem extends React.Component<ComponentItemProps> {
           ref={this.setRef}
           className={classNames('vize-component-item', {
             selected,
+            'selected-with-select-mode': selectedWithSelectMode,
             'selected-as-container': selectedAsContainer,
           })}
-          data-key={instance.key}
-          onDoubleClick={this.onDoubleClick}
+          data-key={key}
         >
           <ComponentView instance={instance}>{children}</ComponentView>
-          <ComponentMask
-            instance={instance}
-            selected={selected}
-            onClick={this.onSelect}
-            onContextMenu={this.onContextMenu}
-          />
+
+          {selectMode ? (
+            selectedAsContainer ? null : (
+              <ComponentSelectModeMask
+                instance={instance}
+                selected={selectedWithSelectMode}
+                onClick={this.onSelectWithSelectMode}
+                onDoubleClick={this.onDoubleClickWithSelectMode}
+              />
+            )
+          ) : (
+            <ComponentMask
+              instance={instance}
+              selected={selected}
+              onClick={this.onSelect}
+              onDoubleClick={this.onDoubleClick}
+              onContextMenu={this.onContextMenu}
+            />
+          )}
+
           <ComponentContextMenu instance={instance} />
         </div>
 
-        {selectedAsContainer ? <div className="vize-container-edit-mode-mask" onClick={this.onClickMask} /> : null}
+        {selectedAsContainer ? (
+          <div
+            className="vize-container-edit-mode-mask"
+            onClick={selectMode ? this.onClickMaskWithSelectMode : this.onClickMask}
+          />
+        ) : null}
       </>
     );
   }

@@ -7,7 +7,7 @@ import {
 } from 'react-sortable-hoc';
 import { ComponentInstance, WithReactChildren } from 'types';
 import { ComponentItem } from 'components/ComponentItem';
-import { componentsStore, selectStore } from 'states';
+import { componentsStore, globalStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo } from 'react';
 
@@ -25,6 +25,7 @@ interface Props {
 }
 
 function IStreamLayoutRender({ containerComponentInstance, componentInstances, mountTarget }: Props) {
+  const { selectMode, selectModeSelectedComponent } = globalStore;
   const { selectType, componentKey, containerComponentKey } = selectStore;
 
   const onSortStart = useCallback(
@@ -51,6 +52,8 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
       currentSelectedKey={componentKey}
       currentSelectedType={selectType}
       currentSelectedContainerKey={containerComponentKey}
+      selectMode={selectMode}
+      selectModeSelectedComponent={selectModeSelectedComponent}
     />
   ));
 
@@ -60,6 +63,8 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
       currentSelectedType={selectType}
       currentSelectedKey={componentKey}
       currentSelectedContainerKey={containerComponentKey}
+      selectMode={selectMode}
+      selectModeSelectedComponent={selectModeSelectedComponent}
     >
       {children}
     </ComponentItem>

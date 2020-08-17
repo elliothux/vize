@@ -1,29 +1,17 @@
-import { useMemo } from 'react';
-import { componentsStore, materialsStore, selectStore, SelectType } from 'states';
+import { materialsStore, selectStore, SelectType } from 'states';
 import { ComponentInstance, MaterialsComponentMeta, Maybe } from 'types';
-import { getCurrentPageComponentIndex } from 'utils';
+import { useComponentInstance } from './useComponent';
 
-export function useCurrentComponent(): Maybe<ComponentInstance> {
+export function useCurrentComponentInstance(): Maybe<ComponentInstance> {
   const { selectType, componentKey } = selectStore;
-  const { componentInstances } = componentsStore;
-  const isComponentSelected = selectType === SelectType.COMPONENT;
 
-  const { index, parentIndex } = useMemo(() => {
-    if (!isComponentSelected) {
-      return { index: -1 };
-    }
-    return getCurrentPageComponentIndex(componentKey)!;
-  }, [componentKey, componentInstances]);
+  const instance = useComponentInstance(componentKey);
 
-  if (!isComponentSelected) {
-    return null;
-  }
-
-  return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
+  return selectType === SelectType.COMPONENT ? instance : null;
 }
 
 export function useCurrentComponentMeta(): Maybe<MaterialsComponentMeta> {
-  const instance = useCurrentComponent();
+  const instance = useCurrentComponentInstance();
 
   if (!instance) {
     return null;
