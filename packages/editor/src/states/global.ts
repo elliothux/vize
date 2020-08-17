@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
-import { getQueryParams } from '../utils';
-import { LayoutMode, Maybe, PageMeta } from '../types';
+import { getQueryParams } from 'utils';
+import { LayoutMode, Maybe, PageMeta } from 'types';
 
 export class GlobalStore {
   constructor() {

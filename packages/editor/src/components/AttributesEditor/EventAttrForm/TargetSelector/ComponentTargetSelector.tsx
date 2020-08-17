@@ -1,21 +1,22 @@
 import * as React from 'react';
-import { Maybe } from 'types';
+import { EventTriggerType, Maybe } from 'types';
 import { observer } from 'mobx-react';
 import { globalStore } from 'states';
 import { useCallback, useEffect } from 'react';
 import { Button, Select } from 'antd';
-import { FiMousePointer, FiChevronsLeft, FiX, FiLayers } from 'react-icons/fi';
-import { useComponentMeta } from '../../../../hooks';
+import { FiMousePointer, FiChevronsLeft, FiX, FiLayers, FiPlus } from 'react-icons/fi';
+import { useComponentMeta } from 'hooks';
 import { useUnmount } from 'react-use';
 
 interface Props {
   component: Maybe<[number, Maybe<string>]>;
   setComponent: (component: Maybe<[number, Maybe<string>]>) => void;
+  trigger: Maybe<EventTriggerType>;
 }
 
 const { Option: SelectOption } = Select;
 
-function IComponentTargetSelector({ component, setComponent }: Props) {
+function IComponentTargetSelector({ component, setComponent, trigger }: Props) {
   const { selectMode, selectModeSelectedComponent } = globalStore;
 
   const onStartSelect = useCallback(() => globalStore.setSelectMode(true), []);
@@ -32,6 +33,8 @@ function IComponentTargetSelector({ component, setComponent }: Props) {
 
   useEffect(() => setComponent(null), [key]);
   useUnmount(onEndSelect);
+
+  const disabled = !(trigger && key && event);
 
   return (
     <>
@@ -81,6 +84,11 @@ function IComponentTargetSelector({ component, setComponent }: Props) {
           </Select>
         </div>
       ) : null}
+
+      <Button disabled={disabled} type="primary" className="event-form-target-selector-add">
+        <FiPlus />
+        <span>添加</span>
+      </Button>
     </>
   );
 }
