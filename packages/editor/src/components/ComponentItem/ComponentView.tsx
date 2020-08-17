@@ -10,14 +10,12 @@ interface Props extends WithReactChildren {
 }
 
 function IComponentView({ instance, children }: Props) {
-  const { key, component, data, commonStyle } = instance;
-  // console.log(data, 333);
-  // console.log(commonStyle);
+  const { key, component, data, commonStyle, wrapperStyle } = instance;
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
   const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
-
+  const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
   return (
-    <ComponentEventProxy instance={instance}>
+    <ComponentEventProxy instance={instance} style={iWrapperStyle}>
       <ComponentRender componentKey={key} data={data} style={{}} commonStyle={iCommonStyle} instance={instance}>
         {children}
       </ComponentRender>

@@ -9,7 +9,7 @@ import { selectStore, SelectType } from 'states';
 import { EventEmitTypes, events } from 'utils';
 import { Tabs } from 'antd';
 import { FiDatabase, FiFeather, FiGrid } from 'react-icons/fi';
-import IDataAttrsEdit from './DataAttrsEdit/index';
+import DataAttrsEdit from './DataAttrsEdit';
 import { StyleAttrsForm } from './StyleAttrsEdit';
 import { EventAttrForm } from './EventAttrForm';
 
@@ -77,7 +77,7 @@ function IAttributesEditor({ loading }: Props) {
             </div>
           }
         >
-          <IDataAttrsEdit selectType={selectType} />
+          <DataAttrsEdit selectType={selectType} />
         </TabPane>
         <TabPane
           key={AttrEditTab.STYLE}

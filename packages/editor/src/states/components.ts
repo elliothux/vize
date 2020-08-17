@@ -182,7 +182,7 @@ export class ComponentsStore {
   };
 
   @action
-  private setCurrentComponentInstanceProp = (key: 'data' | 'style' | 'commonStyle', value: object) => {
+  private setCurrentComponentInstanceProp = (key: 'data' | 'style' | 'commonStyle' | 'wrapperStyle', value: object) => {
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
     const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
@@ -203,8 +203,12 @@ export class ComponentsStore {
 
   @action
   public setCurrentComponentInstanceCommonStyle = (commonStyle: object) => {
-    console.log(commonStyle, 6666);
     return this.setCurrentComponentInstanceProp('commonStyle', commonStyle);
+  };
+
+  @action
+  public setCurrentComponentInstanceWrapperStyle = (warpperStyle: object) => {
+    return this.setCurrentComponentInstanceProp('wrapperStyle', warpperStyle);
   };
 }
 
