@@ -15,5 +15,6 @@ const dataForm = {
 export default {
   info,
   dataForm,
-  emitEvents: [{ displayName: '测试', eventName: 'test' }],
+  emitEvents: [{ displayName: 'emit测试', eventName: 'test' }],
+  onEvents: [{ displayName: 'on测试', eventName: 'test' }],
 };

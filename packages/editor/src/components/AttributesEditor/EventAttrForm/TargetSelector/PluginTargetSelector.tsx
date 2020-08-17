@@ -1,19 +1,21 @@
 import * as React from 'react';
-import { MaterialsPluginMeta, Maybe } from 'types';
+import { EventTriggerType, MaterialsPluginMeta, Maybe } from 'types';
 import { observer } from 'mobx-react';
 import { materialsStore, pluginsStore } from 'states';
 import { useCallback, useEffect, useMemo } from 'react';
-import { Select } from 'antd';
-import { FiLayers } from 'react-icons/fi';
+import { Button, Select } from 'antd';
+import { FiLayers, FiPlus } from 'react-icons/fi';
+import { useUnmount } from 'react-use';
 
 interface Props {
   plugin: Maybe<[number, Maybe<string>]>;
   setPlugin: (component: Maybe<[number, Maybe<string>]>) => void;
+  trigger: Maybe<EventTriggerType>;
 }
 
 const { Option: SelectOption } = Select;
 
-function IPluginTargetSelector({ plugin, setPlugin }: Props) {
+function IPluginTargetSelector({ plugin, setPlugin, trigger }: Props) {
   const { pluginsInstances } = pluginsStore;
   const [pluginKey, eventName] = plugin || [];
 
@@ -38,8 +40,12 @@ function IPluginTargetSelector({ plugin, setPlugin }: Props) {
     }
   }, [pluginsInstances]);
 
+  useUnmount(() => setPlugin(null));
+
   const onChangePlugin = useCallback((key: number) => setPlugin([key, null]), []);
   const onChangeEvent = useCallback((event: string) => setPlugin([pluginKey!, event]), [pluginKey]);
+
+  const disabled = !(trigger && pluginKey && eventName);
 
   return (
     <>
@@ -78,6 +84,11 @@ function IPluginTargetSelector({ plugin, setPlugin }: Props) {
           </Select>
         </div>
       ) : null}
+
+      <Button disabled={disabled} type="primary" className="event-form-target-selector-add">
+        <FiPlus />
+        <span>添加</span>
+      </Button>
     </>
   );
 }

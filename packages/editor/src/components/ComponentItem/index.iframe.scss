@@ -3,10 +3,23 @@
 .vize-component-item {
   position: relative;
   overflow: hidden;
+  min-height: 22px;
 
   &.selected {
     & > .vize-component-item-mask {
       border: 2px solid $main-color !important;
+    }
+  }
+
+  &.selected-with-select-mode {
+    & > .vize-component-item-select-mode-mask {
+      border: 2px solid $main-color !important;
+      background-color: rgba(0, 0, 0, 0.6);
+
+      & > span {
+        display: flex;
+        color: white;
+      }
     }
   }
 
@@ -19,7 +32,8 @@
     }
   }
 
-  .vize-component-item-mask {
+  .vize-component-item-mask,
+  .vize-component-item-select-mode-mask {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -28,7 +42,9 @@
     z-index: $min-overlay-z-index;
     border: 2px solid $opacity-rgb;
     transition: all ease 200ms;
+  }
 
+  .vize-component-item-mask {
     &:hover {
       border: 1px solid $main-color;
       background-color: main-color-opacity(0.2);
@@ -50,6 +66,36 @@
       bottom: 0;
       left: 0;
       opacity: 0.9;
+    }
+  }
+
+  .vize-component-item-select-mode-mask {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.75);
+
+      & > span {
+        display: flex;
+        color: white;
+      }
+    }
+
+    & > span {
+      font-size: 14px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      svg {
+        font-size: 20px;
+        line-height: 20px;
+        margin-right: 8px;
+      }
     }
   }
 }

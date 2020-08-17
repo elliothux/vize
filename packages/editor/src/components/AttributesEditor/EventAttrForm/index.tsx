@@ -14,7 +14,7 @@ interface Props {
 
 function IEventAttrForm({ selectType }: Props) {
   const [trigger, setTrigger] = useState<Maybe<EventTriggerType>>(null);
-  const [target, setTarget] = useState<EventTargetType>(EventTargetType.ACTION);
+  const [target, setTarget] = useState<EventTargetType>(EventTargetType.COMPONENT);
 
   const [actionId, setAction] = useState<Maybe<string>>(null);
   const [component, setComponent] = useState<Maybe<[number, Maybe<string>]>>(null);
@@ -30,13 +30,13 @@ function IEventAttrForm({ selectType }: Props) {
   let targetForm;
   switch (target) {
     case EventTargetType.ACTION:
-      targetForm = <ActionTargetSelector actionId={actionId} setAction={setAction} />;
+      targetForm = <ActionTargetSelector actionId={actionId} setAction={setAction} trigger={trigger} />;
       break;
     case EventTargetType.COMPONENT:
-      targetForm = <ComponentTargetSelector component={component} setComponent={setComponent} />;
+      targetForm = <ComponentTargetSelector component={component} setComponent={setComponent} trigger={trigger} />;
       break;
     case EventTargetType.PLUGIN:
-      targetForm = <PluginTargetSelector plugin={plugin} setPlugin={setPlugin} />;
+      targetForm = <PluginTargetSelector plugin={plugin} setPlugin={setPlugin} trigger={trigger} />;
       break;
   }
 

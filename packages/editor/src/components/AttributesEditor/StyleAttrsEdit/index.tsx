@@ -5,7 +5,7 @@ import { componentsStore } from 'states';
 import CommonStyleForm from './CommonStyleForm';
 import { Collapse } from 'antd';
 import { observer } from 'mobx-react';
-import { useCurrentComponent } from 'hooks';
+import { useCurrentComponentInstance } from 'hooks';
 import { isEmpty } from 'utils';
 
 const { Panel } = Collapse;
@@ -19,7 +19,7 @@ function Empty() {
 }
 
 function IStyleAttrsEdit({ selectType }: Props) {
-  const instance = useCurrentComponent()!;
+  const instance = useCurrentComponentInstance()!;
   const { commonStyle, wrapperStyle } = instance;
 
   if (selectType === SelectType.PAGE) {

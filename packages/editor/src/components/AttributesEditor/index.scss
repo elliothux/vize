@@ -4,16 +4,17 @@
   width: 326px;
   border-left: $main-border;
   background-color: white;
+
   .editor-title {
-    margin: 0px;
-    padding-left: 18px;
-    width: 326px;
+    margin: 0;
+    width: 100%;
     border-bottom: 1px solid rgb(204, 204, 204);
     background-color: rgb(250, 250, 250);
     text-align: center;
     font-weight: bold;
     line-height: 32px;
   }
+
   .editor-attr-tab {
     border-top: none;
 

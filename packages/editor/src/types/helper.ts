@@ -5,7 +5,7 @@ export type Maybe<T> = T | null | undefined;
 
 export type MustBe<T> = (T extends Maybe<infer U> ? U : never) extends undefined | infer P ? P : never;
 
-export type WithReactChildren = React.PropsWithChildren<{}>;
+export type WithReactChildren<T = {}> = React.PropsWithChildren<T>;
 
 export type Function<T = any, U = void> = (param: T) => U;
 
