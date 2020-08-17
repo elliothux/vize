@@ -7,6 +7,7 @@ import FontForm from './FontForm';
 import BackgroundForm from './BackgroundForm';
 import BorderForm from './BorderForm';
 import SizeForm from './SizeForm';
+import ZindexForm from './ZindexForm';
 
 export interface StyleFormProps<T> {
   style: T;
@@ -62,6 +63,11 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
       {style.size && (
         <Panel header="尺寸" key="6">
           <SizeForm style={style.size} onChange={(newStyle: any) => onChange({ ...style, size: newStyle })} />
+        </Panel>
+      )}
+      {style.zIndex && (
+        <Panel header="层级" key="7">
+          <ZindexForm style={style.zIndex} onChange={newStyle => onChange({ ...style, zIndex: newStyle })} />
         </Panel>
       )}
     </Collapse>

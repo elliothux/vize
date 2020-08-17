@@ -8,6 +8,7 @@ import { events, EventEmitTypes, withPersistReactEvent } from '../../utils';
 
 interface Props extends WithReactChildren {
   instance: ComponentInstance;
+  style: object;
 }
 
 const componentIntersectionObserver = new IntersectionObserver(entries => {
@@ -38,7 +39,7 @@ export class ComponentEventProxy extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    this.handlerParams = { global: globalStore.globalProps, meta: globalStore.metaInfo };
+    this.handlerParams = { global: globalStore.globalProps!, meta: globalStore.metaInfo! };
     this.updateHandlersWithParams();
   }
 
@@ -199,12 +200,13 @@ export class ComponentEventProxy extends React.Component<Props> {
   };
 
   public render() {
-    const { instance, children } = this.props;
+    const { instance, children, style } = this.props;
 
     return (
       <div
         className="vize-component-event-proxy"
         ref={this.setRef}
+        style={style}
         data-key={instance.key}
         onClick={this.onSingleClick}
         onDoubleClick={this.onDoubleClick}

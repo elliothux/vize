@@ -14,7 +14,7 @@ function Empty() {
   return <div>empty</div>;
 }
 
-function IDataAttrsEdit({ selectType }: Props) {
+function DataAttrsEdit({ selectType }: Props) {
   if (selectType === SelectType.COMPONENT) {
     return <ComponentDataForm />;
   } else if (selectType === SelectType.PLUGIN) {
@@ -23,4 +23,4 @@ function IDataAttrsEdit({ selectType }: Props) {
   return <Empty />;
 }
 
-export default IDataAttrsEdit;
+export default DataAttrsEdit;
