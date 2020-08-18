@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { message } from 'antd';
 import { parseUrl } from 'query-string';
-import { JsonSchemaProperties } from 'types';
+import { ComponentInstance, JsonSchemaProperties,Maybe } from 'types';
 import getDefaults from 'json-schema-defaults';
 import { createSchema } from './create';
 
@@ -40,6 +40,16 @@ export function getQueryParams(): QueryParams {
           .map(i => parseInt(i.trim(), 10))
       : [],
   };
+}
+
+export function getImageSrc({ data }: ComponentInstance): Maybe<string> {
+  if ('src' in data) {
+    if (Array.isArray(data.src)) {
+      return data.src[0] as string;
+    }
+    return data.src as string;
+  }
+  return null;
 }
 
 export type PromiseResult<T> = Promise<[null, T] | [Error, null]>;

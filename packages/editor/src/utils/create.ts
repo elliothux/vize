@@ -39,7 +39,7 @@ export function createPageInstance(name: string, isHome = false): PageInstance {
 }
 
 export function createComponentInstance(
-  { identityName, dataForm, styleForm, isContainer, enableStyleGroup, enableWrapperStyleGroup }: MaterialsComponentMeta,
+  { identityName, dataForm, styleForm, isContainer, enableWrapperStyleGroup,enableStyleGroup, hotArea }: MaterialsComponentMeta,
   freeLayout: boolean,
   initY = 0,
 ): ComponentInstance {
@@ -59,6 +59,7 @@ export function createComponentInstance(
     pluginActions: [],
     layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
     children: isContainer ? [] : undefined,
+    hotAreas: hotArea ? [] : undefined,
   };
 }
 
