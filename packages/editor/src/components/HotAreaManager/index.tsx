@@ -10,13 +10,15 @@ import {
   createHotArea,
   copyHotArea as iCopyHotArea,
   getMovedHotArea,
-  // transformHotAreaFromPxToPercent,
+  transformHotAreaFromPxToPercent,
   transformHotAreaFromPercentToPx,
 } from './utils';
+import { selectStore, hotAreasStore } from 'states';
 import { HotAreaItem } from './HotAreaItem';
 
-interface Props {}
-
+interface Props {
+  selectedContainerKey: number
+}
 
 class State {
   visible = false;
@@ -79,7 +81,7 @@ export class HotAreaManager extends React.Component<Props> {
       }
       this.instance = instance;
       this.src = getImageSrc(instance);
-      this.setState({ visible: true, loaded: false });
+      this.setState({ selectedIndex,visible: true, loaded: false });
     });
   }
 
@@ -95,13 +97,25 @@ export class HotAreaManager extends React.Component<Props> {
   };
 
   private onConfirmModal = () => {
-    
-    console.log(this)
+    const {
+      instance,
+      imgContainerInfo,
+      state: { hotAreas: iHotAreas, selectedIndex },
+    } = this;
+    const hotAreas = transformHotAreaFromPxToPercent(iHotAreas, imgContainerInfo);
+
+    hotAreasStore.setHotAreas(hotAreas, instance);
+    selectStore.selectHotArea(selectedIndex);
+    this.onCloseModal();
   };
 
-  private afterCloseModal = () => {};
+  private afterCloseModal = () => {
+    // do nothing.
+  };
 
-  private onScroll = () => {};
+  private onScroll = () => {
+    // do nothing.
+  };
 
   private onImgLoaded = () => {
     setTimeout(() => {
