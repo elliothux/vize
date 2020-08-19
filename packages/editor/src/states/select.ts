@@ -27,6 +27,15 @@ export class SelectStore {
   @observable
   public componentKey = -1;
 
+  @observable
+  public selectedHotAreaIndex = -1;
+
+  @observable
+  public selectedIndex = -1;
+
+  @observable
+  public selectedType: SelectType = SelectType.COMPONENT;
+
   @action
   public selectComponent = (key: number) => {
     this.selectType = SelectType.COMPONENT;
@@ -39,6 +48,13 @@ export class SelectStore {
   //     const { key, parent } = componentsStore.componentInstances[index]!;
   //     this.selectComponent(key, parent!.key);
   // };
+
+  @action
+  public selectHotArea = (index: number, componentIndex?: number) => {
+    this.selectedHotAreaIndex = index;
+    this.selectedIndex = typeof componentIndex === 'number' ? componentIndex : this.selectedIndex;
+    this.selectedType = SelectType.COMPONENT;
+  };
 
   @observable
   public containerComponentKey = -1;
