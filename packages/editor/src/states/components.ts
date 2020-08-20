@@ -217,4 +217,4 @@ export class ComponentsStore {
 
 export const componentsStore = new ComponentsStore();
 
-injectGlobalReadonlyGetter('vize_components_store', () => toJS(componentsStore));
+setTimeout(() => injectGlobalReadonlyGetter('vize_components_store', () => toJS(componentsStore)), 1000);
