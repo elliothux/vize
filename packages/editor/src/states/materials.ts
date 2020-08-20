@@ -83,4 +83,4 @@ export class MaterialsStore {
 
 export const materialsStore = new MaterialsStore();
 
-injectGlobalReadonlyGetter('vize_materials_store', () => toJS(materialsStore));
+setTimeout(() => injectGlobalReadonlyGetter('vize_materials_store', () => toJS(materialsStore)), 1000);
