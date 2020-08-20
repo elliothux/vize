@@ -16,10 +16,6 @@ import {
 import { selectStore, hotAreasStore } from 'states';
 import { HotAreaItem } from './HotAreaItem';
 
-interface Props {
-  selectedContainerKey: number
-}
-
 class State {
   visible = false;
 
@@ -45,7 +41,7 @@ function getMousePosition<T extends HTMLElement = HTMLDivElement>(
   return { x: clientX - left, y: clientY - top };
 }
 
-export class HotAreaManager extends React.Component<Props> {
+export class HotAreaManager extends React.Component {
 
   private instance: Maybe<ComponentInstance> = null;
 
