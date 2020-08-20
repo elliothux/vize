@@ -1,4 +1,5 @@
-import './index.scss'
+/* eslint-disable */
+import './index.scss';
 import * as React from 'react';
 import * as R from 'ramda';
 import { ComponentInstance, Maybe } from 'types';
@@ -35,14 +36,13 @@ interface ImgInfo {
 
 function getMousePosition<T extends HTMLElement = HTMLDivElement>(
   event: React.MouseEvent,
-  { top, left }: ImgInfo
+  { top, left }: ImgInfo,
 ): IHotAreaPosition {
   const { clientX, clientY } = event;
   return { x: clientX - left, y: clientY - top };
 }
 
 export class HotAreaManager extends React.Component {
-
   private instance: Maybe<ComponentInstance> = null;
 
   private imgContainerRef: Maybe<HTMLDivElement> = null;
@@ -77,7 +77,7 @@ export class HotAreaManager extends React.Component {
       }
       this.instance = instance;
       this.src = getImageSrc(instance);
-      this.setState({ selectedIndex,visible: true, loaded: false });
+      this.setState({ selectedIndex, visible: true, loaded: false });
     });
   }
 
@@ -85,8 +85,6 @@ export class HotAreaManager extends React.Component {
     this.mouseDownEvent = e;
     this.movingHotArea = null;
   };
-
-  
 
   private onCloseModal = () => {
     this.setState({ visible: false });
@@ -207,7 +205,7 @@ export class HotAreaManager extends React.Component {
       hotAreas: R.update(
         index,
         getMovedHotArea(direction, this.state.hotAreas[index] as IHotArea, this.imgContainerInfo),
-        hotAreas
+        hotAreas,
       ),
     });
   };
@@ -235,12 +233,7 @@ export class HotAreaManager extends React.Component {
     } = this;
 
     return (
-      <div
-        className="hot-area-manager-mask"
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-      >
+      <div className="hot-area-manager-mask" onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseUp={onMouseUp}>
         {hotAreas.map((area, index) => (
           <HotAreaItem
             key={area.key}
@@ -268,21 +261,21 @@ export class HotAreaManager extends React.Component {
     });
   };
 
-  private renderLoading = () => <Spin className="hot-area-manager-loading" />
+  private renderLoading = () => <Spin className="hot-area-manager-loading" />;
 
   private renderContent = () => {
-    if (!this.src){
-      return null
+    if (!this.src) {
+      return null;
     }
 
     return (
       <div className="hot-area-manager" onScroll={this.onScroll}>
-        <div ref={node => (this.imgContainerRef = node)} style={{ position : 'relative'}}>
-          <img src={this.src} alt="[热区图片]" onLoad={this.onImgLoaded}/>
+        <div ref={node => (this.imgContainerRef = node)} style={{ position: 'relative' }}>
+          <img src={this.src} alt="[热区图片]" onLoad={this.onImgLoaded} />
           {this.state.loaded ? this.renderHotAreas() : this.renderLoading()}
-        </div> 
+        </div>
       </div>
-    )
+    );
   };
 
   public render() {

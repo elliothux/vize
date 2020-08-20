@@ -9,7 +9,7 @@ const dataForm = {
     title: '图片',
     type: 'input',
     required: true,
-    default: '//impage.fudao.qq.com/prod/image/static/static_1564109910612.png',
+    default: 'https://img.alicdn.com/tfs/TB1PibhR4D1gK0jSZFsXXbldVXa-512-416.png',
   },
 };
 

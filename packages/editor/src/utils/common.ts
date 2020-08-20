@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { message } from 'antd';
 import { parseUrl } from 'query-string';
-import { ComponentInstance, JsonSchemaProperties,Maybe } from 'types';
+import { ComponentInstance, JsonSchemaProperties, Maybe } from 'types';
 import getDefaults from 'json-schema-defaults';
 import { createSchema } from './create';
 
@@ -42,6 +41,7 @@ export function getQueryParams(): QueryParams {
   };
 }
 
+// TODO: Refactor
 export function getImageSrc({ data }: ComponentInstance): Maybe<string> {
   if ('src' in data) {
     if (Array.isArray(data.src)) {
@@ -68,35 +68,6 @@ export function wait(time: number): Promise<void> {
   return new Promise<void>(resolve => setTimeout(resolve, time));
 }
 
-export function injectGlobalReadonlyGetter(key: string, getter: () => any) {
-  return injectReadonlyGetter(window, key, getter);
-}
-
-export function injectReadonly(target: object, key: string, value: any): void {
-  if (target.hasOwnProperty(key)) {
-    console.info(`Skip inject "${key}" on ${target.toString()}, it's already exists.`);
-    return;
-  }
-
-  Object.defineProperty(target, key, {
-    value,
-    writable: false,
-    configurable: false,
-  });
-}
-
-export function injectReadonlyGetter(target: object, key: string, getter: () => any): void {
-  if (target.hasOwnProperty(key)) {
-    console.info(`Skip inject "${key}" on ${target.toString()}, it's already exists.`);
-    return;
-  }
-
-  Object.defineProperty(target, key, {
-    get: getter,
-    configurable: false,
-  });
-}
-
 export function downloadString(text: string, fileType: string, fileName: string) {
   const blob = new Blob([text], { type: fileType });
 
@@ -115,29 +86,6 @@ export function downloadString(text: string, fileType: string, fileName: string)
 
 export function getSchemaDefault(schema: JsonSchemaProperties) {
   return getDefaults(createSchema(schema));
-}
-
-export function preventSyntheticEvent<T = HTMLElement, E = Event>(e: React.SyntheticEvent<T, E> | Event) {
-  e.preventDefault();
-  e.stopPropagation();
-  return false;
-}
-
-export function withPreventEvent<T = HTMLElement, E = Event>(action: Function) {
-  return (e: React.SyntheticEvent<T, E> | Event) => {
-    action();
-    return preventSyntheticEvent(e);
-  };
-}
-
-type ReactEventHandler<T> = (e: T) => void;
-export function withPersistReactEvent<T extends React.BaseSyntheticEvent = React.SyntheticEvent>(
-  handler: ReactEventHandler<T>,
-): ReactEventHandler<T> {
-  return (e: T) => {
-    e.persist();
-    return handler(e);
-  };
 }
 
 export function getMaterialsIdentityName(libName: string, name: string) {

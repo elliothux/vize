@@ -10,7 +10,7 @@ import {
   FiMoreVertical,
   FiCrosshair,
 } from 'react-icons/fi';
-import { Item, Menu, Separator } from 'react-contexify';
+import { animation, Item, Menu, Separator, theme } from 'react-contexify';
 import { MoveHotAreaDirection } from '../../HotAreaManager/types';
 
 interface Props {
@@ -22,7 +22,7 @@ interface Props {
 
 export function HotAreaContextMenu({ id, onDelete, onCopy, onMove }: Props) {
   return (
-    <Menu id={id}>
+    <Menu id={id} theme={theme.dark} animation={animation.fade}>
       <Item onClick={onDelete}>
         <FiDelete />
         <span>删除</span>
@@ -64,4 +64,3 @@ export function HotAreaContextMenu({ id, onDelete, onCopy, onMove }: Props) {
     </Menu>
   );
 }
-

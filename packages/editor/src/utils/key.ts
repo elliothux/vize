@@ -37,6 +37,7 @@ function createFromType(type: KeyType) {
 }
 
 export enum KeyType {
+  HotArea = 'hot-area',
   Component = 'component',
   Plugin = 'plugin',
   Action = 'action',

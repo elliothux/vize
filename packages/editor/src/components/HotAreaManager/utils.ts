@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { contextMenu } from 'react-contexify';
-import {  generateKey, KeyType, preventSyntheticEvent } from 'utils';
+import { generateKey, KeyType, preventSyntheticEvent } from 'utils';
 import { HotArea, Maybe, Percent, PX } from 'types';
 import { MoveHotAreaDirection, IHotAreaPosition, IHotAreaSize, IHotArea } from './types';
 
@@ -11,10 +11,7 @@ export interface ImgInfo {
   top: number;
 }
 
-function transformHotAreaFromPxToPercent(
-  hotArea: IHotArea[],
-  { width, height }: ImgInfo
-): HotArea[] {
+function transformHotAreaFromPxToPercent(hotArea: IHotArea[], { width, height }: ImgInfo): HotArea[] {
   const transformX = (px: PX): Percent => (px / width) * 100;
   const transformY = (px: PX): Percent => (px / height) * 100;
 
@@ -26,10 +23,7 @@ function transformHotAreaFromPxToPercent(
   }));
 }
 
-function transformHotAreaFromPercentToPx(
-  hotArea: HotArea[],
-  { width, height }: ImgInfo
-): IHotArea[] {
+function transformHotAreaFromPercentToPx(hotArea: HotArea[], { width, height }: ImgInfo): IHotArea[] {
   const transformX = (percent: Percent): PX => (width * percent) / 100;
   const transformY = (percent: Percent): PX => (height * percent) / 100;
 
@@ -42,7 +36,7 @@ function transformHotAreaFromPercentToPx(
 
 function createHotArea(position: IHotAreaPosition, size: IHotAreaSize): IHotArea {
   return {
-    key: generateKey(KeyType.Component),
+    key: generateKey(KeyType.HotArea),
     position,
     size,
   };
@@ -50,7 +44,7 @@ function createHotArea(position: IHotAreaPosition, size: IHotAreaSize): IHotArea
 
 function copyHotArea({ position: { x, y }, size }: IHotArea): IHotArea {
   return {
-    key: generateKey(KeyType.Component),
+    key: generateKey(KeyType.HotArea),
     position: { x: x + 10, y: y + 10 },
     size,
   };
@@ -67,17 +61,13 @@ function showContextMenu(e: React.MouseEvent<HTMLDivElement>, key: number) {
 
 function getMousePosition<T extends HTMLElement = HTMLDivElement>(
   event: React.MouseEvent,
-  { top, left }: ImgInfo
+  { top, left }: ImgInfo,
 ): IHotAreaPosition {
   const { clientX, clientY } = event;
   return { x: clientX - left, y: clientY - top };
 }
 
-function getMovedHotArea(
-  direction: MoveHotAreaDirection,
-  hotArea: IHotArea,
-  { width, height }: ImgInfo
-): IHotArea {
+function getMovedHotArea(direction: MoveHotAreaDirection, hotArea: IHotArea, { width, height }: ImgInfo): IHotArea {
   const { position: p, size } = hotArea;
   const [maxX, maxY] = [width - size.width, height - size.height];
 
