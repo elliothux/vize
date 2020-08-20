@@ -1,16 +1,19 @@
 import { action, observable } from 'mobx';
-// import { componentsStore } from './components';
 
 export enum SelectType {
   PAGE,
   COMPONENT,
   PLUGIN,
+  HOTAREA,
 }
 
 export class SelectStore {
   @observable
   public selectType: SelectType = SelectType.PAGE;
 
+  /**
+   * @desc select page
+   */
   @observable
   public pageIndex = 0;
 
@@ -24,6 +27,9 @@ export class SelectStore {
     return this.selectType === SelectType.PAGE && this.pageIndex === index;
   };
 
+  /**
+   * @desc select component
+   */
   @observable
   public componentKey = -1;
 
@@ -32,13 +38,6 @@ export class SelectStore {
     this.selectType = SelectType.COMPONENT;
     this.componentKey = key;
   };
-
-  // @action
-  // public selectComponentByIndex = (index: number) => {
-  //     this.selectType = SelectType.COMPONENT;
-  //     const { key, parent } = componentsStore.componentInstances[index]!;
-  //     this.selectComponent(key, parent!.key);
-  // };
 
   @observable
   public containerComponentKey = -1;
@@ -53,6 +52,24 @@ export class SelectStore {
     return this.selectType === SelectType.COMPONENT && this.componentKey === key;
   };
 
+  /**
+   * @desc select hot-area
+   */
+  @observable
+  public hotAreaIndex = -1;
+
+  @action
+  public selectHotArea = (index: number, componentKey?: null) => {
+    if (componentKey) {
+      this.componentKey = componentKey;
+    }
+    this.hotAreaIndex = index;
+    this.selectType = SelectType.HOTAREA;
+  };
+
+  /**
+   * @desc select plugin
+   */
   @observable
   public pluginKey = -1;
 

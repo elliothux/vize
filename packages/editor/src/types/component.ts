@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
 import { ActionInstance, ComponentActionsInstance, PluginActionsInstance } from './actions';
-import { CommonStyleMeta } from './styles';
+import { CommonStyleMeta, Percent } from './styles';
 
 export interface MaterialsComponentMeta {
   identityName: string;
@@ -16,6 +16,7 @@ export interface MaterialsComponentMeta {
   readonly thumb?: string;
   readonly preview?: string;
   readonly isContainer?: boolean;
+  readonly hotArea?: boolean;
   readonly runtime?: 'react' | 'rax';
   readonly onEvents?: MaterialsCustomEvent[];
   readonly emitEvents?: MaterialsCustomEvent[];
@@ -30,6 +31,23 @@ export interface ComponentPosition {
 export interface ComponentSize {
   width: number;
   height: number;
+}
+
+export interface HotAreaPosition {
+  x: Percent;
+  y: Percent;
+}
+
+export interface HotAreaSize {
+  width: Percent;
+  height: Percent;
+}
+
+export interface HotArea {
+  key: number;
+  position: HotAreaPosition;
+  size: HotAreaSize;
+  actions: ActionInstance[];
 }
 
 export interface ComponentInstance {
@@ -48,6 +66,7 @@ export interface ComponentInstance {
     position: ComponentPosition;
     size?: ComponentSize;
   };
+  hotAreas?: HotArea[];
 }
 
 export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style' | 'commonStyle'> {

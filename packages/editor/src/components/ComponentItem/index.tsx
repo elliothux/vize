@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { ComponentMask } from './ComponentMask';
 import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/ComponentMenu';
 import { LayoutRender } from '../LayoutRender';
-import { setComponentNode } from '../../utils';
+import { setComponentNode, events, EventEmitTypes } from '../../utils';
 
 import iframeStyle from './index.iframe.scss';
 import { ComponentSelectModeMask } from './ComponentSelectModeMask';
@@ -50,6 +50,10 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
 
   private onDoubleClick = () => {
     const { instance } = this.props;
+    if (instance.hotAreas) {
+      events.emit(EventEmitTypes.MANAGE_HOT_AREA, instance);
+      return;
+    }
     if (!instance.children) {
       return null;
     }

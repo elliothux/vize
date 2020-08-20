@@ -7,6 +7,7 @@ import { Renderer } from './components/Renderer';
 import { initStore } from './states';
 import { MaterialsView } from './components/MaterialsView';
 import { AttributesEditor } from './components/AttributesEditor';
+import { HotAreaManager } from './components/HotAreaManager';
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -25,6 +26,7 @@ export function App() {
         <Simulator>{loading ? null : <Renderer />}</Simulator>
         <AttributesEditor loading={loading} />
       </main>
+      <HotAreaManager />
     </Spin>
   );
 }

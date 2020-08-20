@@ -18,3 +18,4 @@ export * from './materials';
 export * from './pages';
 export * from './plugins';
 export * from './select';
+export * from './hotAreas';
