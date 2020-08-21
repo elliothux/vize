@@ -17,11 +17,7 @@ function IEventAttrForm({ selectType }: Props) {
   const pluginMeta = useCurrentPluginMeta();
 
   const [trigger, setTrigger] = useState<Maybe<EventTriggerType>>(null);
-  const [target, setTarget] = useState<EventTargetType>(EventTargetType.COMPONENT);
-
-  const [actionId, setAction] = useState<Maybe<string>>(null);
-  const [component, setComponent] = useState<Maybe<[number, Maybe<string>]>>(null);
-  const [plugin, setPlugin] = useState<Maybe<[number, Maybe<string>]>>(null);
+  const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.COMPONENT);
 
   useEffect(() => {
     setTrigger(null);
@@ -32,15 +28,15 @@ function IEventAttrForm({ selectType }: Props) {
   }
 
   let targetForm;
-  switch (target) {
+  switch (targetType) {
     case EventTargetType.ACTION:
-      targetForm = <ActionTargetSelector actionId={actionId} setAction={setAction} trigger={trigger} />;
+      targetForm = <ActionTargetSelector trigger={trigger} setTrigger={setTrigger} />;
       break;
     case EventTargetType.COMPONENT:
-      targetForm = <ComponentTargetSelector component={component} setComponent={setComponent} trigger={trigger} />;
+      targetForm = <ComponentTargetSelector trigger={trigger} setTrigger={setTrigger} />;
       break;
     case EventTargetType.PLUGIN:
-      targetForm = <PluginTargetSelector plugin={plugin} setPlugin={setPlugin} trigger={trigger} />;
+      targetForm = <PluginTargetSelector trigger={trigger} setTrigger={setTrigger} />;
       break;
   }
 
@@ -54,7 +50,7 @@ function IEventAttrForm({ selectType }: Props) {
         setTrigger={setTrigger}
         customEvents={isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents}
       />
-      <TargetSelector target={target} setTarget={setTarget} />
+      <TargetSelector target={targetType} setTarget={setTargetType} />
       {targetForm}
     </div>
   );

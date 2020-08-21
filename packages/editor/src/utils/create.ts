@@ -1,7 +1,8 @@
 import {
   ActionInstance,
-  ActionTarget,
   ComponentInstance,
+  EventTarget,
+  EventTargetType,
   EventTriggerType,
   JSONSchemaDefinition,
   JsonSchemaProperties,
@@ -81,23 +82,28 @@ export function createPluginInstance({ identityName, dataForm }: MaterialsPlugin
     key,
     plugin: identityName,
     data,
+    actions: [],
   };
 }
 
 export function createActionInstance(
-  { identityName, dataForm }: MaterialsActionMeta,
   trigger: EventTriggerType,
-  target?: ActionTarget,
+  target: EventTarget,
+  action?: MaterialsActionMeta,
 ): ActionInstance {
   const key = generateKey(KeyType.Action);
-  const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
+
+  let data;
+  if (target.type === EventTargetType.ACTION) {
+    const { dataForm } = action!;
+    data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
+  }
 
   return {
     key,
-    action: identityName,
     data,
     trigger,
-    actions: [],
     target,
+    actions: [],
   };
 }

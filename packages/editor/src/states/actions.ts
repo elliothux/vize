@@ -1,16 +1,16 @@
 import { action } from 'mobx';
-import { ActionInstance, ActionTarget, EventTriggerType } from '../types';
+import { ActionInstance, EventTarget, EventTargetType, EventTriggerType } from '../types';
 import { createActionInstance } from '../utils';
-import { materialsStore } from './materials';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
+import { materialsStore } from './materials';
 
 export class ActionStore {
   @action
-  public addActionInstance = (trigger: EventTriggerType, actionID: string, target: ActionTarget) => {
-    const action = materialsStore.getActionMeta(actionID);
-    const instance = createActionInstance(action, trigger, target);
+  public addActionInstance = (trigger: EventTriggerType, target: EventTarget) => {
+    const actions = target.type === EventTargetType.ACTION ? materialsStore.getActionMeta(target.id) : undefined;
+    const instance = createActionInstance(trigger, target, actions);
 
     switch (selectStore.selectType) {
       case SelectType.COMPONENT: {

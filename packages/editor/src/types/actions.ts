@@ -1,7 +1,6 @@
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
 import { PageMeta } from './pages';
-import { Maybe } from './helper';
 
 export interface MaterialsActionMeta {
   identityName: string;
@@ -14,24 +13,38 @@ export interface MaterialsActionMeta {
   readonly isBuildIn?: boolean;
 }
 
-export enum ActionTargetType {
+export interface ActionInstance {
+  key: Readonly<number>;
+  data?: { [key: string]: any };
+  trigger: EventTriggerType;
+  target: EventTarget;
+  actions: ActionInstance[];
+}
+
+export type EventTriggerType = BaseComponentEventTriggerType | BasePluginEventTriggerType | 'string';
+
+export enum EventTargetType {
+  ACTION = 'action',
   COMPONENT = 'component',
   PLUGIN = 'plugin',
 }
 
-export interface ActionTarget {
-  type: ActionTargetType;
-  key: number;
+export interface ActionEventTarget {
+  type: EventTargetType.ACTION;
+  id: string;
 }
 
-export interface ActionInstance {
-  key: Readonly<number>;
-  data: { [key: string]: any };
-  action: Readonly<string>; // action id or component/plugin eventName
-  trigger: EventTriggerType;
-  target: Maybe<ActionTarget>;
-  actions: ActionInstance[];
+export interface ComponentEventTarget {
+  type: EventTargetType.COMPONENT;
+  key: number;
+  eventName: string;
 }
+
+export interface PluginEventTarget extends Omit<ComponentEventTarget, 'type'> {
+  type: EventTargetType.PLUGIN;
+}
+
+export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget;
 
 export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
 
@@ -49,14 +62,6 @@ export enum BaseComponentEventTriggerType {
 export enum BasePluginEventTriggerType {
   BEFORE_EXEC = '__vize_plugin_event_trigger_before_exec',
   AFTER_EXEC = '__vize_plugin_event_trigger_after_exec',
-}
-
-export type EventTriggerType = BaseComponentEventTriggerType | BasePluginEventTriggerType | 'string';
-
-export enum EventTargetType {
-  ACTION = 'action',
-  COMPONENT = 'component',
-  PLUGIN = 'plugin',
 }
 
 // TODO

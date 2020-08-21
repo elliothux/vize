@@ -1,4 +1,5 @@
 import { action, observable } from 'mobx';
+import { Maybe } from '../types';
 
 export enum SelectType {
   PAGE,
@@ -37,6 +38,7 @@ export class SelectStore {
   public selectComponent = (key: number) => {
     this.selectType = SelectType.COMPONENT;
     this.componentKey = key;
+    debugger;
   };
 
   @observable
@@ -82,6 +84,28 @@ export class SelectStore {
   @action
   public isCurrentPlugin = (key: number) => {
     return this.selectType === SelectType.PLUGIN && this.pluginKey === key;
+  };
+
+  /**
+   * @desc selectMode
+   */
+  @observable
+  public selectMode = false;
+
+  @action
+  public setSelectMode = (mode: boolean) => {
+    this.selectMode = mode;
+    if (mode) {
+      this.selectModeSelectedComponent = null;
+    }
+  };
+
+  @observable
+  public selectModeSelectedComponent: Maybe<{ parentKey?: number; key?: number }> = null;
+
+  @action
+  public setSelectModeSelectComponent = (selectedComponent: SelectStore['selectModeSelectedComponent']) => {
+    this.selectModeSelectedComponent = selectedComponent;
   };
 }
 
