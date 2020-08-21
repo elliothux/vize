@@ -1,6 +1,7 @@
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
 import { PageMeta } from './pages';
+import { Maybe } from './helper';
 
 export interface MaterialsActionMeta {
   identityName: string;
@@ -13,19 +14,24 @@ export interface MaterialsActionMeta {
   readonly isBuildIn?: boolean;
 }
 
+export enum ActionTargetType {
+  COMPONENT = 'component',
+  PLUGIN = 'plugin',
+}
+
+export interface ActionTarget {
+  type: ActionTargetType;
+  key: number;
+}
+
 export interface ActionInstance {
   key: Readonly<number>;
-  action: Readonly<string>;
   data: { [key: string]: any };
+  action: Readonly<string>; // action id or component/plugin eventName
   trigger: EventTriggerType;
-  actions: ActionInstance | ComponentActionsInstance;
+  target: Maybe<ActionTarget>;
+  actions: ActionInstance[];
 }
-
-export interface ComponentActionsInstance extends Exclude<ActionInstance, 'actions'> {
-  target: number;
-}
-
-export type PluginActionsInstance = ComponentActionsInstance;
 
 export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
 

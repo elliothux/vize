@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as R from 'ramda';
 import { EventTriggerType, Maybe } from 'types';
 import { Button, Select } from 'antd';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { materialsStore } from 'states';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 
@@ -21,6 +21,10 @@ export function ActionTargetSelector({ actionId, setAction, trigger }: Props) {
       ({ isBuildIn }) => (isBuildIn ? 'universalActions' : 'nonUniversalActions'),
       R.values(materialsStore.actions),
     );
+  }, []);
+
+  const onAddAction = useCallback(() => {
+    console.log(1);
   }, []);
 
   return (
@@ -57,7 +61,12 @@ export function ActionTargetSelector({ actionId, setAction, trigger }: Props) {
         </Select>
       </div>
 
-      <Button disabled={!(actionId && trigger)} type="primary" className="event-form-target-selector-add">
+      <Button
+        disabled={!(actionId && trigger)}
+        type="primary"
+        className="event-form-target-selector-add"
+        onClick={onAddAction}
+      >
         <FiPlus />
         <span>添加事件</span>
       </Button>

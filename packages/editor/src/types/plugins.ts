@@ -1,5 +1,6 @@
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
+import { ActionInstance } from './actions';
 
 export interface MaterialsPluginMeta {
   identityName: string;
@@ -18,6 +19,7 @@ export interface PluginInstance {
   key: Readonly<number>;
   plugin: Readonly<string>;
   data: { [key: string]: any };
+  actions: ActionInstance[];
 }
 
 // TODO

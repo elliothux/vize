@@ -1,13 +1,13 @@
 /* eslint-disable max-lines */
 import { action, computed, observable, toJS } from 'mobx';
-import { ComponentInstance, ComponentPosition, ComponentSize, LayoutMode } from 'types';
+import { ActionInstance, ComponentInstance, ComponentPosition, ComponentSize, HotArea, LayoutMode } from 'types';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import {
+  ComponentIndex,
   addPageComponentInstanceMap,
   batchUpdateCurrentPageComponentIndex,
   compareComponentIndex,
-  ComponentIndex,
   createComponentInstance,
   deleteCurrentPageComponentIndex,
   deletePageComponentInstanceMap,
@@ -56,7 +56,7 @@ export class ComponentsStore {
    */
   @action
   public addComponentInstance = (componentID: string) => {
-    const component = materialsStore.components[componentID];
+    const component = materialsStore.getComponentMeta(componentID);
     const instance =
       globalStore.layoutMode === LayoutMode.FREE
         ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
@@ -184,6 +184,9 @@ export class ComponentsStore {
     return instances[index];
   };
 
+  /**
+   * @desc Change Component Instance Props
+   */
   @action
   private setCurrentComponentInstanceProp = (key: 'data' | 'style' | 'commonStyle' | 'wrapperStyle', value: object) => {
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
@@ -191,7 +194,7 @@ export class ComponentsStore {
     const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
 
     instance[key] = value;
-    return value;
+    return instance;
   };
 
   @action
@@ -210,8 +213,29 @@ export class ComponentsStore {
   };
 
   @action
-  public setCurrentComponentInstanceWrapperStyle = (warpperStyle: object) => {
-    return this.setCurrentComponentInstanceProp('wrapperStyle', warpperStyle);
+  public setCurrentComponentInstanceWrapperStyle = (wrapperStyle: object) => {
+    return this.setCurrentComponentInstanceProp('wrapperStyle', wrapperStyle);
+  };
+
+  // TODO: Refactor
+  @action
+  public setCurrentComponentInstanceActions = (setter: (actions: ActionInstance[]) => ActionInstance[]) => {
+    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+    const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
+    const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
+
+    instance.actions = setter(instance.actions);
+    return instance;
+  };
+
+  @action
+  public setCurrentComponentInstanceHotAreas = (setter: (hotAreas: HotArea[]) => HotArea[]) => {
+    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+    const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
+    const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
+
+    instance.hotAreas = setter(instance.hotAreas!);
+    return instance;
   };
 }
 

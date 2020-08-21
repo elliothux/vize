@@ -22,7 +22,12 @@ function IPluginForm() {
   return (
     <>
       {dataForm ? (
-        <SchemaForm instanceKey={key} form={dataForm} data={toJS(data)} onChange={pluginsStore.setPluginData} />
+        <SchemaForm
+          instanceKey={key}
+          form={dataForm}
+          data={toJS(data)}
+          onChange={pluginsStore.setCurrentPluginInstanceData}
+        />
       ) : null}
     </>
   );

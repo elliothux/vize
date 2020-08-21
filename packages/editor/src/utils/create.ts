@@ -1,7 +1,11 @@
 import {
+  ActionInstance,
+  ActionTarget,
   ComponentInstance,
+  EventTriggerType,
   JSONSchemaDefinition,
   JsonSchemaProperties,
+  MaterialsActionMeta,
   MaterialsComponentMeta,
   MaterialsPluginMeta,
   PageData,
@@ -39,7 +43,15 @@ export function createPageInstance(name: string, isHome = false): PageInstance {
 }
 
 export function createComponentInstance(
-  { identityName, dataForm, styleForm, isContainer, enableWrapperStyleGroup,enableStyleGroup, hotArea }: MaterialsComponentMeta,
+  {
+    identityName,
+    dataForm,
+    styleForm,
+    isContainer,
+    enableWrapperStyleGroup,
+    enableStyleGroup,
+    hotArea,
+  }: MaterialsComponentMeta,
   freeLayout: boolean,
   initY = 0,
 ): ComponentInstance {
@@ -55,8 +67,6 @@ export function createComponentInstance(
     commonStyle: getDefaultCommonStyle(enableStyleGroup),
     wrapperStyle: getDefaultCommonStyle(enableWrapperStyleGroup),
     actions: [],
-    componentActions: [],
-    pluginActions: [],
     layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
     children: isContainer ? [] : undefined,
     hotAreas: hotArea ? [] : undefined,
@@ -71,5 +81,23 @@ export function createPluginInstance({ identityName, dataForm }: MaterialsPlugin
     key,
     plugin: identityName,
     data,
+  };
+}
+
+export function createActionInstance(
+  { identityName, dataForm }: MaterialsActionMeta,
+  trigger: EventTriggerType,
+  target?: ActionTarget,
+): ActionInstance {
+  const key = generateKey(KeyType.Action);
+  const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
+
+  return {
+    key,
+    action: identityName,
+    data,
+    trigger,
+    actions: [],
+    target,
   };
 }

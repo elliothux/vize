@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { SelectType } from 'states';
 import { EventTargetType, EventTriggerType, Maybe } from 'types';
@@ -13,6 +13,9 @@ interface Props {
 }
 
 function IEventAttrForm({ selectType }: Props) {
+  const componentMeta = useCurrentComponentMeta();
+  const pluginMeta = useCurrentPluginMeta();
+
   const [trigger, setTrigger] = useState<Maybe<EventTriggerType>>(null);
   const [target, setTarget] = useState<EventTargetType>(EventTargetType.COMPONENT);
 
@@ -20,8 +23,9 @@ function IEventAttrForm({ selectType }: Props) {
   const [component, setComponent] = useState<Maybe<[number, Maybe<string>]>>(null);
   const [plugin, setPlugin] = useState<Maybe<[number, Maybe<string>]>>(null);
 
-  const componentMeta = useCurrentComponentMeta();
-  const pluginMeta = useCurrentPluginMeta();
+  useEffect(() => {
+    setTrigger(null);
+  }, [componentMeta?.identityName]);
 
   if (!(selectType === SelectType.COMPONENT || selectType === SelectType.PLUGIN)) {
     return null;
