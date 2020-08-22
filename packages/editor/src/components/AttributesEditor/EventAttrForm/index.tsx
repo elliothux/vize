@@ -1,42 +1,43 @@
 import './index.scss';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { SelectType } from 'states';
-import { EventTargetType, EventTriggerType, Maybe } from 'types';
+import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { useCurrentComponentMeta, useCurrentPluginMeta } from 'hooks';
 import { EventTriggerSelector } from './TriggerSelector';
 import { TargetSelector, ActionTargetSelector, ComponentTargetSelector, PluginTargetSelector } from './TargetSelector';
+import { ActionInstances } from './ActionInstances';
 
 interface Props {
   selectType: number;
 }
 
 function IEventAttrForm({ selectType }: Props) {
-  const [trigger, setTrigger] = useState<Maybe<EventTriggerType>>(null);
-  const [target, setTarget] = useState<EventTargetType>(EventTargetType.COMPONENT);
-
-  const [actionId, setAction] = useState<Maybe<string>>(null);
-  const [component, setComponent] = useState<Maybe<[number, Maybe<string>]>>(null);
-  const [plugin, setPlugin] = useState<Maybe<[number, Maybe<string>]>>(null);
-
   const componentMeta = useCurrentComponentMeta();
   const pluginMeta = useCurrentPluginMeta();
+
+  const [trigger, setTrigger] = useState<Maybe<EventTriggerName>>(null);
+  const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.COMPONENT);
+
+  useEffect(() => {
+    setTrigger(null);
+  }, [componentMeta?.identityName]);
 
   if (!(selectType === SelectType.COMPONENT || selectType === SelectType.PLUGIN)) {
     return null;
   }
 
   let targetForm;
-  switch (target) {
+  switch (targetType) {
     case EventTargetType.ACTION:
-      targetForm = <ActionTargetSelector actionId={actionId} setAction={setAction} trigger={trigger} />;
+      targetForm = <ActionTargetSelector trigger={trigger} setTrigger={setTrigger} />;
       break;
     case EventTargetType.COMPONENT:
-      targetForm = <ComponentTargetSelector component={component} setComponent={setComponent} trigger={trigger} />;
+      targetForm = <ComponentTargetSelector trigger={trigger} setTrigger={setTrigger} />;
       break;
     case EventTargetType.PLUGIN:
-      targetForm = <PluginTargetSelector plugin={plugin} setPlugin={setPlugin} trigger={trigger} />;
+      targetForm = <PluginTargetSelector trigger={trigger} setTrigger={setTrigger} />;
       break;
   }
 
@@ -50,8 +51,15 @@ function IEventAttrForm({ selectType }: Props) {
         setTrigger={setTrigger}
         customEvents={isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents}
       />
-      <TargetSelector target={target} setTarget={setTarget} />
-      {targetForm}
+
+      {trigger ? (
+        <>
+          <TargetSelector target={targetType} setTarget={setTargetType} />
+          {targetForm}
+        </>
+      ) : null}
+
+      <ActionInstances />
     </div>
   );
 }

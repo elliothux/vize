@@ -1,31 +1,33 @@
 import * as React from 'react';
-import { EventTriggerType, MaterialsPluginMeta, Maybe } from 'types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  EventTargetType,
+  EventTriggerName,
+  MaterialsPluginMeta,
+  Maybe,
+  PluginEventTarget,
+  PluginInstance,
+} from 'types';
 import { observer } from 'mobx-react';
-import { materialsStore, pluginsStore } from 'states';
-import { useCallback, useEffect, useMemo } from 'react';
+import { actionStore, materialsStore, pluginsStore } from 'states';
 import { Button, Select } from 'antd';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 import { useUnmount } from 'react-use';
 
 interface Props {
-  plugin: Maybe<[number, Maybe<string>]>;
-  setPlugin: (component: Maybe<[number, Maybe<string>]>) => void;
-  trigger: Maybe<EventTriggerType>;
+  trigger: Maybe<EventTriggerName>;
+  setTrigger: (trigger: Maybe<EventTriggerName>) => void;
 }
 
 const { Option: SelectOption } = Select;
 
-function IPluginTargetSelector({ plugin, setPlugin, trigger }: Props) {
+function IPluginTargetSelector({ trigger, setTrigger }: Props) {
   const { pluginsInstances } = pluginsStore;
-  const [pluginKey, eventName] = plugin || [];
 
-  const plugins = useMemo(
-    () =>
-      pluginsInstances
-        .map<[number, MaterialsPluginMeta]>(({ plugin, key }) => [key, materialsStore.getPluginMeta(plugin)])
-        .filter(([, { onEvents }]) => !!onEvents?.length),
-    [pluginsInstances.length],
-  );
+  const [target, setTarget] = useState<Maybe<Partial<Omit<PluginEventTarget, 'type'>>>>(null);
+  const plugins = useMemo(() => filterPluginInstance(pluginsInstances), [pluginsInstances.length]);
+
+  const { eventName, key: pluginKey } = target || {};
 
   const currentPlugin = useMemo(() => {
     if (!pluginKey) {
@@ -36,14 +38,19 @@ function IPluginTargetSelector({ plugin, setPlugin, trigger }: Props) {
 
   useEffect(() => {
     if (!pluginsInstances.find(i => i.key === pluginKey)) {
-      setPlugin(null);
+      setTarget(null);
     }
   }, [pluginsInstances]);
 
-  useUnmount(() => setPlugin(null));
+  useUnmount(() => setTarget(null));
 
-  const onChangePlugin = useCallback((key: number) => setPlugin([key, null]), []);
-  const onChangeEvent = useCallback((event: string) => setPlugin([pluginKey!, event]), [pluginKey]);
+  const onChangePlugin = useCallback((key: number) => setTarget({ key }), []);
+  const onChangeEvent = useCallback((eventName: string) => setTarget({ key: pluginKey, eventName }), [pluginKey]);
+  const onAddAction = useCallback(() => {
+    actionStore.addActionInstance(trigger!, { type: EventTargetType.PLUGIN, eventName: eventName!, key: pluginKey! });
+    setTarget(null);
+    setTrigger(null);
+  }, [eventName, pluginKey]);
 
   const disabled = !(trigger && pluginKey && eventName);
 
@@ -85,12 +92,18 @@ function IPluginTargetSelector({ plugin, setPlugin, trigger }: Props) {
         </div>
       ) : null}
 
-      <Button disabled={disabled} type="primary" className="event-form-target-selector-add">
+      <Button disabled={disabled} type="primary" className="event-form-target-selector-add" onClick={onAddAction}>
         <FiPlus />
         <span>添加</span>
       </Button>
     </>
   );
+}
+
+function filterPluginInstance(pluginInstances: PluginInstance[]) {
+  return pluginInstances
+    .map<[number, MaterialsPluginMeta]>(({ plugin, key }) => [key, materialsStore.getPluginMeta(plugin)])
+    .filter(([, { onEvents }]) => !!onEvents?.length);
 }
 
 export const PluginTargetSelector = observer(IPluginTargetSelector);

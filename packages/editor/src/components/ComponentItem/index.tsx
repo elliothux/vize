@@ -2,19 +2,19 @@
 import * as React from 'react';
 import { ComponentInstance, Maybe, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
-import { globalStore, selectStore, SelectType } from 'states';
+import { globalStore, SelectStore, selectStore, SelectType } from 'states';
 import classNames from 'classnames';
 import { ComponentMask } from './ComponentMask';
 import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/ComponentMenu';
 import { LayoutRender } from '../LayoutRender';
-import { setComponentNode, events, EventEmitTypes } from '../../utils';
+import { setComponentNode, events, EventEmitTypes, withPreventEvent } from '../../utils';
 
 import iframeStyle from './index.iframe.scss';
 import { ComponentSelectModeMask } from './ComponentSelectModeMask';
 
 globalStore.setIframeStyle('ComponentItem', iframeStyle);
 
-interface Props extends Pick<typeof globalStore, 'selectMode' | 'selectModeSelectedComponent'> {
+interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComponent'> {
   instance: ComponentInstance;
   currentSelectedType: SelectType;
   currentSelectedKey: number;
@@ -37,13 +37,13 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
     selectStore.selectComponent(key);
   };
 
-  private onSelectWithSelectMode = () => {
+  private onSelectWithSelectMode = withPreventEvent(() => {
     const {
       instance: { key, parent },
     } = this.props;
 
-    globalStore.setSelectModeSelectComponent({ key: key, parentKey: parent?.key });
-  };
+    selectStore.setSelectModeSelectComponent({ key: key, parentKey: parent?.key });
+  });
 
   private onContextMenu = (e: React.MouseEvent) => {
     showComponentContextMenu(e, this.props.instance.key, true);
@@ -66,7 +66,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
     if (!instance.children) {
       return null;
     }
-    globalStore.setSelectModeSelectComponent({ parentKey: instance.key });
+    selectStore.setSelectModeSelectComponent({ parentKey: instance.key });
   };
 
   private onClickMask = () => {
@@ -75,7 +75,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   };
 
   private onClickMaskWithSelectMode = () => {
-    globalStore.setSelectModeSelectComponent({ key: globalStore.selectModeSelectedComponent?.key });
+    selectStore.setSelectModeSelectComponent({ key: selectStore.selectModeSelectedComponent?.key });
   };
 
   render() {

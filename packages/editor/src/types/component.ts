@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
-import { ActionInstance, ComponentActionsInstance, PluginActionsInstance } from './actions';
+import { ActionInstance } from './actions';
 import { CommonStyleMeta, Percent } from './styles';
 
 export interface MaterialsComponentMeta {
@@ -58,8 +58,6 @@ export interface ComponentInstance {
   commonStyle: { [key: string]: any };
   wrapperStyle: { [key: string]: any };
   actions: ActionInstance[];
-  componentActions: ComponentActionsInstance[];
-  pluginActions: PluginActionsInstance[];
   children?: ComponentInstance[];
   parent?: ComponentInstance;
   layout?: {

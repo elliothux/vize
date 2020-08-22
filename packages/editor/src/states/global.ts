@@ -69,25 +69,6 @@ export class GlobalStore {
   public setPreviewMode = (mode: boolean) => {
     this.previewMode = mode;
   };
-
-  @observable
-  public selectMode = false;
-
-  @action
-  public setSelectMode = (mode: boolean) => {
-    this.selectMode = mode;
-    if (mode) {
-      this.selectModeSelectedComponent = null;
-    }
-  };
-
-  @observable
-  public selectModeSelectedComponent: Maybe<{ parentKey?: number; key?: number }> = null;
-
-  @action
-  public setSelectModeSelectComponent = (selectedComponent: GlobalStore['selectModeSelectedComponent']) => {
-    this.selectModeSelectedComponent = selectedComponent;
-  };
 }
 
 export const globalStore = new GlobalStore();

@@ -38,10 +38,6 @@ export class PagesStore {
       return;
     }
 
-    if (!this.pages[pageIndex]) {
-      debugger;
-    }
-
     const { key, isHome } = this.pages[pageIndex]!;
     componentsStore.deleteComponentInstancesMap(key);
     this.pages.splice(pageIndex, 1);

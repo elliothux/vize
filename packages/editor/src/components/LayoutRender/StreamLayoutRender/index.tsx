@@ -7,7 +7,7 @@ import {
 } from 'react-sortable-hoc';
 import { ComponentInstance, WithReactChildren } from 'types';
 import { ComponentItem } from 'components/ComponentItem';
-import { componentsStore, globalStore, selectStore } from 'states';
+import { componentsStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo } from 'react';
 
@@ -25,11 +25,13 @@ interface Props {
 }
 
 function IStreamLayoutRender({ containerComponentInstance, componentInstances, mountTarget }: Props) {
-  const { selectMode, selectModeSelectedComponent } = globalStore;
-  const { selectType, componentKey, containerComponentKey } = selectStore;
+  const { selectType, componentKey, containerComponentKey, selectMode, selectModeSelectedComponent } = selectStore;
 
   const onSortStart = useCallback(
     ({ index }: SortStart) => {
+      if (selectStore.selectMode) {
+        return;
+      }
       selectStore.selectComponent(componentInstances[index].key);
     },
     [componentInstances],

@@ -15,21 +15,32 @@ export interface MaterialsActionMeta {
 
 export interface ActionInstance {
   key: Readonly<number>;
-  action: Readonly<string>;
-  data: { [key: string]: any };
-  trigger: EventTriggerType;
-  actions: ActionInstance | ComponentActionsInstance;
+  data?: { [key: string]: any };
+  trigger: EventTrigger;
+  target: EventTarget;
+  actions: ActionInstance[];
 }
 
-export interface ComponentActionsInstance extends Exclude<ActionInstance, 'actions'> {
-  target: number;
+/**
+ * @desc event trigger
+ */
+
+export interface EventTrigger {
+  type: EventTriggerType;
+  triggerName: EventTriggerName;
 }
 
-export type PluginActionsInstance = ComponentActionsInstance;
+export enum EventTriggerType {
+  ComponentUniversalTrigger = 'component_universal_trigger',
+  PluginUniversalTrigger = 'plugin_universal_trigger',
+  Custom = 'custom',
+}
+
+export type EventTriggerName = ComponentUniversalEventTriggers | PluginUniversalEventTrigger | 'string';
 
 export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
 
-export enum BaseComponentEventTriggerType {
+export enum ComponentUniversalEventTriggers {
   CLICK = '__vize_component_event_trigger_click',
   DOUBLE_CLICK = '__vize_component_event_trigger_double_click',
   LONG_PRESS = '__vize_component_event_trigger_long_press',
@@ -40,18 +51,37 @@ export enum BaseComponentEventTriggerType {
   MOUSE_LEAVE = '__vize_component_event_trigger_mouseLeave',
 }
 
-export enum BasePluginEventTriggerType {
+export enum PluginUniversalEventTrigger {
   BEFORE_EXEC = '__vize_plugin_event_trigger_before_exec',
   AFTER_EXEC = '__vize_plugin_event_trigger_after_exec',
 }
 
-export type EventTriggerType = BaseComponentEventTriggerType | BasePluginEventTriggerType | 'string';
+/**
+ * @desc event target
+ */
 
 export enum EventTargetType {
   ACTION = 'action',
   COMPONENT = 'component',
   PLUGIN = 'plugin',
 }
+
+export interface ActionEventTarget {
+  type: EventTargetType.ACTION;
+  id: string;
+}
+
+export interface ComponentEventTarget {
+  type: EventTargetType.COMPONENT;
+  key: number;
+  eventName: string;
+}
+
+export interface PluginEventTarget extends Omit<ComponentEventTarget, 'type'> {
+  type: EventTargetType.PLUGIN;
+}
+
+export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget;
 
 // TODO
 export interface ActionParams {

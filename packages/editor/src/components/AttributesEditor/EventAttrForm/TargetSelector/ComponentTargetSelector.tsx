@@ -1,40 +1,47 @@
 import * as React from 'react';
-import { EventTriggerType, Maybe } from 'types';
+import { useCallback, useEffect, useState } from 'react';
+import { ComponentEventTarget, EventTargetType, EventTriggerName, Maybe } from 'types';
 import { observer } from 'mobx-react';
-import { globalStore } from 'states';
-import { useCallback, useEffect } from 'react';
+import { actionStore, selectStore } from 'states';
 import { Button, Select } from 'antd';
-import { FiMousePointer, FiChevronsLeft, FiX, FiLayers, FiPlus } from 'react-icons/fi';
+import { FiChevronsLeft, FiLayers, FiMousePointer, FiPlus, FiX } from 'react-icons/fi';
 import { useComponentMeta } from 'hooks';
 import { useUnmount } from 'react-use';
 
 interface Props {
-  component: Maybe<[number, Maybe<string>]>;
-  setComponent: (component: Maybe<[number, Maybe<string>]>) => void;
-  trigger: Maybe<EventTriggerType>;
+  trigger: Maybe<EventTriggerName>;
+  setTrigger: (trigger: Maybe<EventTriggerName>) => void;
 }
 
 const { Option: SelectOption } = Select;
 
-function IComponentTargetSelector({ component, setComponent, trigger }: Props) {
-  const { selectMode, selectModeSelectedComponent } = globalStore;
+function IComponentTargetSelector({ trigger, setTrigger }: Props) {
+  const [target, setTarget] = useState<Maybe<Omit<ComponentEventTarget, 'type'>>>(null);
 
-  const onStartSelect = useCallback(() => globalStore.setSelectMode(true), []);
+  const { selectMode, selectModeSelectedComponent } = selectStore;
+  const { key } = selectModeSelectedComponent || {};
+  const { eventName } = target || {};
+
+  const onStartSelect = useCallback(() => selectStore.setSelectMode(true), []);
+
   const onEndSelect = useCallback(() => {
-    globalStore.setSelectMode(false);
-    setComponent(null);
+    selectStore.setSelectMode(false);
+    setTarget(null);
   }, []);
 
-  const { key } = selectModeSelectedComponent || {};
-  const [, event] = component || [];
+  const onAddAction = useCallback(() => {
+    actionStore.addActionInstance(trigger!, { type: EventTargetType.COMPONENT, eventName: eventName!, key: key! });
+    onEndSelect();
+    setTrigger(null);
+  }, [trigger, eventName, key]);
 
   const meta = useComponentMeta(key || -1);
-  const onChangeEvent = useCallback((event: string) => setComponent([key!, event]), [key]);
+  const onChangeEvent = useCallback((eventName: string) => setTarget({ eventName, key: key! }), [key]);
 
-  useEffect(() => setComponent(null), [key]);
+  useEffect(() => setTarget(null), [key]);
   useUnmount(onEndSelect);
 
-  const disabled = !(trigger && key && event);
+  const disabled = !(trigger && key && eventName);
 
   return (
     <>
@@ -70,7 +77,7 @@ function IComponentTargetSelector({ component, setComponent, trigger }: Props) {
         <div className="event-form-prop-item component-target-selector">
           <span>执行动作:</span>
           <Select
-            value={event || undefined}
+            value={eventName}
             onChange={onChangeEvent}
             className="event-form-selector"
             dropdownClassName="event-form-selector-options"
@@ -85,7 +92,7 @@ function IComponentTargetSelector({ component, setComponent, trigger }: Props) {
         </div>
       ) : null}
 
-      <Button disabled={disabled} type="primary" className="event-form-target-selector-add">
+      <Button disabled={disabled} type="primary" className="event-form-target-selector-add" onClick={onAddAction}>
         <FiPlus />
         <span>添加</span>
       </Button>

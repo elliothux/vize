@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { componentsStore, materialsStore } from 'states';
+import { componentsStore, materialsStore, selectStore, SelectType } from 'states';
 import { ComponentInstance, MaterialsComponentMeta, Maybe } from 'types';
-import { getCurrentPageComponentIndex } from 'utils';
+import { useMemo } from 'react';
+import { getCurrentPageComponentIndex } from '../utils';
 
 export function useComponentInstance(key: number): Maybe<ComponentInstance> {
   const { componentInstances } = componentsStore;
@@ -25,4 +25,30 @@ export function useComponentMeta(key: number): Maybe<MaterialsComponentMeta> {
   }
 
   return materialsStore.getComponentMeta(instance.component);
+}
+
+export function useCurrentComponentInstance(): Maybe<ComponentInstance> {
+  const { selectType, componentKey } = selectStore;
+
+  const instance = useComponentInstance(componentKey);
+
+  return selectType === SelectType.COMPONENT ? instance : null;
+}
+
+export function useCurrentComponentMeta(): Maybe<MaterialsComponentMeta> {
+  const instance = useCurrentComponentInstance();
+  return useComponentMeta(instance?.key || -1);
+}
+
+export function useCurrentContainerComponentInstance(): Maybe<ComponentInstance> {
+  const { selectType, containerComponentKey } = selectStore;
+
+  const instance = useComponentInstance(containerComponentKey);
+
+  return selectType === SelectType.COMPONENT ? instance : null;
+}
+
+export function useCurrentContainerComponentMeta(): Maybe<MaterialsComponentMeta> {
+  const instance = useCurrentContainerComponentInstance();
+  return useComponentMeta(instance?.key || -1);
 }

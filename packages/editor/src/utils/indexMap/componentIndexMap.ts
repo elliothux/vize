@@ -76,9 +76,6 @@ export function batchUpdateCurrentPageComponentIndex(
   for (let currentIndex = start; currentIndex <= end; currentIndex++) {
     const { key, children } = currentPageComponentInstances[currentIndex]!;
     const componentIndex = indexMap.get(key)!;
-    if (!componentIndex) {
-      debugger;
-    }
 
     componentIndex.index = currentIndex;
 

@@ -1,13 +1,11 @@
 import { action } from 'mobx';
-import { ComponentInstance, HotArea, Maybe } from 'types';
+import { HotArea } from 'types';
+import { componentsStore } from './components';
 
 export class HotAreasStore {
   @action
-  public setHotAreas = (hotAreas: HotArea[], instance: Maybe<ComponentInstance>) => {
-    if (!instance) {
-      return;
-    }
-    instance.hotAreas = hotAreas;
+  public setHotAreas = (hotAreas: HotArea[]) => {
+    return componentsStore.setCurrentComponentInstanceHotAreas(() => hotAreas);
   };
 }
 

@@ -1,21 +1,21 @@
 import * as React from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import * as R from 'ramda';
-import { EventTriggerType, Maybe } from 'types';
+import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { Button, Select } from 'antd';
-import { useMemo } from 'react';
-import { materialsStore } from 'states';
+import { actionStore, materialsStore } from 'states';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 
 interface Props {
-  actionId: Maybe<string>;
-  setAction: (id: string) => void;
-  trigger: Maybe<EventTriggerType>;
+  trigger: Maybe<EventTriggerName>;
+  setTrigger: (trigger: Maybe<EventTriggerName>) => void;
 }
 
 const { Option: SelectOption, OptGroup } = Select;
 
-export function ActionTargetSelector({ actionId, setAction, trigger }: Props) {
-  const onChange = useMemo(() => R.unary(setAction), []);
+export function ActionTargetSelector({ trigger, setTrigger }: Props) {
+  const [actionId, setActionId] = useState<Maybe<string>>(null);
+
   const { universalActions, nonUniversalActions } = useMemo(() => {
     return R.groupBy(
       ({ isBuildIn }) => (isBuildIn ? 'universalActions' : 'nonUniversalActions'),
@@ -23,13 +23,19 @@ export function ActionTargetSelector({ actionId, setAction, trigger }: Props) {
     );
   }, []);
 
+  const onAddAction = useCallback(() => {
+    actionStore.addActionInstance(trigger!, { type: EventTargetType.ACTION, id: actionId! });
+    setActionId(null);
+    setTrigger(null);
+  }, [trigger, actionId]);
+
   return (
     <>
       <div className="event-form-prop-item">
         <span>执行动作:</span>
         <Select
           value={actionId || undefined}
-          onChange={onChange}
+          onChange={setActionId}
           className="event-form-selector"
           dropdownClassName="event-form-selector-options"
         >
@@ -57,7 +63,12 @@ export function ActionTargetSelector({ actionId, setAction, trigger }: Props) {
         </Select>
       </div>
 
-      <Button disabled={!(actionId && trigger)} type="primary" className="event-form-target-selector-add">
+      <Button
+        disabled={!(actionId && trigger)}
+        type="primary"
+        className="event-form-target-selector-add"
+        onClick={onAddAction}
+      >
         <FiPlus />
         <span>添加事件</span>
       </Button>

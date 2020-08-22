@@ -17,7 +17,7 @@ export function TargetSelector({ target, setTarget }: Props) {
 
   return (
     <div className="event-form-prop-item">
-      <span>触发类型:</span>
+      <span>执行类型:</span>
       <RadioGroup value={target} onChange={onChange}>
         <Radio value={EventTargetType.ACTION}>动作</Radio>
         <Radio value={EventTargetType.COMPONENT}>组件</Radio>

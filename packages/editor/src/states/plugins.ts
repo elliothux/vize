@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import { PluginInstance } from 'types';
+import { ActionInstance, PluginInstance } from 'types';
 import { materialsStore } from './materials';
 import { createPluginInstance, getPluginIndex, regeneratePluginIndexMap, setPluginIndex } from '../utils';
 import { selectStore } from './select';
@@ -33,14 +33,20 @@ export class PluginsStore {
   };
 
   @action
-  public setPluginData = (data: object) => {
+  public setCurrentPluginInstanceData = (data: object) => {
     const instance = this.getPluginInstance(selectStore.pluginKey);
     instance.data = data;
     return data;
   };
 
-  // @action
-  // public resortPluginInstance = (key)
+  @action
+  public setCurrentPluginInstanceActions = (setter: (actions: ActionInstance[]) => ActionInstance[]) => {
+    const index = getPluginIndex(selectStore.pluginKey)!;
+    const instance = this.pluginsInstances[index];
+
+    instance.actions = setter(instance.actions);
+    return instance;
+  };
 }
 
 export const pluginsStore = new PluginsStore();
