@@ -10,9 +10,10 @@ interface Props {
   form: MaterialsForm;
   data: object;
   onChange: (v: object) => void;
+  submitProps?: boolean | React.ReactChild;
 }
 
-export function SchemaForm({ form, data, onChange, instanceKey }: Props) {
+export function SchemaForm({ form, data, onChange, instanceKey, submitProps }: Props) {
   const isOverrideForm = useMemo(() => isFunction(form), [form]);
 
   if (isOverrideForm) {
@@ -20,6 +21,17 @@ export function SchemaForm({ form, data, onChange, instanceKey }: Props) {
       <OverrideForm value={data} onChange={onChange} instanceKey={instanceKey}>
         {form as OverrideFormComponent}
       </OverrideForm>
+    );
+  }
+
+  if (submitProps) {
+    return (
+      <ISchemaForm
+        schema={form as JsonSchemaProperties}
+        value={data}
+        onChange={onChange}
+        submitProps={{ children: typeof submitProps === 'boolean' ? '确认' : submitProps }}
+      />
     );
   }
 

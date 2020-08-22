@@ -2,7 +2,7 @@ import { action, observable } from 'mobx';
 import { Maybe } from '../types';
 
 export enum SelectType {
-  PAGE,
+  GLOBAL,
   COMPONENT,
   PLUGIN,
   HOTAREA,
@@ -10,7 +10,7 @@ export enum SelectType {
 
 export class SelectStore {
   @observable
-  public selectType: SelectType = SelectType.PAGE;
+  public selectType: SelectType = SelectType.GLOBAL;
 
   /**
    * @desc select page
@@ -20,12 +20,12 @@ export class SelectStore {
 
   @action
   public selectPage = (index: number) => {
-    this.selectType = SelectType.PAGE;
+    this.selectType = SelectType.GLOBAL;
     this.pageIndex = index;
   };
 
   public isCurrentPage = (index: number) => {
-    return this.selectType === SelectType.PAGE && this.pageIndex === index;
+    return this.selectType === SelectType.GLOBAL && this.pageIndex === index;
   };
 
   /**

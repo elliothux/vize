@@ -7,6 +7,7 @@ import { Collapse } from 'antd';
 import { observer } from 'mobx-react';
 import { useCurrentComponentInstance } from 'hooks';
 import { isEmpty } from 'utils';
+import { Empty } from 'components/Widgets/Empty';
 
 const { Panel } = Collapse;
 
@@ -14,21 +15,18 @@ interface Props {
   selectType: SelectType;
 }
 
-function Empty() {
-  return <div>empty</div>;
-}
-
 function IStyleAttrsEdit({ selectType }: Props) {
   const instance = useCurrentComponentInstance()!;
-  const { commonStyle, wrapperStyle } = instance;
 
-  if (selectType === SelectType.PAGE) {
-    return <div>{'page'}</div>;
+  if (selectType === SelectType.GLOBAL) {
+    return <div>{'global'}</div>;
   }
 
   if (selectType !== SelectType.COMPONENT) {
-    return <Empty />;
+    return <Empty text="不可用" />;
   }
+
+  const { commonStyle, wrapperStyle } = instance;
 
   return (
     <Collapse

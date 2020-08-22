@@ -10,7 +10,7 @@ function IGlobalProps() {
   return (
     <div
       className={classnames('global-props', {
-        selected: selectType === SelectType.PAGE,
+        selected: selectType === SelectType.GLOBAL,
       })}
       onClick={() => selectPage(pageIndex)}
     >

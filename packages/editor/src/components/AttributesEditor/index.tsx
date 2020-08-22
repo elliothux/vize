@@ -9,7 +9,7 @@ import { selectStore, SelectType } from 'states';
 import { EventEmitTypes, events } from 'utils';
 import { Tabs } from 'antd';
 import { FiDatabase, FiFeather, FiGrid } from 'react-icons/fi';
-import DataAttrsEdit from './DataAttrsEdit';
+import { DataAttrsEdit } from './DataAttrsEdit';
 import { StyleAttrsForm } from './StyleAttrsEdit';
 import { EventAttrForm } from './EventAttrForm';
 
@@ -41,12 +41,14 @@ function IAttributesEditor({ loading }: Props) {
   // the editor config title
   const title = () => {
     switch (selectType) {
+      // case SelectType.PAGE:
+      //   return '全局属性配置';
       case SelectType.COMPONENT:
         return '组件编辑';
       case SelectType.PLUGIN:
         return '插件编辑';
       default:
-        return '属性编辑';
+        return '全局属性配置';
     }
   };
 

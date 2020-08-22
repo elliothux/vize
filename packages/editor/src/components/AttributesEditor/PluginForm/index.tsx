@@ -27,6 +27,7 @@ function IPluginForm() {
           form={dataForm}
           data={toJS(data)}
           onChange={pluginsStore.setCurrentPluginInstanceData}
+          submitProps
         />
       ) : null}
     </>
