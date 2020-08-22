@@ -23,6 +23,6 @@ class PluginExecutor {
 }
 
 export function executePlugins(win: Window) {
-  const executor = new PluginExecutor(pluginsStore.pluginsInstances);
+  const executor = new PluginExecutor(pluginsStore.pluginInstances);
   return executor.execute(win);
 }

@@ -29,7 +29,8 @@ export function createSchema(schema: JsonSchemaProperties): JSONSchemaDefinition
 export function createPageInstance(name: string, isHome = false): PageInstance {
   const key = generateKey(KeyType.Page);
   const data: PageData = {
-    components: [],
+    componentInstances: [],
+    pluginInstances: [],
   };
   setPageData(key, data);
   return {

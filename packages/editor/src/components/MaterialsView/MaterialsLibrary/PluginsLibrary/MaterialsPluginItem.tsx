@@ -26,7 +26,7 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
   const onClick = useCallback(() => onSelect(item), [item]);
   const onAdd = useCallback(() => pluginsStore.addPluginInstance(identityName), [identityName]);
 
-  const disabled = pluginsStore.pluginsInstances.findIndex(i => i.plugin === identityName) > -1;
+  const disabled = pluginsStore.pluginInstances.findIndex(i => i.plugin === identityName) > -1;
 
   return (
     <div
