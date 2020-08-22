@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import * as R from 'ramda';
 import { CommonStyle, CommonStyleMeta, DistanceStyle, FixedOutset, PositionStyle } from 'types';
-import { Maybe, PageStyle } from 'types';
+import { Maybe, GlobalStyle } from 'types';
 import { px, pxWithAuto } from './common';
 import { isEmpty, isNumber } from './is';
 
@@ -194,7 +194,7 @@ export function getDefaultCommonStyle(styleGroup: Maybe<CommonStyleMeta | '*'>):
   return style;
 }
 
-export const defaultPageStyle: PageStyle = {
+export const defaultPageStyle: GlobalStyle = {
   margin: {
     top: 0,
     right: 0,

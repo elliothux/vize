@@ -1,6 +1,6 @@
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
-import { PageMeta } from './pages';
+import { GlobalMeta } from './global';
 
 export interface MaterialsActionMeta {
   identityName: string;
@@ -17,7 +17,7 @@ export interface MaterialsActionMeta {
 export interface ActionParams {
   data: object;
   global: object;
-  meta: PageMeta;
+  meta: GlobalMeta;
 }
 
 export type MaterialsAction = (params: ActionParams) => void;

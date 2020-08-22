@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 import { getQueryParams } from 'utils';
-import { LayoutMode, Maybe, PageMeta } from 'types';
+import { LayoutMode, Maybe, GlobalMeta } from 'types';
 
 export class GlobalStore {
   constructor() {
@@ -35,7 +35,7 @@ export class GlobalStore {
   };
 
   @observable
-  public metaInfo: PageMeta = {
+  public metaInfo: GlobalMeta = {
     title: 'vize page',
     desc: '',
     duration: null,

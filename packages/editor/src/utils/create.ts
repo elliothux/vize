@@ -30,8 +30,6 @@ export function createPageInstance(name: string, isHome = false): PageInstance {
   const key = generateKey(KeyType.Page);
   const data: PageData = {
     components: [],
-    plugins: [],
-    events: [],
   };
   setPageData(key, data);
   return {

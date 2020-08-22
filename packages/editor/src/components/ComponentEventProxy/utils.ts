@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ComponentInstance, Maybe, PageMeta } from 'types';
+import { ComponentInstance, Maybe, GlobalMeta } from 'types';
 
 export interface HandlerParams {
-  meta: PageMeta;
+  meta: GlobalMeta;
   global: object;
 }
 
