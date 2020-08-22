@@ -1,5 +1,5 @@
 import { action, computed, observable } from 'mobx';
-import { EventInstance, PageMode, PluginInstance } from 'types';
+import { EventInstance, PluginInstance } from 'types';
 import {
   addPagePluginInstanceIndexMap,
   deletePagePluginInstanceIndexMap,
@@ -28,7 +28,7 @@ export class PluginsStore {
 
   @computed
   public get pluginInstances(): PluginInstance[] {
-    if (globalStore.pageMode === PageMode.SINGLE) {
+    if (globalStore.isSinglePageMode) {
       return this.singlePagePluginsInstances;
     }
     return this.pagesPluginInstancesMap[pagesStore.currentPage.key];
@@ -52,7 +52,7 @@ export class PluginsStore {
    */
   @action
   private changePluginInstance = (setter: (pluginInstances: PluginInstance[]) => PluginInstance[] | void) => {
-    if (globalStore.pageMode === PageMode.SINGLE) {
+    if (globalStore.isSinglePageMode) {
       const newInstances = setter(this.singlePagePluginsInstances);
       if (newInstances) {
         this.singlePagePluginsInstances = newInstances;

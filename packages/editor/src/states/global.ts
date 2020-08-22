@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { defaultPageStyle, getQueryParams } from 'utils';
 import { GlobalMeta, GlobalStyle, LayoutMode, Maybe, PageMode } from 'types';
 
@@ -19,6 +19,11 @@ export class GlobalStore {
   public readonly layoutMode: LayoutMode = LayoutMode.STREAM;
 
   public readonly pageMode: PageMode = PageMode.MULTI;
+
+  @computed
+  public get isSinglePageMode() {
+    return this.pageMode === PageMode.SINGLE;
+  }
 
   @observable
   public iframeStyleMap: { [name: string]: string } = {};
@@ -43,6 +48,7 @@ export class GlobalStore {
     duration: null,
     expiredJump: '',
   };
+
   @observable
   public styleInfo: GlobalStyle = defaultPageStyle;
 
