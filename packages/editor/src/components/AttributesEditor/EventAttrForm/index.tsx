@@ -52,9 +52,12 @@ function IEventAttrForm({ selectType }: Props) {
         customEvents={isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents}
       />
 
-      <TargetSelector target={targetType} setTarget={setTargetType} />
-
-      {targetForm}
+      {trigger ? (
+        <>
+          <TargetSelector target={targetType} setTarget={setTargetType} />
+          {targetForm}
+        </>
+      ) : null}
 
       <ActionInstances />
     </div>
