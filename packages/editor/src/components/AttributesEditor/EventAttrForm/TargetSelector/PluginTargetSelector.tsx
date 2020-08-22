@@ -22,10 +22,10 @@ interface Props {
 const { Option: SelectOption } = Select;
 
 function IPluginTargetSelector({ trigger, setTrigger }: Props) {
-  const { pluginsInstances } = pluginsStore;
+  const { pluginInstances } = pluginsStore;
 
   const [target, setTarget] = useState<Maybe<Partial<Omit<PluginEventTarget, 'type'>>>>(null);
-  const plugins = useMemo(() => filterPluginInstance(pluginsInstances), [pluginsInstances.length]);
+  const plugins = useMemo(() => filterPluginInstance(pluginInstances), [pluginInstances.length]);
 
   const { eventName, key: pluginKey } = target || {};
 
@@ -37,10 +37,10 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
   }, [plugins, pluginKey]);
 
   useEffect(() => {
-    if (!pluginsInstances.find(i => i.key === pluginKey)) {
+    if (!pluginInstances.find(i => i.key === pluginKey)) {
       setTarget(null);
     }
-  }, [pluginsInstances]);
+  }, [pluginInstances]);
 
   useUnmount(() => setTarget(null));
 

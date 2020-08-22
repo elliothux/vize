@@ -1,28 +1,36 @@
+import { pagesStore } from 'states';
 import { PluginInstance, Maybe } from 'types';
 
 type PluginIndex = number;
 
-export const pluginIndexMap = new Map<number, PluginIndex>();
+export const pagesPluginIndexMap = new Map<number, Map<number, PluginIndex>>();
 
-export function addPluginIndexMap(pluginInstances: PluginInstance[]) {
-  return pluginInstances.forEach(({ key }, index) => pluginIndexMap.set(key, index));
+type PluginIndexMapEntries = (readonly [number, PluginIndex])[];
+
+export function addPagePluginInstanceIndexMap(pageKey: number, entries?: PluginIndexMapEntries) {
+  pagesPluginIndexMap.set(pageKey, new Map<number, PluginIndex>(entries));
 }
 
-export function getPluginIndex(pluginKey: number): Maybe<PluginIndex> {
-  return pluginIndexMap.get(pluginKey);
+export function deletePagePluginInstanceIndexMap(pageKey: number) {
+  pagesPluginIndexMap.delete(pageKey);
 }
 
-export function setPluginIndex(pluginKey: number, index: PluginIndex) {
-  return pluginIndexMap.set(pluginKey, index);
+function getCurrentPagePluginIndexMap() {
+  return pagesPluginIndexMap.get(pagesStore.currentPage.key)!;
 }
 
-export function deletePluginIndex(pluginKey: number): PluginIndex {
-  const pluginIndex = pluginIndexMap.get(pluginKey)!;
-  pluginIndexMap.delete(pluginKey);
-  return pluginIndex;
+export function getCurrentPagePluginIndex(pluginKey: number): Maybe<PluginIndex> {
+  return getCurrentPagePluginIndexMap().get(pluginKey);
 }
 
-export function regeneratePluginIndexMap(pluginInstances: PluginInstance[]) {
-  pluginIndexMap.clear();
-  return addPluginIndexMap(pluginInstances);
+export function setCurrentPagePluginIndex(pluginKey: number, index: PluginIndex) {
+  return getCurrentPagePluginIndexMap().set(pluginKey, index);
+}
+
+export function regenerateCurrentPagePluginIndexMap(pluginInstances: PluginInstance[]) {
+  deletePagePluginInstanceIndexMap(pagesStore.currentPage.key);
+  addPagePluginInstanceIndexMap(
+    pagesStore.currentPage.key,
+    pluginInstances.map(({ key }, index) => [key, index]),
+  );
 }

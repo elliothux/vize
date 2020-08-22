@@ -5,12 +5,12 @@ import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import {
   ComponentIndex,
-  addPageComponentInstanceMap,
+  addPageComponentInstanceIndexMap,
   batchUpdateCurrentPageComponentIndex,
   compareComponentIndex,
   createComponentInstance,
   deleteCurrentPageComponentIndex,
-  deletePageComponentInstanceMap,
+  deletePageComponentInstanceIndexMap,
   findComponentInstanceByIndex,
   getCurrentPageComponentIndex,
   getMaxNodeBottomOffset,
@@ -20,8 +20,6 @@ import {
 } from '../utils';
 import { selectStore } from './select';
 import { globalStore } from './global';
-
-// import { withHistory } from './history';
 
 export class ComponentsStore {
   /**
@@ -41,13 +39,13 @@ export class ComponentsStore {
   @action
   public addComponentInstancesMap = (pageKey: number) => {
     this.pagesComponentInstancesMap[pageKey] = [];
-    addPageComponentInstanceMap(pageKey);
+    addPageComponentInstanceIndexMap(pageKey);
   };
 
   @action
   public deleteComponentInstancesMap = (pageKey: number) => {
     delete this.pagesComponentInstancesMap[pageKey];
-    deletePageComponentInstanceMap(pageKey);
+    deletePageComponentInstanceIndexMap(pageKey);
   };
 
   /**

@@ -10,11 +10,12 @@ export interface ComponentIndex {
 export const pagesComponentIndexMap = new Map<number, Map<number, ComponentIndex>>();
 
 type ComponentIndexMapEntries = (readonly [number, ComponentIndex])[];
-export function addPageComponentInstanceMap(pageKey: number, entries?: ComponentIndexMapEntries) {
+
+export function addPageComponentInstanceIndexMap(pageKey: number, entries?: ComponentIndexMapEntries) {
   pagesComponentIndexMap.set(pageKey, new Map<number, ComponentIndex>(entries));
 }
 
-export function deletePageComponentInstanceMap(pageKey: number) {
+export function deletePageComponentInstanceIndexMap(pageKey: number) {
   pagesComponentIndexMap.delete(pageKey);
 }
 
@@ -87,7 +88,7 @@ export function batchUpdateCurrentPageComponentIndex(
 }
 
 export function regenerateCurrentPageComponentIndex(currentPageComponentInstances: ComponentInstance[]) {
-  deletePageComponentInstanceMap(pagesStore.currentPage.key);
+  deletePageComponentInstanceIndexMap(pagesStore.currentPage.key);
   const entries = currentPageComponentInstances.reduce<ComponentIndexMapEntries>((accu, { key, children }, index) => {
     accu.push([key, { index }]);
     children?.forEach(({ key }, childIndex) => {
@@ -95,7 +96,7 @@ export function regenerateCurrentPageComponentIndex(currentPageComponentInstance
     });
     return accu;
   }, []);
-  addPageComponentInstanceMap(pagesStore.currentPage.key, entries);
+  addPageComponentInstanceIndexMap(pagesStore.currentPage.key, entries);
 }
 
 export function compareComponentIndex(a: ComponentIndex, b: ComponentIndex) {

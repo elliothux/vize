@@ -1,4 +1,5 @@
 import { ComponentInstance } from './component';
+import { PluginInstance } from './plugins';
 
 export interface PageInstance {
   key: Readonly<number>;
@@ -9,7 +10,12 @@ export interface PageInstance {
 }
 
 export interface PageData {
-  components: ComponentInstance[];
-  // plugins: PluginInstance[];
+  componentInstances: ComponentInstance[];
+  pluginInstances: PluginInstance[];
   // events: EventInstance[];
+}
+
+export enum PageMode {
+  SINGLE = 'single',
+  MULTI = 'multi',
 }

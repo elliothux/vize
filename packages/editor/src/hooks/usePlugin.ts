@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
 import { MaterialsPluginMeta, Maybe, PluginInstance } from 'types';
 import { materialsStore, pluginsStore, selectStore, SelectType } from 'states';
-import { getPluginIndex, isNumber } from 'utils';
+import { getCurrentPagePluginIndex, isNumber } from 'utils';
 
 export function usePluginInstance(key: number): Maybe<PluginInstance> {
-  const { pluginsInstances } = pluginsStore;
-  const index = useMemo(() => getPluginIndex(key), [key, pluginsInstances]);
+  const { pluginInstances } = pluginsStore;
+  const index = useMemo(() => getCurrentPagePluginIndex(key), [key, pluginInstances]);
 
   if (!isNumber(index)) {
     return null;
   }
 
-  return pluginsInstances[index!];
+  return pluginInstances[index!];
 }
 
 export function usePluginMetaById(id: string): Maybe<MaterialsPluginMeta> {

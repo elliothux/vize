@@ -26,10 +26,10 @@ function PluginContextMenus({ pluginInstances }: PluginContextMenusProps) {
 }
 
 function IPluginsTree() {
-  const { pluginsInstances } = pluginsStore;
+  const { pluginInstances } = pluginsStore;
   const { selectType, pluginKey } = selectStore;
 
-  const treeData = getTreeData(pluginsInstances);
+  const treeData = getTreeData(pluginInstances);
   const selectedKeys = useMemo<number[]>(() => (selectType === SelectType.PLUGIN ? [pluginKey] : []), [
     pluginKey,
     selectType,
@@ -47,7 +47,7 @@ function IPluginsTree() {
         onRightClick={onRightClick}
         onSelect={onSelect}
       />
-      <PluginContextMenus pluginInstances={pluginsInstances} />
+      <PluginContextMenus pluginInstances={pluginInstances} />
     </>
   );
 }
