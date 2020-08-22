@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 import * as R from 'ramda';
 import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { Button, Select } from 'antd';
-import { actionStore, materialsStore } from 'states';
+import { eventStore, materialsStore } from 'states';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 
 interface Props {
@@ -24,7 +24,7 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
   }, []);
 
   const onAddAction = useCallback(() => {
-    actionStore.addActionInstance(trigger!, { type: EventTargetType.ACTION, id: actionId! });
+    eventStore.addEventInstance(trigger!, { type: EventTargetType.ACTION, id: actionId! });
     setActionId(null);
     setTrigger(null);
   }, [trigger, actionId]);

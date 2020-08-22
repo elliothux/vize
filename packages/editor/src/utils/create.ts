@@ -1,5 +1,5 @@
 import {
-  ActionInstance,
+  EventInstance,
   ComponentInstance,
   EventTarget,
   EventTargetType,
@@ -30,8 +30,6 @@ export function createPageInstance(name: string, isHome = false): PageInstance {
   const key = generateKey(KeyType.Page);
   const data: PageData = {
     components: [],
-    plugins: [],
-    actions: [],
   };
   setPageData(key, data);
   return {
@@ -67,7 +65,7 @@ export function createComponentInstance(
     style,
     commonStyle: getDefaultCommonStyle(enableStyleGroup),
     wrapperStyle: getDefaultCommonStyle(enableWrapperStyleGroup),
-    actions: [],
+    events: [],
     layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
     children: isContainer ? [] : undefined,
     hotAreas: hotArea ? [] : undefined,
@@ -82,15 +80,15 @@ export function createPluginInstance({ identityName, dataForm }: MaterialsPlugin
     key,
     plugin: identityName,
     data,
-    actions: [],
+    events: [],
   };
 }
 
-export function createActionInstance(
+export function createEventInstance(
   trigger: EventTrigger,
   target: EventTarget,
   action?: MaterialsActionMeta,
-): ActionInstance {
+): EventInstance {
   const key = generateKey(KeyType.Action);
 
   let data;
@@ -104,6 +102,6 @@ export function createActionInstance(
     data,
     trigger,
     target,
-    actions: [],
+    events: [],
   };
 }

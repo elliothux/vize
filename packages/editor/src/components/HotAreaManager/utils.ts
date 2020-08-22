@@ -19,7 +19,7 @@ function transformHotAreaFromPxToPercent(hotArea: IHotArea[], { width, height }:
     key,
     position: { x: transformX(x), y: transformY(y) },
     size: { width: transformX(width), height: transformY(height) },
-    actions: [],
+    events: [],
   }));
 }
 

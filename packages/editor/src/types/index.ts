@@ -1,4 +1,4 @@
-export * from './actions';
+export * from './action';
 export * from './component';
 export * from './eventListeners';
 export * from './events';

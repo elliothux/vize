@@ -7,7 +7,7 @@ import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { useCurrentComponentMeta, useCurrentPluginMeta } from 'hooks';
 import { EventTriggerSelector } from './TriggerSelector';
 import { TargetSelector, ActionTargetSelector, ComponentTargetSelector, PluginTargetSelector } from './TargetSelector';
-import { ActionInstances } from './ActionInstances';
+import { EventInstances } from './EventInstances';
 
 interface Props {
   selectType: number;
@@ -59,7 +59,7 @@ function IEventAttrForm({ selectType }: Props) {
         </>
       ) : null}
 
-      <ActionInstances />
+      <EventInstances />
     </div>
   );
 }

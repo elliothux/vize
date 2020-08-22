@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import { ActionInstance, PluginInstance } from 'types';
+import { EventInstance, PluginInstance } from 'types';
 import { materialsStore } from './materials';
 import { createPluginInstance, getPluginIndex, regeneratePluginIndexMap, setPluginIndex } from '../utils';
 import { selectStore } from './select';
@@ -40,11 +40,11 @@ export class PluginsStore {
   };
 
   @action
-  public setCurrentPluginInstanceActions = (setter: (actions: ActionInstance[]) => ActionInstance[]) => {
+  public setCurrentPluginInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[]) => {
     const index = getPluginIndex(selectStore.pluginKey)!;
     const instance = this.pluginsInstances[index];
 
-    instance.actions = setter(instance.actions);
+    instance.events = setter(instance.events);
     return instance;
   };
 }

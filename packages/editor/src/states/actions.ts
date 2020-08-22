@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import { action } from 'mobx';
 import {
-  ActionInstance,
+  EventInstance,
   ComponentUniversalEventTriggers,
   EventTarget,
   EventTargetType,
@@ -10,16 +10,16 @@ import {
   EventTriggerType,
   PluginUniversalEventTrigger,
 } from '../types';
-import { createActionInstance } from '../utils';
+import { createEventInstance } from '../utils';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
 import { materialsStore } from './materials';
 
-export class ActionStore {
+export class EventStore {
   @action
-  public addActionInstance = (triggerName: EventTriggerName, target: EventTarget) => {
-    const actions = target.type === EventTargetType.ACTION ? materialsStore.getActionMeta(target.id) : undefined;
+  public addEventInstance = (triggerName: EventTriggerName, target: EventTarget) => {
+    const action = target.type === EventTargetType.ACTION ? materialsStore.getActionMeta(target.id) : undefined;
 
     switch (selectStore.selectType) {
       case SelectType.COMPONENT: {
@@ -29,8 +29,8 @@ export class ActionStore {
             : EventTriggerType.Custom,
           triggerName,
         };
-        const instance = createActionInstance(trigger, target, actions);
-        return this.addActionsInstanceToCurrentComponentInstance(instance);
+        const instance = createEventInstance(trigger, target, action);
+        return this.addEventInstanceToCurrentComponentInstance(instance);
       }
 
       case SelectType.PLUGIN: {
@@ -40,69 +40,69 @@ export class ActionStore {
             : EventTriggerType.Custom,
           triggerName,
         };
-        const instance = createActionInstance(trigger, target, actions);
-        return this.addActionsInstanceToCurrentPluginInstance(instance);
+        const instance = createEventInstance(trigger, target, action);
+        return this.addEventInstanceToCurrentPluginInstance(instance);
       }
     }
   };
 
   @action
-  private addActionsInstanceToCurrentComponentInstance = (instance: ActionInstance) => {
-    return componentsStore.setCurrentComponentInstanceActions(actions => {
-      actions.push(instance);
-      return actions;
+  private addEventInstanceToCurrentComponentInstance = (instance: EventInstance) => {
+    return componentsStore.setCurrentComponentInstanceEvents(events => {
+      events.push(instance);
+      return events;
     });
   };
 
   @action
-  private addActionsInstanceToCurrentPluginInstance = (instance: ActionInstance) => {
-    return pluginsStore.setCurrentPluginInstanceActions(actions => {
-      actions.push(instance);
-      return actions;
+  private addEventInstanceToCurrentPluginInstance = (instance: EventInstance) => {
+    return pluginsStore.setCurrentPluginInstanceEvents(events => {
+      events.push(instance);
+      return events;
     });
   };
 
   @action
-  public deleteActionsInstance = (index: number) => {
+  public deleteEventInstance = (index: number) => {
     switch (selectStore.selectType) {
       case SelectType.COMPONENT: {
-        return this.deleteActionsInstanceFromCurrentComponentInstance(index);
+        return this.deleteEventInstanceFromCurrentComponentInstance(index);
       }
       case SelectType.PLUGIN: {
-        return this.deleteActionsInstanceFromCurrentPluginInstance(index);
+        return this.deleteEventInstanceFromCurrentPluginInstance(index);
       }
     }
   };
 
   @action
-  private deleteActionsInstanceFromCurrentComponentInstance = (index: number) => {
-    return componentsStore.setCurrentComponentInstanceActions(actions => {
-      return actions.splice(index, 1);
+  private deleteEventInstanceFromCurrentComponentInstance = (index: number) => {
+    return componentsStore.setCurrentComponentInstanceEvents(events => {
+      return events.splice(index, 1);
     });
   };
 
   @action
-  private deleteActionsInstanceFromCurrentPluginInstance = (index: number) => {
-    return pluginsStore.setCurrentPluginInstanceActions(actions => {
-      return actions.splice(index, 1);
+  private deleteEventInstanceFromCurrentPluginInstance = (index: number) => {
+    return pluginsStore.setCurrentPluginInstanceEvents(events => {
+      return events.splice(index, 1);
     });
   };
 
   @action
-  public setActionsInstanceDataOfCurrentComponentInstance = (data: object, index: number) => {
-    return componentsStore.setCurrentComponentInstanceActions(actions => {
-      actions[index]!.data = data;
-      return actions;
+  public setEventInstanceDataOfCurrentComponentInstance = (data: object, index: number) => {
+    return componentsStore.setCurrentComponentInstanceEvents(events => {
+      events[index]!.data = data;
+      return events;
     });
   };
 
   @action
-  public setActionsInstanceDataOfCurrentPluginInstance = (data: object, index: number) => {
-    return pluginsStore.setCurrentPluginInstanceActions(actions => {
-      actions[index]!.data = data;
-      return actions;
+  public setEventInstanceDataOfCurrentPluginInstance = (data: object, index: number) => {
+    return pluginsStore.setCurrentPluginInstanceEvents(events => {
+      events[index]!.data = data;
+      return events;
     });
   };
 }
 
-export const actionStore = new ActionStore();
+export const eventStore = new EventStore();

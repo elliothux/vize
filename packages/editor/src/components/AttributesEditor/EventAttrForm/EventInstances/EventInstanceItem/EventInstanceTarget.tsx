@@ -8,7 +8,7 @@ interface TargetProps {
   target: EventTarget;
 }
 
-export function ActionInstanceTarget({ target }: TargetProps) {
+export function EventInstanceTarget({ target }: TargetProps) {
   const id = (target as ActionEventTarget).id;
   const key = (target as ComponentEventTarget).key;
   const eventName = (target as ComponentEventTarget).eventName;
