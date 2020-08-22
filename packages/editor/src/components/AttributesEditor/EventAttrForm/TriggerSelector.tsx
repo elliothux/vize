@@ -3,9 +3,9 @@ import * as R from 'ramda';
 import { Select } from 'antd';
 import { FiLayers } from 'react-icons/fi';
 import {
-  BasePluginEventTriggerType,
-  BaseComponentEventTriggerType,
-  EventTriggerType,
+  PluginUniversalEventTrigger,
+  ComponentUniversalEventTriggers,
+  EventTriggerName,
   MaterialsCustomEvent,
   Maybe,
 } from 'types';
@@ -16,8 +16,8 @@ const { Option: SelectOption, OptGroup } = Select;
 
 interface Props {
   type: 'component' | 'plugin';
-  trigger: Maybe<EventTriggerType>;
-  setTrigger: (trigger: EventTriggerType) => void;
+  trigger: Maybe<EventTriggerName>;
+  setTrigger: (trigger: EventTriggerName) => void;
   customEvents?: MaterialsCustomEvent[];
 }
 
@@ -46,7 +46,7 @@ export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }
         ) : null}
 
         <OptGroup label="通用触发">
-          {Object.entries(isComponent ? BaseComponentEventTriggerType : BasePluginEventTriggerType).map(
+          {Object.entries(isComponent ? ComponentUniversalEventTriggers : PluginUniversalEventTrigger).map(
             ([, trigger]) => (
               <SelectOption value={trigger} key={trigger}>
                 {triggerTextMap.get(trigger)}

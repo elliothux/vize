@@ -38,7 +38,6 @@ export class SelectStore {
   public selectComponent = (key: number) => {
     this.selectType = SelectType.COMPONENT;
     this.componentKey = key;
-    debugger;
   };
 
   @observable

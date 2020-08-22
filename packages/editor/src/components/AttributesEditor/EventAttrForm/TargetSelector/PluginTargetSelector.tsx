@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   EventTargetType,
-  EventTriggerType,
+  EventTriggerName,
   MaterialsPluginMeta,
   Maybe,
   PluginEventTarget,
@@ -15,8 +15,8 @@ import { FiLayers, FiPlus } from 'react-icons/fi';
 import { useUnmount } from 'react-use';
 
 interface Props {
-  trigger: Maybe<EventTriggerType>;
-  setTrigger: (trigger: Maybe<EventTriggerType>) => void;
+  trigger: Maybe<EventTriggerName>;
+  setTrigger: (trigger: Maybe<EventTriggerName>) => void;
 }
 
 const { Option: SelectOption } = Select;
@@ -50,7 +50,7 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
     actionStore.addActionInstance(trigger!, { type: EventTargetType.PLUGIN, eventName: eventName!, key: pluginKey! });
     setTarget(null);
     setTrigger(null);
-  }, []);
+  }, [eventName, pluginKey]);
 
   const disabled = !(trigger && pluginKey && eventName);
 

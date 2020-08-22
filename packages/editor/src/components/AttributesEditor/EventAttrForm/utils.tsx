@@ -1,74 +1,74 @@
 import * as React from 'react';
-import { BaseComponentEventTriggerType, BasePluginEventTriggerType } from 'types';
+import { ComponentUniversalEventTriggers, PluginUniversalEventTrigger } from 'types';
 import { MdBlurCircular, MdCallMade, MdCallReceived, MdPanTool } from 'react-icons/md';
 import { FiEye, FiEyeOff, FiMousePointer } from 'react-icons/fi';
 
-export const triggerTextMap = new Map<BaseComponentEventTriggerType | BasePluginEventTriggerType, React.ReactNode>([
+export const triggerTextMap = new Map<ComponentUniversalEventTriggers | PluginUniversalEventTrigger, React.ReactNode>([
   [
-    BaseComponentEventTriggerType.INIT,
+    ComponentUniversalEventTriggers.INIT,
     <>
       <MdBlurCircular />
       初始化
     </>,
   ],
   [
-    BaseComponentEventTriggerType.CLICK,
+    ComponentUniversalEventTriggers.CLICK,
     <>
       <FiMousePointer />
       点击
     </>,
   ],
   [
-    BaseComponentEventTriggerType.MOUSE_ENTER,
+    ComponentUniversalEventTriggers.MOUSE_ENTER,
     <>
       <MdCallReceived />
       鼠标移入
     </>,
   ],
   [
-    BaseComponentEventTriggerType.MOUSE_LEAVE,
+    ComponentUniversalEventTriggers.MOUSE_LEAVE,
     <>
       <MdCallMade />
       鼠标移出
     </>,
   ],
   [
-    BaseComponentEventTriggerType.DOUBLE_CLICK,
+    ComponentUniversalEventTriggers.DOUBLE_CLICK,
     <>
       <FiMousePointer />
       双击
     </>,
   ],
   [
-    BaseComponentEventTriggerType.LONG_PRESS,
+    ComponentUniversalEventTriggers.LONG_PRESS,
     <>
       <MdPanTool />
       长按
     </>,
   ],
   [
-    BaseComponentEventTriggerType.ENTER_VIEW,
+    ComponentUniversalEventTriggers.ENTER_VIEW,
     <>
       <FiEye />
       出现
     </>,
   ],
   [
-    BaseComponentEventTriggerType.LEAVE_VIEW,
+    ComponentUniversalEventTriggers.LEAVE_VIEW,
     <>
       <FiEyeOff />
       消失
     </>,
   ],
   [
-    BasePluginEventTriggerType.BEFORE_EXEC,
+    PluginUniversalEventTrigger.BEFORE_EXEC,
     <>
       <MdBlurCircular />
       执行前
     </>,
   ],
   [
-    BasePluginEventTriggerType.AFTER_EXEC,
+    PluginUniversalEventTrigger.AFTER_EXEC,
     <>
       <MdBlurCircular />
       执行后

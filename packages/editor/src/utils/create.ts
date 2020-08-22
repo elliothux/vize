@@ -3,7 +3,7 @@ import {
   ComponentInstance,
   EventTarget,
   EventTargetType,
-  EventTriggerType,
+  EventTrigger,
   JSONSchemaDefinition,
   JsonSchemaProperties,
   MaterialsActionMeta,
@@ -87,7 +87,7 @@ export function createPluginInstance({ identityName, dataForm }: MaterialsPlugin
 }
 
 export function createActionInstance(
-  trigger: EventTriggerType,
+  trigger: EventTrigger,
   target: EventTarget,
   action?: MaterialsActionMeta,
 ): ActionInstance {

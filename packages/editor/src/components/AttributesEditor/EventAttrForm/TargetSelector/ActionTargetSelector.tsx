@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import * as R from 'ramda';
-import { EventTargetType, EventTriggerType, Maybe } from 'types';
+import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { Button, Select } from 'antd';
 import { actionStore, materialsStore } from 'states';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 
 interface Props {
-  trigger: Maybe<EventTriggerType>;
-  setTrigger: (trigger: Maybe<EventTriggerType>) => void;
+  trigger: Maybe<EventTriggerName>;
+  setTrigger: (trigger: Maybe<EventTriggerName>) => void;
 }
 
 const { Option: SelectOption, OptGroup } = Select;

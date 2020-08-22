@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { ComponentEventTarget, EventTargetType, EventTriggerType, Maybe } from 'types';
+import { ComponentEventTarget, EventTargetType, EventTriggerName, Maybe } from 'types';
 import { observer } from 'mobx-react';
 import { actionStore, selectStore } from 'states';
 import { Button, Select } from 'antd';
@@ -9,8 +9,8 @@ import { useComponentMeta } from 'hooks';
 import { useUnmount } from 'react-use';
 
 interface Props {
-  trigger: Maybe<EventTriggerType>;
-  setTrigger: (trigger: Maybe<EventTriggerType>) => void;
+  trigger: Maybe<EventTriggerName>;
+  setTrigger: (trigger: Maybe<EventTriggerName>) => void;
 }
 
 const { Option: SelectOption } = Select;

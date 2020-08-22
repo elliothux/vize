@@ -3,10 +3,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { SelectType } from 'states';
-import { EventTargetType, EventTriggerType, Maybe } from 'types';
+import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { useCurrentComponentMeta, useCurrentPluginMeta } from 'hooks';
 import { EventTriggerSelector } from './TriggerSelector';
 import { TargetSelector, ActionTargetSelector, ComponentTargetSelector, PluginTargetSelector } from './TargetSelector';
+import { ActionInstances } from './ActionInstances';
 
 interface Props {
   selectType: number;
@@ -16,7 +17,7 @@ function IEventAttrForm({ selectType }: Props) {
   const componentMeta = useCurrentComponentMeta();
   const pluginMeta = useCurrentPluginMeta();
 
-  const [trigger, setTrigger] = useState<Maybe<EventTriggerType>>(null);
+  const [trigger, setTrigger] = useState<Maybe<EventTriggerName>>(null);
   const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.COMPONENT);
 
   useEffect(() => {
@@ -50,8 +51,12 @@ function IEventAttrForm({ selectType }: Props) {
         setTrigger={setTrigger}
         customEvents={isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents}
       />
+
       <TargetSelector target={targetType} setTarget={setTargetType} />
+
       {targetForm}
+
+      <ActionInstances />
     </div>
   );
 }
