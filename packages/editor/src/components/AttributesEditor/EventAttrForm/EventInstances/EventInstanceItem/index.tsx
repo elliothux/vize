@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { useMemo } from 'react';
 import { EventInstance, EventTargetType, MaterialsCustomEvent } from 'types';
 import { Card } from 'antd';
-import { getTriggerDisplayName } from './utils';
 import { EventInstanceDataForm } from './EventInstanceDataForm';
 import { EventInstanceTarget } from './EventInstanceTarget';
+import { EventInstanceTrigger } from './EventInstanceTrigger';
+import classNames from 'classnames';
 
 interface Props {
   actionInstance: EventInstance;
@@ -18,18 +18,13 @@ export function EventInstanceItem({
   actionInstance: { key, target, trigger },
   onChangeData,
 }: Props) {
-  const [triggerDisplayName, TriggerIcon] = useMemo(() => getTriggerDisplayName(trigger, customEvents), []);
-
   return (
     <Card
-      className="vize_action_instance"
+      className={classNames('vize_event_instance', { empty_form: target.type !== EventTargetType.ACTION })}
       key={key}
       title={
         <>
-          <p className="vize_action_instance_trigger">
-            <TriggerIcon />
-            {triggerDisplayName} 触发
-          </p>
+          <EventInstanceTrigger trigger={trigger} target={target} customEvents={customEvents} />
           <EventInstanceTarget target={target} />
         </>
       }

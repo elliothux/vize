@@ -1,7 +1,63 @@
-.action_instances {
+.event_instances {
   margin-top: 32px;
 
-  .vize_action_instance {
+  .vize_event_instance {
     margin-bottom: 16px;
+
+    &.empty_form {
+      .ant-card-body {
+        display: none;
+      }
+    }
+
+    .ant-card-head {
+      padding: 0 12px;
+    }
+
+    .ant-card-body {
+      padding: 18px 18px 0 !important;
+    }
+
+    .ant-card-head-title {
+      padding: 8px 0;
+
+      & > p {
+        margin: 0;
+
+        &:first-child {
+          font-size: 15px;
+          margin-bottom: 6px;
+          margin-right: 20px;
+        }
+
+        &.event_instance_trigger {
+          margin-bottom: 8px;
+
+          svg {
+            width: 12px;
+            height: auto;
+          }
+        }
+
+        &.event_instance_trigger,
+        &.event_instance_target {
+          font-size: 13px;
+          font-weight: normal;
+
+          span {
+            font-weight: bolder;
+            font-size: 15px;
+          }
+
+          svg {
+            width: 14px;
+            height: auto;
+            margin-right: 6px;
+            position: relative;
+            top: 2px;
+          }
+        }
+      }
+    }
   }
 }

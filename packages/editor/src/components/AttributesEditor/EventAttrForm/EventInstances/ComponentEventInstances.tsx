@@ -13,7 +13,7 @@ function IComponentEventInstances() {
   }
 
   return (
-    <div className="action_instances">
+    <div className="event_instances">
       {events.map((action, index) => (
         <EventInstanceItem
           key={action.key}

@@ -29,7 +29,7 @@ export function EventInstanceTarget({ target }: TargetProps) {
   switch (target.type) {
     case EventTargetType.ACTION: {
       return (
-        <p className="vize_action_instance_target">
+        <p className="event_instance_target">
           <FiLayers />
           <span>{action!.info.name}</span>
         </p>
@@ -37,7 +37,7 @@ export function EventInstanceTarget({ target }: TargetProps) {
     }
     case EventTargetType.PLUGIN: {
       return (
-        <p className="vize_action_instance_target">
+        <p className="event_instance_target">
           <FiLayers />
           <span>
             {plugin!.info.name} (key={key}) {displayEventName}
@@ -47,7 +47,7 @@ export function EventInstanceTarget({ target }: TargetProps) {
     }
     case EventTargetType.COMPONENT: {
       return (
-        <p className="vize_action_instance_target">
+        <p className="event_instance_target">
           <FiLayers />
           <span>
             {component!.info.name} (key={key}) {displayEventName}

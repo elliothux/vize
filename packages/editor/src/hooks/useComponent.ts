@@ -1,6 +1,6 @@
+import { useMemo } from 'react';
 import { componentsStore, materialsStore, selectStore, SelectType } from 'states';
 import { ComponentInstance, MaterialsComponentMeta, Maybe } from 'types';
-import { useMemo } from 'react';
 import { getCurrentPageComponentIndex } from '../utils';
 
 export function useComponentInstance(key: number): Maybe<ComponentInstance> {

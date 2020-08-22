@@ -18,7 +18,7 @@ function IEventAttrForm({ selectType }: Props) {
   const pluginMeta = useCurrentPluginMeta();
 
   const [trigger, setTrigger] = useState<Maybe<EventTriggerName>>(null);
-  const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.COMPONENT);
+  const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.ACTION);
 
   useEffect(() => {
     setTrigger(null);
