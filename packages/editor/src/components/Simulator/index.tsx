@@ -6,7 +6,7 @@ import { getOffsetToViewport } from '../../utils';
 import './index.scss';
 
 type Props = WithReactChildren;
-
+let [clientX, clientY] = [0, 0];
 export function Simulator({ children }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -34,8 +34,6 @@ export function Simulator({ children }: Props) {
     </div>
   );
 }
-
-let [clientX, clientY] = [0, 0];
 
 export function getSimulatorNodeOffset() {
   return [clientX, clientY];

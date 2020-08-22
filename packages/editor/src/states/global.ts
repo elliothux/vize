@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
-import { getQueryParams } from 'utils';
-import { LayoutMode, Maybe, GlobalMeta } from 'types';
+import { getQueryParams, defaultPageStyle } from 'utils';
+import { LayoutMode, Maybe, GlobalMeta, GlobalStyle } from 'types';
 
 export class GlobalStore {
   constructor() {
@@ -41,6 +41,8 @@ export class GlobalStore {
     duration: null,
     expiredJump: '',
   };
+  @observable
+  public styleInfo: GlobalStyle = defaultPageStyle;
 
   @action
   public setPageTitle = (title: string) => {

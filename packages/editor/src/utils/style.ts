@@ -169,6 +169,7 @@ export function getDefaultCommonStyle(styleGroup: Maybe<CommonStyleMeta | '*'>):
 
     if (key === 'position') {
       if (typeof value === 'object') {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         style.position = getPositionFromMeta(value as DistanceStyle);
       } else if (typeof value === 'boolean' && value) {
         style.position = true;
