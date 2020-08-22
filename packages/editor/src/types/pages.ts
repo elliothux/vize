@@ -1,6 +1,6 @@
 import { ComponentInstance } from './component';
 import { PluginInstance } from './plugins';
-import { ActionInstance } from './actions';
+import { EventInstance } from './events';
 import { DistanceStyle, BorderStyle, BackgroundStyle } from './styles';
 import { Maybe } from './helper';
 
@@ -15,7 +15,7 @@ export interface PageInstance {
 export interface PageData {
   components: ComponentInstance[];
   plugins: PluginInstance[];
-  actions: ActionInstance[];
+  events: EventInstance[];
 }
 
 export interface PageMeta {

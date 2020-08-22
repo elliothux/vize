@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { ComponentEventTarget, EventTargetType, EventTriggerName, Maybe } from 'types';
 import { observer } from 'mobx-react';
-import { actionStore, selectStore } from 'states';
+import { eventStore, selectStore } from 'states';
 import { Button, Select } from 'antd';
 import { FiChevronsLeft, FiLayers, FiMousePointer, FiPlus, FiX } from 'react-icons/fi';
 import { useComponentMeta } from 'hooks';
@@ -30,7 +30,7 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
   }, []);
 
   const onAddAction = useCallback(() => {
-    actionStore.addActionInstance(trigger!, { type: EventTargetType.COMPONENT, eventName: eventName!, key: key! });
+    eventStore.addEventInstance(trigger!, { type: EventTargetType.COMPONENT, eventName: eventName!, key: key! });
     onEndSelect();
     setTrigger(null);
   }, [trigger, eventName, key]);

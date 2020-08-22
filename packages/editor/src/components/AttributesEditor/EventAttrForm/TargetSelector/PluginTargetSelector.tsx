@@ -9,7 +9,7 @@ import {
   PluginInstance,
 } from 'types';
 import { observer } from 'mobx-react';
-import { actionStore, materialsStore, pluginsStore } from 'states';
+import { eventStore, materialsStore, pluginsStore } from 'states';
 import { Button, Select } from 'antd';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 import { useUnmount } from 'react-use';
@@ -47,7 +47,7 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
   const onChangePlugin = useCallback((key: number) => setTarget({ key }), []);
   const onChangeEvent = useCallback((eventName: string) => setTarget({ key: pluginKey, eventName }), [pluginKey]);
   const onAddAction = useCallback(() => {
-    actionStore.addActionInstance(trigger!, { type: EventTargetType.PLUGIN, eventName: eventName!, key: pluginKey! });
+    eventStore.addEventInstance(trigger!, { type: EventTargetType.PLUGIN, eventName: eventName!, key: pluginKey! });
     setTarget(null);
     setTrigger(null);
   }, [eventName, pluginKey]);

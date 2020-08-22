@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { action, computed, observable, toJS } from 'mobx';
-import { ActionInstance, ComponentInstance, ComponentPosition, ComponentSize, HotArea, LayoutMode } from 'types';
+import { EventInstance, ComponentInstance, ComponentPosition, ComponentSize, HotArea, LayoutMode } from 'types';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import {
@@ -219,12 +219,12 @@ export class ComponentsStore {
 
   // TODO: Refactor
   @action
-  public setCurrentComponentInstanceActions = (setter: (actions: ActionInstance[]) => ActionInstance[]) => {
+  public setCurrentComponentInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[]) => {
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
     const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
 
-    instance.actions = setter(instance.actions);
+    instance.events = setter(instance.events);
     return instance;
   };
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
-import { ActionInstance } from './actions';
+import { EventInstance } from './events';
 import { CommonStyleMeta, Percent } from './styles';
 
 export interface MaterialsComponentMeta {
@@ -47,7 +47,7 @@ export interface HotArea {
   key: number;
   position: HotAreaPosition;
   size: HotAreaSize;
-  actions: ActionInstance[];
+  events: EventInstance[];
 }
 
 export interface ComponentInstance {
@@ -57,7 +57,7 @@ export interface ComponentInstance {
   style: { [key: string]: any };
   commonStyle: { [key: string]: any };
   wrapperStyle: { [key: string]: any };
-  actions: ActionInstance[];
+  events: EventInstance[];
   children?: ComponentInstance[];
   parent?: ComponentInstance;
   layout?: {

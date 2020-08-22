@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { ActionInstance, EventTargetType, MaterialsCustomEvent } from 'types';
+import { EventInstance, EventTargetType, MaterialsCustomEvent } from 'types';
 import { Card } from 'antd';
 import { getTriggerDisplayName } from './utils';
-import { ActionInstanceDataForm } from './ActionInstanceDataForm';
-import { ActionInstanceTarget } from './ActionInstanceTarget';
+import { EventInstanceDataForm } from './EventInstanceDataForm';
+import { EventInstanceTarget } from './EventInstanceTarget';
 
 interface Props {
-  actionInstance: ActionInstance;
+  actionInstance: EventInstance;
   onChangeData?: (data: object) => void;
   customEvents?: MaterialsCustomEvent[];
 }
 
-export function ActionInstanceItem({
+export function EventInstanceItem({
   customEvents,
   actionInstance,
   actionInstance: { key, target, trigger },
@@ -30,12 +30,12 @@ export function ActionInstanceItem({
             <TriggerIcon />
             {triggerDisplayName} 触发
           </p>
-          <ActionInstanceTarget target={target} />
+          <EventInstanceTarget target={target} />
         </>
       }
     >
       {target.type === EventTargetType.ACTION ? (
-        <ActionInstanceDataForm instance={actionInstance} onChange={onChangeData!} />
+        <EventInstanceDataForm instance={actionInstance} onChange={onChangeData!} />
       ) : null}
     </Card>
   );

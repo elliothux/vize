@@ -1,6 +1,6 @@
 import { MaterialsComponent, MaterialsComponentMeta } from './component';
 import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
-import { MaterialsAction, MaterialsActionMeta } from './actions';
+import { MaterialsActionMeta, MaterialsAction } from './action';
 import { JsonSchemaProperties } from './helper';
 import { OverrideFormComponent } from '../components/Form/OverrideForm';
 
