@@ -4,7 +4,7 @@ import { MaterialsComponentMeta, Maybe } from 'types';
 import { useCallback, useEffect } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { componentsStore } from 'states';
-import { SVGRender } from 'components/SVGRender';
+import { SVGRender } from 'widgets/SVGRender';
 
 interface Props {
   item: MaterialsComponentMeta;

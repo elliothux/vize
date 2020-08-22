@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RenderSandbox } from '../RenderSandbox';
+import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
 import { componentsStore, globalStore, materialsStore } from 'states';

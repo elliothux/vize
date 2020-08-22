@@ -1,9 +1,8 @@
+import './index.scss';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { ComponentInstance, Maybe } from 'types';
 import { noop } from 'utils';
-
-import './index.scss';
 
 interface Props {
   htmlContent: string;

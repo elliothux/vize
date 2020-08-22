@@ -7,7 +7,7 @@ import { Collapse } from 'antd';
 import { observer } from 'mobx-react';
 import { useCurrentComponentInstance } from 'hooks';
 import { isEmpty } from 'utils';
-import { Empty } from 'components/Widgets/Empty';
+import { Empty } from 'widgets/Empty';
 
 const { Panel } = Collapse;
 

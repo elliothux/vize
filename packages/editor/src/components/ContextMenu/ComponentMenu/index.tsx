@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import { componentsStore, selectStore } from 'states';
 import { noop, showContextMenu } from 'utils';
 import { ComponentInstance } from 'types';
-import { getSimulatorNodeOffset } from '../../Simulator';
+import { getSimulatorNodeOffset } from 'widgets/Simulator';
 
 interface Props {
   instance: ComponentInstance;

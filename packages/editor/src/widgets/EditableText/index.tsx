@@ -1,8 +1,7 @@
+import './index.scss';
 import * as React from 'react';
 import { preventSyntheticEvent } from 'utils';
-import './index.scss';
 import { Maybe } from 'types';
-// import { pagesStore } from 'states';
 
 interface Props {
   children: string;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MaterialsPluginMeta } from 'types';
-import { SVGRender } from 'components/SVGRender';
+import { SVGRender } from 'widgets/SVGRender';
 
 interface Props {
   item: MaterialsPluginMeta;

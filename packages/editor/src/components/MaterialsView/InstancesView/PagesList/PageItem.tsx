@@ -8,7 +8,7 @@ import { PageContextMenu, showPageContextMenu } from 'components/ContextMenu';
 import { useCallback } from 'react';
 import { FiHome } from 'react-icons/fi';
 import { EllipsisOutlined } from '@ant-design/icons';
-import { EditableText } from 'components/EditableText';
+import { EditableText } from 'widgets/EditableText';
 import { useState } from 'react';
 
 interface Props {

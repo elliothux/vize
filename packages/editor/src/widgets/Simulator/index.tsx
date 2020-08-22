@@ -1,12 +1,13 @@
-import * as React from 'react';
-import { WithReactChildren } from 'types';
-import { useCallback, useEffect, useRef } from 'react';
-import { getOffsetToViewport } from '../../utils';
-
 import './index.scss';
+import * as React from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import { WithReactChildren } from 'types';
+import { getOffsetToViewport } from 'utils';
 
 type Props = WithReactChildren;
+
 let [clientX, clientY] = [0, 0];
+
 export function Simulator({ children }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
