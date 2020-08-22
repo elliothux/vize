@@ -20,6 +20,17 @@
 
     .ant-card-head-title {
       padding: 8px 0;
+      position: relative;
+
+      & > button {
+        position: absolute;
+        right: 3px;
+        top: 15px;
+
+        svg {
+          margin-top: 3px;
+        }
+      }
 
       & > p {
         margin: 0;

@@ -16,6 +16,7 @@ function IPluginEventInstances() {
     <div className="event_instances">
       {events.map((action, index) => (
         <EventInstanceItem
+          index={index}
           key={action.key}
           customEvents={plugin.emitEvents}
           actionInstance={action}

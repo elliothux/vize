@@ -77,14 +77,16 @@ export class EventStore {
   @action
   private deleteEventInstanceFromCurrentComponentInstance = (index: number) => {
     return componentsStore.setCurrentComponentInstanceEvents(events => {
-      return events.splice(index, 1);
+      events.splice(index, 1);
+      return events;
     });
   };
 
   @action
   private deleteEventInstanceFromCurrentPluginInstance = (index: number) => {
     return pluginsStore.setCurrentPluginInstanceEvents(events => {
-      return events.splice(index, 1);
+      events.splice(index, 1);
+      return events;
     });
   };
 

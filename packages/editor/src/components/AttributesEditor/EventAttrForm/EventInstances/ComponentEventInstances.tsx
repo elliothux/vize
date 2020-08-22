@@ -16,6 +16,7 @@ function IComponentEventInstances() {
     <div className="event_instances">
       {events.map((action, index) => (
         <EventInstanceItem
+          index={index}
           key={action.key}
           customEvents={component.emitEvents}
           actionInstance={action}
