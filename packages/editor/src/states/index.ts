@@ -11,8 +11,8 @@ export async function initStore() {
   await materialsStore.init();
 }
 
-export * from './actions';
 export * from './components';
+export * from './events';
 export * from './global';
 export * from './history';
 export * from './materials';

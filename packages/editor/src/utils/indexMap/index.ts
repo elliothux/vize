@@ -1,2 +1,2 @@
-export * from './componentIndexMap';
 export * from './pluginIndexMap';
+export * from './componentIndexMap';

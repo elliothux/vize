@@ -1,6 +1,5 @@
 import { action, computed, observable } from 'mobx';
 import { EventInstance, PageMode, PluginInstance } from 'types';
-import { materialsStore } from './materials';
 import {
   addPagePluginInstanceIndexMap,
   deletePagePluginInstanceIndexMap,
@@ -9,6 +8,7 @@ import {
   regenerateCurrentPagePluginIndexMap,
   setCurrentPagePluginIndex,
 } from '../utils';
+import { materialsStore } from './materials';
 import { selectStore } from './select';
 import { pagesStore } from './pages';
 import { globalStore } from './global';
@@ -41,7 +41,7 @@ export class PluginsStore {
   };
 
   @action
-  public deleteComponentInstancesMap = (pageKey: number) => {
+  public deletePluginInstancesMap = (pageKey: number) => {
     delete this.pagesPluginInstancesMap[pageKey];
     deletePagePluginInstanceIndexMap(pageKey);
   };

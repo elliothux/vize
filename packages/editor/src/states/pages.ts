@@ -4,6 +4,7 @@ import { PageInstance } from 'types';
 import { createPageInstance } from '../utils';
 import { componentsStore } from './components';
 import { selectStore } from './select';
+import { pluginsStore } from './plugins';
 
 export class PagesStore {
   public init = () => {
@@ -28,6 +29,7 @@ export class PagesStore {
     const page = createPageInstance(name || 'new page', isHome);
     this.pages.push(page);
     componentsStore.addComponentInstancesMap(page.key);
+    pluginsStore.addPluginInstancesMap(page.key);
     selectStore.selectPage(this.pages.length - 1);
   };
 
@@ -40,6 +42,7 @@ export class PagesStore {
 
     const { key, isHome } = this.pages[pageIndex]!;
     componentsStore.deleteComponentInstancesMap(key);
+    pluginsStore.deletePluginInstancesMap(key);
     this.pages.splice(pageIndex, 1);
 
     if (selectStore.pageIndex >= this.pages.length) {
