@@ -1,5 +1,9 @@
 import './index.scss';
 
-export default function({ render }) {
-    render();
+interface Props {
+  render: any;
+}
+
+export default function({ render }: Props) {
+  render();
 }

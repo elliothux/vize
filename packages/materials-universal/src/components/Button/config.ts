@@ -11,10 +11,35 @@ const dataForm = {
     type: 'string',
   },
 };
+const enableWrapperStyleGroup = {
+  background: {
+    color: 'transparent',
+  },
+};
+
+const enableStyleGroup = {
+  size: true,
+  transform: true,
+  text: true,
+  border: true,
+  background: true,
+  margin: {
+    top: 12,
+    bottom: 12,
+  },
+  padding: {
+    left: 8,
+    right: 8,
+  },
+  zIndex: true,
+  position: true,
+};
 
 export default {
   info,
   dataForm,
   emitEvents: [{ displayName: 'emit测试', eventName: 'test' }],
   onEvents: [{ displayName: 'on测试', eventName: 'test' }],
+  enableWrapperStyleGroup,
+  enableStyleGroup,
 };
