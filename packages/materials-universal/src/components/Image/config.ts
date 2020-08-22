@@ -1,7 +1,7 @@
 const info = {
   name: '图片',
   desc: '纯图片组件',
-  author: 'aedron@github',
+  author: 'Copyes@github',
 };
 
 const dataForm = {

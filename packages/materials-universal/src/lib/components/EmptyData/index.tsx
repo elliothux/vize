@@ -5,5 +5,5 @@ interface Props {
   text: string;
 }
 export function EmptyData({ text }: Props) {
-  return <div className="fudao_empty_data">{text || '无数据'}</div>;
+  return <div className="vize_empty_data">{text || '无数据'}</div>;
 }

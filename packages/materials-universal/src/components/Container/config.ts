@@ -1,7 +1,7 @@
 const info = {
   name: '通用容器',
   desc: '通用容器组件，用于分组和布局等',
-  author: 'elliothu',
+  author: 'vize',
   type: '*',
 };
 
