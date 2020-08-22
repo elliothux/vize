@@ -10,13 +10,10 @@ interface Props {
   style?: CSSProperties;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function Empty({ text, className, style, hideImage = false }: Props): React.ReactElement {
+export function Empty({ text, className, style, hideImage = false }: Props) {
   return (
-    <div className={`empty ${className || ''}`} style={style}>
+    <div className={`vize-empty ${className || ''}`} style={style}>
       <IEmpty description={text || 'Empty'} imageStyle={hideImage ? { display: 'none' } : {}} />
     </div>
   );
 }
-
-export { Empty };

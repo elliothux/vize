@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useMount } from 'react-use';
 import { Spin } from 'antd';
-import { Header } from './components/Header';
-import { Simulator } from './components/Simulator';
-import { Renderer } from './components/Renderer';
-import { initStore } from './states';
-import { MaterialsView } from './components/MaterialsView';
-import { AttributesEditor } from './components/AttributesEditor';
-import { HotAreaManager } from './components/HotAreaManager';
+import { initStore } from 'states';
+import { Simulator } from 'widgets/Simulator';
+import { Header } from 'components/Header';
+import { Renderer } from 'components/Renderer';
+import { MaterialsView } from 'components/MaterialsView';
+import { AttributesEditor } from 'components/AttributesEditor';
+import { HotAreaManager } from 'components/HotAreaManager';
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);

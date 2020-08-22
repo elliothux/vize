@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import { MaterialsPluginMeta, Maybe } from 'types';
 import { useCallback } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { SVGRender } from 'components/SVGRender';
-import { pluginsStore } from '../../../../states';
+import { SVGRender } from 'widgets/SVGRender';
+import { pluginsStore } from 'states';
 
 interface Props {
   item: MaterialsPluginMeta;

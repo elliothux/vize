@@ -6,7 +6,7 @@ import { toJS } from 'mobx';
 import { useCurrentComponentInstance, useCurrentComponentMeta } from 'hooks';
 import { Button } from 'antd';
 import { EventEmitTypes, events, getImageSrc } from 'utils';
-import { Empty } from 'components/Widgets/Empty';
+import { Empty } from 'widgets/Empty';
 
 function IComponentDataForm() {
   const instance = useCurrentComponentInstance()!;
