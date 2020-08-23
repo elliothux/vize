@@ -50,7 +50,6 @@ export class EventStore {
   private addEventInstanceToCurrentComponentInstance = (instance: EventInstance) => {
     return componentsStore.setCurrentComponentInstanceEvents(events => {
       events.push(instance);
-      return events;
     });
   };
 
@@ -58,7 +57,6 @@ export class EventStore {
   private addEventInstanceToCurrentPluginInstance = (instance: EventInstance) => {
     return pluginsStore.setCurrentPluginInstanceEvents(events => {
       events.push(instance);
-      return events;
     });
   };
 
@@ -78,7 +76,6 @@ export class EventStore {
   private deleteEventInstanceFromCurrentComponentInstance = (index: number) => {
     return componentsStore.setCurrentComponentInstanceEvents(events => {
       events.splice(index, 1);
-      return events;
     });
   };
 
@@ -86,7 +83,6 @@ export class EventStore {
   private deleteEventInstanceFromCurrentPluginInstance = (index: number) => {
     return pluginsStore.setCurrentPluginInstanceEvents(events => {
       events.splice(index, 1);
-      return events;
     });
   };
 
@@ -94,7 +90,6 @@ export class EventStore {
   public setEventInstanceDataOfCurrentComponentInstance = (data: object, index: number) => {
     return componentsStore.setCurrentComponentInstanceEvents(events => {
       events[index]!.data = data;
-      return events;
     });
   };
 
@@ -102,7 +97,30 @@ export class EventStore {
   public setEventInstanceDataOfCurrentPluginInstance = (data: object, index: number) => {
     return pluginsStore.setCurrentPluginInstanceEvents(events => {
       events[index]!.data = data;
-      return events;
+    });
+  };
+
+  @action
+  public resortEventInstanceFromCurrentComponentInstance = (oldIndex: number, newIndex: number) => {
+    if (oldIndex === newIndex) {
+      return;
+    }
+
+    return componentsStore.setCurrentComponentInstanceEvents(events => {
+      const [instance] = events.splice(oldIndex, 1);
+      events.splice(newIndex, 0, instance);
+    });
+  };
+
+  @action
+  public resortEventInstanceFromCurrentPluginInstance = (oldIndex: number, newIndex: number) => {
+    if (oldIndex === newIndex) {
+      return;
+    }
+
+    return pluginsStore.setCurrentPluginInstanceEvents(events => {
+      const [instance] = events.splice(oldIndex, 1);
+      events.splice(newIndex, 0, instance);
     });
   };
 }

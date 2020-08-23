@@ -217,22 +217,30 @@ export class ComponentsStore {
 
   // TODO: Refactor
   @action
-  public setCurrentComponentInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[]) => {
+  public setCurrentComponentInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
     const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
 
-    instance.events = setter(instance.events);
+    const newEvents = setter(instance.events);
+    if (newEvents) {
+      instance.events = newEvents;
+    }
+
     return instance;
   };
 
   @action
-  public setCurrentComponentInstanceHotAreas = (setter: (hotAreas: HotArea[]) => HotArea[]) => {
+  public setCurrentComponentInstanceHotAreas = (setter: (hotAreas: HotArea[]) => HotArea[] | void) => {
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
     const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
 
-    instance.hotAreas = setter(instance.hotAreas!);
+    const newHotAreas = setter(instance.hotAreas!);
+    if (newHotAreas) {
+      instance.hotAreas = newHotAreas;
+    }
+
     return instance;
   };
 }

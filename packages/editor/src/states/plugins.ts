@@ -105,11 +105,15 @@ export class PluginsStore {
   };
 
   @action
-  public setCurrentPluginInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[]) => {
+  public setCurrentPluginInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
     const index = getCurrentPagePluginIndex(selectStore.pluginKey)!;
     const instance = this.pluginInstances[index];
 
-    instance.events = setter(instance.events);
+    const newEvents = setter(instance.events);
+    if (newEvents) {
+      instance.events = newEvents;
+    }
+
     return instance;
   };
 }

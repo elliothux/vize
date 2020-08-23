@@ -1,3 +1,5 @@
+@import 'styles/helper';
+
 .event_instances {
   margin-top: 32px;
 
@@ -69,6 +71,22 @@
           }
         }
       }
+    }
+  }
+
+  .vize-event-title {
+    text-align: center;
+    border-bottom: $default-border;
+    margin-bottom: 20px;
+
+    & > span {
+      font-size: 14px;
+      display: inline-block;
+      position: relative;
+      top: 10px;
+      background-color: white;
+      padding: 0 8px;
+      font-weight: bold;
     }
   }
 }

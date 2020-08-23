@@ -1,26 +1,25 @@
 import * as React from 'react';
 import { EventInstance, EventTargetType, MaterialsCustomEvent } from 'types';
-import { Card, Button, Popconfirm } from 'antd';
-import { FiTrash2 } from 'react-icons/fi';
+import { Card } from 'antd';
 import { EventInstanceDataForm } from './EventInstanceDataForm';
-import { EventInstanceTarget } from './EventInstanceTarget';
-import { EventInstanceTrigger } from './EventInstanceTrigger';
-import classNames from 'classnames';
+import { EventHeader } from './EventHeader';
+import { SortableElement } from 'react-sortable-hoc';
 import { useCallback } from 'react';
-import { eventStore } from '../../../../../states';
+import { eventStore } from 'states';
+import classNames from 'classnames';
 
 interface Props {
   index: number;
-  actionInstance: EventInstance;
+  eventInstance: EventInstance;
   onChangeData?: (data: object) => void;
   customEvents?: MaterialsCustomEvent[];
 }
 
-export function EventInstanceItem({
+function IEventInstanceItem({
   index,
   customEvents,
-  actionInstance,
-  actionInstance: { key, target, trigger },
+  eventInstance,
+  eventInstance: { key, target },
   onChangeData,
 }: Props) {
   const onDelete = useCallback(() => eventStore.deleteEventInstance(index), [index]);
@@ -29,19 +28,13 @@ export function EventInstanceItem({
     <Card
       className={classNames('vize_event_instance', { empty_form: target.type !== EventTargetType.ACTION })}
       key={key}
-      title={
-        <>
-          <EventInstanceTrigger trigger={trigger} target={target} customEvents={customEvents} />
-          <EventInstanceTarget target={target} />
-          <Popconfirm title="确认删除吗?" onConfirm={onDelete} okText="删除" cancelText="取消">
-            <Button danger shape="round" icon={<FiTrash2 />} />
-          </Popconfirm>
-        </>
-      }
+      title={<EventHeader eventInstance={eventInstance} onDelete={onDelete} customEvents={customEvents} />}
     >
       {target.type === EventTargetType.ACTION ? (
-        <EventInstanceDataForm instance={actionInstance} onChange={onChangeData!} />
+        <EventInstanceDataForm instance={eventInstance} onChange={onChangeData!} />
       ) : null}
     </Card>
   );
 }
+
+export const EventInstanceItem = SortableElement(IEventInstanceItem);
