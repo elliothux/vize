@@ -50,7 +50,13 @@ export class GlobalStore {
   };
 
   @observable
-  public styleInfo: GlobalStyle = defaultPageStyle;
+  public globalStyle: GlobalStyle = defaultPageStyle;
+
+  @action
+  public setGlobalStyle = (data: GlobalStyle) => {
+    this.globalStyle = data;
+    // this.setIframeStyle('global', data);
+  };
 
   @action
   public setPageTitle = (title: string) => {
