@@ -55,7 +55,6 @@ export class GlobalStore {
   @action
   public setGlobalStyle = (data: GlobalStyle) => {
     this.globalStyle = data;
-    // this.setIframeStyle('global', data);
   };
 
   @action

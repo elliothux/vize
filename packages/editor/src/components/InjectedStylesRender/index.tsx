@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import { useMemo } from 'react';
 import { globalStore } from 'states';
 import { mergeCommonStyle, humpToMiddleLine } from 'utils';
 
-export function InjectedStylesRender() {
+function IInjectedStylesRender() {
   const { iframeStyleMap, globalStyle } = globalStore;
   const iGlobalStyle = useMemo(
     () =>
@@ -26,3 +27,5 @@ export function InjectedStylesRender() {
     </>
   );
 }
+
+export const InjectedStylesRender = observer(IInjectedStylesRender);
