@@ -17,6 +17,8 @@ import {
   injectGlobalReadonlyGetter,
   isNumber,
   setCurrentPageComponentIndex,
+  createComponentEventDepsMap,
+  deleteComponentEventDepsMap,
 } from '../utils';
 import { selectStore } from './select';
 import { globalStore } from './global';
@@ -60,6 +62,8 @@ export class ComponentsStore {
         ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
         : createComponentInstance(component, false);
 
+    createComponentEventDepsMap(instance.key);
+
     if (selectStore.containerComponentKey > -1) {
       return this.addComponentInstanceAsChildren(instance);
     }
@@ -100,6 +104,7 @@ export class ComponentsStore {
 
     instances.splice(index, 1);
     selectStore.selectPage(selectStore.pageIndex);
+    deleteComponentEventDepsMap(key);
   };
 
   @action
