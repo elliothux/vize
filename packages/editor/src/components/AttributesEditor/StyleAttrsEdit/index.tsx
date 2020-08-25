@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { SelectType } from 'states';
-import { componentsStore } from 'states';
+import { componentsStore, globalStore } from 'states';
 import CommonStyleForm from './CommonStyleForm';
 import { Collapse } from 'antd';
 import { observer } from 'mobx-react';
@@ -17,9 +17,14 @@ interface Props {
 
 function IStyleAttrsEdit({ selectType }: Props) {
   const instance = useCurrentComponentInstance()!;
+  const { globalStyle } = globalStore;
 
   if (selectType === SelectType.GLOBAL) {
-    return <div>{'global'}</div>;
+    return (
+      <div className="editor-prop-item editor-prop-edit-style">
+        <CommonStyleForm style={globalStyle} onChange={globalStore.setGlobalStyle} />
+      </div>
+    );
   }
 
   if (selectType !== SelectType.COMPONENT) {

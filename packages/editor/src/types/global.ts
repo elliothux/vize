@@ -1,5 +1,5 @@
 import { Maybe } from './helper';
-import { BackgroundStyle, BorderStyle, DistanceStyle } from './styles';
+import { BackgroundStyle, BorderStyle, DistanceStyle, DistanceStyleWithAuto } from './styles';
 
 export enum LayoutMode {
   STREAM = 'stream',
@@ -14,8 +14,8 @@ export interface GlobalMeta {
 }
 
 export interface GlobalStyle {
-  margin: DistanceStyle;
-  padding: DistanceStyle;
-  border: BorderStyle;
-  background: BackgroundStyle;
+  margin?: DistanceStyleWithAuto;
+  padding?: DistanceStyle;
+  border?: BorderStyle;
+  background?: BackgroundStyle;
 }
