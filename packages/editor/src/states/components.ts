@@ -1,16 +1,18 @@
 /* eslint-disable max-lines */
 import { action, computed, observable, toJS } from 'mobx';
-import { EventInstance, ComponentInstance, ComponentPosition, ComponentSize, HotArea, LayoutMode } from 'types';
+import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import {
-  ComponentIndex,
   addPageComponentInstanceIndexMap,
   batchUpdateCurrentPageComponentIndex,
   compareComponentIndex,
+  componentEventDepsMap,
+  ComponentIndex,
   createComponentInstance,
   deleteCurrentPageComponentIndex,
   deletePageComponentInstanceIndexMap,
+  DepsType,
   findComponentInstanceByIndex,
   getCurrentPageComponentIndex,
   getMaxNodeBottomOffset,
@@ -18,8 +20,9 @@ import {
   isNumber,
   setCurrentPageComponentIndex,
 } from '../utils';
-import { selectStore } from './select';
+import { selectStore, SelectType } from './select';
 import { globalStore } from './global';
+import { eventStore } from './events';
 
 export class ComponentsStore {
   /**
@@ -59,6 +62,8 @@ export class ComponentsStore {
       globalStore.layoutMode === LayoutMode.FREE
         ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
         : createComponentInstance(component, false);
+
+    componentEventDepsMap.createEventDepsMap(instance.key);
 
     if (selectStore.containerComponentKey > -1) {
       return this.addComponentInstanceAsChildren(instance);
@@ -100,6 +105,8 @@ export class ComponentsStore {
 
     instances.splice(index, 1);
     selectStore.selectPage(selectStore.pageIndex);
+    eventStore.deleteDepsEventInstances(DepsType.Component, key);
+    componentEventDepsMap.deleteEventDepsMap(key);
   };
 
   @action
@@ -171,6 +178,25 @@ export class ComponentsStore {
     };
   };
 
+  public setComponentInstancePropsByKey = (
+    key: number,
+    setter: (instance: ComponentInstance) => ComponentInstance | void,
+  ): ComponentInstance => {
+    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+    const { index, parentIndex } = getCurrentPageComponentIndex(key)!;
+
+    if (isNumber(parentIndex)) {
+      return instances[parentIndex!].children![index];
+    }
+
+    const instance = instances[index];
+    const newInstance = setter(instance);
+    if (newInstance) {
+      instances[index] = newInstance;
+    }
+    return instances[index];
+  };
+
   public getCurrentPageComponentInstance = (componentKey: number): ComponentInstance => {
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index, parentIndex } = getCurrentPageComponentIndex(componentKey)!;
@@ -182,58 +208,65 @@ export class ComponentsStore {
     return instances[index];
   };
 
+  public getCurrentComponentInstance = (): Maybe<ComponentInstance> => {
+    const { selectType, componentKey } = selectStore;
+    return selectType === SelectType.COMPONENT ? this.getCurrentPageComponentInstance(componentKey) : null;
+  };
+
   /**
-   * @desc Change Component Instance Props
+   * @desc Change Current Component Instance Props
    */
   @action
-  private setCurrentComponentInstanceProp = (key: 'data' | 'style' | 'commonStyle' | 'wrapperStyle', value: object) => {
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
-    const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
-
-    instance[key] = value;
-    return instance;
+  private setCurrentComponentInstanceProps = (setter: (instance: ComponentInstance) => void) => {
+    return this.setComponentInstancePropsByKey(selectStore.componentKey, setter);
   };
 
   @action
   public setCurrentComponentInstanceData = (data: object) => {
-    return this.setCurrentComponentInstanceProp('data', data);
+    return this.setCurrentComponentInstanceProps(instance => {
+      instance.data = data;
+    });
   };
 
   @action
   public setCurrentComponentInstanceStyle = (style: object) => {
-    return this.setCurrentComponentInstanceProp('style', style);
+    return this.setCurrentComponentInstanceProps(instance => {
+      instance.style = style;
+    });
   };
 
   @action
   public setCurrentComponentInstanceCommonStyle = (commonStyle: object) => {
-    return this.setCurrentComponentInstanceProp('commonStyle', commonStyle);
+    return this.setCurrentComponentInstanceProps(instance => {
+      instance.commonStyle = commonStyle;
+    });
   };
 
   @action
   public setCurrentComponentInstanceWrapperStyle = (wrapperStyle: object) => {
-    return this.setCurrentComponentInstanceProp('wrapperStyle', wrapperStyle);
-  };
-
-  // TODO: Refactor
-  @action
-  public setCurrentComponentInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[]) => {
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
-    const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
-
-    instance.events = setter(instance.events);
-    return instance;
+    return this.setCurrentComponentInstanceProps(instance => {
+      instance.wrapperStyle = wrapperStyle;
+    });
   };
 
   @action
-  public setCurrentComponentInstanceHotAreas = (setter: (hotAreas: HotArea[]) => HotArea[]) => {
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    const { index, parentIndex } = getCurrentPageComponentIndex(selectStore.componentKey)!;
-    const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index]!;
+  public setCurrentComponentInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
+    return this.setCurrentComponentInstanceProps(instance => {
+      const newEvents = setter(instance.events);
+      if (newEvents) {
+        instance.events = newEvents;
+      }
+    });
+  };
 
-    instance.hotAreas = setter(instance.hotAreas!);
-    return instance;
+  @action
+  public setCurrentComponentInstanceHotAreas = (setter: (hotAreas: HotArea[]) => HotArea[] | void) => {
+    return this.setCurrentComponentInstanceProps(instance => {
+      const newHotAreas = setter(instance.hotAreas!);
+      if (newHotAreas) {
+        instance.hotAreas = newHotAreas;
+      }
+    });
   };
 }
 

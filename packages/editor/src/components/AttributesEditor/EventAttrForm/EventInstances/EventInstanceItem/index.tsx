@@ -1,42 +1,40 @@
 import * as React from 'react';
-import { useMemo } from 'react';
 import { EventInstance, EventTargetType, MaterialsCustomEvent } from 'types';
 import { Card } from 'antd';
-import { getTriggerDisplayName } from './utils';
 import { EventInstanceDataForm } from './EventInstanceDataForm';
-import { EventInstanceTarget } from './EventInstanceTarget';
+import { EventHeader } from './EventHeader';
+import { SortableElement } from 'react-sortable-hoc';
+import { useCallback } from 'react';
+import { eventStore } from 'states';
+import classNames from 'classnames';
 
 interface Props {
-  actionInstance: EventInstance;
+  index: number;
+  eventInstance: EventInstance;
   onChangeData?: (data: object) => void;
   customEvents?: MaterialsCustomEvent[];
 }
 
-export function EventInstanceItem({
+function IEventInstanceItem({
+  index,
   customEvents,
-  actionInstance,
-  actionInstance: { key, target, trigger },
+  eventInstance,
+  eventInstance: { key, target },
   onChangeData,
 }: Props) {
-  const [triggerDisplayName, TriggerIcon] = useMemo(() => getTriggerDisplayName(trigger, customEvents), []);
+  const onDelete = useCallback(() => eventStore.deleteEventInstance(index), [index]);
 
   return (
     <Card
-      className="vize_action_instance"
+      className={classNames('vize_event_instance', { empty_form: target.type !== EventTargetType.ACTION })}
       key={key}
-      title={
-        <>
-          <p className="vize_action_instance_trigger">
-            <TriggerIcon />
-            {triggerDisplayName} 触发
-          </p>
-          <EventInstanceTarget target={target} />
-        </>
-      }
+      title={<EventHeader eventInstance={eventInstance} onDelete={onDelete} customEvents={customEvents} />}
     >
       {target.type === EventTargetType.ACTION ? (
-        <EventInstanceDataForm instance={actionInstance} onChange={onChangeData!} />
+        <EventInstanceDataForm instance={eventInstance} onChange={onChangeData!} />
       ) : null}
     </Card>
   );
 }
+
+export const EventInstanceItem = SortableElement(IEventInstanceItem);

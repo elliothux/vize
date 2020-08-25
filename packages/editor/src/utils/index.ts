@@ -3,6 +3,7 @@ export * from './common';
 export * from './componentNodes';
 export * from './contextMenu';
 export * from './create';
+export * from './depsMap';
 export * from './dom';
 export * from './eventEmiter';
 export * from './eventHelper';
