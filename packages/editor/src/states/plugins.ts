@@ -1,17 +1,20 @@
 import { action, computed, observable } from 'mobx';
-import { EventInstance, PluginInstance } from 'types';
+import { EventInstance, Maybe, PluginInstance } from 'types';
 import {
   addPagePluginInstanceIndexMap,
-  deletePagePluginInstanceIndexMap,
   createPluginInstance,
+  deletePagePluginInstanceIndexMap,
+  DepsType,
   getCurrentPagePluginIndex,
+  pluginEventDepsMap,
   regenerateCurrentPagePluginIndexMap,
   setCurrentPagePluginIndex,
 } from '../utils';
 import { materialsStore } from './materials';
-import { selectStore } from './select';
+import { selectStore, SelectType } from './select';
 import { pagesStore } from './pages';
 import { globalStore } from './global';
+import { eventStore } from './events';
 
 export class PluginsStore {
   /**
@@ -78,6 +81,7 @@ export class PluginsStore {
     });
 
     selectStore.selectPlugin(instance.key);
+    pluginEventDepsMap.createEventDepsMap(instance.key);
   };
 
   @action
@@ -90,31 +94,50 @@ export class PluginsStore {
     });
 
     selectStore.selectPage(selectStore.pageIndex);
+    eventStore.deleteDepsEventInstances(DepsType.Plugin, key);
+    pluginEventDepsMap.deleteEventDepsMap(key);
   };
 
-  public getPluginInstance = (key: number): PluginInstance => {
+  public getCurrentPagePluginInstance = (key: number): PluginInstance => {
     const index = getCurrentPagePluginIndex(key)!;
     return this.pluginInstances[index];
   };
 
+  public getCurrentPluginInstance = (): Maybe<PluginInstance> => {
+    const { selectType, pluginKey } = selectStore;
+    return selectType === SelectType.PLUGIN ? this.getCurrentPagePluginInstance(pluginKey) : null;
+  };
+
+  @action
+  public setPluginInstancePropsByKey = (key: number, setter: (instance: PluginInstance) => void) => {
+    const instance = this.getCurrentPagePluginInstance(key);
+    setter(instance);
+    return instance;
+  };
+
+  @action
+  private setCurrentPluginInstanceProps = (setter: (instance: PluginInstance) => void) => {
+    const instance = this.getCurrentPagePluginInstance(selectStore.pluginKey);
+    setter(instance);
+    return instance;
+  };
+
   @action
   public setCurrentPluginInstanceData = (data: object) => {
-    const instance = this.getPluginInstance(selectStore.pluginKey);
-    instance.data = data;
-    return data;
+    return this.setCurrentPluginInstanceProps(instance => {
+      instance.data = data;
+    });
   };
 
   @action
   public setCurrentPluginInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
-    const index = getCurrentPagePluginIndex(selectStore.pluginKey)!;
-    const instance = this.pluginInstances[index];
-
-    const newEvents = setter(instance.events);
-    if (newEvents) {
-      instance.events = newEvents;
-    }
-
-    return instance;
+    return this.setCurrentPluginInstanceProps(instance => {
+      const newEvents = setter(instance.events);
+      if (newEvents) {
+        instance.events = newEvents;
+      }
+      return instance;
+    });
   };
 }
 

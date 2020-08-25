@@ -1,16 +1,22 @@
+/* eslint-disable max-lines */
 import * as R from 'ramda';
 import { action } from 'mobx';
 import {
-  EventInstance,
+  ComponentEventTarget,
+  ComponentInstance,
   ComponentUniversalEventTriggers,
+  EventInstance,
   EventTarget,
   EventTargetType,
   EventTrigger,
   EventTriggerName,
   EventTriggerType,
+  Maybe,
+  PluginEventTarget,
+  PluginInstance,
   PluginUniversalEventTrigger,
 } from '../types';
-import { createEventInstance } from '../utils';
+import { componentEventDepsMap, createEventInstance, DepFrom, DepsType, pluginEventDepsMap } from '../utils';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
@@ -30,6 +36,7 @@ export class EventStore {
           triggerName,
         };
         const instance = createEventInstance(trigger, target, action);
+        this.addEventDep(instance.target, [DepsType.Component, selectStore.componentKey, instance.key]);
         return this.addEventInstanceToCurrentComponentInstance(instance);
       }
 
@@ -41,6 +48,7 @@ export class EventStore {
           triggerName,
         };
         const instance = createEventInstance(trigger, target, action);
+        this.addEventDep(instance.target, [DepsType.Plugin, selectStore.pluginKey, instance.key]);
         return this.addEventInstanceToCurrentPluginInstance(instance);
       }
     }
@@ -60,29 +68,94 @@ export class EventStore {
     });
   };
 
+  private addEventDep = (target: EventTarget, depFrom: DepFrom) => {
+    switch (target.type) {
+      case EventTargetType.COMPONENT: {
+        return componentEventDepsMap.addEventDep((target as ComponentEventTarget).key, depFrom);
+      }
+      case EventTargetType.PLUGIN:
+        return pluginEventDepsMap.addEventDep((target as PluginEventTarget).key, depFrom);
+      case EventTargetType.ACTION:
+        // TODO
+        break;
+    }
+  };
+
   @action
   public deleteEventInstance = (index: number) => {
+    let eventInstance: EventInstance;
     switch (selectStore.selectType) {
       case SelectType.COMPONENT: {
-        return this.deleteEventInstanceFromCurrentComponentInstance(index);
+        eventInstance = this.deleteEventInstanceFromCurrentComponentInstance(index);
+        break;
       }
       case SelectType.PLUGIN: {
-        return this.deleteEventInstanceFromCurrentPluginInstance(index);
+        eventInstance = this.deleteEventInstanceFromCurrentPluginInstance(index);
+        break;
+      }
+    }
+    return this.deleteEventDep(eventInstance!);
+  };
+
+  @action
+  private deleteEventInstanceFromCurrentComponentInstance = (index: number): EventInstance => {
+    let eventInstance: Maybe<EventInstance>;
+    componentsStore.setCurrentComponentInstanceEvents(events => {
+      [eventInstance] = events.splice(index, 1);
+    });
+    return eventInstance!;
+  };
+
+  @action
+  private deleteEventInstanceFromCurrentPluginInstance = (index: number): EventInstance => {
+    let eventInstance: Maybe<EventInstance>;
+    pluginsStore.setCurrentPluginInstanceEvents(events => {
+      [eventInstance] = events.splice(index, 1);
+    });
+    return eventInstance!;
+  };
+
+  @action
+  private deleteEventDep = ({ target: { type }, key: eventInstanceKey }: EventInstance) => {
+    switch (type) {
+      case EventTargetType.COMPONENT: {
+        const { key } = componentsStore.getCurrentComponentInstance()!;
+        return componentEventDepsMap.deleteEventDep(key, DepsType.Component, eventInstanceKey);
+      }
+      case EventTargetType.PLUGIN: {
+        const { key } = pluginsStore.getCurrentPluginInstance()!;
+        return componentEventDepsMap.deleteEventDep(key, DepsType.Plugin, eventInstanceKey);
       }
     }
   };
 
   @action
-  private deleteEventInstanceFromCurrentComponentInstance = (index: number) => {
-    return componentsStore.setCurrentComponentInstanceEvents(events => {
-      events.splice(index, 1);
-    });
-  };
+  public deleteDepsEventInstances = (type: DepsType, key: number) => {
+    let deps: Maybe<DepFrom[]>;
+    switch (type) {
+      case DepsType.Component:
+        deps = componentEventDepsMap.getEventDep(key);
+        break;
+      case DepsType.Plugin:
+        deps = pluginEventDepsMap.getEventDep(key);
+        break;
+    }
 
-  @action
-  private deleteEventInstanceFromCurrentPluginInstance = (index: number) => {
-    return pluginsStore.setCurrentPluginInstanceEvents(events => {
-      events.splice(index, 1);
+    return deps!.map(([type, parentKey, eventKey]) => {
+      const deleteEvent = (instance: ComponentInstance | PluginInstance) => {
+        const index = instance.events.findIndex(i => i.key === eventKey);
+        instance.events.splice(index, 1);
+      };
+
+      switch (type) {
+        case DepsType.Component: {
+          componentsStore.setComponentInstancePropsByKey(parentKey, deleteEvent);
+          break;
+        }
+        case DepsType.Plugin: {
+          pluginsStore.setPluginInstancePropsByKey(parentKey, deleteEvent);
+        }
+      }
     });
   };
 
