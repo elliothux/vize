@@ -241,3 +241,8 @@ export function getSliderValue(value: number | [number, number]): number {
   }
   return 0;
 }
+
+const hyphenateRE = /\B([A-Z])/g;
+export function humpToMiddleLine(str: string) {
+  return str.replace(hyphenateRE, '-$1').toLowerCase();
+}
