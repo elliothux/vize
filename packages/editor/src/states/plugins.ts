@@ -31,10 +31,7 @@ export class PluginsStore {
 
   @computed
   public get pluginInstances(): PluginInstance[] {
-    if (globalStore.isSinglePageMode) {
-      return this.singlePagePluginsInstances;
-    }
-    return this.pagesPluginInstancesMap[pagesStore.currentPage.key];
+    return this.getPluginInstancesMap(pagesStore.currentPage.key);
   }
 
   @action
@@ -47,6 +44,13 @@ export class PluginsStore {
   public deletePluginInstancesMap = (pageKey: number) => {
     delete this.pagesPluginInstancesMap[pageKey];
     deletePagePluginInstanceIndexMap(pageKey);
+  };
+
+  public getPluginInstancesMap = (pageKey: number) => {
+    if (globalStore.isSinglePageMode) {
+      return this.singlePagePluginsInstances;
+    }
+    return this.pagesPluginInstancesMap[pageKey];
   };
 
   /**

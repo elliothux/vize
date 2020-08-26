@@ -5,6 +5,7 @@ export * from './contextMenu';
 export * from './create';
 export * from './depsMap';
 export * from './dom';
+export * from './dsl';
 export * from './eventEmiter';
 export * from './eventHelper';
 export * from './eventProxy';

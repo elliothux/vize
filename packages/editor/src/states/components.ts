@@ -36,7 +36,7 @@ export class ComponentsStore {
 
   @computed
   public get componentInstances(): ComponentInstance[] {
-    return this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+    return this.getComponentInstancesMap(pagesStore.currentPage.key);
   }
 
   @action
@@ -49,6 +49,11 @@ export class ComponentsStore {
   public deleteComponentInstancesMap = (pageKey: number) => {
     delete this.pagesComponentInstancesMap[pageKey];
     deletePageComponentInstanceIndexMap(pageKey);
+  };
+
+  @action
+  public getComponentInstancesMap = (pageKey: number) => {
+    return this.pagesComponentInstancesMap[pageKey];
   };
 
   /**

@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import './index.scss';
 import * as React from 'react';
 import {
   FiCornerUpLeft,
@@ -20,7 +21,7 @@ import { OperationItem } from './OperationItem';
 import { noop } from 'utils';
 import classNames from 'classnames';
 import { ReactComponent as Column } from 'static/images/right-column-layout.svg';
-import './index.scss';
+import { save } from './actions';
 
 export class OperationBar extends React.Component {
   renderCenter = () => {
@@ -56,7 +57,7 @@ export class OperationBar extends React.Component {
             )
           }
           icon={FiSave}
-          action={noop}
+          action={save}
           disabled={!isUserValid}
         />
         <OperationItem title="复制" icon={FiCopy} action={noop} />
