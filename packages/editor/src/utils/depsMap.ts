@@ -10,7 +10,7 @@ export type DepFrom = [DepsType, ParentKey, InstanceKey];
 
 /**
  * @desc Event Instances which deps on component
- * @struct Map<ComponentInstanceKey | PluginInstanceKey, [DepsType, DepItem]>
+ * @struct Map<ComponentInstanceKey | PluginInstanceKey, DepFrom[]>
  */
 class DepsMap {
   private readonly depsMap = new Map<number, DepFrom[]>();
