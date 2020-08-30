@@ -92,8 +92,16 @@ export function getMaterialsIdentityName(libName: string, name: string) {
   return `${libName}_${name}`.toLocaleLowerCase();
 }
 
+export function getHotAreaId(key: number): string {
+  return `__impage-hotarea-wrapper-${key}`;
+}
+
 export function px(px: number): string {
   return `${px}px`;
+}
+
+export function percent(percent: number): string {
+  return `${percent}%`;
 }
 
 export function pxWithAuto(px: number | 'auto'): string {

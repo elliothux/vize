@@ -5,12 +5,10 @@ interface Props {
   data: {
     src: string;
   };
-  hotAreas?: React.ReactElement | null;
+  hotAreas?: React.ReactElement | null | undefined;
 }
 
-export default function Image({ data, hotAreas }: Props) {
-  const { src } = data;
-
+export default function Image({ data: { src }, hotAreas }: Props) {
   return (
     <div className="vize-materials-universal image">
       {hotAreas}

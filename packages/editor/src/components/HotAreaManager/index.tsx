@@ -22,8 +22,6 @@ class State {
 
   loaded = false;
 
-  selectedIndex = -1;
-
   hotAreas: IHotArea[] = [];
 }
 
@@ -71,13 +69,13 @@ export class HotAreaManager extends React.Component {
   private added = false;
 
   public componentDidMount(): void {
-    events.on(EventEmitTypes.MANAGE_HOT_AREA, (instance: ComponentInstance, selectedIndex: number) => {
+    events.on(EventEmitTypes.MANAGE_HOT_AREA, (instance: ComponentInstance) => {
       if (!instance.hotAreas || !instance.data.src) {
         return;
       }
       this.instance = instance;
       this.src = getImageSrc(instance);
-      this.setState({ selectedIndex, visible: true, loaded: false });
+      this.setState({ visible: true, loaded: false });
     });
   }
 
@@ -93,12 +91,12 @@ export class HotAreaManager extends React.Component {
   private onConfirmModal = () => {
     const {
       imgContainerInfo,
-      state: { hotAreas: iHotAreas, selectedIndex },
+      state: { hotAreas: iHotAreas },
     } = this;
     const hotAreas = transformHotAreaFromPxToPercent(iHotAreas, imgContainerInfo);
 
     hotAreasStore.setHotAreas(hotAreas);
-    selectStore.selectHotArea(selectedIndex);
+    // selectStore.selectHotArea(selectedIndex);
     this.onCloseModal();
   };
 
@@ -178,8 +176,8 @@ export class HotAreaManager extends React.Component {
         const hotAreas = [...this.state.hotAreas, movingHotArea];
         this.setState({
           hotAreas,
-          selectedIndex: hotAreas.length - 1,
         });
+        selectStore.selectHotArea(hotAreas.length - 1);
         this.added = true;
       } else {
         this.setSizeAndPosition(this.state.hotAreas.length - 1, {
@@ -194,8 +192,8 @@ export class HotAreaManager extends React.Component {
     const { hotAreas } = this.state;
     this.setState({
       hotAreas: R.remove(index, 1, hotAreas),
-      selectedIndex: -1,
     });
+    selectStore.selectHotArea(-1);
   };
 
   private moveHotArea = (index: number, direction: MoveHotAreaDirection) => {
@@ -228,7 +226,7 @@ export class HotAreaManager extends React.Component {
       moveHotArea,
       setPosition,
       setSizeAndPosition,
-      state: { selectedIndex, hotAreas },
+      state: { hotAreas },
     } = this;
 
     return (
@@ -243,8 +241,10 @@ export class HotAreaManager extends React.Component {
             moveHotArea={moveHotArea}
             setPosition={setPosition}
             setSizeAndPosition={setSizeAndPosition}
-            activated={index === selectedIndex}
-            onClick={() => this.setState({ selectedIndex: index })}
+            activated={index === selectStore.hotAreaIndex}
+            onClick={() => {
+              selectStore.selectHotArea(index);
+            }}
           />
         ))}
       </div>
@@ -256,8 +256,8 @@ export class HotAreaManager extends React.Component {
     const area = iCopyHotArea(hotAreas[index]);
     this.setState({
       hotAreas: [...hotAreas, area],
-      selectedIndex: index,
     });
+    selectStore.selectHotArea(index);
   };
 
   private renderLoading = () => <Spin className="hot-area-manager-loading" />;
