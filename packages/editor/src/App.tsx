@@ -40,11 +40,16 @@ export function App() {
 
 async function init() {
   await initStore();
-  restore();
+  try {
+    restore();
+  } catch (e) {
+    console.error(e);
+  }
   return;
 }
 
 export function restore() {
+  // TODO
   const dsl = parseDSL(JSON.parse(localStorage.getItem('dsl')!));
   console.log(dsl);
   restoreState(dsl);
