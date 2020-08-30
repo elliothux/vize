@@ -4,7 +4,7 @@ import { Spin } from 'antd';
 import { initStore } from 'states';
 import { Simulator } from 'widgets/Simulator';
 import { Header } from 'components/Header';
-import { Renderer } from 'components/Renderer';
+import { Renderer, WithRerender } from 'components/Renderer';
 import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';
 import { HotAreaManager } from 'components/HotAreaManager';
@@ -23,7 +23,13 @@ export function App() {
       <Header />
       <main className="vize-main">
         <MaterialsView loading={loading} />
-        <Simulator>{loading ? null : <Renderer />}</Simulator>
+        <Simulator>
+          {loading ? null : (
+            <WithRerender>
+              <Renderer />
+            </WithRerender>
+          )}
+        </Simulator>
         <AttributesEditor loading={loading} />
       </main>
       <HotAreaManager />

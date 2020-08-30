@@ -1,3 +1,4 @@
+import './index.scss';
 import * as React from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
@@ -9,9 +10,9 @@ import { initDocument, setMaterialsMap } from 'utils';
 import { LayoutRender } from '../LayoutRender';
 import { injectRuntime, setUserAgent } from './utils';
 import { InjectedStylesRender } from '../InjectedStylesRender';
+import { executePlugins } from './pluginExecutor';
 
 import iframeStyle from './index.iframe.scss';
-import { executePlugins } from './pluginExecutor';
 
 globalStore.setIframeStyle('Renderer', iframeStyle);
 
@@ -125,3 +126,5 @@ export class Renderer extends React.Component {
     );
   }
 }
+
+export * from './WithRerender';
