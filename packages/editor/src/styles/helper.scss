@@ -9,6 +9,12 @@ $opacity-rgb: rgba(0, 0, 0, 0);
 $default-border: 1px solid #ccc;
 $opacity: rgba(0, 0, 0, 0);
 
+$default-background-color: #fafafa;
+
+$default-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+$default-box-shadow-heavy: 0 0px 8px rgba(0, 0, 0, 0.3);
+
 @function main-color-opacity($opacity: 1) {
   @return rgba(24, 144, 255, $opacity);
 }
@@ -66,6 +72,7 @@ $opacity: rgba(0, 0, 0, 0);
 }
 
 @mixin clearfix() {
+
   &:before,
   &:after {
     display: table;

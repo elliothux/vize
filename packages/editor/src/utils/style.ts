@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import * as R from 'ramda';
-import { CommonStyle, CommonStyleMeta, DistanceStyle, FixedOutset, PositionStyle } from 'types';
+import { CommonStyle, CommonStyleMeta, DistanceStyle, FixedOutset, PositionStyle, IPositionStyle } from 'types';
 import { Maybe, GlobalStyle } from 'types';
 import { px, pxWithAuto } from './common';
 import { isEmpty, isNumber } from './is';
@@ -31,6 +31,31 @@ export interface MergedCommonStyles {
 
 export interface MergedStyle extends MergedCommonStyles {
   [key: string]: any;
+}
+
+export function calPosition(position: IPositionStyle): IPositionStyle {
+  const style = {
+    position: 'fixed',
+    top: undefined,
+    left: undefined,
+    right: undefined,
+    bottom: undefined,
+  } as IPositionStyle;
+  const { top, left, right, bottom, outset } = position;
+  if (outset === FixedOutset.TopLeft) {
+    style.top = top;
+    style.left = left;
+  } else if (outset === FixedOutset.TopRight) {
+    style.top = top;
+    style.right = right;
+  } else if (outset === FixedOutset.BottomLeft) {
+    style.bottom = bottom;
+    style.left = left;
+  } else if (outset === FixedOutset.BottomRight) {
+    style.bottom = bottom;
+    style.right = right;
+  }
+  return style;
 }
 
 export function mergeCommonStyle(commonStyle: CommonStyle): MergedCommonStyles {
