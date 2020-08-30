@@ -6,8 +6,9 @@ import { componentsStore } from './components';
 import { selectStore } from './select';
 import { pluginsStore } from './plugins';
 import { globalStore } from './global';
+import { StoreWithUtils } from './utils';
 
-export class PagesStore {
+export class PagesStore extends StoreWithUtils<PagesStore> {
   public init = () => {
     this.addPage(true, 'index');
   };

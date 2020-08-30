@@ -4,7 +4,7 @@ import { ComponentInstance } from './component';
 import { PluginInstance } from './plugins';
 
 export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent'> {
-  children: ComponentInstanceDSL[];
+  children?: ComponentInstanceDSL[];
 }
 
 export type PluginInstanceDSL = PluginInstance;
