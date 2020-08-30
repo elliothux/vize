@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import {
   ComponentInstance,
@@ -28,7 +29,7 @@ export interface ActionHandlers {
 }
 
 // TODO
-/* eslint-disable no-unused-vars */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateHandler(
   actions: EventInstance[],
   trigger: EventTriggerName,
@@ -43,13 +44,13 @@ function generateHandler(
   if (!iActions.length) {
     return undefined;
   }
-  console.log(component, hotArea);
+  // console.log(component, hotArea);
   // return pipeActions(iActions, component, hotArea);
   return undefined;
 }
 
 // TODO
-/* eslint-disable no-unused-vars */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function generateHandlers(
   actions: EventInstance[],
   component: ComponentInstance,
