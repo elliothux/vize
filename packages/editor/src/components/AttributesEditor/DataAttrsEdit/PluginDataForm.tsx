@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 import { materialsStore, pluginsStore } from 'states';
-import { useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { SchemaForm } from 'components/Form';
 import { useCurrentPluginInstance } from 'hooks';
+import { EventEmitTypes, events } from '../../../utils';
 
 function IPluginForm() {
   const instance = useCurrentPluginInstance()!;
@@ -12,16 +13,15 @@ function IPluginForm() {
 
   const { dataForm } = useMemo(() => materialsStore.getPluginMeta(plugin), [plugin]);
 
+  const onChange = useCallback((data: object) => {
+    pluginsStore.setCurrentPluginInstanceData(data);
+    events.emit(EventEmitTypes.RELOAD_RENDERER);
+  }, []);
+
   return (
     <>
       {dataForm ? (
-        <SchemaForm
-          instanceKey={key}
-          form={dataForm}
-          data={toJS(data)}
-          onChange={pluginsStore.setCurrentPluginInstanceData}
-          submitProps
-        />
+        <SchemaForm instanceKey={key} form={dataForm} data={toJS(data)} onChange={onChange} submitProps />
       ) : null}
     </>
   );
