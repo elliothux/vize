@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import classNames from 'classnames';
 import { MaterialsPluginMeta, Maybe } from 'types';
-import { useCallback } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { SVGRender } from 'widgets/SVGRender';
 import { pluginsStore } from 'states';
+import { EventEmitTypes, events } from '../../../../utils';
 
 interface Props {
   item: MaterialsPluginMeta;
@@ -24,7 +25,10 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
   const onBlur = useCallback(() => setFocus(false), [setFocus]);
 
   const onClick = useCallback(() => onSelect(item), [item]);
-  const onAdd = useCallback(() => pluginsStore.addPluginInstance(identityName), [identityName]);
+  const onAdd = useCallback(() => {
+    pluginsStore.addPluginInstance(identityName);
+    events.emit(EventEmitTypes.RELOAD_RENDERER);
+  }, [identityName]);
 
   const disabled = pluginsStore.pluginInstances.findIndex(i => i.plugin === identityName) > -1;
 
