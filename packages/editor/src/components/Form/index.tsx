@@ -29,7 +29,7 @@ export function SchemaForm({ form, data, onChange, instanceKey, submitProps }: P
       <ISchemaForm
         schema={form as JsonSchemaProperties}
         value={data}
-        onChange={onChange}
+        onSubmit={onChange}
         submitProps={{ children: typeof submitProps === 'boolean' ? '确认' : submitProps }}
       />
     );

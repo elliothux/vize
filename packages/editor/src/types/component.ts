@@ -3,6 +3,7 @@ import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
 import { CommonStyleMeta, Percent } from './styles';
+import { GlobalMeta } from './global';
 
 export interface MaterialsComponentMeta {
   identityName: string;
@@ -69,6 +70,7 @@ export interface ComponentInstance {
 
 export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style' | 'commonStyle'> {
   componentKey: Readonly<number>;
+  meta?: GlobalMeta;
   instance: ComponentInstance;
 }
 

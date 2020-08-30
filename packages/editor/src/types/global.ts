@@ -7,10 +7,10 @@ export enum LayoutMode {
 }
 
 export interface GlobalMeta {
-  title: string;
-  desc: string;
-  duration: Maybe<[number, number]>;
-  expiredJump: string;
+  title?: string;
+  desc?: string;
+  duration?: Maybe<[number, number]>;
+  expiredJump?: string;
 }
 
 export interface GlobalStyle {

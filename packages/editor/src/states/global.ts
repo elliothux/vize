@@ -58,6 +58,11 @@ export class GlobalStore {
   };
 
   @action
+  public setMetaInfo = (data: GlobalMeta) => {
+    this.metaInfo = data;
+  };
+
+  @action
   public setPageTitle = (title: string) => {
     this.metaInfo.title = title;
   };
