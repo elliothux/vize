@@ -10,6 +10,7 @@ import { StoreWithUtils } from './utils';
 
 export class PagesStore extends StoreWithUtils<PagesStore> {
   public init = () => {
+    // TODO
     this.addPage(true, 'index');
   };
 

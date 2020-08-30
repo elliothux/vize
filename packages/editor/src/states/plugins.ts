@@ -23,7 +23,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
    * @struct Map<Page, PluginInstance[]>
    */
   @observable
-  private pagesPluginInstancesMap: {
+  public pagesPluginInstancesMap: {
     [key: number]: PluginInstance[];
   } = {};
 

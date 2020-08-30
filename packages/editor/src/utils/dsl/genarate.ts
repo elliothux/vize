@@ -10,6 +10,7 @@ import {
 } from 'types';
 import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
 import { toJS } from 'mobx';
+import { getMaxKey, KeyType } from '../key';
 
 export function generateDSL(): DSL {
   const { layoutMode, pageMode, globalProps, globalStyle, metaInfo } = globalStore;
@@ -24,6 +25,16 @@ export function generateDSL(): DSL {
     pageInstances: generatePageInstancesDSL(pageMode),
     pluginInstances:
       pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstancesMap(-1)) : undefined,
+    editInfo: {
+      maxKeys: {
+        [KeyType.Page]: getMaxKey(KeyType.Page),
+        [KeyType.Component]: getMaxKey(KeyType.Component),
+        [KeyType.HotArea]: getMaxKey(KeyType.HotArea),
+        [KeyType.Plugin]: getMaxKey(KeyType.Plugin),
+        [KeyType.Action]: getMaxKey(KeyType.Action),
+        [KeyType.Action]: getMaxKey(KeyType.Action),
+      },
+    },
   };
   return toJS(dsl, { recurseEverything: true });
 }

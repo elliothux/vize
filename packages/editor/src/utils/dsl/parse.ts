@@ -10,11 +10,12 @@ import {
   PluginInstanceDSL,
 } from 'types';
 
-export function parseDSL({ global, pageInstances, pluginInstances }: DSL) {
+export function parseDSL({ global, pageInstances, pluginInstances, editInfo }: DSL) {
   return {
     global,
-    pages: parsePageInstancesDSL(pageInstances, global.pageMode),
+    pageInstances: parsePageInstancesDSL(pageInstances, global.pageMode),
     pluginInstances: global.pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(pluginInstances!) : undefined,
+    editInfo,
   };
 }
 
@@ -33,21 +34,14 @@ function parsePageInstancesDSL(pages: PageDSL[], pageMode: PageMode): [PageInsta
   });
 }
 
-function parseComponentInstancesDSL(
-  componentInstances: ComponentInstanceDSL[],
-  parent?: ComponentInstance,
-): ComponentInstance[] {
+function parseComponentInstancesDSL(componentInstances: ComponentInstanceDSL[]): ComponentInstance[] {
   return componentInstances.map(({ children, ...component }) => {
     const componentInstance = <ComponentInstance>{
       ...component,
     };
 
-    if (parent) {
-      componentInstance.parent = parent;
-    }
-
     if (children) {
-      componentInstance.children = parseComponentInstancesDSL(children, componentInstance);
+      componentInstance.children = parseComponentInstancesDSL(children);
     }
 
     return componentInstance;

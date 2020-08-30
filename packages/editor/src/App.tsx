@@ -8,6 +8,7 @@ import { Renderer, WithRerender } from 'components/Renderer';
 import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';
 import { HotAreaManager } from 'components/HotAreaManager';
+import { parseDSL, restoreState } from './utils/dsl';
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -37,6 +38,14 @@ export function App() {
   );
 }
 
-function init() {
-  return initStore();
+async function init() {
+  await initStore();
+  restore();
+  return;
+}
+
+export function restore() {
+  const dsl = parseDSL(JSON.parse(localStorage.getItem('dsl')!));
+  console.log(dsl);
+  restoreState(dsl);
 }

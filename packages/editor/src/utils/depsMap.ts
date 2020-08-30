@@ -1,4 +1,4 @@
-// import { ComponentInstance, EventInstance, PluginInstance } from '../types';
+import { ComponentInstance, EventInstance, Maybe, PluginInstance } from '../types';
 
 export enum DepsType {
   Component = 'component',
@@ -29,10 +29,6 @@ class DepsMap {
     return this.depsMap.get(key)!.push(dep);
   };
 
-  public batchAddEventDep = (key: number, deps: DepFrom[]) => {
-    return this.depsMap.get(key)!.push(...deps);
-  };
-
   public getEventDep = (key: number) => {
     return this.depsMap.get(key);
   };
@@ -45,9 +41,13 @@ class DepsMap {
   };
 }
 
-// export function generateEventDeps(instance: ComponentInstance | PluginInstance) {}
-
-// export function generateEventDepFromItem(event: EventInstance) {}
+export function generateEventDepFromItem(
+  parent: ComponentInstance | PluginInstance,
+  { key }: EventInstance,
+): Maybe<DepFrom> {
+  const depType = (parent as ComponentInstance).component ? DepsType.Component : DepsType.Plugin;
+  return [depType, parent.key, key];
+}
 
 export const componentEventDepsMap = new DepsMap();
 
