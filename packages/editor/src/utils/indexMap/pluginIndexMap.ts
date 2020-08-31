@@ -27,11 +27,12 @@ export function setCurrentPagePluginIndex(pluginKey: number, index: PluginIndex)
   return getCurrentPagePluginIndexMap().set(pluginKey, index);
 }
 
+export function generatePluginsIndex(pluginInstances: PluginInstance[]): PluginIndexMapEntries {
+  return pluginInstances.map(({ key }, index) => [key, index]);
+}
+
 export function regenerateCurrentPagePluginIndexMap(pluginInstances: PluginInstance[]) {
   const pageKey = globalStore.isSinglePageMode ? 0 : pagesStore.currentPage.key;
   deletePagePluginInstanceIndexMap(pageKey);
-  addPagePluginInstanceIndexMap(
-    pageKey,
-    pluginInstances.map(({ key }, index) => [key, index]),
-  );
+  addPagePluginInstanceIndexMap(pageKey, generatePluginsIndex(pluginInstances));
 }

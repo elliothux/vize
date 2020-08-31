@@ -42,6 +42,7 @@ function IEventAttrForm({ selectType }: Props) {
   }
 
   const isComponent = selectType === SelectType.COMPONENT;
+  const customEvents = isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents;
 
   return (
     <div className="event-form">
@@ -49,7 +50,7 @@ function IEventAttrForm({ selectType }: Props) {
         type={isComponent ? 'component' : 'plugin'}
         trigger={trigger}
         setTrigger={setTrigger}
-        customEvents={isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents}
+        customEvents={customEvents}
       />
 
       {trigger ? (

@@ -1,3 +1,5 @@
+import { ComponentInstance, EventInstance, Maybe, PluginInstance } from '../types';
+
 export enum DepsType {
   Component = 'component',
   Plugin = 'plugin',
@@ -37,6 +39,14 @@ class DepsMap {
     const [dep] = deps.splice(index, 1);
     return dep;
   };
+}
+
+export function generateEventDepFromItem(
+  parent: ComponentInstance | PluginInstance,
+  { key }: EventInstance,
+): Maybe<DepFrom> {
+  const depType = (parent as ComponentInstance).component ? DepsType.Component : DepsType.Plugin;
+  return [depType, parent.key, key];
 }
 
 export const componentEventDepsMap = new DepsMap();

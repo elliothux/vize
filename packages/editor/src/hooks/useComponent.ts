@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { componentsStore, materialsStore, selectStore, SelectType } from 'states';
 import { ComponentInstance, MaterialsComponentMeta, Maybe } from 'types';
-import { getCurrentPageComponentIndex } from '../utils';
+import { getCurrentPageComponentIndex, isNumber } from '../utils';
 
 export function useComponentInstance(key: number): Maybe<ComponentInstance> {
   const { componentInstances } = componentsStore;
@@ -14,7 +14,7 @@ export function useComponentInstance(key: number): Maybe<ComponentInstance> {
 
   const { index, parentIndex } = instanceIndex;
 
-  return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];
+  return isNumber(parentIndex) ? componentInstances[parentIndex!].children![index] : componentInstances[index];
 }
 
 export function useComponentMeta(key: number): Maybe<MaterialsComponentMeta> {

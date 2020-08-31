@@ -1,6 +1,8 @@
-import { generateDSL } from '../../utils';
+import { generateDSL } from '../../utils/dsl';
 
 export function save() {
   const dsl = generateDSL();
-  console.log(dsl);
+  const result = JSON.stringify(dsl);
+  console.log(dsl, result);
+  localStorage.setItem('dsl', result);
 }
