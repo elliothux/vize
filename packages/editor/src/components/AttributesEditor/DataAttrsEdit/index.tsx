@@ -3,6 +3,7 @@ import React from 'react';
 import { SelectType } from 'states';
 import { ComponentDataForm } from './ComponentDataForm';
 import { PluginDataForm } from './PluginDataForm';
+import { GlobalDataForm } from './GlobalDataForm';
 
 interface Props {
   selectType: number;
@@ -17,6 +18,9 @@ function IDataAttrsEdit({ selectType }: Props) {
     return <ComponentDataForm />;
   } else if (selectType === SelectType.PLUGIN) {
     return <PluginDataForm />;
+  }
+  if (selectType === SelectType.GLOBAL) {
+    return <GlobalDataForm />;
   }
   return <Empty />;
 }

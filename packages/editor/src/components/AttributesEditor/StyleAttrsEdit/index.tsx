@@ -21,7 +21,7 @@ function IStyleAttrsEdit({ selectType }: Props) {
 
   if (selectType === SelectType.GLOBAL) {
     return (
-      <div className="editor-prop-item editor-prop-edit-style">
+      <div className="editor-attr-item editor-attr-edit-style">
         <CommonStyleForm style={globalStyle} onChange={globalStore.setGlobalStyle} />
       </div>
     );

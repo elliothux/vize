@@ -49,22 +49,27 @@ ant-collapse-content-box .ant-collapse-item {
           fill: gray;
         }
       }
+
       &.top {
         top: $distance;
       }
+
       &.bottom {
         bottom: $distance;
 
         @include flipY;
       }
+
       &.left {
         left: $distance;
       }
+
       &.right {
         right: $distance;
 
         @include flipX;
       }
+
       &.right.bottom {
         @include flipXY;
       }
@@ -76,6 +81,7 @@ ant-collapse-content-box .ant-collapse-item {
   & > .editor-attr-form-item > .ant-input-affix-wrapper {
     width: 211px;
   }
+
   .ant-select {
     width: 200px;
   }

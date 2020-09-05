@@ -1,0 +1,19 @@
+@import 'styles/helper';
+
+.editor-attr-item {
+  background-color: #ffffff;
+}
+
+.editor-attr-edit-style {
+  padding: 0 0 0 0 !important;
+
+  &>.ant-collapse-item>.ant-collapse-header {
+    color: rgba(0, 0, 0, 0.6) !important;
+    font-weight: bolder;
+    font-size: 13px;
+  }
+}
+
+.common-style-form-panel>.ant-collapse-content>.ant-collapse-content-box {
+  padding: 0 12px;
+}

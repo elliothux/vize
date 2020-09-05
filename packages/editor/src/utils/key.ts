@@ -21,7 +21,7 @@ export function setMaxKey(type: KeyType, max: number): void {
   }
 }
 
-export function getMaxId(type: KeyType): number {
+export function getMaxKey(type: KeyType): number {
   const v = keyMap.get(type);
 
   if (isNumber(v)) {

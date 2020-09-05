@@ -33,7 +33,7 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
     setTimeout(() => {
       // onClickAdd();
       // onClickAdd();
-      onClickAdd();
+      // onClickAdd();
     }, 1000);
   }, []);
 

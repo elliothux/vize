@@ -78,6 +78,7 @@ export interface ComponentInstance {
 
 export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style' | 'commonStyle'> {
   componentKey: Readonly<number>;
+  meta?: GlobalMeta;
   instance: ComponentInstance;
   hotAreas: Maybe<React.ReactElement>;
 }

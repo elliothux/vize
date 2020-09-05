@@ -1,9 +1,11 @@
 import { action, computed, observable } from 'mobx';
 import { defaultPageStyle, getQueryParams } from 'utils';
 import { GlobalMeta, GlobalStyle, LayoutMode, Maybe, PageMode } from 'types';
+import { StoreWithUtils } from './utils';
 
-export class GlobalStore {
+export class GlobalStore extends StoreWithUtils<GlobalStore> {
   constructor() {
+    super();
     const { libs, debugPorts } = getQueryParams();
     this.libNames = libs;
     this.mainLib = libs[0];
@@ -16,9 +18,9 @@ export class GlobalStore {
 
   public readonly debugPorts: number[];
 
-  public readonly layoutMode: LayoutMode = LayoutMode.STREAM;
+  public layoutMode: LayoutMode = LayoutMode.STREAM;
 
-  public readonly pageMode: PageMode = PageMode.MULTI;
+  public pageMode: PageMode = PageMode.MULTI;
 
   @computed
   public get isSinglePageMode() {
@@ -55,6 +57,11 @@ export class GlobalStore {
   @action
   public setGlobalStyle = (data: GlobalStyle) => {
     this.globalStyle = data;
+  };
+
+  @action
+  public setMetaInfo = (data: GlobalMeta) => {
+    this.metaInfo = data;
   };
 
   @action
