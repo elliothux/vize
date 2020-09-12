@@ -1,5 +1,7 @@
+@import './helper';
 body {
   background-color: #f5f5f5;
+
   user-select: none;
 }
 
@@ -15,8 +17,8 @@ img {
   height: 100vh;
 
   .ant-spin {
-    height: 85vh !important;
     max-height: 85vh !important;
+    height: 85vh !important;
   }
 
   .ant-spin-container {
@@ -25,11 +27,11 @@ img {
 }
 
 .vize-main {
-  width: 100vw;
-  height: calc(100vh - 50px);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100vw;
+  height: calc(100vh - 50px);
 
   .vize-simulator-container,
   .vize-materials-view,
@@ -48,5 +50,90 @@ img {
 
   .vize-attributes-editor {
     width: 320px;
+  }
+}
+
+.ant-collapse-borderless {
+  background-color: $opacity !important;
+}
+
+.editor-prop-form-item,
+.editor-prop-form-item .ant-form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  min-height: 26px;
+
+  .ant-form-item-control {
+    width: 100%;
+
+    .form-image-picker {
+      //max-width: calc(100% - 40px) !important;
+      //margin: 0 20px;
+    }
+
+    .array-empty-wrapper {
+      width: 100%;
+    }
+  }
+
+  &.field-array {
+    flex-direction: column;
+
+    .array-item-wrapper {
+      margin: 0 -12px;
+
+      & > div {
+        width: 100%;
+      }
+    }
+
+    & > .ant-form-item-label {
+      top: 0;
+      display: block;
+      width: 100%;
+    }
+
+    & > .ant-col {
+      width: 100%;
+    }
+
+    & > .ant-form-item-control {
+      width: 100%;
+
+      .editor-prop-form-item {
+        //.ant-form-item {
+        justify-content: center;
+      }
+    }
+  }
+
+  & > span,
+  .ant-form-item-label > label {
+    margin-right: 0;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .form-range {
+    & ~ .ant-form-item-space {
+      display: none;
+    }
+  }
+
+  .ant-slider {
+    margin: 6px;
+    width: 150px;
+  }
+
+  .ant-radio-wrapper {
+    & > span {
+      padding: 0 3px;
+    }
+  }
+
+  .ant-input-number {
+    width: 66px;
   }
 }

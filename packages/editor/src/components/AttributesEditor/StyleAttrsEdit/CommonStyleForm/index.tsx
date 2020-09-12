@@ -5,6 +5,7 @@ import PositionForm from './PositionForm';
 import TransformForm from './TransformForm';
 import FontForm from './FontForm';
 import BackgroundForm from './BackgroundForm';
+import { DistanceStyleForm } from './DistanceForm';
 import BorderForm from './BorderForm';
 import SizeForm from './SizeForm';
 import ZindexForm from './ZindexForm';
@@ -24,6 +25,15 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
       defaultActiveKey={['0', '1', '2', '3', '4', '5', '6', '7']}
       className="editor-attr-form common-style-form"
     >
+      {(style.margin || style.padding) && (
+        <Panel header="边距" key="0">
+          <DistanceStyleForm
+            style={{ margin: style.margin, padding: style.padding }}
+            onChange={({ margin, padding }) => onChange({ ...style, margin, padding })}
+          />
+        </Panel>
+      )}
+
       {style.position && (
         <Panel header="定位" key="1">
           <PositionForm
