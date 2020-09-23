@@ -19,9 +19,9 @@ export type DSL = Readonly<{
   global: {
     layoutMode: LayoutMode;
     pageMode: PageMode;
+    metaInfo: GlobalMeta;
     globalProps: object;
     globalStyle: GlobalStyle;
-    metaInfo: GlobalMeta;
   };
   pageInstances: PageDSL[];
   pluginInstances?: PluginInstanceDSL[];

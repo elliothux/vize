@@ -19,12 +19,20 @@
     "ci": "npm run lint && npm run cov && npm run tsc",
     "autod": "autod",
     "lint": "eslint . --ext .ts",
-    "clean": "ets clean"
+    "clean": "ets clean",
+    "migrate:up": "./node_modules/.bin/sequelize --config ./config/sequelize.json db:migrate",
+    "migrate:down": "./node_modules/.bin/sequelize --config ./config/sequelize.json db:migrate:undo",
+    "migrate:down:all": "./node_modules/.bin/sequelize --config ./config/sequelize.json db:migrate:undo:all",
+    "seed:up": "./node_modules/.bin/sequelize --config ./config/sequelize.json db:seed:all",
+    "seed:down": "./node_modules/.bin/sequelize --config ./config/sequelize.json db:seed:undo",
+    "seed:down:all": "./node_modules/.bin/sequelize --config ./config/sequelize.json db:seed:undo:all"
   },
   "dependencies": {
     "egg": "^2.6.1",
     "egg-mysql": "^3.0.0",
-    "egg-scripts": "^2.6.0"
+    "egg-scripts": "^2.6.0",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.40",
