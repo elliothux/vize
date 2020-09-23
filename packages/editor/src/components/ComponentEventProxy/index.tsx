@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import * as React from 'react';
-import { ComponentEventListenerTypes, ComponentInstance, Maybe, WithReactChildren, EventInstance } from '../../types';
+import { ComponentEventListenerTypes, ComponentInstance, Maybe, WithReactChildren } from '../../types';
 import { globalStore } from '../../states';
 import { observer } from 'mobx-react';
 import { ActionHandler, ActionHandlers, generateHandlers, HandlerParams } from './utils';
@@ -40,7 +40,7 @@ export class ComponentEventProxy extends React.Component<Props> {
     super(props);
 
     this.handlerParams = { global: globalStore.globalProps!, meta: globalStore.metaInfo! };
-    this.updateHandlersWithParams(globalStore.previewMode ? props.instance.events : []);
+    this.updateHandlersWithParams();
   }
 
   public componentDidMount(): void {
@@ -149,7 +149,7 @@ export class ComponentEventProxy extends React.Component<Props> {
     setTimeout(() => (this.preventClick = false), ComponentEventProxy.DOUBLE_CLICK_TIMEOUT);
   });
 
-  private updateHandlersWithParams = (actions: EventInstance[]) => {
+  private updateHandlersWithParams = () => {
     const {
       onInit,
       onClick,
@@ -159,7 +159,7 @@ export class ComponentEventProxy extends React.Component<Props> {
       onLongPress,
       onEnterView,
       onLeaveView,
-    } = generateHandlers(actions, this.props.instance);
+    } = generateHandlers(this.props.instance);
     const { handlers, withEmitComponentEvent } = this;
 
     handlers.onInit = withEmitComponentEvent(ComponentEventListenerTypes.INIT, onInit);

@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { ComponentInstance, Function } from 'types';
-// import { useMemo } from 'react';
-// import { materialsStore } from 'states';
+import { ComponentInstance, MaterialsComponentMeta, Function } from 'types';
+import { useMemo } from 'react';
+import { materialsStore } from 'states';
 
 interface Props {
-  tag: string;
-  subTag?: string;
   instance: ComponentInstance;
   selected: boolean;
   onClick: Function;
@@ -13,10 +11,10 @@ interface Props {
   onContextMenu: Function;
 }
 
-export function ComponentMask({ tag, subTag, onClick, onDoubleClick, onContextMenu }: Props) {
-  // const {
-  //   info: { name },
-  // } = useMemo<MaterialsComponentMeta>(() => materialsStore.getComponentMeta(instance.component), [instance.component]);
+export function ComponentMask({ instance, onClick, onDoubleClick, onContextMenu }: Props) {
+  const {
+    info: { name },
+  } = useMemo<MaterialsComponentMeta>(() => materialsStore.getComponentMeta(instance.component), [instance.component]);
 
   return (
     <div
@@ -26,7 +24,7 @@ export function ComponentMask({ tag, subTag, onClick, onDoubleClick, onContextMe
       onContextMenu={onContextMenu}
     >
       <span>
-        {tag} {subTag}
+        {name} (key={instance.key})
       </span>
     </div>
   );
