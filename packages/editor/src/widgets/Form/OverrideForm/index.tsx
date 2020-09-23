@@ -18,9 +18,13 @@ export interface OverrideFormProps {
 }
 
 function IOverrideForm({ onChange, children: Form, value, instanceKey }: OverrideFormProps) {
-  const JSONSchemaForm = useMemo(() => (props: SchemaFormProps) => <SchemaForm key={instanceKey} {...props} />, [
-    instanceKey,
-  ]);
+  const JSONSchemaForm = useMemo(
+    () =>
+      function MemorizedJSONSchemaForm(props: SchemaFormProps) {
+        return <SchemaForm key={instanceKey} {...props} />;
+      },
+    [instanceKey],
+  );
 
   return <Form key={instanceKey} value={value} onChange={onChange} Formily={Formily} JSONSchemaForm={JSONSchemaForm} />;
 }

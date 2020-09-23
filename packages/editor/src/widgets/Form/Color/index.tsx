@@ -24,6 +24,7 @@ interface Props extends FormProps<string> {
   disabled?: boolean;
   format?: ColorFormat;
 }
+
 function Color(props: Props) {
   const disabled = useMemo(() => (typeof props.disabled === 'boolean' ? props.disabled : false), [props.disabled]);
   const [format, supportAlpha] = useMemo(() => {

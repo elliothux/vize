@@ -9,12 +9,10 @@ import {
   MaterialsActionMeta,
   MaterialsComponentMeta,
   MaterialsPluginMeta,
-  PageData,
   PageInstance,
   PluginInstance,
 } from '../types';
 import { generateKey, KeyType } from './key';
-import { setPageData } from './page';
 import { getSchemaDefault } from './common';
 import { getDefaultCommonStyle } from './style';
 import { isFunction } from './is';
@@ -28,11 +26,6 @@ export function createSchema(schema: JsonSchemaProperties): JSONSchemaDefinition
 
 export function createPageInstance(name: string, isHome = false): PageInstance {
   const key = generateKey(KeyType.Page);
-  const data: PageData = {
-    componentInstances: [],
-    pluginInstances: [],
-  };
-  setPageData(key, data);
   return {
     key,
     name,
