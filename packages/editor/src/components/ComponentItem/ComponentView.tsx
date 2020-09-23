@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentInstance, WithReactChildren, Maybe, PositionStyle, IPositionStyle } from 'types';
+import { ComponentInstance, WithReactChildren, PositionStyle, IPositionStyle } from 'types';
 import { useMemo } from 'react';
 import { getMaterialsComponent, mergeCommonStyle, calPosition } from 'utils';
 import { observer } from 'mobx-react';
@@ -8,10 +8,9 @@ import { globalStore } from 'states';
 
 interface Props extends WithReactChildren {
   instance: ComponentInstance;
-  HotAreas?: Maybe<React.ReactElement>;
 }
 
-function IComponentView({ instance, children, HotAreas }: Props) {
+function IComponentView({ instance, children }: Props) {
   const { key, component, data, commonStyle, wrapperStyle } = instance;
   const position = commonStyle.position as PositionStyle;
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
@@ -36,7 +35,6 @@ function IComponentView({ instance, children, HotAreas }: Props) {
         commonStyle={iCommonStyle}
         instance={instance}
         meta={metaInfo}
-        hotAreas={HotAreas}
       >
         {children}
       </ComponentRender>
