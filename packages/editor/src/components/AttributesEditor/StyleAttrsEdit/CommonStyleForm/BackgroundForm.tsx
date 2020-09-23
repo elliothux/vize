@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BackgroundStyle } from 'types';
 import { Radio, Select } from 'antd';
 import { isEmpty } from 'utils';
-import { Color } from '../../../Form/Color';
+import { Color } from 'widgets/Form/Color';
 import { StyleFormProps } from './index';
 import { ColorFormat } from '../../../../utils';
 
