@@ -4,7 +4,7 @@ import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
 import { Maybe } from './helper';
 import { HotArea } from './hotArea';
-import { CommonStyleMeta, Percent } from './styles';
+import { CommonStyleMeta } from './styles';
 import { GlobalMeta } from './global';
 
 export interface MaterialsComponentMeta {
@@ -34,23 +34,6 @@ export interface ComponentPosition {
 export interface ComponentSize {
   width: number;
   height: number;
-}
-
-export interface HotAreaPosition {
-  x: Percent;
-  y: Percent;
-}
-
-export interface HotAreaSize {
-  width: Percent;
-  height: Percent;
-}
-
-export interface HotArea {
-  key: number;
-  position: HotAreaPosition;
-  size: HotAreaSize;
-  events: EventInstance[];
 }
 
 export interface ComponentInstance {
