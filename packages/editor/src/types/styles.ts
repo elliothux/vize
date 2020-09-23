@@ -31,8 +31,8 @@ export type ZIndexStyle = number | true;
 
 export type PositionStyle = IPositionStyle | true;
 
-export interface IPositionStyle extends DistanceStyle {
-  outset: FixedOutset;
+export interface IPositionStyle extends Partial<DistanceStyle> {
+  outset?: FixedOutset;
 }
 
 export interface MarginAndPaddingStyle {

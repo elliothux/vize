@@ -28,12 +28,13 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
         <Panel header="定位" key="1">
           <PositionForm
             style={style.position}
-            onChange={newStyle =>
+            onChange={newStyle => {
+              console.log(newStyle);
               onChange({
                 ...style,
                 position: newStyle,
-              })
-            }
+              });
+            }}
           />
         </Panel>
       )}

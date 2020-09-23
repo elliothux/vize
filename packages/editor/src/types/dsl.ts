@@ -2,9 +2,10 @@ import { GlobalMeta, GlobalStyle, LayoutMode } from './global';
 import { PageInstance, PageMode } from './pages';
 import { ComponentInstance } from './component';
 import { PluginInstance } from './plugins';
+import { KeyType } from '../utils';
 
 export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent'> {
-  children: ComponentInstanceDSL[];
+  children?: ComponentInstanceDSL[];
 }
 
 export type PluginInstanceDSL = PluginInstance;
@@ -24,4 +25,13 @@ export type DSL = Readonly<{
   };
   pageInstances: PageDSL[];
   pluginInstances?: PluginInstanceDSL[];
+  editInfo: {
+    maxKeys: {
+      [KeyType.Page]: number;
+      [KeyType.Component]: number;
+      [KeyType.HotArea]: number;
+      [KeyType.Plugin]: number;
+      [KeyType.Action]: number;
+    };
+  };
 }>;

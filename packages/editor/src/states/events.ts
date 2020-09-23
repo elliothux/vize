@@ -73,8 +73,9 @@ export class EventStore {
       case EventTargetType.COMPONENT: {
         return componentEventDepsMap.addEventDep((target as ComponentEventTarget).key, depFrom);
       }
-      case EventTargetType.PLUGIN:
+      case EventTargetType.PLUGIN: {
         return pluginEventDepsMap.addEventDep((target as PluginEventTarget).key, depFrom);
+      }
       case EventTargetType.ACTION:
         // TODO
         break;
@@ -116,15 +117,17 @@ export class EventStore {
   };
 
   @action
-  private deleteEventDep = ({ target: { type }, key: eventInstanceKey }: EventInstance) => {
-    switch (type) {
+  private deleteEventDep = ({ target, key: eventInstanceKey }: EventInstance) => {
+    switch (target.type) {
       case EventTargetType.COMPONENT: {
-        const { key } = componentsStore.getCurrentComponentInstance()!;
-        return componentEventDepsMap.deleteEventDep(key, DepsType.Component, eventInstanceKey);
+        return componentEventDepsMap.deleteEventDep(
+          (target as ComponentEventTarget).key,
+          DepsType.Component,
+          eventInstanceKey,
+        );
       }
       case EventTargetType.PLUGIN: {
-        const { key } = pluginsStore.getCurrentPluginInstance()!;
-        return componentEventDepsMap.deleteEventDep(key, DepsType.Plugin, eventInstanceKey);
+        return pluginEventDepsMap.deleteEventDep((target as PluginEventTarget).key, DepsType.Plugin, eventInstanceKey);
       }
     }
   };

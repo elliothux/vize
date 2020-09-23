@@ -24,14 +24,15 @@ import {
 import { selectStore, SelectType } from './select';
 import { globalStore } from './global';
 import { eventStore } from './events';
+import { StoreWithUtils } from './utils';
 
-export class ComponentsStore {
+export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   /**
    * @desc PageComponentsMap
    * @struct Map<Page, ComponentInstance[]>
    */
   @observable
-  private pagesComponentInstancesMap: {
+  public pagesComponentInstancesMap: {
     [key: number]: ComponentInstance[];
   } = {};
 
@@ -187,21 +188,15 @@ export class ComponentsStore {
 
   public setComponentInstancePropsByKey = (
     key: number,
-    setter: (instance: ComponentInstance) => ComponentInstance | void,
+    setter: (instance: ComponentInstance) => void,
   ): ComponentInstance => {
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index, parentIndex } = getCurrentPageComponentIndex(key)!;
 
-    if (isNumber(parentIndex)) {
-      return instances[parentIndex!].children![index];
-    }
+    const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index];
+    setter(instance);
 
-    const instance = instances[index];
-    const newInstance = setter(instance);
-    if (newInstance) {
-      instances[index] = newInstance;
-    }
-    return instances[index];
+    return instance;
   };
 
   public getCurrentPageComponentInstance = (componentKey: number): ComponentInstance => {

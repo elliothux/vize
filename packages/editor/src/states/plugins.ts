@@ -15,14 +15,15 @@ import { selectStore, SelectType } from './select';
 import { pagesStore } from './pages';
 import { globalStore } from './global';
 import { eventStore } from './events';
+import { StoreWithUtils } from './utils';
 
-export class PluginsStore {
+export class PluginsStore extends StoreWithUtils<PluginsStore> {
   /**
    * @desc PagePluginsMap
    * @struct Map<Page, PluginInstance[]>
    */
   @observable
-  private pagesPluginInstancesMap: {
+  public pagesPluginInstancesMap: {
     [key: number]: PluginInstance[];
   } = {};
 

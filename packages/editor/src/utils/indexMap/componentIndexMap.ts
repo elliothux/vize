@@ -87,15 +87,19 @@ export function batchUpdateCurrentPageComponentIndex(
   }
 }
 
-export function regenerateCurrentPageComponentIndex(currentPageComponentInstances: ComponentInstance[]) {
-  deletePageComponentInstanceIndexMap(pagesStore.currentPage.key);
-  const entries = currentPageComponentInstances.reduce<ComponentIndexMapEntries>((accu, { key, children }, index) => {
+export function generateComponentsIndex(componentInstances: ComponentInstance[]): ComponentIndexMapEntries {
+  return componentInstances.reduce<ComponentIndexMapEntries>((accu, { key, children }, index) => {
     accu.push([key, { index }]);
     children?.forEach(({ key }, childIndex) => {
       accu.push([key, { parentIndex: index, index: childIndex }]);
     });
     return accu;
   }, []);
+}
+
+export function regenerateCurrentPageComponentsIndex(currentPageComponentInstances: ComponentInstance[]) {
+  deletePageComponentInstanceIndexMap(pagesStore.currentPage.key);
+  const entries = generateComponentsIndex(currentPageComponentInstances);
   addPageComponentInstanceIndexMap(pagesStore.currentPage.key, entries);
 }
 

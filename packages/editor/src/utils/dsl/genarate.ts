@@ -1,7 +1,16 @@
 import * as R from 'ramda';
-import { ComponentInstance, ComponentInstanceDSL, DSL, PageDSL, PageMode } from '../types';
-import { componentsStore, globalStore, pagesStore, pluginsStore } from '../states';
+import {
+  ComponentInstance,
+  ComponentInstanceDSL,
+  DSL,
+  PageDSL,
+  PageMode,
+  PluginInstance,
+  PluginInstanceDSL,
+} from 'types';
+import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
 import { toJS } from 'mobx';
+import { getMaxKey, KeyType } from '../key';
 
 export function generateDSL(): DSL {
   const { layoutMode, pageMode, globalProps, globalStyle, metaInfo } = globalStore;
@@ -13,13 +22,24 @@ export function generateDSL(): DSL {
       globalStyle,
       metaInfo,
     },
-    pageInstances: generatePagesDSL(pageMode),
-    pluginInstances: pageMode === PageMode.SINGLE ? pluginsStore.getPluginInstancesMap(-1) : undefined,
+    pageInstances: generatePageInstancesDSL(pageMode),
+    pluginInstances:
+      pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstancesMap(-1)) : undefined,
+    editInfo: {
+      maxKeys: {
+        [KeyType.Page]: getMaxKey(KeyType.Page),
+        [KeyType.Component]: getMaxKey(KeyType.Component),
+        [KeyType.HotArea]: getMaxKey(KeyType.HotArea),
+        [KeyType.Plugin]: getMaxKey(KeyType.Plugin),
+        [KeyType.Action]: getMaxKey(KeyType.Action),
+        [KeyType.Action]: getMaxKey(KeyType.Action),
+      },
+    },
   };
   return toJS(dsl, { recurseEverything: true });
 }
 
-function generatePagesDSL(pageMode: PageMode): PageDSL[] {
+function generatePageInstancesDSL(pageMode: PageMode): PageDSL[] {
   const { pages } = pagesStore;
   return pages.map(page => {
     const pageInstance = R.omit(['isNameEditing'], page);
@@ -29,7 +49,7 @@ function generatePagesDSL(pageMode: PageMode): PageDSL[] {
     return {
       ...pageInstance,
       componentInstances: generateComponentInstancesDSL(componentInstances),
-      pluginInstances,
+      pluginInstances: generatePluginInstancesDSL(pluginInstances!),
     };
   });
 }
@@ -42,4 +62,8 @@ function generateComponentInstancesDSL(componentInstances: ComponentInstance[]):
       children: componentInstance.children ? generateComponentInstancesDSL(componentInstance.children) : undefined,
     };
   });
+}
+
+function generatePluginInstancesDSL(pluginInstances: PluginInstance[]): PluginInstanceDSL[] {
+  return pluginInstances;
 }
