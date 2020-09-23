@@ -6,14 +6,13 @@ import { ComponentView } from './ComponentView';
 import { globalStore, SelectStore, selectStore, SelectType, materialsStore } from 'states';
 import classNames from 'classnames';
 import { ComponentMask } from './ComponentMask';
-import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/ComponentMenu';
+import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu';
 import { LayoutRender } from '../LayoutRender';
-import { setComponentNode, events, EventEmitTypes, withPreventEvent } from '../../utils';
-
-import iframeStyle from './index.iframe.scss';
+import { setComponentNode, events, EventEmitTypes, withPreventEvent } from 'utils';
 import { ComponentSelectModeMask } from './ComponentSelectModeMask';
 import { HotArea } from '../HotArea';
 import { observer } from 'mobx-react';
+import iframeStyle from './index.iframe.scss';
 
 globalStore.setIframeStyle('ComponentItem', iframeStyle);
 
@@ -83,6 +82,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
     selectStore.setSelectModeSelectComponent({ key: selectStore.selectModeSelectedComponent?.key });
   };
 
+  // TODO: refactor
   renderHotAreas(withHotAreas: boolean, selected: boolean, selectModeSelected: boolean) {
     const { instance, selectMode } = this.props;
 

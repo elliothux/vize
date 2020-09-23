@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+// TODO: refactor
 import * as React from 'react';
 import {
   EventInstance,
@@ -10,7 +11,6 @@ import {
   HotAreaEventListenerTypes,
 } from 'types';
 import {
-  emitHotArea,
   EventEmitTypes,
   events,
   getHotAreaId,
@@ -163,22 +163,13 @@ export class HotAreaEventProxy extends React.PureComponent<HotAreaActionHandlerP
     setTimeout(() => (this.preventClick = false), DOUBLE_CLICK_TIMEOUT);
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   emitHotAreaEvent = (e: Maybe<React.SyntheticEvent>, type: HotAreaEventListenerTypes) => {
     if (!this.props.previewMode) {
       return;
     }
 
-    const {
-      props: { hotArea, instance },
-      handlerParams: { global, meta },
-    } = this;
-    return emitHotArea(e, {
-      eventType: type,
-      hotArea,
-      component: instance,
-      meta,
-      global,
-    });
+    // TODO
   };
 
   withEmitHotAreaEvent = (type: HotAreaEventListenerTypes, handler: Maybe<ActionHandler>) => (

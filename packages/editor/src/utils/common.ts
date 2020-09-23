@@ -93,7 +93,7 @@ export function getMaterialsIdentityName(libName: string, name: string) {
 }
 
 export function getHotAreaId(key: number): string {
-  return `__impage-hotarea-wrapper-${key}`;
+  return `__vize-hotarea-wrapper-${key}`;
 }
 
 export function px(px: number): string {

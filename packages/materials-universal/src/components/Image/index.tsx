@@ -5,7 +5,7 @@ interface Props {
   data: {
     src: string;
   };
-  hotAreas?: React.ReactElement | null | undefined;
+  hotAreas?: React.ReactElement;
 }
 
 export default function Image({ data: { src }, hotAreas }: Props) {
