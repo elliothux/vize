@@ -2,7 +2,9 @@ import * as React from 'react';
 import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
-import { CommonStyleMeta, Percent } from './styles';
+import { Maybe } from './helper';
+import { HotArea } from './hotArea';
+import { CommonStyleMeta } from './styles';
 import { GlobalMeta } from './global';
 
 export interface MaterialsComponentMeta {
@@ -34,23 +36,6 @@ export interface ComponentSize {
   height: number;
 }
 
-export interface HotAreaPosition {
-  x: Percent;
-  y: Percent;
-}
-
-export interface HotAreaSize {
-  width: Percent;
-  height: Percent;
-}
-
-export interface HotArea {
-  key: number;
-  position: HotAreaPosition;
-  size: HotAreaSize;
-  events: EventInstance[];
-}
-
 export interface ComponentInstance {
   key: Readonly<number>;
   component: Readonly<string>;
@@ -72,6 +57,7 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   componentKey: Readonly<number>;
   meta?: GlobalMeta;
   instance: ComponentInstance;
+  hotAreas: Maybe<React.ReactElement>;
 }
 
 export type MaterialsComponent = React.ComponentType<ComponentProps>;

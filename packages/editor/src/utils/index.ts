@@ -1,9 +1,9 @@
 export * from './dsl';
 export * from './indexMap';
 export * from './loader';
+export * from './nodeMap';
 export * from './color';
 export * from './common';
-export * from './componentNodes';
 export * from './contextMenu';
 export * from './create';
 export * from './depsMap';
@@ -18,3 +18,4 @@ export * from './key';
 export * from './materialsMap';
 export * from './request';
 export * from './style';
+export * from './color';

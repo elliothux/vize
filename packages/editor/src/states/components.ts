@@ -10,6 +10,7 @@ import {
   componentEventDepsMap,
   ComponentIndex,
   createComponentInstance,
+  deleteComponentNode,
   deleteCurrentPageComponentIndex,
   deletePageComponentInstanceIndexMap,
   DepsType,
@@ -113,6 +114,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     selectStore.selectPage(selectStore.pageIndex);
     eventStore.deleteDepsEventInstances(DepsType.Component, key);
     componentEventDepsMap.deleteEventDepsMap(key);
+    deleteComponentNode(key);
   };
 
   @action
