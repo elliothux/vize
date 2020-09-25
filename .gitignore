@@ -294,3 +294,4 @@ lerna-debug.log*
 /packages/cgi/node_modules/
 /packages/cgi/run/
 .history
+!/packages/cgi-new/dist/
