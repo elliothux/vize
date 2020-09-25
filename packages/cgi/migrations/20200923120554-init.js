@@ -50,6 +50,10 @@ module.exports = {
           primaryKey: true,
           allowNull: false,
         },
+        page: {
+          type: INTEGER.UNSIGNED,
+          allowNull: false,
+        },
         createdTime: {
           type: DATE,
           allowNull: false,
@@ -93,7 +97,7 @@ module.exports = {
         },
         pluginInstances: {
           type: TEXT,
-          allowNull: false,
+          allowNull: true,
         },
         editInfo: {
           type: TEXT,
@@ -143,7 +147,7 @@ module.exports = {
         },
         latestHistory: {
           type: INTEGER.UNSIGNED,
-          allowNull: false,
+          allowNull: true,
         },
       },
       {
@@ -169,6 +173,17 @@ module.exports = {
       type: 'FOREIGN KEY',
       references: {
         table: 'history',
+        field: 'id',
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    });
+
+    await queryInterface.addConstraint('history', {
+      fields: ['page'],
+      type: 'FOREIGN KEY',
+      references: {
+        table: 'page',
         field: 'id',
       },
       onDelete: 'cascade',

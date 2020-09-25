@@ -7,14 +7,16 @@ import {
   PageMode,
   PluginInstance,
   PluginInstanceDSL,
+  InstanceKeyType,
 } from 'types';
 import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
 import { toJS } from 'mobx';
-import { getMaxKey, KeyType } from '../key';
+import { getMaxKey } from '../key';
 
 export function generateDSL(): DSL {
-  const { layoutMode, pageMode, globalProps, globalStyle, metaInfo } = globalStore;
+  const { layoutMode, pageMode, globalProps, globalStyle, metaInfo, pageKey } = globalStore;
   const dsl: DSL = {
+    pageKey,
     global: {
       layoutMode,
       pageMode,
@@ -27,12 +29,12 @@ export function generateDSL(): DSL {
       pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstancesMap(-1)) : undefined,
     editInfo: {
       maxKeys: {
-        [KeyType.Page]: getMaxKey(KeyType.Page),
-        [KeyType.Component]: getMaxKey(KeyType.Component),
-        [KeyType.HotArea]: getMaxKey(KeyType.HotArea),
-        [KeyType.Plugin]: getMaxKey(KeyType.Plugin),
-        [KeyType.Action]: getMaxKey(KeyType.Action),
-        [KeyType.Action]: getMaxKey(KeyType.Action),
+        [InstanceKeyType.Page]: getMaxKey(InstanceKeyType.Page),
+        [InstanceKeyType.Component]: getMaxKey(InstanceKeyType.Component),
+        [InstanceKeyType.HotArea]: getMaxKey(InstanceKeyType.HotArea),
+        [InstanceKeyType.Plugin]: getMaxKey(InstanceKeyType.Plugin),
+        [InstanceKeyType.Action]: getMaxKey(InstanceKeyType.Action),
+        [InstanceKeyType.Action]: getMaxKey(InstanceKeyType.Action),
       },
     },
   };

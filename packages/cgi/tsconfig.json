@@ -3,14 +3,14 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
-    "strict": true,
+    "strict": false,
     "noImplicitAny": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "charset": "utf8",
     "allowJs": false,
     "pretty": true,
-    "noEmitOnError": false,
+    "noEmitOnError": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowUnreachableCode": false,
@@ -20,11 +20,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "inlineSourceMap": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "baseUrl": "./app"
   },
-  "exclude": [
-    "app/public",
-    "app/views",
-    "node_modules*"
-  ]
+  "include": ["app", "typings"],
+  "exclude": ["app/public", "app/views", "node_modules*"]
 }

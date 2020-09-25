@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { MaterialsForm, MaterialsInfo } from './materials';
+import { MaterialsInfo } from './materials';
+import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
 import { CommonStyleMeta, Percent } from './styles';

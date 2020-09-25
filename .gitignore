@@ -292,4 +292,5 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 /packages/cgi/node_modules/
+/packages/cgi/run/
 .history
