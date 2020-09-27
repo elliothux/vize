@@ -28,6 +28,9 @@ export class PageEntity {
   @Column({ type: 'varchar', length: 16, nullable: false })
   pageMode: string;
 
+  @Column({ type: 'tinyint', nullable: false, default: 1 })
+  status: number;
+
   @ManyToOne(
     () => BizEntity,
     biz => biz.id,
@@ -42,5 +45,5 @@ export class PageEntity {
     { nullable: true },
   )
   @JoinColumn()
-  latestHistory: HistoryEntity;
+  latestHistory?: HistoryEntity;
 }

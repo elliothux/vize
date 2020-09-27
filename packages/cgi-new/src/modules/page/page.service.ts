@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageEntity } from './page.entity';
-import { CreatePageParams, PagesParams } from './page.interface';
+import { CreatePageParams, PagesParams, UpdatePageDto } from './page.interface';
 
 @Injectable()
 export class PageService {
@@ -28,15 +28,23 @@ export class PageService {
     });
   }
 
-  public async queryPageEntity({ page = 0, pageSize = 20 }: PagesParams) {
+  public queryPageEntity({ page = 0, pageSize = 20 }: PagesParams) {
     return this.pageRepository.find({
       take: pageSize,
       skip: page * pageSize,
     });
   }
 
-  public async getPageById(id: number) {
+  public getPageById(id: number) {
     return this.pageRepository.findOne(id);
+  }
+
+  public updatePage(id: number, updatePageDto: UpdatePageDto) {
+    return this.pageRepository.update(id, updatePageDto);
+  }
+
+  public deletePage(id: number) {
+    return this.pageRepository.update(id, { status: -1 });
   }
 
   public async checkPageExists(key: string) {

@@ -1,4 +1,5 @@
 import { BizEntity } from 'modules/biz/biz.entity';
+import { HistoryEntity } from '../history/history.entity';
 export declare class PageEntity {
     id: number;
     key: string;
@@ -6,5 +7,7 @@ export declare class PageEntity {
     author: string;
     layoutMode: string;
     pageMode: string;
+    status: number;
     biz: BizEntity;
+    latestHistory?: HistoryEntity;
 }

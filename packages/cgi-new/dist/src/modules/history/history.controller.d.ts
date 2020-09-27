@@ -1,6 +1,6 @@
 import { HistoryService } from './history.service';
 export declare class HistoryController {
-    private readonly pageService;
-    constructor(pageService: HistoryService);
+    private readonly historyService;
+    constructor(historyService: HistoryService);
     getHello(): string;
 }
