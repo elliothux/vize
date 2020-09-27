@@ -9,14 +9,24 @@ export class CGIResponse {
     };
   }
 
-  static failed<T = any>(code: number, reason: string): Response<T> {
+  static failed<T = any>(code: CGICodeMap, reason?: string): Response<T> {
     return {
       t: Date.now(),
       status: 'failed',
       error: {
         code,
-        reason,
+        reason: reason || CGIReasonMap[code] || `ErrorCode: ${code}`,
       },
     };
   }
 }
+
+export enum CGICodeMap {
+  BizExists,
+  PageExists,
+}
+
+const CGIReasonMap: { [key in CGICodeMap]: string } = {
+  [CGICodeMap.BizExists]: 'biz exists',
+  [CGICodeMap.PageExists]: 'page exists',
+};

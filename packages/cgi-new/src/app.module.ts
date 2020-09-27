@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { BizModule } from 'modules/biz/biz.modules';
+import { PageModule } from 'modules/page/page.modules';
+import { HistoryModule } from 'modules/history/history.modules';
 import { getConfig } from '../config';
-import { BizModule } from './modules/biz/biz.modules';
-import { PageModule } from './modules/page/page.modules';
 
 const config = getConfig();
 
@@ -19,6 +20,7 @@ const config = getConfig();
       synchronize: true,
     }),
     BizModule,
+    HistoryModule,
     PageModule,
   ],
 })
