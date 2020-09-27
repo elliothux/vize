@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { JsonSchemaProperties } from 'types';
 import { globalStore } from 'states';
-import { SchemaForm } from 'components/Form';
+import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
 
 const TemplateDataSchema: JsonSchemaProperties = {

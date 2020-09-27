@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { materialsStore, pluginsStore } from 'states';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import { SchemaForm } from 'components/Form';
+import { SchemaForm } from 'widgets/Form';
 import { useCurrentPluginInstance } from 'hooks';
 import { EventEmitTypes, events } from '../../../utils';
 

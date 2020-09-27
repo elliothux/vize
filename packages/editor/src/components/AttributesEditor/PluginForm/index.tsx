@@ -5,7 +5,7 @@ import { getCurrentPagePluginIndex } from 'utils';
 import { PluginInstance } from 'types';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import { SchemaForm } from 'components/Form';
+import { SchemaForm } from 'widgets/Form';
 
 function IPluginForm() {
   const { pluginInstances } = pluginsStore;

@@ -3,7 +3,6 @@ import { MaterialsForm, MaterialsInfo } from './materials';
 import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
 import { CommonStyleMeta, Percent } from './styles';
-import { Maybe } from './helper';
 import { GlobalMeta } from './global';
 
 export interface MaterialsComponentMeta {
@@ -45,13 +44,6 @@ export interface HotAreaSize {
   height: Percent;
 }
 
-export interface HotAreaParamsData {
-  key: number;
-  position: HotAreaPosition;
-  size: HotAreaSize;
-  parent: MaterialsComponentMeta;
-}
-
 export interface HotArea {
   key: number;
   position: HotAreaPosition;
@@ -80,44 +72,6 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   componentKey: Readonly<number>;
   meta?: GlobalMeta;
   instance: ComponentInstance;
-  hotAreas: Maybe<React.ReactElement>;
-}
-
-interface EditorMaterialCallbackParams {
-  global: object;
-  meta: GlobalMeta;
-  originalEvent?: React.SyntheticEvent;
-}
-export type ComponentsMapType = Map<number, HTMLDivElement>;
-export interface EditorMaterialPluginParams extends EditorMaterialCallbackParams {
-  key: number;
-  data: object;
-  on: Function;
-  componentsMap: ComponentsMapType;
-}
-
-export interface EditorMaterialActionParams extends EditorMaterialCallbackParams {
-  key: number;
-  data?: object;
-  triggerEventType: string;
-  trigger: {
-    type: 'component' | 'hotarea';
-    component: MaterialsComponentMeta;
-    hotarea?: HotAreaParamsData;
-  };
-  target?: MaterialsComponentMeta;
-  componentsMap: ComponentsMapType;
-}
-
-export interface EditorMaterialPluginEventListenerCallbackParams extends EditorMaterialCallbackParams {
-  triggerEventType: string;
-  trigger: {
-    type: 'component' | 'hotarea';
-    component: MaterialsComponentMeta;
-    hotarea?: HotAreaParamsData;
-  };
-  component: MaterialsComponentMeta;
-  hotArea?: HotAreaParamsData;
 }
 
 export type MaterialsComponent = React.ComponentType<ComponentProps>;

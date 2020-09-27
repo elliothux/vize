@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { componentsStore, selectStore } from 'states';
-import { SchemaForm } from 'components/Form';
+import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { useCurrentComponentInstance, useCurrentComponentMeta } from 'hooks';

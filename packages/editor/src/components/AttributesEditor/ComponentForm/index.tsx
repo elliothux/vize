@@ -3,7 +3,7 @@ import { componentsStore, materialsStore, selectStore } from 'states';
 import { useMemo } from 'react';
 import { getCurrentPageComponentIndex } from 'utils';
 import { ComponentInstance } from 'types';
-import { SchemaForm } from 'components/Form';
+import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 

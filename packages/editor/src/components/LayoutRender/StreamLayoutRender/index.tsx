@@ -75,7 +75,7 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
   );
 
   return (
-    <SortableContainer onSortStart={onSortStart} onSortEnd={onSortEnd} getContainer={getContainer} pressDelay={200}>
+    <SortableContainer onSortStart={onSortStart} onSortEnd={onSortEnd} getContainer={getContainer}>
       {content}
     </SortableContainer>
   );

@@ -37,3 +37,5 @@ export function SchemaForm({ form, data, onChange, instanceKey, submitProps }: P
 
   return <ISchemaForm schema={form as JsonSchemaProperties} value={data} onChange={onChange} />;
 }
+
+export * from './OverrideForm';

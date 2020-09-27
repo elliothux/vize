@@ -2,7 +2,7 @@ import { MaterialsComponent, MaterialsComponentMeta } from './component';
 import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
 import { JsonSchemaProperties } from './helper';
-import { OverrideFormComponent } from '../components/Form/OverrideForm';
+import { OverrideFormComponent } from '../widgets/Form';
 
 export interface MaterialsInfo {
   name: string;

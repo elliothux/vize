@@ -2,7 +2,7 @@ import { ComponentInstance, Maybe } from 'types';
 import { EventProxy } from './eventProxy';
 import { getBottomOffsetToBodyTop } from './dom';
 
-export const componentNodes = new Map<number, HTMLDivElement>();
+const componentNodes = new Map<number, HTMLDivElement>();
 
 export function setComponentNode(key: number, node: HTMLDivElement) {
   componentNodes.set(key, node);
