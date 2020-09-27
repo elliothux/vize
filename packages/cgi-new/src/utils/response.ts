@@ -24,9 +24,11 @@ export class CGIResponse {
 export enum CGICodeMap {
   BizExists,
   PageExists,
+  PageNotExists,
 }
 
 const CGIReasonMap: { [key in CGICodeMap]: string } = {
   [CGICodeMap.BizExists]: 'biz exists',
   [CGICodeMap.PageExists]: 'page exists',
+  [CGICodeMap.PageNotExists]: 'page not exists',
 };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ActionEventTarget, EventInstance } from 'types';
 import { useActionMetaById } from 'hooks';
-import { SchemaForm } from 'components/Form';
+import { SchemaForm } from 'widgets/Form';
 import { toJS } from 'mobx';
 
 interface FromProps {

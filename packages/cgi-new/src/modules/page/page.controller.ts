@@ -1,6 +1,6 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { PageService } from './page.service';
-import { CreatePageParams } from './page.interface';
+import { CreatePageParams, PagesParams } from './page.interface';
 import { CGICodeMap, CGIResponse } from '../../utils';
 
 @Controller('/cgi/page')
@@ -23,5 +23,25 @@ export class PageController {
 
     console.log(await this.pageService.createPageEntity(page));
     return CGIResponse.success();
+  }
+
+  @Get()
+  async getPages() {
+    const params: PagesParams = {
+      page: 0,
+      pageSize: 20,
+    };
+
+    const pages = this.pageService.queryPageEntity(params);
+    return CGIResponse.success(pages);
+  }
+  @Get()
+  async getPageById(id: number) {
+    if (!id) {
+      return CGIResponse.failed(CGICodeMap.PageNotExists);
+    }
+
+    const page = this.pageService.getPageById(id);
+    return CGIResponse.success(page);
   }
 }

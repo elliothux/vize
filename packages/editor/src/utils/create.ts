@@ -9,7 +9,6 @@ import {
   MaterialsActionMeta,
   MaterialsComponentMeta,
   MaterialsPluginMeta,
-  PageData,
   PageInstance,
   PluginInstance,
   InstanceKeyType,
