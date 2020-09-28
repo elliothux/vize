@@ -1,6 +1,6 @@
-import { MaterialsForm, MaterialsInfo } from './materials';
-import { MaterialsCustomEvent } from './events';
-import { EventInstance } from './events';
+import { MaterialsInfo } from './materials';
+import { MaterialsForm } from './form';
+import { MaterialsCustomEvent, EventInstance } from './events';
 
 export interface MaterialsPluginMeta {
   identityName: string;

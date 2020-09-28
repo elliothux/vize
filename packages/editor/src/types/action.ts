@@ -1,4 +1,5 @@
-import { MaterialsForm, MaterialsInfo } from './materials';
+import { MaterialsInfo } from './materials';
+import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { GlobalMeta } from './global';
 

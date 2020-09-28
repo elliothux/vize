@@ -7,10 +7,14 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   constructor() {
     super();
     const { libs, debugPorts } = getQueryParams();
+    // TODO
+    this.pageKey = 'test';
     this.libNames = libs;
     this.mainLib = libs[0];
     this.debugPorts = debugPorts;
   }
+
+  public readonly pageKey: string;
 
   public readonly libNames: string[];
 
