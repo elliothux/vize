@@ -1,14 +1,16 @@
 {
-  "compileOnSave": true,
   "compilerOptions": {
-    "target": "es2017",
     "module": "commonjs",
-    "strict": false,
-    "noImplicitAny": false,
-    "experimentalDecorators": true,
+    "declaration": true,
+    "removeComments": true,
     "emitDecoratorMetadata": true,
-    "charset": "utf8",
-    "allowJs": false,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "outDir": "./dist",
+    "incremental": true,
+    "importHelpers": true,
+    "allowJs": true,
     "pretty": true,
     "noEmitOnError": true,
     "noUnusedLocals": true,
@@ -20,9 +22,8 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "inlineSourceMap": true,
-    "importHelpers": true,
-    "baseUrl": "./app"
+    "baseUrl": "./src"
   },
-  "include": ["app", "typings"],
-  "exclude": ["app/public", "app/views", "node_modules*"]
+  "include": ["src", "types", "config/*.json"],
+  "exclude": ["dist", "node_modules*"]
 }
