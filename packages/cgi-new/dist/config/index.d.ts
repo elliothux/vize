@@ -1,1 +1,0 @@
-export function getConfig(): any;
