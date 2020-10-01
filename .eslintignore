@@ -1,4 +1,5 @@
 /node_modules
+/scripts
 
 /packages/cli/bin
 /packages/cli/dist
@@ -10,3 +11,5 @@
 /packages/materials-universal/.temp
 /packages/materials-universal/dist
 /packages/materials-universal/node_modules
+
+/packages/cgi/config

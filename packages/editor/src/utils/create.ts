@@ -11,8 +11,10 @@ import {
   MaterialsPluginMeta,
   PageInstance,
   PluginInstance,
+  InstanceKeyType,
 } from '../types';
-import { generateKey, KeyType } from './key';
+import { generateKey } from './key';
+import { setPageData } from './page';
 import { getSchemaDefault } from './common';
 import { getDefaultCommonStyle } from './style';
 import { isFunction } from './is';
@@ -25,7 +27,12 @@ export function createSchema(schema: JsonSchemaProperties): JSONSchemaDefinition
 }
 
 export function createPageInstance(name: string, isHome = false): PageInstance {
-  const key = generateKey(KeyType.Page);
+  const key = generateKey(InstanceKeyType.Page);
+  const data: PageData = {
+    componentInstances: [],
+    pluginInstances: [],
+  };
+  setPageData(key, data);
   return {
     key,
     name,
@@ -48,7 +55,7 @@ export function createComponentInstance(
   freeLayout: boolean,
   initY = 0,
 ): ComponentInstance {
-  const key = generateKey(KeyType.Component);
+  const key = generateKey(InstanceKeyType.Component);
   const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
   const style = isFunction(styleForm) ? {} : getSchemaDefault(styleForm as JsonSchemaProperties);
 
@@ -67,7 +74,7 @@ export function createComponentInstance(
 }
 
 export function createPluginInstance({ identityName, dataForm }: MaterialsPluginMeta): PluginInstance {
-  const key = generateKey(KeyType.Plugin);
+  const key = generateKey(InstanceKeyType.Plugin);
   const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
 
   return {
@@ -83,7 +90,7 @@ export function createEventInstance(
   target: EventTarget,
   action?: MaterialsActionMeta,
 ): EventInstance {
-  const key = generateKey(KeyType.Action);
+  const key = generateKey(InstanceKeyType.Action);
 
   let data;
   if (target.type === EventTargetType.ACTION) {

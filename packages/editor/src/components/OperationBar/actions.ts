@@ -1,8 +1,10 @@
-import { generateDSL } from '../../utils/dsl';
+import { generateDSL, promiseWrapper } from 'utils';
+import { savePage } from 'api';
 
-export function save() {
+export async function save() {
   const dsl = generateDSL();
-  const result = JSON.stringify(dsl);
-  console.log(dsl, result);
-  localStorage.setItem('dsl', result);
+  localStorage.setItem('dsl', JSON.stringify(dsl));
+
+  const [err, result] = await promiseWrapper(savePage(dsl));
+  console.log(err, result);
 }

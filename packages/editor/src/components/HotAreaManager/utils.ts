@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { contextMenu } from 'react-contexify';
-import { generateKey, KeyType, preventSyntheticEvent } from 'utils';
-import { HotArea, Maybe, Percent, PX } from 'types';
+import { generateKey, preventSyntheticEvent } from 'utils';
+import { HotArea, Maybe, Percent, PX, InstanceKeyType } from 'types';
 import { MoveHotAreaDirection, IHotAreaPosition, IHotAreaSize, IHotArea } from './types';
 
 export interface ImgInfo {
@@ -36,7 +36,7 @@ function transformHotAreaFromPercentToPx(hotArea: HotArea[], { width, height }: 
 
 function createHotArea(position: IHotAreaPosition, size: IHotAreaSize): IHotArea {
   return {
-    key: generateKey(KeyType.HotArea),
+    key: generateKey(InstanceKeyType.HotArea),
     position,
     size,
   };
@@ -44,7 +44,7 @@ function createHotArea(position: IHotAreaPosition, size: IHotAreaSize): IHotArea
 
 function copyHotArea({ position: { x, y }, size }: IHotArea): IHotArea {
   return {
-    key: generateKey(KeyType.HotArea),
+    key: generateKey(InstanceKeyType.HotArea),
     position: { x: x + 10, y: y + 10 },
     size,
   };

@@ -2,7 +2,7 @@ import { GlobalMeta, GlobalStyle, LayoutMode } from './global';
 import { PageInstance, PageMode } from './pages';
 import { ComponentInstance } from './component';
 import { PluginInstance } from './plugins';
-import { KeyType } from '../utils';
+import { InstanceKeyType } from './materials';
 
 export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent'> {
   children?: ComponentInstanceDSL[];
@@ -16,22 +16,23 @@ export interface PageDSL extends Omit<PageInstance, 'isNameEditing'> {
 }
 
 export type DSL = Readonly<{
+  pageKey: string;
   global: {
     layoutMode: LayoutMode;
     pageMode: PageMode;
+    metaInfo: GlobalMeta;
     globalProps: object;
     globalStyle: GlobalStyle;
-    metaInfo: GlobalMeta;
   };
   pageInstances: PageDSL[];
   pluginInstances?: PluginInstanceDSL[];
   editInfo: {
     maxKeys: {
-      [KeyType.Page]: number;
-      [KeyType.Component]: number;
-      [KeyType.HotArea]: number;
-      [KeyType.Plugin]: number;
-      [KeyType.Action]: number;
+      [InstanceKeyType.Page]: number;
+      [InstanceKeyType.Component]: number;
+      [InstanceKeyType.HotArea]: number;
+      [InstanceKeyType.Plugin]: number;
+      [InstanceKeyType.Action]: number;
     };
   };
 }>;

@@ -44,7 +44,7 @@ module.exports = {
         'react-hooks/exhaustive-deps': 0,
         'react/react-in-jsx-scope': 0,
         '@typescript-eslint/no-unused-vars': [
-            'error',
+            'warn',
             {
                 varsIgnorePattern: '^createElement$',
             },

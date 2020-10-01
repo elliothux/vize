@@ -1,21 +1,13 @@
 import * as React from 'react';
 import { useCallback, useMemo, useEffect } from 'react';
 import { throttle } from 'throttle-debounce';
-import { SchemaForm as USchemaForm, ISubmitProps, Submit } from '@formily/antd';
+import { SchemaForm as USchemaForm, Submit } from '@formily/antd';
 import { setup } from '@formily/antd-components';
-import { JsonSchemaProperties } from 'types';
+import { SchemaFormProps } from 'types';
 import { noop, createSchema, getSchemaDefault, isEmpty } from 'utils';
 import './index.scss';
 
 setup();
-
-export interface SchemaFormProps {
-  schema: JsonSchemaProperties;
-  value: object;
-  onChange?: (value: object) => void;
-  onSubmit?: (value: object) => void;
-  submitProps?: ISubmitProps;
-}
 
 function ISchemaForm(props: SchemaFormProps) {
   const { schema: iSchema, value, onChange: iOnChange, onSubmit, submitProps } = props;

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { MaterialsForm, JsonSchemaProperties } from 'types';
+import { MaterialsForm, JsonSchemaProperties, OverrideFormComponent } from 'types';
 import { isFunction } from 'utils';
-import { OverrideForm, OverrideFormComponent } from './OverrideForm';
+import { OverrideForm } from './OverrideForm';
 import { SchemaForm as ISchemaForm } from './SchemaForm';
 
 interface Props {

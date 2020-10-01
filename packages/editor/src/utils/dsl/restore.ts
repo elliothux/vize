@@ -6,6 +6,7 @@ import {
   PageMode,
   PluginEventTarget,
   PluginInstance,
+  InstanceKeyType,
 } from 'types';
 import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
 import { parseDSL } from './parse';
@@ -16,7 +17,7 @@ import {
   generatePluginsIndex,
 } from '../indexMap';
 import { componentEventDepsMap, generateEventDepFromItem, pluginEventDepsMap } from '../depsMap';
-import { KeyType, setMaxKey } from '../key';
+import { setMaxKey } from '../key';
 
 export function restoreState({ global, pageInstances, pluginInstances, editInfo }: ReturnType<typeof parseDSL>) {
   restoreGlobalState(global);
@@ -109,9 +110,9 @@ function restoreEventDep(instance: ComponentInstance | PluginInstance) {
 }
 
 function restoreEditInfo({ maxKeys }: ReturnType<typeof parseDSL>['editInfo']) {
-  setMaxKey(KeyType.Page, maxKeys[KeyType.Page]);
-  setMaxKey(KeyType.Component, maxKeys[KeyType.Component]);
-  setMaxKey(KeyType.HotArea, maxKeys[KeyType.HotArea]);
-  setMaxKey(KeyType.Plugin, maxKeys[KeyType.Plugin]);
-  setMaxKey(KeyType.Action, maxKeys[KeyType.Action]);
+  setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
+  setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
+  setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);
+  setMaxKey(InstanceKeyType.Plugin, maxKeys[InstanceKeyType.Plugin]);
+  setMaxKey(InstanceKeyType.Action, maxKeys[InstanceKeyType.Action]);
 }
