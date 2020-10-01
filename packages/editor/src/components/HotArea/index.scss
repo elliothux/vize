@@ -1,0 +1,40 @@
+.editor-preview-component-hot-areas {
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+
+  .__impage-hot-area-actions-proxy {
+    position: absolute;
+  }
+
+  .editor-preview-component-hot-area {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    outline: 0.5px solid red;
+    background: rgba(255, 0, 0, 0.2);
+    transition: all ease 256ms;
+
+    &.selected {
+      outline: 2px dashed red;
+      background: rgba(255, 0, 0, 0.5);
+      box-shadow: 0 0 2px 2px rgba(229, 0, 0, 0.5);
+      opacity: 1;
+    }
+
+    .editor-preview-component-hot-area--text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: none;
+      margin: 0;
+      padding: 0 6px;
+      background-color: red;
+      color: #fff;
+      font-size: 12px;
+    }
+  }
+}

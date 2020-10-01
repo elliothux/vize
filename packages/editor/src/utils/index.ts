@@ -4,6 +4,7 @@ export * from './loader';
 export * from './color';
 export * from './common';
 export * from './componentNodes';
+export * from './hotAreaNodes';
 export * from './contextMenu';
 export * from './create';
 export * from './depsMap';
