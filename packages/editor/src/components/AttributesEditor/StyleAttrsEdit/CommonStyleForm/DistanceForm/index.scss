@@ -1,0 +1,136 @@
+@import 'styles/helper';
+
+$border-color: #666;
+$border-active-color: black;
+
+.distance-style-form-container {
+  position: relative;
+  top: -10px;
+
+  .distance-style-form-left,
+  .distance-style-form-right,
+  .distance-style-form-top,
+  .distance-style-form-bottom {
+    position: absolute;
+    display: flex;
+  }
+
+  .distance-style-form-left,
+  .distance-style-form-right {
+    flex-direction: row;
+    cursor: ew-resize;
+  }
+
+  .distance-style-form-top,
+  .distance-style-form-bottom {
+    flex-direction: column;
+    cursor: ns-resize;
+  }
+
+  .distance-style-form-number-box {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    user-select: none;
+  }
+
+  .distance-style-form-switch-box {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    user-select: none;
+
+    .ant-switch {
+      width: 32px;
+    }
+  }
+
+  .distance-style-form-number-input {
+    width: calc(100% - 5px);
+    height: calc(100% - 8px);
+    outline: none;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+
+    &.disabled {
+      visibility: hidden;
+    }
+  }
+
+  .distance-style-form-button-container {
+    overflow: hidden;
+
+    .distance-style-form-button-trigger {
+
+      &.left,
+      &.right,
+      &.top,
+      &.bottom {
+        transition: all ease 200ms;
+      }
+
+      &.left {
+        border-right-color: $border-color;
+
+        &:hover {
+          border-right-color: $border-active-color;
+        }
+      }
+
+      &.top {
+        border-bottom-color: $border-color;
+
+        &:hover {
+          border-bottom-color: $border-active-color;
+        }
+      }
+
+      &.right {
+        border-left-color: $border-color;
+
+        &:hover {
+          border-left-color: $border-active-color;
+        }
+      }
+
+      &.bottom {
+        border-top-color: $border-color;
+
+        &:hover {
+          border-top-color: $border-active-color;
+        }
+      }
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+
+      .distance-style-form-button-trigger {
+        &.left:hover {
+          border-right-color: $border-color;
+        }
+
+        &.top:hover {
+          border-bottom-color: $border-color;
+        }
+
+        &.right:hover {
+          border-left-color: $border-color;
+        }
+
+        &.bottom:hover {
+          border-top-color: $border-color;
+        }
+      }
+    }
+  }
+}
