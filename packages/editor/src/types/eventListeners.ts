@@ -11,3 +11,6 @@ export enum ComponentEventListenerTypes {
   ENTER_VIEW = 'enterView',
   LEAVE_VIEW = 'leaveView',
 }
+
+export type HotAreaEventListenerTypes = ComponentEventListenerTypes;
+export const HotAreaEventListenerTypes = ComponentEventListenerTypes;

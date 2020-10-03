@@ -9,7 +9,7 @@ function TransformForm({ style, onChange }: StyleFormProps<TransformStyle>) {
   console.log(style, 'transform');
   return (
     <div className="transform-style-item">
-      <div className="editor-attr-form-item">
+      <div className="editor-prop-form-item">
         <span>透明: {opacity}</span>
         <Slider
           min={0}

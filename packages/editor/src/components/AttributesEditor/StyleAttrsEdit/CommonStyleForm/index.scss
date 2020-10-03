@@ -1,12 +1,12 @@
 @import 'styles/helper';
 
-ant-collapse-content-box .ant-collapse-item {
+.ant-collapse-content-box .ant-collapse-item {
   &:last-child {
     border-bottom: none !important;
   }
 }
 
-.editor-attr-edit.component .common-style-form {
+.vize-attributes-editor.component .common-style-form {
   & > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
     padding: 0;
   }
@@ -78,7 +78,7 @@ ant-collapse-content-box .ant-collapse-item {
 }
 
 .common-background-style-form {
-  & > .editor-attr-form-item > .ant-input-affix-wrapper {
+  & > .editor-prop-form-item > .ant-input-affix-wrapper {
     width: 211px;
   }
 

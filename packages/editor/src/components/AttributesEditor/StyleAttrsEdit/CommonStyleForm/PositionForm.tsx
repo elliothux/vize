@@ -20,7 +20,7 @@ function PositionForm({ style, onChange }: StyleFormProps<PositionStyle>) {
 
   return (
     <div className="position-style-form">
-      <div className="editor-attr-form-item">
+      <div className="editor-prop-form-item">
         <span>定位:</span>
         <RadioGroup
           onChange={({ target: { value } }) => {
