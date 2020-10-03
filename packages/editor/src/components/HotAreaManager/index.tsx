@@ -71,13 +71,13 @@ export class HotAreaManager extends React.Component {
   private added = false;
 
   public componentDidMount(): void {
-    events.on(EventEmitTypes.MANAGE_HOT_AREA, (instance: ComponentInstance, selectedIndex: number) => {
+    events.on(EventEmitTypes.MANAGE_HOT_AREA, (instance: ComponentInstance) => {
       if (!instance.hotAreas || !instance.data.src) {
         return;
       }
       this.instance = instance;
       this.src = getImageSrc(instance);
-      this.setState({ selectedIndex, visible: true, loaded: false });
+      this.setState({ selectedIndex: selectStore.hotAreaIndex, visible: true, loaded: false });
     });
   }
 
@@ -230,7 +230,6 @@ export class HotAreaManager extends React.Component {
       setSizeAndPosition,
       state: { selectedIndex, hotAreas },
     } = this;
-
     return (
       <div className="hot-area-manager-mask" onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseUp={onMouseUp}>
         {hotAreas.map((area, index) => (

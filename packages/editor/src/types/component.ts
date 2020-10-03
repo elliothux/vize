@@ -3,6 +3,7 @@ import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
+import { Maybe } from './helper';
 import { CommonStyleMeta, Percent } from './styles';
 import { GlobalMeta } from './global';
 
@@ -73,6 +74,7 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   componentKey: Readonly<number>;
   meta?: GlobalMeta;
   instance: ComponentInstance;
+  hotAreas: Maybe<React.ReactElement>;
 }
 
 export type MaterialsComponent = React.ComponentType<ComponentProps>;

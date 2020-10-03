@@ -1,5 +1,6 @@
 import './index.scss';
 import * as React from 'react';
+import classnames from 'classnames';
 import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
 import { selectStore, SelectType } from 'states';
@@ -67,7 +68,7 @@ function IAttributesEditor({ loading }: Props) {
   // }
 
   return (
-    <div className="vize-attributes-editor">
+    <div className={classnames(`vize-attributes-editor ${SelectType[selectType].toLocaleLowerCase()}`)}>
       <p className="editor-title">{title()}</p>
       <Tabs className="editor-prop-editor-tab" activeKey={activeKey} onChange={setActiveKey}>
         <TabPane

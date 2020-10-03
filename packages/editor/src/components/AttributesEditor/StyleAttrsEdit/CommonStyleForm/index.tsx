@@ -5,10 +5,10 @@ import PositionForm from './PositionForm';
 import TransformForm from './TransformForm';
 import FontForm from './FontForm';
 import BackgroundForm from './BackgroundForm';
+import { DistanceStyleForm } from './DistanceForm';
 import BorderForm from './BorderForm';
 import SizeForm from './SizeForm';
 import ZindexForm from './ZindexForm';
-import { DistanceForm } from './DistanceForm';
 
 export interface StyleFormProps<T> {
   style: T;
@@ -27,7 +27,7 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
     >
       {(style.margin || style.padding) && (
         <Panel header="边距" key="0">
-          <DistanceForm
+          <DistanceStyleForm
             style={{ margin: style.margin, padding: style.padding }}
             onChange={({ margin, padding }) => onChange({ ...style, margin, padding })}
           />

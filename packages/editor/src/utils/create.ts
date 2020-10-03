@@ -10,6 +10,7 @@ import {
   MaterialsComponentMeta,
   MaterialsPluginMeta,
   PageInstance,
+  PageData,
   PluginInstance,
   InstanceKeyType,
 } from '../types';

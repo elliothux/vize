@@ -1,12 +1,12 @@
 import './index.scss';
 import * as React from 'react';
+import { DistanceStyle, DistanceStyleWithAuto, MarginAndPaddingStyle } from 'types';
 import { StyleFormProps } from '../index';
-import { MarginAndPaddingStyle, DistanceStyleWithAuto, DistanceStyle } from 'types';
-import { defaultDistance } from '../PositionForm';
-import { MarginPaddingField } from './types';
 import { BoxEditor } from './BoxEdit';
+import { MarginPaddingField } from './types';
+import { defaultDistance } from 'utils';
 
-export function DistanceForm({ style, onChange }: StyleFormProps<MarginAndPaddingStyle>) {
+export function DistanceStyleForm({ style, onChange }: StyleFormProps<MarginAndPaddingStyle>) {
   const margin = style.margin || defaultDistance;
   const padding = style.padding || defaultDistance;
 
@@ -22,7 +22,7 @@ export function DistanceForm({ style, onChange }: StyleFormProps<MarginAndPaddin
         paddingBottom={padding.bottom}
         paddingLeft={padding.left}
         paddingRight={padding.right}
-        onChange={(field, value) => {
+        onChange={(field: MarginPaddingField, value: number | 'auto') => {
           let margin = style.margin as DistanceStyleWithAuto;
           let padding = style.padding as DistanceStyle;
 
