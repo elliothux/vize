@@ -19,11 +19,11 @@ function IPluginForm() {
   }, []);
 
   return (
-    <>
+    <div className="editor-prop-item editor-prop-edit-data">
       {dataForm ? (
         <SchemaForm instanceKey={key} form={dataForm} data={toJS(data)} onChange={onChange} submitProps />
       ) : null}
-    </>
+    </div>
   );
 }
 

@@ -18,7 +18,7 @@ function IGlobalDataForm() {
   const { metaInfo, setMetaInfo } = globalStore;
 
   return (
-    <div className="editor-attr-item editor-attr-edit-data">
+    <div className="editor-prop-item editor-prop-edit-data">
       <SchemaForm instanceKey={999} form={PageDataSchema} data={metaInfo} onChange={setMetaInfo} />
       {/* {isEmpty(config.dataForm) ? null : (
         <>

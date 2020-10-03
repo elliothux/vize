@@ -1,0 +1,247 @@
+@import 'styles/helper';
+
+.editor-materials-tab,
+.editor-prop-editor-tab {
+  //border-top: $default-border;
+
+  .ant-tabs-nav {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 43px;
+
+    &>div:first-child {
+      width: 100%;
+      height: 100%;
+    }
+
+    .ant-tabs-tab {
+      display: inline-flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      box-sizing: border-box !important;
+      margin-right: 0;
+      padding: 0;
+      height: 100%;
+      border-top: $default-border;
+      border-right: $default-border;
+      border-right-color: rgb(250, 250, 250);
+      border-bottom: $default-border;
+      border-left: $default-border;
+      border-left-color: rgb(250, 250, 250);
+      background-color: rgb(250, 250, 250);
+      text-align: center;
+
+      &.ant-tabs-tab-active {
+        margin-bottom: 0;
+        border-right: $default-border;
+        border-bottom-color: white;
+        border-left: $default-border;
+        background-color: white;
+      }
+
+      &:first-child {
+        border-left: none;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+
+      svg {
+        margin-right: 4px;
+        width: 14px;
+        height: 14px;
+      }
+
+      span {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .ant-tabs-ink-bar {
+    display: none !important;
+  }
+
+  .ant-tabs-bar {
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+
+  .search {
+    .ant-input {
+      border: none;
+      border-bottom: $default-border;
+      border-radius: 0;
+      font-size: 11px;
+
+      &:focus {
+        border-bottom-color: $main-color;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+.editor-material-components,
+.editor-material-plugins {
+  .ant-collapse-item {
+    border-bottom: none !important;
+    background-color: $opacity !important;
+    font-weight: bolder;
+    font-size: 12px;
+
+    .ant-collapse-header {
+      padding: 12px 16px 4px 40px !important;
+
+      i {
+        margin-top: 5px !important;
+        line-height: 30px !important;
+      }
+    }
+  }
+}
+
+.ant-collapse-borderless {
+  background-color: $opacity !important;
+}
+
+.editor-prop-form {
+  font-size: 12px;
+
+  input,
+  .ant-radio-wrapper {
+    font-size: 12px;
+  }
+
+  //& > div {
+  //  margin-bottom: 8px;
+  //}
+
+  &>div>.editor-prop-form-item:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.editor-prop-form-item,
+.editor-prop-item .ant-form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  min-height: 26px;
+
+  .ant-form-item-control {
+    width: 100%;
+    line-height: 32px;
+
+    .form-image-picker {
+      //max-width: calc(100% - 40px) !important;
+      //margin: 0 20px;
+    }
+
+    .array-empty-wrapper {
+      width: 100%;
+    }
+  }
+
+  &.field-array {
+    flex-direction: column;
+
+    .array-item-wrapper {
+      margin: 0 -12px;
+
+      &>div {
+        width: 100%;
+      }
+    }
+
+    &>.ant-form-item-label {
+      top: 0;
+      display: block;
+      width: 100%;
+    }
+
+    &>.ant-col {
+      width: 100%;
+    }
+
+    &>.ant-form-item-control {
+      width: 100%;
+
+      .editor-prop-form-item {
+        //.ant-form-item {
+        justify-content: center;
+      }
+    }
+  }
+
+  &>span,
+  .ant-form-item-label>label {
+    margin-right: 0;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .form-range {
+    &~.ant-form-item-space {
+      display: none;
+    }
+  }
+
+  .ant-slider {
+    margin: 6px;
+    width: 150px;
+  }
+
+  .ant-radio-wrapper {
+    &>span {
+      padding: 0 3px;
+    }
+  }
+
+  .ant-input-number {
+    width: 66px;
+  }
+}
+
+.editor-prop-form-title {
+  margin-bottom: 20px;
+  border-bottom: $default-border;
+  text-align: center;
+
+  &>span {
+    position: relative;
+    top: 9px;
+    display: inline-block;
+    padding: 0 8px;
+    background-color: white;
+    font-weight: bold;
+    font-size: 13px;
+  }
+}
+
+.editor-prop-form-tips {
+  padding: 8px 6px;
+  border-radius: 4px;
+  background: rgb(247, 247, 247);
+  text-align: center;
+  font-size: 13px;
+}
+
+.show-hidden-bar {
+  position: absolute;
+  z-index: 3;
+  display: none;
+  width: 30px;
+  height: 100%;
+  background-color: $default-background-color;
+  text-align: center;
+
+  svg {
+    margin-top: calc(40vh);
+    width: auto;
+    height: 20px;
+  }
+}
