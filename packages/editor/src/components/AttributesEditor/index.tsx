@@ -70,11 +70,11 @@ function IAttributesEditor({ loading }: Props) {
   return (
     <div className={classnames(`vize-attributes-editor ${SelectType[selectType].toLocaleLowerCase()}`)}>
       <p className="editor-title">{title()}</p>
-      <Tabs className="editor-attr-tab" activeKey={activeKey} onChange={setActiveKey}>
+      <Tabs className="editor-prop-editor-tab" activeKey={activeKey} onChange={setActiveKey}>
         <TabPane
           key={AttrEditTab.DATA}
           tab={
-            <div className="tab-item-box">
+            <div className="editor-prop-tab-item">
               <FiDatabase />
               <span>&nbsp;数据</span>
             </div>
@@ -85,7 +85,7 @@ function IAttributesEditor({ loading }: Props) {
         <TabPane
           key={AttrEditTab.STYLE}
           tab={
-            <div className="tab-item-box">
+            <div className="editor-prop-tab-item">
               <FiFeather />
               <span>&nbsp;样式</span>
             </div>
@@ -96,7 +96,7 @@ function IAttributesEditor({ loading }: Props) {
         <TabPane
           key={AttrEditTab.EVENTS}
           tab={
-            <div className="tab-item-box">
+            <div className="editor-prop-tab-item">
               <FiGrid />
               <span>&nbsp;事件</span>
             </div>

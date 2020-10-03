@@ -21,7 +21,7 @@ function IStyleAttrsEdit({ selectType }: Props) {
 
   if (selectType === SelectType.GLOBAL) {
     return (
-      <div className="editor-attr-item editor-attr-edit-style">
+      <div className="editor-prop-item editor-prop-edit-style">
         <CommonStyleForm style={globalStyle} onChange={globalStore.setGlobalStyle} />
       </div>
     );
@@ -37,7 +37,7 @@ function IStyleAttrsEdit({ selectType }: Props) {
     <Collapse
       bordered={false}
       defaultActiveKey={['style', 'wrapper', 'common']}
-      className="editor-attr-item editor-attr-style-item"
+      className="editor-prop-item editor-prop-edit-style"
     >
       {isEmpty(wrapperStyle) ? null : (
         <Panel header="组件容器样式" key="wrapper">
@@ -45,7 +45,7 @@ function IStyleAttrsEdit({ selectType }: Props) {
         </Panel>
       )}
       {isEmpty(commonStyle) ? null : (
-        <Panel header="组件通用样式" key="common">
+        <Panel header="组件通用样式" key="common" className="common-style-form-panel">
           <CommonStyleForm style={commonStyle} onChange={componentsStore.setCurrentComponentInstanceCommonStyle} />
         </Panel>
       )}

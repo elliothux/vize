@@ -23,7 +23,7 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
     <Collapse
       bordered={false}
       defaultActiveKey={['0', '1', '2', '3', '4', '5', '6', '7']}
-      className="editor-attr-form common-style-form"
+      className="editor-prop-form common-style-form"
     >
       {(style.margin || style.padding) && (
         <Panel header="边距" key="0">
@@ -33,7 +33,6 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
           />
         </Panel>
       )}
-
       {style.position && (
         <Panel header="定位" key="1">
           <PositionForm
@@ -77,7 +76,7 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
         </Panel>
       )}
       {style.zIndex && (
-        <Panel header="层级" key="7">
+        <Panel header="层级" key="7" style={{ borderBottom: 'none' }}>
           <ZindexForm style={style.zIndex} onChange={newStyle => onChange({ ...style, zIndex: newStyle })} />
         </Panel>
       )}

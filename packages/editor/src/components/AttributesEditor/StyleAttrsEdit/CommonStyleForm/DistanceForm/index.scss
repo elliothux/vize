@@ -70,6 +70,7 @@ $border-active-color: black;
     overflow: hidden;
 
     .distance-style-form-button-trigger {
+
       &.left,
       &.right,
       &.top,
@@ -79,6 +80,7 @@ $border-active-color: black;
 
       &.left {
         border-right-color: $border-color;
+
         &:hover {
           border-right-color: $border-active-color;
         }
@@ -86,6 +88,7 @@ $border-active-color: black;
 
       &.top {
         border-bottom-color: $border-color;
+
         &:hover {
           border-bottom-color: $border-active-color;
         }
@@ -93,6 +96,7 @@ $border-active-color: black;
 
       &.right {
         border-left-color: $border-color;
+
         &:hover {
           border-left-color: $border-active-color;
         }
@@ -100,6 +104,7 @@ $border-active-color: black;
 
       &.bottom {
         border-top-color: $border-color;
+
         &:hover {
           border-top-color: $border-active-color;
         }

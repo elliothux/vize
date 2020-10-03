@@ -39,7 +39,7 @@ function IComponentDataForm() {
   ) : null;
 
   return (
-    <>
+    <div className="editor-prop-item editor-prop-edit-data">
       {dataForm ? (
         <SchemaForm
           instanceKey={key}
@@ -59,7 +59,7 @@ function IComponentDataForm() {
                     onChange={componentsStore.setCurrentComponentInstanceStyle}
                 />
             ) : null} */}
-    </>
+    </div>
   );
 }
 

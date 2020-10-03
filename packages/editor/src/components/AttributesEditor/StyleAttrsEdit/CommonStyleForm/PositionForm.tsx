@@ -14,7 +14,6 @@ function PositionForm({ style, onChange }: StyleFormProps<PositionStyle>) {
   const outset = fixed ? (style as IPositionStyle).outset : null;
 
   function onChangeOutset(outset: FixedOutset) {
-    console.log(11111);
     onChange({ top: 0, left: 0, right: 0, bottom: 0, outset });
   }
 

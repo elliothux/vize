@@ -1,4 +1,4 @@
-import { noop } from '../../../../../utils/common';
+import { noop } from 'utils';
 
 export enum MarginPaddingField {
   PaddingLeft = 'paddingLeft',
