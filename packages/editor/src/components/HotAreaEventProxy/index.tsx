@@ -227,7 +227,7 @@ export class HotAreaEventProxy extends React.PureComponent<HotAreaActionHandlerP
       <div
         id={id}
         style={style}
-        className="__impage-hot-area-actions-proxy"
+        className="vize-hot-area-actions-proxy"
         ref={this.setNode}
         data-key={this.props.instance.key}
         onClick={this.onSingleClick}
