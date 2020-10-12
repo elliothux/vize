@@ -59,6 +59,7 @@ export enum EventTargetType {
 export interface ActionEventTarget {
   type: EventTargetType.ACTION;
   id: string;
+  lib: string;
 }
 
 export interface ComponentEventTarget {

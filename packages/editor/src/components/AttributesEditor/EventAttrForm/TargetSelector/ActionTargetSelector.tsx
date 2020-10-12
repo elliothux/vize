@@ -24,7 +24,8 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
   }, []);
 
   const onAddAction = useCallback(() => {
-    eventStore.addEventInstance(trigger!, { type: EventTargetType.ACTION, id: actionId! });
+    const { identityName, lib } = materialsStore.getActionMeta(actionId!);
+    eventStore.addEventInstance(trigger!, { type: EventTargetType.ACTION, id: identityName, lib });
     setActionId(null);
     setTrigger(null);
   }, [trigger, actionId]);
