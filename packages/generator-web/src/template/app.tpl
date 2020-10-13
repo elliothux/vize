@@ -1,6 +1,6 @@
 // Import Libs and Runtime
-import * React from 'react';
-import { AppRender, injectReadonly, injectStyle } from '@vize/runtime-web';
+import * React from "react";
+import { AppRender, injectReadonly, injectStyle } from "<%= runtimePath %>";
 
 // Import Components
 <%= componentImports %>
@@ -25,23 +25,26 @@ const global = <%= global %>;
 injectReadonly('VIZE', { meta, global });
 
 // Actions
-const actions = <%= actions %>;
+const actionsMaterialMap = <%= actionsMaterialMap %>;
 
 // Components
-const components = <%= components %>;
-const componentInstances = <%= componentInstances %>;
+const componentsMaterialMap = <%= componentsMaterialMap %> as React.ComponentProps<typeof AppRender>['componentsMaterialMap'];
+const componentInstances = <%= componentInstances %> as React.ComponentProps<typeof AppRender>['componentInstances'];
 
 // Plugin
-const plugins = <%= plugins %>;
-const pluginInstances = <%= pluginInstances %>;
+const pluginsMaterialMap = <%= pluginsMaterialMap %> as React.ComponentProps<typeof AppRender>['pluginsMaterialMap'];
+const pluginInstances = <%= pluginInstances %> as React.ComponentProps<typeof AppRender>['pluginInstances'] ;
 
 export function App() {
   return (
     <AppRender
-      componentInstances={componentInstances}
-      pluginInstances={pluginInstances}
       global={global}
       meta={meta}
+      actionsMaterialMap={actionsMaterialMap}
+      componentsMaterialMap={componentsMaterialMap}
+      componentInstances={componentInstances}
+      pluginsMaterialMap={pluginsMaterialMap}
+      pluginInstances={pluginInstances}
     />
   );
 }
