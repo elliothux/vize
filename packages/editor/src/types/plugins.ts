@@ -18,6 +18,7 @@ export interface MaterialsPluginMeta {
 export interface PluginInstance {
   key: Readonly<number>;
   plugin: Readonly<string>;
+  lib: string;
   data: { [key: string]: any };
   events: EventInstance[];
 }

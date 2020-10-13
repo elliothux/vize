@@ -56,6 +56,7 @@ export interface HotArea {
 export interface ComponentInstance {
   key: Readonly<number>;
   component: Readonly<string>;
+  lib: Readonly<string>;
   data: { [key: string]: any };
   style: { [key: string]: any };
   commonStyle: { [key: string]: any };

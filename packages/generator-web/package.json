@@ -1,0 +1,19 @@
+{
+  "name": "@vize/generator-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/lodash.template": "^4.5.0",
+    "fs-extra": "^9.0.1",
+    "lodash.template": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.2"
+  }
+}

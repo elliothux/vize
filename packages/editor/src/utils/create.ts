@@ -46,6 +46,7 @@ export function createPageInstance(name: string, isHome = false): PageInstance {
 export function createComponentInstance(
   {
     identityName,
+    lib,
     dataForm,
     styleForm,
     isContainer,
@@ -63,6 +64,7 @@ export function createComponentInstance(
   return {
     key,
     component: identityName,
+    lib,
     data,
     style,
     commonStyle: getDefaultCommonStyle(enableStyleGroup),
@@ -74,13 +76,14 @@ export function createComponentInstance(
   };
 }
 
-export function createPluginInstance({ identityName, dataForm }: MaterialsPluginMeta): PluginInstance {
+export function createPluginInstance({ identityName, dataForm, lib }: MaterialsPluginMeta): PluginInstance {
   const key = generateKey(InstanceKeyType.Plugin);
   const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
 
   return {
     key,
     plugin: identityName,
+    lib,
     data,
     events: [],
   };
