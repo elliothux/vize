@@ -3,8 +3,45 @@ import path from 'path';
 import tpl from 'lodash.template';
 import { MaterialsPathMap } from '../types';
 
-export async function getTpl() {
-  const tplFile = await fs.readFile(path.resolve(__dirname, '../template/app.tpl'), 'utf-8');
+export async function prepareTargetPath(targetPath: string, container: string): Promise<[string, string]> {
+  if (!fs.existsSync(targetPath)) {
+    await fs.mkdir(targetPath);
+  }
+
+  const p = path.resolve(targetPath, container);
+  if (fs.existsSync(p)) {
+    fs.rmdirSync(p, { recursive: true });
+  }
+  await fs.mkdirp(p);
+
+  const src = path.resolve(p, './src');
+  await fs.mkdirp(src);
+  return [p, src];
+}
+
+const copyIgnoreFiles = ['config.ts', 'config.js', 'config.json', 'index.html.ejs'];
+export async function copyContainerTemplate(containerPath: string, targetPath: string) {
+  const files = await fs.readdir(containerPath);
+  await Promise.all(
+    files.map(fileName => {
+      if (copyIgnoreFiles.includes(fileName)) {
+        return Promise.resolve();
+      }
+      const fromFilePath = path.resolve(containerPath, fileName);
+      const targetFilePath = path.resolve(targetPath, fileName);
+      console.log(`Copying ${fromFilePath}  to ${targetFilePath}`);
+      return fs.copy(fromFilePath, targetFilePath);
+    }),
+  );
+}
+
+export async function getTpl(name: 'app' | 'index') {
+  const tplFile = await fs.readFile(path.resolve(__dirname, `../template/${name}.tpl`), 'utf-8');
+  return tpl(tplFile);
+}
+
+export async function getContainerHTMLTpl(containerPath: string) {
+  const tplFile = await fs.readFile(path.resolve(containerPath, './index.html.ejs'), 'utf-8');
   return tpl(tplFile);
 }
 

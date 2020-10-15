@@ -6,15 +6,17 @@ import { StoreWithUtils } from './utils';
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
   constructor() {
     super();
-    const { libs, debugPorts } = getQueryParams();
-    // TODO
-    this.pageKey = 'test';
+    const { key, libs, debugPorts, container } = getQueryParams();
+    this.pageKey = key;
     this.libNames = libs;
-    this.mainLib = libs[0];
+    this.containerName = container;
     this.debugPorts = debugPorts;
+    this.mainLib = libs[0];
   }
 
   public readonly pageKey: string;
+
+  public readonly containerName: string;
 
   public readonly libNames: string[];
 
