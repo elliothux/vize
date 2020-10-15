@@ -180,6 +180,13 @@ export class WebPageGenerator {
     return fs.writeFile(path.resolve(targetPath, './index.html'), content, { encoding: 'utf-8' });
   };
 
+  private createDepsSoftLink = (targetPath: string) => {
+    return Promise.all([
+      fs.symlink(this.libsPath, path.resolve(targetPath, './libs')),
+      fs.symlink(this.depsPath, path.resolve(targetPath, './deps')),
+    ]);
+  };
+
   public dist = async () => {
     this.generateComponents();
     this.generatePlugins();
@@ -192,6 +199,8 @@ export class WebPageGenerator {
 
     const containerPath = path.resolve(this.libsPath, `./${lib}/src/containers/${name}`);
     await copyContainerTemplate(containerPath, src);
+
+    await this.createDepsSoftLink(target);
 
     await this.writeHTMLFile(containerPath, target);
     await this.writeIndexFile(target);
