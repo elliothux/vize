@@ -1,5 +1,5 @@
 // Import Libs and Runtime
-import * React from "react";
+import * as React from "react";
 import { AppRender, injectReadonly, injectStyle } from "<%= runtimePath %>";
 
 // Import Components

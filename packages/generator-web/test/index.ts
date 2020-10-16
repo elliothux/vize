@@ -5,6 +5,11 @@ import { WebPageGenerator } from '../';
 
 const dsl = {
   pageKey: 'test',
+  container: {
+    name: 'universal',
+    lib: 'universal',
+    entry: 'vize-main-entry',
+  },
   global: {
     layoutMode: 'stream',
     pageMode: 'multi',
@@ -201,7 +206,7 @@ const generator = new WebPageGenerator({
   dsl,
   libsPath: path.resolve(__dirname, './libs'),
   depsPath: path.resolve(__dirname, './deps'),
-  targetPath: path.resolve(__dirname, './dist.tsx'),
+  targetPath: path.resolve(__dirname, './dist'),
 });
 
-generator.generatePage().then(console.log);
+generator.dist().then(console.log);

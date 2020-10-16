@@ -17,6 +17,11 @@ export interface PageDSL extends Omit<PageInstance, 'isNameEditing'> {
 
 export type DSL = Readonly<{
   pageKey: string;
+  container: {
+    lib: string;
+    name: string;
+    entry: string;
+  };
   global: {
     layoutMode: LayoutMode;
     pageMode: PageMode;

@@ -10,7 +10,15 @@ import {
   PluginInstanceDSL,
   TplParams,
 } from './types';
-import { formatGlobalStyle, getTpl, stringifyImports, stringifyMaterialsMap } from './utils';
+import {
+  copyContainerTemplate,
+  formatGlobalStyle,
+  getContainerHTMLTpl,
+  getTpl,
+  prepareTargetPath,
+  stringifyImports,
+  stringifyMaterialsMap,
+} from './utils';
 
 interface InitParams {
   dsl: DSL;
@@ -121,7 +129,7 @@ export class WebPageGenerator {
   };
 
   // TODO: multi pages
-  private generateTplParams = (): TplParams => {
+  private generateAppTplParams = (): TplParams => {
     const {
       dsl: {
         global: { globalProps, globalStyle, metaInfo, pageMode },
@@ -150,16 +158,52 @@ export class WebPageGenerator {
     };
   };
 
-  private writeAppFile = async () => {
-    const params = this.generateTplParams();
-    const tpl = await getTpl();
+  private writeAppFile = async (targetPath: string) => {
+    const params = this.generateAppTplParams();
+    const tpl = await getTpl('app');
     const content = tpl(params);
-    return fs.writeFile(this.targetPath, content, { encoding: 'utf-8' });
+    return fs.writeFile(path.resolve(targetPath, './app.tsx'), content, { encoding: 'utf-8' });
   };
 
-  public generatePage = async () => {
+  private writeIndexFile = async (targetPath: string) => {
+    const params = { entry: this.dsl.container.entry };
+    const tpl = await getTpl('index');
+    const content = tpl(params);
+    return fs.writeFile(path.resolve(targetPath, './index.tsx'), content, { encoding: 'utf-8' });
+  };
+
+  private writeHTMLFile = async (containerPath: string, targetPath: string) => {
+    const { globalProps: global, metaInfo: meta } = this.dsl.global;
+    const params = { global, meta };
+    const tpl = await getContainerHTMLTpl(containerPath);
+    const content = tpl(params);
+    return fs.writeFile(path.resolve(targetPath, './index.html'), content, { encoding: 'utf-8' });
+  };
+
+  private createDepsSoftLink = (targetPath: string) => {
+    return Promise.all([
+      fs.symlink(this.libsPath, path.resolve(targetPath, './libs')),
+      fs.symlink(this.depsPath, path.resolve(targetPath, './deps')),
+    ]);
+  };
+
+  public dist = async () => {
     this.generateComponents();
     this.generatePlugins();
-    await this.writeAppFile();
+
+    const {
+      pageKey,
+      container: { name, lib },
+    } = this.dsl;
+    const [target, src] = await prepareTargetPath(this.targetPath, pageKey);
+
+    const containerPath = path.resolve(this.libsPath, `./${lib}/src/containers/${name}`);
+    await copyContainerTemplate(containerPath, src);
+
+    await this.createDepsSoftLink(target);
+
+    await this.writeHTMLFile(containerPath, target);
+    await this.writeIndexFile(target);
+    await this.writeAppFile(src);
   };
 }

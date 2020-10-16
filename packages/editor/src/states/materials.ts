@@ -45,6 +45,11 @@ export class MaterialsStore {
   public materialsLibs: { [libName: string]: MaterialsLibItem } = {};
 
   @computed
+  public get mainMaterialsLib() {
+    return this.materialsLibs[globalStore.mainLib];
+  }
+
+  @computed
   public get containerHTML(): string {
     const { containerHTML = '' } = this.materialsLibs[globalStore.mainLib]!;
     return containerHTML!;

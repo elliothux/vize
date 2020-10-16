@@ -17,6 +17,7 @@ export interface LibPaths {
   containers: string;
   nodeModules: string;
   webpackConfigs: string;
+  containerName?: string;
   container?: string;
   containerEntry?: string;
   containerHTML?: string;
@@ -73,6 +74,7 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
     containers,
     webpackConfigs,
     nodeModules,
+    containerName,
     container,
     containerEntry,
     containerHTML,

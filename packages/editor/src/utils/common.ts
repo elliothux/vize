@@ -14,21 +14,25 @@ message.config({
 export const noop = () => {};
 
 interface QueryParams {
+  key: string;
   libs: string[];
   debugPorts: number[];
+  container: string;
 }
 
 export function getQueryParams(): QueryParams {
-  const {
-    query: { libs, debugPorts },
-  } = parseUrl(window.location.href);
+  const { query } = parseUrl(window.location.href);
+  const { key, libs, debugPorts, container } = query;
 
-  if (!libs) {
-    throw new Error('No materials libs');
+  for (const k of ['key', 'libs', 'container']) {
+    if (!query[k]) {
+      throw new Error(`Missing require params: "${k}"`);
+    }
   }
 
   return {
-    libs: libs
+    key: key!.toString(),
+    libs: libs!
       .toString()
       .split(',')
       .map(i => i.trim()),
@@ -38,6 +42,7 @@ export function getQueryParams(): QueryParams {
           .split(',')
           .map(i => parseInt(i.trim(), 10))
       : [],
+    container: container!.toString(),
   };
 }
 
