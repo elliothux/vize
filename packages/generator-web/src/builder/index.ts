@@ -2,8 +2,8 @@ import webpack from 'webpack';
 import { Stats } from 'webpack';
 import { generateWebpackConfig } from './configGenerator';
 
-export function runBuild(root: string) {
-  const config = generateWebpackConfig(root);
+export function runBuild(root: string, useSWC: boolean) {
+  const config = generateWebpackConfig({ root, useSWC });
   return new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
 }
 

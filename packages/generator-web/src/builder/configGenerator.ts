@@ -3,8 +3,14 @@ import * as path from 'path';
 import webpack from 'webpack';
 import { Configuration } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { getBabelConfig, getSWConfig } from './babelConfig';
 
-export function generateWebpackConfig(root: string): Configuration {
+interface Params {
+  root: string;
+  useSWC?: boolean;
+}
+
+export function generateWebpackConfig({ root, useSWC }: Params): Configuration {
   const entry = path.resolve(root, './index.tsx');
   const output = path.resolve(root, './dist');
   const libs = path.resolve(root, './libs');
@@ -26,35 +32,7 @@ export function generateWebpackConfig(root: string): Configuration {
     },
     module: {
       rules: [
-        {
-          test: /\.(ts|tsx|js|jsx)$/,
-          loader: 'babel-loader',
-          options: {
-            compact: false,
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  targets: {
-                    chrome: '58',
-                    ios: '9',
-                    android: '4.2',
-                  },
-                },
-              ],
-              '@babel/preset-typescript',
-              '@babel/preset-react',
-            ],
-            plugins: [
-              '@babel/plugin-transform-async-to-generator',
-              '@babel/plugin-proposal-class-properties',
-              ['@babel/plugin-proposal-decorators', { legacy: true }],
-              '@babel/plugin-proposal-export-default-from',
-              '@babel/plugin-proposal-export-namespace-from',
-              '@babel/plugin-proposal-optional-chaining',
-            ],
-          },
-        },
+        useSWC ? getSWConfig() : getBabelConfig(),
         {
           test: /\.(css|scss|sass)$/,
           use: [

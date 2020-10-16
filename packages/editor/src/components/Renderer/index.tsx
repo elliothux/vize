@@ -7,6 +7,7 @@ import { componentsStore, globalStore, materialsStore } from 'states';
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
 import { initDocument, setMaterialsMap } from 'utils';
+import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
 import { injectRuntime, setUserAgent } from './utils';
 import { InjectedStylesRender } from '../InjectedStylesRender';
@@ -18,6 +19,15 @@ globalStore.setIframeStyle('Renderer', iframeStyle);
 
 @observer
 export class Renderer extends React.Component {
+  constructor(props: {}) {
+    super(props);
+    const { containerHTML } = materialsStore;
+    const params = { global: {}, meta: {}, mainStyle: '', mainScript: '' };
+    this.containerHTML = tpl(containerHTML)(params);
+  }
+
+  private readonly containerHTML: string;
+
   public state = {
     ready: false,
   };
@@ -111,13 +121,12 @@ export class Renderer extends React.Component {
   };
 
   public render() {
-    const { containerHTML } = materialsStore;
     const { componentInstances } = componentsStore;
 
     return (
       <RenderSandbox
         mountTarget="#vize-main-entry"
-        htmlContent={containerHTML}
+        htmlContent={this.containerHTML}
         iframeDidMount={this.iframeDidMount}
         componentInstances={componentInstances}
       >

@@ -9,8 +9,8 @@
         content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
     />
     <title><%= meta.title %></title>
-    <desc><%= meta.global %></desc>
-    <link type="text/css" rel="stylesheet" href="index.css" />
+    <desc><%= meta.desc %></desc>
+    <%= mainStyle %>
 </head>
 
 <body>
@@ -18,6 +18,6 @@
     <script>
         console.log('global', <%= JSON.stringify(global) %>);
     </script>
-    <script src="main.js"></script>
+    <%= mainScript %>
 </body>
 </html>

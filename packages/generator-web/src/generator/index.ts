@@ -26,14 +26,16 @@ interface InitParams {
   libsPath: WebPageGenerator['libsPath'];
   depsPath: WebPageGenerator['depsPath'];
   targetPath: string;
+  useSWC?: boolean;
 }
 
 export class WebPageGenerator {
-  constructor({ dsl, libsPath, depsPath, targetPath }: InitParams) {
+  constructor({ dsl, libsPath, depsPath, targetPath, useSWC }: InitParams) {
     this.dsl = dsl;
     this.libsPath = libsPath;
     this.depsPath = depsPath;
     this.targetPath = targetPath;
+    this.useSWC = useSWC;
   }
 
   private readonly dsl: DSL;
@@ -43,6 +45,8 @@ export class WebPageGenerator {
   private readonly depsPath: string;
 
   private readonly targetPath: string;
+
+  private readonly useSWC?: boolean;
 
   private readonly componentsPathMap: MaterialsPathMap = {};
 
@@ -175,7 +179,12 @@ export class WebPageGenerator {
 
   private writeHTMLFile = async (containerPath: string, targetPath: string) => {
     const { globalProps: global, metaInfo: meta } = this.dsl.global;
-    const params = { global, meta };
+    const params = {
+      global,
+      meta,
+      mainStyle: '<link type="text/css" rel="stylesheet" href="index.css" />',
+      mainScript: '<script src="main.js"></script>',
+    };
     const tpl = await getContainerHTMLTpl(containerPath);
     const content = tpl(params);
     return fs.writeFile(path.resolve(targetPath, './index.html'), content, { encoding: 'utf-8' });
@@ -205,7 +214,9 @@ export class WebPageGenerator {
     await this.writeIndexFile(target);
     await this.writeAppFile(src);
 
-    await runBuild(target);
+    console.time('runBuild');
+    await runBuild(target, this.useSWC);
+    console.timeEnd('runBuild');
     await this.writeHTMLFile(containerPath, path.resolve(target, './dist'));
   };
 }
