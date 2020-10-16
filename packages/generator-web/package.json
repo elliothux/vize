@@ -36,6 +36,8 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.2",
-    "@types/lodash.template": "^4.5.0"
+    "@types/lodash.template": "^4.5.0",
+    "@types/mini-css-extract-plugin": "^1.0.0",
+    "@types/webpack": "^4.41.22"
   }
 }

@@ -10,12 +10,14 @@
     />
     <title><%= meta.title %></title>
     <desc><%= meta.global %></desc>
+    <link type="text/css" rel="stylesheet" href="index.css" />
 </head>
 
 <body>
     <div id="vize-main-entry"><!-- DO NOT MODIFY! HTML_PLACEHOLDER --></div>
     <script>
-        console.log('global', <%= global %>);
+        console.log('global', <%= JSON.stringify(global) %>);
     </script>
+    <script src="main.js"></script>
 </body>
 </html>
