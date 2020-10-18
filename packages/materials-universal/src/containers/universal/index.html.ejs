@@ -9,13 +9,15 @@
         content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
     />
     <title><%= meta.title %></title>
-    <desc><%= meta.global %></desc>
+    <desc><%= meta.desc %></desc>
+    <%= mainStyle %>
 </head>
 
 <body>
     <div id="vize-main-entry"><!-- DO NOT MODIFY! HTML_PLACEHOLDER --></div>
     <script>
-        console.log('global', <%= global %>);
+        console.log('global', <%= JSON.stringify(global) %>);
     </script>
+    <%= mainScript %>
 </body>
 </html>

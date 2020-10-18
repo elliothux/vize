@@ -5,9 +5,17 @@ import { LibPaths } from '../utils';
 import { LibConfig } from '../config';
 import { getLibDefaultWebpackConfig } from './lib.default';
 
-export function getLibWebpackConfig(libPaths: LibPaths, libConfig: LibConfig, isProd: boolean): Configuration {
+export interface Options {
+  libPaths: LibPaths;
+  libConfig: LibConfig;
+  isProd: boolean;
+  useSWC?: boolean;
+}
+
+export function getLibWebpackConfig(options: Options): Configuration {
+  const { libPaths } = options;
   const { webpackConfigs } = libPaths;
-  let config = getLibDefaultWebpackConfig(libPaths, libConfig, isProd);
+  let config = getLibDefaultWebpackConfig(options);
 
   const libConfigPath = path.resolve(webpackConfigs, './lib.dev.js');
   if (fs.existsSync(libConfigPath)) {

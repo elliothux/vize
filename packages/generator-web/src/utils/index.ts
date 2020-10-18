@@ -3,12 +3,12 @@ import path from 'path';
 import tpl from 'lodash.template';
 import { MaterialsPathMap } from '../types';
 
-export async function prepareTargetPath(targetPath: string, container: string): Promise<[string, string]> {
+export async function prepareTargetPath(targetPath: string, pageKey: string): Promise<[string, string]> {
   if (!fs.existsSync(targetPath)) {
     await fs.mkdir(targetPath);
   }
 
-  const p = path.resolve(targetPath, container);
+  const p = path.resolve(targetPath, pageKey);
   if (fs.existsSync(p)) {
     fs.rmdirSync(p, { recursive: true });
   }

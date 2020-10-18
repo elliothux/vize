@@ -1,15 +1,16 @@
 /* eslint-disable max-lines */
 import webpack, { Configuration, Entry } from 'webpack';
-import { LibPaths } from '../utils';
-import { LibConfig, LibConfigRuntime } from '../config';
+import { LibConfigRuntime } from '../config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { getLibRaxWebpackConfig } from './lib.rax';
+import { Options } from './index';
+import { getBabelConfig, getSWConfig } from './babel';
 
 const commonDeps = ['react', 'react-dom'];
 
 // TODO: refactor
 // eslint-disable-next-line max-lines-per-function
-export function getLibDefaultWebpackConfig(libPaths: LibPaths, libConfig: LibConfig, isProd: boolean): Configuration {
+export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC }: Options): Configuration {
   const {
     root,
     mainEntryTemp,
@@ -40,35 +41,7 @@ export function getLibDefaultWebpackConfig(libPaths: LibPaths, libConfig: LibCon
     },
     module: {
       rules: [
-        {
-          test: /\.(ts|tsx|js|jsx)$/,
-          loader: 'babel-loader',
-          options: {
-            compact: false,
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  targets: {
-                    chrome: '58',
-                    ios: '9',
-                    android: '4.2',
-                  },
-                },
-              ],
-              '@babel/preset-typescript',
-              '@babel/preset-react',
-            ],
-            plugins: [
-              '@babel/plugin-transform-async-to-generator',
-              '@babel/plugin-proposal-class-properties',
-              ['@babel/plugin-proposal-decorators', { legacy: true }],
-              '@babel/plugin-proposal-export-default-from',
-              '@babel/plugin-proposal-export-namespace-from',
-              '@babel/plugin-proposal-optional-chaining',
-            ],
-          },
-        },
+        useSWC ? getSWConfig() : getBabelConfig(),
         {
           test: /\.(css|scss|sass)$/,
           use: [

@@ -207,6 +207,7 @@ const generator = new WebPageGenerator({
   libsPath: path.resolve(__dirname, './libs'),
   depsPath: path.resolve(__dirname, './deps'),
   targetPath: path.resolve(__dirname, './dist'),
+  useSWC: true,
 });
 
 generator.dist().then(console.log);
