@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { ComponentInstance, Function } from 'types';
-// import { useMemo } from 'react';
-// import { materialsStore } from 'states';
+import { ComponentInstance, MaterialsComponentMeta, Function, WithReactChildren } from 'types';
+import { useMemo } from 'react';
+import { materialsStore } from 'states';
 
 interface Props {
-  tag: string;
-  subTag?: string;
   instance: ComponentInstance;
   selected: boolean;
   onClick: Function;
@@ -13,10 +11,14 @@ interface Props {
   onContextMenu: Function;
 }
 
-export function ComponentMask({ tag, subTag, onClick, onDoubleClick, onContextMenu }: Props) {
-  // const {
-  //   info: { name },
-  // } = useMemo<MaterialsComponentMeta>(() => materialsStore.getComponentMeta(instance.component), [instance.component]);
+export function ComponentMask({ instance, onClick, onDoubleClick, onContextMenu, children }: WithReactChildren<Props>) {
+  const {
+    info: { name },
+  } = useMemo<MaterialsComponentMeta>(() => materialsStore.getComponentMeta(instance.component), [instance.component]);
+
+  const desc = useMemo(() => (instance.children ? '[双击编辑容器]' : instance.hotAreas ? '[双击编辑热区]' : ''), [
+    instance,
+  ]);
 
   return (
     <div
@@ -26,8 +28,9 @@ export function ComponentMask({ tag, subTag, onClick, onDoubleClick, onContextMe
       onContextMenu={onContextMenu}
     >
       <span>
-        {tag} {subTag}
+        <span>{name}</span> (key={instance.key}) {desc}
       </span>
+      {children}
     </div>
   );
 }

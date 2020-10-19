@@ -38,6 +38,7 @@ export class SelectStore {
   public selectComponent = (key: number) => {
     this.selectType = SelectType.COMPONENT;
     this.componentKey = key;
+    this.hotAreaIndex = -1;
   };
 
   @observable
@@ -60,10 +61,8 @@ export class SelectStore {
   public hotAreaIndex = -1;
 
   @action
-  public selectHotArea = (index: number, componentKey?: null) => {
-    if (componentKey) {
-      this.componentKey = componentKey;
-    }
+  public selectHotArea = (index: number, componentKey: number) => {
+    this.componentKey = componentKey;
     this.hotAreaIndex = index;
     this.selectType = SelectType.HOTAREA;
   };

@@ -98,7 +98,7 @@ export class HotAreaManager extends React.Component {
     const hotAreas = transformHotAreaFromPxToPercent(iHotAreas, imgContainerInfo);
 
     hotAreasStore.setHotAreas(hotAreas);
-    selectStore.selectHotArea(selectedIndex);
+    selectStore.selectHotArea(selectedIndex, this.instance!.key);
     this.onCloseModal();
   };
 
