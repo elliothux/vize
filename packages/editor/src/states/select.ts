@@ -1,5 +1,6 @@
-import { action, observable } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import { Maybe } from '../types';
+import { injectGlobalReadonlyGetter, isDev } from '../utils';
 
 export enum SelectType {
   GLOBAL,
@@ -93,9 +94,7 @@ export class SelectStore {
   @action
   public setSelectMode = (mode: boolean) => {
     this.selectMode = mode;
-    if (mode) {
-      this.selectModeSelectedComponent = null;
-    }
+    this.selectModeSelectedComponent = null;
   };
 
   @observable
@@ -108,3 +107,7 @@ export class SelectStore {
 }
 
 export const selectStore = new SelectStore();
+
+if (isDev()) {
+  setTimeout(() => injectGlobalReadonlyGetter('vize_select_store', () => toJS(selectStore)), 1000);
+}

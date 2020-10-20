@@ -80,7 +80,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
     selectStore.setSelectModeSelectComponent({ key: selectStore.selectModeSelectedComponent?.key });
   };
 
-  render() {
+  public render() {
     const {
       instance,
       instance: { key },

@@ -32,7 +32,7 @@ export function useCurrentComponentInstance(): Maybe<ComponentInstance> {
 
   const instance = useComponentInstance(componentKey);
 
-  return selectType === SelectType.COMPONENT ? instance : null;
+  return selectType === SelectType.COMPONENT || selectType === SelectType.HOTAREA ? instance : null;
 }
 
 export function useCurrentComponentMeta(): Maybe<MaterialsComponentMeta> {

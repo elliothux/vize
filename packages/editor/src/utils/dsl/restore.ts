@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import {
   ComponentEventTarget,
   ComponentInstance,
@@ -7,6 +8,7 @@ import {
   PluginEventTarget,
   PluginInstance,
   InstanceKeyType,
+  HotArea,
 } from 'types';
 import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
 import { parseDSL } from './parse';
@@ -67,7 +69,7 @@ function restoreComponentInstances(pageKey: number, componentInstances: Componen
   const indexMap = generateComponentsIndex(componentInstances);
   addPageComponentInstanceIndexMap(pageKey, indexMap);
 
-  componentInstances.forEach(restoreEventDep);
+  componentInstances.forEach(R.unary(restoreEventDep));
 }
 
 function restorePluginInstances(pageKey: number, pluginInstances: PluginInstance[]) {
@@ -82,24 +84,30 @@ function restorePluginInstances(pageKey: number, pluginInstances: PluginInstance
   const indexMap = generatePluginsIndex(pluginInstances);
   addPagePluginInstanceIndexMap(globalStore.pageMode === PageMode.SINGLE ? 0 : pageKey, indexMap);
 
-  pluginInstances.forEach(restoreEventDep);
+  pluginInstances.forEach(R.unary(restoreEventDep));
 }
 
-function restoreEventDep(instance: ComponentInstance | PluginInstance) {
+function restoreEventDep(
+  instance: ComponentInstance | PluginInstance | HotArea,
+  parentInstance?: ComponentInstance,
+  index?: number,
+) {
   if ((instance as ComponentInstance).component) {
     componentEventDepsMap.createEventDepsMap(instance.key);
   } else {
     pluginEventDepsMap.createEventDepsMap(instance.key);
   }
 
-  (instance as ComponentInstance)?.children?.forEach(restoreEventDep);
+  (instance as ComponentInstance)?.children?.forEach(R.unary(restoreEventDep));
+  (instance as ComponentInstance)?.hotAreas?.forEach((hotArea, index) =>
+    restoreEventDep(hotArea, instance as ComponentInstance, index),
+  );
 
   return instance.events.forEach(event => {
     const { target } = event;
-    const depForm = generateEventDepFromItem(instance, event);
-    if (!depForm) {
-      return;
-    }
+    const depForm = parentInstance
+      ? generateEventDepFromItem(parentInstance, event, index)
+      : generateEventDepFromItem(instance as ComponentInstance | PluginInstance, event);
 
     if (target.type === EventTargetType.COMPONENT) {
       componentEventDepsMap.addEventDep((target as ComponentEventTarget).key, depForm);

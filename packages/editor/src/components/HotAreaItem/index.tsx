@@ -7,6 +7,7 @@ import { HotArea } from 'types';
 import { percent, preventSyntheticEvent } from 'utils';
 import { EventEmitTypes, events } from 'utils';
 import { AttrEditTab } from '../AttributesEditor';
+import { observer } from 'mobx-react';
 
 interface Props {
   index: number;
@@ -14,7 +15,7 @@ interface Props {
   hotArea: HotArea;
 }
 
-export function HotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
+function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
   const { componentKey, hotAreaIndex } = selectStore;
   const { previewMode } = globalStore;
 
@@ -47,3 +48,5 @@ export function HotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
     </div>
   );
 }
+
+export const HotAreaItem = observer(IHotAreaItem);

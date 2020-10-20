@@ -24,7 +24,11 @@ function IEventAttrForm({ selectType }: Props) {
     setTrigger(null);
   }, [componentMeta?.identityName]);
 
-  if (!(selectType === SelectType.COMPONENT || selectType === SelectType.PLUGIN)) {
+  const isComponent = selectType === SelectType.COMPONENT;
+  const isPlugin = selectType === SelectType.PLUGIN;
+  const isHotArea = selectType === SelectType.HOTAREA;
+
+  if (!(isComponent || isPlugin || isHotArea)) {
     return null;
   }
 
@@ -41,17 +45,11 @@ function IEventAttrForm({ selectType }: Props) {
       break;
   }
 
-  const isComponent = selectType === SelectType.COMPONENT;
-  const customEvents = isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents;
+  const customEvents = isHotArea ? undefined : isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents;
 
   return (
     <div className="event-form">
-      <EventTriggerSelector
-        type={isComponent ? 'component' : 'plugin'}
-        trigger={trigger}
-        setTrigger={setTrigger}
-        customEvents={customEvents}
-      />
+      <EventTriggerSelector type={selectType} trigger={trigger} setTrigger={setTrigger} customEvents={customEvents} />
 
       {trigger ? (
         <>

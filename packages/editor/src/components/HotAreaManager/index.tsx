@@ -14,7 +14,7 @@ import {
   transformHotAreaFromPxToPercent,
   transformHotAreaFromPercentToPx,
 } from './utils';
-import { selectStore, hotAreasStore } from 'states';
+import { selectStore, hotAreaStore } from 'states';
 import { HotAreaItem } from './HotAreaItem';
 
 class State {
@@ -97,7 +97,7 @@ export class HotAreaManager extends React.Component {
     } = this;
     const hotAreas = transformHotAreaFromPxToPercent(iHotAreas, imgContainerInfo);
 
-    hotAreasStore.setHotAreas(hotAreas);
+    hotAreaStore.setCurrentComponentHotAreas(hotAreas);
     selectStore.selectHotArea(selectedIndex, this.instance!.key);
     this.onCloseModal();
   };

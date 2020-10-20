@@ -13,6 +13,10 @@ message.config({
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
 
+export function isDev() {
+  return process.env['NODE_ENV'] === 'development';
+}
+
 interface QueryParams {
   key: string;
   libs: string[];
