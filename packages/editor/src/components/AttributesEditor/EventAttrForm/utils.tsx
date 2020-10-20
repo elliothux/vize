@@ -1,60 +1,63 @@
 import * as React from 'react';
-import { ComponentUniversalEventTriggers, PluginUniversalEventTrigger } from 'types';
+import { ComponentUniversalEventTrigger, HotAreaUniversalEventTrigger, PluginUniversalEventTrigger } from 'types';
 import { MdBlurCircular, MdCallMade, MdCallReceived, MdPanTool } from 'react-icons/md';
 import { FiEye, FiEyeOff, FiMousePointer } from 'react-icons/fi';
 
-export const triggerTextMap = new Map<ComponentUniversalEventTriggers | PluginUniversalEventTrigger, React.ReactNode>([
+export const triggerTextMap = new Map<
+  ComponentUniversalEventTrigger | PluginUniversalEventTrigger | HotAreaUniversalEventTrigger,
+  React.ReactNode
+>([
   [
-    ComponentUniversalEventTriggers.INIT,
+    ComponentUniversalEventTrigger.INIT,
     <>
       <MdBlurCircular />
       初始化
     </>,
   ],
   [
-    ComponentUniversalEventTriggers.CLICK,
+    ComponentUniversalEventTrigger.CLICK,
     <>
       <FiMousePointer />
       点击
     </>,
   ],
   [
-    ComponentUniversalEventTriggers.MOUSE_ENTER,
+    ComponentUniversalEventTrigger.MOUSE_ENTER,
     <>
       <MdCallReceived />
       鼠标移入
     </>,
   ],
   [
-    ComponentUniversalEventTriggers.MOUSE_LEAVE,
+    ComponentUniversalEventTrigger.MOUSE_LEAVE,
     <>
       <MdCallMade />
       鼠标移出
     </>,
   ],
   [
-    ComponentUniversalEventTriggers.DOUBLE_CLICK,
+    ComponentUniversalEventTrigger.DOUBLE_CLICK,
     <>
       <FiMousePointer />
       双击
     </>,
   ],
   [
-    ComponentUniversalEventTriggers.LONG_PRESS,
+    ComponentUniversalEventTrigger.LONG_PRESS,
     <>
       <MdPanTool />
       长按
     </>,
   ],
   [
-    ComponentUniversalEventTriggers.ENTER_VIEW,
+    ComponentUniversalEventTrigger.ENTER_VIEW,
     <>
       <FiEye />
       出现
     </>,
   ],
   [
-    ComponentUniversalEventTriggers.LEAVE_VIEW,
+    ComponentUniversalEventTrigger.LEAVE_VIEW,
     <>
       <FiEyeOff />
       消失
@@ -72,6 +75,55 @@ export const triggerTextMap = new Map<ComponentUniversalEventTriggers | PluginUn
     <>
       <MdBlurCircular />
       执行后
+    </>,
+  ],
+  [
+    HotAreaUniversalEventTrigger.CLICK,
+    <>
+      <FiMousePointer />
+      点击
+    </>,
+  ],
+  [
+    HotAreaUniversalEventTrigger.MOUSE_ENTER,
+    <>
+      <MdCallReceived />
+      鼠标移入
+    </>,
+  ],
+  [
+    HotAreaUniversalEventTrigger.MOUSE_LEAVE,
+    <>
+      <MdCallMade />
+      鼠标移出
+    </>,
+  ],
+  [
+    HotAreaUniversalEventTrigger.DOUBLE_CLICK,
+    <>
+      <FiMousePointer />
+      双击
+    </>,
+  ],
+  [
+    HotAreaUniversalEventTrigger.LONG_PRESS,
+    <>
+      <MdPanTool />
+      长按
+    </>,
+  ],
+  [
+    HotAreaUniversalEventTrigger.ENTER_VIEW,
+    <>
+      <FiEye />
+      出现
+    </>,
+  ],
+  [
+    HotAreaUniversalEventTrigger.LEAVE_VIEW,
+    <>
+      <FiEyeOff />
+      消失
     </>,
   ],
 ]);

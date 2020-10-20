@@ -1,6 +1,6 @@
 import { action, observable, computed, toJS, runInAction } from 'mobx';
 import { MaterialsActionMeta, MaterialsComponentMeta, MaterialsPluginMeta, Maybe } from 'types';
-import { loadMaterials, injectGlobalReadonlyGetter } from '../utils';
+import { loadMaterials, injectGlobalReadonlyGetter, isDev } from '../utils';
 import { globalStore } from './global';
 
 interface MaterialsLibItem {
@@ -88,4 +88,6 @@ export class MaterialsStore {
 
 export const materialsStore = new MaterialsStore();
 
-setTimeout(() => injectGlobalReadonlyGetter('vize_materials_store', () => toJS(materialsStore)), 1000);
+if (isDev()) {
+  setTimeout(() => injectGlobalReadonlyGetter('vize_materials_store', () => toJS(materialsStore)), 1000);
+}

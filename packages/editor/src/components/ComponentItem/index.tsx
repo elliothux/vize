@@ -1,17 +1,17 @@
 /* eslint-disable max-lines */
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import { ComponentInstance, Maybe, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
-import { globalStore, SelectStore, selectStore, SelectType, materialsStore } from 'states';
+import { globalStore, SelectStore, selectStore, SelectType } from 'states';
+import { setComponentNode, events, EventEmitTypes, withPreventEvent } from 'utils';
 import classNames from 'classnames';
+import { ComponentContextMenu, showComponentContextMenu } from 'components/ContextMenu';
 import { ComponentMask } from './ComponentMask';
-import { ComponentContextMenu, showComponentContextMenu } from '../ContextMenu/ComponentMenu';
 import { LayoutRender } from '../LayoutRender';
-import { setComponentNode, events, EventEmitTypes, withPreventEvent } from '../../utils';
 import { ComponentSelectModeMask } from './ComponentSelectModeMask';
-import { HotArea } from '../HotArea';
-import { observer } from 'mobx-react';
 import iframeStyle from './index.iframe.scss';
+import { ComponentHotAreas } from './ComponentHotAreas';
 
 globalStore.setIframeStyle('ComponentItem', iframeStyle);
 
@@ -53,14 +53,14 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
 
   private onDoubleClick = () => {
     const { instance } = this.props;
+
     if (instance.hotAreas) {
-      events.emit(EventEmitTypes.MANAGE_HOT_AREA, instance);
-      return;
+      return events.emit(EventEmitTypes.MANAGE_HOT_AREA, instance);
     }
-    if (!instance.children) {
-      return null;
+
+    if (instance.children) {
+      return selectStore.selectContainerComponent(instance.key);
     }
-    selectStore.selectContainerComponent(instance.key);
   };
 
   private onDoubleClickWithSelectMode = () => {
@@ -80,51 +80,10 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
     selectStore.setSelectModeSelectComponent({ key: selectStore.selectModeSelectedComponent?.key });
   };
 
-  // TODO: refactor
-  renderHotAreas(withHotAreas: boolean, selected: boolean, selectModeSelected: boolean) {
-    const { instance, selectMode } = this.props;
-
-    if (!instance?.hotAreas?.length) {
-      return null;
-    }
-
-    const selectedHotAreaIndex = selectStore.hotAreaIndex;
-    const previewMode = globalStore.previewMode;
-    const meta = globalStore.metaInfo;
-
-    const { hotAreas } = instance;
-
-    return withHotAreas ? (
-      <div
-        className={classNames('editor-preview-component-hot-areas', {
-          visible: selected,
-          'select-mode-selected': selectModeSelected,
-        })}
-        onDoubleClick={selectMode ? undefined : this.onDoubleClick}
-        onContextMenu={selectMode ? undefined : this.onContextMenu}
-      >
-        {(hotAreas || []).map((area, hotAreaIndex) => {
-          return (
-            <HotArea
-              instance={instance}
-              key={area.key}
-              hotArea={area}
-              selected={selected && hotAreaIndex === selectedHotAreaIndex}
-              onClick={() => selectStore.selectHotArea(hotAreaIndex)}
-              previewMode={previewMode}
-              global={global}
-              meta={meta}
-            />
-          );
-        })}
-      </div>
-    ) : null;
-  }
-
-  render() {
+  public render() {
     const {
       instance,
-      instance: { key, hotAreas, component },
+      instance: { key },
       currentSelectedKey,
       currentSelectedContainerKey,
       currentSelectedType,
@@ -138,19 +97,6 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
       key === currentSelectedKey;
     const selectedWithSelectMode = selectModeSelectedComponent?.key === key;
     const selectedAsContainer = key === currentSelectedContainerKey || key === selectModeSelectedComponent?.parentKey;
-    const withHotAreas = !!hotAreas && hotAreas.length > 0;
-    const {
-      info: { name },
-      isContainer,
-    } = materialsStore.getComponentMeta(component);
-    const tag = `${name} (key=${key})`;
-    const subTag = isContainer
-      ? selectMode
-        ? ' [双击选择子组件]'
-        : ' [双击编辑容器]'
-      : hotAreas
-      ? ' [双击编辑热区]'
-      : '';
 
     if (!children && instance.children) {
       return <LayoutRender componentInstances={instance.children} containerComponentInstance={instance} />;
@@ -167,6 +113,8 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
           })}
           data-key={key}
         >
+          <ComponentView instance={instance}>{children}</ComponentView>
+
           {selectMode ? (
             selectedAsContainer ? null : (
               <ComponentSelectModeMask
@@ -176,24 +124,17 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
                 onDoubleClick={this.onDoubleClickWithSelectMode}
               />
             )
-          ) : withHotAreas ? null : (
+          ) : (
             <ComponentMask
-              tag={tag}
-              subTag={subTag}
               instance={instance}
               selected={selected}
               onClick={this.onSelect}
               onDoubleClick={this.onDoubleClick}
               onContextMenu={this.onContextMenu}
-            />
+            >
+              <ComponentHotAreas instance={instance} />
+            </ComponentMask>
           )}
-
-          <ComponentView
-            instance={instance}
-            HotAreas={this.renderHotAreas(withHotAreas, selected, selectedWithSelectMode)}
-          >
-            {children}
-          </ComponentView>
 
           <ComponentContextMenu instance={instance} />
         </div>

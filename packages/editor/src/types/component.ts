@@ -75,7 +75,7 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   componentKey: Readonly<number>;
   meta?: GlobalMeta;
   instance: ComponentInstance;
-  hotAreas: Maybe<React.ReactElement>;
+  hotAreas?: React.ReactElement;
 }
 
 export type MaterialsComponent = React.ComponentType<ComponentProps>;

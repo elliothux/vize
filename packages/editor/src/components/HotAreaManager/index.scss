@@ -20,7 +20,7 @@
       background: rgba(255, 0, 0, 0.2);
       outline: 1px solid red;
       position: relative;
-      transition: box-shadow ease 256ms;
+      transition: box-shadow, background-color ease 300ms;
 
       &.activated {
         outline: 2px dashed red;

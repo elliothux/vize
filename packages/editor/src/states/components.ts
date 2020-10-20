@@ -12,11 +12,13 @@ import {
   createComponentInstance,
   deleteCurrentPageComponentIndex,
   deletePageComponentInstanceIndexMap,
-  DepsType,
+  DepsFromType,
+  DepsTargetType,
   findComponentInstanceByIndex,
   getCurrentPageComponentIndex,
   getMaxNodeBottomOffset,
   injectGlobalReadonlyGetter,
+  isDev,
   isNumber,
   setCurrentPageComponentIndex,
 } from '../utils';
@@ -111,7 +113,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
 
     instances.splice(index, 1);
     selectStore.selectPage(selectStore.pageIndex);
-    eventStore.deleteDepsEventInstances(DepsType.Component, key);
+    eventStore.deleteDepsEventInstances(DepsTargetType.Component, key);
     componentEventDepsMap.deleteEventDepsMap(key);
   };
 
@@ -210,7 +212,9 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
 
   public getCurrentComponentInstance = (): Maybe<ComponentInstance> => {
     const { selectType, componentKey } = selectStore;
-    return selectType === SelectType.COMPONENT ? this.getCurrentPageComponentInstance(componentKey) : null;
+    return selectType === SelectType.COMPONENT || selectType === SelectType.HOTAREA
+      ? this.getCurrentPageComponentInstance(componentKey)
+      : null;
   };
 
   /**
@@ -272,4 +276,6 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
 
 export const componentsStore = new ComponentsStore();
 
-setTimeout(() => injectGlobalReadonlyGetter('vize_components_store', () => toJS(componentsStore)), 1000);
+if (isDev()) {
+  setTimeout(() => injectGlobalReadonlyGetter('vize_components_store', () => toJS(componentsStore)), 1000);
+}

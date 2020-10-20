@@ -1,41 +1,52 @@
-import { ComponentInstance, EventInstance, Maybe, PluginInstance } from '../types';
+import { ComponentInstance, EventInstance, PluginInstance } from '../types';
 
-export enum DepsType {
+export enum DepsFromType {
+  Component = 'component',
+  Plugin = 'plugin',
+  HotArea = 'hotarea',
+}
+
+export enum DepsTargetType {
   Component = 'component',
   Plugin = 'plugin',
 }
 
-type ParentKey = number;
-type InstanceKey = number;
+export interface DepFrom {
+  depsFromType: DepsFromType;
+  parentKey: number;
+  index?: number;
+  eventKey: number;
+}
 
-export type DepFrom = [DepsType, ParentKey, InstanceKey];
-
+type TargetKey = number;
 /**
  * @desc Event Instances which deps on component
  * @struct Map<ComponentInstanceKey | PluginInstanceKey, DepFrom[]>
  */
-class DepsMap {
-  private readonly depsMap = new Map<number, DepFrom[]>();
+class DepsMap<T = DepsTargetType> {
+  private readonly depsMap = new Map<TargetKey, DepFrom[]>();
 
-  public createEventDepsMap = (key: number) => {
-    return this.depsMap.set(key, []);
+  public createEventDepsMap = (targetKey: number) => {
+    return this.depsMap.set(targetKey, []);
   };
 
-  public deleteEventDepsMap = (key: number) => {
-    return this.depsMap.delete(key);
+  public deleteEventDepsMap = (targetKey: number) => {
+    return this.depsMap.delete(targetKey);
   };
 
-  public addEventDep = (key: number, dep: DepFrom) => {
-    return this.depsMap.get(key)!.push(dep);
+  public addEventDep = (targetKey: number, dep: DepFrom) => {
+    return this.depsMap.get(targetKey)!.push(dep);
   };
 
-  public getEventDep = (key: number) => {
-    return this.depsMap.get(key);
+  public getEventDep = (targetKey: number) => {
+    return this.depsMap.get(targetKey);
   };
 
-  public deleteEventDep = (key: number, type: DepsType, eventInstanceKey: number) => {
+  public deleteEventDep = (key: number, type: DepsFromType, eventInstanceKey: number) => {
     const deps = this.depsMap.get(key)!;
-    const index = deps.findIndex(([depType, depEventKey]) => type === depType && eventInstanceKey === depEventKey);
+    const index = deps.findIndex(({ depsFromType, eventKey }) => {
+      return type === depsFromType && eventInstanceKey === eventKey;
+    });
     const [dep] = deps.splice(index, 1);
     return dep;
   };
@@ -43,12 +54,22 @@ class DepsMap {
 
 export function generateEventDepFromItem(
   parent: ComponentInstance | PluginInstance,
-  { key }: EventInstance,
-): Maybe<DepFrom> {
-  const depType = (parent as ComponentInstance).component ? DepsType.Component : DepsType.Plugin;
-  return [depType, parent.key, key];
+  { key: eventKey }: EventInstance,
+  index?: number,
+): DepFrom {
+  const isHotArea = typeof index === 'number';
+  return {
+    depsFromType: isHotArea
+      ? DepsFromType.HotArea
+      : (parent as ComponentInstance).component
+      ? DepsFromType.Component
+      : DepsFromType.Plugin,
+    parentKey: parent.key,
+    index,
+    eventKey,
+  };
 }
 
-export const componentEventDepsMap = new DepsMap();
+export const componentEventDepsMap = new DepsMap<DepsTargetType.Component>();
 
-export const pluginEventDepsMap = new DepsMap();
+export const pluginEventDepsMap = new DepsMap<DepsTargetType.Plugin>();

@@ -5,7 +5,7 @@ import {
   GlobalMeta,
   EventInstance,
   HotArea,
-  ComponentUniversalEventTriggers,
+  ComponentUniversalEventTrigger,
   EventTriggerName,
 } from 'types';
 
@@ -57,42 +57,42 @@ export function generateHandlers(
 ): ActionHandlers {
   const handlers: ActionHandlers = {};
 
-  const onInit = generateHandler(actions, ComponentUniversalEventTriggers.INIT, component, hotArea);
+  const onInit = generateHandler(actions, ComponentUniversalEventTrigger.INIT, component, hotArea);
   if (onInit) {
     handlers.onInit = onInit;
   }
 
-  const onClick = generateHandler(actions, ComponentUniversalEventTriggers.CLICK, component, hotArea);
+  const onClick = generateHandler(actions, ComponentUniversalEventTrigger.CLICK, component, hotArea);
   if (onClick) {
     handlers.onClick = onClick;
   }
 
-  const onMouseEnter = generateHandler(actions, ComponentUniversalEventTriggers.MOUSE_ENTER, component, hotArea);
+  const onMouseEnter = generateHandler(actions, ComponentUniversalEventTrigger.MOUSE_ENTER, component, hotArea);
   if (onMouseEnter) {
     handlers.onMouseEnter = onMouseEnter;
   }
 
-  const onMouseLeave = generateHandler(actions, ComponentUniversalEventTriggers.MOUSE_LEAVE, component, hotArea);
+  const onMouseLeave = generateHandler(actions, ComponentUniversalEventTrigger.MOUSE_LEAVE, component, hotArea);
   if (onMouseLeave) {
     handlers.onMouseLeave = onMouseLeave;
   }
 
-  const onDoubleClick = generateHandler(actions, ComponentUniversalEventTriggers.DOUBLE_CLICK, component, hotArea);
+  const onDoubleClick = generateHandler(actions, ComponentUniversalEventTrigger.DOUBLE_CLICK, component, hotArea);
   if (onDoubleClick) {
     handlers.onDoubleClick = onDoubleClick;
   }
 
-  const onLongPress = generateHandler(actions, ComponentUniversalEventTriggers.LONG_PRESS, component, hotArea);
+  const onLongPress = generateHandler(actions, ComponentUniversalEventTrigger.LONG_PRESS, component, hotArea);
   if (onLongPress) {
     handlers.onLongPress = onLongPress;
   }
 
-  const onEnterView = generateHandler(actions, ComponentUniversalEventTriggers.ENTER_VIEW, component, hotArea);
+  const onEnterView = generateHandler(actions, ComponentUniversalEventTrigger.ENTER_VIEW, component, hotArea);
   if (onEnterView) {
     handlers.onEnterView = onEnterView;
   }
 
-  const onLeaveView = generateHandler(actions, ComponentUniversalEventTriggers.LEAVE_VIEW, component, hotArea);
+  const onLeaveView = generateHandler(actions, ComponentUniversalEventTrigger.LEAVE_VIEW, component, hotArea);
   if (onLeaveView) {
     handlers.onLeaveView = onLeaveView;
   }

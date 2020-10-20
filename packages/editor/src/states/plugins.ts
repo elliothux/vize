@@ -4,7 +4,8 @@ import {
   addPagePluginInstanceIndexMap,
   createPluginInstance,
   deletePagePluginInstanceIndexMap,
-  DepsType,
+  DepsFromType,
+  DepsTargetType,
   getCurrentPagePluginIndex,
   pluginEventDepsMap,
   regenerateCurrentPagePluginIndexMap,
@@ -99,7 +100,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
     });
 
     selectStore.selectPage(selectStore.pageIndex);
-    eventStore.deleteDepsEventInstances(DepsType.Plugin, key);
+    eventStore.deleteDepsEventInstances(DepsTargetType.Plugin, key);
     pluginEventDepsMap.deleteEventDepsMap(key);
   };
 
