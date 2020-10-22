@@ -3,6 +3,7 @@ import { contextMenu } from 'react-contexify';
 import { generateKey, preventSyntheticEvent } from 'utils';
 import { HotArea, Maybe, Percent, PX, InstanceKeyType } from 'types';
 import { MoveHotAreaDirection, IHotAreaPosition, IHotAreaSize, IHotArea } from './types';
+import { componentsStore } from '../../states';
 
 export interface ImgInfo {
   width: number;
@@ -20,6 +21,7 @@ function transformHotAreaFromPxToPercent(hotArea: IHotArea[], { width, height }:
     position: { x: transformX(x), y: transformY(y) },
     size: { width: transformX(width), height: transformY(height) },
     events: [],
+    parent: componentsStore.getCurrentComponentInstance()!,
   }));
 }
 

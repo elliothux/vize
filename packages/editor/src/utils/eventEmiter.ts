@@ -1,4 +1,4 @@
-import { EventProxy } from './eventProxy';
+import { EventProxy } from 'runtime';
 
 export enum EventEmitTypes {
   GLOBAL_CLICK = 'global_click',
@@ -7,8 +7,7 @@ export enum EventEmitTypes {
   SET_ATTRIBUTES_EDITOR_TYPE = 'set_attributes_editor_type',
   JUMP_ATTR_EDIT_TAB = 'jump_attr_edit_tab',
   CHANGE_ATTR_EDIT_TAB = 'change_attr_edit_tab',
-  COMPONENT_INTERSECTING_CHANGE = 'component_intersecting_change',
-  HOT_AREA_INTERSECTING_CHANGE = 'hot_area_intersecting_change',
+  NODE_INTERSECTING_CHANGE = 'node_intersecting_change',
   RELOAD_RENDERER = 'reload_renderer',
 }
 

@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import * as React from 'react';
+import { forwardRef } from 'react';
 import { observer } from 'mobx-react';
 import { ComponentInstance, Maybe, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';

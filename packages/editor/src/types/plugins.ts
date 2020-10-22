@@ -25,6 +25,7 @@ export interface PluginInstance {
 
 // TODO
 export interface PluginParams {
+  pluginKey: number;
   data: object;
 }
 

@@ -3,7 +3,7 @@ import * as path from 'path';
 import webpack from 'webpack';
 import { Configuration } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { getBabelConfig, getSWConfig } from './babelConfig';
+import { getBabelConfig, getSWConfig } from './babel';
 
 interface Params {
   root: string;

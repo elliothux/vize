@@ -3,7 +3,7 @@ import { ComponentInstance, WithReactChildren, PositionStyle, IPositionStyle } f
 import { useMemo } from 'react';
 import { getMaterialsComponent, mergeCommonStyle, calPosition } from 'utils';
 import { observer } from 'mobx-react';
-import { ComponentEventProxy } from '../ComponentEventProxy';
+import { NodeEventProxy } from 'runtime';
 import { globalStore } from 'states';
 
 interface Props extends WithReactChildren {
@@ -27,7 +27,14 @@ function IComponentView({ instance, children }: Props) {
   const { metaInfo } = globalStore;
 
   return (
-    <ComponentEventProxy instance={instance} style={{ ...iWrapperStyle, ...posStyle }}>
+    <NodeEventProxy<ComponentInstance>
+      childrenType="component"
+      instance={instance}
+      style={{ ...iWrapperStyle, ...posStyle }}
+      global={globalStore.globalProps}
+      meta={globalStore.metaInfo}
+      previewMode={globalStore.previewMode}
+    >
       <ComponentRender
         componentKey={key}
         data={data}
@@ -38,7 +45,7 @@ function IComponentView({ instance, children }: Props) {
       >
         {children}
       </ComponentRender>
-    </ComponentEventProxy>
+    </NodeEventProxy>
   );
 }
 
