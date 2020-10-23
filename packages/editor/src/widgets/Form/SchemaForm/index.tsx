@@ -14,6 +14,7 @@ function ISchemaForm(props: SchemaFormProps) {
 
   const schema = useMemo(() => createSchema(iSchema), [iSchema]);
   const onChange = useCallback(throttle(500, iOnChange || noop), [iOnChange]);
+
   useEffect(() => {
     const defaultValue = getSchemaDefault(iSchema);
     if (isEmpty(value) && !isEmpty(defaultValue)) {

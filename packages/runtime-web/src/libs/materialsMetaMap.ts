@@ -1,4 +1,4 @@
-import { MaterialsActionMeta, MaterialsComponentMeta, MaterialsMeta, MaterialsPluginMeta, Maybe } from '../types';
+import { MaterialsActionMeta, MaterialsComponentMeta, MaterialsMeta, MaterialsPluginMeta, Maybe } from '../../types';
 import { getMaterialsIdentityName } from '../utils';
 
 // Component Materials Meta

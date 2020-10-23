@@ -7,7 +7,7 @@ import {
   Maybe,
   WithReactChildren,
   GlobalMeta,
-} from '../../types';
+} from '../../../types';
 import { RuntimeEventEmitTypes, events, withPersistReactEvent } from '../../utils';
 import { EventHandler, EventHandlers, generateHandlers, HandlerParams } from './utils';
 

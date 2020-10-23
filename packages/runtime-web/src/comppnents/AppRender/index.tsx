@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentInstanceDSL, MaterialsPlugin, PluginInstanceDSL } from '../../types';
+import { ComponentInstanceDSL, MaterialsPlugin, PluginInstanceDSL } from '../../../types';
 import { executePlugins } from '../../utils';
 
 interface Props {

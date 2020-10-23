@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { EditFilled } from '@ant-design/icons';
 import { componentsStore, selectStore } from 'states';
 import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
@@ -19,7 +20,7 @@ function IComponentDataForm() {
     <Button
       className="edit-container-button"
       onClick={() => selectStore.selectContainerComponent(key)}
-      icon="edit"
+      icon={<EditFilled />}
       type="primary"
     >
       编辑容器
@@ -31,7 +32,7 @@ function IComponentDataForm() {
       className="add-hot-area-button"
       disabled={!(getImageSrc(instance) || '').trim()}
       onClick={() => events.emit(EventEmitTypes.MANAGE_HOT_AREA, instance)}
-      icon="edit"
+      icon={<EditFilled />}
       type="primary"
     >
       编辑热区

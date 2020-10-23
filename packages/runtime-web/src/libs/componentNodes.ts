@@ -1,4 +1,4 @@
-import { ComponentInstance, Maybe } from '../types';
+import { ComponentInstance, Maybe } from '../../types';
 
 const componentNodes = new Map<number, HTMLDivElement>();
 
