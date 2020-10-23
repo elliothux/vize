@@ -2,10 +2,11 @@ import * as React from 'react';
 import { Tree } from 'antd';
 import { observer } from 'mobx-react';
 import { ComponentProps, useMemo } from 'react';
-import { materialsStore, pluginsStore, selectStore, SelectType } from 'states';
+import { pluginsStore, selectStore, SelectType } from 'states';
 import { FirstParameter, MustBe, PluginInstance } from 'types';
 import { FiFolder, FiPackage } from 'react-icons/fi';
 import { PluginContextMenu, showPluginContextMenu } from 'components/ContextMenu';
+import { getMaterialsPluginMeta } from 'runtime';
 
 const { DirectoryTree } = Tree;
 
@@ -82,7 +83,7 @@ function generateTreeData(pluginInstances: PluginInstance[]): TreeData {
   return pluginInstances.map(({ key, plugin }) => {
     const {
       info: { name },
-    } = materialsStore.getPluginMeta(plugin);
+    } = getMaterialsPluginMeta(plugin)!;
 
     return {
       key,

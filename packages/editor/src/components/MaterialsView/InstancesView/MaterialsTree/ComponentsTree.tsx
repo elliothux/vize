@@ -3,10 +3,11 @@ import { ComponentProps, useMemo } from 'react';
 import { Tree } from 'antd';
 import { FiArchive, FiFolder, FiLayers } from 'react-icons/fi';
 import { observer } from 'mobx-react';
-import { componentsStore, materialsStore, selectStore, SelectType } from 'states';
+import { componentsStore, selectStore, SelectType } from 'states';
 import { ComponentInstance, FirstParameter, Maybe, MustBe } from 'types';
 import { showComponentContextMenu } from 'components/ContextMenu';
-import { ComponentIndex, findComponentInstanceByIndex, isNumber } from '../../../../utils';
+import { ComponentIndex, findComponentInstanceByIndex, isNumber } from 'utils';
+import { getMaterialsComponentMeta } from 'runtime';
 
 const { DirectoryTree } = Tree;
 
@@ -125,7 +126,7 @@ function generateTreeData(componentInstances: ComponentInstance[], isChildren = 
   return componentInstances.map(({ key, children, component }) => {
     const {
       info: { name },
-    } = materialsStore.getComponentMeta(component);
+    } = getMaterialsComponentMeta(component)!;
     const isContainer = !!children;
 
     return {

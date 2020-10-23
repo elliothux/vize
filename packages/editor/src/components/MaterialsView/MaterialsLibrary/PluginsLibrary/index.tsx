@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { MaterialsPluginMeta, Maybe } from 'types';
-import { materialsStore } from 'states';
+import { materialsPluginMetaMap } from 'runtime';
 import { WithTagsList } from '../WithTagsList';
 import { MaterialsViewType } from '../../HeaderOptions';
 import { MaterialsPluginItem } from './MaterialsPluginItem';
@@ -44,7 +44,10 @@ export class PluginsLibrary extends React.Component {
   public render() {
     return (
       <div className="vize-plugins-library">
-        <WithTagsList view={MaterialsViewType.PLUGINS} itemsMap={materialsStore.plugins}>
+        <WithTagsList<MaterialsPluginMeta>
+          view={MaterialsViewType.PLUGINS}
+          itemsMap={Object.fromEntries(materialsPluginMetaMap)}
+        >
           {this.renderItem}
         </WithTagsList>
         {this.renderPreview()}

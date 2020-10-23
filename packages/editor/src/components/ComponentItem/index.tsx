@@ -1,12 +1,12 @@
 /* eslint-disable max-lines */
 import * as React from 'react';
-import { forwardRef } from 'react';
 import { observer } from 'mobx-react';
 import { ComponentInstance, Maybe, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
 import { globalStore, SelectStore, selectStore, SelectType } from 'states';
-import { setComponentNode, events, EventEmitTypes, withPreventEvent } from 'utils';
+import { events, EventEmitTypes, withPreventEvent } from 'utils';
 import classNames from 'classnames';
+import { deleteComponentNode, setComponentNode } from 'runtime';
 import { ComponentContextMenu, showComponentContextMenu } from 'components/ContextMenu';
 import { ComponentMask } from './ComponentMask';
 import { LayoutRender } from '../LayoutRender';
@@ -26,6 +26,14 @@ interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComp
 @observer
 export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   private refNode: Maybe<HTMLDivElement> = null;
+
+  public componentWillUnmount() {
+    const { key, children } = this.props.instance;
+    if (children?.length) {
+      children.forEach(({ key }) => deleteComponentNode(key));
+    }
+    deleteComponentNode(key);
+  }
 
   private setRef = (node: HTMLDivElement) => {
     this.refNode = node;

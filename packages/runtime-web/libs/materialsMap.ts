@@ -8,13 +8,13 @@ import {
   MaterialsPluginMeta,
   Maybe,
 } from '../types';
-import { getMaterialsIdentityName } from './common';
+import { getMaterialsIdentityName } from '../utils';
 
 // Component Materials
 
 type ComponentID = MaterialsComponentMeta['identityName'];
 
-export const materialsComponentsMap = new Map<ComponentID, MaterialsComponent>();
+const materialsComponentsMap = new Map<ComponentID, MaterialsComponent>();
 
 export function getMaterialsComponent(id: ComponentID): Maybe<MaterialsComponent> {
   return materialsComponentsMap.get(id);
@@ -24,7 +24,7 @@ export function getMaterialsComponent(id: ComponentID): Maybe<MaterialsComponent
 
 type PluginID = MaterialsPluginMeta['identityName'];
 
-export const materialsPluginsMap = new Map<PluginID, MaterialsPlugin>();
+const materialsPluginsMap = new Map<PluginID, MaterialsPlugin>();
 
 export function getMaterialsPlugin(id: PluginID): Maybe<MaterialsPlugin> {
   return materialsPluginsMap.get(id);
@@ -34,7 +34,7 @@ export function getMaterialsPlugin(id: PluginID): Maybe<MaterialsPlugin> {
 
 type ActionID = MaterialsActionMeta['identityName'];
 
-export const materialsActionsMap = new Map<ActionID, MaterialsAction>();
+const materialsActionsMap = new Map<ActionID, MaterialsAction>();
 
 export function getMaterialsAction(id: ActionID): Maybe<MaterialsAction> {
   return materialsActionsMap.get(id);

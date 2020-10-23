@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ComponentInstance, MaterialsComponentMeta, Function, WithReactChildren } from 'types';
 import { useMemo } from 'react';
-import { materialsStore } from 'states';
+import { getMaterialsComponentMeta } from 'runtime';
 
 interface Props {
   instance: ComponentInstance;
@@ -14,7 +14,7 @@ interface Props {
 export function ComponentMask({ instance, onClick, onDoubleClick, onContextMenu, children }: WithReactChildren<Props>) {
   const {
     info: { name },
-  } = useMemo<MaterialsComponentMeta>(() => materialsStore.getComponentMeta(instance.component), [instance.component]);
+  } = useMemo<MaterialsComponentMeta>(() => getMaterialsComponentMeta(instance.component)!, [instance.component]);
 
   const desc = useMemo(() => (instance.children ? '[双击编辑容器]' : instance.hotAreas ? '[双击编辑热区]' : ''), [
     instance,

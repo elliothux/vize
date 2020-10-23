@@ -1,5 +1,6 @@
 import { action, observable, computed, toJS, runInAction } from 'mobx';
-import { MaterialsActionMeta, MaterialsComponentMeta, MaterialsPluginMeta, Maybe } from 'types';
+import { Maybe } from 'types';
+import { setMaterialsMetaMap } from 'runtime';
 import { loadMaterials, injectGlobalReadonlyGetter, isDev } from '../utils';
 import { globalStore } from './global';
 
@@ -25,21 +26,21 @@ export class MaterialsStore {
       }),
     );
   };
+  //
+  // @observable
+  // private components: { [identityName: string]: MaterialsComponentMeta } = {};
+  //
+  // public getComponentMeta = (identityName: string) => this.components[identityName];
 
-  @observable
-  public components: { [identityName: string]: MaterialsComponentMeta } = {};
+  // @observable
+  // private plugins: { [identityName: string]: MaterialsPluginMeta } = {};
+  //
+  // public getPluginMeta = (identityName: string) => this.plugins[identityName];
 
-  public getComponentMeta = (identityName: string) => this.components[identityName];
-
-  @observable
-  public plugins: { [identityName: string]: MaterialsPluginMeta } = {};
-
-  public getPluginMeta = (identityName: string) => this.plugins[identityName];
-
-  @observable
-  public actions: { [identityName: string]: MaterialsActionMeta } = {};
-
-  public getActionMeta = (identityName: string) => this.actions[identityName];
+  // @observable
+  // public actions: { [identityName: string]: MaterialsActionMeta } = {};
+  //
+  // public getActionMeta = (identityName: string) => this.actions[identityName];
 
   @observable
   public materialsLibs: { [libName: string]: MaterialsLibItem } = {};
@@ -59,16 +60,14 @@ export class MaterialsStore {
   private readonly loadMaterials = async (libName: string, debugPort?: number): Promise<void> => {
     const {
       containerHTML,
-      meta: { components, actions, plugins },
+      meta,
       main: { script: mainScript, style: mainStyle, entryName: mainEntryName },
       entry: { script: entryScript, style: entryStyle, entryName: entryEntryName },
     } = await loadMaterials(libName, debugPort || undefined);
 
-    runInAction(() => {
-      this.components = components;
-      this.plugins = plugins;
-      this.actions = actions;
+    setMaterialsMetaMap(libName, meta);
 
+    runInAction(() => {
       const isMainLib = globalStore.mainLib === libName;
 
       this.materialsLibs[libName] = {

@@ -1,10 +1,10 @@
 import { action, computed, observable } from 'mobx';
 import { EventInstance, Maybe, PluginInstance } from 'types';
+import { getMaterialsPluginMeta } from 'runtime';
 import {
   addPagePluginInstanceIndexMap,
   createPluginInstance,
   deletePagePluginInstanceIndexMap,
-  DepsFromType,
   DepsTargetType,
   getCurrentPagePluginIndex,
   pluginEventDepsMap,
@@ -78,7 +78,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
 
   @action
   public addPluginInstance = (pluginID: string) => {
-    const plugin = materialsStore.plugins[pluginID];
+    const plugin = getMaterialsPluginMeta(pluginID)!;
     const instance = createPluginInstance(plugin);
 
     this.changePluginInstance(pluginInstances => {

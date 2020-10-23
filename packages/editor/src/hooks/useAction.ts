@@ -1,6 +1,6 @@
-import { materialsStore } from 'states';
 import { MaterialsActionMeta, Maybe } from 'types';
+import { getMaterialsActionMeta } from 'runtime';
 
 export function useActionMetaById(id: string): Maybe<MaterialsActionMeta> {
-  return materialsStore.getActionMeta(id);
+  return getMaterialsActionMeta(id);
 }

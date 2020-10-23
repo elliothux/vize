@@ -7,7 +7,9 @@ import {
   HotArea,
   ComponentUniversalEventTrigger,
   EventTriggerName,
+  EventTargetType,
 } from '../../types';
+import { getMaterialsAction } from '../../libs';
 
 export interface HandlerParams {
   meta: GlobalMeta;
@@ -27,11 +29,21 @@ export interface EventHandlers {
   onLeaveView?: EventHandler;
 }
 
-function pipeActions(iActions: EventInstance[], instance: ComponentInstance | HotArea) {
-  return undefined;
+const DEFAULT_MAX_TIMEOUT = 10 * 1000;
+
+function pipeEvents(events: EventInstance[], instance: ComponentInstance | HotArea): EventHandler {
+  return async (originalEvent: Maybe<React.SyntheticEvent>, { meta, global }: HandlerParams) => {
+    for (const event of events) {
+      const { target } = event;
+      switch (target.type) {
+        case EventTargetType.ACTION: {
+          const action = getMaterialsAction(target.id);
+        }
+      }
+    }
+  };
 }
 
-// TODO
 function generateHandler(
   events: EventInstance[],
   trigger: EventTriggerName,
@@ -41,16 +53,14 @@ function generateHandler(
     return undefined;
   }
 
-  const iActions = events.filter(a => a.trigger.triggerName === trigger);
-  if (!iActions.length) {
+  const iEvents = events.filter(a => a.trigger.triggerName === trigger);
+  if (!iEvents.length) {
     return undefined;
   }
 
-  return pipeActions(iActions, instance);
+  return pipeEvents(iEvents, instance);
 }
 
-// TODO
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function generateHandlers(events: EventInstance[], instance: ComponentInstance | HotArea): EventHandlers {
   const handlers: EventHandlers = {};
 
