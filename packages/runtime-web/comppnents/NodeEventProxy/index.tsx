@@ -1,25 +1,36 @@
-/* eslint-disable max-lines */
 import * as React from 'react';
-import { ComponentEventListenerTypes, ComponentInstance, Maybe, WithReactChildren, EventInstance } from '../../types';
-import { globalStore } from '../../states';
-import { observer } from 'mobx-react';
-import { ActionHandler, ActionHandlers, generateHandlers, HandlerParams } from './utils';
-import { events, EventEmitTypes, withPersistReactEvent } from '../../utils';
+import {
+  ComponentEventListenerTypes,
+  ComponentInstance,
+  EventInstance,
+  HotArea,
+  Maybe,
+  WithReactChildren,
+  GlobalMeta,
+} from '../../types';
+import { RuntimeEventEmitTypes, events, withPersistReactEvent } from '../../utils';
+import { EventHandler, EventHandlers, generateHandlers, HandlerParams } from './utils';
 
-interface Props extends WithReactChildren {
-  instance: ComponentInstance;
+type InstanceType = ComponentInstance | HotArea;
+
+interface Props<T extends InstanceType> extends WithReactChildren {
+  childrenType: 'component' | 'hotarea';
+  instance: T;
   style: object;
+  global: object;
+  meta: GlobalMeta;
+  previewMode: boolean;
 }
 
-const componentIntersectionObserver = new IntersectionObserver(entries => {
+const nodeIntersectionObserver = new IntersectionObserver(entries => {
   entries.forEach(({ target, isIntersecting }) => {
     const key = parseInt(target.getAttribute('data-key')!, 10);
-    events.emit(EventEmitTypes.COMPONENT_INTERSECTING_CHANGE, isIntersecting, key);
+    const childrenType = target.getAttribute('data-children-type')!;
+    events.emit(RuntimeEventEmitTypes.NODE_INTERSECTING_CHANGE, childrenType, isIntersecting, key);
   });
 });
 
-@observer
-export class ComponentEventProxy extends React.Component<Props> {
+export class NodeEventProxy<T extends InstanceType> extends React.Component<Props<T>> {
   private readonly handlerParams: HandlerParams;
 
   private containerRef: Maybe<HTMLDivElement> = null;
@@ -33,20 +44,20 @@ export class ComponentEventProxy extends React.Component<Props> {
   private preventClick = false;
 
   private handlers: {
-    [key in keyof ActionHandlers]: (originalEvent: Maybe<React.SyntheticEvent>) => void;
+    [key in keyof EventHandlers]: (originalEvent: Maybe<React.SyntheticEvent>) => void;
   } = {};
 
-  constructor(props: Props) {
+  constructor(props: Props<T>) {
     super(props);
 
-    this.handlerParams = { global: globalStore.globalProps!, meta: globalStore.metaInfo! };
-    this.updateHandlersWithParams(globalStore.previewMode ? props.instance.events : []);
+    this.handlerParams = { global: props.global!, meta: props.meta! };
+    this.updateHandlersWithParams(props.previewMode ? props.instance.events : []);
   }
 
   public componentDidMount(): void {
     this.observeIntersection();
 
-    events.on(EventEmitTypes.COMPONENT_INTERSECTING_CHANGE, this.onComponentIntersectionChange);
+    events.on(RuntimeEventEmitTypes.NODE_INTERSECTING_CHANGE, this.onNodeIntersectionChange);
 
     if (this.handlers.onInit) {
       this.handlers.onInit(undefined);
@@ -56,7 +67,7 @@ export class ComponentEventProxy extends React.Component<Props> {
   public componentWillUnmount(): void {
     this.unobserveIntersection();
 
-    events.cancel(EventEmitTypes.COMPONENT_INTERSECTING_CHANGE, this.onComponentIntersectionChange);
+    events.cancel(RuntimeEventEmitTypes.NODE_INTERSECTING_CHANGE, this.onNodeIntersectionChange);
 
     if (this.longPressTimer) {
       window.clearTimeout(this.longPressTimer!);
@@ -69,12 +80,12 @@ export class ComponentEventProxy extends React.Component<Props> {
     }
   }
 
-  private observeIntersection = () => componentIntersectionObserver.observe(this.containerRef!);
+  private observeIntersection = () => nodeIntersectionObserver.observe(this.containerRef!);
 
-  private unobserveIntersection = () => componentIntersectionObserver.unobserve(this.containerRef!);
+  private unobserveIntersection = () => nodeIntersectionObserver.unobserve(this.containerRef!);
 
-  private onComponentIntersectionChange = (isIntersecting: boolean, key: number) => {
-    if (key !== this.props.instance.key) {
+  private onNodeIntersectionChange = (childrenType: Props<T>['childrenType'], isIntersecting: boolean, key: number) => {
+    if (key !== this.props.instance.key || childrenType !== this.props.childrenType) {
       return;
     }
 
@@ -83,45 +94,42 @@ export class ComponentEventProxy extends React.Component<Props> {
       this.intersectionTimer = null;
     }
 
-    const callback = isIntersecting ? this.onComponentEnterView : this.onComponentLeaveView;
+    const callback = isIntersecting ? this.onNodeEnterView : this.onNodeLeaveView;
     this.intersectionTimer = window.setTimeout(() => {
       callback();
       clearTimeout(this.intersectionTimer!);
       this.intersectionTimer = null;
-    }, ComponentEventProxy.INTERSECTION_TIMEOUT);
+    }, NodeEventProxy.INTERSECTION_TIMEOUT);
   };
 
-  private onComponentEnterView = () => {
+  private onNodeEnterView = () => {
     if (this.handlers.onEnterView) {
       this.handlers.onEnterView(undefined);
     }
   };
 
-  private onComponentLeaveView = () => {
+  private onNodeLeaveView = () => {
     if (this.handlers.onLeaveView) {
       this.handlers.onLeaveView(undefined);
     }
   };
 
-  private onComponentPress = withPersistReactEvent((e: React.MouseEvent | React.TouchEvent) => {
+  private onNodePress = withPersistReactEvent((e: React.MouseEvent | React.TouchEvent) => {
     if (!this.handlers.onLongPress) {
       return;
     }
 
-    this.longPressTimer = window.setTimeout(
-      () => this.handlers.onLongPress!(e),
-      ComponentEventProxy.LONG_PRESS_TIMEOUT,
-    );
+    this.longPressTimer = window.setTimeout(() => this.handlers.onLongPress!(e), NodeEventProxy.LONG_PRESS_TIMEOUT);
   });
 
-  private onComponentPressRelease = () => {
+  private onNodePressRelease = () => {
     if (this.longPressTimer) {
       window.clearTimeout(this.longPressTimer!);
     }
     this.longPressTimer = null;
   };
 
-  private onSingleClick = withPersistReactEvent((e: React.MouseEvent) => {
+  private onNodeSingleClick = withPersistReactEvent((e: React.MouseEvent) => {
     this.doubleClickTimer = window.setTimeout(() => {
       if (!this.preventClick) {
         try {
@@ -130,10 +138,10 @@ export class ComponentEventProxy extends React.Component<Props> {
           console.error('Exec onClick action error:', err);
         }
       }
-    }, ComponentEventProxy.DOUBLE_CLICK_TIMEOUT);
+    }, NodeEventProxy.DOUBLE_CLICK_TIMEOUT);
   });
 
-  private onDoubleClick = withPersistReactEvent((e: React.MouseEvent) => {
+  private onNodeDoubleClick = withPersistReactEvent((e: React.MouseEvent) => {
     if (this.doubleClickTimer) {
       clearTimeout(this.doubleClickTimer);
       this.doubleClickTimer = null;
@@ -146,7 +154,7 @@ export class ComponentEventProxy extends React.Component<Props> {
       console.error('Exec onClick action error:', err);
     }
 
-    setTimeout(() => (this.preventClick = false), ComponentEventProxy.DOUBLE_CLICK_TIMEOUT);
+    setTimeout(() => (this.preventClick = false), NodeEventProxy.DOUBLE_CLICK_TIMEOUT);
   });
 
   private updateHandlersWithParams = (actions: EventInstance[]) => {
@@ -182,7 +190,7 @@ export class ComponentEventProxy extends React.Component<Props> {
     // return emitComponent(e, type, instance, meta, global);
   };
 
-  private withEmitComponentEvent = (type: ComponentEventListenerTypes, handler: Maybe<ActionHandler>) => (
+  private withEmitComponentEvent = (type: ComponentEventListenerTypes, handler: Maybe<EventHandler>) => (
     e: Maybe<React.SyntheticEvent> = undefined,
   ) => {
     if (e) {
@@ -200,7 +208,7 @@ export class ComponentEventProxy extends React.Component<Props> {
   };
 
   public render() {
-    const { instance, children, style } = this.props;
+    const { instance, children, style, childrenType } = this.props;
 
     return (
       <div
@@ -208,14 +216,15 @@ export class ComponentEventProxy extends React.Component<Props> {
         ref={this.setRef}
         style={style}
         data-key={instance.key}
-        onClick={this.onSingleClick}
-        onDoubleClick={this.onDoubleClick}
+        data-children-type={childrenType}
+        onClick={this.onNodeSingleClick}
+        onDoubleClick={this.onNodeDoubleClick}
+        onTouchStart={this.onNodePress}
+        onTouchEnd={this.onNodePressRelease}
+        onMouseDown={this.onNodePress}
+        onMouseUp={this.onNodePressRelease}
         onMouseEnter={this.handlers.onMouseEnter}
         onMouseLeave={this.handlers.onMouseLeave}
-        onTouchStart={this.onComponentPress}
-        onTouchEnd={this.onComponentPressRelease}
-        onMouseDown={this.onComponentPress}
-        onMouseUp={this.onComponentPressRelease}
       >
         {children}
       </div>

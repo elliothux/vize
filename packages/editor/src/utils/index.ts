@@ -11,7 +11,6 @@ export * from './depsMap';
 export * from './dom';
 export * from './eventEmiter';
 export * from './eventHelper';
-export * from './eventProxy';
 export * from './init';
 export * from './inject';
 export * from './is';

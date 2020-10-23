@@ -1,5 +1,5 @@
 import { ComponentInstance, Maybe } from 'types';
-import { EventProxy } from './eventProxy';
+import { EventProxy } from 'runtime';
 import { getBottomOffsetToBodyTop } from './dom';
 
 const componentNodes = new Map<number, HTMLDivElement>();

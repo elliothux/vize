@@ -51,6 +51,7 @@ export interface HotArea {
   position: HotAreaPosition;
   size: HotAreaSize;
   events: EventInstance[];
+  parent: ComponentInstance;
 }
 
 export interface ComponentInstance {

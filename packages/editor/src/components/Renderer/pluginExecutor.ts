@@ -10,9 +10,9 @@ class PluginExecutor {
   private plugins: PluginInstance[];
 
   public execute = (win: Window) => {
-    this.plugins.forEach(({ plugin, data }) => {
+    this.plugins.forEach(({ plugin, data, key }) => {
       const pluginFunction = getMaterialsPlugin(plugin)!.bind(win);
-      const params = { data };
+      const params = { pluginKey: key, data };
       try {
         pluginFunction(params);
       } catch (e) {
