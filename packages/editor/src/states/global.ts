@@ -94,8 +94,8 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   public previewMode = false;
 
   @action
-  public setPreviewMode = (mode: boolean) => {
-    this.previewMode = mode;
+  public togglePreviewMode = () => {
+    this.previewMode = !this.previewMode;
   };
 }
 
