@@ -3,12 +3,13 @@ import {
   ComponentEventListenerTypes,
   ComponentInstance,
   EventInstance,
+  GlobalMeta,
   HotArea,
+  HotAreaEventListenerTypes,
   Maybe,
   WithReactChildren,
-  GlobalMeta,
 } from '../../../types';
-import { RuntimeEventEmitTypes, events, withPersistReactEvent } from '../../utils';
+import { events, RuntimeEventEmitTypes, withPersistReactEvent } from '../../utils';
 import { EventHandler, EventHandlers, generateHandlers, HandlerParams } from './utils';
 
 type InstanceType = ComponentInstance | HotArea;
@@ -51,7 +52,12 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     super(props);
 
     this.handlerParams = { global: props.global!, meta: props.meta! };
-    this.updateHandlersWithParams(props.previewMode ? props.instance.events : []);
+  }
+
+  public componentWillReceiveProps(nextProps: Readonly<Props<T>>) {
+    if (!this.props.previewMode && nextProps.previewMode) {
+      this.updateHandlersWithParams(this.props.instance.events);
+    }
   }
 
   public componentDidMount(): void {
@@ -59,9 +65,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
     events.on(RuntimeEventEmitTypes.NODE_INTERSECTING_CHANGE, this.onNodeIntersectionChange);
 
-    if (this.handlers.onInit) {
-      this.handlers.onInit(undefined);
-    }
+    this.handlers.onInit?.(undefined);
   }
 
   public componentWillUnmount(): void {
@@ -103,15 +107,11 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
   };
 
   private onNodeEnterView = () => {
-    if (this.handlers.onEnterView) {
-      this.handlers.onEnterView(undefined);
-    }
+    this.handlers.onEnterView?.(undefined);
   };
 
   private onNodeLeaveView = () => {
-    if (this.handlers.onLeaveView) {
-      this.handlers.onLeaveView(undefined);
-    }
+    this.handlers.onLeaveView?.(undefined);
   };
 
   private onNodePress = withPersistReactEvent((e: React.MouseEvent | React.TouchEvent) => {
@@ -133,7 +133,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     this.doubleClickTimer = window.setTimeout(() => {
       if (!this.preventClick) {
         try {
-          this.handlers.onClick!(e);
+          this.handlers.onClick?.(e);
         } catch (err) {
           console.error('Exec onClick event error:', err);
         }
@@ -149,7 +149,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
     this.preventClick = true;
     try {
-      this.handlers.onDoubleClick!(e);
+      this.handlers.onDoubleClick?.(e);
     } catch (err) {
       console.error('Exec onClick event error:', err);
     }
@@ -157,7 +157,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     setTimeout(() => (this.preventClick = false), NodeEventProxy.DOUBLE_CLICK_TIMEOUT);
   });
 
-  private updateHandlersWithParams = (actions: EventInstance[]) => {
+  private updateHandlersWithParams = (events: EventInstance[]) => {
     const {
       onInit,
       onClick,
@@ -167,22 +167,25 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
       onLongPress,
       onEnterView,
       onLeaveView,
-    } = generateHandlers(actions, this.props.instance);
-    const { handlers, withEmitComponentEvent } = this;
+    } = generateHandlers(events, this.props.instance);
+    const { handlers, withEmitNodeEvent } = this;
 
-    handlers.onInit = withEmitComponentEvent(ComponentEventListenerTypes.INIT, onInit);
-    handlers.onClick = withEmitComponentEvent(ComponentEventListenerTypes.CLICK, onClick);
-    handlers.onMouseEnter = withEmitComponentEvent(ComponentEventListenerTypes.MOUSE_ENTER, onMouseEnter);
-    handlers.onMouseLeave = withEmitComponentEvent(ComponentEventListenerTypes.MOUSE_LEAVE, onMouseLeave);
-    handlers.onDoubleClick = withEmitComponentEvent(ComponentEventListenerTypes.DOUBLE_CLICK, onDoubleClick);
-    handlers.onLongPress = withEmitComponentEvent(ComponentEventListenerTypes.LONG_PRESS, onLongPress);
-    handlers.onEnterView = withEmitComponentEvent(ComponentEventListenerTypes.ENTER_VIEW, onEnterView);
-    handlers.onLeaveView = withEmitComponentEvent(ComponentEventListenerTypes.LEAVE_VIEW, onLeaveView);
+    const isComponent = this.props.childrenType === 'component';
+    const EventListenerTypes = isComponent ? ComponentEventListenerTypes : HotAreaEventListenerTypes;
+
+    handlers.onInit = withEmitNodeEvent(EventListenerTypes.INIT, onInit);
+    handlers.onClick = withEmitNodeEvent(EventListenerTypes.CLICK, onClick);
+    handlers.onMouseEnter = withEmitNodeEvent(EventListenerTypes.MOUSE_ENTER, onMouseEnter);
+    handlers.onMouseLeave = withEmitNodeEvent(EventListenerTypes.MOUSE_LEAVE, onMouseLeave);
+    handlers.onDoubleClick = withEmitNodeEvent(EventListenerTypes.DOUBLE_CLICK, onDoubleClick);
+    handlers.onLongPress = withEmitNodeEvent(EventListenerTypes.LONG_PRESS, onLongPress);
+    handlers.onEnterView = withEmitNodeEvent(EventListenerTypes.ENTER_VIEW, onEnterView);
+    handlers.onLeaveView = withEmitNodeEvent(EventListenerTypes.LEAVE_VIEW, onLeaveView);
   };
 
   // TODO
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private emitComponentEvent = (e: Maybe<React.SyntheticEvent>, type: ComponentEventListenerTypes) => {
+  private emitNodeEvent = (e: Maybe<React.SyntheticEvent>, type: ComponentEventListenerTypes) => {
     // const {
     //     props: { instance },
     //     handlerParams: { global, meta },
@@ -190,17 +193,19 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     // return emitComponent(e, type, instance, meta, global);
   };
 
-  private withEmitComponentEvent = (type: ComponentEventListenerTypes, handler: Maybe<EventHandler>) => (
-    e: Maybe<React.SyntheticEvent> = undefined,
+  private withEmitNodeEvent = (
+    type: ComponentEventListenerTypes | HotAreaEventListenerTypes,
+    handler: Maybe<EventHandler>,
   ) => {
-    if (e) {
-      e.persist();
-    }
-
-    this.emitComponentEvent(e, type);
-    if (handler) {
-      return handler(e, this.handlerParams);
-    }
+    return (e?: Maybe<React.SyntheticEvent>) => {
+      if (e) {
+        e.persist();
+      }
+      this.emitNodeEvent(e, type);
+      if (handler) {
+        return handler(e, this.handlerParams);
+      }
+    };
   };
 
   private setRef = (node: HTMLDivElement) => {
@@ -212,7 +217,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
     return (
       <div
-        className="vize-component-event-proxy"
+        className="vize-node-event-proxy"
         ref={this.setRef}
         style={style}
         data-key={instance.key}

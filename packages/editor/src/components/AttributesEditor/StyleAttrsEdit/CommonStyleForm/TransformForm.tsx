@@ -6,7 +6,6 @@ import { StyleFormProps } from './index';
 
 function TransformForm({ style, onChange }: StyleFormProps<TransformStyle>) {
   const { rotate, scale, radius, opacity } = style;
-  console.log(style, 'transform');
   return (
     <div className="transform-style-item">
       <div className="editor-prop-form-item">
