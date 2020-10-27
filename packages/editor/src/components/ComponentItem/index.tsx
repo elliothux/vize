@@ -1,6 +1,5 @@
 /* eslint-disable max-lines */
 import * as React from 'react';
-import { observer } from 'mobx-react';
 import { ComponentInstance, Maybe, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
 import { globalStore, SelectStore, selectStore, SelectType } from 'states';
@@ -23,7 +22,6 @@ interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComp
   currentSelectedContainerKey: number;
 }
 
-@observer
 export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   private refNode: Maybe<HTMLDivElement> = null;
 

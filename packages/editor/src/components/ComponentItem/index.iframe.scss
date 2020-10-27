@@ -53,6 +53,10 @@
   }
 
   .vize-component-item-mask {
+    &.preview-mode {
+      display: none;
+    }
+
     &:hover {
       border: 1px solid $main-color;
       background-color: main-color-opacity(0.2);

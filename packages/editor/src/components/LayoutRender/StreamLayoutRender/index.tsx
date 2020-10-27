@@ -7,7 +7,7 @@ import {
 } from 'react-sortable-hoc';
 import { ComponentInstance, WithReactChildren } from 'types';
 import { ComponentItem } from 'components/ComponentItem';
-import { componentsStore, selectStore } from 'states';
+import { componentsStore, globalStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo } from 'react';
 
@@ -44,6 +44,8 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
     [componentInstances],
   );
 
+  const shouldCancelStart = useCallback(() => globalStore.previewMode, []);
+
   const getContainer = useMemo(() => (mountTarget ? () => mountTarget : undefined), [mountTarget]);
 
   const children = componentInstances.map((instance, index) => (
@@ -76,6 +78,7 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
 
   return (
     <SortableContainer
+      shouldCancelStart={shouldCancelStart}
       onSortStart={onSortStart}
       onSortEnd={onSortEnd}
       getContainer={getContainer}

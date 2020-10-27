@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build"
+    "start": "SKIP_PREFLIGHT_CHECK=true react-app-rewired start --max-old-space-size=8192",
+    "build": "SKIP_PREFLIGHT_CHECK=true react-app-rewired build --max-old-space-size=8192"
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.5",

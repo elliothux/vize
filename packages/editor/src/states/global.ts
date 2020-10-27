@@ -1,5 +1,5 @@
-import { action, computed, observable } from 'mobx';
-import { defaultPageStyle, getQueryParams } from 'utils';
+import { action, computed, observable, toJS } from 'mobx';
+import { defaultPageStyle, getQueryParams, injectGlobalReadonlyGetter, isDev } from 'utils';
 import { GlobalMeta, GlobalStyle, LayoutMode, Maybe, PageMode } from 'types';
 import { StoreWithUtils } from './utils';
 
@@ -100,3 +100,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
 }
 
 export const globalStore = new GlobalStore();
+
+if (isDev()) {
+  setTimeout(() => injectGlobalReadonlyGetter('vize_global_store', () => toJS(globalStore)), 1000);
+}

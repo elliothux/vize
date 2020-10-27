@@ -5,7 +5,7 @@ import { getMaterialsComponent } from 'runtime';
 import { mergeCommonStyle, calPosition } from 'utils';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime';
-import { globalStore, materialsStore } from 'states';
+import { globalStore } from 'states';
 
 interface Props extends WithReactChildren {
   instance: ComponentInstance;

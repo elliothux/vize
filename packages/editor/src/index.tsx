@@ -1,4 +1,3 @@
-import './states';
 import './styles/index.scss';
 import * as React from 'react';
 import { render } from 'react-dom';

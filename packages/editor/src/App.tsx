@@ -1,14 +1,15 @@
+import './states';
 import * as React from 'react';
 import { useMount } from 'react-use';
 import { Spin } from 'antd';
 import { initStore } from 'states';
 import { Simulator } from 'widgets/Simulator';
-import { Header } from 'components/Header';
 import { Renderer, WithRerender } from 'components/Renderer';
 import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';
+import { Header } from 'components/Header';
 import { HotAreaManager } from 'components/HotAreaManager';
-import { parseDSL, restoreState } from './utils/dsl';
+import { parseDSL, restoreState } from './utils';
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);

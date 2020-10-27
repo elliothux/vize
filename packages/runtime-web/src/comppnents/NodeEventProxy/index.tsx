@@ -135,7 +135,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
         try {
           this.handlers.onClick!(e);
         } catch (err) {
-          console.error('Exec onClick action error:', err);
+          console.error('Exec onClick event error:', err);
         }
       }
     }, NodeEventProxy.DOUBLE_CLICK_TIMEOUT);
@@ -151,7 +151,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     try {
       this.handlers.onDoubleClick!(e);
     } catch (err) {
-      console.error('Exec onClick action error:', err);
+      console.error('Exec onClick event error:', err);
     }
 
     setTimeout(() => (this.preventClick = false), NodeEventProxy.DOUBLE_CLICK_TIMEOUT);
