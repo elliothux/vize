@@ -63,6 +63,9 @@ function restoreComponentInstances(pageKey: number, componentInstances: Componen
       component.children?.forEach(child => {
         child.parent = component;
       });
+      component.hotAreas?.forEach(hotarea => {
+        hotarea.parent = component;
+      });
     });
   });
 

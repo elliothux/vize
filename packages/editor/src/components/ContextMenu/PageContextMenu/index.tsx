@@ -3,7 +3,7 @@ import { FiDelete, FiHome, FiCopy, FiEdit } from 'react-icons/fi';
 import { Menu, Item, theme, Separator } from 'react-contexify';
 import { useCallback } from 'react';
 import { pagesStore } from 'states';
-import { noop, showContextMenu } from 'utils';
+import { noop, preventSyntheticEvent, showContextMenu } from 'utils';
 
 interface Props {
   index: number;
@@ -40,6 +40,7 @@ export function PageContextMenu({ index, pageKey }: Props) {
 }
 
 export function showPageContextMenu(e: React.MouseEvent, pageKey: number) {
+  preventSyntheticEvent(e);
   return showContextMenu(e, getID(pageKey));
 }
 

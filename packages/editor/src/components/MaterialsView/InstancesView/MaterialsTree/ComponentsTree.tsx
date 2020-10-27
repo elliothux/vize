@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { ComponentProps, useMemo } from 'react';
 import { Tree } from 'antd';
-import { FiArchive, FiFolder, FiLayers } from 'react-icons/fi';
+import { FiArchive, FiFolder, FiLayers, FiSquare } from 'react-icons/fi';
 import { observer } from 'mobx-react';
 import { componentsStore, selectStore, SelectType } from 'states';
-import { ComponentInstance, FirstParameter, Maybe, MustBe } from 'types';
-import { showComponentContextMenu } from 'components/ContextMenu';
-import { ComponentIndex, findComponentInstanceByIndex, isNumber } from 'utils';
+import { ComponentInstance, FirstParameter, HotArea, Maybe, MustBe } from 'types';
+import { showComponentContextMenu, showHotAreaContextMenu } from 'components/ContextMenu';
+import { ComponentIndex, findComponentInstanceByIndex, isString, isNumber } from 'utils';
 import { getMaterialsComponentMeta } from 'runtime';
 
 const { DirectoryTree } = Tree;
@@ -15,14 +15,19 @@ type TreeData = ComponentProps<typeof DirectoryTree>['treeData'];
 
 export function IComponentsTree() {
   const { componentInstances } = componentsStore;
-  const { selectType, componentKey } = selectStore;
+  const { selectType, componentKey, hotAreaIndex } = selectStore;
 
   // const treeData = useMemo<TreeData>(() => getTreeData(componentInstances), [componentInstances]);
   const treeData = getTreeData(componentInstances);
-  const selectedKeys = useMemo<number[]>(() => (selectType === SelectType.COMPONENT ? [componentKey] : []), [
-    componentKey,
-    selectType,
-  ]);
+  const selectedKeys = useMemo<(number | string)[]>(() => {
+    if (selectType === SelectType.COMPONENT) {
+      return [componentKey];
+    }
+    if (selectType === SelectType.HOTAREA) {
+      return [`hotarea-${componentKey}-${hotAreaIndex}`];
+    }
+    return [];
+  }, [hotAreaIndex, componentKey, selectType]);
 
   return (
     <DirectoryTree
@@ -42,13 +47,34 @@ export function IComponentsTree() {
 export const ComponentsTree = observer(IComponentsTree);
 
 function onSelect(...params: Parameters<MustBe<ComponentProps<typeof DirectoryTree>['onSelect']>>) {
-  const [, { node }] = params;
-  selectStore.selectComponent(node.key as number);
+  const [
+    ,
+    {
+      node: { key },
+    },
+  ] = params;
+  if (isString(key)) {
+    const [prefix, componentKey, index] = key.toString().split('-');
+    if (prefix !== 'hotarea') {
+      return;
+    }
+    return selectStore.selectHotArea(parseInt(index, 10), parseInt(componentKey, 10));
+  }
+  selectStore.selectComponent(key as number);
 }
 
-function onRightClick({ node, event }: FirstParameter<MustBe<ComponentProps<typeof DirectoryTree>['onRightClick']>>) {
-  const key = parseInt(node.key.toString().split('-')[1], 10);
-  showComponentContextMenu(event, key);
+function onRightClick({
+  event,
+  node: { key },
+}: FirstParameter<MustBe<ComponentProps<typeof DirectoryTree>['onRightClick']>>) {
+  if (isString(key)) {
+    const [prefix, componentKey, index] = key.toString().split('-');
+    if (prefix !== 'hotarea') {
+      return;
+    }
+    return showHotAreaContextMenu(event, parseInt(index, 10), parseInt(componentKey, 10));
+  }
+  showComponentContextMenu(event, key as number);
 }
 
 function onDragStart({ node: { key } }: FirstParameter<MustBe<ComponentProps<typeof DirectoryTree>['onDragStart']>>) {
@@ -123,19 +149,36 @@ function getTreeData(componentInstances: ComponentInstance[]): TreeData {
 }
 
 function generateTreeData(componentInstances: ComponentInstance[], isChildren = false): TreeData {
-  return componentInstances.map(({ key, children, component }) => {
+  return componentInstances.map(({ key, children, component, hotAreas }) => {
     const {
       info: { name },
     } = getMaterialsComponentMeta(component)!;
     const isContainer = !!children;
+    const hasHotArea = !!hotAreas?.length;
 
     return {
       key,
       title: `${name} (key=${key})`,
-      isLeaf: !isContainer,
-      icon: isContainer ? <FiArchive /> : <FiLayers />,
-      children: isContainer ? generateTreeData(children!, true) : undefined,
+      isLeaf: !(isContainer || hasHotArea),
+      icon: isContainer || hasHotArea ? <FiArchive /> : <FiLayers />,
+      children: isContainer
+        ? generateTreeData(children!, true)
+        : hasHotArea
+        ? generateHotAreaTreeData(key, hotAreas!)
+        : undefined,
       className: isChildren ? 'child-component-tree-node' : undefined,
+    };
+  });
+}
+
+function generateHotAreaTreeData(componentKey: number, hotAreas: HotArea[]): TreeData {
+  return hotAreas.map(({ key }, index) => {
+    return {
+      key: `hotarea-${componentKey}-${index}`,
+      title: `热区（key=${key}）`,
+      isLeaf: true,
+      icon: <FiSquare />,
+      className: 'child-component-tree-node',
     };
   });
 }

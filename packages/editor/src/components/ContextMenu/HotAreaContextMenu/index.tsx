@@ -1,66 +1,36 @@
 import * as React from 'react';
-import {
-  FiChevronsLeft,
-  FiChevronsRight,
-  FiChevronsDown,
-  FiChevronsUp,
-  FiCopy,
-  FiDelete,
-  FiMoreHorizontal,
-  FiMoreVertical,
-  FiCrosshair,
-} from 'react-icons/fi';
-import { animation, Item, Menu, Separator, theme } from 'react-contexify';
-import { MoveHotAreaDirection } from '../../HotAreaManager/types';
+import { FiDelete } from 'react-icons/fi';
+import { animation, Item, Menu, theme } from 'react-contexify';
+import { hotAreaStore, selectStore } from 'states';
+import { preventSyntheticEvent, showContextMenu } from 'utils';
+import { createMouseEventFromIframe } from '../utils';
+import { HotArea } from 'types';
+import { useCallback } from 'react';
 
 interface Props {
-  id: number;
-  onDelete: () => void;
-  onCopy: () => void;
-  onMove: (direction: MoveHotAreaDirection) => void;
+  index: number;
+  instance: HotArea;
 }
 
-export function HotAreaContextMenu({ id, onDelete, onCopy, onMove }: Props) {
+export function HotAreaContextMenu({ index, instance: { parent } }: Props) {
+  const onDelete = useCallback(() => hotAreaStore.deleteHotArea(parent.key, index), [parent.key, index]);
+
   return (
-    <Menu id={id} theme={theme.dark} animation={animation.fade}>
+    <Menu id={getID(parent.key, index)} theme={theme.dark} animation={animation.fade}>
       <Item onClick={onDelete}>
         <FiDelete />
         <span>删除</span>
       </Item>
-      <Item onClick={onCopy}>
-        <FiCopy />
-        <span>复制</span>
-      </Item>
-      <Separator />
-      <Item onClick={() => onMove(MoveHotAreaDirection.CENTER)}>
-        <FiCrosshair />
-        <span>居中</span>
-      </Item>
-      <Item onClick={() => onMove(MoveHotAreaDirection.HORIZONTALLY_CENTER)}>
-        <FiMoreHorizontal />
-        <span>水平居中</span>
-      </Item>
-      <Item onClick={() => onMove(MoveHotAreaDirection.VERTICAL_CENTER)}>
-        <FiMoreVertical />
-        <span>垂直居中</span>
-      </Item>
-      <Separator />
-      <Item onClick={() => onMove(MoveHotAreaDirection.TOP)}>
-        <FiChevronsUp />
-        <span>移到最上</span>
-      </Item>
-      <Item onClick={() => onMove(MoveHotAreaDirection.BOTTOM)}>
-        <FiChevronsDown />
-        <span>移到最下</span>
-      </Item>
-      <Item onClick={() => onMove(MoveHotAreaDirection.LEFT)}>
-        <FiChevronsLeft />
-        <span>移到最左</span>
-      </Item>
-      <Item onClick={() => onMove(MoveHotAreaDirection.RIGHT)}>
-        <FiChevronsRight />
-        <span>移到最右</span>
-      </Item>
     </Menu>
   );
+}
+
+export function showHotAreaContextMenu(e: React.MouseEvent, index: number, componentKey: number, fromIFrame = false) {
+  preventSyntheticEvent(e);
+  selectStore.selectHotArea(index, componentKey);
+  return showContextMenu(fromIFrame ? createMouseEventFromIframe(e) : e, getID(componentKey, index));
+}
+
+function getID(componentKey: number, index: number) {
+  return `hotarea-${componentKey}-${index}`;
 }

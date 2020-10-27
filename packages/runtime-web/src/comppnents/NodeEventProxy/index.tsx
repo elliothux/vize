@@ -15,6 +15,7 @@ import { EventHandler, EventHandlers, generateHandlers, HandlerParams } from './
 type InstanceType = ComponentInstance | HotArea;
 
 interface Props<T extends InstanceType> extends WithReactChildren {
+  className: string;
   childrenType: 'component' | 'hotarea';
   instance: T;
   style: object;
@@ -217,7 +218,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
     return (
       <div
-        className="vize-node-event-proxy"
+        className={`vize-node-event-proxy ${this.props.className}`}
         ref={this.setRef}
         style={style}
         data-key={instance.key}

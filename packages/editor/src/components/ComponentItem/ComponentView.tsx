@@ -29,6 +29,7 @@ function IComponentView({ instance, children }: Props) {
 
   return (
     <NodeEventProxy<ComponentInstance>
+      className="component-event-proxy"
       childrenType="component"
       instance={instance}
       style={{ ...iWrapperStyle, ...posStyle }}

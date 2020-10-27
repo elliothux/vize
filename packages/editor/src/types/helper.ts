@@ -15,6 +15,14 @@ export type FirstParameter<T extends (...args: any[]) => any> = T extends (first
   ? P
   : never;
 
+export type SecondParameter<T extends (...args: any[]) => any> = T extends (
+  firstArg: any,
+  secondArg: infer P,
+  ...args: any[]
+) => any
+  ? P
+  : never;
+
 export enum RequestStatus {
   LOADING = 'loading',
   SUCCESS = 'success',

@@ -54,7 +54,7 @@
 
   .vize-component-item-mask {
     &.preview-mode {
-      display: none;
+      visibility: hidden;
     }
 
     &:hover {
