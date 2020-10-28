@@ -38,7 +38,6 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
           <PositionForm
             style={style.position}
             onChange={newStyle => {
-              console.log(newStyle);
               onChange({
                 ...style,
                 position: newStyle,

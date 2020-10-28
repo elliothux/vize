@@ -55,18 +55,22 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     this.handlerParams = { global: props.global!, meta: props.meta! };
   }
 
-  public componentWillReceiveProps(nextProps: Readonly<Props<T>>) {
-    if (!this.props.previewMode && nextProps.previewMode) {
-      this.updateHandlersWithParams(this.props.instance.events);
-    }
-  }
-
   public componentDidMount(): void {
     this.observeIntersection();
 
     events.on(RuntimeEventEmitTypes.NODE_INTERSECTING_CHANGE, this.onNodeIntersectionChange);
 
     this.handlers.onInit?.(undefined);
+
+    if (this.props.childrenType === 'hotarea') {
+      this.updateHandlersWithParams(this.props.instance.events);
+    }
+  }
+
+  public componentWillReceiveProps(nextProps: Readonly<Props<T>>) {
+    if (!this.props.previewMode && nextProps.previewMode) {
+      this.updateHandlersWithParams(this.props.instance.events);
+    }
   }
 
   public componentWillUnmount(): void {
@@ -169,8 +173,8 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
       onEnterView,
       onLeaveView,
     } = generateHandlers(events, this.props.instance);
-    const { handlers, withEmitNodeEvent } = this;
 
+    const { handlers, withEmitNodeEvent } = this;
     const isComponent = this.props.childrenType === 'component';
     const EventListenerTypes = isComponent ? ComponentEventListenerTypes : HotAreaEventListenerTypes;
 
