@@ -3,7 +3,7 @@ interface Params {
   cancel: Function;
 }
 
-export default function({ on }: Params) {
+export default function({ on, emit }: Params) {
   on('share', () => {
     setTimeout(() => alert('share'), 1000);
   });
@@ -12,6 +12,7 @@ export default function({ on }: Params) {
   return new Promise(resolve => {
     setTimeout(() => {
       console.log('exec test plugin done');
+      emit('shareSuccess');
       resolve();
     }, 5000);
   });

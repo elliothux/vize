@@ -1,5 +1,5 @@
 import { PluginInstanceDSL, MaterialsPlugin, PluginParams, PluginUniversalEventTrigger, GlobalMeta } from '../../types';
-import { cancelCustomEvent, onCustomEvent } from './customEvents';
+import { cancelCustomEvent, emitCustomEvent, onCustomEvent } from './customEvents';
 import { getMaterialsPlugin } from './materialsMap';
 import { generatePluginHandlers } from '../utils/eventHandlers';
 
@@ -29,7 +29,9 @@ export function executePlugins(
       cancel: (eventName, callback) => {
         cancelCustomEvent('plugin', key, eventName, callback);
       },
-      emit: console.log,
+      emit: eventName => {
+        emitCustomEvent(instance, eventName, meta, global);
+      },
     };
 
     try {

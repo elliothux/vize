@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ComponentInstance, WithReactChildren, PositionStyle, IPositionStyle } from 'types';
 import { useCallback, useMemo } from 'react';
-import { onCustomEvent, cancelCustomEvent, getMaterialsComponent } from 'runtime';
+import { onCustomEvent, cancelCustomEvent, getMaterialsComponent, emitCustomEvent } from 'runtime';
 import { mergeCommonStyle, calPosition } from 'utils';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime';
@@ -26,6 +26,7 @@ function IComponentView({ instance, children }: Props) {
     (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
     [key],
   );
+  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalProps), [key]);
 
   let posStyle = {} as IPositionStyle;
   if (typeof position === 'object') {
@@ -55,7 +56,7 @@ function IComponentView({ instance, children }: Props) {
         meta={metaInfo}
         on={on}
         cancel={cancel}
-        emit={console.log}
+        emit={emit}
       >
         {children}
       </ComponentRender>

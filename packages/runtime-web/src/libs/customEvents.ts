@@ -1,4 +1,5 @@
-import { Maybe } from '../../types';
+import { ComponentInstance, EventTriggerType, GlobalMeta, Maybe, PluginInstance } from '../../types';
+import { pipeEvents } from '../utils/eventHandlers';
 
 const componentCustomEventCallbackMap = new Map<number, Map<string, Function[]>>();
 const pluginCustomEventCallbackMap = new Map<number, Map<string, Function[]>>();
@@ -49,4 +50,21 @@ export function getCustomEventCallbacks(
   }
 
   return callbacksMap.get(eventName);
+}
+
+export function emitCustomEvent(
+  instance: ComponentInstance | PluginInstance,
+  eventName: string,
+  meta: GlobalMeta,
+  global: object,
+) {
+  const events = instance.events.filter(
+    ({ trigger }) => trigger.type === EventTriggerType.Custom && trigger.triggerName === eventName,
+  );
+  if (!events.length) {
+    return;
+  }
+
+  const handler = pipeEvents(events, instance);
+  return handler(undefined, { global, meta });
 }
