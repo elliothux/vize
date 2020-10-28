@@ -10,7 +10,7 @@ import {
   WithReactChildren,
 } from '../../../types';
 import { events, RuntimeEventEmitTypes, withPersistReactEvent } from '../../utils';
-import { EventHandler, EventHandlers, generateHandlers, HandlerParams } from './utils';
+import { EventHandler, NodeEventHandlers, generateNodeHandlers, HandlerParams } from '../../utils';
 
 type InstanceType = ComponentInstance | HotArea;
 
@@ -46,7 +46,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
   private preventClick = false;
 
   private handlers: {
-    [key in keyof EventHandlers]: (originalEvent: Maybe<React.SyntheticEvent>) => void;
+    [key in keyof NodeEventHandlers]: (originalEvent: Maybe<React.SyntheticEvent>) => void;
   } = {};
 
   constructor(props: Props<T>) {
@@ -176,20 +176,20 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
       onLongPress,
       onEnterView,
       onLeaveView,
-    } = generateHandlers(events, this.props.instance);
+    } = generateNodeHandlers(events, this.props.instance);
 
-    const { handlers, withEmitNodeEvent } = this;
+    const { handlers, withCustomNodeEvent } = this;
     const isComponent = this.props.childrenType === 'component';
     const EventListenerTypes = isComponent ? ComponentEventListenerTypes : HotAreaEventListenerTypes;
 
-    handlers.onInit = withEmitNodeEvent(EventListenerTypes.INIT, onInit);
-    handlers.onClick = withEmitNodeEvent(EventListenerTypes.CLICK, onClick);
-    handlers.onMouseEnter = withEmitNodeEvent(EventListenerTypes.MOUSE_ENTER, onMouseEnter);
-    handlers.onMouseLeave = withEmitNodeEvent(EventListenerTypes.MOUSE_LEAVE, onMouseLeave);
-    handlers.onDoubleClick = withEmitNodeEvent(EventListenerTypes.DOUBLE_CLICK, onDoubleClick);
-    handlers.onLongPress = withEmitNodeEvent(EventListenerTypes.LONG_PRESS, onLongPress);
-    handlers.onEnterView = withEmitNodeEvent(EventListenerTypes.ENTER_VIEW, onEnterView);
-    handlers.onLeaveView = withEmitNodeEvent(EventListenerTypes.LEAVE_VIEW, onLeaveView);
+    handlers.onInit = withCustomNodeEvent(EventListenerTypes.INIT, onInit);
+    handlers.onClick = withCustomNodeEvent(EventListenerTypes.CLICK, onClick);
+    handlers.onMouseEnter = withCustomNodeEvent(EventListenerTypes.MOUSE_ENTER, onMouseEnter);
+    handlers.onMouseLeave = withCustomNodeEvent(EventListenerTypes.MOUSE_LEAVE, onMouseLeave);
+    handlers.onDoubleClick = withCustomNodeEvent(EventListenerTypes.DOUBLE_CLICK, onDoubleClick);
+    handlers.onLongPress = withCustomNodeEvent(EventListenerTypes.LONG_PRESS, onLongPress);
+    handlers.onEnterView = withCustomNodeEvent(EventListenerTypes.ENTER_VIEW, onEnterView);
+    handlers.onLeaveView = withCustomNodeEvent(EventListenerTypes.LEAVE_VIEW, onLeaveView);
   };
 
   // TODO
@@ -198,7 +198,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     // const callbacks = getCustomEventCallbacks(this.);
   };
 
-  private withEmitNodeEvent = (
+  private withCustomNodeEvent = (
     type: ComponentEventListenerTypes | HotAreaEventListenerTypes,
     handler: Maybe<EventHandler>,
   ) => {

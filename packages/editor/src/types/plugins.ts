@@ -24,7 +24,7 @@ export interface PluginInstance {
   events: EventInstance[];
 }
 
-export interface PluginParams extends Pick<ComponentProps, 'data' | 'on' | 'cancel' | 'emit'> {
+export interface PluginParams extends Pick<ComponentProps, 'data' | 'on' | 'cancel' | 'emit' | 'global' | 'meta'> {
   pluginKey: number;
 }
 

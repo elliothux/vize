@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ComponentInstanceDSL, MaterialsPlugin, PluginInstanceDSL } from '../../../types';
-import { executePlugins } from '../../utils';
+import { executePlugins } from '../../libs';
 
 interface Props {
   global: object;
@@ -14,7 +14,7 @@ interface Props {
 
 // TODO
 export function AppRender({ global, meta, componentsMaterialMap, componentInstances, pluginInstances }: Props) {
-  React.useEffect(() => executePlugins(pluginInstances), []);
+  React.useEffect(() => executePlugins(pluginInstances, meta, global), []);
 
   return (
     <ComponentInstances

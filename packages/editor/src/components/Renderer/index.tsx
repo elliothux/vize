@@ -7,7 +7,7 @@ import { componentsStore, globalStore, materialsStore, pluginsStore } from 'stat
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
 import { initDocument } from 'utils';
-import { setMaterialsMap, executePlugins, getMaterialsPlugin } from 'runtime';
+import { setMaterialsMap, executePlugins } from 'runtime';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
 import { injectRuntime, setUserAgent } from './utils';
@@ -42,7 +42,7 @@ export class Renderer extends React.Component {
       throw new Error('No renderEntry');
     }
 
-    executePlugins(pluginsStore.pluginInstances, win);
+    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalProps, win);
     this.callContainerRenderEntry(renderEntry);
   };
 

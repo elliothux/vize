@@ -8,5 +8,11 @@ export default function({ on }: Params) {
     setTimeout(() => alert('share'), 1000);
   });
 
-  return console.log('Share');
+  console.log('start exec test plugin');
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('exec test plugin done');
+      resolve();
+    }, 5000);
+  });
 }

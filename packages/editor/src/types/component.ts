@@ -3,7 +3,6 @@ import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
-import { Maybe } from './helper';
 import { CommonStyleMeta, Percent } from './styles';
 import { GlobalMeta } from './global';
 
