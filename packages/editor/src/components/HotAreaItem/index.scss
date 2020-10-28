@@ -1,9 +1,16 @@
+.hotarea-event-proxy,
 .vize-component-item-hotarea {
   position: absolute;
   outline: 0.5px solid red;
   background: rgba(255, 0, 0, 0.2);
   transition: background, box-shadow ease 256ms;
+}
 
+.hotarea-event-proxy {
+  visibility: visible;
+}
+
+.vize-component-item-hotarea {
   &.selected {
     outline: 2px dashed red;
     background: rgba(255, 0, 0, 0.5);

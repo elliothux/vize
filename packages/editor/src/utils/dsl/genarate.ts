@@ -8,6 +8,8 @@ import {
   PluginInstance,
   PluginInstanceDSL,
   InstanceKeyType,
+  HotArea,
+  HotAreaDSL,
 } from 'types';
 import { componentsStore, globalStore, materialsStore, pagesStore, pluginsStore } from 'states';
 import { toJS } from 'mobx';
@@ -79,8 +81,13 @@ function generateComponentInstancesDSL(componentInstances: ComponentInstance[]):
     return <ComponentInstanceDSL>{
       ...componentInstance,
       children: componentInstance.children ? generateComponentInstancesDSL(componentInstance.children) : undefined,
+      hotAreas: componentInstance.hotAreas ? generateHotAreaDSL(componentInstance.hotAreas) : undefined,
     };
   });
+}
+
+function generateHotAreaDSL(hotarea: HotArea[]): HotAreaDSL[] {
+  return hotarea.map(instance => R.omit(['parent'], instance));
 }
 
 function generatePluginInstancesDSL(pluginInstances: PluginInstance[]): PluginInstanceDSL[] {

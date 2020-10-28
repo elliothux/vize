@@ -1,3 +1,4 @@
+export * from './common';
 export * from './eventEmiter';
 export * from './eventHelper';
 export * from './eventProxy';

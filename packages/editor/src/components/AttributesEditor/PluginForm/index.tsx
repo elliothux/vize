@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { materialsStore, pluginsStore, selectStore } from 'states';
+import { pluginsStore, selectStore } from 'states';
 import { useMemo } from 'react';
 import { getCurrentPagePluginIndex } from 'utils';
 import { PluginInstance } from 'types';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { SchemaForm } from 'widgets/Form';
+import { getMaterialsPluginMeta } from 'runtime';
 
 function IPluginForm() {
   const { pluginInstances } = pluginsStore;
@@ -17,7 +18,7 @@ function IPluginForm() {
     return pluginInstances[index];
   }, [index, pluginInstances]);
 
-  const { dataForm } = useMemo(() => materialsStore.getPluginMeta(plugin), [plugin]);
+  const { dataForm } = useMemo(() => getMaterialsPluginMeta(plugin)!, [plugin]);
 
   return (
     <>

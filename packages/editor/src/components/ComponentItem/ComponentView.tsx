@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { ComponentInstance, WithReactChildren, PositionStyle, IPositionStyle } from 'types';
 import { useMemo } from 'react';
-import { getMaterialsComponent, mergeCommonStyle, calPosition } from 'utils';
+import { getMaterialsComponent } from 'runtime';
+import { mergeCommonStyle, calPosition } from 'utils';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime';
 import { globalStore } from 'states';
@@ -28,6 +29,7 @@ function IComponentView({ instance, children }: Props) {
 
   return (
     <NodeEventProxy<ComponentInstance>
+      className="component-event-proxy"
       childrenType="component"
       instance={instance}
       style={{ ...iWrapperStyle, ...posStyle }}

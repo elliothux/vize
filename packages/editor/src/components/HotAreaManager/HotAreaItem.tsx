@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { Rnd } from 'react-rnd';
 import { IHotArea, IHotAreaPosition, IHotAreaSize, MoveHotAreaDirection } from './types';
 import { showContextMenu } from './utils';
-import { HotAreaContextMenu } from '../ContextMenu/HotAreaContextMenu';
+import { ContextMenu } from './ContextMenu';
 
 export interface HotAreaProps {
   hotArea: IHotArea;
@@ -54,7 +54,7 @@ export function HotAreaItem({
       >
         <div onContextMenu={R.partialRight(showContextMenu, [key])} onClick={onClick} />
       </Rnd>
-      <HotAreaContextMenu
+      <ContextMenu
         id={key}
         onDelete={() => deleteHotArea(index)}
         onCopy={() => copyHotArea(index)}

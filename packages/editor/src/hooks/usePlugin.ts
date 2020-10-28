@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { MaterialsPluginMeta, Maybe, PluginInstance } from 'types';
-import { materialsStore, pluginsStore, selectStore, SelectType } from 'states';
+import { pluginsStore, selectStore, SelectType } from 'states';
 import { getCurrentPagePluginIndex, isNumber } from 'utils';
+import { getMaterialsPluginMeta } from 'runtime';
 
 export function usePluginInstance(key: number): Maybe<PluginInstance> {
   const { pluginInstances } = pluginsStore;
@@ -15,7 +16,7 @@ export function usePluginInstance(key: number): Maybe<PluginInstance> {
 }
 
 export function usePluginMetaById(id: string): Maybe<MaterialsPluginMeta> {
-  return materialsStore.getPluginMeta(id);
+  return getMaterialsPluginMeta(id);
 }
 
 export function usePluginMeta(key: number): Maybe<MaterialsPluginMeta> {

@@ -1,11 +1,14 @@
 import { GlobalMeta, GlobalStyle, LayoutMode } from './global';
 import { PageInstance, PageMode } from './pages';
-import { ComponentInstance } from './component';
+import { ComponentInstance, HotArea } from './component';
 import { PluginInstance } from './plugins';
 import { InstanceKeyType } from './materials';
 
+export type HotAreaDSL = Omit<HotArea, 'parent'>;
+
 export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent'> {
   children?: ComponentInstanceDSL[];
+  hotarea?: HotAreaDSL;
 }
 
 export type PluginInstanceDSL = PluginInstance;

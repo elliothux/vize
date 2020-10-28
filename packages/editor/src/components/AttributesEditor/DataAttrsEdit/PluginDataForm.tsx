@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
-import { materialsStore, pluginsStore } from 'states';
+import { pluginsStore } from 'states';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { SchemaForm } from 'widgets/Form';
 import { useCurrentPluginInstance } from 'hooks';
+import { getMaterialsPluginMeta } from 'runtime';
 import { EventEmitTypes, events } from '../../../utils';
 
 function IPluginForm() {
   const instance = useCurrentPluginInstance()!;
   const { data, plugin, key } = instance;
 
-  const { dataForm } = useMemo(() => materialsStore.getPluginMeta(plugin), [plugin]);
+  const { dataForm } = useMemo(() => getMaterialsPluginMeta(plugin)!, [plugin]);
 
   const onChange = useCallback((data: object) => {
     pluginsStore.setCurrentPluginInstanceData(data);

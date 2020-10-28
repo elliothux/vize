@@ -3,9 +3,9 @@ import { FiDelete, FiCopy } from 'react-icons/fi';
 import { Menu, Item, theme, Separator, animation } from 'react-contexify';
 import { useCallback } from 'react';
 import { componentsStore, selectStore } from 'states';
-import { noop, showContextMenu } from 'utils';
+import { noop, preventSyntheticEvent, showContextMenu } from 'utils';
 import { ComponentInstance } from 'types';
-import { getSimulatorNodeOffset } from 'widgets/Simulator';
+import { createMouseEventFromIframe } from '../utils';
 
 interface Props {
   instance: ComponentInstance;
@@ -47,35 +47,9 @@ export function ComponentContextMenu({ instance }: Props) {
 }
 
 export function showComponentContextMenu(e: React.MouseEvent, componentKey: number, fromIFrame = false) {
+  preventSyntheticEvent(e);
   selectStore.selectComponent(componentKey);
   return showContextMenu(fromIFrame ? createMouseEventFromIframe(e) : e, getID(componentKey));
-}
-
-function createMouseEventFromIframe(e: React.MouseEvent): MouseEvent {
-  e.persist();
-
-  const [deltaX, deltaY] = getSimulatorNodeOffset();
-  const event = document.createEvent('MouseEvent');
-  event.initMouseEvent(
-    e.type,
-    e.cancelable,
-    e.cancelable,
-    window,
-    e.detail,
-    e.screenX,
-    e.screenY,
-    e.clientX + deltaX,
-    e.clientY + deltaY,
-    e.ctrlKey,
-    e.altKey,
-    e.shiftKey,
-    e.metaKey,
-    e.button,
-    null,
-  );
-  (event as any).nativeEvent = event;
-
-  return event;
 }
 
 function getID(componentKey: number) {

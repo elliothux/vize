@@ -3,7 +3,7 @@ import { contextMenu } from 'react-contexify';
 import { generateKey, preventSyntheticEvent } from 'utils';
 import { HotArea, Maybe, Percent, PX, InstanceKeyType } from 'types';
 import { MoveHotAreaDirection, IHotAreaPosition, IHotAreaSize, IHotArea } from './types';
-import { componentsStore } from '../../states';
+import { componentsStore } from 'states';
 
 export interface ImgInfo {
   width: number;
@@ -61,14 +61,6 @@ function showContextMenu(e: React.MouseEvent<HTMLDivElement>, key: number) {
   });
 }
 
-function getMousePosition<T extends HTMLElement = HTMLDivElement>(
-  event: React.MouseEvent,
-  { top, left }: ImgInfo,
-): IHotAreaPosition {
-  const { clientX, clientY } = event;
-  return { x: clientX - left, y: clientY - top };
-}
-
 function getMovedHotArea(direction: MoveHotAreaDirection, hotArea: IHotArea, { width, height }: ImgInfo): IHotArea {
   const { position: p, size } = hotArea;
   const [maxX, maxY] = [width - size.width, height - size.height];
@@ -102,7 +94,6 @@ function getMovedHotArea(direction: MoveHotAreaDirection, hotArea: IHotArea, { w
 }
 
 export {
-  getMousePosition,
   createHotArea,
   copyHotArea,
   showContextMenu,

@@ -1,4 +1,4 @@
-import { PluginInstanceDSL, MaterialsPlugin } from '../types';
+import { PluginInstanceDSL, MaterialsPlugin } from '../../types';
 
 export function executePlugins(
   pluginInstances: PluginInstanceDSL[],

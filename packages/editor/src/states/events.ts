@@ -16,7 +16,7 @@ import {
   PluginEventTarget,
   PluginInstance,
   PluginUniversalEventTrigger,
-} from '../types';
+} from 'types';
 import {
   componentEventDepsMap,
   createEventInstance,
@@ -24,17 +24,17 @@ import {
   DepsFromType,
   DepsTargetType,
   pluginEventDepsMap,
-} from '../utils';
+} from 'utils';
+import { getMaterialsActionMeta } from 'runtime';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
-import { materialsStore } from './materials';
 import { hotAreaStore } from './hotAreas';
 
 export class EventStore {
   @action
   public addEventInstance = (triggerName: EventTriggerName, target: EventTarget) => {
-    const action = target.type === EventTargetType.ACTION ? materialsStore.getActionMeta(target.id) : undefined;
+    const action = target.type === EventTargetType.ACTION ? getMaterialsActionMeta(target.id)! : undefined;
 
     switch (selectStore.selectType) {
       case SelectType.COMPONENT: {

@@ -53,6 +53,10 @@
   }
 
   .vize-component-item-mask {
+    &.preview-mode {
+      visibility: hidden;
+    }
+
     &:hover {
       border: 1px solid $main-color;
       background-color: main-color-opacity(0.2);
@@ -65,7 +69,7 @@
         }
       }
 
-      + .vize-component-event-proxy {
+      + .vize-node-event-proxy {
         .editor-preview-component-hot-area--text {
           display: inline-block;
         }

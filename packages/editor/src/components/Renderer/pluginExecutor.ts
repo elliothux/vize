@@ -1,5 +1,5 @@
 import { PluginInstance } from 'types';
-import { getMaterialsPlugin } from '../../utils';
+import { getMaterialsPlugin } from 'runtime';
 import { pluginsStore } from '../../states';
 
 class PluginExecutor {

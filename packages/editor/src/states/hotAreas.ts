@@ -44,6 +44,13 @@ export class HotAreasStore {
       return instance;
     });
   };
+
+  @action
+  public deleteHotArea = (componentKey: number, hotAreaIndex: number) => {
+    return componentsStore.setComponentInstancePropsByKey(componentKey, ({ hotAreas }) => {
+      hotAreas!.splice(hotAreaIndex, 1);
+    });
+  };
 }
 
 export const hotAreaStore = new HotAreasStore();

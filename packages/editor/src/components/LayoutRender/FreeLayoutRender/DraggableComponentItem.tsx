@@ -27,13 +27,7 @@ function IDraggableComponentItem({ instance, index }: Props) {
   );
 
   const onResize = useCallback(
-    (
-      e: MouseEvent | TouchEvent,
-      dir: ResizeDirection,
-      ref: HTMLDivElement,
-      delta: ResizableDelta,
-      position: Position,
-    ) => {
+    (e: MouseEvent | TouchEvent, dir: ResizeDirection, ref: HTMLElement, delta: ResizableDelta, position: Position) => {
       const size: ComponentSize = {
         width: ref.offsetWidth,
         height: ref.offsetHeight,
@@ -53,7 +47,6 @@ function IDraggableComponentItem({ instance, index }: Props) {
       maxWidth="100%"
       dragGrid={[1, 1]}
       resizeGrid={[1, 1]}
-      // enableResizing={{}}
       bounds="window"
     >
       <ComponentItem

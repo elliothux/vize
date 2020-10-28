@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
 import { action, computed, observable, toJS } from 'mobx';
 import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
+import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
 import { pagesStore } from './pages';
-import { materialsStore } from './materials';
 import {
   addPageComponentInstanceIndexMap,
   batchUpdateCurrentPageComponentIndex,
@@ -12,11 +12,9 @@ import {
   createComponentInstance,
   deleteCurrentPageComponentIndex,
   deletePageComponentInstanceIndexMap,
-  DepsFromType,
   DepsTargetType,
   findComponentInstanceByIndex,
   getCurrentPageComponentIndex,
-  getMaxNodeBottomOffset,
   injectGlobalReadonlyGetter,
   isDev,
   isNumber,
@@ -65,7 +63,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
    */
   @action
   public addComponentInstance = (componentID: string) => {
-    const component = materialsStore.getComponentMeta(componentID);
+    const component = getMaterialsComponentMeta(componentID)!;
     const instance =
       globalStore.layoutMode === LayoutMode.FREE
         ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
