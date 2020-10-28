@@ -194,12 +194,8 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
   // TODO
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private emitNodeEvent = (e: Maybe<React.SyntheticEvent>, type: ComponentEventListenerTypes) => {
-    // const {
-    //     props: { instance },
-    //     handlerParams: { global, meta },
-    // } = this;
-    // return emitComponent(e, type, instance, meta, global);
+  private emitCustomEvent = (e: Maybe<React.SyntheticEvent>, type: ComponentEventListenerTypes) => {
+    // const callbacks = getCustomEventCallbacks(this.);
   };
 
   private withEmitNodeEvent = (
@@ -210,7 +206,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
       if (e) {
         e.persist();
       }
-      this.emitNodeEvent(e, type);
+      this.emitCustomEvent(e, type);
       if (handler) {
         return handler(e, this.handlerParams);
       }

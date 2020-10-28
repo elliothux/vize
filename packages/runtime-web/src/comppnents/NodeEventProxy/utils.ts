@@ -12,8 +12,10 @@ import {
   MaterialsAction,
   FirstParameter,
   HotAreaUniversalEventTrigger,
+  ComponentEventTarget,
+  PluginEventTarget,
 } from '../../../types';
-import { getMaterialsAction, getMaterialsActionMeta } from '../../libs';
+import { getCustomEventCallbacks, getMaterialsAction, getMaterialsActionMeta } from '../../libs';
 
 export interface HandlerParams {
   meta: GlobalMeta;
@@ -58,12 +60,36 @@ function pipeEvents(events: EventInstance[], instance: ComponentInstance | HotAr
             console.error('Action throw error: ', e);
           }
         }
+
         case EventTargetType.COMPONENT: {
-          // TODO
+          const { key, eventName } = target as ComponentEventTarget;
+          const callbacks = getCustomEventCallbacks('component', key, eventName);
+          callbacks?.forEach(callback => {
+            try {
+              callback();
+            } catch (e) {
+              console.error(
+                `Custom event callback on Component(key = ${key}) with EventName(${eventName}) throw error: `,
+                e,
+              );
+            }
+          });
           break;
         }
+
         case EventTargetType.PLUGIN: {
-          // TODO
+          const { key, eventName } = target as PluginEventTarget;
+          const callbacks = getCustomEventCallbacks('plugin', key, eventName);
+          callbacks?.forEach(callback => {
+            try {
+              callback();
+            } catch (e) {
+              console.error(
+                `Custom event callback on Plugin(key = ${key}) with EventName(${eventName}) throw error: `,
+                e,
+              );
+            }
+          });
           break;
         }
       }

@@ -12,15 +12,9 @@ interface Props {
   pluginInstances: PluginInstanceDSL[];
 }
 
-export function AppRender({
-  global,
-  meta,
-  componentsMaterialMap,
-  componentInstances,
-  pluginInstances,
-  pluginsMaterialMap,
-}: Props) {
-  React.useEffect(() => executePlugins(pluginInstances, pluginsMaterialMap), []);
+// TODO
+export function AppRender({ global, meta, componentsMaterialMap, componentInstances, pluginInstances }: Props) {
+  React.useEffect(() => executePlugins(pluginInstances), []);
 
   return (
     <ComponentInstances

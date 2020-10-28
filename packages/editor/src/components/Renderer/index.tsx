@@ -3,16 +3,15 @@ import * as React from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
-import { componentsStore, globalStore, materialsStore } from 'states';
+import { componentsStore, globalStore, materialsStore, pluginsStore } from 'states';
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
 import { initDocument } from 'utils';
-import { setMaterialsMap } from 'runtime';
+import { setMaterialsMap, executePlugins, getMaterialsPlugin } from 'runtime';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
 import { injectRuntime, setUserAgent } from './utils';
 import { InjectedStylesRender } from '../InjectedStylesRender';
-import { executePlugins } from './pluginExecutor';
 
 import iframeStyle from './index.iframe.scss';
 
@@ -43,7 +42,7 @@ export class Renderer extends React.Component {
       throw new Error('No renderEntry');
     }
 
-    executePlugins(win);
+    executePlugins(pluginsStore.pluginInstances, win);
     this.callContainerRenderEntry(renderEntry);
   };
 
