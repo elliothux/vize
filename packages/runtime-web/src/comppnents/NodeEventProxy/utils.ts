@@ -89,6 +89,10 @@ function generateHandler(
 }
 
 export function generateHandlers(events: EventInstance[], instance: ComponentInstance | HotArea): EventHandlers {
+  if (!events.length) {
+    return {};
+  }
+
   const handlers: EventHandlers = {};
   const isHotArea = !!(instance as HotArea).position;
   const TriggerMap = isHotArea ? HotAreaUniversalEventTrigger : ComponentUniversalEventTrigger;

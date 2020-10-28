@@ -69,7 +69,11 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
   public componentWillReceiveProps(nextProps: Readonly<Props<T>>) {
     if (!this.props.previewMode && nextProps.previewMode) {
-      this.updateHandlersWithParams(this.props.instance.events);
+      return this.updateHandlersWithParams(this.props.instance.events);
+    }
+
+    if (this.props.previewMode && !nextProps.previewMode) {
+      return this.updateHandlersWithParams([]);
     }
   }
 
