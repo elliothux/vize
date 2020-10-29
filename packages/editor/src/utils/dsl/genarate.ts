@@ -11,7 +11,7 @@ import {
   HotArea,
   HotAreaDSL,
 } from 'types';
-import { componentsStore, globalStore, materialsStore, pagesStore, pluginsStore } from 'states';
+import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
 import { toJS } from 'mobx';
 import { getMaxKey } from '../key';
 
@@ -26,15 +26,11 @@ export function generateDSL(): DSL {
     metaInfo,
     pageKey,
   } = globalStore;
-  const {
-    mainMaterialsLib: { entryEntryName },
-  } = materialsStore;
   const dsl: DSL = {
     pageKey,
     container: {
       lib: mainLib,
       name: container,
-      entry: entryEntryName!,
     },
     global: {
       layoutMode,

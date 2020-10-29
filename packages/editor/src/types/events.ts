@@ -31,7 +31,7 @@ export type EventTriggerName =
   | ComponentUniversalEventTrigger
   | PluginUniversalEventTrigger
   | HotAreaUniversalEventTrigger
-  | 'string';
+  | string;
 
 export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
 

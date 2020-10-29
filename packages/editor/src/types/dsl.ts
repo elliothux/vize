@@ -23,7 +23,6 @@ export type DSL = Readonly<{
   container: {
     lib: string;
     name: string;
-    entry: string;
   };
   global: {
     layoutMode: LayoutMode;

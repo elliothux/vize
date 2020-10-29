@@ -7,6 +7,7 @@ import {
   FirstParameter,
   HotArea,
   MaterialsAction,
+  MaterialsActionMeta,
   Maybe,
   PluginEventTarget,
   PluginInstance,
@@ -30,7 +31,8 @@ export function pipeEvents(
       const { target, data } = event;
       switch (target.type) {
         case EventTargetType.ACTION: {
-          const { maxTimeout = DEFAULT_MAX_TIMEOUT } = getMaterialsActionMeta(target.id)!;
+          // const { maxTimeout = DEFAULT_MAX_TIMEOUT } = getMaterialsActionMeta(target.id)!;
+          const maxTimeout = DEFAULT_MAX_TIMEOUT as MaterialsActionMeta['maxTimeout'];
           const action = getMaterialsAction(target.id)!;
           const params: FirstParameter<MaterialsAction> = { data: data!, global, meta };
 
@@ -40,7 +42,7 @@ export function pipeEvents(
             } else {
               const exec = action(params);
               if ((exec as unknown) instanceof Promise) {
-                await timeoutPromise((exec as unknown) as Promise<void>, maxTimeout);
+                await timeoutPromise((exec as unknown) as Promise<void>, maxTimeout as number);
               }
             }
           } catch (e) {

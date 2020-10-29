@@ -73,11 +73,12 @@ export function generateWebpackConfig({ root, useSWC }: Params): Configuration {
         WEBPACK_ENV: 'production',
       }),
     ],
-    mode: 'production',
+    // mode: 'production',
+    mode: 'development',
     devtool: 'source-map',
     optimization: {
       minimize: false,
-      noEmitOnErrors: true,
+      noEmitOnErrors: false,
     },
   };
 

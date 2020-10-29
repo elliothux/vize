@@ -1,10 +1,12 @@
+import "regenerator-runtime/runtime";
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import init from './src';
 import { App } from './src/app';
 
 function render() {
-  return ReactDOM.render(<App />, document.getElementById("<%= entry %>"));
+  const entry = document.getElementById("<%= entry %>");
+  return ReactDOM.render(<App />, entry);
 }
 
 init({ render });

@@ -57,14 +57,14 @@ export function stringifyImports(pathMap: MaterialsPathMap): string {
     .join('\n');
 }
 
-export function stringifyMaterialsMap(pathMap: MaterialsPathMap): string {
-  const vars = Object.entries(pathMap)
-    .reduce((accu, [, pathMap]) => {
-      Object.entries(pathMap).forEach(([identity]) => accu.push(identity));
-      return accu;
-    }, [])
-    .join(', ');
-  return `{ ${vars} }`;
+export function stringifyMaterialVars(pathMap: MaterialsPathMap): string {
+  return Object.entries(pathMap)
+    .map(([, pathMap]) => {
+      return Object.entries(pathMap)
+        .map(([identity]) => identity)
+        .join(', ');
+    })
+    .join('\n');
 }
 
 export function formatGlobalStyle(style: object): string {
