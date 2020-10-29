@@ -28,7 +28,6 @@ export function ComponentItem({ instance, global, meta }: ItemProps) {
   );
   const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, meta, global), [key]);
 
-  // TODO: HotArea
   const ViewRender = getMaterialsComponent(component)!;
   return (
     <ViewRender
