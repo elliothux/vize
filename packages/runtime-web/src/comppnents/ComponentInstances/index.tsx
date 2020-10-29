@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Props } from './types';
-import { ComponentItem } from './ComponentItem';
+import { AppRenderProps } from '../AppRender/types';
+import { ComponentItem } from '../ComponentItem';
 
 export function ComponentInstances({
   global,
   meta,
   componentInstances,
-}: Pick<Props, 'global' | 'meta' | 'componentInstances'>) {
+}: Pick<AppRenderProps, 'global' | 'meta' | 'componentInstances'>) {
   return (
     <>
       {componentInstances.map(instance => (

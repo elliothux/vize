@@ -2,10 +2,11 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { ComponentInstance } from '../../../types';
 import { cancelCustomEvent, emitCustomEvent, getMaterialsComponent, onCustomEvent } from '../../libs';
-import { Props } from './types';
-import { ComponentInstances } from './ComponentInstances';
+import { AppRenderProps } from '../AppRender/types';
+import { ComponentInstances } from '../ComponentInstances';
+import { HotAreas } from '../HotAreas';
 
-interface ItemProps extends Pick<Props, 'global' | 'meta'> {
+interface ItemProps extends Pick<AppRenderProps, 'global' | 'meta'> {
   instance: ComponentInstance;
 }
 
@@ -42,6 +43,7 @@ export function ComponentItem({ instance, global, meta }: ItemProps) {
       instance={instance}
       meta={meta}
       global={global}
+      hotAreas={<HotAreas instance={instance} global={global} meta={meta} />}
     >
       {childrenNode}
     </ViewRender>

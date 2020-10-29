@@ -1,6 +1,6 @@
 import { ComponentInstanceDSL, PluginInstanceDSL } from '../../../types';
 
-export interface Props {
+export interface AppRenderProps {
   global: object;
   meta: object;
   componentInstances: ComponentInstanceDSL[];
