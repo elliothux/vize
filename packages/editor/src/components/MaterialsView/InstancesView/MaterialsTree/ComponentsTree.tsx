@@ -60,7 +60,9 @@ function onSelect(...params: Parameters<MustBe<ComponentProps<typeof DirectoryTr
     }
     return selectStore.selectHotArea(parseInt(index, 10), parseInt(componentKey, 10));
   }
-  selectStore.selectComponent(key as number);
+
+  const instance = componentsStore.getCurrentPageComponentInstance(key as number);
+  selectStore.selectComponent(instance.key, instance.parent?.key);
 }
 
 function onRightClick({

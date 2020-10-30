@@ -1,6 +1,7 @@
 import { action, observable, toJS } from 'mobx';
 import { Maybe } from '../types';
 import { injectGlobalReadonlyGetter, isDev } from '../utils';
+import { componentsStore } from './components';
 
 export enum SelectType {
   GLOBAL,
@@ -36,7 +37,8 @@ export class SelectStore {
   public componentKey = -1;
 
   @action
-  public selectComponent = (key: number) => {
+  public selectComponent = (key: number, parentKey?: number) => {
+    this.containerComponentKey = parentKey || -1;
     this.selectType = SelectType.COMPONENT;
     this.componentKey = key;
     this.hotAreaIndex = -1;
@@ -65,6 +67,7 @@ export class SelectStore {
   public selectHotArea = (index: number, componentKey: number) => {
     this.componentKey = componentKey;
     this.hotAreaIndex = index;
+    this.containerComponentKey = -1;
     this.selectType = SelectType.HOTAREA;
   };
 
@@ -78,6 +81,7 @@ export class SelectStore {
   public selectPlugin = (key: number) => {
     this.selectType = SelectType.PLUGIN;
     this.pluginKey = key;
+    this.containerComponentKey = -1;
   };
 
   @action
