@@ -5,7 +5,7 @@ import { createPageInstance } from '../utils';
 import { componentsStore } from './components';
 import { selectStore } from './select';
 import { pluginsStore } from './plugins';
-import { globalStore } from './global';
+import { editStore } from './edit';
 import { StoreWithUtils } from './utils';
 
 export class PagesStore extends StoreWithUtils<PagesStore> {
@@ -33,7 +33,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     this.pages.push(page);
 
     componentsStore.addComponentInstancesMap(page.key);
-    if (!globalStore.isSinglePageMode) {
+    if (!editStore.isSinglePageMode) {
       pluginsStore.addPluginInstancesMap(page.key);
     }
 
@@ -49,7 +49,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
 
     const { key, isHome } = this.pages[pageIndex]!;
     componentsStore.deleteComponentInstancesMap(key);
-    if (!globalStore.isSinglePageMode) {
+    if (!editStore.isSinglePageMode) {
       pluginsStore.deletePluginInstancesMap(key);
     }
 

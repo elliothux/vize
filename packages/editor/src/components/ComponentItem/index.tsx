@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { ComponentInstance, Maybe, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
-import { globalStore, SelectStore, selectStore, SelectType } from 'states';
+import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { events, EventEmitTypes, withPreventEvent } from 'utils';
 import classNames from 'classnames';
 import { deleteComponentNode, setComponentNode } from 'runtime';
@@ -13,7 +13,7 @@ import { ComponentSelectModeMask } from './ComponentSelectModeMask';
 import iframeStyle from './index.iframe.scss';
 import { ComponentHotAreas } from './ComponentHotAreas';
 
-globalStore.setIframeStyle('ComponentItem', iframeStyle);
+editStore.setIframeStyle('ComponentItem', iframeStyle);
 
 interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComponent'> {
   instance: ComponentInstance;

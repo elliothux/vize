@@ -13,9 +13,28 @@ export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent'> 
 
 export type PluginInstanceDSL = PluginInstance;
 
+export interface EditInfoDSL {
+  layoutMode: LayoutMode;
+  pageMode: PageMode;
+  maxKeys: {
+    [InstanceKeyType.Page]: number;
+    [InstanceKeyType.Component]: number;
+    [InstanceKeyType.HotArea]: number;
+    [InstanceKeyType.Plugin]: number;
+    [InstanceKeyType.Action]: number;
+  };
+}
+
+export interface GlobalDSL {
+  metaInfo: GlobalMeta;
+  globalProps: object;
+  globalStyle: GlobalStyle;
+}
+
 export interface PageDSL extends Omit<PageInstance, 'isNameEditing'> {
   componentInstances: ComponentInstanceDSL[];
   pluginInstances?: PluginInstanceDSL[];
+  global?: GlobalDSL;
 }
 
 export type DSL = Readonly<{
@@ -24,22 +43,8 @@ export type DSL = Readonly<{
     lib: string;
     name: string;
   };
-  global: {
-    layoutMode: LayoutMode;
-    pageMode: PageMode;
-    metaInfo: GlobalMeta;
-    globalProps: object;
-    globalStyle: GlobalStyle;
-  };
+  global: GlobalDSL;
   pageInstances: PageDSL[];
   pluginInstances?: PluginInstanceDSL[];
-  editInfo: {
-    maxKeys: {
-      [InstanceKeyType.Page]: number;
-      [InstanceKeyType.Component]: number;
-      [InstanceKeyType.HotArea]: number;
-      [InstanceKeyType.Plugin]: number;
-      [InstanceKeyType.Action]: number;
-    };
-  };
+  editInfo: EditInfoDSL;
 }>;

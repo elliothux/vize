@@ -10,7 +10,7 @@ import {
   InstanceKeyType,
   HotArea,
 } from 'types';
-import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
+import { componentsStore, editStore, globalStore, pagesStore, pluginsStore } from 'states';
 import { parseDSL } from './parse';
 import {
   addPageComponentInstanceIndexMap,
@@ -22,18 +22,16 @@ import { componentEventDepsMap, generateEventDepFromItem, pluginEventDepsMap } f
 import { setMaxKey } from '../key';
 
 export function restoreState({ global, pageInstances, pluginInstances, editInfo }: ReturnType<typeof parseDSL>) {
+  restoreEditInfo(editInfo);
   restoreGlobalState(global);
   restorePageInstances(pageInstances);
-  if (global.pageMode === PageMode.SINGLE) {
+  if (editInfo.pageMode === PageMode.SINGLE) {
     restorePluginInstances(0, pluginInstances!);
   }
-  restoreEditInfo(editInfo);
 }
 
-function restoreGlobalState({ layoutMode, pageMode, globalProps, globalStyle, metaInfo }: DSL['global']) {
+function restoreGlobalState({ globalProps, globalStyle, metaInfo }: DSL['global']) {
   return globalStore.setState(global => {
-    global.layoutMode = layoutMode;
-    global.pageMode = pageMode;
     global.globalProps = globalProps;
     global.globalStyle = globalStyle;
     global.metaInfo = metaInfo;
@@ -50,7 +48,7 @@ function restorePageInstances(pages: ReturnType<typeof parseDSL>['pageInstances'
       }
     });
     restoreComponentInstances(pageInstance.key, componentInstances);
-    if (globalStore.pageMode === PageMode.MULTI) {
+    if (!editStore.isSinglePageMode) {
       restorePluginInstances(pageInstance.key, pluginInstances!);
     }
   });
@@ -77,7 +75,7 @@ function restoreComponentInstances(pageKey: number, componentInstances: Componen
 
 function restorePluginInstances(pageKey: number, pluginInstances: PluginInstance[]) {
   pluginsStore.setState(pluginsStore => {
-    if (globalStore.pageMode === PageMode.SINGLE) {
+    if (editStore.isSinglePageMode) {
       pluginsStore.singlePagePluginsInstances = pluginInstances;
     } else {
       pluginsStore.pagesPluginInstancesMap[pageKey] = pluginInstances;
@@ -85,7 +83,7 @@ function restorePluginInstances(pageKey: number, pluginInstances: PluginInstance
   });
 
   const indexMap = generatePluginsIndex(pluginInstances);
-  addPagePluginInstanceIndexMap(globalStore.pageMode === PageMode.SINGLE ? 0 : pageKey, indexMap);
+  addPagePluginInstanceIndexMap(editStore.isSinglePageMode ? 0 : pageKey, indexMap);
 
   pluginInstances.forEach(R.unary(restoreEventDep));
 }
@@ -120,7 +118,12 @@ function restoreEventDep(
   });
 }
 
-function restoreEditInfo({ maxKeys }: ReturnType<typeof parseDSL>['editInfo']) {
+function restoreEditInfo({ maxKeys, layoutMode, pageMode }: ReturnType<typeof parseDSL>['editInfo']) {
+  editStore.setState(editStore => {
+    editStore.layoutMode = layoutMode;
+    editStore.pageMode = pageMode;
+  });
+
   setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
   setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
   setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);

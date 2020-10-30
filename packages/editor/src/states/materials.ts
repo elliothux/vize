@@ -2,7 +2,7 @@ import { action, observable, computed, toJS, runInAction } from 'mobx';
 import { Maybe } from 'types';
 import { setMaterialsMetaMap } from 'runtime';
 import { loadMaterials, injectGlobalReadonlyGetter, isDev } from '../utils';
-import { globalStore } from './global';
+import { editStore } from './edit';
 
 interface MaterialsLibItem {
   readonly isMainLib: boolean;
@@ -19,40 +19,25 @@ interface MaterialsLibItem {
 export class MaterialsStore {
   @action
   public readonly init = () => {
-    const { libNames, debugPorts } = globalStore;
+    const { libNames, debugPorts } = editStore;
     return Promise.all(
       libNames.map((name, index) => {
         return this.loadMaterials(name, debugPorts[index]);
       }),
     );
   };
-  //
-  // @observable
-  // private components: { [identityName: string]: MaterialsComponentMeta } = {};
-  //
-  // public getComponentMeta = (identityName: string) => this.components[identityName];
-
-  // @observable
-  // private plugins: { [identityName: string]: MaterialsPluginMeta } = {};
-  //
-  // public getPluginMeta = (identityName: string) => this.plugins[identityName];
-
-  // @observable
-  // public actions: { [identityName: string]: MaterialsActionMeta } = {};
-  //
-  // public getActionMeta = (identityName: string) => this.actions[identityName];
 
   @observable
   public materialsLibs: { [libName: string]: MaterialsLibItem } = {};
 
   @computed
   public get mainMaterialsLib() {
-    return this.materialsLibs[globalStore.mainLib];
+    return this.materialsLibs[editStore.mainLib];
   }
 
   @computed
   public get containerHTML(): string {
-    const { containerHTML = '' } = this.materialsLibs[globalStore.mainLib]!;
+    const { containerHTML = '' } = this.materialsLibs[editStore.mainLib]!;
     return containerHTML!;
   }
 
@@ -68,7 +53,7 @@ export class MaterialsStore {
     setMaterialsMetaMap(libName, meta);
 
     runInAction(() => {
-      const isMainLib = globalStore.mainLib === libName;
+      const isMainLib = editStore.mainLib === libName;
 
       this.materialsLibs[libName] = {
         isMainLib,

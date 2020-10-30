@@ -104,7 +104,7 @@ export class WebPageGenerator {
     const {
       pageInstances,
       pluginInstances,
-      global: { pageMode },
+      editInfo: { pageMode },
     } = this.dsl;
     const plugins = pageMode === PageMode.SINGLE ? [pluginInstances] : pageInstances.map(i => i.pluginInstances);
 
@@ -137,7 +137,8 @@ export class WebPageGenerator {
   private generateAppTplParams = (): TplParams => {
     const {
       dsl: {
-        global: { globalProps, globalStyle, metaInfo, pageMode },
+        global: { globalProps, globalStyle, metaInfo },
+        editInfo: { pageMode },
         pageInstances: [{ componentInstances, pluginInstances }],
         pluginInstances: singleModePluginInstances,
       },

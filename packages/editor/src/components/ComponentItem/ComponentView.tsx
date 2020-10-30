@@ -5,7 +5,7 @@ import { onCustomEvent, cancelCustomEvent, getMaterialsComponent, emitCustomEven
 import { mergeCommonStyle, calPosition } from 'utils';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime';
-import { globalStore } from 'states';
+import { editStore, globalStore } from 'states';
 
 interface Props extends WithReactChildren {
   instance: ComponentInstance;
@@ -33,7 +33,7 @@ function IComponentView({ instance, children }: Props) {
     posStyle = position && calPosition(position);
   }
 
-  // 全局页面元数据
+  const { previewMode } = editStore;
   const { metaInfo, globalProps } = globalStore;
 
   return (
@@ -42,9 +42,9 @@ function IComponentView({ instance, children }: Props) {
       childrenType="component"
       instance={instance}
       style={{ ...iWrapperStyle, ...posStyle }}
-      global={globalStore.globalProps}
-      meta={globalStore.metaInfo}
-      previewMode={globalStore.previewMode}
+      global={globalProps}
+      meta={metaInfo}
+      previewMode={previewMode}
     >
       <ComponentRender
         componentKey={key}

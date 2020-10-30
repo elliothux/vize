@@ -11,11 +11,10 @@ import {
   regenerateCurrentPagePluginIndexMap,
   setCurrentPagePluginIndex,
 } from '../utils';
-import { materialsStore } from './materials';
 import { selectStore, SelectType } from './select';
 import { pagesStore } from './pages';
-import { globalStore } from './global';
 import { eventStore } from './events';
+import { editStore } from './edit';
 import { StoreWithUtils } from './utils';
 
 export class PluginsStore extends StoreWithUtils<PluginsStore> {
@@ -49,7 +48,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
   };
 
   public getPluginInstancesMap = (pageKey: number) => {
-    if (globalStore.isSinglePageMode) {
+    if (editStore.isSinglePageMode) {
       return this.singlePagePluginsInstances;
     }
     return this.pagesPluginInstancesMap[pageKey];
@@ -61,7 +60,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
    */
   @action
   private changePluginInstance = (setter: (pluginInstances: PluginInstance[]) => PluginInstance[] | void) => {
-    if (globalStore.isSinglePageMode) {
+    if (editStore.isSinglePageMode) {
       const newInstances = setter(this.singlePagePluginsInstances);
       if (newInstances) {
         this.singlePagePluginsInstances = newInstances;
