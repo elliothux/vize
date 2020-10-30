@@ -19,17 +19,21 @@ interface Props {
 
 function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
   const { componentKey, hotAreaIndex } = selectStore;
-  const { previewMode } = globalStore;
+  const { previewMode, globalProps, metaInfo } = globalStore;
 
   const selected = componentKey === componentInstanceKey && index === hotAreaIndex;
-  const onClick = useCallback((e: React.SyntheticEvent<HTMLDivElement>) => {
-    if (previewMode) {
-      return;
-    }
-    preventSyntheticEvent(e);
-    events.emit(EventEmitTypes.JUMP_ATTR_EDIT_TAB, AttrEditTab.EVENTS);
-    selectStore.selectHotArea(index, componentInstanceKey);
-  }, []);
+
+  const onClick = useCallback(
+    (e: React.SyntheticEvent<HTMLDivElement>) => {
+      if (previewMode) {
+        return;
+      }
+      preventSyntheticEvent(e);
+      events.emit(EventEmitTypes.JUMP_ATTR_EDIT_TAB, AttrEditTab.EVENTS);
+      selectStore.selectHotArea(index, componentInstanceKey);
+    },
+    [previewMode],
+  );
 
   const onContextMenu = useCallback(
     (e: FirstParameter<typeof showHotAreaContextMenu>) => {
@@ -56,9 +60,9 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
         childrenType="hotarea"
         instance={hotArea}
         style={style}
-        global={globalStore.globalProps}
-        meta={globalStore.metaInfo}
-        previewMode={globalStore.previewMode}
+        global={globalProps}
+        meta={metaInfo}
+        previewMode={previewMode}
       />
     );
   }

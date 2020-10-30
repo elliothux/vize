@@ -1,15 +1,14 @@
 export interface TplParams {
-  runtimePath: string;
   globalStyle: string;
   autoInjectedStyle: string;
   meta: string;
   global: string;
+  componentVars: string;
   componentImports: string;
-  componentsMaterialMap: string;
   componentInstances: string;
+  pluginVars: string;
   pluginImports: string;
-  pluginsMaterialMap: string;
   pluginInstances: string;
+  actionVars: string;
   actionImports: string;
-  actionsMaterialMap: string;
 }

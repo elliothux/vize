@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import * as React from 'react';
 import {
   ComponentEventListenerTypes,
@@ -9,8 +10,15 @@ import {
   Maybe,
   WithReactChildren,
 } from '../../../types';
-import { events, RuntimeEventEmitTypes, withPersistReactEvent } from '../../utils';
-import { EventHandler, EventHandlers, generateHandlers, HandlerParams } from './utils';
+import {
+  events,
+  RuntimeEventEmitTypes,
+  withPersistReactEvent,
+  EventHandler,
+  NodeEventHandlers,
+  generateNodeHandlers,
+  HandlerParams,
+} from '../../utils';
 
 type InstanceType = ComponentInstance | HotArea;
 
@@ -46,19 +54,12 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
   private preventClick = false;
 
   private handlers: {
-    [key in keyof EventHandlers]: (originalEvent: Maybe<React.SyntheticEvent>) => void;
+    [key in keyof NodeEventHandlers]: (originalEvent: Maybe<React.SyntheticEvent>) => void;
   } = {};
 
   constructor(props: Props<T>) {
     super(props);
-
     this.handlerParams = { global: props.global!, meta: props.meta! };
-  }
-
-  public componentWillReceiveProps(nextProps: Readonly<Props<T>>) {
-    if (!this.props.previewMode && nextProps.previewMode) {
-      this.updateHandlersWithParams(this.props.instance.events);
-    }
   }
 
   public componentDidMount(): void {
@@ -67,6 +68,20 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     events.on(RuntimeEventEmitTypes.NODE_INTERSECTING_CHANGE, this.onNodeIntersectionChange);
 
     this.handlers.onInit?.(undefined);
+
+    if (this.props.childrenType === 'hotarea') {
+      this.updateHandlersWithParams(this.props.instance.events);
+    }
+  }
+
+  public componentWillReceiveProps(nextProps: Readonly<Props<T>>) {
+    if (!this.props.previewMode && nextProps.previewMode) {
+      return this.updateHandlersWithParams(this.props.instance.events);
+    }
+
+    if (this.props.previewMode && !nextProps.previewMode) {
+      return this.updateHandlersWithParams([]);
+    }
   }
 
   public componentWillUnmount(): void {
@@ -107,19 +122,14 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     }, NodeEventProxy.INTERSECTION_TIMEOUT);
   };
 
-  private onNodeEnterView = () => {
-    this.handlers.onEnterView?.(undefined);
-  };
+  private onNodeEnterView = () => this.handlers.onEnterView?.(undefined);
 
-  private onNodeLeaveView = () => {
-    this.handlers.onLeaveView?.(undefined);
-  };
+  private onNodeLeaveView = () => this.handlers.onLeaveView?.(undefined);
 
   private onNodePress = withPersistReactEvent((e: React.MouseEvent | React.TouchEvent) => {
     if (!this.handlers.onLongPress) {
       return;
     }
-
     this.longPressTimer = window.setTimeout(() => this.handlers.onLongPress!(e), NodeEventProxy.LONG_PRESS_TIMEOUT);
   });
 
@@ -168,33 +178,30 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
       onLongPress,
       onEnterView,
       onLeaveView,
-    } = generateHandlers(events, this.props.instance);
-    const { handlers, withEmitNodeEvent } = this;
+    } = generateNodeHandlers(events, this.props.instance);
 
+    const { handlers, withExecNodeObserverCallbacks } = this;
     const isComponent = this.props.childrenType === 'component';
     const EventListenerTypes = isComponent ? ComponentEventListenerTypes : HotAreaEventListenerTypes;
 
-    handlers.onInit = withEmitNodeEvent(EventListenerTypes.INIT, onInit);
-    handlers.onClick = withEmitNodeEvent(EventListenerTypes.CLICK, onClick);
-    handlers.onMouseEnter = withEmitNodeEvent(EventListenerTypes.MOUSE_ENTER, onMouseEnter);
-    handlers.onMouseLeave = withEmitNodeEvent(EventListenerTypes.MOUSE_LEAVE, onMouseLeave);
-    handlers.onDoubleClick = withEmitNodeEvent(EventListenerTypes.DOUBLE_CLICK, onDoubleClick);
-    handlers.onLongPress = withEmitNodeEvent(EventListenerTypes.LONG_PRESS, onLongPress);
-    handlers.onEnterView = withEmitNodeEvent(EventListenerTypes.ENTER_VIEW, onEnterView);
-    handlers.onLeaveView = withEmitNodeEvent(EventListenerTypes.LEAVE_VIEW, onLeaveView);
+    handlers.onInit = withExecNodeObserverCallbacks(EventListenerTypes.INIT, onInit);
+    handlers.onClick = withExecNodeObserverCallbacks(EventListenerTypes.CLICK, onClick);
+    handlers.onMouseEnter = withExecNodeObserverCallbacks(EventListenerTypes.MOUSE_ENTER, onMouseEnter);
+    handlers.onMouseLeave = withExecNodeObserverCallbacks(EventListenerTypes.MOUSE_LEAVE, onMouseLeave);
+    handlers.onDoubleClick = withExecNodeObserverCallbacks(EventListenerTypes.DOUBLE_CLICK, onDoubleClick);
+    handlers.onLongPress = withExecNodeObserverCallbacks(EventListenerTypes.LONG_PRESS, onLongPress);
+    handlers.onEnterView = withExecNodeObserverCallbacks(EventListenerTypes.ENTER_VIEW, onEnterView);
+    handlers.onLeaveView = withExecNodeObserverCallbacks(EventListenerTypes.LEAVE_VIEW, onLeaveView);
   };
 
-  // TODO
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private emitNodeEvent = (e: Maybe<React.SyntheticEvent>, type: ComponentEventListenerTypes) => {
-    // const {
-    //     props: { instance },
-    //     handlerParams: { global, meta },
-    // } = this;
-    // return emitComponent(e, type, instance, meta, global);
+  private execNodeObserverCallbacks = (
+    e: Maybe<React.SyntheticEvent>,
+    type: ComponentEventListenerTypes | HotAreaEventListenerTypes,
+  ) => {
+    // TODO: exec callbacks from plugin's observer
   };
 
-  private withEmitNodeEvent = (
+  private withExecNodeObserverCallbacks = (
     type: ComponentEventListenerTypes | HotAreaEventListenerTypes,
     handler: Maybe<EventHandler>,
   ) => {
@@ -202,16 +209,14 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
       if (e) {
         e.persist();
       }
-      this.emitNodeEvent(e, type);
+      this.execNodeObserverCallbacks(e, type);
       if (handler) {
         return handler(e, this.handlerParams);
       }
     };
   };
 
-  private setRef = (node: HTMLDivElement) => {
-    this.containerRef = node;
-  };
+  private setRef = (node: HTMLDivElement) => (this.containerRef = node);
 
   public render() {
     const { instance, children, style, childrenType } = this.props;

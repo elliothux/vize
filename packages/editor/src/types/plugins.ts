@@ -1,6 +1,7 @@
 import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent, EventInstance } from './events';
+import { ComponentProps } from './component';
 
 export interface MaterialsPluginMeta {
   identityName: string;
@@ -23,10 +24,8 @@ export interface PluginInstance {
   events: EventInstance[];
 }
 
-// TODO
-export interface PluginParams {
+export interface PluginParams extends Pick<ComponentProps, 'data' | 'on' | 'cancel' | 'emit' | 'global' | 'meta'> {
   pluginKey: number;
-  data: object;
 }
 
 export type MaterialsPlugin = (params: PluginParams) => void;

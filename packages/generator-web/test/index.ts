@@ -5,11 +5,7 @@ import { WebPageGenerator } from '../';
 
 const dsl = {
   pageKey: 'test',
-  container: {
-    name: 'universal',
-    lib: 'universal',
-    entry: 'vize-main-entry',
-  },
+  container: { lib: 'universal', name: 'universal' },
   global: {
     layoutMode: 'stream',
     pageMode: 'multi',
@@ -29,6 +25,57 @@ const dsl = {
       path: '2',
       isHome: true,
       componentInstances: [
+        {
+          key: 19,
+          component: 'universal_formcontainer',
+          lib: 'universal',
+          data: {
+            buttonText: '提交',
+            successButtonText: '已提交',
+            successTitle: '成功',
+            successText: '提交成功',
+            messageType: 'toast',
+            forbidResubmit: true,
+          },
+          style: { buttonTextColor: '#fff', buttonBackgroundColor: '#08cb6a' },
+          commonStyle: {
+            transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+            margin: { top: 0, left: 'auto', bottom: 0, right: 'auto' },
+            padding: { top: 16, left: 12, bottom: 16, right: 12 },
+            border: { type: 'none', color: '#161616', width: 1 },
+            background: { color: '#fff', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+          },
+          wrapperStyle: {},
+          events: [],
+          children: [
+            {
+              key: 20,
+              component: 'universal_text',
+              lib: 'universal',
+              data: { text: '输入文本内容...' },
+              style: {},
+              commonStyle: {
+                size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+                transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+                text: { color: '#161616', fontSize: 14, lineHeight: 20, textAlign: 'center', weight: 'normal' },
+                border: { type: 'none', color: '#161616', width: 1 },
+                background: {
+                  color: 'transparent',
+                  image: '',
+                  size: 'auto',
+                  position: 'center top',
+                  repeat: 'repeat-y',
+                },
+                margin: { top: 12, left: 0, bottom: 12, right: 0 },
+                padding: { top: 0, left: 8, bottom: 0, right: 8 },
+                zIndex: true,
+                position: true,
+              },
+              wrapperStyle: {},
+              events: [],
+            },
+          ],
+        },
         {
           key: 6,
           component: 'universal_button',
@@ -51,13 +98,32 @@ const dsl = {
           },
           events: [
             {
-              key: 7,
-              data: {},
+              key: 15,
               trigger: { type: 'component_universal_trigger', triggerName: '__vize_component_event_trigger_click' },
-              target: { type: 'action', id: 'universal_alert', lib: 'universal' },
+              target: { type: 'plugin', eventName: 'share', key: 3 },
               events: [],
             },
           ],
+        },
+        {
+          key: 10,
+          component: 'universal_text',
+          lib: 'universal',
+          data: { text: '输入文本内容...' },
+          style: {},
+          commonStyle: {
+            size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+            transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+            text: { color: '#161616', fontSize: 14, lineHeight: 20, textAlign: 'center', weight: 'normal' },
+            border: { type: 'none', color: '#161616', width: 1 },
+            background: { color: 'transparent', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+            margin: { top: 12, left: 0, bottom: 12, right: 0 },
+            padding: { top: 0, left: 8, bottom: 0, right: 8 },
+            zIndex: true,
+            position: true,
+          },
+          wrapperStyle: {},
+          events: [],
         },
         {
           key: 7,
@@ -150,10 +216,184 @@ const dsl = {
           commonStyle: {},
           wrapperStyle: {},
           events: [],
-          children: [],
+          children: [
+            {
+              key: 14,
+              component: 'universal_button',
+              lib: 'universal',
+              data: { text: '按钮' },
+              style: {},
+              commonStyle: {
+                size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+                transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+                text: { color: '#161616', fontSize: 14, lineHeight: 20, textAlign: 'center', weight: 'normal' },
+                border: { type: 'none', color: '#161616', width: 1 },
+                background: {
+                  color: 'transparent',
+                  image: '',
+                  size: 'auto',
+                  position: 'center top',
+                  repeat: 'repeat-y',
+                },
+                margin: { top: 12, left: 0, bottom: 12, right: 0 },
+                padding: { top: 0, left: 8, bottom: 0, right: 8 },
+                zIndex: true,
+                position: true,
+              },
+              wrapperStyle: {
+                background: {
+                  color: 'transparent',
+                  image: '',
+                  size: 'auto',
+                  position: 'center top',
+                  repeat: 'repeat-y',
+                },
+              },
+              events: [],
+            },
+            {
+              key: 13,
+              component: 'universal_button',
+              lib: 'universal',
+              data: { text: '按钮' },
+              style: {},
+              commonStyle: {
+                size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+                transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+                text: { color: '#161616', fontSize: 14, lineHeight: 20, textAlign: 'center', weight: 'normal' },
+                border: { type: 'none', color: '#161616', width: 1 },
+                background: {
+                  color: 'transparent',
+                  image: '',
+                  size: 'auto',
+                  position: 'center top',
+                  repeat: 'repeat-y',
+                },
+                margin: { top: 12, left: 0, bottom: 12, right: 0 },
+                padding: { top: 0, left: 8, bottom: 0, right: 8 },
+                zIndex: true,
+                position: true,
+              },
+              wrapperStyle: {
+                background: {
+                  color: 'transparent',
+                  image: '',
+                  size: 'auto',
+                  position: 'center top',
+                  repeat: 'repeat-y',
+                },
+              },
+              events: [],
+            },
+          ],
         },
         {
           key: 9,
+          component: 'universal_image',
+          lib: 'universal',
+          data: { src: 'https://img.alicdn.com/tfs/TB1PibhR4D1gK0jSZFsXXbldVXa-512-416.png' },
+          style: {},
+          commonStyle: {
+            size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+            transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+            border: { type: 'none', color: '#161616', width: 1 },
+            margin: { top: 0, left: 'auto', bottom: 0, right: 'auto' },
+            padding: { top: 0, left: 0, bottom: 0, right: 0 },
+            zIndex: true,
+            position: true,
+          },
+          wrapperStyle: {
+            background: { color: 'transparent', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+          },
+          events: [
+            {
+              key: 14,
+              data: { content: '1234' },
+              trigger: { type: 'component_universal_trigger', triggerName: '__vize_component_event_trigger_click' },
+              target: { type: 'action', id: 'universal_alert', lib: 'universal' },
+              events: [],
+            },
+          ],
+          hotAreas: [
+            {
+              key: 2,
+              position: { x: 11.9140625, y: 16.105769230769234 },
+              size: { width: 24.609375, height: 30.048076923076923 },
+              events: [
+                {
+                  key: 9,
+                  data: { content: '111' },
+                  trigger: { type: 'hotarea_universal_trigger', triggerName: '__vize_hotarea_event_trigger_click' },
+                  target: { type: 'action', id: 'universal_alert', lib: 'universal' },
+                  events: [],
+                },
+              ],
+            },
+            {
+              key: 4,
+              position: { x: 59.765625, y: 70.91346153846155 },
+              size: { width: 23.4375, height: 21.394230769230766 },
+              events: [
+                {
+                  key: 10,
+                  trigger: { type: 'hotarea_universal_trigger', triggerName: '__vize_hotarea_event_trigger_click' },
+                  target: { type: 'component', eventName: 'test', key: 6 },
+                  events: [],
+                },
+              ],
+            },
+            {
+              key: 7,
+              position: { x: 37.3046875, y: 50.480769230769226 },
+              size: { width: 6.640625, height: 8.653846153846153 },
+              events: [
+                {
+                  key: 13,
+                  trigger: { type: 'hotarea_universal_trigger', triggerName: '__vize_hotarea_event_trigger_click' },
+                  target: { type: 'component', eventName: 'test', key: 13 },
+                  events: [],
+                },
+              ],
+            },
+            {
+              key: 8,
+              position: { x: 21.09375, y: 63.70192307692307 },
+              size: { width: 17.7734375, height: 16.58653846153846 },
+              events: [
+                {
+                  key: 12,
+                  trigger: { type: 'hotarea_universal_trigger', triggerName: '__vize_hotarea_event_trigger_click' },
+                  target: { type: 'component', eventName: 'test', key: 11 },
+                  events: [],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          key: 18,
+          component: 'universal_button',
+          lib: 'universal',
+          data: { text: '按钮' },
+          style: {},
+          commonStyle: {
+            size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+            transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+            text: { color: '#161616', fontSize: 14, lineHeight: 20, textAlign: 'center', weight: 'normal' },
+            border: { type: 'none', color: '#161616', width: 1 },
+            background: { color: 'transparent', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+            margin: { top: 12, left: 0, bottom: 12, right: 0 },
+            padding: { top: 0, left: 8, bottom: 0, right: 8 },
+            zIndex: true,
+            position: true,
+          },
+          wrapperStyle: {
+            background: { color: 'transparent', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+          },
+          events: [],
+        },
+        {
+          key: 15,
           component: 'universal_image',
           lib: 'universal',
           data: { src: 'https://img.alicdn.com/tfs/TB1PibhR4D1gK0jSZFsXXbldVXa-512-416.png' },
@@ -174,10 +414,10 @@ const dsl = {
           hotAreas: [],
         },
         {
-          key: 10,
-          component: 'universal_text',
+          key: 17,
+          component: 'universal_button',
           lib: 'universal',
-          data: { text: '输入文本内容...' },
+          data: { text: '按钮' },
           style: {},
           commonStyle: {
             size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
@@ -190,16 +430,53 @@ const dsl = {
             zIndex: true,
             position: true,
           },
-          wrapperStyle: {},
+          wrapperStyle: {
+            background: { color: 'transparent', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+          },
           events: [],
+        },
+        {
+          key: 16,
+          component: 'universal_image',
+          lib: 'universal',
+          data: { src: 'https://img.alicdn.com/tfs/TB1PibhR4D1gK0jSZFsXXbldVXa-512-416.png' },
+          style: {},
+          commonStyle: {
+            size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+            transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+            border: { type: 'none', color: '#161616', width: 1 },
+            margin: { top: 0, left: 'auto', bottom: 0, right: 'auto' },
+            padding: { top: 0, left: 0, bottom: 0, right: 0 },
+            zIndex: true,
+            position: true,
+          },
+          wrapperStyle: {
+            background: { color: 'transparent', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+          },
+          events: [],
+          hotAreas: [],
         },
       ],
       pluginInstances: [
-        { key: 3, plugin: 'universal_share', lib: 'universal', data: { wording: '分享完成' }, events: [] },
+        {
+          key: 3,
+          plugin: 'universal_share',
+          lib: 'universal',
+          data: { wording: '分享完成' },
+          events: [
+            {
+              key: 18,
+              data: { content: '223' },
+              trigger: { type: 'custom', triggerName: 'shareSuccess' },
+              target: { type: 'action', id: 'universal_alert', lib: 'universal' },
+              events: [],
+            },
+          ],
+        },
       ],
     },
   ],
-  editInfo: { maxKeys: { page: 2, component: 12, 'hot-area': 1, plugin: 3, action: 7 } },
+  editInfo: { maxKeys: { page: 3, component: 20, 'hot-area': 9, plugin: 3, action: 18 } },
 } as DSL;
 
 const generator = new WebPageGenerator({
@@ -207,7 +484,7 @@ const generator = new WebPageGenerator({
   libsPath: path.resolve(__dirname, './libs'),
   depsPath: path.resolve(__dirname, './deps'),
   targetPath: path.resolve(__dirname, './dist'),
-  useSWC: true,
+  useSWC: false,
 });
 
 generator.dist().then(console.log);

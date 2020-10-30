@@ -17,7 +17,7 @@ import {
   getTpl,
   prepareTargetPath,
   stringifyImports,
-  stringifyMaterialsMap,
+  stringifyMaterialVars,
 } from '../utils';
 import { runBuild } from '../builder';
 
@@ -147,19 +147,18 @@ export class WebPageGenerator {
     } = this;
 
     return {
-      runtimePath: path.resolve(this.depsPath, './runtime-web'),
       globalStyle: formatGlobalStyle(globalStyle),
       autoInjectedStyle: '',
       meta: JSON.stringify(metaInfo),
       global: JSON.stringify(globalProps),
+      componentVars: stringifyMaterialVars(componentsPathMap),
       componentImports: stringifyImports(componentsPathMap),
-      componentsMaterialMap: stringifyMaterialsMap(componentsPathMap),
       componentInstances: JSON.stringify(componentInstances),
+      pluginVars: stringifyMaterialVars(pluginsPathMap),
       pluginImports: stringifyImports(pluginsPathMap),
-      pluginsMaterialMap: stringifyMaterialsMap(pluginsPathMap),
       pluginInstances: JSON.stringify(pageMode === PageMode.SINGLE ? singleModePluginInstances : pluginInstances),
+      actionVars: stringifyMaterialVars(actionsPathMap),
       actionImports: stringifyImports(actionsPathMap),
-      actionsMaterialMap: stringifyMaterialsMap(actionsPathMap),
     };
   };
 
@@ -171,7 +170,7 @@ export class WebPageGenerator {
   };
 
   private writeIndexFile = async (targetPath: string) => {
-    const params = { entry: this.dsl.container.entry };
+    const params = { entry: 'vize-main-entry' };
     const tpl = await getTpl('index');
     const content = tpl(params);
     return fs.writeFile(path.resolve(targetPath, './index.tsx'), content, { encoding: 'utf-8' });

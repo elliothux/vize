@@ -52,6 +52,6 @@ const dataForm = {
 export default {
   info,
   dataForm,
-  emitEvents: [{ displayName: '测试', eventName: 'test' }],
-  onEvents: [{ displayName: '测试', eventName: 'test' }],
+  emitEvents: [{ displayName: '分享成功', eventName: 'shareSuccess' }],
+  onEvents: [{ displayName: '唤起分享', eventName: 'share' }],
 };

@@ -27,7 +27,9 @@ class DepsMap<T = DepsTargetType> {
   private readonly depsMap = new Map<TargetKey, DepFrom[]>();
 
   public createEventDepsMap = (targetKey: number) => {
-    return this.depsMap.set(targetKey, []);
+    const deps: DepFrom[] = [];
+    this.depsMap.set(targetKey, deps);
+    return deps;
   };
 
   public deleteEventDepsMap = (targetKey: number) => {
@@ -35,7 +37,11 @@ class DepsMap<T = DepsTargetType> {
   };
 
   public addEventDep = (targetKey: number, dep: DepFrom) => {
-    return this.depsMap.get(targetKey)!.push(dep);
+    let deps = this.depsMap.get(targetKey);
+    if (!deps) {
+      deps = this.createEventDepsMap(targetKey);
+    }
+    return deps.push(dep);
   };
 
   public getEventDep = (targetKey: number) => {
