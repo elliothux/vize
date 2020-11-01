@@ -5,5 +5,6 @@ interface Props {
 }
 
 export default function({ render }: Props) {
+  // DO something before render
   render();
 }

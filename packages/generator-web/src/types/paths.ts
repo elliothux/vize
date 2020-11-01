@@ -7,3 +7,5 @@ export type MaterialsPathMap = {
     [identityName: string]: string;
   };
 };
+
+export type PageMaterialsPathMap = MaterialsPathMap[];

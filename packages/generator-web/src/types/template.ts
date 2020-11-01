@@ -1,4 +1,4 @@
-export interface TplParams {
+export interface PageTplParams {
   globalStyle: string;
   autoInjectedStyle: string;
   meta: string;

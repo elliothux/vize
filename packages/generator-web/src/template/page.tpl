@@ -1,6 +1,6 @@
 // Import Libs and Runtime
 import * as React from "react";
-import { AppRender, injectReadonly, injectStyle, setMaterialsMap } from "../deps/runtime-web/src";
+import { AppRender, injectReadonly, injectStyle, setMaterialsMap } from "../../deps/runtime-web/src";
 
 // Import Components
 <%= componentImports %>
@@ -37,7 +37,7 @@ const componentInstances = <%= componentInstances %> as React.ComponentProps<typ
 // Plugin
 const pluginInstances = <%= pluginInstances %> as React.ComponentProps<typeof AppRender>['pluginInstances'] ;
 
-export function App() {
+export default function PageRender() {
   return (
     <AppRender
       global={global}

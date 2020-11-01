@@ -43,7 +43,7 @@ export type DSL = Readonly<{
     lib: string;
     name: string;
   };
-  global: GlobalDSL;
+  global?: GlobalDSL;
   pageInstances: PageDSL[];
   pluginInstances?: PluginInstanceDSL[];
   editInfo: EditInfoDSL;
