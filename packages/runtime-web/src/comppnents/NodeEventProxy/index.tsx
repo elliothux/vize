@@ -8,6 +8,7 @@ import {
   HotArea,
   HotAreaEventListenerTypes,
   Maybe,
+  PageRouter,
   WithReactChildren,
 } from '../../../types';
 import {
@@ -29,6 +30,7 @@ interface Props<T extends InstanceType> extends WithReactChildren {
   style: object;
   global: object;
   meta: GlobalMeta;
+  router: PageRouter;
   previewMode: boolean;
 }
 
@@ -178,7 +180,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
       onLongPress,
       onEnterView,
       onLeaveView,
-    } = generateNodeHandlers(events, this.props.instance);
+    } = generateNodeHandlers(events, this.props.instance, this.props.router);
 
     const { handlers, withExecNodeObserverCallbacks } = this;
     const isComponent = this.props.childrenType === 'component';

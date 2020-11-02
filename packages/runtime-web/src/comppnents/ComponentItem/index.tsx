@@ -6,16 +6,16 @@ import { AppRenderProps } from '../AppRender/types';
 import { ComponentInstances } from '../ComponentInstances';
 import { HotAreas } from '../HotAreas';
 
-interface ItemProps extends Pick<AppRenderProps, 'global' | 'meta'> {
+interface ItemProps extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
   instance: ComponentInstance;
 }
 
-export function ComponentItem({ instance, global, meta }: ItemProps) {
+export function ComponentItem({ instance, global, meta, router }: ItemProps) {
   const { key, component, data, style, commonStyle, children } = instance;
 
   let childrenNode;
   if (children?.length) {
-    childrenNode = <ComponentInstances global={global} meta={meta} componentInstances={children} />;
+    childrenNode = <ComponentInstances global={global} meta={meta} componentInstances={children} router={router} />;
   }
 
   const on = useCallback(
@@ -26,7 +26,7 @@ export function ComponentItem({ instance, global, meta }: ItemProps) {
     (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
     [key],
   );
-  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, meta, global), [key]);
+  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, meta, global, router), [key]);
 
   const ViewRender = getMaterialsComponent(component)!;
   return (
@@ -42,7 +42,8 @@ export function ComponentItem({ instance, global, meta }: ItemProps) {
       instance={instance}
       meta={meta}
       global={global}
-      hotAreas={<HotAreas instance={instance} global={global} meta={meta} />}
+      router={router}
+      hotAreas={<HotAreas instance={instance} global={global} meta={meta} router={router} />}
     >
       {childrenNode}
     </ViewRender>

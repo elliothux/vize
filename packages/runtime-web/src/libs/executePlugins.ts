@@ -1,4 +1,11 @@
-import { PluginInstanceDSL, MaterialsPlugin, PluginParams, PluginUniversalEventTrigger, GlobalMeta } from '../../types';
+import {
+  PluginInstanceDSL,
+  MaterialsPlugin,
+  PluginParams,
+  PluginUniversalEventTrigger,
+  GlobalMeta,
+  PageRouter,
+} from '../../types';
 import { cancelCustomEvent, emitCustomEvent, onCustomEvent } from './customEvents';
 import { getMaterialsPlugin } from './materialsMap';
 import { generatePluginHandlers } from '../utils/eventHandlers';
@@ -7,11 +14,12 @@ export function executePlugins(
   pluginInstances: PluginInstanceDSL[],
   meta: GlobalMeta,
   global: object,
+  router: PageRouter,
   win: Window = window,
 ) {
   return pluginInstances.forEach(async instance => {
     const { key, plugin, data, events } = instance;
-    const handlers = generatePluginHandlers(events, instance);
+    const handlers = generatePluginHandlers(events, instance, router);
 
     if (handlers[PluginUniversalEventTrigger.BEFORE_EXEC]) {
       await handlers[PluginUniversalEventTrigger.BEFORE_EXEC]!(null, { global, meta });
@@ -23,6 +31,7 @@ export function executePlugins(
       data,
       global,
       meta,
+      router,
       on: (eventName, callback) => {
         onCustomEvent('plugin', key, eventName, callback);
       },
@@ -30,7 +39,7 @@ export function executePlugins(
         cancelCustomEvent('plugin', key, eventName, callback);
       },
       emit: eventName => {
-        emitCustomEvent(instance, eventName, meta, global);
+        emitCustomEvent(instance, eventName, meta, global, router);
       },
     };
 

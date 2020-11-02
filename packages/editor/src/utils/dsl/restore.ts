@@ -9,6 +9,7 @@ import {
   PluginInstance,
   InstanceKeyType,
   HotArea,
+  MustBe,
 } from 'types';
 import { componentsStore, editStore, globalStore, pagesStore, pluginsStore } from 'states';
 import { parseDSL } from './parse';
@@ -23,14 +24,14 @@ import { setMaxKey } from '../key';
 
 export function restoreState({ global, pageInstances, pluginInstances, editInfo }: ReturnType<typeof parseDSL>) {
   restoreEditInfo(editInfo);
-  restoreGlobalState(global);
   restorePageInstances(pageInstances);
   if (editInfo.pageMode === PageMode.SINGLE) {
     restorePluginInstances(0, pluginInstances!);
+    restoreGlobalState(global!);
   }
 }
 
-function restoreGlobalState({ globalProps, globalStyle, metaInfo }: DSL['global']) {
+function restoreGlobalState({ globalProps, globalStyle, metaInfo }: MustBe<DSL['global']>) {
   return globalStore.setState(global => {
     global.globalProps = globalProps;
     global.globalStyle = globalStyle;

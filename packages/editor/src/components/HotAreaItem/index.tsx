@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
-import { editStore, globalStore, selectStore } from 'states';
+import { editStore, globalStore, pagesStore, selectStore } from 'states';
 import classnames from 'classnames';
 import { FirstParameter, HotArea } from 'types';
 import { percent, preventSyntheticEvent } from 'utils';
@@ -21,6 +21,7 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
   const { componentKey, hotAreaIndex } = selectStore;
   const { globalProps, metaInfo } = globalStore;
   const { previewMode } = editStore;
+  const { router } = pagesStore;
 
   const selected = componentKey === componentInstanceKey && index === hotAreaIndex;
 
@@ -63,6 +64,7 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
         style={style}
         global={globalProps}
         meta={metaInfo}
+        router={router}
         previewMode={previewMode}
       />
     );

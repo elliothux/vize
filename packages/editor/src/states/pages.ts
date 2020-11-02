@@ -1,6 +1,6 @@
 import { action, computed, observable } from 'mobx';
 import { message } from 'antd';
-import { PageInstance } from 'types';
+import { PageInstance, PageRouter } from 'types';
 import { createPageInstance } from '../utils';
 import { componentsStore } from './components';
 import { selectStore } from './select';
@@ -74,6 +74,18 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   public setPageName = (pageIndex: number, name: string): void => {
     this.pages[pageIndex].name = name;
   };
+
+  @computed
+  get router(): PageRouter {
+    return {
+      pages: this.pages.map(({ name, key, path, isHome }) => ({ name, key, path, isHome })),
+      getCurrentPage: () => this.currentPage.key,
+      setCurrentPage: (key: number) => {
+        const index = this.pages.findIndex(i => i.key === key);
+        selectStore.selectPage(index);
+      },
+    };
+  }
 }
 
 export const pagesStore = new PagesStore();

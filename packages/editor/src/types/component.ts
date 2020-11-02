@@ -5,6 +5,7 @@ import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
 import { CommonStyleMeta, Percent } from './styles';
 import { GlobalMeta } from './global';
+import { PageRouter } from './pages';
 
 export interface MaterialsComponentMeta {
   identityName: string;
@@ -80,6 +81,7 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   on: (eventName: string, callback: Function) => void;
   cancel: (eventName: string, callback: Function) => void;
   emit: (eventName: string) => void;
+  router: PageRouter;
 }
 
 export type MaterialsComponent = React.ComponentType<ComponentProps>;
