@@ -38,7 +38,8 @@ export class SinglePageGenerator extends BaseGenerator {
     const pagePaths = await Promise.all(
       pageInstances.map(async ({ key }, index) => {
         const pagePath = path.resolve(src, `pages/page-${key}.tsx`);
-        await this.generatePagesFile(index, src, pagePath);
+        const globalPath = path.resolve(src, 'pages/global.ts');
+        await this.generatePagesFile(index, pagePath, globalPath);
         return { pageKey: key, pagePath };
       }),
     );

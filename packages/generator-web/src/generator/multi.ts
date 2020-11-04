@@ -31,7 +31,8 @@ export class MultiPageGenerator extends BaseGenerator {
           this.generateContainerParams(index);
 
           const pagePath = path.resolve(src, `pages/page-${key}.tsx`);
-          await this.generatePagesFile(index, src, pagePath);
+          const globalPath = path.resolve(src, `pages/global-${key}.tsx`);
+          await this.generatePagesFile(index, pagePath, globalPath);
 
           const entryPath = path.resolve(target, moreThanOnePage ? `index-${key}.tsx` : 'index.tsx');
           await this.generateIndexFile(index, entryPath);

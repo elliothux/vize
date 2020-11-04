@@ -1,5 +1,5 @@
 // Import Libs and Runtime
-import { injectReadonly, injectStyle, setMaterialsMap } from "../deps/runtime-web/src";
+import { injectReadonly, injectStyle, setMaterialsMap } from "../../deps/runtime-web/src";
 
 // Import Plugins
 <%= pluginImports %>

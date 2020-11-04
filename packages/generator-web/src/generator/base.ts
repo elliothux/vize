@@ -95,18 +95,17 @@ export class BaseGenerator {
     ]);
   };
 
-  public generatePagesFile = async (pageIndex: number, srcPath: string, pagePath: string) => {
-    const globalFilePath = path.resolve(srcPath, './global.ts');
+  public generatePagesFile = async (pageIndex: number, pagePath: string, globalPath: string) => {
     await this.generatePageMaterialsMap(pageIndex);
-    await this.generatePageFile(pageIndex, pagePath, globalFilePath);
-    await this.generateGlobalFile(pageIndex, globalFilePath);
+    await this.generatePageFile(pageIndex, pagePath, globalPath);
+    await this.generateGlobalFile(pageIndex, globalPath);
   };
 
   private generateGlobalFile = async (pageIndex: number, globalPath: string) => {
     const params = this.generateGlobalTplParams(pageIndex);
     const tpl = await getTpl('global');
     const content = tpl(params);
-    return fs.writeFile(globalPath, content, { encoding: 'utf-8' });
+    return fs.writeFile(globalPath, content, { encoding: 'utf-8', flag: 'w+' });
   };
 
   private generateGlobalTplParams = (pageIndex: number): GlobalTplParams => {
