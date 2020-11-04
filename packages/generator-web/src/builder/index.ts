@@ -5,6 +5,7 @@ import { SecondParameter } from '../../types/helper';
 
 export function runBuild(params: BuildConfigParams) {
   const config = generateWebpackConfig(params);
+  // console.log(JSON.stringify(config, null, 4));
   return new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
 }
 

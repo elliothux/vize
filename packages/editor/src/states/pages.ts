@@ -79,7 +79,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   get router(): PageRouter {
     return {
       pages: this.pages.map(({ name, key, path, isHome }) => ({ name, key, path, isHome })),
-      getCurrentPage: () => this.currentPage.key,
+      currentPage: this.currentPage.key,
       setCurrentPage: (key: number) => {
         const index = this.pages.findIndex(i => i.key === key);
         selectStore.selectPage(index);

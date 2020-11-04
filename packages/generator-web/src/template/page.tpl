@@ -16,7 +16,7 @@ setMaterialsMap('', {
   components: { <%= componentVars %> },
   plugins: { <%= pluginVars %> },
   actions: { <%= actionVars %> },
-} as any);
+} as any, false);
 
 // Global Style
 injectStyle(`<%= globalStyle %>`, 'vize_injected-global-styles');
@@ -37,13 +37,15 @@ const componentInstances = <%= componentInstances %> as React.ComponentProps<typ
 // Plugin
 const pluginInstances = <%= pluginInstances %> as React.ComponentProps<typeof AppRender>['pluginInstances'] ;
 
-export default function PageRender() {
+export function PageRender(props) {
+  const { router } = props;
   return (
     <AppRender
       global={global}
       meta={meta}
       componentInstances={componentInstances}
       pluginInstances={pluginInstances}
+      router={router}
     />
   );
 }

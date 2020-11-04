@@ -11,6 +11,7 @@ import {
   stringifyMaterialVars,
 } from '../utils';
 import { PageMaterialsPathMap, PageTplParams } from '../types';
+import { BaseConfigParams } from '../builder/base';
 
 interface InitParams {
   dsl: DSL;
@@ -41,15 +42,26 @@ export class BaseGenerator {
 
   private readonly pageActionsPathMaps: PageMaterialsPathMap = [];
 
-  private get isMultiPage() {
+  public readonly containerParams: { [key: string]: BaseConfigParams['containerParams'] } = {};
+
+  public get isMultiPage() {
     return this.dsl.editInfo.pageMode === PageMode.MULTI;
   }
 
-  private get containerPath() {
+  public get containerPath() {
     const {
       container: { name, lib },
     } = this.dsl;
     return path.resolve(this.libsPath, `./${lib}/src/containers/${name}`);
+  }
+
+  public generateContainerParams(pageIndex: number) {
+    const { global, pageInstances } = this.dsl;
+    const { globalProps, metaInfo } = this.isMultiPage ? pageInstances[pageIndex].global : global;
+    this.containerParams[this.isMultiPage ? pageInstances[pageIndex].key.toString() : 'single'] = {
+      global: globalProps,
+      meta: metaInfo,
+    };
   }
 
   public prepareFiles = async () => {
@@ -88,24 +100,9 @@ export class BaseGenerator {
     ]);
   };
 
-  public generatePage = async (pageIndex: number, pagePath: string, entryPath: string) => {
+  public generatePagesFile = async (pageIndex: number, pagePath: string) => {
     await this.generatePageMaterialsMap(pageIndex);
     await this.generatePageFile(pageIndex, pagePath);
-    await this.generateIndexFile(pageIndex, entryPath);
-  };
-
-  public generateHTMLFile = async (pageIndex: number, targetPath: string) => {
-    const { global, pageInstances } = this.dsl;
-    const { globalProps, metaInfo } = this.isMultiPage ? pageInstances[pageIndex].global : global;
-    const params = {
-      global: globalProps,
-      meta: metaInfo,
-      mainStyle: '<link type="text/css" rel="stylesheet" href="index.css" />',
-      mainScript: '<script src="main.js"></script>',
-    };
-    const tpl = await getContainerHTMLTpl(this.containerPath);
-    const content = tpl(params);
-    return fs.writeFile(path.resolve(targetPath, './index.html'), content, { encoding: 'utf-8' });
   };
 
   private generatePageFile = async (pageIndex: number, pagePath: string) => {
@@ -115,26 +112,15 @@ export class BaseGenerator {
     return fs.writeFile(pagePath, content, { encoding: 'utf-8' });
   };
 
-  private generateIndexFile = async (pageIndex: number, targetPath: string) => {
-    const params = { entry: 'vize-main-entry', pageKey: this.dsl.pageInstances[pageIndex].key };
-    const tpl = await getTpl('index');
-    const content = tpl(params);
-    return fs.writeFile(path.resolve(targetPath), content, { encoding: 'utf-8' });
-  };
-
   private generatePageTplParams = (pageIndex: number): PageTplParams => {
     const {
-      dsl: { pageInstances, pluginInstances: singleModePluginInstances },
+      dsl: { pageInstances, pluginInstances: singleModePluginInstances, global: singleModeGlobal },
       pageComponentsPathMaps,
       pagePluginsPathMaps,
       pageActionsPathMaps,
     } = this;
-    const {
-      componentInstances,
-      pluginInstances,
-
-      global: { globalProps, globalStyle, metaInfo },
-    } = pageInstances[pageIndex];
+    const { componentInstances, pluginInstances, global } = pageInstances[pageIndex];
+    const { globalProps, globalStyle, metaInfo } = this.isMultiPage ? global : singleModeGlobal;
 
     const componentsPathMap = pageComponentsPathMaps[pageIndex];
     const pluginsPathMap = pagePluginsPathMaps[pageIndex];

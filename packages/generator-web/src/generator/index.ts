@@ -3,8 +3,8 @@ import { PageMode } from '../../types';
 import { MultiPageGenerator } from './multi';
 import { SinglePageGenerator } from './single';
 
-export function generate(...[params]: ConstructorParameters<typeof BaseGenerator>) {
+export function generate(...[params]: ConstructorParameters<typeof BaseGenerator>): Promise<any> {
   const generator =
-    params.dsl.editInfo.pageMode === PageMode.MULTI ? new MultiPageGenerator(params) : new SinglePageGenerator(params);
+    params.dsl.editInfo.pageMode === PageMode.SINGLE ? new SinglePageGenerator(params) : new MultiPageGenerator(params);
   return generator.run();
 }

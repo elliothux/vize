@@ -36,7 +36,7 @@ export async function copyContainerTemplate(containerPath: string, targetPath: s
   );
 }
 
-export async function getTpl(name: 'page' | 'index') {
+export async function getTpl(name: 'page' | 'multi-index' | 'single-index') {
   const tplFile = await fs.readFile(path.resolve(__dirname, `../template/${name}.tpl`), 'utf-8');
   return tpl(tplFile);
 }

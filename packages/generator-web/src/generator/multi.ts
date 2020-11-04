@@ -3,44 +3,53 @@ import * as fs from 'fs-extra';
 import path from 'path';
 import { runBuild } from '../builder';
 import { BuildConfigParams } from '../builder/configGenerator';
+import { getTpl } from '../utils';
 
 export class MultiPageGenerator extends BaseGenerator {
-  private preparePages = (src: string) => {
+  private preparePagesFolder = (src: string) => {
     const pagesPath = path.resolve(src, 'pages');
     return fs.mkdirp(pagesPath);
   };
 
+  private generateIndexFile = async (pageIndex: number, targetPath: string) => {
+    const params = { entry: 'vize-main-entry', pageKey: this.dsl.pageInstances[pageIndex].key };
+    const tpl = await getTpl('multi-index');
+    const content = tpl(params);
+    return fs.writeFile(path.resolve(targetPath), content, { encoding: 'utf-8' });
+  };
+
   private generatePageFiles = async (): Promise<[string, BuildConfigParams['entryPaths']]> => {
     const [target, src] = await this.prepareFiles();
-    await this.preparePages(src);
+    await this.preparePagesFolder(src);
 
+    const { pageInstances } = this.dsl;
+    const moreThanOnePage = pageInstances.length > 1;
     return [
       target,
       await Promise.all(
-        this.dsl.pageInstances.map(async ({ key }, index) => {
+        pageInstances.map(async ({ key }, index) => {
+          this.generateContainerParams(index);
+
           const pagePath = path.resolve(src, `pages/page-${key}.tsx`);
-          const entryPath = path.resolve(target, `./index-${key}.tsx`);
-          await this.generatePage(index, pagePath, entryPath);
-          return { pageKey: key, entryPath };
+          await this.generatePagesFile(index, pagePath);
+
+          const entryPath = path.resolve(target, moreThanOnePage ? `index-${key}.tsx` : 'index.tsx');
+          await this.generateIndexFile(index, entryPath);
+
+          return { pageKey: key, entryPath, pagePath };
         }),
       ),
     ];
   };
 
-  private generateHtmlFiles = (root: string, entryPaths: BuildConfigParams['entryPaths']) => {
-    return Promise.all(
-      entryPaths.map(async ({ pageKey }, index) => {
-        const pageDistPath =
-          entryPaths.length > 1 ? path.resolve(root, `./dist/${pageKey}`) : path.resolve(root, './dist/');
-        await this.generateHTMLFile(index, pageDistPath);
-        return pageDistPath;
-      }),
-    );
-  };
-
   public run = async () => {
     const [root, entryPaths] = await this.generatePageFiles();
-    await runBuild({ root, entryPaths });
-    return this.generateHtmlFiles(root, entryPaths);
+    await runBuild({
+      root,
+      entryPaths,
+      isMultiPage: this.isMultiPage,
+      containerPath: this.containerPath,
+      containerParams: this.containerParams,
+    });
   };
 }

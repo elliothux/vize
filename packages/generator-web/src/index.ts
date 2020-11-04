@@ -1,1 +1,1 @@
-export { generate } from './generator';
+export * from './generator';
