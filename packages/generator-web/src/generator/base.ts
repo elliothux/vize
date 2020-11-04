@@ -2,15 +2,8 @@
 import path from 'path';
 import * as fs from 'fs-extra';
 import { ComponentInstanceDSL, DSL, EventInstance, EventTargetType, PageMode, PluginInstanceDSL } from '../../types';
-import {
-  formatGlobalStyle,
-  getContainerHTMLTpl,
-  getTpl,
-  prepareTargetFolder,
-  stringifyImports,
-  stringifyMaterialVars,
-} from '../utils';
-import { PageMaterialsPathMap, PageTplParams } from '../types';
+import { formatGlobalStyle, getTpl, prepareTargetFolder, stringifyImports, stringifyMaterialVars } from '../utils';
+import { GlobalTplParams, PageMaterialsPathMap, PageTplParams } from '../types';
 import { BaseConfigParams } from '../builder/base';
 
 interface InitParams {
@@ -40,7 +33,9 @@ export class BaseGenerator {
 
   private readonly pagePluginsPathMaps: PageMaterialsPathMap = [];
 
-  private readonly pageActionsPathMaps: PageMaterialsPathMap = [];
+  private readonly pageComponentActionsPathMaps: PageMaterialsPathMap = [];
+
+  private readonly pagePluginActionsPathMaps: PageMaterialsPathMap = [];
 
   public readonly containerParams: { [key: string]: BaseConfigParams['containerParams'] } = {};
 
@@ -100,40 +95,37 @@ export class BaseGenerator {
     ]);
   };
 
-  public generatePagesFile = async (pageIndex: number, pagePath: string) => {
+  public generatePagesFile = async (pageIndex: number, srcPath: string, pagePath: string) => {
+    const globalFilePath = path.resolve(srcPath, './global.ts');
     await this.generatePageMaterialsMap(pageIndex);
-    await this.generatePageFile(pageIndex, pagePath);
+    await this.generatePageFile(pageIndex, pagePath, globalFilePath);
+    await this.generateGlobalFile(pageIndex, globalFilePath);
   };
 
-  private generatePageFile = async (pageIndex: number, pagePath: string) => {
-    const params = this.generatePageTplParams(pageIndex);
-    const tpl = await getTpl('page');
+  private generateGlobalFile = async (pageIndex: number, globalPath: string) => {
+    const params = this.generateGlobalTplParams(pageIndex);
+    const tpl = await getTpl('global');
     const content = tpl(params);
-    return fs.writeFile(pagePath, content, { encoding: 'utf-8' });
+    return fs.writeFile(globalPath, content, { encoding: 'utf-8' });
   };
 
-  private generatePageTplParams = (pageIndex: number): PageTplParams => {
+  private generateGlobalTplParams = (pageIndex: number): GlobalTplParams => {
     const {
       dsl: { pageInstances, pluginInstances: singleModePluginInstances, global: singleModeGlobal },
-      pageComponentsPathMaps,
       pagePluginsPathMaps,
-      pageActionsPathMaps,
+      pagePluginActionsPathMaps,
     } = this;
-    const { componentInstances, pluginInstances, global } = pageInstances[pageIndex];
+    const { pluginInstances, global } = pageInstances[pageIndex];
     const { globalProps, globalStyle, metaInfo } = this.isMultiPage ? global : singleModeGlobal;
 
-    const componentsPathMap = pageComponentsPathMaps[pageIndex];
     const pluginsPathMap = pagePluginsPathMaps[pageIndex];
-    const actionsPathMap = pageActionsPathMaps[pageIndex];
+    const actionsPathMap = pagePluginActionsPathMaps[pageIndex];
 
     return {
       globalStyle: formatGlobalStyle(globalStyle),
       autoInjectedStyle: '',
       meta: JSON.stringify(metaInfo),
       global: JSON.stringify(globalProps),
-      componentVars: stringifyMaterialVars(componentsPathMap),
-      componentImports: stringifyImports(componentsPathMap),
-      componentInstances: JSON.stringify(componentInstances),
       pluginVars: stringifyMaterialVars(pluginsPathMap),
       pluginImports: stringifyImports(pluginsPathMap),
       pluginInstances: JSON.stringify(this.isMultiPage ? pluginInstances : singleModePluginInstances),
@@ -142,10 +134,39 @@ export class BaseGenerator {
     };
   };
 
+  private generatePageFile = async (pageIndex: number, pagePath: string, globalFilePath: string) => {
+    const params = this.generatePageTplParams(pageIndex, globalFilePath);
+    const tpl = await getTpl('page');
+    const content = tpl(params);
+    return fs.writeFile(pagePath, content, { encoding: 'utf-8' });
+  };
+
+  private generatePageTplParams = (pageIndex: number, globalFilePath: string): PageTplParams => {
+    const {
+      dsl: { pageInstances },
+      pageComponentsPathMaps,
+      pageComponentActionsPathMaps,
+    } = this;
+    const { componentInstances } = pageInstances[pageIndex];
+
+    const componentsPathMap = pageComponentsPathMaps[pageIndex];
+    const actionsPathMap = pageComponentActionsPathMaps[pageIndex];
+
+    return {
+      globalFilePath,
+      componentVars: stringifyMaterialVars(componentsPathMap),
+      componentImports: stringifyImports(componentsPathMap),
+      componentInstances: JSON.stringify(componentInstances),
+      actionVars: stringifyMaterialVars(actionsPathMap),
+      actionImports: stringifyImports(actionsPathMap),
+    };
+  };
+
   public generatePageMaterialsMap = (pageIndex: number) => {
     this.pageComponentsPathMaps[pageIndex] = {};
     this.pagePluginsPathMaps[pageIndex] = {};
-    this.pageActionsPathMaps[pageIndex] = {};
+    this.pageComponentActionsPathMaps[pageIndex] = {};
+    this.pagePluginActionsPathMaps[pageIndex] = {};
 
     this.generateComponents(pageIndex);
     this.generatePlugins(pageIndex);
@@ -165,10 +186,10 @@ export class BaseGenerator {
     );
   };
 
-  private generateActions = (pageIndex: number, events: EventInstance[]) => {
+  private generateActions = (pageIndex: number, events: EventInstance[], from: 'component' | 'plugin') => {
     events.forEach(({ target, events }) => {
       if (events.length) {
-        this.generateActions(pageIndex, events);
+        this.generateActions(pageIndex, events, from);
       }
 
       if (target.type !== EventTargetType.ACTION) {
@@ -177,7 +198,8 @@ export class BaseGenerator {
 
       const { lib, id: identity } = target;
       const importPath = this.getMaterialPath(lib, identity, 'action');
-      const pathMap = this.pageActionsPathMaps[pageIndex];
+      const actionsMap = from === 'component' ? this.pageComponentActionsPathMaps : this.pagePluginActionsPathMaps;
+      const pathMap = actionsMap[pageIndex];
       if (pathMap[lib]) {
         pathMap[lib][identity] = importPath;
       } else {
@@ -193,7 +215,7 @@ export class BaseGenerator {
       }
 
       if (events.length) {
-        this.generateActions(pageIndex, events);
+        this.generateActions(pageIndex, events, 'component');
       }
 
       const importPath = this.getMaterialPath(lib, identity, 'component');
@@ -209,7 +231,7 @@ export class BaseGenerator {
   private generatePluginImports = (pageIndex: number, pluginInstances: PluginInstanceDSL[]) => {
     return pluginInstances.forEach(({ lib, plugin: identity, events }) => {
       if (events.length) {
-        this.generateActions(pageIndex, events);
+        this.generateActions(pageIndex, events, 'plugin');
       }
 
       const importPath = this.getMaterialPath(lib, identity, 'plugin');

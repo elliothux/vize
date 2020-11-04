@@ -40,25 +40,35 @@ export function getMaterialsAction(id: ActionID): Maybe<MaterialsAction> {
   return materialsActionsMap.get(id);
 }
 
-export function setMaterialsMap(libName: string, { components, plugins, actions }: MaterialsMain, clearOld = true) {
+export function setMaterialsMap(
+  libName: string,
+  { components, plugins, actions }: Partial<MaterialsMain>,
+  clearOld = true,
+) {
   if (clearOld) {
     materialsComponentsMap.clear();
     materialsPluginsMap.clear();
     materialsActionsMap.clear();
   }
 
-  Object.entries(components).map(([name, component]) => {
-    const id = getMaterialsIdentityName(libName, name);
-    materialsComponentsMap.set(id, component);
-  });
+  if (components) {
+    Object.entries(components).map(([name, component]) => {
+      const id = getMaterialsIdentityName(libName, name);
+      materialsComponentsMap.set(id, component);
+    });
+  }
 
-  Object.entries(plugins).map(([name, plugin]) => {
-    const id = getMaterialsIdentityName(libName, name);
-    materialsPluginsMap.set(id, plugin);
-  });
+  if (plugins) {
+    Object.entries(plugins).map(([name, plugin]) => {
+      const id = getMaterialsIdentityName(libName, name);
+      materialsPluginsMap.set(id, plugin);
+    });
+  }
 
-  Object.entries(actions).map(([name, action]) => {
-    const id = getMaterialsIdentityName(libName, name);
-    materialsActionsMap.set(id, action);
-  });
+  if (actions) {
+    Object.entries(actions).map(([name, action]) => {
+      const id = getMaterialsIdentityName(libName, name);
+      materialsActionsMap.set(id, action);
+    });
+  }
 }

@@ -21,7 +21,6 @@ import {
   setCurrentPageComponentIndex,
 } from '../utils';
 import { selectStore, SelectType } from './select';
-import { globalStore } from './global';
 import { eventStore } from './events';
 import { StoreWithUtils } from './utils';
 import { editStore } from './edit';

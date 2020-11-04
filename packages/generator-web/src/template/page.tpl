@@ -1,12 +1,10 @@
 // Import Libs and Runtime
 import * as React from "react";
 import { AppRender, injectReadonly, injectStyle, setMaterialsMap } from "../../deps/runtime-web/src";
+import { global, meta, pluginInstances } from '<%= globalFilePath %>';
 
 // Import Components
 <%= componentImports %>
-
-// Import Plugins
-<%= pluginImports %>
 
 // Import Actions
 <%= actionImports %>
@@ -14,28 +12,11 @@ import { AppRender, injectReadonly, injectStyle, setMaterialsMap } from "../../d
 // Init materials map
 setMaterialsMap('', {
   components: { <%= componentVars %> },
-  plugins: { <%= pluginVars %> },
   actions: { <%= actionVars %> },
 } as any, false);
 
-// Global Style
-injectStyle(`<%= globalStyle %>`, 'vize_injected-global-styles');
-
-// Auto Inject Style
-injectStyle(`<%= autoInjectedStyle %>`, 'vize_auto_injected-component-styles');
-
-// Global Data
-const meta = <%= meta %>;
-const global = <%= global %>;
-
-// Inject Global
-injectReadonly('VIZE', { meta, global });
-
 // Components
 const componentInstances = <%= componentInstances %> as React.ComponentProps<typeof AppRender>['componentInstances'];
-
-// Plugin
-const pluginInstances = <%= pluginInstances %> as React.ComponentProps<typeof AppRender>['pluginInstances'] ;
 
 export function PageRender(props) {
   const { router } = props;

@@ -8,6 +8,7 @@ export interface RouterProps {
 }
 
 export function Router({ pages, dynamicImports }: RouterProps) {
+  // const [currentPage, setCurrentPage] = useState(-1);
   const [currentPage, setCurrentPage] = useState(pages[0].key);
   const router = useMemo<PageRouter>(() => ({ pages, currentPage, setCurrentPage }), [currentPage]);
   window.vize_router = router;
@@ -20,13 +21,14 @@ function PageLoader({ router, dynamicImports }: { router: PageRouter; dynamicImp
   const { currentPage } = router;
   useEffect(() => {
     const importPage = dynamicImports[currentPage];
-    importPage()
-      .then(result => {
-        setPage(() => result.PageRender);
-      })
-      .catch(e => {
-        console.error('Load page error:\n', e);
-      });
+    importPage &&
+      importPage()
+        .then(result => {
+          setPage(() => result.PageRender);
+        })
+        .catch(e => {
+          console.error('Load page error:\n', e);
+        });
   }, [currentPage]);
 
   if (Page) {
