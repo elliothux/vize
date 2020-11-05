@@ -95,7 +95,14 @@ export class Renderer extends React.Component {
   };
 
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
-    renderEntry({ render: () => this.setState({ ready: true }) });
+    const { globalProps: global, metaInfo: meta } = globalStore;
+    // TODO
+    renderEntry({
+      implementRouterController: console.log,
+      render: () => this.setState({ ready: true }),
+      global,
+      meta,
+    });
   };
 
   private renderContent = (
