@@ -1,14 +1,14 @@
 import './index.scss';
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
-import { globalStore, selectStore } from 'states';
+import { editStore, globalStore, pagesStore, selectStore } from 'states';
 import classnames from 'classnames';
 import { FirstParameter, HotArea } from 'types';
 import { percent, preventSyntheticEvent } from 'utils';
 import { EventEmitTypes, events } from 'utils';
-import { AttrEditTab } from '../AttributesEditor';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime/comppnents/NodeEventProxy';
+import { AttrEditTab } from '../AttributesEditor';
 import { showHotAreaContextMenu } from '../ContextMenu/HotAreaContextMenu';
 
 interface Props {
@@ -19,7 +19,9 @@ interface Props {
 
 function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
   const { componentKey, hotAreaIndex } = selectStore;
-  const { previewMode, globalProps, metaInfo } = globalStore;
+  const { globalProps, metaInfo } = globalStore;
+  const { previewMode } = editStore;
+  const { router } = pagesStore;
 
   const selected = componentKey === componentInstanceKey && index === hotAreaIndex;
 
@@ -62,6 +64,7 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
         style={style}
         global={globalProps}
         meta={metaInfo}
+        router={router}
         previewMode={previewMode}
       />
     );

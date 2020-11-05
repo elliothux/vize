@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { globalStore } from 'states';
+import { editStore } from 'states';
 import { ComponentInstance, LayoutMode } from 'types';
 import { StreamLayoutRender } from './StreamLayoutRender';
 import { FreeLayoutRender } from './FreeLayoutRender';
@@ -13,19 +13,20 @@ interface Props {
 }
 
 function ILayoutRender({ componentInstances, mountTarget, containerComponentInstance }: Props) {
-  const { layoutMode } = globalStore;
+  const { layoutMode } = editStore;
 
-  if (layoutMode === LayoutMode.STREAM) {
-    return (
-      <StreamLayoutRender
-        mountTarget={mountTarget}
-        componentInstances={componentInstances}
-        containerComponentInstance={containerComponentInstance}
-      />
-    );
+  console.log(editStore, layoutMode);
+  if (layoutMode === LayoutMode.FREE) {
+    return <FreeLayoutRender componentInstances={componentInstances} />;
   }
 
-  return <FreeLayoutRender componentInstances={componentInstances} />;
+  return (
+    <StreamLayoutRender
+      mountTarget={mountTarget}
+      componentInstances={componentInstances}
+      containerComponentInstance={containerComponentInstance}
+    />
+  );
 }
 
 export const LayoutRender = observer(ILayoutRender);

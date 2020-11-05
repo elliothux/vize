@@ -9,12 +9,13 @@ import {
   MaterialsAction,
   MaterialsActionMeta,
   Maybe,
+  PageRouter,
   PluginEventTarget,
   PluginInstance,
 } from '../../../types';
 import { EventHandler, HandlerParams } from './types';
 import * as React from 'react';
-import { getCustomEventCallbacks, getMaterialsAction, getMaterialsActionMeta } from '../../libs';
+import { getCustomEventCallbacks, getMaterialsAction } from '../../libs';
 
 export const DEFAULT_MAX_TIMEOUT = 10 * 1000;
 
@@ -25,6 +26,7 @@ export function timeoutPromise<T>(p: Promise<T>, t: number): Promise<T> {
 export function pipeEvents(
   events: EventInstance[],
   instance: ComponentInstance | PluginInstance | HotArea,
+  router: PageRouter,
 ): EventHandler {
   return async (originalEvent: Maybe<React.SyntheticEvent>, { meta, global }: HandlerParams) => {
     for (const event of events) {
@@ -34,7 +36,7 @@ export function pipeEvents(
           // const { maxTimeout = DEFAULT_MAX_TIMEOUT } = getMaterialsActionMeta(target.id)!;
           const maxTimeout = DEFAULT_MAX_TIMEOUT as MaterialsActionMeta['maxTimeout'];
           const action = getMaterialsAction(target.id)!;
-          const params: FirstParameter<MaterialsAction> = { data: data!, global, meta };
+          const params: FirstParameter<MaterialsAction> = { data: data!, global, meta, router };
 
           try {
             if (maxTimeout === 'infinity') {

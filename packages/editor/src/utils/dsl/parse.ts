@@ -13,9 +13,9 @@ import {
 export function parseDSL({ global, pageInstances, pluginInstances, editInfo }: DSL) {
   return {
     global,
-    pageInstances: parsePageInstancesDSL(pageInstances, global.pageMode),
-    pluginInstances: global.pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(pluginInstances!) : undefined,
     editInfo,
+    pageInstances: parsePageInstancesDSL(pageInstances, editInfo.pageMode),
+    pluginInstances: editInfo.pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(pluginInstances!) : undefined,
   };
 }
 

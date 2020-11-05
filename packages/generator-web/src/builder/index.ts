@@ -1,14 +1,16 @@
 import webpack from 'webpack';
-import { Stats } from 'webpack';
-import { generateWebpackConfig } from './configGenerator';
+import { MultiCompiler, Stats } from 'webpack';
+import { BuildConfigParams, generateWebpackConfig } from './configGenerator';
+import { SecondParameter } from '../../types/helper';
 
-export function runBuild(root: string, useSWC: boolean) {
-  const config = generateWebpackConfig({ root, useSWC });
+export function runBuild(params: BuildConfigParams) {
+  const config = generateWebpackConfig(params);
+  // console.log(JSON.stringify(config, null, 4));
   return new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
 }
 
 function webpackCallback(resolve: Function, reject: Function) {
-  return (err: Error, stats: Stats) => {
+  return (err: Error, stats: SecondParameter<MultiCompiler['run']>) => {
     if (err) {
       console.error('fatal webpack errors:', (err.stack.toString() || err.toString()).trim());
       if ((err as any).details) {
@@ -17,8 +19,8 @@ function webpackCallback(resolve: Function, reject: Function) {
       reject();
     }
 
-    const info = stats.toJson();
-    if (stats.hasErrors()) {
+    const info = (stats as Stats).toJson();
+    if ((stats as Stats).hasErrors()) {
       info.errors.forEach((e: string) => {
         if (e.trim()) {
           console.error('\n\nWebpack compilation errors:', e.trim());

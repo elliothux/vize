@@ -3,7 +3,7 @@ import * as React from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
-import { componentsStore, globalStore, materialsStore, pluginsStore } from 'states';
+import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore } from 'states';
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
 import { initDocument } from 'utils';
@@ -15,7 +15,7 @@ import { InjectedStylesRender } from '../InjectedStylesRender';
 
 import iframeStyle from './index.iframe.scss';
 
-globalStore.setIframeStyle('Renderer', iframeStyle);
+editStore.setIframeStyle('Renderer', iframeStyle);
 
 @observer
 export class Renderer extends React.Component {
@@ -42,7 +42,7 @@ export class Renderer extends React.Component {
       throw new Error('No renderEntry');
     }
 
-    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalProps, win);
+    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalProps, pagesStore.router, win);
     this.callContainerRenderEntry(renderEntry);
   };
 
@@ -55,7 +55,7 @@ export class Renderer extends React.Component {
     let renderEntry: Maybe<ContainerRenderEntry> = null;
 
     await Promise.all(
-      globalStore.libNames.map(async libName => {
+      editStore.libNames.map(async libName => {
         const [main, entry] = await this.initMaterialsWithIframeContext(libName, doc, win);
 
         setMaterialsMap(libName, main);

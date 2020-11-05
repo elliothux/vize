@@ -1,88 +1,68 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import webpack from 'webpack';
 import { Configuration } from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { getBabelConfig, getSWConfig } from './babel';
+import { BaseConfigParams, getBaseWebpackConfig } from './base';
 
-interface Params {
+export interface BuildConfigParams extends Pick<BaseConfigParams, 'containerPath'> {
   root: string;
+  isMultiPage: boolean;
+  entryPaths: { pageKey: number; entryPath?: string; pagePath: string }[];
   useSWC?: boolean;
+  containerParams: { [key: string]: BaseConfigParams['containerParams'] };
 }
 
-export function generateWebpackConfig({ root, useSWC }: Params): Configuration {
-  const entry = path.resolve(root, './index.tsx');
-  const output = path.resolve(root, './dist');
+export function generateWebpackConfig({
+  root,
+  useSWC,
+  entryPaths,
+  isMultiPage,
+  containerPath,
+  containerParams,
+}: BuildConfigParams): Configuration[] {
   const libs = path.resolve(root, './libs');
   const deps = path.resolve(root, './deps');
   const src = path.resolve(root, './src');
+  const dist = path.resolve(root, `./dist`);
 
   const libPaths = fs.readdirSync(libs).map(name => path.resolve(libs, name));
   const libsNodeModules = libPaths.map(i => path.resolve(i, 'node_modules'));
   const libsSrc = libPaths.map(i => path.resolve(i, 'src'));
 
-  const config = <Configuration>{
-    // context: root,
-    entry,
-    output: { path: output },
-    resolve: {
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss', '.css'],
-      modules: [entry, src, deps, ...libsNodeModules, ...libsSrc],
-      symlinks: false,
+  const babelConfig = useSWC ? getSWConfig() : getBabelConfig();
+
+  if (isMultiPage) {
+    return entryPaths.map(({ pageKey, entryPath }) => {
+      const config = getBaseWebpackConfig({ containerParams: containerParams[pageKey], containerPath });
+      const output = entryPaths.length > 1 ? path.resolve(dist, pageKey.toString()) : dist;
+      const modules = [src, deps, ...libsNodeModules, ...libsSrc];
+      modules.push(entryPath!);
+
+      config.entry = entryPath;
+      config.output = { path: output };
+      config.resolve.modules = modules;
+      config.module.rules.unshift(babelConfig);
+      return config;
+    });
+  }
+
+  const config = getBaseWebpackConfig({ containerParams: containerParams['single'], containerPath });
+  const mainEntry = path.resolve(root, './index');
+  const entry = entryPaths.reduce<{ [key: string]: string }>(
+    (accu, { pageKey, pagePath }) => {
+      accu[`page-${pageKey}`] = pagePath!;
+      return accu;
     },
-    module: {
-      rules: [
-        useSWC ? getSWConfig() : getBabelConfig(),
-        {
-          test: /\.(css|scss|sass)$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                modules: false,
-                importLoaders: 2,
-                sourceMap: true,
-              },
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                implementation: require('dart-sass'),
-                sassOptions: {
-                  outputStyle: 'expanded',
-                },
-                sourceMap: true,
-              },
-            },
-          ],
-        },
-        {
-          test: /\.(jpe?g|png|gif|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-          loader: 'base64-inline-loader',
-        },
-      ],
-    },
-    plugins: [
-      new MiniCssExtractPlugin({
-        filename: `index.css`,
-      }),
-      new webpack.EnvironmentPlugin({
-        SSR: false,
-        ENV: 'production',
-        WEBPACK_ENV: 'production',
-      }),
-    ],
-    // mode: 'production',
-    mode: 'development',
-    devtool: 'source-map',
-    optimization: {
-      minimize: false,
-      noEmitOnErrors: false,
-    },
+    { index: mainEntry },
+  );
+  const modules = [src, deps, ...libsNodeModules, ...libsSrc, mainEntry];
+
+  config.entry = entry;
+  config.output = { path: dist, filename: '[name].js' };
+  config.resolve.modules = modules;
+  config.module.rules.unshift(babelConfig);
+  config.optimization.splitChunks = {
+    chunks: 'all',
   };
-
-  console.log('config: ', config);
-
-  return config;
+  return [config];
 }

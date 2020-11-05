@@ -31,20 +31,23 @@ export function getMaterialsActionMeta(id: ActionID): Maybe<MaterialsActionMeta>
   return materialsActionMetaMap.get(id);
 }
 
-export function setMaterialsMetaMap(libName: string, { components, plugins, actions }: MaterialsMeta) {
-  materialsComponentMetaMap.clear();
+export function setMaterialsMetaMap(libName: string, { components, plugins, actions }: MaterialsMeta, clearOld = true) {
+  if (clearOld) {
+    materialsComponentMetaMap.clear();
+    materialsPluginMetaMap.clear();
+    materialsActionMetaMap.clear();
+  }
+
   Object.entries(components).map(([, component]) => {
     const id = getMaterialsIdentityName(libName, component.name);
     materialsComponentMetaMap.set(id, component);
   });
 
-  materialsPluginMetaMap.clear();
   Object.entries(plugins).map(([, plugin]) => {
     const id = getMaterialsIdentityName(libName, plugin.name);
     materialsPluginMetaMap.set(id, plugin);
   });
 
-  materialsActionMetaMap.clear();
   Object.entries(actions).map(([, action]) => {
     const id = getMaterialsIdentityName(libName, action.name);
     materialsActionMetaMap.set(id, action);

@@ -5,7 +5,7 @@ import { onCustomEvent, cancelCustomEvent, getMaterialsComponent, emitCustomEven
 import { mergeCommonStyle, calPosition } from 'utils';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime';
-import { globalStore } from 'states';
+import { editStore, globalStore, pagesStore } from 'states';
 
 interface Props extends WithReactChildren {
   instance: ComponentInstance;
@@ -18,6 +18,10 @@ function IComponentView({ instance, children }: Props) {
   const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
   const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
 
+  const { previewMode } = editStore;
+  const { metaInfo, globalProps } = globalStore;
+  const { router } = pagesStore;
+
   const on = useCallback(
     (eventName: string, callback: Function) => onCustomEvent('component', key, eventName, callback),
     [key],
@@ -26,15 +30,14 @@ function IComponentView({ instance, children }: Props) {
     (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
     [key],
   );
-  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalProps), [key]);
+  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalProps, router), [
+    key,
+  ]);
 
   let posStyle = {} as IPositionStyle;
   if (typeof position === 'object') {
     posStyle = position && calPosition(position);
   }
-
-  // 全局页面元数据
-  const { metaInfo, globalProps } = globalStore;
 
   return (
     <NodeEventProxy<ComponentInstance>
@@ -42,9 +45,10 @@ function IComponentView({ instance, children }: Props) {
       childrenType="component"
       instance={instance}
       style={{ ...iWrapperStyle, ...posStyle }}
-      global={globalStore.globalProps}
-      meta={globalStore.metaInfo}
-      previewMode={globalStore.previewMode}
+      global={globalProps}
+      meta={metaInfo}
+      router={router}
+      previewMode={previewMode}
     >
       <ComponentRender
         componentKey={key}
@@ -57,6 +61,7 @@ function IComponentView({ instance, children }: Props) {
         on={on}
         cancel={cancel}
         emit={emit}
+        router={router}
       >
         {children}
       </ComponentRender>

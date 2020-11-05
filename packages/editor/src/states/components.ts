@@ -21,9 +21,9 @@ import {
   setCurrentPageComponentIndex,
 } from '../utils';
 import { selectStore, SelectType } from './select';
-import { globalStore } from './global';
 import { eventStore } from './events';
 import { StoreWithUtils } from './utils';
+import { editStore } from './edit';
 
 export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   /**
@@ -31,9 +31,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
    * @struct Map<Page, ComponentInstance[]>
    */
   @observable
-  public pagesComponentInstancesMap: {
-    [key: number]: ComponentInstance[];
-  } = {};
+  public pagesComponentInstancesMap: { [key: number]: ComponentInstance[] } = {};
 
   @computed
   public get componentInstances(): ComponentInstance[] {
@@ -65,7 +63,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   public addComponentInstance = (componentID: string) => {
     const component = getMaterialsComponentMeta(componentID)!;
     const instance =
-      globalStore.layoutMode === LayoutMode.FREE
+      editStore.layoutMode === LayoutMode.FREE
         ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
         : createComponentInstance(component, false);
 

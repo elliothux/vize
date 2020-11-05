@@ -1,1 +1,1 @@
-export { WebPageGenerator } from './generator';
+export * from './generator';

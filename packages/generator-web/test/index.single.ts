@@ -1,23 +1,11 @@
 /* eslint-disable max-lines */
 import * as path from 'path';
 import { DSL } from '../types';
-import { WebPageGenerator } from '../';
+import { generate } from '../src';
 
 const dsl = {
-  pageKey: 'test',
+  pageKey: 'gen-test',
   container: { lib: 'universal', name: 'universal' },
-  global: {
-    layoutMode: 'stream',
-    pageMode: 'multi',
-    globalProps: {},
-    globalStyle: {
-      margin: { top: 0, right: 0, bottom: 0, left: 0 },
-      padding: { top: 0, right: 0, bottom: 0, left: 0 },
-      border: { type: 'none', color: '#161616', width: 1 },
-      background: { color: '#ffffff', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
-    },
-    metaInfo: { title: 'vize page', desc: '', duration: null, expiredJump: '' },
-  },
   pageInstances: [
     {
       key: 2,
@@ -457,18 +445,89 @@ const dsl = {
           hotAreas: [],
         },
       ],
-      pluginInstances: [
+    },
+    {
+      key: 3,
+      name: 'new page2',
+      path: '3',
+      isHome: false,
+      componentInstances: [
         {
-          key: 3,
-          plugin: 'universal_share',
+          key: 19,
+          component: 'universal_formcontainer',
           lib: 'universal',
-          data: { wording: '分享完成' },
+          data: {
+            buttonText: '提交',
+            successButtonText: '已提交',
+            successTitle: '成功',
+            successText: '提交成功',
+            messageType: 'toast',
+            forbidResubmit: true,
+          },
+          style: { buttonTextColor: '#fff', buttonBackgroundColor: '#08cb6a' },
+          commonStyle: {
+            transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+            margin: { top: 0, left: 'auto', bottom: 0, right: 'auto' },
+            padding: { top: 16, left: 12, bottom: 16, right: 12 },
+            border: { type: 'none', color: '#161616', width: 1 },
+            background: { color: '#fff', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+          },
+          wrapperStyle: {},
+          events: [],
+          children: [
+            {
+              key: 20,
+              component: 'universal_text',
+              lib: 'universal',
+              data: { text: '输入文本内容...' },
+              style: {},
+              commonStyle: {
+                size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+                transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+                text: { color: '#161616', fontSize: 14, lineHeight: 20, textAlign: 'center', weight: 'normal' },
+                border: { type: 'none', color: '#161616', width: 1 },
+                background: {
+                  color: 'transparent',
+                  image: '',
+                  size: 'auto',
+                  position: 'center top',
+                  repeat: 'repeat-y',
+                },
+                margin: { top: 12, left: 0, bottom: 12, right: 0 },
+                padding: { top: 0, left: 8, bottom: 0, right: 8 },
+                zIndex: true,
+                position: true,
+              },
+              wrapperStyle: {},
+              events: [],
+            },
+          ],
+        },
+        {
+          key: 6,
+          component: 'universal_button',
+          lib: 'universal',
+          data: { text: '按钮' },
+          style: {},
+          commonStyle: {
+            size: { autoWidth: true, width: 200, autoHeight: true, height: 80 },
+            transform: { rotate: 0, opacity: 1, scale: 1, radius: 0 },
+            text: { color: '#161616', fontSize: 14, lineHeight: 20, textAlign: 'center', weight: 'normal' },
+            border: { type: 'none', color: '#161616', width: 1 },
+            background: { color: 'transparent', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+            margin: { top: 12, left: 0, bottom: 12, right: 0 },
+            padding: { top: 0, left: 8, bottom: 0, right: 8 },
+            zIndex: true,
+            position: true,
+          },
+          wrapperStyle: {
+            background: { color: 'transparent', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+          },
           events: [
             {
-              key: 18,
-              data: { content: '223' },
-              trigger: { type: 'custom', triggerName: 'shareSuccess' },
-              target: { type: 'action', id: 'universal_alert', lib: 'universal' },
+              key: 15,
+              trigger: { type: 'component_universal_trigger', triggerName: '__vize_component_event_trigger_click' },
+              target: { type: 'plugin', eventName: 'share', key: 3 },
               events: [],
             },
           ],
@@ -476,15 +535,43 @@ const dsl = {
       ],
     },
   ],
-  editInfo: { maxKeys: { page: 3, component: 20, 'hot-area': 9, plugin: 3, action: 18 } },
+  global: {
+    globalProps: {},
+    globalStyle: {
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
+      padding: { top: 0, right: 0, bottom: 0, left: 0 },
+      border: { type: 'none', color: '#161616', width: 1 },
+      background: { color: '#ffffff', image: '', size: 'auto', position: 'center top', repeat: 'repeat-y' },
+    },
+    metaInfo: { title: 'vize page', desc: '', duration: null, expiredJump: '' },
+  },
+  pluginInstances: [
+    {
+      key: 4,
+      plugin: 'universal_share',
+      lib: 'universal',
+      data: { wording: '分享完成' },
+      events: [],
+    },
+  ],
+  editInfo: {
+    maxKeys: { page: 3, component: 20, 'hot-area': 9, plugin: 3, action: 18 },
+    layoutMode: 'stream',
+    pageMode: 'single',
+  },
 } as DSL;
 
-const generator = new WebPageGenerator({
+// const generator = new WebPageGenerator({
+//   dsl,
+//   libsPath: path.resolve(__dirname, './libs'),
+//   depsPath: path.resolve(__dirname, './deps'),
+//   targetPath: path.resolve(__dirname, './dist'),
+//   useSWC: false,
+// });
+
+const generator = generate({
   dsl,
   libsPath: path.resolve(__dirname, './libs'),
   depsPath: path.resolve(__dirname, './deps'),
-  targetPath: path.resolve(__dirname, './dist'),
-  useSWC: false,
-});
-
-generator.dist().then(console.log);
+  distWorkspacePath: path.resolve(__dirname, './dist'),
+}).then(console.log);

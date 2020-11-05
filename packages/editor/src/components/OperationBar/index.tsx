@@ -23,13 +23,13 @@ import classNames from 'classnames';
 import { ReactComponent as Column } from 'static/images/right-column-layout.svg';
 import { save } from './actions';
 import { observer } from 'mobx-react';
-import { globalStore } from '../../states';
+import { editStore } from '../../states';
 
 @observer
 export class OperationBar extends React.Component {
   renderCenter = () => {
     // TODO
-    const { previewMode } = globalStore;
+    const { previewMode } = editStore;
 
     const isUserValid = true;
     const owner = 'admin';
@@ -44,7 +44,7 @@ export class OperationBar extends React.Component {
         <OperationItem
           title={previewMode ? '切换到编辑模式' : '切换到预览模式'}
           icon={previewMode ? FiEdit : FiEye}
-          action={globalStore.togglePreviewMode}
+          action={editStore.togglePreviewMode}
         />
         <OperationItem title="全屏" icon={FiMaximize2} action={noop} />
         <span className="operation_black" />

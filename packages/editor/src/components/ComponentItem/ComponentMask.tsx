@@ -3,7 +3,7 @@ import { ComponentInstance, MaterialsComponentMeta, Function, WithReactChildren 
 import { useMemo } from 'react';
 import { getMaterialsComponentMeta } from 'runtime';
 import { observer } from 'mobx-react';
-import { globalStore } from '../../states';
+import { editStore } from 'states';
 
 interface Props {
   instance: ComponentInstance;
@@ -22,7 +22,7 @@ function IComponentMask({ instance, onClick, onDoubleClick, onContextMenu, child
     instance,
   ]);
 
-  const { previewMode } = globalStore;
+  const { previewMode } = editStore;
 
   return (
     <div

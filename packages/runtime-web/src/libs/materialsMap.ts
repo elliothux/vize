@@ -40,22 +40,35 @@ export function getMaterialsAction(id: ActionID): Maybe<MaterialsAction> {
   return materialsActionsMap.get(id);
 }
 
-export function setMaterialsMap(libName: string, { components, plugins, actions }: MaterialsMain) {
-  materialsComponentsMap.clear();
-  Object.entries(components).map(([name, component]) => {
-    const id = getMaterialsIdentityName(libName, name);
-    materialsComponentsMap.set(id, component);
-  });
+export function setMaterialsMap(
+  libName: string,
+  { components, plugins, actions }: Partial<MaterialsMain>,
+  clearOld = true,
+) {
+  if (clearOld) {
+    materialsComponentsMap.clear();
+    materialsPluginsMap.clear();
+    materialsActionsMap.clear();
+  }
 
-  materialsPluginsMap.clear();
-  Object.entries(plugins).map(([name, plugin]) => {
-    const id = getMaterialsIdentityName(libName, name);
-    materialsPluginsMap.set(id, plugin);
-  });
+  if (components) {
+    Object.entries(components).map(([name, component]) => {
+      const id = getMaterialsIdentityName(libName, name);
+      materialsComponentsMap.set(id, component);
+    });
+  }
 
-  materialsActionsMap.clear();
-  Object.entries(actions).map(([name, action]) => {
-    const id = getMaterialsIdentityName(libName, name);
-    materialsActionsMap.set(id, action);
-  });
+  if (plugins) {
+    Object.entries(plugins).map(([name, plugin]) => {
+      const id = getMaterialsIdentityName(libName, name);
+      materialsPluginsMap.set(id, plugin);
+    });
+  }
+
+  if (actions) {
+    Object.entries(actions).map(([name, action]) => {
+      const id = getMaterialsIdentityName(libName, name);
+      materialsActionsMap.set(id, action);
+    });
+  }
 }

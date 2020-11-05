@@ -3,12 +3,12 @@ import path from 'path';
 import tpl from 'lodash.template';
 import { MaterialsPathMap } from '../types';
 
-export async function prepareTargetPath(targetPath: string, pageKey: string): Promise<[string, string]> {
-  if (!fs.existsSync(targetPath)) {
-    await fs.mkdir(targetPath);
+export async function prepareTargetFolder(distWorkspacePath: string, pageKey: string): Promise<[string, string]> {
+  if (!fs.existsSync(distWorkspacePath)) {
+    await fs.mkdir(distWorkspacePath);
   }
 
-  const p = path.resolve(targetPath, pageKey);
+  const p = path.resolve(distWorkspacePath, pageKey);
   if (fs.existsSync(p)) {
     fs.rmdirSync(p, { recursive: true });
   }
@@ -16,6 +16,7 @@ export async function prepareTargetPath(targetPath: string, pageKey: string): Pr
 
   const src = path.resolve(p, './src');
   await fs.mkdirp(src);
+
   return [p, src];
 }
 
@@ -35,7 +36,7 @@ export async function copyContainerTemplate(containerPath: string, targetPath: s
   );
 }
 
-export async function getTpl(name: 'app' | 'index') {
+export async function getTpl(name: 'page' | 'multi-index' | 'single-index' | 'global') {
   const tplFile = await fs.readFile(path.resolve(__dirname, `../template/${name}.tpl`), 'utf-8');
   return tpl(tplFile);
 }

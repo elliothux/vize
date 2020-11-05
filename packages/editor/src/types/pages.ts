@@ -19,3 +19,9 @@ export enum PageMode {
   SINGLE = 'single',
   MULTI = 'multi',
 }
+
+export interface PageRouter {
+  pages: Omit<PageInstance, 'isNameEditing'>[];
+  currentPage: number;
+  setCurrentPage: (pageKey: number) => void;
+}

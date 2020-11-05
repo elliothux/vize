@@ -4,12 +4,12 @@ import { ComponentInstance, HotArea } from '../../../types';
 import { NodeEventProxy } from '../NodeEventProxy';
 import { AppRenderProps } from '../AppRender/types';
 
-interface Props extends Pick<AppRenderProps, 'global' | 'meta'> {
+interface Props extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
   componentInstance: ComponentInstance;
   hotArea: HotArea;
 }
 
-export function HotAreaItem({ hotArea, global, meta }: Props) {
+export function HotAreaItem({ hotArea, global, meta, router }: Props) {
   const { size, position } = hotArea;
   const style = useMemo(
     () => ({
@@ -29,6 +29,7 @@ export function HotAreaItem({ hotArea, global, meta }: Props) {
       style={style}
       global={global}
       meta={meta}
+      router={router}
       previewMode={false}
     />
   );

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { globalStore } from 'states';
+import { editStore } from 'states';
 import { GlobalStyle } from './GlobalStyle';
 
 export function InjectedStylesRender() {
-  const { iframeStyleMap } = globalStore;
+  const { iframeStyleMap } = editStore;
   return (
     <>
       <GlobalStyle />

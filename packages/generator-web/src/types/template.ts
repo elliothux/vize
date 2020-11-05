@@ -1,14 +1,20 @@
-export interface TplParams {
+export interface PageTplParams {
+  globalFilePath: string;
+  componentVars: string;
+  componentImports: string;
+  componentInstances: string;
+  actionVars: string;
+  actionImports: string;
+}
+
+export interface GlobalTplParams {
   globalStyle: string;
   autoInjectedStyle: string;
   meta: string;
   global: string;
-  componentVars: string;
-  componentImports: string;
-  componentInstances: string;
-  pluginVars: string;
-  pluginImports: string;
-  pluginInstances: string;
-  actionVars: string;
   actionImports: string;
+  actionVars: string;
+  pluginImports: string;
+  pluginVars: string;
+  pluginInstances: string;
 }
