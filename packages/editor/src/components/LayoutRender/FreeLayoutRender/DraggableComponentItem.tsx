@@ -56,6 +56,7 @@ function IDraggableComponentItem({ instance, index }: Props) {
         currentSelectedContainerKey={selectStore.containerComponentKey}
         selectMode={selectMode}
         selectModeSelectedComponent={selectModeSelectedComponent}
+        isCurrentSelectedContainerShared={false}
       />
     </Rnd>
   );

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
-import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore } from 'states';
+import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore, sharedStore } from 'states';
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
 import { initDocument } from 'utils';
@@ -103,6 +103,7 @@ export class Renderer extends React.Component {
     win: Window,
     mountTarget: HTMLDivElement,
     componentInstances: ComponentInstance[],
+    sharedComponentInstances: ComponentInstance[],
   ) => {
     if (!this.state.ready) {
       return null;
@@ -115,6 +116,7 @@ export class Renderer extends React.Component {
           mountTarget={mountTarget}
           // renderContext={win}
           componentInstances={componentInstances}
+          sharedComponentInstances={sharedComponentInstances}
         />
       </>
     );
@@ -122,6 +124,7 @@ export class Renderer extends React.Component {
 
   public render() {
     const { componentInstances } = componentsStore;
+    const { sharedComponentInstances } = sharedStore;
 
     return (
       <RenderSandbox
@@ -129,6 +132,7 @@ export class Renderer extends React.Component {
         htmlContent={this.containerHTML}
         iframeDidMount={this.iframeDidMount}
         componentInstances={componentInstances}
+        sharedComponentInstances={sharedComponentInstances}
       >
         {this.renderContent}
       </RenderSandbox>

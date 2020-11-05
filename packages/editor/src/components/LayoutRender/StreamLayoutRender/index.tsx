@@ -21,10 +21,16 @@ const SortableComponentItem = sortableElement(ComponentItem);
 interface Props {
   mountTarget?: HTMLDivElement;
   componentInstances: ComponentInstance[];
+  sharedComponentInstances?: ComponentInstance[];
   containerComponentInstance?: ComponentInstance;
 }
 
-function IStreamLayoutRender({ containerComponentInstance, componentInstances, mountTarget }: Props) {
+function IStreamLayoutRender({
+  containerComponentInstance,
+  componentInstances,
+  sharedComponentInstances,
+  mountTarget,
+}: Props) {
   const { selectType, componentKey, containerComponentKey, selectMode, selectModeSelectedComponent } = selectStore;
 
   const onSortStart = useCallback(
@@ -32,7 +38,7 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
       if (selectStore.selectMode) {
         return;
       }
-      selectStore.selectComponent(componentInstances[index].key);
+      selectStore.selectComponent(false, componentInstances[index].key);
     },
     [componentInstances],
   );
@@ -48,6 +54,19 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
 
   const getContainer = useMemo(() => (mountTarget ? () => mountTarget : undefined), [mountTarget]);
 
+  const sharedChildren = sharedComponentInstances?.map(instance => (
+    <ComponentItem
+      key={instance.key}
+      instance={instance}
+      currentSelectedKey={componentKey}
+      currentSelectedType={selectType}
+      currentSelectedContainerKey={containerComponentKey}
+      selectMode={selectMode}
+      selectModeSelectedComponent={selectModeSelectedComponent}
+      isCurrentSelectedContainerShared
+    />
+  ));
+
   const children = componentInstances.map((instance, index) => (
     <SortableComponentItem
       key={instance.key}
@@ -58,6 +77,7 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
       currentSelectedContainerKey={containerComponentKey}
       selectMode={selectMode}
       selectModeSelectedComponent={selectModeSelectedComponent}
+      isCurrentSelectedContainerShared={false}
     />
   ));
 
@@ -69,11 +89,16 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
       currentSelectedContainerKey={containerComponentKey}
       selectMode={selectMode}
       selectModeSelectedComponent={selectModeSelectedComponent}
+      isCurrentSelectedContainerShared={false}
     >
+      {sharedChildren}
       {children}
     </ComponentItem>
   ) : (
-    children
+    <>
+      {sharedChildren}
+      {children}
+    </>
   );
 
   return (

@@ -9,13 +9,18 @@ interface Props {
   mountTarget?: HTMLDivElement;
   // renderContext: Window;
   componentInstances: ComponentInstance[];
+  sharedComponentInstances?: ComponentInstance[];
   containerComponentInstance?: ComponentInstance;
 }
 
-function ILayoutRender({ componentInstances, mountTarget, containerComponentInstance }: Props) {
+function ILayoutRender({
+  componentInstances,
+  mountTarget,
+  containerComponentInstance,
+  sharedComponentInstances,
+}: Props) {
   const { layoutMode } = editStore;
 
-  console.log(editStore, layoutMode);
   if (layoutMode === LayoutMode.FREE) {
     return <FreeLayoutRender componentInstances={componentInstances} />;
   }
@@ -25,6 +30,7 @@ function ILayoutRender({ componentInstances, mountTarget, containerComponentInst
       mountTarget={mountTarget}
       componentInstances={componentInstances}
       containerComponentInstance={containerComponentInstance}
+      sharedComponentInstances={sharedComponentInstances}
     />
   );
 }

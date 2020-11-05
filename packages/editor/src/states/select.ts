@@ -36,8 +36,12 @@ export class SelectStore {
   @observable
   public componentKey = -1;
 
+  @observable
+  public sharedComponentSelected = false;
+
   @action
-  public selectComponent = (key: number, parentKey?: number) => {
+  public selectComponent = (shared: boolean, key: number, parentKey?: number) => {
+    this.sharedComponentSelected = shared;
     this.containerComponentKey = parentKey || -1;
     this.selectType = SelectType.COMPONENT;
     this.componentKey = key;

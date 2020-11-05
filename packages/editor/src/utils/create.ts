@@ -66,6 +66,7 @@ export function createComponentInstance(
     layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
     children: isContainer ? [] : undefined,
     hotAreas: hotArea ? [] : undefined,
+    shared: false,
   };
 }
 

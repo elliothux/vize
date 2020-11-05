@@ -15,7 +15,6 @@ export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
 
   useMount(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     await init();
     setLoading(false);
   });

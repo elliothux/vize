@@ -1,20 +1,39 @@
 import { useMemo } from 'react';
-import { componentsStore, selectStore, SelectType } from 'states';
+import { componentsStore, selectStore, SelectType, sharedStore } from 'states';
 import { ComponentInstance, MaterialsComponentMeta, Maybe } from 'types';
 import { getMaterialsComponentMeta } from 'runtime';
-import { getCurrentPageComponentIndex, isNumber } from '../utils';
+import { getCurrentPageComponentIndex, getSharedComponentIndex, isNumber } from '../utils';
 
-export function useComponentInstance(key: number): Maybe<ComponentInstance> {
-  const { componentInstances } = componentsStore;
+export function useSharedComponentInstance(key: number): Maybe<ComponentInstance> {
+  const { sharedComponentInstances } = sharedStore;
 
-  const instanceIndex = useMemo(() => getCurrentPageComponentIndex(key), [key, componentInstances]);
+  const instanceIndex = useMemo(() => getSharedComponentIndex(key), [key, sharedComponentInstances]);
 
   if (!instanceIndex) {
     return null;
   }
 
   const { index, parentIndex } = instanceIndex;
+  return isNumber(parentIndex)
+    ? sharedComponentInstances[parentIndex!].children![index]
+    : sharedComponentInstances[index];
+}
 
+export function useComponentInstance(key: number): Maybe<ComponentInstance> {
+  const { componentInstances } = componentsStore;
+
+  const instanceIndex = useMemo(() => getCurrentPageComponentIndex(key), [key, componentInstances]);
+
+  const shared = useSharedComponentInstance(key);
+  if (shared) {
+    return shared;
+  }
+
+  if (!instanceIndex) {
+    return null;
+  }
+
+  const { index, parentIndex } = instanceIndex;
   return isNumber(parentIndex) ? componentInstances[parentIndex!].children![index] : componentInstances[index];
 }
 

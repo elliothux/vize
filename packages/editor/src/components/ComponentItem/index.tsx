@@ -20,6 +20,7 @@ interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComp
   currentSelectedType: SelectType;
   currentSelectedKey: number;
   currentSelectedContainerKey: number;
+  isCurrentSelectedContainerShared: boolean;
 }
 
 export class ComponentItem extends React.Component<WithReactChildren<Props>> {
@@ -40,10 +41,10 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
 
   private onSelect = () => {
     const {
-      instance: { key },
+      instance: { key, shared },
     } = this.props;
 
-    selectStore.selectComponent(key);
+    selectStore.selectComponent(shared, key);
   };
 
   private onSelectWithSelectMode = withPreventEvent(() => {
@@ -55,7 +56,8 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   });
 
   private onContextMenu = (e: React.MouseEvent) => {
-    showComponentContextMenu(e, this.props.instance.key, true);
+    const { key, shared } = this.props.instance;
+    showComponentContextMenu(e, shared, key, true);
   };
 
   private onDoubleClick = () => {
@@ -79,7 +81,8 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   };
 
   private onClickMask = () => {
-    selectStore.selectComponent(this.props.currentSelectedContainerKey);
+    const { currentSelectedContainerKey, isCurrentSelectedContainerShared } = this.props;
+    selectStore.selectComponent(isCurrentSelectedContainerShared, currentSelectedContainerKey);
     selectStore.selectContainerComponent(-1);
   };
 

@@ -8,10 +8,10 @@ export interface RouterProps {
 }
 
 export function Router({ pages, dynamicImports }: RouterProps) {
-  // const [currentPage, setCurrentPage] = useState(-1);
   const [currentPage, setCurrentPage] = useState(pages[0].key);
   const router = useMemo<PageRouter>(() => ({ pages, currentPage, setCurrentPage }), [currentPage]);
-  window.vize_router = router;
+  // TODO: remove
+  (window as any).vize_router = router;
   return <PageLoader router={router} dynamicImports={dynamicImports} />;
 }
 

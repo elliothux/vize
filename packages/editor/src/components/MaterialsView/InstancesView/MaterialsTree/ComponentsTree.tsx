@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { ComponentProps, useMemo } from 'react';
+import * as R from 'ramda';
+import { ComponentProps, useCallback, useMemo } from 'react';
 import { Tree } from 'antd';
 import { FiArchive, FiFolder, FiLayers, FiSquare } from 'react-icons/fi';
 import { observer } from 'mobx-react';
-import { componentsStore, selectStore, SelectType } from 'states';
+import { componentsStore, selectStore, SelectType, sharedStore } from 'states';
 import { ComponentInstance, FirstParameter, HotArea, Maybe, MustBe } from 'types';
 import { showComponentContextMenu, showHotAreaContextMenu } from 'components/ContextMenu';
 import { ComponentIndex, findComponentInstanceByIndex, isString, isNumber } from 'utils';
@@ -13,12 +14,17 @@ const { DirectoryTree } = Tree;
 
 type TreeData = ComponentProps<typeof DirectoryTree>['treeData'];
 
-export function IComponentsTree() {
+interface Props {
+  shared?: boolean;
+}
+
+function IComponentsTree({ shared }: Props) {
   const { componentInstances } = componentsStore;
+  const { sharedComponentInstances } = sharedStore;
   const { selectType, componentKey, hotAreaIndex } = selectStore;
 
   // const treeData = useMemo<TreeData>(() => getTreeData(componentInstances), [componentInstances]);
-  const treeData = getTreeData(componentInstances);
+  const treeData = getTreeData(shared ? sharedComponentInstances : componentInstances, !!shared);
   const selectedKeys = useMemo<(number | string)[]>(() => {
     if (selectType === SelectType.COMPONENT) {
       return [componentKey];
@@ -29,6 +35,10 @@ export function IComponentsTree() {
     return [];
   }, [hotAreaIndex, componentKey, selectType]);
 
+  const onSelectTree = useCallback(R.partial(onSelect, [shared]), [shared]);
+  const onRightClickTree = useCallback(R.partial(onRightClick, [shared]), [shared]);
+  const onDragStartTree = useCallback(R.partial(onDragStart, [shared]), [shared]);
+
   return (
     <DirectoryTree
       className="components-tree"
@@ -36,9 +46,9 @@ export function IComponentsTree() {
       // draggable // TODO
       treeData={treeData}
       selectedKeys={selectedKeys}
-      onRightClick={onRightClick}
-      onSelect={onSelect}
-      onDragStart={onDragStart}
+      onSelect={onSelectTree}
+      onRightClick={onRightClickTree}
+      onDragStart={onDragStartTree}
       onDrop={onDrop}
     />
   );
@@ -46,7 +56,7 @@ export function IComponentsTree() {
 
 export const ComponentsTree = observer(IComponentsTree);
 
-function onSelect(...params: Parameters<MustBe<ComponentProps<typeof DirectoryTree>['onSelect']>>) {
+function onSelect(shared: boolean, ...params: Parameters<MustBe<ComponentProps<typeof DirectoryTree>['onSelect']>>) {
   const [
     ,
     {
@@ -62,13 +72,13 @@ function onSelect(...params: Parameters<MustBe<ComponentProps<typeof DirectoryTr
   }
 
   const instance = componentsStore.getCurrentPageComponentInstance(key as number);
-  selectStore.selectComponent(instance.key, instance.parent?.key);
+  selectStore.selectComponent(shared, instance.key, instance.parent?.key);
 }
 
-function onRightClick({
-  event,
-  node: { key },
-}: FirstParameter<MustBe<ComponentProps<typeof DirectoryTree>['onRightClick']>>) {
+function onRightClick(
+  shared: boolean,
+  { event, node: { key } }: FirstParameter<MustBe<ComponentProps<typeof DirectoryTree>['onRightClick']>>,
+) {
   if (isString(key)) {
     const [prefix, componentKey, index] = key.toString().split('-');
     if (prefix !== 'hotarea') {
@@ -76,16 +86,20 @@ function onRightClick({
     }
     return showHotAreaContextMenu(event, parseInt(index, 10), parseInt(componentKey, 10));
   }
-  showComponentContextMenu(event, key as number);
+  showComponentContextMenu(event, shared, key as number);
 }
 
-function onDragStart({ node: { key } }: FirstParameter<MustBe<ComponentProps<typeof DirectoryTree>['onDragStart']>>) {
+function onDragStart(
+  shared: boolean,
+  { node: { key } }: FirstParameter<MustBe<ComponentProps<typeof DirectoryTree>['onDragStart']>>,
+) {
   if (key === 'components') {
     return;
   }
-  selectStore.selectComponent(key as number);
+  selectStore.selectComponent(shared, key as number);
 }
 
+// TODO
 function onDrop({ node, dropToGap, dragNode }: FirstParameter<MustBe<ComponentProps<typeof DirectoryTree>['onDrop']>>) {
   if (!node || !dragNode || dragNode.key === 'components') {
     return;
@@ -136,10 +150,10 @@ function parseTreeNodeIndex(i: string): Maybe<ComponentIndex> {
   return { index: indexes[1], parentIndex: indexes[0] };
 }
 
-function getTreeData(componentInstances: ComponentInstance[]): TreeData {
+function getTreeData(componentInstances: ComponentInstance[], shared: boolean): TreeData {
   return [
     {
-      title: '已添加的组件',
+      title: shared ? '跨页面共享的组件' : '已添加的组件',
       key: 'components',
       isLeaf: false,
       icon: <FiFolder />,

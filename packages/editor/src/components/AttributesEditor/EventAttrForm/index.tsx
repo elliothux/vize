@@ -45,6 +45,9 @@ function IEventAttrForm({ selectType }: Props) {
       break;
   }
 
+  if (!componentMeta && !pluginMeta) {
+    return null;
+  }
   const customEvents = isHotArea ? undefined : isComponent ? componentMeta!.emitEvents : pluginMeta!.emitEvents;
 
   return (
