@@ -7,7 +7,7 @@ import {
 } from 'react-sortable-hoc';
 import { ComponentInstance, WithReactChildren } from 'types';
 import { ComponentItem } from 'components/ComponentItem';
-import { componentsStore, editStore, selectStore } from 'states';
+import { componentsStore, editStore, pagesStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo } from 'react';
 
@@ -31,7 +31,15 @@ function IStreamLayoutRender({
   sharedComponentInstances,
   mountTarget,
 }: Props) {
-  const { selectType, componentKey, containerComponentKey, selectMode, selectModeSelectedComponent } = selectStore;
+  const {
+    selectType,
+    componentKey,
+    containerComponentKey,
+    selectMode,
+    selectModeSelectedComponent,
+    pageIndex,
+  } = selectStore;
+  const { pages } = pagesStore;
 
   const onSortStart = useCallback(
     ({ index }: SortStart) => {
@@ -64,6 +72,8 @@ function IStreamLayoutRender({
       selectMode={selectMode}
       selectModeSelectedComponent={selectModeSelectedComponent}
       isCurrentSelectedContainerShared
+      pages={pages}
+      currentPageIndex={pageIndex}
     />
   ));
 
@@ -78,6 +88,8 @@ function IStreamLayoutRender({
       selectMode={selectMode}
       selectModeSelectedComponent={selectModeSelectedComponent}
       isCurrentSelectedContainerShared={false}
+      pages={pages}
+      currentPageIndex={pageIndex}
     />
   ));
 
@@ -90,6 +102,8 @@ function IStreamLayoutRender({
       selectMode={selectMode}
       selectModeSelectedComponent={selectModeSelectedComponent}
       isCurrentSelectedContainerShared={false}
+      pages={pages}
+      currentPageIndex={pageIndex}
     >
       {sharedChildren}
       {children}

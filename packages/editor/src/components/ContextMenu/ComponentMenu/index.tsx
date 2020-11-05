@@ -1,17 +1,19 @@
 import * as React from 'react';
-import { FiDelete, FiCopy } from 'react-icons/fi';
-import { Menu, Item, theme, Separator, animation } from 'react-contexify';
+import { FiDelete, FiCopy, FiRefreshCw, FiCornerUpRight } from 'react-icons/fi';
+import { Menu, Item, theme, Separator, Submenu, animation } from 'react-contexify';
 import { useCallback } from 'react';
 import { componentsStore, selectStore, sharedStore } from 'states';
 import { noop, preventSyntheticEvent, showContextMenu } from 'utils';
-import { ComponentInstance } from 'types';
+import { ComponentInstance, PageInstance } from 'types';
 import { createMouseEventFromIframe } from '../utils';
 
 interface Props {
   instance: ComponentInstance;
+  pages: PageInstance[];
+  currentPageIndex: number;
 }
 
-export function ComponentContextMenu({ instance }: Props) {
+export function ComponentContextMenu({ instance, pages, currentPageIndex }: Props) {
   const { key, shared, children } = instance;
   const onDelete = useCallback(() => componentsStore.deleteComponentInstance(instance.key), [key]);
   const onShared = useCallback(() => sharedStore.setComponentInstanceAsShared(key), [key]);
@@ -30,19 +32,59 @@ export function ComponentContextMenu({ instance }: Props) {
         <FiDelete />
         <span>删除</span>
       </Item>
+
       <Item onClick={noop}>
         <FiCopy />
         <span>复制</span>
       </Item>
+
+      <Separator />
+
       {!shared && !children ? (
         <Item onClick={onShared}>
-          <FiCopy />
+          <FiRefreshCw />
           <span>在页面间共享</span>
         </Item>
       ) : null}
+
+      <Submenu
+        label={
+          <>
+            <FiCornerUpRight />
+            <span>移动到</span>
+          </>
+        }
+        arrow={null}
+      >
+        {pages.map(({ name, key }, index) =>
+          shared || index !== currentPageIndex ? (
+            <Item key={key} onClick={noop}>
+              <span>{name}</span>
+            </Item>
+          ) : null,
+        )}
+      </Submenu>
+
+      <Submenu
+        label={
+          <>
+            <FiCopy />
+            <span>复制到</span>
+          </>
+        }
+        arrow={null}
+      >
+        {pages.map(({ name, key }, index) =>
+          shared || index !== currentPageIndex ? (
+            <Item key={key} onClick={noop}>
+              <span>{name}</span>
+            </Item>
+          ) : null,
+        )}
+      </Submenu>
+
       {children ? (
         <>
-          <Separator />
           <Item onClick={noop}>
             <FiCopy />
             <span>编辑子组件</span>

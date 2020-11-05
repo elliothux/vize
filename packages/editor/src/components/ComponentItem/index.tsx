@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import * as React from 'react';
-import { ComponentInstance, Maybe, WithReactChildren } from 'types';
+import { ComponentInstance, Maybe, PageInstance, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
 import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { events, EventEmitTypes, withPreventEvent } from 'utils';
@@ -21,6 +21,8 @@ interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComp
   currentSelectedKey: number;
   currentSelectedContainerKey: number;
   isCurrentSelectedContainerShared: boolean;
+  pages: PageInstance[];
+  currentPageIndex: number;
 }
 
 export class ComponentItem extends React.Component<WithReactChildren<Props>> {
@@ -99,6 +101,8 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
       currentSelectedType,
       selectMode,
       selectModeSelectedComponent,
+      pages,
+      currentPageIndex,
       children,
     } = this.props;
 
@@ -146,7 +150,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
             </ComponentMask>
           )}
 
-          <ComponentContextMenu instance={instance} />
+          <ComponentContextMenu instance={instance} pages={pages} currentPageIndex={currentPageIndex} />
         </div>
 
         {selectedAsContainer ? (

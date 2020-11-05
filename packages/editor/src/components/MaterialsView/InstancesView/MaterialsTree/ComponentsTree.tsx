@@ -71,7 +71,9 @@ function onSelect(shared: boolean, ...params: Parameters<MustBe<ComponentProps<t
     return selectStore.selectHotArea(parseInt(index, 10), parseInt(componentKey, 10));
   }
 
-  const instance = componentsStore.getCurrentPageComponentInstance(key as number);
+  const instance = shared
+    ? sharedStore.getCurrentSharedComponentInstance(key as number)
+    : componentsStore.getCurrentPageComponentInstance(key as number);
   selectStore.selectComponent(shared, instance.key, instance.parent?.key);
 }
 

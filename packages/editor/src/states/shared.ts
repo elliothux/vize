@@ -2,9 +2,10 @@ import { action, observable } from 'mobx';
 import { StoreWithUtils } from './utils';
 import { ComponentInstance } from '../types';
 import { componentsStore } from './components';
-import { getSharedComponentIndex, setSharedComponentIndex } from '../utils/indexMap';
-import { isNumber } from '../utils';
+import { deleteSharedComponentIndex, getSharedComponentIndex, setSharedComponentIndex } from '../utils/indexMap';
+import { componentEventDepsMap, DepsTargetType, isNumber } from '../utils';
 import { selectStore } from './select';
+import { eventStore } from './events';
 
 export class SharedStore extends StoreWithUtils<SharedStore> {
   /**
@@ -21,6 +22,7 @@ export class SharedStore extends StoreWithUtils<SharedStore> {
     instance.shared = true;
     this.sharedComponentInstances.push(instance);
 
+    componentEventDepsMap.createEventDepsMap(componentKey);
     setSharedComponentIndex(componentKey, { index: this.sharedComponentInstances.length - 1 });
     selectStore.selectComponent(true, componentKey);
   };
@@ -38,6 +40,32 @@ export class SharedStore extends StoreWithUtils<SharedStore> {
     setter(instance);
 
     return instance;
+  };
+
+  @action
+  public deleteSharedComponentInstance = (key: number) => {
+    let { sharedComponentInstances } = this;
+    const { index, parentIndex } = deleteSharedComponentIndex(key, this.sharedComponentInstances);
+
+    if (isNumber(parentIndex)) {
+      sharedComponentInstances = sharedComponentInstances[parentIndex!].children!;
+    }
+
+    const [instance] = sharedComponentInstances.splice(index, 1);
+    selectStore.selectPage(selectStore.pageIndex);
+    eventStore.deleteDepsEventInstances(DepsTargetType.Component, key);
+    componentEventDepsMap.deleteEventDepsMap(key);
+    return instance;
+  };
+
+  public getCurrentSharedComponentInstance = (componentKey: number): ComponentInstance => {
+    const { index, parentIndex } = getSharedComponentIndex(componentKey)!;
+
+    if (isNumber(parentIndex)) {
+      return this.sharedComponentInstances[parentIndex!].children![index];
+    }
+
+    return this.sharedComponentInstances[index];
   };
 }
 

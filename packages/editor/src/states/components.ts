@@ -101,6 +101,10 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
 
   @action
   public deleteComponentInstance = (key: number) => {
+    if (!getCurrentPageComponentIndex(key)) {
+      return sharedStore.deleteSharedComponentInstance(key);
+    }
+
     let instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index, parentIndex } = deleteCurrentPageComponentIndex(key, instances);
 
@@ -204,8 +208,13 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   };
 
   public getCurrentPageComponentInstance = (componentKey: number): ComponentInstance => {
+    const componentIndex = getCurrentPageComponentIndex(componentKey)!;
+    if (!componentIndex) {
+      return sharedStore.getCurrentSharedComponentInstance(componentKey);
+    }
+
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    const { index, parentIndex } = getCurrentPageComponentIndex(componentKey)!;
+    const { index, parentIndex } = componentIndex;
 
     if (isNumber(parentIndex)) {
       return instances[parentIndex!].children![index];
