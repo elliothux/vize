@@ -1,7 +1,11 @@
-import { ComponentIndex } from './componentIndexMap';
+import { ComponentIndex, ComponentIndexMapEntries } from './componentIndexMap';
 import { ComponentInstance, Maybe } from 'types';
 
-const sharedComponentIndexMap = new Map<number, ComponentIndex>();
+let sharedComponentIndexMap = new Map<number, ComponentIndex>();
+
+export function setSharedComponentIndexMap(entries: ComponentIndexMapEntries) {
+  sharedComponentIndexMap = new Map<number, ComponentIndex>(entries);
+}
 
 export function getSharedComponentIndex(componentKey: number): Maybe<ComponentIndex> {
   return sharedComponentIndexMap.get(componentKey);

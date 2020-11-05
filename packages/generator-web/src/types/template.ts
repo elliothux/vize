@@ -17,4 +17,7 @@ export interface GlobalTplParams {
   pluginImports: string;
   pluginVars: string;
   pluginInstances: string;
+  sharedComponentImports: string;
+  sharedComponentVars: string;
+  sharedComponentInstances: string;
 }

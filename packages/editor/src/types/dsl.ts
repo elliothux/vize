@@ -46,5 +46,6 @@ export type DSL = Readonly<{
   global?: GlobalDSL;
   pageInstances: PageDSL[];
   pluginInstances?: PluginInstanceDSL[];
+  sharedComponentInstance?: ComponentInstanceDSL[];
   editInfo: EditInfoDSL;
 }>;

@@ -3,7 +3,7 @@ import path from 'path';
 import * as fs from 'fs-extra';
 import { ComponentInstanceDSL, DSL, EventInstance, EventTargetType, PageMode, PluginInstanceDSL } from '../../types';
 import { formatGlobalStyle, getTpl, prepareTargetFolder, stringifyImports, stringifyMaterialVars } from '../utils';
-import { GlobalTplParams, PageMaterialsPathMap, PageTplParams } from '../types';
+import { GlobalTplParams, MaterialsPathMap, PageMaterialsPathMap, PageTplParams } from '../types';
 import { BaseConfigParams } from '../builder/base';
 
 interface InitParams {
@@ -37,6 +37,10 @@ export class BaseGenerator {
 
   private readonly pagePluginActionsPathMaps: PageMaterialsPathMap = [];
 
+  private readonly sharedComponentPathMap: MaterialsPathMap = {};
+
+  private readonly sharedComponentActionsPathMap: MaterialsPathMap = {};
+
   public readonly containerParams: { [key: string]: BaseConfigParams['containerParams'] } = {};
 
   public get isMultiPage() {
@@ -50,6 +54,14 @@ export class BaseGenerator {
     return path.resolve(this.libsPath, `./${lib}/src/containers/${name}`);
   }
 
+  public generateSharedComponentsMap() {
+    const { sharedComponentInstance } = this.dsl;
+    if (sharedComponentInstance) {
+      this.generateComponentImports(sharedComponentInstance);
+    }
+    return this;
+  }
+
   public generateContainerParams(pageIndex: number) {
     const { global, pageInstances } = this.dsl;
     const { globalProps, metaInfo } = this.isMultiPage ? pageInstances[pageIndex].global : global;
@@ -57,6 +69,7 @@ export class BaseGenerator {
       global: globalProps,
       meta: metaInfo,
     };
+    return this;
   }
 
   public prepareFiles = async () => {
@@ -118,7 +131,7 @@ export class BaseGenerator {
     const { globalProps, globalStyle, metaInfo } = this.isMultiPage ? global : singleModeGlobal;
 
     const pluginsPathMap = pagePluginsPathMaps[pageIndex];
-    const actionsPathMap = pagePluginActionsPathMaps[pageIndex];
+    const actionsPathMap = { ...pagePluginActionsPathMaps[pageIndex], ...this.sharedComponentActionsPathMap };
 
     return {
       globalStyle: formatGlobalStyle(globalStyle),
@@ -130,6 +143,9 @@ export class BaseGenerator {
       pluginInstances: JSON.stringify(this.isMultiPage ? pluginInstances : singleModePluginInstances),
       actionVars: stringifyMaterialVars(actionsPathMap),
       actionImports: stringifyImports(actionsPathMap),
+      sharedComponentVars: stringifyMaterialVars(this.sharedComponentPathMap),
+      sharedComponentImports: stringifyImports(this.sharedComponentPathMap),
+      sharedComponentInstances: JSON.stringify(this.dsl.sharedComponentInstance),
     };
   };
 
@@ -174,7 +190,7 @@ export class BaseGenerator {
   private generateComponents = (pageIndex: number, componentInstances?: ComponentInstanceDSL[]) => {
     const { pageInstances } = this.dsl;
     const components = componentInstances || pageInstances[pageIndex].componentInstances;
-    return this.generateComponentImports(pageIndex, components);
+    return this.generateComponentImports(components, pageIndex);
   };
 
   private generatePlugins = (pageIndex: number) => {
@@ -185,10 +201,14 @@ export class BaseGenerator {
     );
   };
 
-  private generateActions = (pageIndex: number, events: EventInstance[], from: 'component' | 'plugin') => {
+  private generateActions = (
+    from: 'component' | 'plugin' | 'sharedComponent',
+    events: EventInstance[],
+    pageIndex?: number,
+  ) => {
     events.forEach(({ target, events }) => {
       if (events.length) {
-        this.generateActions(pageIndex, events, from);
+        this.generateActions(from, events, pageIndex);
       }
 
       if (target.type !== EventTargetType.ACTION) {
@@ -197,8 +217,13 @@ export class BaseGenerator {
 
       const { lib, id: identity } = target;
       const importPath = this.getMaterialPath(lib, identity, 'action');
-      const actionsMap = from === 'component' ? this.pageComponentActionsPathMaps : this.pagePluginActionsPathMaps;
-      const pathMap = actionsMap[pageIndex];
+      const pathMap =
+        from === 'component'
+          ? this.pageComponentActionsPathMaps[pageIndex]
+          : from === 'sharedComponent'
+          ? this.sharedComponentActionsPathMap
+          : this.pagePluginActionsPathMaps[pageIndex];
+
       if (pathMap[lib]) {
         pathMap[lib][identity] = importPath;
       } else {
@@ -207,18 +232,19 @@ export class BaseGenerator {
     });
   };
 
-  private generateComponentImports = (pageIndex: number, componentInstances: ComponentInstanceDSL[]) => {
+  private generateComponentImports = (componentInstances: ComponentInstanceDSL[], pageIndex?: number) => {
+    const isShared = typeof pageIndex !== 'number';
     return componentInstances.forEach(({ lib, component: identity, children, events }) => {
       if (children?.length) {
-        this.generateComponents(pageIndex, children);
+        isShared ? this.generateComponentImports(children) : this.generateComponents(pageIndex, children);
       }
 
       if (events.length) {
-        this.generateActions(pageIndex, events, 'component');
+        this.generateActions(isShared ? 'sharedComponent' : 'component', events, pageIndex);
       }
 
       const importPath = this.getMaterialPath(lib, identity, 'component');
-      const pathMap = this.pageComponentsPathMaps[pageIndex];
+      const pathMap = isShared ? this.sharedComponentPathMap : this.pageComponentsPathMaps[pageIndex];
       if (pathMap[lib]) {
         pathMap[lib][identity] = importPath;
       } else {
@@ -230,7 +256,7 @@ export class BaseGenerator {
   private generatePluginImports = (pageIndex: number, pluginInstances: PluginInstanceDSL[]) => {
     return pluginInstances.forEach(({ lib, plugin: identity, events }) => {
       if (events.length) {
-        this.generateActions(pageIndex, events, 'plugin');
+        this.generateActions('plugin', events, pageIndex);
       }
 
       const importPath = this.getMaterialPath(lib, identity, 'plugin');

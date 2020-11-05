@@ -11,7 +11,11 @@ export class SinglePageGenerator extends BaseGenerator {
     return fs.mkdirp(pagesPath);
   };
 
-  private generateIndexFile = async (targetPath: string, entryPaths: BuildConfigParams['entryPaths']) => {
+  private generateIndexFile = async (
+    targetPath: string,
+    entryPaths: BuildConfigParams['entryPaths'],
+    globalFilePath: string,
+  ) => {
     const pages = this.dsl.pageInstances.map(({ key, name, isHome }) => ({
       key,
       name,
@@ -24,6 +28,7 @@ export class SinglePageGenerator extends BaseGenerator {
       dynamicImports: `{${entryPaths
         .map(({ pageKey, pagePath }) => `${pageKey}: () => import('${pagePath}')`)
         .join(', ')}}`,
+      globalFilePath,
     };
     const tpl = await getTpl('single-index');
     const content = tpl(params);
@@ -35,24 +40,25 @@ export class SinglePageGenerator extends BaseGenerator {
     await this.preparePagesPath(src);
 
     const { pageInstances } = this.dsl;
+    const globalFilePath = path.resolve(src, 'pages/global.ts');
     const pagePaths = await Promise.all(
       pageInstances.map(async ({ key }, index) => {
         const pagePath = path.resolve(src, `pages/page-${key}.tsx`);
-        const globalPath = path.resolve(src, 'pages/global.ts');
-        await this.generatePagesFile(index, pagePath, globalPath);
+        await this.generatePagesFile(index, pagePath, globalFilePath);
         return { pageKey: key, pagePath };
       }),
     );
 
     const entryPath = path.resolve(target, 'index.tsx');
-    await this.generateIndexFile(entryPath, pagePaths);
+    await this.generateIndexFile(entryPath, pagePaths, globalFilePath);
 
     return [target, pagePaths];
   };
 
   public run = async () => {
-    this.generateContainerParams(-1);
-    const [root, entryPaths] = await this.generatePageFiles();
+    const [root, entryPaths] = await this.generateContainerParams(-1)
+      .generateSharedComponentsMap()
+      .generatePageFiles();
     // return Promise.resolve(root);
     await runBuild({
       root,

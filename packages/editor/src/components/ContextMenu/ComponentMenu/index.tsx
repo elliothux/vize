@@ -23,7 +23,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
   // );
 
   return (
-    <Menu id={getID(instance.key)} theme={theme.dark} animation={animation.fade}>
+    <Menu id={getID(instance.key)} theme={theme.dark} animation={animation.zoom}>
       {/*<Item onClick={onRename}>*/}
       {/*  <FiEdit />*/}
       {/*  <span>重命名</span>*/}
@@ -40,6 +40,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
 
       <Separator />
 
+      {/* TODO */}
       {!shared && !children ? (
         <Item onClick={onShared}>
           <FiRefreshCw />

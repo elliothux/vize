@@ -12,7 +12,6 @@ export class SharedStore extends StoreWithUtils<SharedStore> {
    * @desc Shared Components
    * @struct ComponentInstance[]
    */
-
   @observable
   public sharedComponentInstances: ComponentInstance[] = [];
 
