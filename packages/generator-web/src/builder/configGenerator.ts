@@ -9,6 +9,7 @@ export interface BuildConfigParams extends Pick<BaseConfigParams, 'containerPath
   isMultiPage: boolean;
   entryPaths: { pageKey: number; entryPath?: string; pagePath: string }[];
   useSWC?: boolean;
+  isProd?: boolean;
   containerParams: { [key: string]: BaseConfigParams['containerParams'] };
 }
 
@@ -19,6 +20,7 @@ export function generateWebpackConfig({
   isMultiPage,
   containerPath,
   containerParams,
+  isProd = false,
 }: BuildConfigParams): Configuration[] {
   const libs = path.resolve(root, './libs');
   const deps = path.resolve(root, './deps');
@@ -33,7 +35,7 @@ export function generateWebpackConfig({
 
   if (isMultiPage) {
     return entryPaths.map(({ pageKey, entryPath }) => {
-      const config = getBaseWebpackConfig({ containerParams: containerParams[pageKey], containerPath });
+      const config = getBaseWebpackConfig({ containerParams: containerParams[pageKey], containerPath, isProd });
       const output = entryPaths.length > 1 ? path.resolve(dist, pageKey.toString()) : dist;
       const modules = [src, deps, ...libsNodeModules, ...libsSrc];
       modules.push(entryPath!);
@@ -46,7 +48,7 @@ export function generateWebpackConfig({
     });
   }
 
-  const config = getBaseWebpackConfig({ containerParams: containerParams['single'], containerPath });
+  const config = getBaseWebpackConfig({ containerParams: containerParams['single'], containerPath, isProd });
   const mainEntry = path.resolve(root, './index');
   const entry = entryPaths.reduce<{ [key: string]: string }>(
     (accu, { pageKey, pagePath }) => {
