@@ -4,7 +4,7 @@ import { ComponentInstance, Maybe, PageRouter } from '../../../types';
 import { ComponentInstances } from '../../components/ComponentInstances';
 import { AppRenderProps } from '../AppRender/types';
 
-export interface RouterProps extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
+export interface RouterProps extends Pick<AppRenderProps, 'global' | 'meta'> {
   pages: PageRouter['pages'];
   dynamicImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<any> }> };
   sharedComponentInstances: ComponentInstance[];
