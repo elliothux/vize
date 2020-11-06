@@ -6,11 +6,11 @@ import { AppRenderProps } from '../AppRender/types';
 
 export interface RouterProps extends Pick<AppRenderProps, 'global' | 'meta'> {
   pages: PageRouter['pages'];
-  dynamicImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<any> }> };
+  dynamicPageImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<any> }> };
   sharedComponentInstances: ComponentInstance[];
 }
 
-export function Router({ pages, dynamicImports, sharedComponentInstances, global, meta }: RouterProps) {
+export function Router({ pages, dynamicPageImports, sharedComponentInstances, global, meta }: RouterProps) {
   const [currentPage, setCurrentPage] = useState(pages[0].key);
   const router = useMemo<PageRouter>(() => ({ pages, currentPage, setCurrentPage }), [currentPage]);
 
@@ -19,12 +19,18 @@ export function Router({ pages, dynamicImports, sharedComponentInstances, global
   return (
     <>
       <ComponentInstances global={global} meta={meta} componentInstances={sharedComponentInstances} router={router} />
-      <PageLoader router={router} dynamicImports={dynamicImports} />
+      <PageLoader router={router} dynamicImports={dynamicPageImports} />
     </>
   );
 }
 
-function PageLoader({ router, dynamicImports }: { router: PageRouter; dynamicImports: RouterProps['dynamicImports'] }) {
+function PageLoader({
+  router,
+  dynamicImports,
+}: {
+  router: PageRouter;
+  dynamicImports: RouterProps['dynamicPageImports'];
+}) {
   const [Page, setPage] = useState<Maybe<React.ComponentType<any>>>(null);
 
   const { currentPage } = router;
