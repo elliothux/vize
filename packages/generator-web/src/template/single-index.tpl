@@ -26,9 +26,10 @@ function render() {
   return ReactDOM.render(
     <Router
         pages={pages}
-        dynamicImports={dynamicImports}
+        dynamicPageImports={dynamicImports}
         global={global}
         meta={meta}
+        sharedComponentInstances={sharedComponentInstances}
         SharedComponentInstances={SharedComponentInstances}
     />,
     entry

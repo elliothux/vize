@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ComponentInstance, WithReactChildren, PositionStyle, IPositionStyle } from 'types';
+import { ComponentInstance, WithReactChildren } from 'types';
 import { useCallback, useMemo } from 'react';
 import { onCustomEvent, cancelCustomEvent, getMaterialsComponent, emitCustomEvent } from 'runtime';
-import { mergeCommonStyle, calPosition } from 'utils';
+import { mergeCommonStyle } from 'runtime';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime';
 import { editStore, globalStore, pagesStore } from 'states';
@@ -13,10 +13,12 @@ interface Props extends WithReactChildren {
 
 function IComponentView({ instance, children }: Props) {
   const { key, component, data, style, commonStyle, wrapperStyle } = instance;
-  const position = commonStyle.position as PositionStyle;
+  // const position = commonStyle.position as IPositionStyle;
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
   const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
   const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
+  // const posStyle = useMemo(() => (position ? calcPosition(position) : null), [position]);
+  // const assignedStyle = useMemo(() => ({ ...iWrapperStyle, ...posStyle }), [iWrapperStyle, posStyle]);
 
   const { previewMode } = editStore;
   const { metaInfo, globalProps } = globalStore;
@@ -34,17 +36,12 @@ function IComponentView({ instance, children }: Props) {
     key,
   ]);
 
-  let posStyle = {} as IPositionStyle;
-  if (typeof position === 'object') {
-    posStyle = position && calPosition(position);
-  }
-
   return (
     <NodeEventProxy<ComponentInstance>
       className="component-event-proxy"
       childrenType="component"
       instance={instance}
-      style={{ ...iWrapperStyle, ...posStyle }}
+      style={iWrapperStyle}
       global={globalProps}
       meta={metaInfo}
       router={router}

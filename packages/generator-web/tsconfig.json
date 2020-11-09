@@ -12,6 +12,7 @@
     "skipLibCheck": true
   },
   "compileOnSave": true,
+  "baseUrl": "src",
   "include": ["src", "types"],
   "files": ["global.d.ts"]
 }

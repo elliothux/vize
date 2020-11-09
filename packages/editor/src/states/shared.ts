@@ -22,8 +22,13 @@ export class SharedStore extends StoreWithUtils<SharedStore> {
     this.sharedComponentInstances.push(instance);
 
     componentEventDepsMap.createEventDepsMap(componentKey);
-    setSharedComponentIndex(componentKey, { index: this.sharedComponentInstances.length - 1 });
+    const index = this.sharedComponentInstances.length - 1;
+    setSharedComponentIndex(componentKey, { index });
     selectStore.selectComponent(true, componentKey);
+
+    instance?.children?.forEach(({ key }, childIndex) => {
+      setSharedComponentIndex(key, { index: childIndex, parentIndex: index });
+    });
   };
 
   @action

@@ -1,7 +1,8 @@
 import * as fs from 'fs-extra';
 import path from 'path';
 import tpl from 'lodash.template';
-import { MaterialsPathMap } from '../types';
+import { mergeCommonStyle } from '../runtime/libs/style';
+import { ComponentInstanceDSL, MaterialsPathMap } from '../types';
 
 export async function prepareTargetFolder(distWorkspacePath: string, pageKey: string): Promise<[string, string]> {
   if (!fs.existsSync(distWorkspacePath)) {
@@ -56,6 +57,18 @@ export function stringifyImports(pathMap: MaterialsPathMap): string {
         .join('\n');
     })
     .join('\n');
+}
+
+export function stringifyComponentInstances(componentInstances: ComponentInstanceDSL[]): string {
+  return JSON.stringify(componentInstances.map(formatComponentInstanceDSL));
+}
+
+export function formatComponentInstanceDSL(component: ComponentInstanceDSL): ComponentInstanceDSL {
+  return {
+    ...component,
+    commonStyle: mergeCommonStyle(component.commonStyle),
+    children: component.children ? component.children.map(formatComponentInstanceDSL) : undefined,
+  };
 }
 
 export function stringifyMaterialVars(pathMap: MaterialsPathMap): string {

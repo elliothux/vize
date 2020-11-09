@@ -2,7 +2,14 @@
 import path from 'path';
 import * as fs from 'fs-extra';
 import { ComponentInstanceDSL, DSL, EventInstance, EventTargetType, PageMode, PluginInstanceDSL } from '../../types';
-import { formatGlobalStyle, getTpl, prepareTargetFolder, stringifyImports, stringifyMaterialVars } from '../utils';
+import {
+  formatGlobalStyle,
+  getTpl,
+  prepareTargetFolder,
+  stringifyComponentInstances,
+  stringifyImports,
+  stringifyMaterialVars,
+} from '../utils';
 import { GlobalTplParams, MaterialsPathMap, PageMaterialsPathMap, PageTplParams } from '../types';
 import { BaseConfigParams } from '../builder/base';
 
@@ -133,6 +140,8 @@ export class BaseGenerator {
     const pluginsPathMap = pagePluginsPathMaps[pageIndex];
     const actionsPathMap = { ...pagePluginActionsPathMaps[pageIndex], ...this.sharedComponentActionsPathMap };
 
+    console.log(this.dsl.sharedComponentInstance, stringifyComponentInstances(this.dsl.sharedComponentInstance));
+
     return {
       globalStyle: formatGlobalStyle(globalStyle),
       autoInjectedStyle: '',
@@ -145,7 +154,7 @@ export class BaseGenerator {
       actionImports: stringifyImports(actionsPathMap),
       sharedComponentVars: stringifyMaterialVars(this.sharedComponentPathMap),
       sharedComponentImports: stringifyImports(this.sharedComponentPathMap),
-      sharedComponentInstances: JSON.stringify(this.dsl.sharedComponentInstance),
+      sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstance),
     };
   };
 
@@ -171,7 +180,7 @@ export class BaseGenerator {
       globalFilePath,
       componentVars: stringifyMaterialVars(componentsPathMap),
       componentImports: stringifyImports(componentsPathMap),
-      componentInstances: JSON.stringify(componentInstances),
+      componentInstances: stringifyComponentInstances(componentInstances),
       actionVars: stringifyMaterialVars(actionsPathMap),
       actionImports: stringifyImports(actionsPathMap),
     };

@@ -1,9 +1,10 @@
 /* eslint-disable max-lines */
 import * as React from 'react';
-import { ComponentInstance, Maybe, PageInstance, WithReactChildren } from 'types';
+import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
 import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { events, EventEmitTypes, withPreventEvent } from 'utils';
+import { calcPosition } from 'runtime';
 import classNames from 'classnames';
 import { deleteComponentNode, setComponentNode } from 'runtime';
 import { ComponentContextMenu, showComponentContextMenu } from 'components/ContextMenu';
@@ -95,7 +96,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   public render() {
     const {
       instance,
-      instance: { key },
+      instance: { key, commonStyle },
       currentSelectedKey,
       currentSelectedContainerKey,
       currentSelectedType,
@@ -116,6 +117,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
       return <LayoutRender componentInstances={instance.children} containerComponentInstance={instance} />;
     }
 
+    const position = commonStyle.position as PositionStyle;
     return (
       <>
         <div
@@ -126,6 +128,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
             'selected-as-container': selectedAsContainer,
           })}
           data-key={key}
+          style={position ? calcPosition(position) : undefined}
         >
           <ComponentView instance={instance}>{children}</ComponentView>
 

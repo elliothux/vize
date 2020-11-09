@@ -41,7 +41,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
       <Separator />
 
       {/* TODO */}
-      {!shared && !children ? (
+      {!shared ? (
         <Item onClick={onShared}>
           <FiRefreshCw />
           <span>在页面间共享</span>

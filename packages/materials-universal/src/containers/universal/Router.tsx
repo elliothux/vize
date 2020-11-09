@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import ReactSwipe from 'react-swipe';
 
-export function Router({ pages, dynamicImports, SharedComponentInstances }: any) {
+export function Router({ pages, dynamicPageImports, SharedComponentInstances }: any) {
   const [currentPage, setCurrentPage] = useState(pages[0].key);
   const router = useMemo(() => ({ pages, currentPage, setCurrentPage }), [currentPage]);
 
@@ -19,7 +19,7 @@ export function Router({ pages, dynamicImports, SharedComponentInstances }: any)
       <SwipePages pages={pages} setCurrentPage={router.setCurrentPage} setRef={ref}>
         {(pages as any).map(({ key }) => (
           <div key={key} className="swipe-page">
-            <PageLoader pageKey={key} router={router} dynamicImport={dynamicImports[key]} />
+            <PageLoader pageKey={key} router={router} dynamicImport={dynamicPageImports[key]} />
           </div>
         ))}
       </SwipePages>

@@ -39,6 +39,10 @@ function IComponentsTree({ shared }: Props) {
   const onRightClickTree = useCallback(R.partial(onRightClick, [shared]), [shared]);
   const onDragStartTree = useCallback(R.partial(onDragStart, [shared]), [shared]);
 
+  if (shared && !sharedComponentInstances.length) {
+    return null;
+  }
+
   return (
     <DirectoryTree
       className="components-tree"
