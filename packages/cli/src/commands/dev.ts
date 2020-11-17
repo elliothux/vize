@@ -13,16 +13,7 @@ export async function dev(options: object) {
   const config = getLibConfig(paths);
 
   const builder = new Builder(paths, config, false);
-  builder.dev();
-}
-
-export async function dist() {
-  const root = process.cwd();
-  const paths = getLibPaths(root);
-  const config = getLibConfig(paths);
-
-  const builder = new Builder(paths, config, true);
-  return builder.dist();
+  return builder.dev();
 }
 
 async function chooseContainer(root: string): Promise<string> {

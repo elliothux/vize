@@ -1,8 +1,7 @@
-import { ComponentInstance, ComponentProps, MaterialsComponent, MaterialsComponentMeta } from './component';
+import { ComponentProps, MaterialsComponent, MaterialsComponentMeta } from './component';
 import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
-import { AppRenderProps } from '../../../runtime-web/src/components/AppRender/types';
-import { PageRouter, RouterProps } from './pages';
+import { RouterProps } from './pages';
 import * as React from 'react';
 
 export interface MaterialsInfo {

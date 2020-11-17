@@ -7,7 +7,7 @@ import {
   getTpl,
   prepareTargetFolder,
   stringifyComponentInstances,
-  stringifyImports,
+  stringifyUmdCconstants,
   stringifyMaterialVars,
 } from '../utils';
 import { GlobalTplParams, MaterialsPathMap, PageMaterialsPathMap, PageTplParams } from '../types';
@@ -148,12 +148,12 @@ export class BaseGenerator {
       meta: JSON.stringify(metaInfo),
       global: JSON.stringify(globalProps),
       pluginVars: stringifyMaterialVars(pluginsPathMap),
-      pluginImports: stringifyImports(pluginsPathMap),
+      pluginImports: stringifyUmdCconstants(pluginsPathMap),
       pluginInstances: JSON.stringify(this.isMultiPage ? pluginInstances : singleModePluginInstances),
       actionVars: stringifyMaterialVars(actionsPathMap),
-      actionImports: stringifyImports(actionsPathMap),
+      actionImports: stringifyUmdCconstants(actionsPathMap),
       sharedComponentVars: stringifyMaterialVars(this.sharedComponentPathMap),
-      sharedComponentImports: stringifyImports(this.sharedComponentPathMap),
+      sharedComponentImports: stringifyUmdCconstants(this.sharedComponentPathMap),
       sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstance),
     };
   };
@@ -179,10 +179,10 @@ export class BaseGenerator {
     return {
       globalFilePath,
       componentVars: stringifyMaterialVars(componentsPathMap),
-      componentImports: stringifyImports(componentsPathMap),
+      componentImports: stringifyUmdCconstants(componentsPathMap),
       componentInstances: stringifyComponentInstances(componentInstances),
       actionVars: stringifyMaterialVars(actionsPathMap),
-      actionImports: stringifyImports(actionsPathMap),
+      actionImports: stringifyUmdCconstants(actionsPathMap),
     };
   };
 
@@ -225,7 +225,7 @@ export class BaseGenerator {
       }
 
       const { lib, id: identity } = target;
-      const importPath = this.getMaterialPath(lib, identity, 'action');
+      const importPath = this.getMaterialPathAndName(lib, identity, 'action');
       const pathMap =
         from === 'component'
           ? this.pageComponentActionsPathMaps[pageIndex]
@@ -252,7 +252,7 @@ export class BaseGenerator {
         this.generateActions(isShared ? 'sharedComponent' : 'component', events, pageIndex);
       }
 
-      const importPath = this.getMaterialPath(lib, identity, 'component');
+      const importPath = this.getMaterialPathAndName(lib, identity, 'component');
       const pathMap = isShared ? this.sharedComponentPathMap : this.pageComponentsPathMaps[pageIndex];
       if (pathMap[lib]) {
         pathMap[lib][identity] = importPath;
@@ -268,7 +268,7 @@ export class BaseGenerator {
         this.generateActions('plugin', events, pageIndex);
       }
 
-      const importPath = this.getMaterialPath(lib, identity, 'plugin');
+      const importPath = this.getMaterialPathAndName(lib, identity, 'plugin');
       const pathMap = this.pagePluginsPathMaps[pageIndex];
       if (pathMap[lib]) {
         pathMap[lib][identity] = importPath;
@@ -278,8 +278,12 @@ export class BaseGenerator {
     });
   };
 
-  private getMaterialPath = (lib: string, identityName: string, type: 'component' | 'plugin' | 'action') => {
-    return path.resolve(this.libsPath, `./${lib}/src/${type}s/${identityName.split('_')[1]}`);
+  private getMaterialPathAndName = (lib: string, identityName: string, type: 'component' | 'plugin' | 'action') => {
+    const identity = identityName.split('_')[1];
+    return {
+      path: path.resolve(this.libsPath, `./${lib}/src/${type}s/${identity}`),
+      name: `@vize-materials-${lib}-${identity}`,
+    };
   };
 
   static copyIgnoreFiles = ['config.ts', 'config.js', 'config.json', 'index.html.ejs'];

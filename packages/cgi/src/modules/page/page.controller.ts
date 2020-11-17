@@ -41,6 +41,7 @@ export class PageController {
     const pages = await this.pageService.queryPageEntity(query);
     return CGIResponse.success(pages);
   }
+
   @Get(':id')
   async getPageById(@Param('id') id: number) {
     if (!id) {

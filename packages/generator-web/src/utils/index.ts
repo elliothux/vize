@@ -47,11 +47,12 @@ export async function getContainerHTMLTpl(containerPath: string) {
   return tpl(tplFile);
 }
 
-export function stringifyImports(pathMap: MaterialsPathMap): string {
+export function stringifyUmdConstants(pathMap: MaterialsPathMap): string {
   return Object.entries(pathMap)
     .map(([, pathMap]) => {
       return Object.entries(pathMap)
-        .map(([identity, path]) => {
+        .map(([identity, { path, name }]) => {
+          // return `const ${identity} = window["${name}"]`;
           return `import ${identity} from "${path}";`;
         })
         .join('\n');

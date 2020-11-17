@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { CGICodeMap, CGIResponse } from 'utils';
 import { PageService } from 'modules/page/page.service';
 import { BizService } from './biz.service';
@@ -11,7 +11,7 @@ export class BizController {
     private readonly bizService: BizService, // private readonly pageModule: PageModule,
   ) {}
 
-  @Get()
+  @Post()
   async createBiz() {
     const biz: CreateBizParams = {
       key: 'test',
@@ -25,5 +25,12 @@ export class BizController {
 
     console.log(await this.bizService.createBizEntity(biz), this.pageService);
     return CGIResponse.success();
+  }
+
+  @Get()
+  async queryBiz() {
+    const result = await this.bizService.queryBizEntities({});
+    console.log(result);
+    return CGIResponse.success(result);
   }
 }

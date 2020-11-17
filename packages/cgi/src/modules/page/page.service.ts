@@ -33,6 +33,10 @@ export class PageService {
     return this.pageRepository.find({
       take: pageSize,
       skip: startPage * pageSize,
+      relations: ['latestHistory'],
+      join: {
+        alias: 'latestHistory',
+      },
     });
   }
 
