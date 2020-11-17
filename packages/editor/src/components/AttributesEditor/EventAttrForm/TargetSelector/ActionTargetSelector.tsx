@@ -3,8 +3,9 @@ import { useCallback, useMemo, useState } from 'react';
 import * as R from 'ramda';
 import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { Button, Select } from 'antd';
-import { eventStore, materialsStore } from 'states';
+import { eventStore } from 'states';
 import { FiLayers, FiPlus } from 'react-icons/fi';
+import { materialsActionMetaMap, getMaterialsActionMeta } from 'runtime';
 
 interface Props {
   trigger: Maybe<EventTriggerName>;
@@ -19,12 +20,13 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
   const { universalActions, nonUniversalActions } = useMemo(() => {
     return R.groupBy(
       ({ isBuildIn }) => (isBuildIn ? 'universalActions' : 'nonUniversalActions'),
-      R.values(materialsStore.actions),
+      R.values(Object.fromEntries(materialsActionMetaMap)),
     );
   }, []);
 
   const onAddAction = useCallback(() => {
-    eventStore.addEventInstance(trigger!, { type: EventTargetType.ACTION, id: actionId! });
+    const { identityName, lib } = getMaterialsActionMeta(actionId!)!;
+    eventStore.addEventInstance(trigger!, { type: EventTargetType.ACTION, id: identityName, lib });
     setActionId(null);
     setTrigger(null);
   }, [trigger, actionId]);

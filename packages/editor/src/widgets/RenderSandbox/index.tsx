@@ -12,8 +12,10 @@ interface Props {
     win: Window,
     mountTarget: HTMLDivElement,
     componentInstance: ComponentInstance[],
+    sharedComponentInstances: ComponentInstance[],
   ) => React.ReactNode;
   componentInstances: ComponentInstance[];
+  sharedComponentInstances: ComponentInstance[];
   iframeDidMount?: (doc: Document, win: Window) => void;
 }
 
@@ -100,7 +102,14 @@ export class RenderSandbox extends React.Component<Props> {
     }
 
     const mountTarget = this.getMountTarget();
-    const content = this.props.children(doc, doc.defaultView!, mountTarget, this.props.componentInstances);
+    const { componentInstances, sharedComponentInstances } = this.props;
+    const content = this.props.children(
+      doc,
+      doc.defaultView!,
+      mountTarget,
+      componentInstances,
+      sharedComponentInstances,
+    );
     return createPortal(content, mountTarget);
   };
 

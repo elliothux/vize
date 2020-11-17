@@ -3,9 +3,9 @@ import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
-import { Maybe } from './helper';
 import { CommonStyleMeta, Percent } from './styles';
 import { GlobalMeta } from './global';
+import { PageRouter } from './pages';
 
 export interface MaterialsComponentMeta {
   identityName: string;
@@ -51,11 +51,13 @@ export interface HotArea {
   position: HotAreaPosition;
   size: HotAreaSize;
   events: EventInstance[];
+  parent: ComponentInstance;
 }
 
 export interface ComponentInstance {
   key: Readonly<number>;
   component: Readonly<string>;
+  lib: Readonly<string>;
   data: { [key: string]: any };
   style: { [key: string]: any };
   commonStyle: { [key: string]: any };
@@ -68,13 +70,19 @@ export interface ComponentInstance {
     size?: ComponentSize;
   };
   hotAreas?: HotArea[];
+  shared: boolean;
 }
 
 export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style' | 'commonStyle'> {
   componentKey: Readonly<number>;
-  meta?: GlobalMeta;
+  meta: GlobalMeta;
+  global: object;
   instance: ComponentInstance;
-  hotAreas: Maybe<React.ReactElement>;
+  hotAreas?: React.ReactElement;
+  on: (eventName: string, callback: Function) => void;
+  cancel: (eventName: string, callback: Function) => void;
+  emit: (eventName: string) => void;
+  router: PageRouter;
 }
 
 export type MaterialsComponent = React.ComponentType<ComponentProps>;

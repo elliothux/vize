@@ -1,46 +1,68 @@
 import * as React from 'react';
-import { ComponentInstance, WithReactChildren, Maybe, PositionStyle, IPositionStyle } from 'types';
-import { useMemo } from 'react';
-import { getMaterialsComponent, mergeCommonStyle, calPosition } from 'utils';
+import { ComponentInstance, WithReactChildren } from 'types';
+import { useCallback, useMemo } from 'react';
+import { onCustomEvent, cancelCustomEvent, getMaterialsComponent, emitCustomEvent } from 'runtime';
+import { mergeCommonStyle } from 'runtime';
 import { observer } from 'mobx-react';
-import { ComponentEventProxy } from '../ComponentEventProxy';
-import { globalStore } from 'states';
+import { NodeEventProxy } from 'runtime';
+import { editStore, globalStore, pagesStore } from 'states';
 
 interface Props extends WithReactChildren {
   instance: ComponentInstance;
-  HotAreas?: Maybe<React.ReactElement>;
 }
 
-function IComponentView({ instance, children, HotAreas }: Props) {
-  const { key, component, data, commonStyle, wrapperStyle } = instance;
-  const position = commonStyle.position as PositionStyle;
+function IComponentView({ instance, children }: Props) {
+  const { key, component, data, style, commonStyle, wrapperStyle } = instance;
+  // const position = commonStyle.position as IPositionStyle;
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
   const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
   const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
+  // const posStyle = useMemo(() => (position ? calcPosition(position) : null), [position]);
+  // const assignedStyle = useMemo(() => ({ ...iWrapperStyle, ...posStyle }), [iWrapperStyle, posStyle]);
 
-  let posStyle = {} as IPositionStyle;
+  const { previewMode } = editStore;
+  const { metaInfo, globalProps } = globalStore;
+  const { router } = pagesStore;
 
-  if (typeof position === 'object') {
-    posStyle = position && calPosition(position);
-  }
-
-  // 全局页面元数据
-  const { metaInfo } = globalStore;
+  const on = useCallback(
+    (eventName: string, callback: Function) => onCustomEvent('component', key, eventName, callback),
+    [key],
+  );
+  const cancel = useCallback(
+    (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
+    [key],
+  );
+  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalProps, router), [
+    key,
+  ]);
 
   return (
-    <ComponentEventProxy instance={instance} style={{ ...iWrapperStyle, ...posStyle }}>
+    <NodeEventProxy<ComponentInstance>
+      className="component-event-proxy"
+      childrenType="component"
+      instance={instance}
+      style={iWrapperStyle}
+      global={globalProps}
+      meta={metaInfo}
+      router={router}
+      previewMode={previewMode}
+    >
       <ComponentRender
         componentKey={key}
         data={data}
-        style={{}}
+        style={style}
         commonStyle={iCommonStyle}
         instance={instance}
+        global={globalProps}
         meta={metaInfo}
-        hotAreas={HotAreas}
+        on={on}
+        cancel={cancel}
+        emit={emit}
+        router={router}
       >
         {children}
       </ComponentRender>
-    </ComponentEventProxy>
+    </NodeEventProxy>
   );
 }
 

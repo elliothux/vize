@@ -23,14 +23,19 @@ export interface EventTrigger {
 export enum EventTriggerType {
   ComponentUniversalTrigger = 'component_universal_trigger',
   PluginUniversalTrigger = 'plugin_universal_trigger',
+  HotAreaUniversalTrigger = 'hotarea_universal_trigger',
   Custom = 'custom',
 }
 
-export type EventTriggerName = ComponentUniversalEventTriggers | PluginUniversalEventTrigger | 'string';
+export type EventTriggerName =
+  | ComponentUniversalEventTrigger
+  | PluginUniversalEventTrigger
+  | HotAreaUniversalEventTrigger
+  | string;
 
 export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
 
-export enum ComponentUniversalEventTriggers {
+export enum ComponentUniversalEventTrigger {
   CLICK = '__vize_component_event_trigger_click',
   DOUBLE_CLICK = '__vize_component_event_trigger_double_click',
   LONG_PRESS = '__vize_component_event_trigger_long_press',
@@ -39,6 +44,16 @@ export enum ComponentUniversalEventTriggers {
   INIT = '__vize_component_event_trigger_init',
   MOUSE_ENTER = '__vize_component_event_trigger_mouseEnter',
   MOUSE_LEAVE = '__vize_component_event_trigger_mouseLeave',
+}
+
+export enum HotAreaUniversalEventTrigger {
+  CLICK = '__vize_hotarea_event_trigger_click',
+  DOUBLE_CLICK = '__vize_hotarea_event_trigger_double_click',
+  LONG_PRESS = '__vize_hotarea_event_trigger_long_press',
+  ENTER_VIEW = '__vize_hotarea_event_trigger_enter_view',
+  LEAVE_VIEW = '__vize_hotarea_event_trigger_leave_view',
+  MOUSE_ENTER = '__vize_hotarea_event_trigger_mouseEnter',
+  MOUSE_LEAVE = '__vize_hotarea_event_trigger_mouseLeave',
 }
 
 export enum PluginUniversalEventTrigger {
@@ -59,6 +74,7 @@ export enum EventTargetType {
 export interface ActionEventTarget {
   type: EventTargetType.ACTION;
   id: string;
+  lib: string;
 }
 
 export interface ComponentEventTarget {

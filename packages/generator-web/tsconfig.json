@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "allowJs": false,
+    "skipLibCheck": true
+  },
+  "compileOnSave": true,
+  "baseUrl": "src",
+  "include": ["src", "types"],
+  "files": ["global.d.ts"]
+}

@@ -16,7 +16,7 @@ export class BizService {
     return this.bizRepository.findOne(id);
   }
 
-  public async queryBizEntities({ startPage = 0, pageSize }: QueryParams) {
+  public async queryBizEntities({ startPage = 0, pageSize = 10 }: QueryParams) {
     return this.bizRepository.find({
       take: pageSize,
       skip: pageSize * startPage,

@@ -3,7 +3,7 @@ import { FiDelete } from 'react-icons/fi';
 import { Menu, Item, theme, animation } from 'react-contexify';
 import { useCallback } from 'react';
 import { pluginsStore, selectStore } from 'states';
-import { showContextMenu } from 'utils';
+import { preventSyntheticEvent, showContextMenu } from 'utils';
 import { PluginInstance } from 'types';
 
 interface Props {
@@ -25,6 +25,7 @@ export function PluginContextMenu({ instance }: Props) {
 }
 
 export function showPluginContextMenu(e: React.MouseEvent, pluginKey: number) {
+  preventSyntheticEvent(e);
   selectStore.selectPlugin(pluginKey);
   return showContextMenu(e, getID(pluginKey));
 }

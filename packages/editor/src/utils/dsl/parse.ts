@@ -10,12 +10,13 @@ import {
   PluginInstanceDSL,
 } from 'types';
 
-export function parseDSL({ global, pageInstances, pluginInstances, editInfo }: DSL) {
+export function parseDSL({ global, pageInstances, pluginInstances, sharedComponentInstance, editInfo }: DSL) {
   return {
     global,
-    pageInstances: parsePageInstancesDSL(pageInstances, global.pageMode),
-    pluginInstances: global.pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(pluginInstances!) : undefined,
     editInfo,
+    sharedComponentInstance: sharedComponentInstance ? parseComponentInstancesDSL(sharedComponentInstance) : undefined,
+    pageInstances: parsePageInstancesDSL(pageInstances, editInfo.pageMode),
+    pluginInstances: editInfo.pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(pluginInstances!) : undefined,
   };
 }
 

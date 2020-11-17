@@ -9,6 +9,7 @@ export function MaterialsTree() {
   return (
     <div className="vize-materials-tree">
       <GlobalProps />
+      <ComponentsTree shared />
       <ComponentsTree />
       <PluginsTree />
     </div>

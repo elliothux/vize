@@ -47,8 +47,3 @@ export function getImageNaturalSize(src: string): Promise<[number, number]> {
     image.addEventListener('error', reject);
   });
 }
-
-export function getBottomOffsetToBodyTop(node: HTMLElement) {
-  const { height, top } = node.getBoundingClientRect();
-  return height + top;
-}

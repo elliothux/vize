@@ -96,3 +96,27 @@ export enum FixedOutset {
   BottomLeft = 'BottomLeft',
   BottomRight = 'BottomRight',
 }
+
+export interface MergedCommonStyles {
+  width?: string;
+  height?: string;
+  maxWidth?: string;
+  transform?: string;
+  opacity?: number;
+  borderRadius?: string;
+  color?: string;
+  fontSize?: number;
+  lineHeight?: string;
+  textAlign?: string;
+  fontWeight?: string;
+  margin?: string;
+  padding?: string;
+  border?: string;
+  background?: string;
+  zIndex?: number;
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: string;
+  backgroundPosition?: string;
+  backgroundRepeat?: string;
+}

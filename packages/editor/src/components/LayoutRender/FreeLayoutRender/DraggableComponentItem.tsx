@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { ComponentItem } from 'components/ComponentItem';
 import { Position, ResizableDelta, Rnd } from 'react-rnd';
 import { ComponentInstance, ComponentSize } from 'types';
-import { componentsStore, selectStore } from 'states';
+import { componentsStore, pagesStore, selectStore } from 'states';
 import { DraggableData, DraggableEvent } from 'react-draggable';
 import { ResizeDirection } from 're-resizable';
 
@@ -14,8 +14,9 @@ interface Props {
 }
 
 function IDraggableComponentItem({ instance, index }: Props) {
-  const { selectMode, selectModeSelectedComponent } = selectStore;
+  const { selectMode, selectModeSelectedComponent, pageIndex } = selectStore;
   const { position, size } = instance.layout!;
+  const { pages } = pagesStore;
 
   const style = useMemo(() => ({ zIndex: index }), [index]);
 
@@ -27,13 +28,7 @@ function IDraggableComponentItem({ instance, index }: Props) {
   );
 
   const onResize = useCallback(
-    (
-      e: MouseEvent | TouchEvent,
-      dir: ResizeDirection,
-      ref: HTMLDivElement,
-      delta: ResizableDelta,
-      position: Position,
-    ) => {
+    (e: MouseEvent | TouchEvent, dir: ResizeDirection, ref: HTMLElement, delta: ResizableDelta, position: Position) => {
       const size: ComponentSize = {
         width: ref.offsetWidth,
         height: ref.offsetHeight,
@@ -53,7 +48,6 @@ function IDraggableComponentItem({ instance, index }: Props) {
       maxWidth="100%"
       dragGrid={[1, 1]}
       resizeGrid={[1, 1]}
-      // enableResizing={{}}
       bounds="window"
     >
       <ComponentItem
@@ -63,6 +57,9 @@ function IDraggableComponentItem({ instance, index }: Props) {
         currentSelectedContainerKey={selectStore.containerComponentKey}
         selectMode={selectMode}
         selectModeSelectedComponent={selectModeSelectedComponent}
+        isCurrentSelectedContainerShared={false}
+        pages={pages}
+        currentPageIndex={pageIndex}
       />
     </Rnd>
   );

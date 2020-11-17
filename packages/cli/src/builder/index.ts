@@ -21,7 +21,12 @@ export class Builder {
   private readonly isProd: boolean;
 
   private generateWebpackConfig = (isProd: boolean): Configuration => {
-    return getLibWebpackConfig(this.libPaths, this.libConfig, isProd);
+    return getLibWebpackConfig({
+      libPaths: this.libPaths,
+      libConfig: this.libConfig,
+      isProd,
+      useSWC: true,
+    });
   };
 
   private clearTemp = async () => {

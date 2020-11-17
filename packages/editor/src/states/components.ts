@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
 import { action, computed, observable, toJS } from 'mobx';
 import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
+import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
 import { pagesStore } from './pages';
-import { materialsStore } from './materials';
 import {
   addPageComponentInstanceIndexMap,
   batchUpdateCurrentPageComponentIndex,
@@ -12,18 +12,19 @@ import {
   createComponentInstance,
   deleteCurrentPageComponentIndex,
   deletePageComponentInstanceIndexMap,
-  DepsType,
+  DepsTargetType,
   findComponentInstanceByIndex,
   getCurrentPageComponentIndex,
-  getMaxNodeBottomOffset,
   injectGlobalReadonlyGetter,
+  isDev,
   isNumber,
   setCurrentPageComponentIndex,
 } from '../utils';
 import { selectStore, SelectType } from './select';
-import { globalStore } from './global';
 import { eventStore } from './events';
 import { StoreWithUtils } from './utils';
+import { editStore } from './edit';
+import { sharedStore } from './shared';
 
 export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   /**
@@ -31,9 +32,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
    * @struct Map<Page, ComponentInstance[]>
    */
   @observable
-  public pagesComponentInstancesMap: {
-    [key: number]: ComponentInstance[];
-  } = {};
+  public pagesComponentInstancesMap: { [key: number]: ComponentInstance[] } = {};
 
   @computed
   public get componentInstances(): ComponentInstance[] {
@@ -63,9 +62,9 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
    */
   @action
   public addComponentInstance = (componentID: string) => {
-    const component = materialsStore.getComponentMeta(componentID);
+    const component = getMaterialsComponentMeta(componentID)!;
     const instance =
-      globalStore.layoutMode === LayoutMode.FREE
+      editStore.layoutMode === LayoutMode.FREE
         ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
         : createComponentInstance(component, false);
 
@@ -79,7 +78,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     instances.push(instance);
 
     setCurrentPageComponentIndex(instance.key, { index: instances.length - 1 });
-    selectStore.selectComponent(instance.key);
+    selectStore.selectComponent(false, instance.key);
   };
 
   @action
@@ -97,11 +96,15 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
       index: containerChildren.length - 1,
       parentIndex,
     });
-    selectStore.selectComponent(instance.key);
+    selectStore.selectComponent(false, instance.key);
   };
 
   @action
   public deleteComponentInstance = (key: number) => {
+    if (!getCurrentPageComponentIndex(key)) {
+      return sharedStore.deleteSharedComponentInstance(key);
+    }
+
     let instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
     const { index, parentIndex } = deleteCurrentPageComponentIndex(key, instances);
 
@@ -109,10 +112,11 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
       instances = instances[parentIndex!].children!;
     }
 
-    instances.splice(index, 1);
+    const [instance] = instances.splice(index, 1);
     selectStore.selectPage(selectStore.pageIndex);
-    eventStore.deleteDepsEventInstances(DepsType.Component, key);
+    eventStore.deleteDepsEventInstances(DepsTargetType.Component, key);
     componentEventDepsMap.deleteEventDepsMap(key);
+    return instance;
   };
 
   @action
@@ -184,12 +188,18 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     };
   };
 
+  @action
   public setComponentInstancePropsByKey = (
     key: number,
     setter: (instance: ComponentInstance) => void,
   ): ComponentInstance => {
+    const componentIndex = getCurrentPageComponentIndex(key)!;
+    if (!componentIndex) {
+      return sharedStore.setSharedComponentInstancePropsByKey(key, setter);
+    }
+
+    const { index, parentIndex } = componentIndex;
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    const { index, parentIndex } = getCurrentPageComponentIndex(key)!;
 
     const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index];
     setter(instance);
@@ -198,8 +208,13 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   };
 
   public getCurrentPageComponentInstance = (componentKey: number): ComponentInstance => {
+    const componentIndex = getCurrentPageComponentIndex(componentKey)!;
+    if (!componentIndex) {
+      return sharedStore.getCurrentSharedComponentInstance(componentKey);
+    }
+
     const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    const { index, parentIndex } = getCurrentPageComponentIndex(componentKey)!;
+    const { index, parentIndex } = componentIndex;
 
     if (isNumber(parentIndex)) {
       return instances[parentIndex!].children![index];
@@ -210,7 +225,9 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
 
   public getCurrentComponentInstance = (): Maybe<ComponentInstance> => {
     const { selectType, componentKey } = selectStore;
-    return selectType === SelectType.COMPONENT ? this.getCurrentPageComponentInstance(componentKey) : null;
+    return selectType === SelectType.COMPONENT || selectType === SelectType.HOTAREA
+      ? this.getCurrentPageComponentInstance(componentKey)
+      : null;
   };
 
   /**
@@ -272,4 +289,6 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
 
 export const componentsStore = new ComponentsStore();
 
-setTimeout(() => injectGlobalReadonlyGetter('vize_components_store', () => toJS(componentsStore)), 1000);
+if (isDev()) {
+  setTimeout(() => injectGlobalReadonlyGetter('vize_components_store', () => toJS(componentsStore)), 1000);
+}

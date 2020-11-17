@@ -2,6 +2,7 @@ import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { GlobalMeta } from './global';
+import { PageRouter } from './pages';
 
 export interface MaterialsActionMeta {
   identityName: string;
@@ -12,13 +13,15 @@ export interface MaterialsActionMeta {
   readonly dataForm?: MaterialsForm;
   readonly emitEvents?: MaterialsCustomEvent[];
   readonly isBuildIn?: boolean;
+  readonly maxTimeout?: 'infinity' | number;
 }
 
 // TODO
 export interface ActionParams {
-  data: object;
+  data: { [key: string]: any };
   global: object;
   meta: GlobalMeta;
+  router: PageRouter;
 }
 
-export type MaterialsAction = (params: ActionParams) => void;
+export type MaterialsAction = (params: ActionParams) => void | Promise<void>;

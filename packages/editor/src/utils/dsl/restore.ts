@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import {
   ComponentEventTarget,
   ComponentInstance,
@@ -7,31 +8,43 @@ import {
   PluginEventTarget,
   PluginInstance,
   InstanceKeyType,
+  HotArea,
+  MustBe,
 } from 'types';
-import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
+import { componentsStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
 import { parseDSL } from './parse';
 import {
   addPageComponentInstanceIndexMap,
   addPagePluginInstanceIndexMap,
   generateComponentsIndex,
   generatePluginsIndex,
+  setSharedComponentIndexMap,
 } from '../indexMap';
 import { componentEventDepsMap, generateEventDepFromItem, pluginEventDepsMap } from '../depsMap';
 import { setMaxKey } from '../key';
 
-export function restoreState({ global, pageInstances, pluginInstances, editInfo }: ReturnType<typeof parseDSL>) {
-  restoreGlobalState(global);
-  restorePageInstances(pageInstances);
-  if (global.pageMode === PageMode.SINGLE) {
-    restorePluginInstances(0, pluginInstances!);
-  }
+export function restoreState({
+  global,
+  pageInstances,
+  pluginInstances,
+  sharedComponentInstance,
+  editInfo,
+}: ReturnType<typeof parseDSL>) {
   restoreEditInfo(editInfo);
+  restorePageInstances(pageInstances);
+
+  if (sharedComponentInstance?.length) {
+    restoreSharedComponentInstances(sharedComponentInstance);
+  }
+
+  if (editInfo.pageMode === PageMode.SINGLE) {
+    restorePluginInstances(0, pluginInstances!);
+    restoreGlobalState(global!);
+  }
 }
 
-function restoreGlobalState({ layoutMode, pageMode, globalProps, globalStyle, metaInfo }: DSL['global']) {
+function restoreGlobalState({ globalProps, globalStyle, metaInfo }: MustBe<DSL['global']>) {
   return globalStore.setState(global => {
-    global.layoutMode = layoutMode;
-    global.pageMode = pageMode;
     global.globalProps = globalProps;
     global.globalStyle = globalStyle;
     global.metaInfo = metaInfo;
@@ -48,7 +61,7 @@ function restorePageInstances(pages: ReturnType<typeof parseDSL>['pageInstances'
       }
     });
     restoreComponentInstances(pageInstance.key, componentInstances);
-    if (globalStore.pageMode === PageMode.MULTI) {
+    if (!editStore.isSinglePageMode) {
       restorePluginInstances(pageInstance.key, pluginInstances!);
     }
   });
@@ -61,18 +74,40 @@ function restoreComponentInstances(pageKey: number, componentInstances: Componen
       component.children?.forEach(child => {
         child.parent = component;
       });
+      component.hotAreas?.forEach(hotarea => {
+        hotarea.parent = component;
+      });
     });
   });
 
   const indexMap = generateComponentsIndex(componentInstances);
   addPageComponentInstanceIndexMap(pageKey, indexMap);
 
-  componentInstances.forEach(restoreEventDep);
+  componentInstances.forEach(R.unary(restoreEventDep));
+}
+
+function restoreSharedComponentInstances(componentInstances: ComponentInstance[]) {
+  sharedStore.setState(sharedStore => {
+    sharedStore.sharedComponentInstances = componentInstances;
+    sharedStore.sharedComponentInstances.forEach(component => {
+      component.children?.forEach(child => {
+        child.parent = component;
+      });
+      component.hotAreas?.forEach(hotarea => {
+        hotarea.parent = component;
+      });
+    });
+  });
+
+  const indexMap = generateComponentsIndex(componentInstances);
+  setSharedComponentIndexMap(indexMap);
+
+  componentInstances.forEach(R.unary(restoreEventDep));
 }
 
 function restorePluginInstances(pageKey: number, pluginInstances: PluginInstance[]) {
   pluginsStore.setState(pluginsStore => {
-    if (globalStore.pageMode === PageMode.SINGLE) {
+    if (editStore.isSinglePageMode) {
       pluginsStore.singlePagePluginsInstances = pluginInstances;
     } else {
       pluginsStore.pagesPluginInstancesMap[pageKey] = pluginInstances;
@@ -80,26 +115,32 @@ function restorePluginInstances(pageKey: number, pluginInstances: PluginInstance
   });
 
   const indexMap = generatePluginsIndex(pluginInstances);
-  addPagePluginInstanceIndexMap(globalStore.pageMode === PageMode.SINGLE ? 0 : pageKey, indexMap);
+  addPagePluginInstanceIndexMap(editStore.isSinglePageMode ? 0 : pageKey, indexMap);
 
-  pluginInstances.forEach(restoreEventDep);
+  pluginInstances.forEach(R.unary(restoreEventDep));
 }
 
-function restoreEventDep(instance: ComponentInstance | PluginInstance) {
+function restoreEventDep(
+  instance: ComponentInstance | PluginInstance | HotArea,
+  parentInstance?: ComponentInstance,
+  index?: number,
+) {
   if ((instance as ComponentInstance).component) {
     componentEventDepsMap.createEventDepsMap(instance.key);
   } else {
     pluginEventDepsMap.createEventDepsMap(instance.key);
   }
 
-  (instance as ComponentInstance)?.children?.forEach(restoreEventDep);
+  (instance as ComponentInstance)?.children?.forEach(R.unary(restoreEventDep));
+  (instance as ComponentInstance)?.hotAreas?.forEach((hotArea, index) =>
+    restoreEventDep(hotArea, instance as ComponentInstance, index),
+  );
 
   return instance.events.forEach(event => {
     const { target } = event;
-    const depForm = generateEventDepFromItem(instance, event);
-    if (!depForm) {
-      return;
-    }
+    const depForm = parentInstance
+      ? generateEventDepFromItem(parentInstance, event, index)
+      : generateEventDepFromItem(instance as ComponentInstance | PluginInstance, event);
 
     if (target.type === EventTargetType.COMPONENT) {
       componentEventDepsMap.addEventDep((target as ComponentEventTarget).key, depForm);
@@ -109,7 +150,12 @@ function restoreEventDep(instance: ComponentInstance | PluginInstance) {
   });
 }
 
-function restoreEditInfo({ maxKeys }: ReturnType<typeof parseDSL>['editInfo']) {
+function restoreEditInfo({ maxKeys, layoutMode, pageMode }: ReturnType<typeof parseDSL>['editInfo']) {
+  editStore.setState(editStore => {
+    editStore.layoutMode = layoutMode;
+    editStore.pageMode = pageMode;
+  });
+
   setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
   setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
   setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);

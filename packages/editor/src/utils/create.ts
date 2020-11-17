@@ -10,12 +10,10 @@ import {
   MaterialsComponentMeta,
   MaterialsPluginMeta,
   PageInstance,
-  PageData,
   PluginInstance,
   InstanceKeyType,
 } from '../types';
 import { generateKey } from './key';
-// import { setPageData } from './page';
 import { getSchemaDefault } from './common';
 import { getDefaultCommonStyle } from './style';
 import { isFunction } from './is';
@@ -29,11 +27,6 @@ export function createSchema(schema: JsonSchemaProperties): JSONSchemaDefinition
 
 export function createPageInstance(name: string, isHome = false): PageInstance {
   const key = generateKey(InstanceKeyType.Page);
-  const data = {
-    componentInstances: [],
-    pluginInstances: [],
-  };
-  // setPageData(key, data);
   return {
     key,
     name,
@@ -46,6 +39,7 @@ export function createPageInstance(name: string, isHome = false): PageInstance {
 export function createComponentInstance(
   {
     identityName,
+    lib,
     dataForm,
     styleForm,
     isContainer,
@@ -63,6 +57,7 @@ export function createComponentInstance(
   return {
     key,
     component: identityName,
+    lib,
     data,
     style,
     commonStyle: getDefaultCommonStyle(enableStyleGroup),
@@ -71,16 +66,18 @@ export function createComponentInstance(
     layout: freeLayout ? { position: { x: 0, y: initY } } : undefined,
     children: isContainer ? [] : undefined,
     hotAreas: hotArea ? [] : undefined,
+    shared: false,
   };
 }
 
-export function createPluginInstance({ identityName, dataForm }: MaterialsPluginMeta): PluginInstance {
+export function createPluginInstance({ identityName, dataForm, lib }: MaterialsPluginMeta): PluginInstance {
   const key = generateKey(InstanceKeyType.Plugin);
   const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
 
   return {
     key,
     plugin: identityName,
+    lib,
     data,
     events: [],
   };

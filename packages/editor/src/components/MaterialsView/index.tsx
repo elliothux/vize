@@ -11,7 +11,7 @@ interface Props {
 
 export class MaterialsView extends React.Component<Props> {
   public state = {
-    view: MaterialsViewType.COMPONENTS,
+    view: MaterialsViewType.INSTANCES,
   };
 
   private onSetView = (view: MaterialsViewType) => {

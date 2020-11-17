@@ -1,5 +1,7 @@
-import { action, observable } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import { Maybe } from '../types';
+import { injectGlobalReadonlyGetter, isDev } from '../utils';
+import { componentsStore } from './components';
 
 export enum SelectType {
   GLOBAL,
@@ -34,10 +36,16 @@ export class SelectStore {
   @observable
   public componentKey = -1;
 
+  @observable
+  public sharedComponentSelected = false;
+
   @action
-  public selectComponent = (key: number) => {
+  public selectComponent = (shared: boolean, key: number, parentKey?: number) => {
+    this.sharedComponentSelected = shared;
+    this.containerComponentKey = parentKey || -1;
     this.selectType = SelectType.COMPONENT;
     this.componentKey = key;
+    this.hotAreaIndex = -1;
   };
 
   @observable
@@ -60,11 +68,10 @@ export class SelectStore {
   public hotAreaIndex = -1;
 
   @action
-  public selectHotArea = (index: number, componentKey?: null) => {
-    if (componentKey) {
-      this.componentKey = componentKey;
-    }
+  public selectHotArea = (index: number, componentKey: number) => {
+    this.componentKey = componentKey;
     this.hotAreaIndex = index;
+    this.containerComponentKey = -1;
     this.selectType = SelectType.HOTAREA;
   };
 
@@ -78,6 +85,7 @@ export class SelectStore {
   public selectPlugin = (key: number) => {
     this.selectType = SelectType.PLUGIN;
     this.pluginKey = key;
+    this.containerComponentKey = -1;
   };
 
   @action
@@ -94,9 +102,7 @@ export class SelectStore {
   @action
   public setSelectMode = (mode: boolean) => {
     this.selectMode = mode;
-    if (mode) {
-      this.selectModeSelectedComponent = null;
-    }
+    this.selectModeSelectedComponent = null;
   };
 
   @observable
@@ -109,3 +115,7 @@ export class SelectStore {
 }
 
 export const selectStore = new SelectStore();
+
+if (isDev()) {
+  setTimeout(() => injectGlobalReadonlyGetter('vize_select_store', () => toJS(selectStore)), 1000);
+}

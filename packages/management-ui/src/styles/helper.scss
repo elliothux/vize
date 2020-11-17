@@ -1,0 +1,5 @@
+$main-color: #1e90ff;
+
+@function main-color-opacity($opacity: 1) {
+  @return rgba(24, 144, 255, $opacity);
+}

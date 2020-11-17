@@ -5,12 +5,17 @@
     <meta charset="utf-8"/>
     <meta name="format-detection" content="telephone=no"/>
     <meta
-            name="viewport"
-            content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+        name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
     />
+    <title><%= meta.title %></title>
+    <desc><%= meta.desc %></desc>
 </head>
 
 <body>
     <div id="vize-main-entry"><!-- DO NOT MODIFY! HTML_PLACEHOLDER --></div>
+    <script>
+        console.log('global', <%= JSON.stringify(global) %>);
+    </script>
 </body>
 </html>

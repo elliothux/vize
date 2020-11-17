@@ -16,7 +16,7 @@ interface Props {
 }
 
 function IStyleAttrsEdit({ selectType }: Props) {
-  const instance = useCurrentComponentInstance()!;
+  const instance = useCurrentComponentInstance();
   const { globalStyle } = globalStore;
 
   if (selectType === SelectType.GLOBAL) {
@@ -27,7 +27,7 @@ function IStyleAttrsEdit({ selectType }: Props) {
     );
   }
 
-  if (selectType !== SelectType.COMPONENT) {
+  if (selectType !== SelectType.COMPONENT || !instance) {
     return <Empty text="不可用" />;
   }
 

@@ -1,4 +1,4 @@
-import { globalStore, pagesStore } from 'states';
+import { editStore, pagesStore } from 'states';
 import { PluginInstance, Maybe } from 'types';
 
 type PluginIndex = number;
@@ -16,7 +16,7 @@ export function deletePagePluginInstanceIndexMap(pageKey: number) {
 }
 
 function getCurrentPagePluginIndexMap() {
-  return pagesPluginIndexMap.get(globalStore.isSinglePageMode ? 0 : pagesStore.currentPage.key)!;
+  return pagesPluginIndexMap.get(editStore.isSinglePageMode ? 0 : pagesStore.currentPage.key)!;
 }
 
 export function getCurrentPagePluginIndex(pluginKey: number): Maybe<PluginIndex> {
@@ -32,7 +32,7 @@ export function generatePluginsIndex(pluginInstances: PluginInstance[]): PluginI
 }
 
 export function regenerateCurrentPagePluginIndexMap(pluginInstances: PluginInstance[]) {
-  const pageKey = globalStore.isSinglePageMode ? 0 : pagesStore.currentPage.key;
+  const pageKey = editStore.isSinglePageMode ? 0 : pagesStore.currentPage.key;
   deletePagePluginInstanceIndexMap(pageKey);
   addPagePluginInstanceIndexMap(pageKey, generatePluginsIndex(pluginInstances));
 }

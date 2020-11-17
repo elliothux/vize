@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { ComponentInstance, Function } from 'types';
-// import { useMemo } from 'react';
-// import { materialsStore } from 'states';
+import { ComponentInstance, MaterialsComponentMeta, Function, WithReactChildren } from 'types';
+import { useMemo } from 'react';
+import { getMaterialsComponentMeta } from 'runtime';
+import { observer } from 'mobx-react';
+import { editStore } from 'states';
 
 interface Props {
-  tag: string;
-  subTag?: string;
   instance: ComponentInstance;
   selected: boolean;
   onClick: Function;
@@ -13,21 +13,30 @@ interface Props {
   onContextMenu: Function;
 }
 
-export function ComponentMask({ tag, subTag, onClick, onDoubleClick, onContextMenu }: Props) {
-  // const {
-  //   info: { name },
-  // } = useMemo<MaterialsComponentMeta>(() => materialsStore.getComponentMeta(instance.component), [instance.component]);
+function IComponentMask({ instance, onClick, onDoubleClick, onContextMenu, children }: WithReactChildren<Props>) {
+  const {
+    info: { name },
+  } = useMemo<MaterialsComponentMeta>(() => getMaterialsComponentMeta(instance.component)!, [instance.component]);
+
+  const desc = useMemo(() => (instance.children ? '[双击编辑容器]' : instance.hotAreas ? '[双击编辑热区]' : ''), [
+    instance,
+  ]);
+
+  const { previewMode } = editStore;
 
   return (
     <div
-      className="vize-component-item-mask"
-      onClick={onClick}
-      onDoubleClick={onDoubleClick}
-      onContextMenu={onContextMenu}
+      className={`vize-component-item-mask${previewMode ? ' preview-mode' : ''}`}
+      onClick={previewMode ? undefined : onClick}
+      onDoubleClick={previewMode ? undefined : onDoubleClick}
+      onContextMenu={previewMode ? undefined : onContextMenu}
     >
       <span>
-        {tag} {subTag}
+        <span>{name}</span> (key={instance.key}) {desc}
       </span>
+      {children}
     </div>
   );
 }
+
+export const ComponentMask = observer(IComponentMask);

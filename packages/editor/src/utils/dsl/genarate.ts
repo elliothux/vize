@@ -8,18 +8,25 @@ import {
   PluginInstance,
   PluginInstanceDSL,
   InstanceKeyType,
+  HotArea,
+  HotAreaDSL,
 } from 'types';
-import { componentsStore, globalStore, pagesStore, pluginsStore } from 'states';
+import { componentsStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
 import { toJS } from 'mobx';
 import { getMaxKey } from '../key';
 
 export function generateDSL(): DSL {
-  const { layoutMode, pageMode, globalProps, globalStyle, metaInfo, pageKey } = globalStore;
+  const { mainLib, containerName: container, layoutMode, pageMode, pageKey } = editStore;
+  const { globalProps, globalStyle, metaInfo } = globalStore;
+  const { sharedComponentInstances } = sharedStore;
+
   const dsl: DSL = {
     pageKey,
+    container: {
+      lib: mainLib,
+      name: container,
+    },
     global: {
-      layoutMode,
-      pageMode,
       globalProps,
       globalStyle,
       metaInfo,
@@ -27,7 +34,12 @@ export function generateDSL(): DSL {
     pageInstances: generatePageInstancesDSL(pageMode),
     pluginInstances:
       pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstancesMap(-1)) : undefined,
+    sharedComponentInstance: sharedComponentInstances.length
+      ? generateComponentInstancesDSL(sharedComponentInstances)
+      : undefined,
     editInfo: {
+      layoutMode,
+      pageMode,
       maxKeys: {
         [InstanceKeyType.Page]: getMaxKey(InstanceKeyType.Page),
         [InstanceKeyType.Component]: getMaxKey(InstanceKeyType.Component),
@@ -38,6 +50,7 @@ export function generateDSL(): DSL {
       },
     },
   };
+
   return toJS(dsl, { recurseEverything: true });
 }
 
@@ -51,7 +64,7 @@ function generatePageInstancesDSL(pageMode: PageMode): PageDSL[] {
     return {
       ...pageInstance,
       componentInstances: generateComponentInstancesDSL(componentInstances),
-      pluginInstances: generatePluginInstancesDSL(pluginInstances!),
+      pluginInstances: pluginInstances ? generatePluginInstancesDSL(pluginInstances) : undefined,
     };
   });
 }
@@ -62,8 +75,13 @@ function generateComponentInstancesDSL(componentInstances: ComponentInstance[]):
     return <ComponentInstanceDSL>{
       ...componentInstance,
       children: componentInstance.children ? generateComponentInstancesDSL(componentInstance.children) : undefined,
+      hotAreas: componentInstance.hotAreas ? generateHotAreaDSL(componentInstance.hotAreas) : undefined,
     };
   });
+}
+
+function generateHotAreaDSL(hotarea: HotArea[]): HotAreaDSL[] {
+  return hotarea.map(instance => R.omit(['parent'], instance));
 }
 
 function generatePluginInstancesDSL(pluginInstances: PluginInstance[]): PluginInstanceDSL[] {

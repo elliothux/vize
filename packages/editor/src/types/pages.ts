@@ -1,4 +1,5 @@
-import { ComponentInstance } from './component';
+import * as React from 'react';
+import { ComponentInstance, ComponentProps } from './component';
 import { PluginInstance } from './plugins';
 
 export interface PageInstance {
@@ -18,4 +19,16 @@ export interface PageData {
 export enum PageMode {
   SINGLE = 'single',
   MULTI = 'multi',
+}
+
+export interface PageRouter {
+  pages: Omit<PageInstance, 'isNameEditing'>[];
+  currentPage: number;
+  setCurrentPage: (pageKey: number) => void;
+}
+
+export interface RouterProps extends Pick<ComponentProps, 'global' | 'meta'> {
+  pages: PageRouter['pages'];
+  dynamicImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<object> }> };
+  sharedComponentInstances: ComponentInstance[];
 }

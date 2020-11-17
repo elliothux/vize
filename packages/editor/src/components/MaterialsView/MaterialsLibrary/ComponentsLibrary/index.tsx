@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { MaterialsComponentMeta, Maybe } from 'types';
-import { materialsStore, selectStore } from 'states';
+import { selectStore } from 'states';
+import { materialsComponentMetaMap } from 'runtime';
 import { WithTagsList } from '../WithTagsList';
 import { MaterialsViewType } from '../../HeaderOptions';
 import { MaterialsComponentItem } from './MaterialsComponentItem';
@@ -45,7 +46,10 @@ export class ComponentsLibrary extends React.Component {
   public render() {
     return (
       <div className="vize-components-library">
-        <WithTagsList view={MaterialsViewType.COMPONENTS} itemsMap={materialsStore.components}>
+        <WithTagsList<MaterialsComponentMeta>
+          view={MaterialsViewType.COMPONENTS}
+          itemsMap={Object.fromEntries(materialsComponentMetaMap)}
+        >
           {this.renderItem(selectStore.containerComponentKey)}
         </WithTagsList>
         {this.renderPreview()}

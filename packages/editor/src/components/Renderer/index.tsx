@@ -3,21 +3,31 @@ import * as React from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
-import { componentsStore, globalStore, materialsStore } from 'states';
+import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore, sharedStore } from 'states';
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
-import { initDocument, setMaterialsMap } from 'utils';
+import { initDocument } from 'utils';
+import { setMaterialsMap, executePlugins } from 'runtime';
+import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
 import { injectRuntime, setUserAgent } from './utils';
 import { InjectedStylesRender } from '../InjectedStylesRender';
-import { executePlugins } from './pluginExecutor';
 
 import iframeStyle from './index.iframe.scss';
 
-globalStore.setIframeStyle('Renderer', iframeStyle);
+editStore.setIframeStyle('Renderer', iframeStyle);
 
 @observer
 export class Renderer extends React.Component {
+  constructor(props: {}) {
+    super(props);
+    const { containerHTML } = materialsStore;
+    const params = { global: {}, meta: {}, mainStyle: '', mainScript: '' };
+    this.containerHTML = tpl(containerHTML)(params);
+  }
+
+  private readonly containerHTML: string;
+
   public state = {
     ready: false,
   };
@@ -32,7 +42,7 @@ export class Renderer extends React.Component {
       throw new Error('No renderEntry');
     }
 
-    executePlugins(win);
+    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalProps, pagesStore.router, win);
     this.callContainerRenderEntry(renderEntry);
   };
 
@@ -45,7 +55,7 @@ export class Renderer extends React.Component {
     let renderEntry: Maybe<ContainerRenderEntry> = null;
 
     await Promise.all(
-      globalStore.libNames.map(async libName => {
+      editStore.libNames.map(async libName => {
         const [main, entry] = await this.initMaterialsWithIframeContext(libName, doc, win);
 
         setMaterialsMap(libName, main);
@@ -85,7 +95,14 @@ export class Renderer extends React.Component {
   };
 
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
-    renderEntry({ render: () => this.setState({ ready: true }) });
+    const { globalProps: global, metaInfo: meta } = globalStore;
+    // TODO
+    renderEntry({
+      implementRouterController: console.log,
+      render: () => this.setState({ ready: true }),
+      global,
+      meta,
+    });
   };
 
   private renderContent = (
@@ -93,6 +110,7 @@ export class Renderer extends React.Component {
     win: Window,
     mountTarget: HTMLDivElement,
     componentInstances: ComponentInstance[],
+    sharedComponentInstances: ComponentInstance[],
   ) => {
     if (!this.state.ready) {
       return null;
@@ -105,21 +123,23 @@ export class Renderer extends React.Component {
           mountTarget={mountTarget}
           // renderContext={win}
           componentInstances={componentInstances}
+          sharedComponentInstances={sharedComponentInstances}
         />
       </>
     );
   };
 
   public render() {
-    const { containerHTML } = materialsStore;
     const { componentInstances } = componentsStore;
+    const { sharedComponentInstances } = sharedStore;
 
     return (
       <RenderSandbox
         mountTarget="#vize-main-entry"
-        htmlContent={containerHTML}
+        htmlContent={this.containerHTML}
         iframeDidMount={this.iframeDidMount}
         componentInstances={componentInstances}
+        sharedComponentInstances={sharedComponentInstances}
       >
         {this.renderContent}
       </RenderSandbox>

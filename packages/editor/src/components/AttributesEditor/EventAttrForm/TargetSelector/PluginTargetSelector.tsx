@@ -9,10 +9,11 @@ import {
   PluginInstance,
 } from 'types';
 import { observer } from 'mobx-react';
-import { eventStore, materialsStore, pluginsStore } from 'states';
+import { eventStore, pluginsStore } from 'states';
 import { Button, Select } from 'antd';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 import { useUnmount } from 'react-use';
+import { getMaterialsPluginMeta } from 'runtime';
 
 interface Props {
   trigger: Maybe<EventTriggerName>;
@@ -102,7 +103,7 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
 
 function filterPluginInstance(pluginInstances: PluginInstance[]) {
   return pluginInstances
-    .map<[number, MaterialsPluginMeta]>(({ plugin, key }) => [key, materialsStore.getPluginMeta(plugin)])
+    .map<[number, MaterialsPluginMeta]>(({ plugin, key }) => [key, getMaterialsPluginMeta(plugin)!])
     .filter(([, { onEvents }]) => !!onEvents?.length);
 }
 
