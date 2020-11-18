@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Form, Button, Input, Select, DatePicker } from 'antd';
+import { Form, Button, Input, Select } from 'antd';
 import { bizStore } from 'state';
 import { ItemProps, PageDetail } from './types';
 import { observer } from 'mobx-react';
+import { useMemo, useState } from 'react';
 
 const { Item: FormItem } = Form;
 const { Option: SelectOption } = Select;
@@ -15,15 +16,20 @@ const layout = {
 function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>) {
   const { bizList } = bizStore;
 
+  const [{ biz }, setValue] = useState(current);
+  const currentBiz = useMemo(() => bizList?.find(i => i.id === biz), [bizList, biz]);
+
+  console.log(biz, currentBiz);
+
   return (
     <Form
       {...layout}
       initialValues={current}
       className="page-detail-form"
-      onFinish={console.log}
-      onFinishFailed={console.error}
+      onFinish={setCurrent}
+      onValuesChange={setValue}
     >
-      <FormItem label="业务" name="biz" rules={[{ required: true, message: '请选择业务' }]}>
+      <FormItem label="业务" name="biz" hasFeedback rules={[{ required: true, message: '请选择业务' }]}>
         <Select loading={!bizList}>
           {bizList?.map(({ id, name }) => (
             <SelectOption value={id} key={id}>
@@ -33,15 +39,15 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
         </Select>
       </FormItem>
 
-      <FormItem label="页面地址" className="page-detail-key" required>
-        <span>https://vize.com/biz/</span>
+      <FormItem label="页面地址" className="page-detail-key" required hasFeedback>
+        <span>https://vize.com/{currentBiz?.key || 'bizKey'}/</span>
         <FormItem name="key" rules={[{ required: true, message: '请输入页面 key' }]}>
           <Input />
         </FormItem>
         <span>/index.html</span>
       </FormItem>
 
-      <FormItem label="页面标题" name="title" rules={[{ required: true, message: '请输入标题' }]}>
+      <FormItem label="页面标题" name="title" rules={[{ required: true, message: '请输入标题' }]} hasFeedback>
         <Input />
       </FormItem>
 

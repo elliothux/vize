@@ -24,6 +24,18 @@
     transition: all ease 500ms;
   }
 
+  .form-item-err {
+    color: red;
+
+    span {
+      font-weight: bold;
+      font-size: 20px;
+      position: relative;
+      top: 5px;
+      margin-right: 8px;
+    }
+  }
+
   .ant-steps-item-description {
     font-size: 10px;
     color: #9c9c9c !important;
@@ -83,13 +95,13 @@
   }
 
   .page-detail-form {
-    width: 50%;
+    width: 60%;
     margin-top: 32px;
-    margin-left: 25%;
+    margin-left: 20%;
     text-align: left;
 
     .ant-btn.ant-btn-primary {
-      margin-left: 87px;
+      margin-left: 105px;
       margin-top: 12px;
     }
 
@@ -114,6 +126,15 @@
           }
         }
       }
+    }
+  }
+
+  .page-create-result {
+    .anticon-loading svg {
+      width: 30px;
+      height: auto;
+      margin-bottom: 22px;
+      margin-top: 32px;
     }
   }
 }
