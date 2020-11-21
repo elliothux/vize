@@ -26,7 +26,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
 
   public layoutMode: LayoutMode = LayoutMode.STREAM;
 
-  public pageMode: PageMode = PageMode.MULTI;
+  public pageMode: PageMode = PageMode.SINGLE;
 
   @computed
   public get isSinglePageMode() {

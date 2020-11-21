@@ -6,8 +6,8 @@ export class CGIResponse {
       t: Date.now(),
       status: 'success',
       message: msg,
+      code: 0,
       data,
-      code: 400000,
     };
   }
 

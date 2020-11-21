@@ -1,9 +1,10 @@
 /* eslint-disable max-lines */
 import * as React from 'react';
-import { ComponentInstance, Maybe, WithReactChildren } from 'types';
+import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
 import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { events, EventEmitTypes, withPreventEvent } from 'utils';
+import { calcPosition } from 'runtime';
 import classNames from 'classnames';
 import { deleteComponentNode, setComponentNode } from 'runtime';
 import { ComponentContextMenu, showComponentContextMenu } from 'components/ContextMenu';
@@ -20,6 +21,9 @@ interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComp
   currentSelectedType: SelectType;
   currentSelectedKey: number;
   currentSelectedContainerKey: number;
+  isCurrentSelectedContainerShared: boolean;
+  pages: PageInstance[];
+  currentPageIndex: number;
 }
 
 export class ComponentItem extends React.Component<WithReactChildren<Props>> {
@@ -40,10 +44,10 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
 
   private onSelect = () => {
     const {
-      instance: { key },
+      instance: { key, shared },
     } = this.props;
 
-    selectStore.selectComponent(key);
+    selectStore.selectComponent(shared, key);
   };
 
   private onSelectWithSelectMode = withPreventEvent(() => {
@@ -55,7 +59,8 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   });
 
   private onContextMenu = (e: React.MouseEvent) => {
-    showComponentContextMenu(e, this.props.instance.key, true);
+    const { key, shared } = this.props.instance;
+    showComponentContextMenu(e, shared, key, true);
   };
 
   private onDoubleClick = () => {
@@ -79,7 +84,8 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   };
 
   private onClickMask = () => {
-    selectStore.selectComponent(this.props.currentSelectedContainerKey);
+    const { currentSelectedContainerKey, isCurrentSelectedContainerShared } = this.props;
+    selectStore.selectComponent(isCurrentSelectedContainerShared, currentSelectedContainerKey);
     selectStore.selectContainerComponent(-1);
   };
 
@@ -90,12 +96,14 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   public render() {
     const {
       instance,
-      instance: { key },
+      instance: { key, commonStyle },
       currentSelectedKey,
       currentSelectedContainerKey,
       currentSelectedType,
       selectMode,
       selectModeSelectedComponent,
+      pages,
+      currentPageIndex,
       children,
     } = this.props;
 
@@ -109,6 +117,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
       return <LayoutRender componentInstances={instance.children} containerComponentInstance={instance} />;
     }
 
+    const position = commonStyle.position as PositionStyle;
     return (
       <>
         <div
@@ -119,6 +128,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
             'selected-as-container': selectedAsContainer,
           })}
           data-key={key}
+          style={position ? calcPosition(position) : undefined}
         >
           <ComponentView instance={instance}>{children}</ComponentView>
 
@@ -143,7 +153,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
             </ComponentMask>
           )}
 
-          <ComponentContextMenu instance={instance} />
+          <ComponentContextMenu instance={instance} pages={pages} currentPageIndex={currentPageIndex} />
         </div>
 
         {selectedAsContainer ? (

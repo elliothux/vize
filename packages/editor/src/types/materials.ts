@@ -1,6 +1,8 @@
-import { MaterialsComponent, MaterialsComponentMeta } from './component';
+import { ComponentProps, MaterialsComponent, MaterialsComponentMeta } from './component';
 import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
+import { RouterProps } from './pages';
+import * as React from 'react';
 
 export interface MaterialsInfo {
   name: string;
@@ -33,8 +35,9 @@ export interface MaterialsMain {
   };
 }
 
-export interface RenderEntryParams {
+export interface RenderEntryParams extends Pick<ComponentProps, 'global' | 'meta'> {
   render: Function;
+  implementRouterController: (CustomRouter: React.ComponentType<RouterProps>) => void;
 }
 
 export type ContainerRenderEntry = (params: RenderEntryParams) => void;

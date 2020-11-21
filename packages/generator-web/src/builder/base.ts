@@ -11,19 +11,17 @@ export interface BaseConfigParams {
     global: object;
     meta: GlobalMeta;
   };
+  isProd: boolean;
 }
 
-export function getBaseWebpackConfig({ containerPath, containerParams }: BaseConfigParams): Configuration {
+export function getBaseWebpackConfig({ containerPath, containerParams, isProd }: BaseConfigParams): Configuration {
   return {
-    // entry: entryPath,
-    // output: { path: output },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss', '.css'],
       symlinks: false,
     },
     module: {
       rules: [
-        // useSWC ? getSWConfig() : getBabelConfig(),
         {
           test: /\.(css|scss|sass)$/,
           use: [
@@ -68,11 +66,10 @@ export function getBaseWebpackConfig({ containerPath, containerParams }: BaseCon
         templateParameters: containerParams,
       }),
     ],
-    // mode: 'production',
-    mode: 'development',
+    mode: isProd ? 'production' : 'development',
     devtool: 'source-map',
     optimization: {
-      minimize: false,
+      minimize: isProd,
       noEmitOnErrors: false,
     },
   };

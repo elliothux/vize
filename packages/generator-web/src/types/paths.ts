@@ -4,7 +4,10 @@ export interface LibPaths {
 
 export type MaterialsPathMap = {
   [lib: string]: {
-    [identityName: string]: string;
+    [identityName: string]: {
+      path: string;
+      name: string;
+    };
   };
 };
 

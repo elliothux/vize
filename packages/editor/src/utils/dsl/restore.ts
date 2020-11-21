@@ -11,20 +11,32 @@ import {
   HotArea,
   MustBe,
 } from 'types';
-import { componentsStore, editStore, globalStore, pagesStore, pluginsStore } from 'states';
+import { componentsStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
 import { parseDSL } from './parse';
 import {
   addPageComponentInstanceIndexMap,
   addPagePluginInstanceIndexMap,
   generateComponentsIndex,
   generatePluginsIndex,
+  setSharedComponentIndexMap,
 } from '../indexMap';
 import { componentEventDepsMap, generateEventDepFromItem, pluginEventDepsMap } from '../depsMap';
 import { setMaxKey } from '../key';
 
-export function restoreState({ global, pageInstances, pluginInstances, editInfo }: ReturnType<typeof parseDSL>) {
+export function restoreState({
+  global,
+  pageInstances,
+  pluginInstances,
+  sharedComponentInstance,
+  editInfo,
+}: ReturnType<typeof parseDSL>) {
   restoreEditInfo(editInfo);
   restorePageInstances(pageInstances);
+
+  if (sharedComponentInstance?.length) {
+    restoreSharedComponentInstances(sharedComponentInstance);
+  }
+
   if (editInfo.pageMode === PageMode.SINGLE) {
     restorePluginInstances(0, pluginInstances!);
     restoreGlobalState(global!);
@@ -70,6 +82,25 @@ function restoreComponentInstances(pageKey: number, componentInstances: Componen
 
   const indexMap = generateComponentsIndex(componentInstances);
   addPageComponentInstanceIndexMap(pageKey, indexMap);
+
+  componentInstances.forEach(R.unary(restoreEventDep));
+}
+
+function restoreSharedComponentInstances(componentInstances: ComponentInstance[]) {
+  sharedStore.setState(sharedStore => {
+    sharedStore.sharedComponentInstances = componentInstances;
+    sharedStore.sharedComponentInstances.forEach(component => {
+      component.children?.forEach(child => {
+        child.parent = component;
+      });
+      component.hotAreas?.forEach(hotarea => {
+        hotarea.parent = component;
+      });
+    });
+  });
+
+  const indexMap = generateComponentsIndex(componentInstances);
+  setSharedComponentIndexMap(indexMap);
 
   componentInstances.forEach(R.unary(restoreEventDep));
 }
@@ -125,9 +156,11 @@ function restoreEditInfo({ maxKeys, layoutMode, pageMode }: ReturnType<typeof pa
     editStore.pageMode = pageMode;
   });
 
-  setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
-  setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
-  setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);
-  setMaxKey(InstanceKeyType.Plugin, maxKeys[InstanceKeyType.Plugin]);
-  setMaxKey(InstanceKeyType.Action, maxKeys[InstanceKeyType.Action]);
+  if (maxKeys) {
+    setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
+    setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
+    setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);
+    setMaxKey(InstanceKeyType.Plugin, maxKeys[InstanceKeyType.Plugin]);
+    setMaxKey(InstanceKeyType.Action, maxKeys[InstanceKeyType.Action]);
+  }
 }

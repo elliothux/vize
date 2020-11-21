@@ -1,24 +1,9 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
-import { PageEntity } from '../page/page.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class HistoryEntity {
   @PrimaryGeneratedColumn({ unsigned: true })
   id: number;
-
-  @ManyToOne(
-    () => PageEntity,
-    page => page.id,
-    { nullable: false },
-  )
-  @JoinColumn()
-  page: PageEntity;
 
   @Column({ type: 'datetime', nullable: false })
   createdTime: Date;
@@ -53,6 +38,6 @@ export class HistoryEntity {
   @Column({ type: 'text', nullable: true })
   pluginInstances?: string;
 
-  @Column({ type: 'text', nullable: false })
-  editInfo: string;
+  @Column({ type: 'text', nullable: true })
+  maxKeys?: string;
 }

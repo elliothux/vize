@@ -11,13 +11,14 @@ import {
   HotArea,
   HotAreaDSL,
 } from 'types';
-import { componentsStore, editStore, globalStore, pagesStore, pluginsStore } from 'states';
+import { componentsStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
 import { toJS } from 'mobx';
 import { getMaxKey } from '../key';
 
 export function generateDSL(): DSL {
   const { mainLib, containerName: container, layoutMode, pageMode, pageKey } = editStore;
   const { globalProps, globalStyle, metaInfo } = globalStore;
+  const { sharedComponentInstances } = sharedStore;
 
   const dsl: DSL = {
     pageKey,
@@ -33,6 +34,9 @@ export function generateDSL(): DSL {
     pageInstances: generatePageInstancesDSL(pageMode),
     pluginInstances:
       pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstancesMap(-1)) : undefined,
+    sharedComponentInstance: sharedComponentInstances.length
+      ? generateComponentInstancesDSL(sharedComponentInstances)
+      : undefined,
     editInfo: {
       layoutMode,
       pageMode,
@@ -60,7 +64,7 @@ function generatePageInstancesDSL(pageMode: PageMode): PageDSL[] {
     return {
       ...pageInstance,
       componentInstances: generateComponentInstancesDSL(componentInstances),
-      pluginInstances: generatePluginInstancesDSL(pluginInstances!),
+      pluginInstances: pluginInstances ? generatePluginInstancesDSL(pluginInstances) : undefined,
     };
   });
 }

@@ -10,30 +10,35 @@ import {
 } from '@nestjs/common';
 import { PageService } from './page.service';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
-import { CGICodeMap, CGIResponse } from '../../utils';
-import { QueryParams } from '../../types';
+import { CGICodeMap, CGIResponse } from 'utils';
+import { QueryParams } from 'types';
 
 @Controller('/cgi/page')
 export class PageController {
   constructor(private readonly pageService: PageService) {}
 
   @Post()
-  async createPage() {
-    const page: CreatePageDTO = {
-      key: '2222',
-      author: 'xunzhi',
-      layoutMode: 'stream',
-      pageMode: 'multi',
-      biz: 1,
-      status: 1,
-    };
+  async createPage(@Body() page: CreatePageDTO) {
+    // const page: CreatePageDTO = {
+    //   key: '15',
+    //   author: 'test',
+    //   layoutMode: LayoutMode.FREE,
+    //   pageMode: PageMode.SINGLE,
+    //   biz: 2,
+    //   desc: 'test desc',
+    //   title: '22',
+    // };
+
+    console.log('page: ', page);
 
     if (await this.pageService.checkPageExists(page.key)) {
       return CGIResponse.failed(CGICodeMap.PageExists);
     }
 
-    console.log(await this.pageService.createPageEntity(page));
-    return CGIResponse.success();
+    const {
+      identifiers: [pageId],
+    } = await this.pageService.createPageEntity(page);
+    return CGIResponse.success(pageId);
   }
 
   @Get()
@@ -41,6 +46,7 @@ export class PageController {
     const pages = await this.pageService.queryPageEntity(query);
     return CGIResponse.success(pages);
   }
+
   @Get(':id')
   async getPageById(@Param('id') id: number) {
     if (!id) {

@@ -2,7 +2,11 @@ import { PageEntity } from './page.entity';
 import { HistoryEntity } from '../history/history.entity';
 
 export interface CreatePageDTO
-  extends Omit<PageEntity, 'id' | 'createdTime' | 'biz'> {
+  extends Omit<
+      PageEntity,
+      'id' | 'createdTime' | 'biz' | 'status' | 'latestHistory'
+    >,
+    Pick<HistoryEntity, 'author' | 'title' | 'desc'> {
   biz: number;
 }
 

@@ -70,6 +70,7 @@ export interface ComponentInstance {
     size?: ComponentSize;
   };
   hotAreas?: HotArea[];
+  shared: boolean;
 }
 
 export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style' | 'commonStyle'> {

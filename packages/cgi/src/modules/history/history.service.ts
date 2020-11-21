@@ -12,21 +12,17 @@ export class HistoryService {
     private readonly historyRepository: Repository<HistoryEntity>,
   ) {}
 
-  public createHistory(
-    pageId: number,
-    {
-      global: {
-        metaInfo: { title, desc, duration, expiredJump },
-        globalProps,
-        globalStyle,
-      },
-      pageInstances,
-      pluginInstances,
-      editInfo,
-    }: CreateHistoryDTO,
-  ) {
+  public createHistory({
+    global: {
+      metaInfo: { title, desc, duration, expiredJump },
+      globalProps,
+      globalStyle,
+    },
+    pageInstances,
+    pluginInstances,
+    editInfo,
+  }: CreateHistoryDTO) {
     return this.historyRepository.insert({
-      page: { id: pageId },
       createdTime: new Date(),
       author: 'qy',
       title,
@@ -38,7 +34,7 @@ export class HistoryService {
       globalStyle: JSON.stringify(globalStyle),
       pageInstances: JSON.stringify(pageInstances),
       pluginInstances: JSON.stringify(pluginInstances),
-      editInfo: JSON.stringify(editInfo),
+      maxKeys: JSON.stringify(editInfo.maxKeys),
     });
   }
 

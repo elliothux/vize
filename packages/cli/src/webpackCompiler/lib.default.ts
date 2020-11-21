@@ -100,7 +100,7 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
   };
 
   if (isProd) {
-    const entry: Entry = { meta: metaEntryTemp };
+    const entry: Entry = {};
     componentsList.forEach(({ name, mainPath }) => (entry[`component-${name}`] = [...commonDeps, mainPath]));
     pluginsList.forEach(({ name, mainPath }) => (entry[`plugin-${name}`] = [...commonDeps, mainPath]));
     actionsList.forEach(({ name, mainPath }) => (entry[`action-${name}`] = [...commonDeps, mainPath]));
@@ -148,8 +148,6 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
   if (runtime === LibConfigRuntime.RAX) {
     return getLibRaxWebpackConfig(config);
   }
-
-  console.log(config);
 
   return config;
 }

@@ -16,7 +16,7 @@ export type PluginInstanceDSL = PluginInstance;
 export interface EditInfoDSL {
   layoutMode: LayoutMode;
   pageMode: PageMode;
-  maxKeys: {
+  maxKeys?: {
     [InstanceKeyType.Page]: number;
     [InstanceKeyType.Component]: number;
     [InstanceKeyType.HotArea]: number;
@@ -46,5 +46,6 @@ export type DSL = Readonly<{
   global?: GlobalDSL;
   pageInstances: PageDSL[];
   pluginInstances?: PluginInstanceDSL[];
+  sharedComponentInstance?: ComponentInstanceDSL[];
   editInfo: EditInfoDSL;
 }>;

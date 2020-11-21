@@ -9,7 +9,7 @@ export interface ComponentIndex {
 
 export const pagesComponentIndexMap = new Map<number, Map<number, ComponentIndex>>();
 
-type ComponentIndexMapEntries = (readonly [number, ComponentIndex])[];
+export type ComponentIndexMapEntries = (readonly [number, ComponentIndex])[];
 
 export function addPageComponentInstanceIndexMap(pageKey: number, entries?: ComponentIndexMapEntries) {
   pagesComponentIndexMap.set(pageKey, new Map<number, ComponentIndex>(entries));

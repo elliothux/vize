@@ -1,10 +1,8 @@
 import './index.scss';
+import { Router } from './Router';
 
-interface Props {
-  render: any;
-}
-
-export default function({ render }: Props) {
+export default function({ render, implementRouterController }: any) {
   // DO something before render
+  implementRouterController(Router);
   render();
 }

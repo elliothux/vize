@@ -18,8 +18,7 @@ setMaterialsMap('', {
 // Components
 const componentInstances = <%= componentInstances %> as React.ComponentProps<typeof AppRender>['componentInstances'];
 
-export function PageRender(props) {
-  const { router } = props;
+export function PageRender({ router, sharedComponentInstances }) {
   return (
     <AppRender
       global={global}
@@ -27,6 +26,7 @@ export function PageRender(props) {
       componentInstances={componentInstances}
       pluginInstances={pluginInstances}
       router={router}
+      sharedComponentInstances={sharedComponentInstances}
     />
   );
 }

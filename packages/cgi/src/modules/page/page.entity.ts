@@ -5,6 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { RecordStatus } from 'types';
 import { BizEntity } from 'modules/biz/biz.entity';
 import { HistoryEntity } from '../history/history.entity';
 
@@ -29,7 +30,7 @@ export class PageEntity {
   pageMode: string;
 
   @Column({ type: 'tinyint', nullable: false, default: 1 })
-  status: number;
+  status: RecordStatus;
 
   @ManyToOne(
     () => BizEntity,
@@ -45,5 +46,5 @@ export class PageEntity {
     { nullable: true },
   )
   @JoinColumn()
-  latestHistory?: HistoryEntity;
+  latestHistory: HistoryEntity;
 }

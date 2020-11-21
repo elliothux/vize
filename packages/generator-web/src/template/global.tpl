@@ -1,6 +1,9 @@
 // Import Libs and Runtime
 import { injectReadonly, injectStyle, setMaterialsMap } from "../../deps/runtime-web/src";
 
+// Import Components
+<%= sharedComponentImports %>
+
 // Import Plugins
 <%= pluginImports %>
 
@@ -9,6 +12,7 @@ import { injectReadonly, injectStyle, setMaterialsMap } from "../../deps/runtime
 
 // Init materials map
 setMaterialsMap('', {
+  components: { <%= sharedComponentVars %> },
   plugins: { <%= pluginVars %> },
   actions: { <%= actionVars %> },
 } as any, false);
@@ -25,6 +29,9 @@ export const global = <%= global %>;
 
 // Inject Global
 injectReadonly('VIZE', { meta, global });
+
+// Components
+export const sharedComponentInstances = <%= sharedComponentInstances %>;
 
 // Plugin
 export const pluginInstances = <%= pluginInstances %>;

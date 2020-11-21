@@ -7,7 +7,7 @@ import {
 } from 'react-sortable-hoc';
 import { ComponentInstance, WithReactChildren } from 'types';
 import { ComponentItem } from 'components/ComponentItem';
-import { componentsStore, editStore, selectStore } from 'states';
+import { componentsStore, editStore, pagesStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo } from 'react';
 
@@ -21,18 +21,32 @@ const SortableComponentItem = sortableElement(ComponentItem);
 interface Props {
   mountTarget?: HTMLDivElement;
   componentInstances: ComponentInstance[];
+  sharedComponentInstances?: ComponentInstance[];
   containerComponentInstance?: ComponentInstance;
 }
 
-function IStreamLayoutRender({ containerComponentInstance, componentInstances, mountTarget }: Props) {
-  const { selectType, componentKey, containerComponentKey, selectMode, selectModeSelectedComponent } = selectStore;
+function IStreamLayoutRender({
+  containerComponentInstance,
+  componentInstances,
+  sharedComponentInstances,
+  mountTarget,
+}: Props) {
+  const {
+    selectType,
+    componentKey,
+    containerComponentKey,
+    selectMode,
+    selectModeSelectedComponent,
+    pageIndex,
+  } = selectStore;
+  const { pages } = pagesStore;
 
   const onSortStart = useCallback(
     ({ index }: SortStart) => {
       if (selectStore.selectMode) {
         return;
       }
-      selectStore.selectComponent(componentInstances[index].key);
+      selectStore.selectComponent(false, componentInstances[index].key);
     },
     [componentInstances],
   );
@@ -48,6 +62,21 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
 
   const getContainer = useMemo(() => (mountTarget ? () => mountTarget : undefined), [mountTarget]);
 
+  const sharedChildren = sharedComponentInstances?.map(instance => (
+    <ComponentItem
+      key={instance.key}
+      instance={instance}
+      currentSelectedKey={componentKey}
+      currentSelectedType={selectType}
+      currentSelectedContainerKey={containerComponentKey}
+      selectMode={selectMode}
+      selectModeSelectedComponent={selectModeSelectedComponent}
+      isCurrentSelectedContainerShared
+      pages={pages}
+      currentPageIndex={pageIndex}
+    />
+  ));
+
   const children = componentInstances.map((instance, index) => (
     <SortableComponentItem
       key={instance.key}
@@ -58,6 +87,9 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
       currentSelectedContainerKey={containerComponentKey}
       selectMode={selectMode}
       selectModeSelectedComponent={selectModeSelectedComponent}
+      isCurrentSelectedContainerShared={false}
+      pages={pages}
+      currentPageIndex={pageIndex}
     />
   ));
 
@@ -69,11 +101,18 @@ function IStreamLayoutRender({ containerComponentInstance, componentInstances, m
       currentSelectedContainerKey={containerComponentKey}
       selectMode={selectMode}
       selectModeSelectedComponent={selectModeSelectedComponent}
+      isCurrentSelectedContainerShared={false}
+      pages={pages}
+      currentPageIndex={pageIndex}
     >
+      {sharedChildren}
       {children}
     </ComponentItem>
   ) : (
-    children
+    <>
+      {sharedChildren}
+      {children}
+    </>
   );
 
   return (

@@ -2,7 +2,8 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { useMemo } from 'react';
 import { globalStore } from 'states';
-import { mergeCommonStyle, humpToMiddleLine } from 'utils';
+import { humpToMiddleLine } from 'utils';
+import { mergeCommonStyle } from 'runtime';
 
 function IGlobalStyle() {
   const { globalStyle } = globalStore;

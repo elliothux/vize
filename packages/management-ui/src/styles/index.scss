@@ -1,0 +1,11 @@
+@import '~antd/dist/antd.min.css';
+@import './global';
+@import './reset';
+
+.vize-main {
+  position: fixed;
+  top: 60px;
+  left: 80px;
+  padding: 40px;
+  width: calc(100% - 80px);
+}

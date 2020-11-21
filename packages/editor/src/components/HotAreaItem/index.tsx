@@ -7,7 +7,7 @@ import { FirstParameter, HotArea } from 'types';
 import { percent, preventSyntheticEvent } from 'utils';
 import { EventEmitTypes, events } from 'utils';
 import { observer } from 'mobx-react';
-import { NodeEventProxy } from 'runtime/comppnents/NodeEventProxy';
+import { NodeEventProxy } from 'runtime/components/NodeEventProxy';
 import { AttrEditTab } from '../AttributesEditor';
 import { showHotAreaContextMenu } from '../ContextMenu/HotAreaContextMenu';
 
