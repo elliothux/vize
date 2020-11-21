@@ -1,4 +1,4 @@
-import { BizRecord } from '../../types';
+import { CreatePageParams } from '../../api';
 
 export interface ItemProps<T> {
   current: T;
@@ -6,9 +6,4 @@ export interface ItemProps<T> {
   showErr?: boolean;
 }
 
-export interface PageDetail {
-  biz: BizRecord['id'];
-  key: string;
-  title: string;
-  desc: string;
-}
+export type PageDetail = Omit<CreatePageParams, 'author' | 'pageMode' | 'layoutMode'>;

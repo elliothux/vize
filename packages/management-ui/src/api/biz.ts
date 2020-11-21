@@ -1,6 +1,6 @@
-import { fetchCGIJSON, prefix } from './utils';
+import { getCGIJSON, prefix } from './utils';
 import { BizRecord } from '../types';
 
 export function queryBiz() {
-  return fetchCGIJSON<BizRecord[]>(prefix('biz'));
+  return getCGIJSON<BizRecord[]>(prefix('biz'));
 }

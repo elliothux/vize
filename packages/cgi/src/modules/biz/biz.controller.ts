@@ -30,7 +30,6 @@ export class BizController {
   @Get()
   async queryBiz() {
     const result = await this.bizService.queryBizEntities({});
-    console.log(result);
     return CGIResponse.success(result);
   }
 }

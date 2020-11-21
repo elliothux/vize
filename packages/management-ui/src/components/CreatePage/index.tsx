@@ -1,10 +1,9 @@
 import './index.scss';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
-import { PageHeader, Drawer, Tabs } from 'antd';
-import { useLocation } from 'wouter';
-import { RouterPaths } from 'router';
+import { PageHeader, Drawer, Tabs, Modal } from 'antd';
 import { LayoutMode, Maybe, PageMode } from 'types';
+import { createPage } from 'api';
 import { CreateSteps } from './CreateSteps';
 import { PageModeSelector } from './PageModeSelector';
 import { LayoutModeSelector } from './LayoutModeSelector';
@@ -22,15 +21,14 @@ const { TabPane } = Tabs;
 const TOGGLE_DELAY = 500;
 
 export function CreatePage({ visible, setVisible }: Props) {
-  const [, navigateTo] = useLocation();
-
   const [step, setStep] = useState(0);
   const [showErr, setShowErr] = useState(false);
   const [pageMode, setPageMode] = useState<Maybe<PageMode>>(null);
   const [layoutMode, setLayoutMode] = useState<Maybe<LayoutMode>>(null);
   const [pageDetail, setPageDetail] = useState<Partial<PageDetail>>({});
+  const [pageID, setPageID] = useState<Maybe<number>>(null);
 
-  const onBack = useCallback(() => navigateTo(RouterPaths.PAGES), [navigateTo]);
+  const onBack = useCallback(() => setVisible(false), []);
 
   const onSetPageMode = useCallback((mode: Maybe<PageMode>) => {
     setPageMode(mode);
@@ -43,7 +41,7 @@ export function CreatePage({ visible, setVisible }: Props) {
   }, []);
 
   const onSetPageDetail = useCallback(
-    (detail: Partial<PageDetail>) => {
+    async (detail: Partial<PageDetail>) => {
       console.log(detail);
       setPageDetail(detail);
 
@@ -60,6 +58,20 @@ export function CreatePage({ visible, setVisible }: Props) {
       }
 
       setStep(3);
+
+      const [success, result, { message, code }] = await createPage({
+        ...(detail as Required<PageDetail>),
+        author: 'qy',
+        pageMode,
+        layoutMode,
+      });
+
+      if (success) {
+        setPageID(result!.id);
+      } else {
+        const content = `错误码: ${code}$\n错误信息: ${message}`;
+        Modal.error({ title: '创建页面失败', content, onOk: () => setStep(2) });
+      }
     },
     [pageMode, layoutMode],
   );
@@ -96,7 +108,7 @@ export function CreatePage({ visible, setVisible }: Props) {
           <PageDetailForm current={pageDetail} setCurrent={onSetPageDetail} />
         </TabPane>
         <TabPane tab={3} key={3}>
-          <CreateResult />
+          <CreateResult pageID={pageID} onClose={onBack} />
         </TabPane>
       </Tabs>
     </Drawer>

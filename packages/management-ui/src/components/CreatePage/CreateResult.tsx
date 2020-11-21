@@ -1,22 +1,24 @@
 import * as React from 'react';
 import { Result, Button } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Maybe } from 'types';
 
 interface Props {
-  id?: number;
+  pageID: Maybe<number>;
+  onClose: () => void;
 }
 
-export function CreateResult({ id }: Props) {
-  if (id) {
+export function CreateResult({ pageID, onClose }: Props) {
+  if (pageID) {
     return (
       <Result
         status="success"
         title="创建成功"
-        subTitle={`成功创建页面 ID: ${id}`}
+        subTitle={`成功创建页面 ID: ${pageID}`}
         extra={
           <>
             <Button type="primary">去编辑</Button>
-            <Button>关闭</Button>
+            <Button onClick={onClose}>关闭</Button>
           </>
         }
       />

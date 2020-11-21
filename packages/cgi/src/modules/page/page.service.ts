@@ -3,29 +3,49 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageEntity } from './page.entity';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
-import { QueryParams } from '../../types';
+import { QueryParams, RecordStatus } from '../../types';
+import { HistoryEntity } from '../history/history.entity';
 
 @Injectable()
 export class PageService {
   constructor(
     @InjectRepository(PageEntity)
     private readonly pageRepository: Repository<PageEntity>,
+    @InjectRepository(HistoryEntity)
+    private readonly historyRepository: Repository<HistoryEntity>,
   ) {}
 
-  public createPageEntity({
+  public async createPageEntity({
     key,
     author,
     layoutMode,
     pageMode,
     biz,
+    title,
+    desc,
   }: CreatePageDTO) {
+    const createdTime = new Date();
+
+    const {
+      identifiers: [latestHistory],
+    } = await this.historyRepository.insert({
+      title,
+      desc,
+      createdTime,
+      author,
+      globalProps: '{}',
+      globalStyle: '{}',
+      pageInstances: '[]',
+    });
+
     return this.pageRepository.insert({
       key,
-      createdTime: new Date(),
+      createdTime,
       author,
       layoutMode,
       pageMode,
       biz: { id: biz },
+      latestHistory,
     });
   }
 
@@ -49,7 +69,7 @@ export class PageService {
   }
 
   public deletePage(id: number) {
-    return this.pageRepository.update(id, { status: -1 });
+    return this.pageRepository.update(id, { status: RecordStatus.DELETED });
   }
 
   public async checkPageExists(key: string) {

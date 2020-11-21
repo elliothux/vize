@@ -10,10 +10,8 @@ export function prefix(path: string, params?: { [key: string]: string | number |
   return `/cgi/${path}${p}`;
 }
 
-export async function fetchCGIJSON<T = any>(...params: Parameters<typeof fetch>): Promise<ParsedCGIResponse<T>> {
-  const response = await fetch(...params);
-  const result = await response.json();
-  return parseResponse<T>(result);
+export interface CGIIDResponse {
+  id: number;
 }
 
 interface CGIResponse<T> {
@@ -26,6 +24,25 @@ interface CGIResponse<T> {
 
 export type ParsedCGIResponse<T> = [boolean, Maybe<T>, CGIResponse<T>];
 
-export function parseResponse<T>(response: CGIResponse<T>): ParsedCGIResponse<T> {
+function parseResponse<T>(response: CGIResponse<T>): ParsedCGIResponse<T> {
   return [response.status === 'success', response.data, response];
+}
+
+export async function getCGIJSON<T = any>(...params: Parameters<typeof fetch>): Promise<ParsedCGIResponse<T>> {
+  const response = await fetch(...params);
+  const result = await response.json();
+  return parseResponse<T>(result);
+}
+
+export async function postCGIJSON<T = any>(url: string, params: object): Promise<ParsedCGIResponse<T>> {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  });
+  const result = await response.json();
+  return parseResponse<T>(result);
 }

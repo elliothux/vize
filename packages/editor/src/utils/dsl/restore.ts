@@ -156,9 +156,11 @@ function restoreEditInfo({ maxKeys, layoutMode, pageMode }: ReturnType<typeof pa
     editStore.pageMode = pageMode;
   });
 
-  setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
-  setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
-  setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);
-  setMaxKey(InstanceKeyType.Plugin, maxKeys[InstanceKeyType.Plugin]);
-  setMaxKey(InstanceKeyType.Action, maxKeys[InstanceKeyType.Action]);
+  if (maxKeys) {
+    setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
+    setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
+    setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);
+    setMaxKey(InstanceKeyType.Plugin, maxKeys[InstanceKeyType.Plugin]);
+    setMaxKey(InstanceKeyType.Action, maxKeys[InstanceKeyType.Action]);
+  }
 }
