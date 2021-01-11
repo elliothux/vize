@@ -1,0 +1,20 @@
+.vize-materials-universal.bottom-swipe-container {
+  width: 100vw;
+  background-color: #ffd7d7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  overflow-y: visible;
+
+  .bottom-swipe-container-controller {
+    width: 100%;
+    padding: 12px 0;
+    text-align: center;
+
+    span {
+      width: 60px;
+      height: 7px;
+      background-color: white;
+      border-radius: 6px;
+      display: inline-block;
+    }
+  }
+}

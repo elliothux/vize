@@ -4,7 +4,7 @@ export function prefix(path: string, params?: { [key: string]: string | number |
   const p = params
     ? '?' +
       Object.entries(params)
-        .map(([k, v]) => `${k}=${v}`)
+        .map(([k, v]) => (v ? `${k}=${v}` : ''))
         .join('&')
     : '';
   return `/cgi/${path}${p}`;
@@ -45,4 +45,10 @@ export async function postCGIJSON<T = any>(url: string, params: object): Promise
   });
   const result = await response.json();
   return parseResponse<T>(result);
+}
+
+export interface WithPagination<T> {
+  total: number;
+  current: number;
+  data: T;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, FindManyOptions } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageEntity } from './page.entity';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
@@ -22,7 +22,7 @@ export class PageService {
     pageMode,
     biz,
     title,
-    desc,
+    desc = '',
   }: CreatePageDTO) {
     const createdTime = new Date();
 
@@ -49,15 +49,25 @@ export class PageService {
     });
   }
 
-  public queryPageEntity({ startPage = 0, pageSize = 20 }: QueryParams) {
-    return this.pageRepository.find({
+  public async queryPageEntity({
+    startPage = 0,
+    pageSize = 20,
+    biz,
+  }: QueryParams<{ biz?: number }>) {
+    const where = biz ? { biz } : undefined;
+    const options: FindManyOptions<PageEntity> = {
+      order: {
+        createdTime: 'DESC',
+      },
       take: pageSize,
       skip: startPage * pageSize,
-      relations: ['latestHistory'],
-      join: {
-        alias: 'latestHistory',
-      },
-    });
+      relations: ['latestHistory', 'biz'],
+      where,
+    };
+    return {
+      pages: await this.pageRepository.find(options),
+      total: await this.pageRepository.count(where ? { where } : undefined),
+    };
   }
 
   public getPageById(id: number) {

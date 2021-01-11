@@ -1,4 +1,5 @@
 import { BizRecord } from './biz';
+import { HistoryRecord } from './history';
 
 export interface PageRecord {
   id: number;
@@ -8,5 +9,6 @@ export interface PageRecord {
   layoutMode: string;
   pageMode: string;
   status: number;
-  biz: BizRecord;
+  biz: Pick<BizRecord, 'id'>;
+  latestHistory: Pick<HistoryRecord, 'id' | 'title' | 'desc' | 'author' | 'createdTime'>;
 }

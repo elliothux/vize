@@ -3,6 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToOne,
   JoinColumn,
 } from 'typeorm';
 import { RecordStatus } from 'types';
@@ -40,10 +41,10 @@ export class PageEntity {
   @JoinColumn()
   biz: BizEntity;
 
-  @ManyToOne(
+  @OneToOne(
     () => HistoryEntity,
     history => history.id,
-    { nullable: true },
+    { nullable: false },
   )
   @JoinColumn()
   latestHistory: HistoryEntity;

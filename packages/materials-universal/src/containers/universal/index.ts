@@ -3,6 +3,6 @@ import { Router } from './Router';
 
 export default function({ render, implementRouterController }: any) {
   // DO something before render
-  implementRouterController(Router);
+  // implementRouterController(Router);
   render();
 }

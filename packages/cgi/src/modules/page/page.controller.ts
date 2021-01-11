@@ -19,18 +19,6 @@ export class PageController {
 
   @Post()
   async createPage(@Body() page: CreatePageDTO) {
-    // const page: CreatePageDTO = {
-    //   key: '15',
-    //   author: 'test',
-    //   layoutMode: LayoutMode.FREE,
-    //   pageMode: PageMode.SINGLE,
-    //   biz: 2,
-    //   desc: 'test desc',
-    //   title: '22',
-    // };
-
-    console.log('page: ', page);
-
     if (await this.pageService.checkPageExists(page.key)) {
       return CGIResponse.failed(CGICodeMap.PageExists);
     }
@@ -42,9 +30,22 @@ export class PageController {
   }
 
   @Get()
-  async getPages(@Query() query: QueryParams) {
-    const pages = await this.pageService.queryPageEntity(query);
-    return CGIResponse.success(pages);
+  async getPages(@Query() query: QueryParams<{ biz?: number }>) {
+    const { pages, total } = await this.pageService.queryPageEntity(query);
+    return CGIResponse.success({
+      total,
+      data: pages.map(page => {
+        const {
+          latestHistory: { id, title, desc, author, createdTime },
+          biz: { id: bizID },
+        } = page;
+        return {
+          ...page,
+          latestHistory: { id, title, desc, author, createdTime },
+          biz: { id: bizID },
+        };
+      }),
+    });
   }
 
   @Get(':id')
@@ -59,6 +60,7 @@ export class PageController {
     }
     return CGIResponse.success(page);
   }
+
   @Put(':id')
   async updatePageInfo(
     @Param('id') id: number,
