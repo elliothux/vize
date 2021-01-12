@@ -50,7 +50,11 @@ async function init() {
 
 export function restore() {
   // TODO
-  const dsl = parseDSL(JSON.parse(localStorage.getItem('dsl')!));
+  const dslString = localStorage.getItem('dsl');
+  if (!dslString) {
+    return;
+  }
+  const dsl = parseDSL(JSON.parse(dslString));
   console.log(dsl);
   restoreState(dsl);
 }

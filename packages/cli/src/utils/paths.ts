@@ -1,6 +1,13 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { ActionsList, ComponentsList, MaterialsList, PluginsList } from '../types';
+import {
+  ActionsList,
+  ComponentsList,
+  ContainerList,
+  MaterialsContainerItem,
+  MaterialsList,
+  PluginsList,
+} from '../types';
 
 export interface LibPaths {
   root: string;
@@ -15,6 +22,7 @@ export interface LibPaths {
   actions: string;
   actionsList: ActionsList;
   containers: string;
+  containerList: ContainerList;
   nodeModules: string;
   webpackConfigs: string;
   containerName?: string;
@@ -45,16 +53,18 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
   const actions = path.resolve(src, './actions');
   const actionsList = getItemList(actions);
   const containers = path.resolve(src, './containers');
+  const containerList = getContainerList(containers);
   const nodeModules = path.resolve(root, './node_modules');
   const webpackConfigs = path.resolve(root, './webpack');
 
   let container;
   let containerEntry;
   let containerHTML;
-  if (containerName) {
-    container = path.resolve(containers, containerName);
-    containerEntry = path.resolve(container, './index');
-    containerHTML = path.resolve(container, './index.html.ejs');
+  const containerItem = containerList.find(i => i.name === containerName);
+  if (containerName && containerItem) {
+    container = containerItem.path;
+    containerEntry = containerItem.entry;
+    containerHTML = containerItem.html;
   }
 
   paths = {
@@ -76,6 +86,7 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
     nodeModules,
     containerName,
     container,
+    containerList,
     containerEntry,
     containerHTML,
   };
@@ -92,6 +103,22 @@ function getItemList(folderPath: string): MaterialsList {
       entry: itemPath,
       mainPath: path.resolve(itemPath, 'index'),
       metaPath: path.resolve(itemPath, 'config'),
+    };
+  });
+}
+
+function getContainerList(folderPath: string): ContainerList {
+  const items = fs.readdirSync(folderPath);
+  return items.map(name => {
+    const itemPath = path.resolve(folderPath, name);
+    const entry = path.resolve(itemPath, './index');
+    const html = path.resolve(itemPath, './index.html.ejs');
+
+    return {
+      name,
+      path: itemPath,
+      entry,
+      html,
     };
   });
 }

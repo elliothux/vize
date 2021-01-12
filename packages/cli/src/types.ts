@@ -12,3 +12,12 @@ export type ComponentsList = MaterialsList;
 export type PluginsList = MaterialsList;
 
 export type ActionsList = MaterialsList;
+
+export interface MaterialsContainerItem {
+  name: string;
+  path: string;
+  entry: string;
+  html: string;
+}
+
+export type ContainerList = MaterialsContainerItem[];

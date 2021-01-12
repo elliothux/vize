@@ -10,16 +10,22 @@ import { getConfig } from '../config';
 
 const config = getConfig();
 
+const workspacePath = path.resolve(__dirname, '../../workspace');
+
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: path.join(__dirname, '../../../management-ui/build'),
-      exclude: ['/cgi/*', '/editor/*'],
+      serveRoot: '/',
+      rootPath: path.join(workspacePath, 'pages/management-ui'),
+      exclude: ['/cgi/*', '/editor/*', '/materials/*'],
     }),
     ServeStaticModule.forRoot({
       serveRoot: '/editor',
-      rootPath: path.join(__dirname, '../../../editor/build'),
-      exclude: ['/cgi/*'],
+      rootPath: path.join(workspacePath, 'pages/editor'),
+    }),
+    ServeStaticModule.forRoot({
+      serveRoot: '/materials',
+      rootPath: path.join(workspacePath, 'materials'),
     }),
     ConfigModule.forRoot({
       load: [getConfig],

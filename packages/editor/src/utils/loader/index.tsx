@@ -10,12 +10,12 @@ import {
 import { MaterialsActionMeta, MaterialsComponentMeta, MaterialsMeta, MaterialsPluginMeta } from '../../types';
 import { getMaterialsIdentityName, promiseWrapper } from '../common';
 
-export async function loadMaterials(libName: string, debugPort?: number) {
+export async function loadMaterials(libName: string, containerName: string, debugPort?: number) {
   const [containerHTML, meta, main, entry] = await Promise.all([
-    loadContainerHTML(libName, debugPort),
-    loadMeta(libName, debugPort),
-    loadMain(libName, debugPort),
-    loadEntry(libName, debugPort),
+    loadContainerHTML(libName, containerName, debugPort),
+    loadMeta(libName, containerName, debugPort),
+    loadMain(libName, containerName, debugPort),
+    loadEntry(libName, containerName, debugPort),
   ]);
 
   return {
@@ -27,16 +27,16 @@ export async function loadMaterials(libName: string, debugPort?: number) {
   };
 }
 
-export function loadMain(libName: string, debugPort?: number): Promise<StringMaterialsFile> {
-  return loadFileAsString(MaterialsFileType.Main, libName, debugPort);
+export function loadMain(libName: string, containerName: string, debugPort?: number): Promise<StringMaterialsFile> {
+  return loadFileAsString(MaterialsFileType.Main, libName, containerName, debugPort);
 }
 
-export function loadEntry(libName: string, debugPort?: number): Promise<StringMaterialsFile> {
-  return loadFileAsString(MaterialsFileType.Entry, libName, debugPort);
+export function loadEntry(libName: string, containerName: string, debugPort?: number): Promise<StringMaterialsFile> {
+  return loadFileAsString(MaterialsFileType.Entry, libName, containerName, debugPort);
 }
 
-export async function loadMeta(libName: string, debugPort?: number): Promise<MaterialsMeta> {
-  const info = getMaterialsFileInfo(MaterialsFileType.Meta, libName, debugPort);
+export async function loadMeta(libName: string, containerName: string, debugPort?: number): Promise<MaterialsMeta> {
+  const info = getMaterialsFileInfo(MaterialsFileType.Meta, libName, containerName, debugPort);
   const [meta, [, err]] = await Promise.all([
     loadUMDModule<MaterialsMeta>(info),
     promiseWrapper(loadStyle(info, window, `${libName}-meta`)),
@@ -84,8 +84,8 @@ export async function loadMeta(libName: string, debugPort?: number): Promise<Mat
   }
 }
 
-export function loadContainerHTML(libName: string, debugPort?: number) {
-  const info = getMaterialsFileInfo(MaterialsFileType.HTML, libName, debugPort);
+export function loadContainerHTML(libName: string, containerName: string, debugPort?: number) {
+  const info = getMaterialsFileInfo(MaterialsFileType.HTML, libName, containerName, debugPort);
   return loadUMDModule<string>(info);
 }
 

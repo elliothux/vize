@@ -19,10 +19,10 @@ interface MaterialsLibItem {
 export class MaterialsStore {
   @action
   public readonly init = () => {
-    const { libNames, debugPorts } = editStore;
+    const { libNames, containerName, debugPorts } = editStore;
     return Promise.all(
       libNames.map((name, index) => {
-        return this.loadMaterials(name, debugPorts[index]);
+        return this.loadMaterials(name, containerName, debugPorts[index]);
       }),
     );
   };
@@ -42,13 +42,17 @@ export class MaterialsStore {
   }
 
   @action
-  private readonly loadMaterials = async (libName: string, debugPort?: number): Promise<void> => {
+  private readonly loadMaterials = async (
+    libName: string,
+    containerName: string,
+    debugPort?: number,
+  ): Promise<void> => {
     const {
       containerHTML,
       meta,
       main: { script: mainScript, style: mainStyle, entryName: mainEntryName },
       entry: { script: entryScript, style: entryStyle, entryName: entryEntryName },
-    } = await loadMaterials(libName, debugPort || undefined);
+    } = await loadMaterials(libName, containerName, debugPort || undefined);
 
     setMaterialsMetaMap(libName, meta);
 

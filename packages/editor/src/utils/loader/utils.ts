@@ -19,14 +19,22 @@ interface MaterialsFileInfo {
 export function getMaterialsFileInfo(
   fileType: MaterialsFileType,
   libName: string,
+  containerName: string,
   debugPort?: number,
 ): MaterialsFileInfo {
   // TODO
-  const name = `http://127.0.0.1:${debugPort!}/@vize-materials-${libName}-${fileType}`;
+  const name = debugPort
+    ? `http://127.0.0.1:${debugPort!}/@vize-materials-${libName}-${fileType}`
+    : `/materials/materials-${libName}/dist/@vize-materials-${libName}${
+        fileType === MaterialsFileType.Entry || fileType === MaterialsFileType.HTML ? `-container_${containerName}` : ''
+      }-${fileType}`;
+
   return {
     url: `${name}.js`,
     styleUrl: fileType === MaterialsFileType.HTML ? null : `${name}.css`,
-    entryName: `@vize-materials-${libName}-${fileType}`,
+    entryName: `@vize-materials-${libName}${
+      fileType === MaterialsFileType.Entry || fileType === MaterialsFileType.HTML ? `-container_${containerName}` : ''
+    }-${fileType}`,
   };
 }
 
@@ -92,9 +100,10 @@ export interface StringMaterialsFile {
 export async function loadFileAsString(
   type: MaterialsFileType,
   libName: string,
+  containerName: string,
   debugPort?: number,
 ): Promise<StringMaterialsFile> {
-  const { url, styleUrl, entryName } = getMaterialsFileInfo(type, libName, debugPort);
+  const { url, styleUrl, entryName } = getMaterialsFileInfo(type, libName, containerName, debugPort);
   const [script, [err, style]] = await Promise.all([getFileString(url), promiseWrapper(getFileString(styleUrl!))]);
 
   if (err) {
