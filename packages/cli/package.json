@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "./node_modules/typescript/bin/tsc -w",
     "dist": "./node_modules/typescript/bin/tsc",
-    "pub": "npm publish --access public"
+    "publish": "npm publish --access public"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",

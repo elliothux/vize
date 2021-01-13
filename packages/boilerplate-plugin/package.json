@@ -1,6 +1,9 @@
 {
   "name": "@vize/boilerplate-plugin",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "materials plugin boilerplate for vize",
-  "main": "index.js"
+  "main": "index.js",
+  "scripts": {
+    "publish": "npm publish --access public"
+  }
 }
