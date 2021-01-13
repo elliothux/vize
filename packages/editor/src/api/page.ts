@@ -1,12 +1,11 @@
-import { DSL } from 'types';
-import { prefix } from './utils';
+import { getCGIJSON, postCGIJSON, prefix } from './utils';
+import { PageRecordWithHistory } from 'sharedTypes';
+import { DSL } from '../types';
 
-export function savePage(dsl: DSL) {
-  return fetch(prefix('page'), {
-    method: 'POST',
-    body: JSON.stringify(dsl),
-    headers: {
-      'content-type': 'application/json',
-    },
-  });
+export function getPage(pageKey: string) {
+  return getCGIJSON<PageRecordWithHistory>(`${prefix('page')}/${pageKey}`);
+}
+
+export function savePageHistory(dsl: DSL) {
+  return postCGIJSON<{}>(prefix('history'), dsl);
 }

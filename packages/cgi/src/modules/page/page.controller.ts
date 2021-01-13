@@ -48,17 +48,14 @@ export class PageController {
     });
   }
 
-  @Get(':id')
-  async getPageById(@Param('id') id: number) {
-    if (!id) {
+  @Get(':key')
+  async getPage(@Param('key') key: string) {
+    if (!key) {
       return CGIResponse.failed(CGICodeMap.PageNotExists);
     }
 
-    const page = await this.pageService.getPageById(id);
-    if (!page) {
-      return CGIResponse.success(page, 'the page id is not found!');
-    }
-    return CGIResponse.success(page);
+    const result = await this.pageService.getPageByKey(key);
+    return CGIResponse.success(result);
   }
 
   @Put(':id')

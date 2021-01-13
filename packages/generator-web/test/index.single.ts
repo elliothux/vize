@@ -107,7 +107,7 @@ const dsl = {
     },
   ],
   pluginInstances: [],
-  sharedComponentInstance: [
+  sharedComponentInstances: [
     {
       key: 19,
       component: 'universal_containerwithtitle',

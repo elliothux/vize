@@ -49,6 +49,15 @@ export class PageService {
     });
   }
 
+  public async updateLatestHistory(pageKey: string, historyId: number) {
+    return this.pageRepository.update(
+      {
+        key: pageKey,
+      },
+      { latestHistory: { id: historyId } },
+    );
+  }
+
   public async queryPageEntity({
     startPage = 0,
     pageSize = 20,
@@ -72,6 +81,17 @@ export class PageService {
 
   public getPageById(id: number) {
     return this.pageRepository.findOne(id);
+  }
+
+  public getPageByKey(key: string) {
+    return this.pageRepository.findOne(
+      { key },
+      { relations: ['latestHistory'] },
+    );
+  }
+
+  public updatePageByKey(key: string, updatePageDto: UpdatePageDTO) {
+    return this.pageRepository.update({ key }, updatePageDto);
   }
 
   public updatePage(id: number, updatePageDto: UpdatePageDTO) {

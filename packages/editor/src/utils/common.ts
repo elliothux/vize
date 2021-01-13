@@ -2,6 +2,7 @@ import { message } from 'antd';
 import { parseUrl } from 'query-string';
 import { ComponentInstance, JsonSchemaProperties, Maybe } from 'types';
 import getDefaults from 'json-schema-defaults';
+import { editStore } from 'states';
 import { createSchema } from './create';
 
 message.config({
@@ -15,6 +16,13 @@ export const noop = () => {};
 
 export function isDev() {
   return process.env['NODE_ENV'] === 'development';
+}
+
+export function isDebugMode() {
+  const {
+    debugPorts: [debugPort],
+  } = editStore;
+  return !!debugPort;
 }
 
 interface QueryParams {

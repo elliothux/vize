@@ -12,3 +12,7 @@ export interface PageRecord {
   biz: Pick<BizRecord, 'id'>;
   latestHistory: Pick<HistoryRecord, 'id' | 'title' | 'desc' | 'author' | 'createdTime'>;
 }
+
+export interface PageRecordWithHistory extends PageRecord {
+  latestHistory: HistoryRecord;
+}
