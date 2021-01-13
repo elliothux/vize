@@ -294,3 +294,4 @@ lerna-debug.log*
 .history
 !/packages/cgi-new/dist/
 /packages/generator-web/test/dist
+/packages/cgi/workspace

@@ -22,7 +22,15 @@ program
 
 program
   .command('dist [entry]')
-  .description('构建素材库')
+  .description('构建物料库')
+  .action(() => {
+    // const options = cleanArgs(cmd);
+    dist();
+  });
+
+program
+  .command('create-materials-lib [name]')
+  .description('创建物料库')
   .action(() => {
     // const options = cleanArgs(cmd);
     dist();
