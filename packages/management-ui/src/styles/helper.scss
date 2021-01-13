@@ -1,7 +1,7 @@
-$main-color: #1e90ff;
+$main-color: #fb9f34;
 
 @function main-color-opacity($opacity: 1) {
-  @return rgba(24, 144, 255, $opacity);
+  @return rgba(251, 159, 52, $opacity);
 }
 
 $default-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
