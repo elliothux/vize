@@ -34,7 +34,7 @@ export function generateDSL(): DSL {
     pageInstances: generatePageInstancesDSL(pageMode),
     pluginInstances:
       pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstancesMap(-1)) : undefined,
-    sharedComponentInstance: sharedComponentInstances.length
+    sharedComponentInstances: sharedComponentInstances.length
       ? generateComponentInstancesDSL(sharedComponentInstances)
       : undefined,
     editInfo: {

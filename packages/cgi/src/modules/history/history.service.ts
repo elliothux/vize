@@ -18,6 +18,7 @@ export class HistoryService {
       globalProps,
       globalStyle,
     },
+    sharedComponentInstances,
     pageInstances,
     pluginInstances,
     editInfo,
@@ -34,6 +35,7 @@ export class HistoryService {
       globalStyle: JSON.stringify(globalStyle),
       pageInstances: JSON.stringify(pageInstances),
       pluginInstances: JSON.stringify(pluginInstances),
+      sharedComponentInstances: JSON.stringify(sharedComponentInstances),
       maxKeys: JSON.stringify(editInfo.maxKeys),
     });
   }

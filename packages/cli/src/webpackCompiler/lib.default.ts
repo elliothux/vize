@@ -18,8 +18,10 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
     output,
     nodeModules,
     src,
+    containerList,
     containerEntry,
     containerHTML,
+    containerName,
     componentsList,
     pluginsList,
     actionsList,
@@ -100,42 +102,53 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
   };
 
   if (isProd) {
-    const entry: Entry = {};
-    componentsList.forEach(({ name, mainPath }) => (entry[`component-${name}`] = [...commonDeps, mainPath]));
-    pluginsList.forEach(({ name, mainPath }) => (entry[`plugin-${name}`] = [...commonDeps, mainPath]));
-    actionsList.forEach(({ name, mainPath }) => (entry[`action-${name}`] = [...commonDeps, mainPath]));
-
-    config.entry = entry;
-    config.optimization.splitChunks = {
-      chunks: 'all',
-      minSize: 30,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 6,
-      maxInitialRequests: 4,
-      automaticNameDelimiter: '~',
-      cacheGroups: {
-        vendor: {
-          name: 'vendor',
-          chunks: 'initial',
-          priority: 2,
-          minChunks: 2,
-        },
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true,
-          priority: 20,
-        },
-      },
+    const entryConfig: { [key: string]: string } = {
+      main: mainEntryTemp,
+      meta: metaEntryTemp,
     };
+
+    containerList.forEach(({ name, entry, html }) => {
+      entryConfig[`container_${name}-entry`] = entry;
+      entryConfig[`container_${name}-html`] = html;
+    });
+
+    config.entry = entryConfig;
+    // const entry: Entry = {};
+    // componentsList.forEach(({ name, mainPath }) => (entry[`component-${name}`] = [...commonDeps, mainPath]));
+    // pluginsList.forEach(({ name, mainPath }) => (entry[`plugin-${name}`] = [...commonDeps, mainPath]));
+    // actionsList.forEach(({ name, mainPath }) => (entry[`action-${name}`] = [...commonDeps, mainPath]));
+    //
+    // config.entry = entry;
+    // config.optimization.splitChunks = {
+    //   chunks: 'all',
+    //   minSize: 30,
+    //   maxSize: 0,
+    //   minChunks: 1,
+    //   maxAsyncRequests: 6,
+    //   maxInitialRequests: 4,
+    //   automaticNameDelimiter: '~',
+    //   cacheGroups: {
+    //     vendor: {
+    //       name: 'vendor',
+    //       chunks: 'initial',
+    //       priority: 2,
+    //       minChunks: 2,
+    //     },
+    //     styles: {
+    //       name: 'styles',
+    //       test: /\.css$/,
+    //       chunks: 'all',
+    //       enforce: true,
+    //       priority: 20,
+    //     },
+    //   },
+    // };
   } else {
     config.entry = {
       main: mainEntryTemp,
       meta: metaEntryTemp,
-      entry: containerEntry,
-      html: containerHTML,
+      [`container_${containerName}-entry`]: containerEntry,
+      [`container_${containerName}-html`]: containerHTML,
     };
     config.externals = {
       react: 'React',
@@ -149,5 +162,6 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
     return getLibRaxWebpackConfig(config);
   }
 
+  console.log(config);
   return config;
 }

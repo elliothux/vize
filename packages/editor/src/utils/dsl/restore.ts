@@ -27,14 +27,14 @@ export function restoreState({
   global,
   pageInstances,
   pluginInstances,
-  sharedComponentInstance,
+  sharedComponentInstances,
   editInfo,
 }: ReturnType<typeof parseDSL>) {
   restoreEditInfo(editInfo);
   restorePageInstances(pageInstances);
 
-  if (sharedComponentInstance?.length) {
-    restoreSharedComponentInstances(sharedComponentInstance);
+  if (sharedComponentInstances?.length) {
+    restoreSharedComponentInstances(sharedComponentInstances);
   }
 
   if (editInfo.pageMode === PageMode.SINGLE) {

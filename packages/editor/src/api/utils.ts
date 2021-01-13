@@ -1,3 +1,1 @@
-export function prefix(path: string) {
-  return `/cgi/${path}`;
-}
+/Users/huqingyang/Desktop/Proj/vize/packages/management-ui/src/api/utils.ts

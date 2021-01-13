@@ -1,15 +1,16 @@
 import './states';
 import * as React from 'react';
 import { useMount } from 'react-use';
-import { Spin } from 'antd';
-import { initStore } from 'states';
+import { message, Spin } from 'antd';
+import { editStore, initStore } from 'states';
 import { Simulator } from 'widgets/Simulator';
 import { Renderer, WithRerender } from 'components/Renderer';
 import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';
 import { Header } from 'components/Header';
 import { HotAreaManager } from 'components/HotAreaManager';
-import { parseDSL, restoreState } from './utils';
+import { isDebugMode, parseDSL, parseDSLFromCGIRecord, restoreState } from './utils';
+import { getPage } from './api';
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -41,16 +42,31 @@ export function App() {
 async function init() {
   await initStore();
   try {
-    restore();
+    await restore();
   } catch (e) {
     console.error(e);
   }
   return;
 }
 
-export function restore() {
-  // TODO
-  const dsl = parseDSL(JSON.parse(localStorage.getItem('dsl')!));
-  console.log(dsl);
-  restoreState(dsl);
+export async function restore() {
+  if (isDebugMode()) {
+    const dslString = localStorage.getItem('dsl');
+    if (!dslString) {
+      return;
+    }
+
+    const dsl = parseDSL(JSON.parse(dslString));
+    return restoreState(dsl);
+  }
+
+  const [success, result] = await getPage(editStore.pageKey);
+  if (!success) {
+    console.error(result);
+    message.error('获取页面数据失败');
+    return;
+  }
+
+  const dsl = parseDSLFromCGIRecord(result!);
+  return restoreState(dsl);
 }

@@ -53,10 +53,12 @@ class FormContainer extends React.PureComponent<Props> {
     return (
       <div className="vize-form-container" style={commonStyle}>
         {React.Children.map(children, i => {
-          return React.cloneElement(i, {
-            ...this.state,
-            background: commonStyle.background || commonStyle.backgroundColor,
-          });
+          return i
+            ? React.cloneElement(i, {
+                ...this.state,
+                background: commonStyle.background || commonStyle.backgroundColor,
+              })
+            : null;
         })}
         <button
           type="button"

@@ -1,9 +1,13 @@
 import { BizRecord, Maybe, PageRecord } from 'types';
 import { HistoryRecord } from 'types';
-import { CGIIDResponse, getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from './utils';
+import { CGIIDResponse, getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix, WithPagination } from './utils';
 
-export function queryPages(biz: Maybe<BizRecord['id']>, startPage: number): Promise<ParsedCGIResponse<PageRecord[]>> {
-  return getCGIJSON<PageRecord[]>(prefix('page', { bizID: biz, startPage }));
+export function queryPages(
+  biz: Maybe<BizRecord['id']>,
+  startPage: number,
+  pageSize = 10,
+): Promise<ParsedCGIResponse<WithPagination<PageRecord[]>>> {
+  return getCGIJSON<WithPagination<PageRecord[]>>(prefix('page', { biz, startPage, pageSize }));
 }
 
 export interface CreatePageParams

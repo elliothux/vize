@@ -3,3 +3,5 @@ $main-color: #1e90ff;
 @function main-color-opacity($opacity: 1) {
   @return rgba(24, 144, 255, $opacity);
 }
+
+$default-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

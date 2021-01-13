@@ -1,7 +1,6 @@
 import { action, observable, toJS } from 'mobx';
 import { Maybe } from '../types';
 import { injectGlobalReadonlyGetter, isDev } from '../utils';
-import { componentsStore } from './components';
 
 export enum SelectType {
   GLOBAL,

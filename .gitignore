@@ -252,10 +252,8 @@ dist
 # TernJS port file
 .tern-port
 
-/packages/materials-universal/.temp/
-/packages/materials-universal/build/
-/packages/materials-universal-rax/.temp/
-/packages/materials-universal-rax/build/
+/packages/*/build
+/packages/*/.temp
 
 # compiled output
 /dist

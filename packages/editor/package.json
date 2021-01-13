@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "SKIP_PREFLIGHT_CHECK=true react-app-rewired start --max-old-space-size=8192",
+    "start": "SKIP_PREFLIGHT_CHECK=true PORT=3000 react-app-rewired start --max-old-space-size=8192",
     "build": "SKIP_PREFLIGHT_CHECK=true react-app-rewired build --max-old-space-size=8192"
   },
   "dependencies": {

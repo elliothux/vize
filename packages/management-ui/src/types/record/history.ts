@@ -11,5 +11,6 @@ export interface HistoryRecord {
   globalStyle: string;
   pageInstances: string;
   pluginInstances?: string;
+  sharedComponentInstances?: string;
   maxKeys?: string;
 }

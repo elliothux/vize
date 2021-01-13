@@ -62,9 +62,9 @@ export class BaseGenerator {
   }
 
   public generateSharedComponentsMap() {
-    const { sharedComponentInstance } = this.dsl;
-    if (sharedComponentInstance) {
-      this.generateComponentImports(sharedComponentInstance);
+    const { sharedComponentInstances } = this.dsl;
+    if (sharedComponentInstances) {
+      this.generateComponentImports(sharedComponentInstances);
     }
     return this;
   }
@@ -140,7 +140,7 @@ export class BaseGenerator {
     const pluginsPathMap = pagePluginsPathMaps[pageIndex];
     const actionsPathMap = { ...pagePluginActionsPathMaps[pageIndex], ...this.sharedComponentActionsPathMap };
 
-    console.log(this.dsl.sharedComponentInstance, stringifyComponentInstances(this.dsl.sharedComponentInstance));
+    console.log(this.dsl.sharedComponentInstances, stringifyComponentInstances(this.dsl.sharedComponentInstances));
 
     return {
       globalStyle: formatGlobalStyle(globalStyle),
@@ -154,7 +154,7 @@ export class BaseGenerator {
       actionImports: stringifyUmdCconstants(actionsPathMap),
       sharedComponentVars: stringifyMaterialVars(this.sharedComponentPathMap),
       sharedComponentImports: stringifyUmdCconstants(this.sharedComponentPathMap),
-      sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstance),
+      sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstances),
     };
   };
 

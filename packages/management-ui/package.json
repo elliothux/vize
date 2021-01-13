@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
+    "start": "SKIP_PREFLIGHT_CHECK=true PORT=3001 react-app-rewired start",
     "build": "SKIP_PREFLIGHT_CHECK=true react-app-rewired build"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "antd": "^4.8.2",
     "classnames": "^2.2.6",
+    "dayjs": "^1.10.3",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "react": "^16.13.1",

@@ -2,6 +2,7 @@ import {
   ComponentInstance,
   ComponentInstanceDSL,
   DSL,
+  LayoutMode,
   PageData,
   PageDSL,
   PageInstance,
@@ -9,12 +10,56 @@ import {
   PluginInstance,
   PluginInstanceDSL,
 } from 'types';
+import { PageRecordWithHistory } from 'sharedTypes';
 
-export function parseDSL({ global, pageInstances, pluginInstances, sharedComponentInstance, editInfo }: DSL) {
+export function parseDSLFromCGIRecord({
+  layoutMode,
+  pageMode,
+  latestHistory: {
+    title,
+    desc,
+    startTime,
+    endTime,
+    expiredJump,
+    globalProps,
+    globalStyle,
+    pageInstances,
+    pluginInstances,
+    sharedComponentInstances,
+    maxKeys,
+  },
+}: PageRecordWithHistory): ReturnType<typeof parseDSL> {
+  return {
+    global: {
+      metaInfo: {
+        title,
+        desc,
+        duration: startTime && endTime ? [new Date(startTime).getTime(), new Date(endTime).getTime()] : null,
+        expiredJump,
+      },
+      globalProps: JSON.parse(globalProps),
+      globalStyle: JSON.parse(globalStyle),
+    },
+    editInfo: {
+      layoutMode: layoutMode as LayoutMode,
+      pageMode: pageMode as PageMode,
+      maxKeys: JSON.parse(maxKeys!),
+    },
+    sharedComponentInstances: sharedComponentInstances
+      ? parseComponentInstancesDSL(JSON.parse(sharedComponentInstances))
+      : undefined,
+    pageInstances: parsePageInstancesDSL(JSON.parse(pageInstances), pageMode as PageMode),
+    pluginInstances: pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(JSON.parse(pluginInstances!)) : undefined,
+  };
+}
+
+export function parseDSL({ global, pageInstances, pluginInstances, sharedComponentInstances, editInfo }: DSL) {
   return {
     global,
     editInfo,
-    sharedComponentInstance: sharedComponentInstance ? parseComponentInstancesDSL(sharedComponentInstance) : undefined,
+    sharedComponentInstances: sharedComponentInstances
+      ? parseComponentInstancesDSL(sharedComponentInstances)
+      : undefined,
     pageInstances: parsePageInstancesDSL(pageInstances, editInfo.pageMode),
     pluginInstances: editInfo.pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(pluginInstances!) : undefined,
   };

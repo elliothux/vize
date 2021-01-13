@@ -10,6 +10,7 @@ import { ComponentItem } from 'components/ComponentItem';
 import { componentsStore, editStore, pagesStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo } from 'react';
+import { getCurrentPageComponentIndex } from '../../../utils/indexMap';
 
 function ISortableContainer({ children }: WithReactChildren) {
   return <>{children}</>;
@@ -46,9 +47,11 @@ function IStreamLayoutRender({
       if (selectStore.selectMode) {
         return;
       }
-      selectStore.selectComponent(false, componentInstances[index].key);
+
+      const { key, parent } = componentInstances[index];
+      selectStore.selectComponent(false, key, parent?.key);
     },
-    [componentInstances],
+    [componentInstances, componentKey, containerComponentKey],
   );
 
   const onSortEnd = useCallback(

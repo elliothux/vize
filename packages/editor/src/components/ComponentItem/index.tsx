@@ -42,13 +42,13 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
     setComponentNode(this.props.instance.key, node);
   };
 
-  private onSelect = () => {
+  private onSelect = withPreventEvent(() => {
     const {
-      instance: { key, shared },
+      instance: { key, shared, parent },
     } = this.props;
 
-    selectStore.selectComponent(shared, key);
-  };
+    selectStore.selectComponent(shared, key, parent?.key);
+  });
 
   private onSelectWithSelectMode = withPreventEvent(() => {
     const {

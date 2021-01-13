@@ -39,5 +39,8 @@ export class HistoryEntity {
   pluginInstances?: string;
 
   @Column({ type: 'text', nullable: true })
+  sharedComponentInstances?: string;
+
+  @Column({ type: 'text', nullable: true })
   maxKeys?: string;
 }

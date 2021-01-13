@@ -37,4 +37,5 @@ export default {
   info,
   dataForm,
   enableStyleGroup,
+  emitEvents: [{ eventName: 'length', displayName: '长度大于10' }],
 };

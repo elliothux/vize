@@ -10,7 +10,7 @@ import { CreatePage } from '../CreatePage';
 const { Search } = Input;
 
 export function TopBar() {
-  const [createFormVisible, setCreateFormVisible] = useState(true);
+  const [createFormVisible, setCreateFormVisible] = useState(false);
 
   return (
     <div id="vize-top-bar">
