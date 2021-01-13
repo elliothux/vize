@@ -1,0 +1,6 @@
+{
+  "name": "@vize/boilerplate-container",
+  "version": "0.1.0",
+  "description": "materials container boilerplate for vize",
+  "main": "index.js"
+}
