@@ -1,6 +1,6 @@
 const info = {
   name: '{{name}}',
-  desc: 'A simple component example',
+  desc: '{{desc}}',
   author: '{{author}}',
 };
 
