@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { Command } from 'commander';
 import { cleanArgs } from './utils';
-import { dev, dist } from './commands';
+import { createLib, dev, dist } from './commands';
 
 // eslint-disable-next-line
 const packageJson = require('../package.json');
@@ -14,8 +14,9 @@ const program = new Command()
 program
   .command('dev [entry]')
   .description('开启调试服务')
-  .option('-o, --open', '自动打开浏览器')
-  .action((name, cmd) => {
+  .option('-o, --open', '自动打开编辑器')
+  .option('-p, --port', 'dev server 端口')
+  .action((i, cmd) => {
     const options = cleanArgs(cmd);
     dev(options);
   });
@@ -23,17 +24,14 @@ program
 program
   .command('dist [entry]')
   .description('构建物料库')
-  .action(() => {
-    // const options = cleanArgs(cmd);
-    dist();
-  });
+  .action(dist);
 
 program
-  .command('create-materials-lib [name]')
+  .command('create-lib [name]')
   .description('创建物料库')
-  .action(() => {
-    // const options = cleanArgs(cmd);
-    dist();
+  .action((name, cmd) => {
+    const options = cleanArgs(cmd);
+    createLib(name, options);
   });
 
 program.arguments('<command>').action((cmd: string) => {

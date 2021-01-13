@@ -5,8 +5,11 @@ import { getLibPaths } from '../utils';
 import { getLibConfig } from '../config';
 import { Builder } from '../builder';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function dev(options: object) {
+interface DevOptions {
+  port: number;
+}
+
+export async function dev(_options: DevOptions) {
   const root = process.cwd();
   const containerName = await chooseContainer(root);
   const paths = getLibPaths(root, containerName);
