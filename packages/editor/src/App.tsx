@@ -1,7 +1,7 @@
 import './states';
 import * as React from 'react';
 import { useMount } from 'react-use';
-import { Spin } from 'antd';
+import { message, Spin } from 'antd';
 import { editStore, initStore } from 'states';
 import { Simulator } from 'widgets/Simulator';
 import { Renderer, WithRerender } from 'components/Renderer';
@@ -60,8 +60,13 @@ export async function restore() {
     return restoreState(dsl);
   }
 
-  const [err, result] = await getPage(editStore.pageKey);
-  console.log(err, result);
+  const [success, result] = await getPage(editStore.pageKey);
+  if (!success) {
+    console.error(result);
+    message.error('获取页面数据失败');
+    return;
+  }
+
   const dsl = parseDSLFromCGIRecord(result!);
   return restoreState(dsl);
 }

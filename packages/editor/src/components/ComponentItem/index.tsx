@@ -47,8 +47,6 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
       instance: { key, shared, parent },
     } = this.props;
 
-    console.log(key, parent, parent?.key);
-
     selectStore.selectComponent(shared, key, parent?.key);
   });
 
