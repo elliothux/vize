@@ -25,11 +25,29 @@ module.exports = {
       },
       {
         text: '文档',
-        link: '/intro/',
+        link: '/welcome/intro',
       },
       {
         text: 'Github',
         link: 'https://github.com/vize-team/vize',
+      },
+    ],
+    sidebarDepth: 2,
+    sidebar: [
+      {
+        title: '欢迎',
+        collapsable: true,
+        children: ['/welcome/intro'],
+      },
+      {
+        title: '快速上手',
+        collapsable: true,
+        children: ['/start/ready', '/start/component', '/start/plugin', '/start/action', '/start/container'],
+      },
+      {
+        title: '开发指南',
+        collapsable: true,
+        children: ['/dev/materials', '/dev/component', '/dev/plugin'],
       },
     ],
   },

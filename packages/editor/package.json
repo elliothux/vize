@@ -1,10 +1,10 @@
 {
   "name": "@vize/editor",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true PORT=3000 react-app-rewired start --max-old-space-size=8192",
-    "build": "SKIP_PREFLIGHT_CHECK=true react-app-rewired build --max-old-space-size=8192"
+    "build": "SKIP_PREFLIGHT_CHECK=true react-app-rewired build --max-old-space-size=8192",
+    "publish": "npm publish --access public"
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.5",
@@ -67,5 +67,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "files": [
+    "build",
+    "package.json"
+  ]
 }

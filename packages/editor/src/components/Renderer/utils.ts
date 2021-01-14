@@ -16,11 +16,11 @@ declare global {
 export function injectRuntime(target: Window) {
   // const VIZE = {};
 
-  // injectReadonlyGetter(VISION, 'global', function() {
+  // injectReadonlyGetter(VIZE, 'global', function() {
   //     return state.getState().globalData;
   // });
   //
-  // injectReadonlyGetter(VISION, 'meta', function() {
+  // injectReadonlyGetter(VIZE, 'meta', function() {
   //     return generatePageMeta(state.getState());
   // });
 
