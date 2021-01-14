@@ -1,8 +1,7 @@
 import chalk from 'chalk';
 import { Command } from 'commander';
 import { cleanArgs } from './utils';
-import { createLib, dev, dist } from './commands';
-import { createComponent } from './commands/create/component';
+import { createLib, dev, dist, createComponent, createPlugin, createAction, createContainer } from './commands';
 
 // eslint-disable-next-line
 const packageJson = require('../package.json');
@@ -19,7 +18,7 @@ program
   .option('-p, --port <port>', 'dev server 端口')
   .action((i, cmd) => {
     const options = cleanArgs(cmd);
-    dev(options);
+    return dev(options);
   });
 
 program
@@ -28,21 +27,48 @@ program
   .action(dist);
 
 program
-  .command('create-lib <name>')
-  .description('创建物料库')
-  .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .action((name, cmd) => {
-    const options = cleanArgs(cmd);
-    createLib(name, options);
-  });
-
-program
   .command('create-component <name>')
   .description('创建组件')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
   .action((name, cmd) => {
     const options = cleanArgs(cmd);
-    createComponent(name, options);
+    return createComponent(name, options);
+  });
+
+program
+  .command('create-plugin <name>')
+  .description('创建插件')
+  .option('-r, --registry <registry>', 'NPM 软件源地址')
+  .action((name, cmd) => {
+    const options = cleanArgs(cmd);
+    return createPlugin(name, options);
+  });
+
+program
+  .command('create-action <name>')
+  .description('创建动作')
+  .option('-r, --registry <registry>', 'NPM 软件源地址')
+  .action((name, cmd) => {
+    const options = cleanArgs(cmd);
+    return createAction(name, options);
+  });
+
+program
+  .command('create-container <name>')
+  .description('创建页面容器')
+  .option('-r, --registry <registry>', 'NPM 软件源地址')
+  .action((name, cmd) => {
+    const options = cleanArgs(cmd);
+    return createContainer(name, options);
+  });
+
+program
+  .command('create-lib <name>')
+  .description('创建物料库')
+  .option('-r, --registry <registry>', 'NPM 软件源地址')
+  .action((name, cmd) => {
+    const options = cleanArgs(cmd);
+    return createLib(name, options);
   });
 
 program.arguments('<command>').action((cmd: string) => {
