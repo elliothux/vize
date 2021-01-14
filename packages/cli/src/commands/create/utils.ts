@@ -11,8 +11,8 @@ export function checkNameValid(name: Maybe<string>): string | void {
     return error('Missing required params "name". Try again with "vize create-lib <name>".');
   }
 
-  if (!/^[a-zA-Z0-9]+$/.test(name)) {
-    return error('Invalid params "name", make sure your name match with /[a-zA-Z0-9]/');
+  if (!/^[a-zA-Z]+[a-zA-Z0-9]+$/.test(name)) {
+    return error('Invalid params "name", make sure your name match with /^[a-zA-Z]+[a-zA-Z0-9]+$/');
   }
 
   return name;
@@ -51,7 +51,6 @@ export async function processFiles(targetDir: string, templateDir: string, appen
     fs.ensureDirSync(path.dirname(to));
     log(`write template file from "${chalk.green(from)}" to "${chalk.green(to)}"`);
 
-    console.log(isText(from), /^\..+rc$/.test(path.basename(from)));
     if (isText(from) || /^\..+rc$/.test(path.basename(to))) {
       const content = fs.readFileSync(from, { encoding: 'utf-8' });
       const result = replaceTemplate(content, templateData);

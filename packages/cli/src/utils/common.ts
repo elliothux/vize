@@ -1,8 +1,15 @@
 import path from 'path';
 import fs from 'fs-extra';
 
-export function camelize(str: string) {
-  return str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''));
+export function camelize(str: string, upper = false) {
+  const result = str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+    if (+match === 0) return ''; // or if (/\s+/.test(match)) for white spaces
+    return index === 0 ? match.toLowerCase() : match.toUpperCase();
+  });
+  if (!upper) {
+    return result;
+  }
+  return `${result[0].toUpperCase()}${result.substring(1)}`;
 }
 
 export function cleanArgs(cmd: any) {
@@ -16,7 +23,7 @@ export function cleanArgs(cmd: any) {
   return args;
 }
 
-export function isRunPathValid() {
-  const configPath = path.resolve(process.cwd(), './.vizerc');
-  return fs.pathExists(configPath);
+export function isRunPathValid(runPath: string) {
+  const configPath = path.resolve(runPath, './.vizerc');
+  return fs.existsSync(configPath);
 }
