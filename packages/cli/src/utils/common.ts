@@ -1,9 +1,10 @@
 import path from 'path';
 import fs from 'fs-extra';
+import { error } from './logger';
 
 export function camelize(str: string, upper = false) {
   const result = str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-    if (+match === 0) return ''; // or if (/\s+/.test(match)) for white spaces
+    if (+match === 0) return '';
     return index === 0 ? match.toLowerCase() : match.toUpperCase();
   });
   if (!upper) {
@@ -23,7 +24,10 @@ export function cleanArgs(cmd: any) {
   return args;
 }
 
-export function isRunPathValid(runPath: string) {
+export function ensureRunPathValid(runPath: string) {
   const configPath = path.resolve(runPath, './.vizerc');
-  return fs.existsSync(configPath);
+  if (!fs.existsSync(configPath)) {
+    error('this command must run in root dir of materials lib');
+    process.exit();
+  }
 }

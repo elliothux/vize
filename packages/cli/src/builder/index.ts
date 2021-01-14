@@ -7,11 +7,19 @@ import WebpackDevServer from 'webpack-dev-server';
 import { getLibWebpackConfig } from '../webpackCompiler';
 import { generateEntryFile } from './autoRequire';
 
+interface Options {
+  libPaths: LibPaths;
+  libConfig: LibConfig;
+  idProd: boolean;
+  port?: number;
+}
+
 export class Builder {
-  constructor(libPaths: LibPaths, libConfig: LibConfig, idProd: boolean) {
+  constructor({ libConfig, libPaths, idProd, port = 4567 }: Options) {
     this.libPaths = libPaths;
     this.libConfig = libConfig;
     this.isProd = idProd;
+    this.port = port;
   }
 
   private readonly libPaths: LibPaths;
@@ -19,6 +27,8 @@ export class Builder {
   private readonly libConfig: LibConfig;
 
   private readonly isProd: boolean;
+
+  private readonly port: number;
 
   private generateWebpackConfig = (isProd: boolean): Configuration => {
     return getLibWebpackConfig({
@@ -56,7 +66,7 @@ export class Builder {
     await generateEntryFile(this.libPaths, this.libConfig, this.isProd);
   };
 
-  public dev = async (port = 4567) => {
+  public dev = async () => {
     await this.prepareFiles();
 
     const config = this.generateWebpackConfig(false);
@@ -83,7 +93,7 @@ export class Builder {
       //       preview(req, res, this.paths, this.container!.pathName)
       //   );
       // },
-    }).listen(port);
+    }).listen(this.port);
   };
 
   public dist = async () => {

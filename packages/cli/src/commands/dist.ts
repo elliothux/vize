@@ -7,6 +7,10 @@ export async function dist() {
   const paths = getLibPaths(root);
   const config = getLibConfig(paths);
 
-  const builder = new Builder(paths, config, true);
+  const builder = new Builder({
+    libPaths: paths,
+    libConfig: config,
+    idProd: true,
+  });
   return builder.dist();
 }

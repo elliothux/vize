@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import { ActionsList, ComponentsList, ContainerList, MaterialsList, PluginsList } from '../types';
-import { isRunPathValid } from './common';
+import { ensureRunPathValid } from './common';
 import { error } from './logger';
 
 export interface LibPaths {
@@ -34,11 +34,7 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
   if (paths) {
     return paths;
   }
-
-  if (!isRunPathValid(root)) {
-    error('this command must run in root dir of materials lib');
-    process.exit();
-  }
+  ensureRunPathValid(root);
 
   const src = path.resolve(root, './src');
   const temp = path.resolve(root, './.temp');
