@@ -1,5 +1,5 @@
 {
-  "name": "materials-{{libName}}",
+  "name": "materials-{{name}}",
   "version": "1.0.0",
   "description": "{{desc}}",
   "author": "{{author}}",

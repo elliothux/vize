@@ -21,6 +21,6 @@ export async function createLib(name: Maybe<string>, { registry }: CreateParams)
   const templateDir = await downloadBoilerplate(PKG_NAME, registry);
   stopSpinner();
 
-  await processFiles(targetPath, templateDir, { libName: name, name });
+  await processFiles(targetPath, templateDir, { name });
   log('Done', '✨');
 }
