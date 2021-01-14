@@ -1,0 +1,5 @@
+{
+  "libName": "{{libName}}",
+  "author": "{{author}}",
+  "runtime": "react"
+}

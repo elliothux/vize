@@ -1,5 +1,11 @@
-// eslint-disable-next-line
-const { override, addWebpackModuleRule, addWebpackResolve, setWebpackPublicPath } = require('customize-cra');
+const {
+  override,
+  addWebpackModuleRule,
+  addWebpackResolve,
+  addLessLoader,
+  setWebpackPublicPath,
+  // eslint-disable-next-line
+} = require('customize-cra');
 
 module.exports = override(
   addWebpackResolve({ symlinks: false }),
@@ -10,6 +16,11 @@ module.exports = override(
   addWebpackModuleRule({
     test: /\.raw\.svg$/,
     use: [{ loader: 'raw-loader' }],
+  }),
+  addLessLoader({
+    strictMath: false,
+    noIeCompat: true,
+    javascriptEnabled: true,
   }),
   setWebpackPublicPath('/editor/'),
   setOutputPublicPath('/editor/'),

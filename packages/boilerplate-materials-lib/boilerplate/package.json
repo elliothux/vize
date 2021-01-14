@@ -1,0 +1,20 @@
+{
+  "name": "materials-{{name}}",
+  "version": "1.0.0",
+  "description": "{{desc}}",
+  "author": "{{author}}",
+  "scripts": {
+    "dev": "vize dev",
+    "dist": "vize dist",
+    "publish": "vize publish",
+    "lint": "eslint src --ext .jsx,js,ts,tsx",
+    "lint:fix": "eslint src --ext .jsx,js,ts,tsx --fix"
+  },
+  "dependencies": {
+    "react": "^16.14.0",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "standard-version": "^6.0.1"
+  }
+}

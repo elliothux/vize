@@ -1,0 +1,9 @@
+{
+  "name": "@vize/boilerplate-materials-lib",
+  "version": "1.0.1",
+  "description": "materials lib boilerplate for vize",
+  "main": "index.js",
+  "scripts": {
+    "publish": "npm publish --access public"
+  }
+}

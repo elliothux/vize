@@ -1,13 +1,8 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import {
-  ActionsList,
-  ComponentsList,
-  ContainerList,
-  MaterialsContainerItem,
-  MaterialsList,
-  PluginsList,
-} from '../types';
+import { ActionsList, ComponentsList, ContainerList, MaterialsList, PluginsList } from '../types';
+import { ensureRunPathValid } from './common';
+import { error } from './logger';
 
 export interface LibPaths {
   root: string;
@@ -39,6 +34,7 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
   if (paths) {
     return paths;
   }
+  ensureRunPathValid(root);
 
   const src = path.resolve(root, './src');
   const temp = path.resolve(root, './.temp');

@@ -1,4 +1,4 @@
-$main-color: #1e90ff;
+$main-color: #fb9f34;
 $main-border: 1px solid #d4d4d4;
 
 $min-overlay-z-index: 2147483640;
@@ -16,7 +16,7 @@ $default-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 $default-box-shadow-heavy: 0 0px 8px rgba(0, 0, 0, 0.3);
 
 @function main-color-opacity($opacity: 1) {
-  @return rgba(24, 144, 255, $opacity);
+  @return rgba(251, 159, 52, $opacity);
 }
 
 @mixin default-transition {
@@ -72,7 +72,6 @@ $default-box-shadow-heavy: 0 0px 8px rgba(0, 0, 0, 0.3);
 }
 
 @mixin clearfix() {
-
   &:before,
   &:after {
     display: table;

@@ -71,7 +71,7 @@ function IPageItem({ instance, index }: Props) {
         </EditableText>
 
         {isHome ? (
-          <Tag color="blue" icon={<FiHome />}>
+          <Tag color="orange" icon={<FiHome />}>
             home
           </Tag>
         ) : null}

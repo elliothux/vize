@@ -1,5 +1,16 @@
-export function camelize(str: string) {
-  return str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''));
+import path from 'path';
+import fs from 'fs-extra';
+import { error } from './logger';
+
+export function camelize(str: string, upper = false) {
+  const result = str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+    if (+match === 0) return '';
+    return index === 0 ? match.toLowerCase() : match.toUpperCase();
+  });
+  if (!upper) {
+    return result;
+  }
+  return `${result[0].toUpperCase()}${result.substring(1)}`;
 }
 
 export function cleanArgs(cmd: any) {
@@ -11,4 +22,12 @@ export function cleanArgs(cmd: any) {
     }
   });
   return args;
+}
+
+export function ensureRunPathValid(runPath: string) {
+  const configPath = path.resolve(runPath, './.vizerc');
+  if (!fs.existsSync(configPath)) {
+    error('this command must run in root dir of materials lib');
+    process.exit();
+  }
 }

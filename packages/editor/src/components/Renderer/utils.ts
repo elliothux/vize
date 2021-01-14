@@ -14,7 +14,7 @@ declare global {
 }
 
 export function injectRuntime(target: Window) {
-  // const VISION = {};
+  // const VIZE = {};
 
   // injectReadonlyGetter(VISION, 'global', function() {
   //     return state.getState().globalData;
