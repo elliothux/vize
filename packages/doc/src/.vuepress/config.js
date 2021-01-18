@@ -45,9 +45,14 @@ module.exports = {
         children: ['/start/ready', '/start/component', '/start/plugin', '/start/action', '/start/container'],
       },
       {
-        title: '开发指南',
+        title: '物料开发',
         collapsable: true,
-        children: ['/dev/materials', '/dev/component', '/dev/plugin'],
+        children: ['/dev/materials', '/dev/component', '/dev/plugin', '/dev/action', '/dev/container'],
+      },
+      {
+        title: '事件系统',
+        collapsable: true,
+        children: ['/events/intro', '/events/component', '/events/plugin', '/events/container', 'events/async'],
       },
     ],
   },

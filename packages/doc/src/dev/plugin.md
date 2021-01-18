@@ -35,19 +35,19 @@ Plugin
 
 ### 插件基础信息
 
-info 字段：
+`info` 字段：
 
-- name: 插件名
-- desc: 插件描述提示
-- author: 作者
+- `name`: 插件名
+- `desc`: 插件描述提示
+- `author`: 作者
 
 ### 插件表单
 
-插件的可配置项在编辑器中以表单的形式出现，表单数据将作为参数传入插件函数。
+与组件类似，插件的可配置项在编辑器中以表单的形式出现，表单数据将作为参数传入插件函数。
 
 表单的配置方式与组件相同，参考：[组件表单](/dev/component.html#组件表单)。
 
-示例参考：[materials-universal/plugins/Share/config.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/plugins/Share/config.ts)
+示例参考：[vize/materials-universal/plugins/Share/config.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/plugins/Share/config.ts)
 
 ## 3. 插件逻辑
 
@@ -55,7 +55,7 @@ info 字段：
 
 表单的数据以 `data` 为参数名传入插件函数。
 
-示例参考：[materials-universal/plugins/Share/index.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/plugins/Share/index.ts)
+示例参考：[vize/materials-universal/plugins/Share/index.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/plugins/Share/index.ts)
 
 ## 4. Icon 和预览
 
@@ -63,4 +63,4 @@ info 字段：
 
 ## 5. 更多示例
 
-参考：[materials-universal/plugins](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/plugins)
+参考：[vize/materials-universal/plugins](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/plugins)

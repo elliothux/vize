@@ -53,7 +53,7 @@ JSON-Schema 满足大多场景下的需求。除此之外，Vize 还支持 Dynam
 - dataForm：数据配置表单，将在编辑器中的 **“数据”** Tab 中展示，值以 `data` 字段传入组件。
 - styleForm：样式配置表单，将在编辑器中的 **“样式”** Tab 中展示，值以 `style` 字段传入组件。
 
-示例参考：[materials-universal/components/Text/config.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/components/Text/config.ts)
+示例参考：[vize/materials-universal/components/Text/config.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/components/Text/config.ts)
 
 ## 3. 组件视图
 
@@ -63,7 +63,7 @@ JSON-Schema 满足大多场景下的需求。除此之外，Vize 还支持 Dynam
 
 组件依赖的样式可以在该文件中直接引入，目前支持 `css`、`scss/sass` 和 `less`。
 
-示例参考：[materials-universal/components/Text/index.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/components/Text/index.ts)
+示例参考：[vize/materials-universal/components/Text/index.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/components/Text/index.ts)
 
 ## 4. Icon 和预览
 
@@ -71,4 +71,4 @@ JSON-Schema 满足大多场景下的需求。除此之外，Vize 还支持 Dynam
 
 ## 5. 更多示例
 
-参考：[materials-universal/components](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/components)
+参考：[vize/materials-universal/components](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/components)

@@ -22,12 +22,12 @@ export function getMaterialsFileInfo(
   containerName: string,
   debugPort?: number,
 ): MaterialsFileInfo {
-  // TODO
+  const fileName = `@vize-materials-${libName}${
+    fileType === MaterialsFileType.Entry || fileType === MaterialsFileType.HTML ? `-container_${containerName}` : ''
+  }-${fileType}`;
   const name = debugPort
-    ? `http://127.0.0.1:${debugPort!}/@vize-materials-${libName}-${fileType}`
-    : `/materials/materials-${libName}/dist/@vize-materials-${libName}${
-        fileType === MaterialsFileType.Entry || fileType === MaterialsFileType.HTML ? `-container_${containerName}` : ''
-      }-${fileType}`;
+    ? `http://127.0.0.1:${debugPort!}/${fileName}`
+    : `/materials/materials-${libName}/dist/${fileName}`;
 
   return {
     url: `${name}.js`,

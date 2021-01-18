@@ -22,7 +22,7 @@ module.exports = override(
     noIeCompat: true,
     javascriptEnabled: true,
   }),
-  setWebpackPublicPath('/editor/'),
+  // setWebpackPublicPath('/editor/'),
   setOutputPublicPath('/editor/'),
 );
 

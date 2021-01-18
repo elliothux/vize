@@ -7,6 +7,7 @@ import { Button, Select } from 'antd';
 import { FiChevronsLeft, FiLayers, FiMousePointer, FiPlus, FiX } from 'react-icons/fi';
 import { useComponentMeta } from 'hooks';
 import { useUnmount } from 'react-use';
+import { DEFAULT_MAX_TIMEOUT } from './constant';
 
 interface Props {
   trigger: Maybe<EventTriggerName>;
@@ -20,7 +21,7 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
 
   const { selectMode, selectModeSelectedComponent } = selectStore;
   const { key } = selectModeSelectedComponent || {};
-  const { eventName } = target || {};
+  const { eventName, maxTimeout = DEFAULT_MAX_TIMEOUT } = target || {};
 
   const onStartSelect = useCallback(() => selectStore.setSelectMode(true), []);
 
@@ -30,13 +31,18 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
   }, []);
 
   const onAddAction = useCallback(() => {
-    eventStore.addEventInstance(trigger!, { type: EventTargetType.COMPONENT, eventName: eventName!, key: key! });
+    eventStore.addEventInstance(trigger!, {
+      type: EventTargetType.COMPONENT,
+      eventName: eventName!,
+      key: key!,
+      maxTimeout,
+    });
     onEndSelect();
     setTrigger(null);
   }, [trigger, eventName, key]);
 
   const meta = useComponentMeta(key || -1);
-  const onChangeEvent = useCallback((eventName: string) => setTarget({ eventName, key: key! }), [key]);
+  const onChangeEvent = useCallback((eventName: string) => setTarget({ eventName, key: key!, maxTimeout }), [key]);
 
   useEffect(() => setTarget(null), [key]);
   useUnmount(onEndSelect);

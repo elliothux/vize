@@ -1,6 +1,7 @@
 export interface MaterialsCustomEvent {
   displayName: string;
   eventName: string;
+  maxTimeout?: number | 'infinity';
 }
 
 export interface EventInstance {
@@ -75,12 +76,14 @@ export interface ActionEventTarget {
   type: EventTargetType.ACTION;
   id: string;
   lib: string;
+  maxTimeout: number | 'infinity';
 }
 
 export interface ComponentEventTarget {
   type: EventTargetType.COMPONENT;
   key: number;
   eventName: string;
+  maxTimeout: number | 'infinity';
 }
 
 export interface PluginEventTarget extends Omit<ComponentEventTarget, 'type'> {
