@@ -54,6 +54,11 @@ module.exports = {
         collapsable: true,
         children: ['/events/intro', '/events/component', '/events/plugin', '/events/container', 'events/async'],
       },
+      {
+        title: '表单',
+        collapsable: true,
+        children: ['/form/intro', '/form/jsonSchema', '/form/dynamicForm', '/form/registryField'],
+      },
     ],
   },
   plugins: [

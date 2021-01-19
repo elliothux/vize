@@ -54,7 +54,7 @@ export default function({ emit }) {
 
 编辑 `config.ts`：
 
-```ts {4}
+```ts {11}
 export default {
   info: { ... },
   dataForm: {
@@ -106,7 +106,9 @@ export default {
 
 ### 注册 & 取消事件回调
 
-与组件类似，编辑插件 `index.ts`，接收 `on` 属性，通过 `on(<displayName>, <callback>)` 来注册事件回调；接收 `cancel` Props，通过 `cancel(<displayName>, <callback>)` 来取消注册事件回调：
+与组件类似，编辑插件 `index.ts`：
+* 接收 `on` 属性，通过 `on(<displayName>, <callback>)` 来注册事件回调
+* 接收 `cancel` 属性，通过 `cancel(<displayName>, <callback>)` 来取消注册事件回调
 
 ```ts {2,6}
 export default function({ on, cancel }) {
