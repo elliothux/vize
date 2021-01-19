@@ -1,0 +1,9 @@
+{
+  "name": "@vize/boilerplate-form-rule",
+  "version": "1.0.0",
+  "description": "materials form rule boilerplate for vize",
+  "main": "index.js",
+  "scripts": {
+    "publish": "npm publish --access public"
+  }
+}
