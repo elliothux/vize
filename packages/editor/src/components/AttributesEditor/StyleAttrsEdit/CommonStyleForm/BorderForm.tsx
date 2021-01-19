@@ -3,7 +3,7 @@ import { BorderStyle } from 'types';
 import { Radio, Slider } from 'antd';
 import { ColorFormat, getSliderValue } from 'utils';
 import { StyleFormProps } from './index';
-import { Color } from 'widgets/Form/Color';
+import { Color } from 'widgets/Form/Fields/Color';
 
 const { Group: RadioGroup } = Radio;
 

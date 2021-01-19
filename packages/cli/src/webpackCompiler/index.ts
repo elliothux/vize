@@ -9,6 +9,7 @@ export interface Options {
   libPaths: LibPaths;
   libConfig: LibConfig;
   isProd: boolean;
+  withForms: boolean;
   useSWC?: boolean;
 }
 

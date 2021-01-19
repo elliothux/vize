@@ -1,5 +1,13 @@
 import * as R from 'ramda';
 import {
+  MaterialsActionMeta,
+  MaterialsComponentMeta,
+  MaterialsForms,
+  MaterialsMeta,
+  MaterialsPluginMeta,
+  Maybe,
+} from 'types';
+import {
   getMaterialsFileInfo,
   loadFileAsString,
   loadStyle,
@@ -7,13 +15,20 @@ import {
   MaterialsFileType,
   StringMaterialsFile,
 } from './utils';
-import { MaterialsActionMeta, MaterialsComponentMeta, MaterialsMeta, MaterialsPluginMeta } from '../../types';
 import { getMaterialsIdentityName, promiseWrapper } from '../common';
 
 export async function loadMaterials(libName: string, containerName: string, debugPort?: number) {
-  const [containerHTML, meta, main, entry] = await Promise.all([
+  const [[meta, forms], containerHTML, main, entry] = await Promise.all([
+    new Promise<[MaterialsMeta, Maybe<MaterialsForms>]>(async resolve => {
+      const meta = await loadMeta(libName, containerName, debugPort);
+      if (!meta.withForms) {
+        resolve([meta, null]);
+        return;
+      }
+      const forms = await loadForms(libName, containerName, debugPort);
+      resolve([meta, forms]);
+    }),
     loadContainerHTML(libName, containerName, debugPort),
-    loadMeta(libName, containerName, debugPort),
     loadMain(libName, containerName, debugPort),
     loadEntry(libName, containerName, debugPort),
   ]);
@@ -24,6 +39,7 @@ export async function loadMaterials(libName: string, containerName: string, debu
     meta,
     main,
     entry,
+    forms,
   };
 }
 
@@ -33,6 +49,20 @@ export function loadMain(libName: string, containerName: string, debugPort?: num
 
 export function loadEntry(libName: string, containerName: string, debugPort?: number): Promise<StringMaterialsFile> {
   return loadFileAsString(MaterialsFileType.Entry, libName, containerName, debugPort);
+}
+
+export async function loadForms(libName: string, containerName: string, debugPort?: number): Promise<MaterialsForms> {
+  const info = getMaterialsFileInfo(MaterialsFileType.Form, libName, containerName, debugPort);
+  const [forms, [, err]] = await Promise.all([
+    loadUMDModule<MaterialsForms>(info),
+    promiseWrapper(loadStyle(info, window, `${libName}-form`)),
+  ]);
+
+  if (err) {
+    console.warn(`Skip load form style of materials lib "${libName}" with error: `, err);
+  }
+
+  return forms;
 }
 
 export async function loadMeta(libName: string, containerName: string, debugPort?: number): Promise<MaterialsMeta> {
@@ -68,6 +98,7 @@ export async function loadMeta(libName: string, containerName: string, debugPort
     components,
     actions,
     plugins,
+    withForms: meta.withForms,
   };
 
   function generateMaterials<T = MaterialsComponentMeta | MaterialsPluginMeta | MaterialsActionMeta>(

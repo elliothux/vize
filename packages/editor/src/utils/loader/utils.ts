@@ -8,6 +8,7 @@ export enum MaterialsFileType {
   Meta = 'meta',
   Entry = 'entry',
   HTML = 'html',
+  Form = 'form',
 }
 
 interface MaterialsFileInfo {
