@@ -93,6 +93,12 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
       //   WEBPACK_ENV: "production"
       // })
     ],
+    externals: {
+      antd: 'Antd',
+      react: 'React',
+      'react-dom': 'ReactDom',
+      'react-dom/server': 'ReactDomServer',
+    },
     mode: isProd ? 'production' : 'development',
     devtool: 'source-map',
     optimization: {
@@ -149,12 +155,6 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
       meta: metaEntryTemp,
       [`container_${containerName}-entry`]: containerEntry,
       [`container_${containerName}-html`]: containerHTML,
-    };
-    config.externals = {
-      react: 'React',
-      antd: 'Antd',
-      'react-dom': 'ReactDom',
-      'react-dom/server': 'ReactDomServer',
     };
   }
 
