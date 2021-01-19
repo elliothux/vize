@@ -25,6 +25,8 @@ export interface LibPaths {
   containerHTML?: string;
   mainEntryTemp: string;
   metaEntryTemp: string;
+  formFields: string;
+  ruleFields: string;
   formFieldsList?: string[];
   formRulesList?: string[];
   formsEntryTemp: string;
@@ -78,6 +80,8 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
     nodeModules,
     containerName,
     containerList,
+    formFields,
+    ruleFields,
     formsEntryTemp,
   };
 

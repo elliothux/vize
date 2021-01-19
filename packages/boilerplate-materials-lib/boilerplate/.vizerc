@@ -1,5 +1,5 @@
 {
-  "libName": "{{libName}}",
+  "libName": "{{name}}",
   "author": "{{author}}",
   "runtime": "react"
 }
