@@ -5,7 +5,7 @@ import { SketchPicker } from 'react-color';
 import { Popover } from 'antd';
 import classnames from 'classnames';
 import { ColorFormat, isAlphaSupported, parseColor, stringifyColor } from 'utils';
-import { FormProps } from '../types';
+import { FormProps } from '../../types';
 
 const commonColors = [
   '#FFFFFF',

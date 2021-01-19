@@ -7,7 +7,6 @@ export interface RGBAColor {
   a?: number;
 }
 
-// TODO: Update docs
 export enum ColorFormat {
   HSV = 'hsv',
   HSL = 'hsl',

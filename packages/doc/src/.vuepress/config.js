@@ -25,11 +25,39 @@ module.exports = {
       },
       {
         text: '文档',
-        link: '/intro/',
+        link: '/welcome/intro',
       },
       {
         text: 'Github',
         link: 'https://github.com/vize-team/vize',
+      },
+    ],
+    sidebarDepth: 2,
+    sidebar: [
+      {
+        title: '欢迎',
+        collapsable: true,
+        children: ['/welcome/intro'],
+      },
+      {
+        title: '快速上手',
+        collapsable: true,
+        children: ['/start/ready', '/start/component', '/start/plugin', '/start/action', '/start/container'],
+      },
+      {
+        title: '物料开发',
+        collapsable: true,
+        children: ['/dev/materials', '/dev/component', '/dev/plugin', '/dev/action', '/dev/container'],
+      },
+      {
+        title: '事件系统',
+        collapsable: true,
+        children: ['/events/intro', '/events/component', '/events/plugin', '/events/container', 'events/async'],
+      },
+      {
+        title: '表单',
+        collapsable: true,
+        children: ['/form/intro', '/form/jsonSchema', '/form/dynamicForm', '/form/registryField'],
       },
     ],
   },

@@ -1,6 +1,6 @@
 import * as path from 'path';
 import chalk from 'chalk';
-import { camelize, downloadBoilerplate, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
+import { downloadBoilerplate, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
 import { checkNameValid, ensureTargetPath, processFiles } from './utils';
 import { CreateParams } from './types';
 

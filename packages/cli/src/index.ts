@@ -1,7 +1,16 @@
 import chalk from 'chalk';
 import { Command } from 'commander';
 import { cleanArgs } from './utils';
-import { createLib, dev, dist, createComponent, createPlugin, createAction, createContainer } from './commands';
+import {
+  createLib,
+  dev,
+  dist,
+  createComponent,
+  createPlugin,
+  createAction,
+  createContainer,
+  createFormField,
+} from './commands';
 
 // eslint-disable-next-line
 const packageJson = require('../package.json');
@@ -60,6 +69,15 @@ program
   .action((name, cmd) => {
     const options = cleanArgs(cmd);
     return createContainer(name, options);
+  });
+
+program
+  .command('create-form-field <name>')
+  .description('创建 Schema Field')
+  .option('-r, --registry <registry>', 'NPM 软件源地址')
+  .action((name, cmd) => {
+    const options = cleanArgs(cmd);
+    return createFormField(name, options);
   });
 
 program

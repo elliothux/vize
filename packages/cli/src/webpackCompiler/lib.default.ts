@@ -1,20 +1,19 @@
 /* eslint-disable max-lines */
-import webpack, { Configuration, Entry } from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import { LibConfigRuntime } from '../config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { getLibRaxWebpackConfig } from './lib.rax';
 import { Options } from './index';
 import { getBabelConfig, getSWConfig } from './babel';
 
-const commonDeps = ['react', 'react-dom'];
-
 // TODO: refactor
 // eslint-disable-next-line max-lines-per-function
-export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC }: Options): Configuration {
+export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withForms, useSWC }: Options): Configuration {
   const {
     root,
     mainEntryTemp,
     metaEntryTemp,
+    formsEntryTemp,
     output,
     nodeModules,
     src,
@@ -93,6 +92,12 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
       //   WEBPACK_ENV: "production"
       // })
     ],
+    externals: {
+      antd: 'Antd',
+      react: 'React',
+      'react-dom': 'ReactDom',
+      'react-dom/server': 'ReactDomServer',
+    },
     mode: isProd ? 'production' : 'development',
     devtool: 'source-map',
     optimization: {
@@ -101,18 +106,21 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
     },
   };
 
-  if (isProd) {
-    const entryConfig: { [key: string]: string } = {
-      main: mainEntryTemp,
-      meta: metaEntryTemp,
-    };
+  const entryConfig: { [key: string]: string } = {
+    main: mainEntryTemp,
+    meta: metaEntryTemp,
+  };
 
+  if (withForms) {
+    entryConfig['form'] = formsEntryTemp;
+  }
+
+  if (isProd) {
     containerList.forEach(({ name, entry, html }) => {
       entryConfig[`container_${name}-entry`] = entry;
       entryConfig[`container_${name}-html`] = html;
     });
 
-    config.entry = entryConfig;
     // const entry: Entry = {};
     // componentsList.forEach(({ name, mainPath }) => (entry[`component-${name}`] = [...commonDeps, mainPath]));
     // pluginsList.forEach(({ name, mainPath }) => (entry[`plugin-${name}`] = [...commonDeps, mainPath]));
@@ -144,19 +152,11 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, useSWC
     //   },
     // };
   } else {
-    config.entry = {
-      main: mainEntryTemp,
-      meta: metaEntryTemp,
-      [`container_${containerName}-entry`]: containerEntry,
-      [`container_${containerName}-html`]: containerHTML,
-    };
-    config.externals = {
-      react: 'React',
-      antd: 'Antd',
-      'react-dom': 'ReactDom',
-      'react-dom/server': 'ReactDomServer',
-    };
+    entryConfig[`container_${containerName}-entry`] = containerEntry;
+    entryConfig[`container_${containerName}-html`] = containerHTML;
   }
+
+  config.entry = entryConfig;
 
   if (runtime === LibConfigRuntime.RAX) {
     return getLibRaxWebpackConfig(config);

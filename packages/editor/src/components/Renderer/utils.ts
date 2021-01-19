@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Antd from 'antd';
 import * as ReactDom from 'react-dom';
 import * as ReactDomServer from 'react-dom/server';
 import { injectReadonly } from 'utils';
@@ -7,25 +8,26 @@ import { injectReadonly } from 'utils';
 
 declare global {
   interface Window {
-    React: any;
-    ReactDom: any;
-    // __iframeWindow: Window;
+    React: typeof React;
+    ReactDom: typeof ReactDom;
+    ReactDomServer: typeof ReactDomServer;
   }
 }
 
 export function injectRuntime(target: Window) {
   // const VIZE = {};
 
-  // injectReadonlyGetter(VISION, 'global', function() {
+  // injectReadonlyGetter(VIZE, 'global', function() {
   //     return state.getState().globalData;
   // });
   //
-  // injectReadonlyGetter(VISION, 'meta', function() {
+  // injectReadonlyGetter(VIZE, 'meta', function() {
   //     return generatePageMeta(state.getState());
   // });
 
   const runtimes: [string, object][] = [
     // ["babelPolyfill", babelPolyfill],
+    ['Antd', Antd],
     ['React', React],
     ['ReactDom', ReactDom],
     ['ReactDomServer', ReactDomServer],

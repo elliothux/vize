@@ -14,6 +14,7 @@ import { Button, Select } from 'antd';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 import { useUnmount } from 'react-use';
 import { getMaterialsPluginMeta } from 'runtime';
+import { DEFAULT_MAX_TIMEOUT } from './constant';
 
 interface Props {
   trigger: Maybe<EventTriggerName>;
@@ -28,7 +29,7 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
   const [target, setTarget] = useState<Maybe<Partial<Omit<PluginEventTarget, 'type'>>>>(null);
   const plugins = useMemo(() => filterPluginInstance(pluginInstances), [pluginInstances.length]);
 
-  const { eventName, key: pluginKey } = target || {};
+  const { eventName, key: pluginKey, maxTimeout = DEFAULT_MAX_TIMEOUT } = target || {};
 
   const currentPlugin = useMemo(() => {
     if (!pluginKey) {
@@ -48,7 +49,12 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
   const onChangePlugin = useCallback((key: number) => setTarget({ key }), []);
   const onChangeEvent = useCallback((eventName: string) => setTarget({ key: pluginKey, eventName }), [pluginKey]);
   const onAddAction = useCallback(() => {
-    eventStore.addEventInstance(trigger!, { type: EventTargetType.PLUGIN, eventName: eventName!, key: pluginKey! });
+    eventStore.addEventInstance(trigger!, {
+      type: EventTargetType.PLUGIN,
+      eventName: eventName!,
+      key: pluginKey!,
+      maxTimeout,
+    });
     setTarget(null);
     setTrigger(null);
   }, [eventName, pluginKey]);

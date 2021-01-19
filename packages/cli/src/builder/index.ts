@@ -5,7 +5,7 @@ import { LibConfig } from '../config';
 import webpack, { Configuration, Stats } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { getLibWebpackConfig } from '../webpackCompiler';
-import { generateEntryFile } from './autoRequire';
+import { generateFormEntryFile, generateMaterialsEntryFile } from './autoRequire';
 
 interface Options {
   libPaths: LibPaths;
@@ -30,12 +30,15 @@ export class Builder {
 
   private readonly port: number;
 
+  private withForms: boolean;
+
   private generateWebpackConfig = (isProd: boolean): Configuration => {
     return getLibWebpackConfig({
       libPaths: this.libPaths,
       libConfig: this.libConfig,
       isProd,
       useSWC: true,
+      withForms: this.withForms,
     });
   };
 
@@ -63,7 +66,8 @@ export class Builder {
 
   private prepareFiles = async () => {
     await this.clearTemp();
-    await generateEntryFile(this.libPaths, this.libConfig, this.isProd);
+    this.withForms = await generateFormEntryFile(this.libPaths);
+    await generateMaterialsEntryFile(this.libPaths, this.libConfig, this.withForms, this.isProd);
   };
 
   public dev = async () => {

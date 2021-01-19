@@ -3,3 +3,4 @@ export * from './action';
 export * from './component';
 export * from './plugin';
 export * from './container';
+export * from './formField';

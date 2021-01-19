@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { BackgroundStyle } from 'types';
 import { Radio, Select } from 'antd';
-import { isEmpty } from 'utils';
-import { Color } from 'widgets/Form/Color';
+import { isEmpty, ColorFormat } from 'utils';
+import { Color } from 'widgets/Form/Fields/Color';
 import { StyleFormProps } from './index';
-import { ColorFormat } from '../../../../utils';
 
 const { Option } = Select;
 const { Group: RadioGroup } = Radio;

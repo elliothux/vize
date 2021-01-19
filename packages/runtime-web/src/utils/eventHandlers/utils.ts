@@ -7,7 +7,6 @@ import {
   FirstParameter,
   HotArea,
   MaterialsAction,
-  MaterialsActionMeta,
   Maybe,
   PageRouter,
   PluginEventTarget,
@@ -16,8 +15,6 @@ import {
 import { EventHandler, HandlerParams } from './types';
 import * as React from 'react';
 import { getCustomEventCallbacks, getMaterialsAction } from '../../libs';
-
-export const DEFAULT_MAX_TIMEOUT = 10 * 1000;
 
 export function timeoutPromise<T>(p: Promise<T>, t: number): Promise<T> {
   return timeout(p, t);
@@ -33,20 +30,11 @@ export function pipeEvents(
       const { target, data } = event;
       switch (target.type) {
         case EventTargetType.ACTION: {
-          // const { maxTimeout = DEFAULT_MAX_TIMEOUT } = getMaterialsActionMeta(target.id)!;
-          const maxTimeout = DEFAULT_MAX_TIMEOUT as MaterialsActionMeta['maxTimeout'];
           const action = getMaterialsAction(target.id)!;
           const params: FirstParameter<MaterialsAction> = { data: data!, global, meta, router };
 
           try {
-            if (maxTimeout === 'infinity') {
-              await action(params);
-            } else {
-              const exec = action(params);
-              if ((exec as unknown) instanceof Promise) {
-                await timeoutPromise((exec as unknown) as Promise<void>, maxTimeout as number);
-              }
-            }
+            await execAsyncFunctionWithTimeou(action, target.maxTimeout, params);
           } catch (e) {
             console.error('Action throw error: ', e);
           }
@@ -61,7 +49,7 @@ export function pipeEvents(
 
           for (const callback of callbacks) {
             try {
-              await callback();
+              await execAsyncFunctionWithTimeou(callback, target.maxTimeout);
             } catch (e) {
               console.error(
                 `Custom event callback on Component(key = ${key}) with EventName(${eventName}) throw error: `,
@@ -81,7 +69,7 @@ export function pipeEvents(
 
           for (const callback of callbacks) {
             try {
-              await callback();
+              await execAsyncFunctionWithTimeou(callback, target.maxTimeout);
             } catch (e) {
               console.error(
                 `Custom event callback on Plugin(key = ${key}) with EventName(${eventName}) throw error: `,
@@ -94,4 +82,15 @@ export function pipeEvents(
       }
     }
   };
+}
+
+async function execAsyncFunctionWithTimeou(fn: Function, maxTimeout: number | 'infinity', params?: any) {
+  if (maxTimeout === 'infinity') {
+    await fn(params);
+  } else {
+    const exec: unknown = fn(params);
+    if (exec instanceof Promise) {
+      await timeoutPromise(exec as Promise<void>, maxTimeout as number);
+    }
+  }
 }

@@ -6,6 +6,7 @@ import { Button, Select } from 'antd';
 import { eventStore } from 'states';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 import { materialsActionMetaMap, getMaterialsActionMeta } from 'runtime';
+import { DEFAULT_MAX_TIMEOUT } from './constant';
 
 interface Props {
   trigger: Maybe<EventTriggerName>;
@@ -25,8 +26,8 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
   }, []);
 
   const onAddAction = useCallback(() => {
-    const { identityName, lib } = getMaterialsActionMeta(actionId!)!;
-    eventStore.addEventInstance(trigger!, { type: EventTargetType.ACTION, id: identityName, lib });
+    const { identityName, lib, maxTimeout = DEFAULT_MAX_TIMEOUT } = getMaterialsActionMeta(actionId!)!;
+    eventStore.addEventInstance(trigger!, { type: EventTargetType.ACTION, id: identityName, lib, maxTimeout });
     setActionId(null);
     setTrigger(null);
   }, [trigger, actionId]);

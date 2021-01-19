@@ -2,7 +2,6 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import { ActionsList, ComponentsList, ContainerList, MaterialsList, PluginsList } from '../types';
 import { ensureRunPathValid } from './common';
-import { error } from './logger';
 
 export interface LibPaths {
   root: string;
@@ -26,6 +25,11 @@ export interface LibPaths {
   containerHTML?: string;
   mainEntryTemp: string;
   metaEntryTemp: string;
+  formFields: string;
+  ruleFields: string;
+  formFieldsList?: string[];
+  formRulesList?: string[];
+  formsEntryTemp: string;
 }
 
 let paths: Maybe<LibPaths> = null;
@@ -40,8 +44,6 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
   const temp = path.resolve(root, './.temp');
   const config = path.resolve(root, './.vizerc');
   const output = path.resolve(root, './dist');
-  const mainEntryTemp = path.resolve(temp, './entry_main.js');
-  const metaEntryTemp = path.resolve(temp, './entry_meta.js');
   const components = path.resolve(src, './components');
   const componentsList = getItemList(components);
   const plugins = path.resolve(src, './plugins');
@@ -52,16 +54,12 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
   const containerList = getContainerList(containers);
   const nodeModules = path.resolve(root, './node_modules');
   const webpackConfigs = path.resolve(root, './webpack');
-
-  let container;
-  let containerEntry;
-  let containerHTML;
-  const containerItem = containerList.find(i => i.name === containerName);
-  if (containerName && containerItem) {
-    container = containerItem.path;
-    containerEntry = containerItem.entry;
-    containerHTML = containerItem.html;
-  }
+  const mainEntryTemp = path.resolve(temp, './entry_main.js');
+  const metaEntryTemp = path.resolve(temp, './entry_meta.js');
+  const form = path.resolve(root, './form');
+  const formFields = path.resolve(form, './fields');
+  const ruleFields = path.resolve(form, './rules');
+  const formsEntryTemp = path.resolve(temp, './entry_forms.js');
 
   paths = {
     root,
@@ -81,11 +79,28 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
     webpackConfigs,
     nodeModules,
     containerName,
-    container,
     containerList,
-    containerEntry,
-    containerHTML,
+    formFields,
+    ruleFields,
+    formsEntryTemp,
   };
+
+  const containerItem = containerList.find(i => i.name === containerName);
+  if (containerName && containerItem) {
+    paths.container = containerItem.path;
+    paths.containerEntry = containerItem.entry;
+    paths.containerHTML = containerItem.html;
+  }
+
+  if (fs.existsSync(formFields)) {
+    const items = fs.readdirSync(formFields).map(name => path.resolve(formFields, name));
+    paths.formFieldsList = items.length ? items : null;
+  }
+
+  if (fs.existsSync(ruleFields)) {
+    const items = fs.readdirSync(ruleFields).map(name => path.resolve(ruleFields, name));
+    paths.formRulesList = items.length ? items : null;
+  }
 
   return paths;
 }

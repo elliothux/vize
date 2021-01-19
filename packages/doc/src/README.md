@@ -2,14 +2,14 @@
 home: true
 heroImage: /logo.svg
 actionText: 上手 →
-actionLink: /intro/
+actionLink: /welcome/intro
 
 features:
-  - title: 丰富完备地物料抽象
+  - title: 丰富完备的物料抽象
     details: 组件、插件、动作、页面容器等多种粒度的物料抽象，具备无限的拓展能力
-  - title: 易用地可视化编辑
+  - title: 易用的可视化编辑
     details: 拖拽式编排、流式/自由布局能力、可视化热区、容器组件嵌套等能力，让复杂的编排功能也变得友好且易用
-  - title: 强大地逻辑配置能力
+  - title: 强大的逻辑配置能力
     details: 强大的事件配置系统，让物料具备真正的联动能力，即使复杂地逻辑与交互也不在话下
   - title: 真 · 所见即所得
     details: 高性能地实时预览渲染引擎，带来真正所见即做的编辑体验

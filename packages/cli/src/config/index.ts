@@ -13,7 +13,13 @@ export interface LibConfig {
   __isBuildIn?: boolean;
 }
 
+let libConfig: Maybe<LibConfig> = null;
+
 export function getLibConfig({ config: configPath }: LibPaths): LibConfig {
+  if (libConfig) {
+    return libConfig;
+  }
+
   if (!fs.existsSync(configPath)) {
     throw `no config file "${configPath}"`;
   }
@@ -30,5 +36,7 @@ export function getLibConfig({ config: configPath }: LibPaths): LibConfig {
     throw `invalid runtime: ${runtime} in "${configPath}"`;
   }
 
-  return { libName, runtime, author, __isBuildIn };
+  libConfig = { libName, runtime, author, __isBuildIn };
+
+  return libConfig;
 }

@@ -3,6 +3,7 @@ import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
 import { RouterProps } from './pages';
 import * as React from 'react';
+import { FormFieldComponent } from '../widgets/Form/Fields';
 
 export interface MaterialsInfo {
   name: string;
@@ -21,6 +22,7 @@ export interface MaterialsMeta {
   actions: {
     [name: string]: MaterialsActionMeta;
   };
+  withForms?: boolean;
 }
 
 export interface MaterialsMain {
@@ -33,6 +35,13 @@ export interface MaterialsMain {
   actions: {
     [name: string]: MaterialsAction;
   };
+}
+
+export interface MaterialsForms {
+  fields?: {
+    field: string;
+    component: FormFieldComponent;
+  }[];
 }
 
 export interface RenderEntryParams extends Pick<ComponentProps, 'global' | 'meta'> {

@@ -24,7 +24,7 @@ export async function ensureTargetPath(target: string): Promise<boolean> {
     return false;
   }
 
-  await fs.mkdir(target);
+  await fs.ensureDir(target);
   return true;
 }
 
