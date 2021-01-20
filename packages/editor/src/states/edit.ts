@@ -1,18 +1,27 @@
 import { action, computed, observable } from 'mobx';
 import { getQueryParams } from 'utils';
-import { LayoutMode, PageMode } from 'types';
+import { LayoutMode, Maybe, PageMode } from 'types';
 import { StoreWithUtils } from './utils';
+import { globalStore } from './global';
 
 export class EditStore extends StoreWithUtils<EditStore> {
   constructor() {
     super();
-    const { key, libs, debugPorts, container } = getQueryParams();
+    const { id, key, libs, debugPorts, container } = getQueryParams();
+    this.pageId = id;
     this.pageKey = key;
     this.libNames = libs;
     this.containerName = container;
     this.debugPorts = debugPorts;
     this.mainLib = libs[0];
+
+    globalStore.setMetaInfo({
+      id,
+      key,
+    });
   }
+
+  public readonly pageId: Maybe<number>;
 
   public readonly pageKey: string;
 

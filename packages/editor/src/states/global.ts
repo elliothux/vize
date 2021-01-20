@@ -26,11 +26,18 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     desc: '',
     duration: null,
     expiredJump: '',
+    id: null,
+    key: '',
+    isTemplate: false, // TODO
+    isEditor: true,
   };
 
   @action
-  public setMetaInfo = (data: GlobalMeta) => {
-    this.metaInfo = data;
+  public setMetaInfo = (data: Partial<GlobalMeta>) => {
+    this.metaInfo = {
+      ...this.metaInfo,
+      ...data,
+    };
   };
 
   @action
