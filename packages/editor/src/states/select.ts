@@ -1,4 +1,5 @@
 import { action, observable, toJS } from 'mobx';
+import { getEditChildrenCallback } from 'runtime';
 import { Maybe } from '../types';
 import { injectGlobalReadonlyGetter, isDev } from '../utils';
 
@@ -52,6 +53,10 @@ export class SelectStore {
 
   @action
   public selectContainerComponent = (key: number) => {
+    const callback = getEditChildrenCallback(key);
+    if (callback) {
+      callback();
+    }
     this.selectType = SelectType.COMPONENT;
     this.containerComponentKey = key;
   };

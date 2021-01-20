@@ -82,6 +82,7 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   on: (eventName: string, callback: Function) => void;
   cancel: (eventName: string, callback: Function) => void;
   emit: (eventName: string) => void;
+  onEditChildren?: (callback: Function) => void;
   router: PageRouter;
 }
 

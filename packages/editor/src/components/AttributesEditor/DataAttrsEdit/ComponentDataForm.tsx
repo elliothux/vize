@@ -23,7 +23,7 @@ function IComponentDataForm() {
       icon={<EditFilled />}
       type="primary"
     >
-      编辑容器
+      编辑子组件
     </Button>
   ) : null;
 

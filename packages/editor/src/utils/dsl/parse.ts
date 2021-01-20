@@ -13,6 +13,8 @@ import {
 import { PageRecordWithHistory } from 'sharedTypes';
 
 export function parseDSLFromCGIRecord({
+  id,
+  key,
   layoutMode,
   pageMode,
   latestHistory: {
@@ -36,6 +38,10 @@ export function parseDSLFromCGIRecord({
         desc,
         duration: startTime && endTime ? [new Date(startTime).getTime(), new Date(endTime).getTime()] : null,
         expiredJump,
+        id,
+        key,
+        isEditor: true,
+        isTemplate: false, // TODO
       },
       globalProps: JSON.parse(globalProps),
       globalStyle: JSON.parse(globalStyle),

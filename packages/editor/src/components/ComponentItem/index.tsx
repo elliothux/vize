@@ -6,7 +6,7 @@ import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { events, EventEmitTypes, withPreventEvent } from 'utils';
 import { calcPosition } from 'runtime';
 import classNames from 'classnames';
-import { deleteComponentNode, setComponentNode } from 'runtime';
+import { deleteComponentNode, setComponentNode, deleteEditChildrenCallback } from 'runtime';
 import { ComponentContextMenu, showComponentContextMenu } from 'components/ContextMenu';
 import { ComponentMask } from './ComponentMask';
 import { LayoutRender } from '../LayoutRender';
@@ -35,6 +35,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
       children.forEach(({ key }) => deleteComponentNode(key));
     }
     deleteComponentNode(key);
+    deleteEditChildrenCallback(key);
   }
 
   private setRef = (node: HTMLDivElement) => {
