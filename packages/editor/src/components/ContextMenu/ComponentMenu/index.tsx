@@ -100,11 +100,12 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
 export function showComponentContextMenu(
   e: React.MouseEvent,
   isShared: boolean,
+  fromIFrame: boolean,
   componentKey: number,
-  fromIFrame = false,
+  parentKey?: number,
 ) {
   preventSyntheticEvent(e);
-  selectStore.selectComponent(isShared, componentKey);
+  selectStore.selectComponent(isShared, componentKey, parentKey);
   return showContextMenu(fromIFrame ? createMouseEventFromIframe(e) : e, getID(componentKey));
 }
 

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
-import { ComponentInstance } from '../../../types';
+import { ComponentInstance, ComponentSelectedCallback } from '../../../types';
 import {
   cancelCustomEvent,
   emitCustomEvent,
   getMaterialsComponent,
   onCustomEvent,
-  setEditChildrenCallback,
+  setComponentSelectedCallback,
 } from '../../libs';
 import { AppRenderProps } from '../AppRender/types';
 import { ComponentInstances } from '../ComponentInstances';
@@ -36,9 +36,9 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
 
   const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, meta, global, router), [key]);
 
-  const onEditChildren = useMemo(() => {
-    return children ? (callback: Function) => setEditChildrenCallback(key, callback) : undefined;
-  }, [key]);
+  const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [
+    key,
+  ]);
 
   const ViewRender = getMaterialsComponent(component)!;
   return (
@@ -51,7 +51,7 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
       on={on}
       cancel={cancel}
       emit={emit}
-      onEditChildren={onEditChildren}
+      onSelected={onSelected}
       instance={instance}
       meta={meta}
       global={global}

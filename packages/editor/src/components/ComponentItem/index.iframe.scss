@@ -6,6 +6,10 @@
   overflow: hidden;
   min-height: 22px;
 
+  &.hide-edit-mask {
+    min-height: 0;
+  }
+
   &.dragging-component-item {
     & > .vize-component-item-mask {
       background-color: main-color-opacity(0.5);

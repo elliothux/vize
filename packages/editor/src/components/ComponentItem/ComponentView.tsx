@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { ComponentInstance, WithReactChildren } from 'types';
+import { ComponentInstance, ComponentSelectedCallback, WithReactChildren } from 'types';
 import { useCallback, useMemo } from 'react';
 import {
   onCustomEvent,
   cancelCustomEvent,
   getMaterialsComponent,
   emitCustomEvent,
-  setEditChildrenCallback,
+  setComponentSelectedCallback,
 } from 'runtime';
 import { mergeCommonStyle } from 'runtime';
 import { observer } from 'mobx-react';
@@ -41,9 +41,9 @@ function IComponentView({ instance, children }: Props) {
     key,
   ]);
 
-  const onEditChildren = useMemo(() => {
-    return children ? (callback: Function) => setEditChildrenCallback(key, callback) : undefined;
-  }, [key]);
+  const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [
+    key,
+  ]);
 
   return (
     <NodeEventProxy<ComponentInstance>
@@ -67,7 +67,7 @@ function IComponentView({ instance, children }: Props) {
         on={on}
         cancel={cancel}
         emit={emit}
-        onEditChildren={onEditChildren}
+        onSelected={onSelected}
         router={router}
       >
         {children}
