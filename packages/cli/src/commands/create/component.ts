@@ -1,6 +1,6 @@
 import * as path from 'path';
 import chalk from 'chalk';
-import { camelize, downloadBoilerplate, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
+import { camelize, downloadPackage, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
 import { checkNameValid, ensureTargetPath, processFiles } from './utils';
 import { CreateParams } from './types';
 
@@ -19,7 +19,7 @@ export async function createComponent(name: Maybe<string>, { registry }: CreateP
   }
 
   logWithSpinner('🚚', ` Downloading component boilerplate: ${chalk.yellow(PKG_NAME)}\n`);
-  const templateDir = await downloadBoilerplate(PKG_NAME, registry);
+  const templateDir = await downloadPackage(PKG_NAME, registry);
   stopSpinner();
 
   await processFiles(targetPath, templateDir, { name });

@@ -1,7 +1,7 @@
-import os from 'os';
+import * as os from 'os';
+import * as path from 'path';
+import * as fs from 'fs-extra';
 import assert from 'assert';
-import path from 'path';
-import fs from 'fs-extra';
 import compressing from 'compressing';
 import { log } from './logger';
 import { curl } from './request';
@@ -41,25 +41,28 @@ export async function getPackageInfo(pkgName: string, registry: string): Promise
   return result.data.versions[latestVersion] as PackageInfo;
 }
 
-async function checkExistence(route: string, onlineVersion: string) {
-  const existed = await fs.pathExists(route);
+async function checkExistence(packagePath: string, onlineVersion: string) {
+  const existed = await fs.pathExists(packagePath);
   if (!existed) {
     return false;
   }
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const localVersion = require(path.join(route, 'package.json')).version;
+  const localVersion = require(path.join(packagePath, 'package', 'package.json')).version;
   if (localVersion === onlineVersion) {
     return true;
   }
-  await fs.emptyDir(route);
+  await fs.emptyDir(packagePath);
   return false;
 }
 
-export async function downloadBoilerplate(pkgName: string, registry = 'https://registry.npmjs.org') {
-  const result = await getPackageInfo(pkgName, registry);
-  const tgzUrl = result.dist.tarball;
-  const saveDir = path.join(await getCLITempPath(), 'boilerplates', pkgName);
-  const existed = await checkExistence(path.join(saveDir, 'package'), result.version);
+export async function downloadPackage(pkgName: string, registry = 'https://registry.npmjs.org') {
+  const {
+    dist: { tarball: tgzUrl },
+    version,
+  } = await getPackageInfo(pkgName, registry);
+  const saveDir = path.join(await getCLITempPath(), 'packages', pkgName);
+  const existed = await checkExistence(saveDir, version);
+
   if (!existed) {
     log(`下载中：${tgzUrl}`);
     const response = await curl(tgzUrl, {
@@ -69,7 +72,7 @@ export async function downloadBoilerplate(pkgName: string, registry = 'https://r
     log(`解压到：${saveDir}`);
     await compressing.tgz.uncompress(response.res as any, saveDir);
   } else {
-    log(`模板已存在，跳过下载`);
+    log(`Package 已存在，跳过下载`);
   }
 
   return path.join(saveDir, 'package');

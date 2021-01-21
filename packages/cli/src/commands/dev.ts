@@ -6,10 +6,12 @@ import { getLibConfig } from '../config';
 import { Builder } from '../builder';
 
 interface DevOptions {
-  port?: number;
+  port?: string;
+  open?: string;
+  registry?: string;
 }
 
-export async function dev({ port }: DevOptions) {
+export async function dev({ port, open, registry }: DevOptions) {
   const root = process.cwd();
   const containerName = await chooseContainer(root);
   const paths = getLibPaths(root, containerName);
@@ -19,7 +21,9 @@ export async function dev({ port }: DevOptions) {
     libPaths: paths,
     libConfig: config,
     idProd: false,
-    port,
+    open: open !== 'false',
+    port: port ? parseInt(port, 10) : undefined,
+    registry,
   });
   return builder.dev();
 }

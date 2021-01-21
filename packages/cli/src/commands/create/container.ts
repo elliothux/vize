@@ -1,6 +1,6 @@
 import * as path from 'path';
 import chalk from 'chalk';
-import { downloadBoilerplate, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
+import { downloadPackage, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
 import { checkNameValid, ensureTargetPath, processFiles } from './utils';
 import { CreateParams } from './types';
 
@@ -19,7 +19,7 @@ export async function createContainer(name: Maybe<string>, { registry }: CreateP
   }
 
   logWithSpinner('🚚', ` Downloading containers boilerplate: ${chalk.yellow(PKG_NAME)}\n`);
-  const templateDir = await downloadBoilerplate(PKG_NAME, registry);
+  const templateDir = await downloadPackage(PKG_NAME, registry);
   stopSpinner();
 
   await processFiles(targetPath, templateDir, { name });

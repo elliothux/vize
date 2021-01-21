@@ -1,24 +1,27 @@
-import * as fs from 'fs-extra';
-import * as path from 'path';
-import { error, LibPaths, logWithSpinner, stopSpinner } from '../utils';
-import { LibConfig } from '../config';
-import webpack, { Configuration, Stats } from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import { LibPaths, logWithSpinner, stopSpinner } from '../utils';
+import { LibConfig } from '../config';
 import { getLibWebpackConfig } from '../webpackCompiler';
 import { generateFormEntryFile, generateMaterialsEntryFile } from './autoRequire';
+import { clearTemp, openEditor, prepareEditor, webpackCallback } from './utils';
 
 interface Options {
   libPaths: LibPaths;
   libConfig: LibConfig;
   idProd: boolean;
+  open?: boolean;
   port?: number;
+  registry?: string;
 }
 
 export class Builder {
-  constructor({ libConfig, libPaths, idProd, port = 4567 }: Options) {
+  constructor({ libConfig, libPaths, idProd, open, registry, port = 4568 }: Options) {
     this.libPaths = libPaths;
     this.libConfig = libConfig;
     this.isProd = idProd;
+    this.open = open;
+    this.registry = registry;
     this.port = port;
   }
 
@@ -27,6 +30,10 @@ export class Builder {
   private readonly libConfig: LibConfig;
 
   private readonly isProd: boolean;
+
+  private readonly open: boolean;
+
+  private readonly registry?: string;
 
   private readonly port: number;
 
@@ -42,36 +49,14 @@ export class Builder {
     });
   };
 
-  private clearTemp = async () => {
-    logWithSpinner('💭', '清除缓存');
-
-    const { temp, output } = this.libPaths;
-    if (!(await fs.existsSync(temp))) {
-      await fs.mkdir(temp);
-    }
-
-    const files = await fs.readdir(temp);
-    await Promise.all([
-      ...files.map(file => {
-        if (Builder.TEMP_CLEAR_IGNORE.includes(file)) {
-          return Promise.resolve();
-        }
-        return fs.remove(path.join(temp, file));
-      }),
-      fs.emptyDir(output),
-    ]);
-
-    stopSpinner();
-  };
-
   private prepareFiles = async () => {
-    await this.clearTemp();
+    await clearTemp(this.libPaths);
     this.withForms = await generateFormEntryFile(this.libPaths);
     await generateMaterialsEntryFile(this.libPaths, this.libConfig, this.withForms, this.isProd);
   };
 
   public dev = async () => {
-    await this.prepareFiles();
+    const [editorStaticPath] = await Promise.all([prepareEditor(this.registry), this.prepareFiles()]);
 
     const config = this.generateWebpackConfig(false);
     const compiler = webpack(config);
@@ -83,20 +68,14 @@ export class Builder {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
       },
-      // contentBase: [this.libConfig.editorStaticPath, this.paths.outputPath],
-      // after: () => {
-      //   if (this.editorDownloadSuccess) {
-      //     return this.openEditor();
-      //   }
-      //   return (this.editorDownloadCallback = this.openEditor);
-      // },
-      // before: app => {
-      //   this.runHotReloadServer(1 + this.port);
-      //
-      //   app.post('/cgi/preview', bodyParser.json(), (req, res) =>
-      //       preview(req, res, this.paths, this.container!.pathName)
-      //   );
-      // },
+      contentBase: [editorStaticPath],
+      after: () => {
+        openEditor({
+          debugPorts: this.port.toString(),
+          libs: this.libConfig.libName,
+          container: this.libPaths.containerName,
+        });
+      },
     }).listen(this.port);
   };
 
@@ -105,34 +84,9 @@ export class Builder {
     const config = this.generateWebpackConfig(true);
 
     logWithSpinner('🚀', '运行 Webpack 构建');
-    await new Promise((resolve, reject) => webpack(config).run(Builder.webpackCallback(resolve, reject)));
+    await new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
     logWithSpinner('✨', ' 构建完成');
     stopSpinner();
     return;
   };
-
-  static webpackCallback = (resolve: Function, reject: Function) => {
-    return (err: Error, stats: Stats) => {
-      if (err) {
-        error('fatal webpack errors:', (err.stack.toString() || err.toString()).trim());
-        if ((err as any).details) {
-          error('fatal webpack errors:', (err as any).details.trim());
-        }
-        reject();
-      }
-
-      const info = stats.toJson();
-      if (stats.hasErrors()) {
-        info.errors.forEach((e: string) => {
-          if (e.trim()) {
-            error('\n\nWebpack compilation errors:', e.trim());
-          }
-        });
-        return reject();
-      }
-      return resolve();
-    };
-  };
-
-  static TEMP_CLEAR_IGNORE = ['editor'];
 }

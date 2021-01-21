@@ -1,5 +1,8 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import open from 'open';
+import { Stats } from 'webpack';
+import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
 
 export function findThumb(entry: string) {
   const svg = path.join(entry, './thumb.svg');
@@ -28,4 +31,82 @@ export function findPreview(entry: string) {
   if (fs.existsSync(jpeg)) return jpeg;
 
   return undefined;
+}
+
+export function webpackCallback(resolve: Function, reject: Function) {
+  return (err: Error, stats: Stats) => {
+    if (err) {
+      error('fatal webpack errors:', (err.stack.toString() || err.toString()).trim());
+      if ((err as any).details) {
+        error('fatal webpack errors:', (err as any).details.trim());
+      }
+      reject();
+    }
+
+    const info = stats.toJson();
+    if (stats.hasErrors()) {
+      info.errors.forEach((e: string) => {
+        if (e.trim()) {
+          error('\n\nWebpack compilation errors:', e.trim());
+        }
+      });
+      return reject();
+    }
+    return resolve();
+  };
+}
+
+const TEMP_CLEAR_IGNORE = ['editor'];
+
+export async function clearTemp(libPaths: LibPaths) {
+  logWithSpinner('💭', '清除缓存');
+
+  const { temp, output } = libPaths;
+  if (!(await fs.existsSync(temp))) {
+    await fs.mkdir(temp);
+  }
+
+  const files = await fs.readdir(temp);
+  await Promise.all([
+    ...files.map(file => {
+      if (TEMP_CLEAR_IGNORE.includes(file)) {
+        return Promise.resolve();
+      }
+      return fs.remove(path.join(temp, file));
+    }),
+    fs.emptyDir(output),
+  ]);
+
+  stopSpinner();
+}
+
+const EDITOR_PKG_NAME = '@vize/editor';
+
+export async function prepareEditor(registry?: string): Promise<string> {
+  const packagePath = await downloadPackage(EDITOR_PKG_NAME, registry);
+  const filesPath = path.resolve(packagePath, 'build');
+  const tempPath = await getCLITempPath();
+
+  const staticPath = path.resolve(tempPath, 'static');
+  const target = path.resolve(staticPath, 'editor');
+  if (fs.existsSync(target)) {
+    await fs.unlink(target);
+  }
+  await fs.ensureDir(staticPath);
+  await fs.symlink(filesPath, target);
+
+  return staticPath;
+}
+
+interface OpenParams {
+  debugPorts: string;
+  libs: string;
+  container: string;
+}
+
+export function openEditor({ debugPorts, libs, container }: OpenParams) {
+  const url = `http://127.0.0.1:${debugPorts}/editor/index.html?debugPorts=${debugPorts}&libs=${libs}&key=vize_debug_page&container=${container}`;
+  console.log('url: ', url);
+  open(url);
+  // setTimeout(() => , 500);
 }

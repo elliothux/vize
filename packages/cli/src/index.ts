@@ -23,8 +23,9 @@ const program = new Command()
 program
   .command('dev [entry]')
   .description('开启调试服务')
-  .option('-o, --open', '自动打开编辑器')
+  .option('-o, --open <open>', '自动打开编辑器')
   .option('-p, --port <port>', 'dev server 端口')
+  .option('-r, --registry <registry>', 'NPM 软件源地址')
   .action((i, cmd) => {
     const options = cleanArgs(cmd);
     return dev(options);
