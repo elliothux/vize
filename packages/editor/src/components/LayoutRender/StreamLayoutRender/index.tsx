@@ -10,7 +10,6 @@ import { ComponentItem } from 'components/ComponentItem';
 import { componentsStore, editStore, pagesStore, selectStore } from 'states';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo } from 'react';
-import { getCurrentPageComponentIndex } from '../../../utils/indexMap';
 
 function ISortableContainer({ children }: WithReactChildren) {
   return <>{children}</>;

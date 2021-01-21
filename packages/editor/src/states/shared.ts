@@ -19,6 +19,7 @@ export class SharedStore extends StoreWithUtils<SharedStore> {
   public setComponentInstanceAsShared = (componentKey: number) => {
     const instance = componentsStore.deleteComponentInstance(componentKey);
     instance.shared = true;
+    instance.parent = undefined;
     this.sharedComponentInstances.push(instance);
 
     componentEventDepsMap.createEventDepsMap(componentKey);

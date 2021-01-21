@@ -96,7 +96,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
       index: containerChildren.length - 1,
       parentIndex,
     });
-    selectStore.selectComponent(false, instance.key);
+    selectStore.selectComponent(false, instance.key, parent.key);
   };
 
   @action

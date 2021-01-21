@@ -18,7 +18,7 @@ function IComponentMask({ instance, onClick, onDoubleClick, onContextMenu, child
     info: { name },
   } = useMemo<MaterialsComponentMeta>(() => getMaterialsComponentMeta(instance.component)!, [instance.component]);
 
-  const desc = useMemo(() => (instance.children ? '[双击编辑容器]' : instance.hotAreas ? '[双击编辑热区]' : ''), [
+  const desc = useMemo(() => (instance.children ? '[双击编辑子组件]' : instance.hotAreas ? '[双击编辑热区]' : ''), [
     instance,
   ]);
 

@@ -4,9 +4,9 @@ import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildre
 import { ComponentView } from './ComponentView';
 import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { events, EventEmitTypes, withPreventEvent } from 'utils';
-import { calcPosition } from 'runtime';
+import { calcPosition, getMaterialsComponentMeta } from 'runtime';
 import classNames from 'classnames';
-import { deleteComponentNode, setComponentNode } from 'runtime';
+import { deleteComponentNode, setComponentNode, deleteComponentSelectedCallback } from 'runtime';
 import { ComponentContextMenu, showComponentContextMenu } from 'components/ContextMenu';
 import { ComponentMask } from './ComponentMask';
 import { LayoutRender } from '../LayoutRender';
@@ -29,12 +29,17 @@ interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComp
 export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   private refNode: Maybe<HTMLDivElement> = null;
 
+  private get hideEditMask(): Maybe<boolean> {
+    return getMaterialsComponentMeta(this.props.instance.component)!.hideEditMask;
+  }
+
   public componentWillUnmount() {
     const { key, children } = this.props.instance;
     if (children?.length) {
       children.forEach(({ key }) => deleteComponentNode(key));
     }
     deleteComponentNode(key);
+    deleteComponentSelectedCallback(key);
   }
 
   private setRef = (node: HTMLDivElement) => {
@@ -59,8 +64,8 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   });
 
   private onContextMenu = (e: React.MouseEvent) => {
-    const { key, shared } = this.props.instance;
-    showComponentContextMenu(e, shared, key, true);
+    const { key, shared, parent } = this.props.instance;
+    showComponentContextMenu(e, shared, true, key, parent?.key);
   };
 
   private onDoubleClick = () => {
@@ -126,13 +131,14 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
             selected,
             'selected-with-select-mode': selectedWithSelectMode,
             'selected-as-container': selectedAsContainer,
+            'hide-edit-mask': this.hideEditMask,
           })}
           data-key={key}
           style={position ? calcPosition(position) : undefined}
         >
           <ComponentView instance={instance}>{children}</ComponentView>
 
-          {selectMode ? (
+          {this.hideEditMask ? null : selectMode ? (
             selectedAsContainer ? null : (
               <ComponentSelectModeMask
                 instance={instance}
@@ -156,7 +162,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
           <ComponentContextMenu instance={instance} pages={pages} currentPageIndex={currentPageIndex} />
         </div>
 
-        {selectedAsContainer ? (
+        {selectedAsContainer && !this.hideEditMask ? (
           <div
             className="vize-container-edit-mode-mask"
             onClick={selectMode ? this.onClickMaskWithSelectMode : this.onClickMask}

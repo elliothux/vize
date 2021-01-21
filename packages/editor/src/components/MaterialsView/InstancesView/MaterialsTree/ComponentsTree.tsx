@@ -7,7 +7,14 @@ import { observer } from 'mobx-react';
 import { componentsStore, selectStore, SelectType, sharedStore } from 'states';
 import { ComponentInstance, FirstParameter, HotArea, Maybe, MustBe } from 'types';
 import { showComponentContextMenu, showHotAreaContextMenu } from 'components/ContextMenu';
-import { ComponentIndex, findComponentInstanceByIndex, isString, isNumber } from 'utils';
+import {
+  ComponentIndex,
+  findComponentInstanceByIndex,
+  isString,
+  isNumber,
+  getCurrentPageComponentIndex,
+  getSharedComponentIndex,
+} from 'utils';
 import { getMaterialsComponentMeta } from 'runtime';
 
 const { DirectoryTree } = Tree;
@@ -92,7 +99,9 @@ function onRightClick(
     }
     return showHotAreaContextMenu(event, parseInt(index, 10), parseInt(componentKey, 10));
   }
-  showComponentContextMenu(event, shared, key as number);
+
+  const { parent } = componentsStore.getCurrentPageComponentInstance(key as number);
+  showComponentContextMenu(event, shared, false, key as number, parent?.key);
 }
 
 function onDragStart(
@@ -102,7 +111,10 @@ function onDragStart(
   if (key === 'components') {
     return;
   }
-  selectStore.selectComponent(shared, key as number);
+  const instance = shared
+    ? sharedStore.getCurrentSharedComponentInstance(key as number)
+    : componentsStore.getCurrentPageComponentInstance(key as number);
+  selectStore.selectComponent(shared, key as number, instance?.parent?.key);
 }
 
 // TODO

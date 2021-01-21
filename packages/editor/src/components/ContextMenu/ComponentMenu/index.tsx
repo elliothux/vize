@@ -17,6 +17,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
   const { key, shared, children } = instance;
   const onDelete = useCallback(() => componentsStore.deleteComponentInstance(instance.key), [key]);
   const onShared = useCallback(() => sharedStore.setComponentInstanceAsShared(key), [key]);
+  const onEditChildren = useCallback(() => selectStore.selectContainerComponent(key), [key]);
   // const onRename = useCallback(
   //   () => pagesStore.setPageEditing(index, true),
   //   deps
@@ -86,7 +87,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
 
       {children ? (
         <>
-          <Item onClick={noop}>
+          <Item onClick={onEditChildren}>
             <FiCopy />
             <span>编辑子组件</span>
           </Item>
@@ -99,11 +100,12 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
 export function showComponentContextMenu(
   e: React.MouseEvent,
   isShared: boolean,
+  fromIFrame: boolean,
   componentKey: number,
-  fromIFrame = false,
+  parentKey?: number,
 ) {
   preventSyntheticEvent(e);
-  selectStore.selectComponent(isShared, componentKey);
+  selectStore.selectComponent(isShared, componentKey, parentKey);
   return showContextMenu(fromIFrame ? createMouseEventFromIframe(e) : e, getID(componentKey));
 }
 

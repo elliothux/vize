@@ -28,15 +28,6 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
   const onClick = useCallback(() => onSelect(item), [item]);
   const onClickAdd = useCallback(() => componentsStore.addComponentInstance(identityName), [identityName]);
 
-  // TODO: REMOVE
-  useEffect(() => {
-    setTimeout(() => {
-      // onClickAdd();
-      // onClickAdd();
-      // onClickAdd();
-    }, 1000);
-  }, []);
-
   const disabled = currentContainerComponentKey > -1 && isContainer;
 
   return (

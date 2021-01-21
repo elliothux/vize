@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { JsonSchemaProperties } from 'types';
+import { GlobalMeta, JsonSchemaProperties } from 'types';
 import { globalStore } from 'states';
 import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
+import { useCallback } from 'react';
 
 const TemplateDataSchema: JsonSchemaProperties = {
   title: { title: '活动标题', type: 'string', default: '新页面', required: true },
@@ -16,24 +17,11 @@ const PageDataSchema: JsonSchemaProperties = {
 
 function IGlobalDataForm() {
   const { metaInfo, setMetaInfo } = globalStore;
+  const onChange = useCallback((v: Partial<GlobalMeta>) => setMetaInfo(v), []);
 
   return (
     <div className="editor-prop-item editor-prop-edit-data">
-      <SchemaForm instanceKey={999} form={PageDataSchema} data={metaInfo} onChange={setMetaInfo} />
-      {/* {isEmpty(config.dataForm) ? null : (
-        <>
-          <FormTitle title="容器自定义属性" />
-          <SchemaForm
-            schema={config.dataForm}
-            value={globalData}
-            onSubmit={(v: object) => {
-              changeGlobalData(v);
-              events.emit(EventEmitTypes.REFRESH_SIMULATOR);
-            }}
-            submitProps={{ showLoading: false, children: '确定' }}
-          />
-        </>
-      )} */}
+      <SchemaForm instanceKey={999} form={PageDataSchema} data={metaInfo} onChange={onChange} />
     </div>
   );
 }

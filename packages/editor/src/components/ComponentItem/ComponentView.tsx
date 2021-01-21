@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { ComponentInstance, WithReactChildren } from 'types';
+import { ComponentInstance, ComponentSelectedCallback, WithReactChildren } from 'types';
 import { useCallback, useMemo } from 'react';
-import { onCustomEvent, cancelCustomEvent, getMaterialsComponent, emitCustomEvent } from 'runtime';
+import {
+  onCustomEvent,
+  cancelCustomEvent,
+  getMaterialsComponent,
+  emitCustomEvent,
+  setComponentSelectedCallback,
+} from 'runtime';
 import { mergeCommonStyle } from 'runtime';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime';
@@ -13,26 +19,29 @@ interface Props extends WithReactChildren {
 
 function IComponentView({ instance, children }: Props) {
   const { key, component, data, style, commonStyle, wrapperStyle } = instance;
-  // const position = commonStyle.position as IPositionStyle;
-  const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
-  const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
-  const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
-  // const posStyle = useMemo(() => (position ? calcPosition(position) : null), [position]);
-  // const assignedStyle = useMemo(() => ({ ...iWrapperStyle, ...posStyle }), [iWrapperStyle, posStyle]);
-
   const { previewMode } = editStore;
   const { metaInfo, globalProps } = globalStore;
   const { router } = pagesStore;
+
+  const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
+  const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
+  const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
 
   const on = useCallback(
     (eventName: string, callback: Function) => onCustomEvent('component', key, eventName, callback),
     [key],
   );
+
   const cancel = useCallback(
     (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
     [key],
   );
+
   const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalProps, router), [
+    key,
+  ]);
+
+  const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [
     key,
   ]);
 
@@ -58,6 +67,7 @@ function IComponentView({ instance, children }: Props) {
         on={on}
         cancel={cancel}
         emit={emit}
+        onSelected={onSelected}
         router={router}
       >
         {children}

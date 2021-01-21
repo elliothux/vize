@@ -1,4 +1,5 @@
 import { action, observable, toJS } from 'mobx';
+import { getComponentSelectedCallback } from 'runtime';
 import { Maybe } from '../types';
 import { injectGlobalReadonlyGetter, isDev } from '../utils';
 
@@ -39,11 +40,24 @@ export class SelectStore {
   public sharedComponentSelected = false;
 
   @action
+  private setComponentKey = (key: number, asHotAreaContainer?: boolean) => {
+    if (key === this.componentKey) {
+      getComponentSelectedCallback(key)?.({ selected: true, asHotAreaContainer });
+      return;
+    }
+
+    getComponentSelectedCallback(this.componentKey)?.({ selected: false });
+    getComponentSelectedCallback(key)?.({ selected: true, asHotAreaContainer });
+
+    this.componentKey = key;
+  };
+
+  @action
   public selectComponent = (shared: boolean, key: number, parentKey?: number) => {
     this.sharedComponentSelected = shared;
-    this.containerComponentKey = parentKey || -1;
     this.selectType = SelectType.COMPONENT;
-    this.componentKey = key;
+    this.setComponentKey(key);
+    this.setContainerComponentKey(parentKey || -1);
     this.hotAreaIndex = -1;
   };
 
@@ -51,9 +65,22 @@ export class SelectStore {
   public containerComponentKey = -1;
 
   @action
+  private setContainerComponentKey = (key: number) => {
+    if (key === this.containerComponentKey) {
+      getComponentSelectedCallback(key)?.({ selected: true, asContainer: true });
+      return;
+    }
+
+    getComponentSelectedCallback(this.containerComponentKey)?.({ selected: false });
+    getComponentSelectedCallback(key)?.({ selected: true, asContainer: true });
+
+    this.containerComponentKey = key;
+  };
+
+  @action
   public selectContainerComponent = (key: number) => {
     this.selectType = SelectType.COMPONENT;
-    this.containerComponentKey = key;
+    this.setContainerComponentKey(key);
   };
 
   public isCurrentComponent = (key: number) => {
@@ -68,9 +95,9 @@ export class SelectStore {
 
   @action
   public selectHotArea = (index: number, componentKey: number) => {
-    this.componentKey = componentKey;
+    this.setComponentKey(componentKey, true);
     this.hotAreaIndex = index;
-    this.containerComponentKey = -1;
+    this.setContainerComponentKey(-1);
     this.selectType = SelectType.HOTAREA;
   };
 
@@ -84,7 +111,7 @@ export class SelectStore {
   public selectPlugin = (key: number) => {
     this.selectType = SelectType.PLUGIN;
     this.pluginKey = key;
-    this.containerComponentKey = -1;
+    this.setContainerComponentKey(-1);
   };
 
   @action

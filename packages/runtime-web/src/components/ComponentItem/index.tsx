@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { useCallback } from 'react';
-import { ComponentInstance } from '../../../types';
-import { cancelCustomEvent, emitCustomEvent, getMaterialsComponent, onCustomEvent } from '../../libs';
+import { ComponentInstance, ComponentSelectedCallback } from '../../../types';
+import {
+  cancelCustomEvent,
+  emitCustomEvent,
+  getMaterialsComponent,
+  onCustomEvent,
+  setComponentSelectedCallback,
+} from '../../libs';
 import { AppRenderProps } from '../AppRender/types';
 import { ComponentInstances } from '../ComponentInstances';
 import { HotAreas } from '../HotAreas';
@@ -22,11 +28,17 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
     (eventName: string, callback: Function) => onCustomEvent('component', key, eventName, callback),
     [key],
   );
+
   const cancel = useCallback(
     (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
     [key],
   );
+
   const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, meta, global, router), [key]);
+
+  const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [
+    key,
+  ]);
 
   const ViewRender = getMaterialsComponent(component)!;
   return (
@@ -39,6 +51,7 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
       on={on}
       cancel={cancel}
       emit={emit}
+      onSelected={onSelected}
       instance={instance}
       meta={meta}
       global={global}

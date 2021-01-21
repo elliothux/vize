@@ -11,6 +11,10 @@ export interface GlobalMeta {
   desc?: string;
   duration?: Maybe<[number, number]>;
   expiredJump?: string;
+  id: Maybe<number>;
+  key: string;
+  isTemplate: boolean;
+  isEditor: boolean;
 }
 
 export interface GlobalStyle {

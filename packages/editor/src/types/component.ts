@@ -23,6 +23,7 @@ export interface MaterialsComponentMeta {
   readonly runtime?: 'react' | 'rax';
   readonly onEvents?: MaterialsCustomEvent[];
   readonly emitEvents?: MaterialsCustomEvent[];
+  readonly hideEditMask?: boolean;
   readonly isBuildIn?: boolean;
 }
 
@@ -73,6 +74,14 @@ export interface ComponentInstance {
   shared: boolean;
 }
 
+export interface ComponentSelectedCallbackParams {
+  selected: boolean;
+  asContainer?: boolean;
+  asHotAreaContainer?: boolean;
+}
+
+export type ComponentSelectedCallback = (params: ComponentSelectedCallbackParams) => unknown;
+
 export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style' | 'commonStyle'> {
   componentKey: Readonly<number>;
   meta: GlobalMeta;
@@ -82,6 +91,7 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   on: (eventName: string, callback: Function) => void;
   cancel: (eventName: string, callback: Function) => void;
   emit: (eventName: string) => void;
+  onSelected: (callback: ComponentSelectedCallback) => void;
   router: PageRouter;
 }
 

@@ -3,25 +3,25 @@ import * as Formily from '@formily/antd';
 import { ISubmitProps } from '@formily/antd';
 import { JsonSchemaProperties } from './helper';
 
-export interface SchemaFormProps {
+export interface SchemaFormProps<T extends object = object> {
   schema: JsonSchemaProperties;
-  value: object;
-  onChange?: (value: object) => void;
-  onSubmit?: (value: object) => void;
+  value: T;
+  onChange?: (value: T) => void;
+  onSubmit?: (value: T) => void;
   submitProps?: ISubmitProps;
 }
 
-export type OverrideFormComponent = React.ComponentType<{
-  value: object;
-  onChange: (value: object) => void;
+export type OverrideFormComponent<T extends object = object> = React.ComponentType<{
+  value: T;
+  onChange: (value: T) => void;
   Formily: typeof Formily;
-  JSONSchemaForm: React.ComponentType<SchemaFormProps>;
+  JSONSchemaForm: React.ComponentType<SchemaFormProps<T>>;
 }>;
 
-export interface OverrideFormProps {
-  value: object;
-  onChange: (value: object) => void;
-  children: OverrideFormComponent;
+export interface OverrideFormProps<T extends object = object> {
+  value: T;
+  onChange: (value: T) => void;
+  children: OverrideFormComponent<T>;
   instanceKey: number;
 }
 

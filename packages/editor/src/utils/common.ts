@@ -26,6 +26,7 @@ export function isDebugMode() {
 }
 
 interface QueryParams {
+  id: Maybe<number>;
   key: string;
   libs: string[];
   debugPorts: number[];
@@ -34,7 +35,7 @@ interface QueryParams {
 
 export function getQueryParams(): QueryParams {
   const { query } = parseUrl(window.location.href);
-  const { key, libs, debugPorts, container } = query;
+  const { id, key, libs, debugPorts, container } = query;
 
   for (const k of ['key', 'libs', 'container']) {
     if (!query[k]) {
@@ -43,6 +44,7 @@ export function getQueryParams(): QueryParams {
   }
 
   return {
+    id: id ? parseInt(id as string, 10) : undefined,
     key: key!.toString(),
     libs: libs!
       .toString()
