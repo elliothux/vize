@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { ComponentInstance, ComponentSelectedCallback } from '../../../types';
 import {
   cancelCustomEvent,

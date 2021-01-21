@@ -57,7 +57,17 @@ module.exports = {
       {
         title: '表单',
         collapsable: true,
-        children: ['/form/intro', '/form/jsonSchema', '/form/dynamicForm', '/form/registryField'],
+        children: ['/form/intro', '/form/jsonSchema', '/form/registryField', '/form/dynamicForm'],
+      },
+      {
+        title: '样式',
+        collapsable: true,
+        children: ['/style/styleGroup', '/style/styleInject', '/style/fixed'],
+      },
+      {
+        title: '进阶',
+        collapsable: true,
+        children: ['/advanced/meta', '/advanced/containerComponent'],
       },
     ],
   },
