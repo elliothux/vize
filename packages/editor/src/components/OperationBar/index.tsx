@@ -114,16 +114,16 @@ export class OperationBar extends React.Component {
 
     return (
       <div className="operation_bar right">
-        <Tooltip title="收起左栏">
-          <div className={classNames('hide_left', { activated: hideLeft })}>
-            <Column />
-          </div>
-        </Tooltip>
-        <Tooltip title="收起右栏">
-          <div className={classNames('hide_right', { activated: hideRight })}>
-            <Column />
-          </div>
-        </Tooltip>
+        {/*<Tooltip title="收起左栏">*/}
+        {/*  <div className={classNames('hide_left', { activated: hideLeft })}>*/}
+        {/*    <Column />*/}
+        {/*  </div>*/}
+        {/*</Tooltip>*/}
+        {/*<Tooltip title="收起右栏">*/}
+        {/*  <div className={classNames('hide_right', { activated: hideRight })}>*/}
+        {/*    <Column />*/}
+        {/*  </div>*/}
+        {/*</Tooltip>*/}
       </div>
     );
   };

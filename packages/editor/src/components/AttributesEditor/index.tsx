@@ -56,7 +56,7 @@ function IAttributesEditor({ loading }: Props) {
   return (
     <div className={classnames(`vize-attributes-editor ${selectType}`)}>
       <p className="editor-title">{title}</p>
-      <Tabs className="editor-prop-editor-tab" activeKey={activeKey} onChange={setActiveKey}>
+      <Tabs className="editor-prop-editor-tab" activeKey={activeKey} onChange={setActiveKey} animated>
         <TabPane
           key={AttrEditTab.DATA}
           tab={
