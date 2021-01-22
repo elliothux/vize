@@ -4,10 +4,10 @@ import { Maybe } from '../types';
 import { injectGlobalReadonlyGetter, isDev } from '../utils';
 
 export enum SelectType {
-  GLOBAL,
-  COMPONENT,
-  PLUGIN,
-  HOTAREA,
+  GLOBAL = 'global',
+  COMPONENT = 'component',
+  PLUGIN = 'plugin',
+  HOTAREA = 'hotarea',
 }
 
 export class SelectStore {

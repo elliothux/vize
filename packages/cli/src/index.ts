@@ -26,9 +26,9 @@ program
   .option('-o, --open <open>', '自动打开编辑器')
   .option('-p, --port <port>', 'dev server 端口')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .action((i, cmd) => {
+  .action((name, cmd) => {
     const options = cleanArgs(cmd);
-    return dev(options);
+    dev(options);
   });
 
 program

@@ -1,5 +1,5 @@
 import * as WebSocket from 'ws';
-import * as watch from 'node-watch';
+import watch from 'node-watch';
 import webpack, { Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { getLibPaths, LibPaths, log, logWithSpinner, stopSpinner } from '../utils';
@@ -82,7 +82,7 @@ export class Builder {
     const { components, plugins, actions, containers, formFields, formRules } = this.libPaths;
     [components, plugins, actions, containers, formFields, formRules].forEach((path: string) => {
       watch(path, { recursive: false }, () => {
-        log(`🔥  ${name} 目录更新`);
+        log(`🔥  ${path} 目录更新`);
         return this.afterUpdate();
       });
     });
@@ -98,45 +98,47 @@ export class Builder {
     stopSpinner();
   };
 
-  public dev = () =>
-    new Promise(async resolve => {
-      const [editorStaticPath] = await Promise.all([prepareEditor(this.registry), this.prepareFiles()]);
-      const config = this.generateWebpackConfig(false);
-      const compiler = webpack(config);
-      new WebpackDevServer(compiler, {
-        hot: true,
-        inline: false,
-        compress: false,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': '*',
-        },
-        contentBase: [editorStaticPath],
-        before: () => {
-          this.runHotReloadServer(this.port + 1);
-        },
-        after: () => {
-          openEditor({
-            debugPorts: this.port.toString(),
-            libs: this.libConfig.libName,
-            container: this.libPaths.containerName,
-          });
-        },
-      }).listen(this.port);
+  public dev = async () => {
+    const [editorStaticPath] = await Promise.all([prepareEditor(this.registry), this.prepareFiles()]);
+    const config = this.generateWebpackConfig(false);
+    const compiler = webpack(config);
 
-      compiler.hooks.beforeCompile.tap('BeforeMaterialsCompile', () => {
-        this.recompileCallback?.(RecompileCallbackCommand.RECOMPILE);
-      });
-
-      compiler.hooks.emit.tap('EmitMaterialsCompile', () => {
-        this.recompileCallback?.(RecompileCallbackCommand.RELOAD);
-      });
-
-      compiler.hooks.done.tap('DoneMaterialsCompile', () => {
-        stopSpinner();
-        resolve();
-      });
+    compiler.hooks.beforeCompile.tap('BeforeMaterialsCompile', () => {
+      console.log('BeforeMaterialsCompile', this.recompileCallback);
+      this.recompileCallback?.(RecompileCallbackCommand.RECOMPILE);
     });
+
+    compiler.hooks.emit.tap('EmitMaterialsCompile', () => {
+      console.log('EmitMaterialsCompile', this.recompileCallback);
+      this.recompileCallback?.(RecompileCallbackCommand.RELOAD);
+    });
+
+    compiler.hooks.done.tap('DoneMaterialsCompile', () => {
+      stopSpinner();
+    });
+
+    new WebpackDevServer(compiler, {
+      hot: true,
+      inline: false,
+      compress: false,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+      },
+      contentBase: [editorStaticPath],
+      before: () => {
+        this.runWatchServer();
+        this.runHotReloadServer(this.port + 1);
+      },
+      after: () => {
+        openEditor({
+          debugPorts: this.port.toString(),
+          libs: this.libConfig.libName,
+          container: this.libPaths.containerName,
+        });
+      },
+    }).listen(this.port);
+  };
 
   public dist = async () => {
     await this.prepareFiles();

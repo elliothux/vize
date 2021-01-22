@@ -9,6 +9,7 @@ export enum EventEmitTypes {
   CHANGE_ATTR_EDIT_TAB = 'change_attr_edit_tab',
   NODE_INTERSECTING_CHANGE = 'node_intersecting_change',
   RELOAD_RENDERER = 'reload_renderer',
+  RELOAD_MATERIALS = 'reload_materials',
 }
 
 export const events = new EventProxy<EventEmitTypes>();

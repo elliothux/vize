@@ -6,7 +6,7 @@ import { PluginDataForm } from './PluginDataForm';
 import { GlobalDataForm } from './GlobalDataForm';
 
 interface Props {
-  selectType: number;
+  selectType: SelectType;
 }
 
 function Empty() {
