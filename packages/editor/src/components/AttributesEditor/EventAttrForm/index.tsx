@@ -10,7 +10,7 @@ import { TargetSelector, ActionTargetSelector, ComponentTargetSelector, PluginTa
 import { EventInstances } from './EventInstances';
 
 interface Props {
-  selectType: number;
+  selectType: SelectType;
 }
 
 function IEventAttrForm({ selectType }: Props) {

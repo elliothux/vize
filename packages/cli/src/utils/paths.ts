@@ -26,7 +26,7 @@ export interface LibPaths {
   mainEntryTemp: string;
   metaEntryTemp: string;
   formFields: string;
-  ruleFields: string;
+  formRules: string;
   formFieldsList?: string[];
   formRulesList?: string[];
   formsEntryTemp: string;
@@ -58,7 +58,7 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
   const metaEntryTemp = path.resolve(temp, './entry_meta.js');
   const form = path.resolve(root, './form');
   const formFields = path.resolve(form, './fields');
-  const ruleFields = path.resolve(form, './rules');
+  const formRules = path.resolve(form, './rules');
   const formsEntryTemp = path.resolve(temp, './entry_forms.js');
 
   paths = {
@@ -81,7 +81,7 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
     containerName,
     containerList,
     formFields,
-    ruleFields,
+    formRules,
     formsEntryTemp,
   };
 
@@ -97,8 +97,8 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
     paths.formFieldsList = items.length ? items : null;
   }
 
-  if (fs.existsSync(ruleFields)) {
-    const items = fs.readdirSync(ruleFields).map(name => path.resolve(ruleFields, name));
+  if (fs.existsSync(formRules)) {
+    const items = fs.readdirSync(formRules).map(name => path.resolve(formRules, name));
     paths.formRulesList = items.length ? items : null;
   }
 

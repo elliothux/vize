@@ -1,5 +1,5 @@
 const info = {
-  name: '按钮',
+  name: '按钮3',
   desc: '基础按钮',
   author: 'aedron@github',
 };
@@ -11,6 +11,7 @@ const dataForm = {
     type: 'txt',
   },
 };
+
 const enableWrapperStyleGroup = {
   background: {
     color: 'transparent',

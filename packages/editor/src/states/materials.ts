@@ -1,10 +1,9 @@
 import { action, observable, computed, toJS, runInAction } from 'mobx';
-import { FirstParameter, MaterialsForms, Maybe } from 'types';
+import { Maybe } from 'types';
 import { setMaterialsMetaMap } from 'runtime';
+import { initMaterialsForms } from 'widgets/Form/utils';
 import { loadMaterials, injectGlobalReadonlyGetter, isDev } from '../utils';
 import { editStore } from './edit';
-import { registerFormFields } from '../widgets/Form/Fields';
-import { initMaterialsForms } from '../widgets/Form/utils';
 
 interface MaterialsLibItem {
   readonly isMainLib: boolean;
@@ -57,7 +56,7 @@ export class MaterialsStore {
       forms,
     } = await loadMaterials(libName, containerName, debugPort || undefined);
 
-    setMaterialsMetaMap(libName, meta);
+    setMaterialsMetaMap(libName, meta, true);
     initMaterialsForms(forms);
 
     runInAction(() => {

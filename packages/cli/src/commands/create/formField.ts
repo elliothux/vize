@@ -1,6 +1,6 @@
 import * as path from 'path';
 import chalk from 'chalk';
-import { camelize, downloadBoilerplate, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
+import { camelize, downloadPackage, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
 import { checkNameValid, ensureTargetPath, processFiles } from './utils';
 import { CreateParams } from './types';
 import { getLibConfig } from '../../config';
@@ -23,7 +23,7 @@ export async function createFormField(name: Maybe<string>, { registry }: CreateP
   }
 
   logWithSpinner('🚚', ` Downloading form-field boilerplate: ${chalk.yellow(PKG_NAME)}\n`);
-  const templateDir = await downloadBoilerplate(PKG_NAME, registry);
+  const templateDir = await downloadPackage(PKG_NAME, registry);
   stopSpinner();
 
   console.log('libName: ', libName);

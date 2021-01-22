@@ -2,14 +2,22 @@ import './states';
 import * as React from 'react';
 import { useMount } from 'react-use';
 import { message, Spin } from 'antd';
-import { editStore, initStore } from 'states';
+import { editStore, initStore, materialsStore } from 'states';
 import { Simulator } from 'widgets/Simulator';
 import { Renderer, WithRerender } from 'components/Renderer';
 import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';
 import { Header } from 'components/Header';
 import { HotAreaManager } from 'components/HotAreaManager';
-import { isDebugMode, parseDSL, parseDSLFromCGIRecord, restoreState } from './utils';
+import {
+  EventEmitTypes,
+  events,
+  initMaterialsHotReload,
+  isDebugMode,
+  parseDSL,
+  parseDSLFromCGIRecord,
+  restoreState,
+} from 'utils';
 import { getPage } from './api';
 
 export function App() {
@@ -18,6 +26,16 @@ export function App() {
   useMount(async () => {
     await init();
     setLoading(false);
+
+    events.only(EventEmitTypes.RELOAD_MATERIALS, async () => {
+      setLoading(true);
+      await materialsStore.init();
+
+      setTimeout(() => {
+        setLoading(false);
+        message.destroy();
+      }, 1000);
+    });
   });
 
   return (
@@ -46,10 +64,21 @@ async function init() {
   } catch (e) {
     console.error(e);
   }
+
+  setTimeout(() => {
+    const {
+      debugPorts: [port],
+    } = editStore;
+
+    if (port) {
+      initMaterialsHotReload(port);
+    }
+  }, 1000);
+
   return;
 }
 
-export async function restore() {
+async function restore() {
   if (isDebugMode()) {
     const dslString = localStorage.getItem('dsl');
     if (!dslString) {

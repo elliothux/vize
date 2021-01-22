@@ -2,11 +2,8 @@ import './index.scss';
 import * as React from 'react';
 import classnames from 'classnames';
 import { observer } from 'mobx-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { selectStore, SelectType } from 'states';
-// import { Maybe } from 'types';
-// import { ComponentForm } from './ComponentForm';
-// import { PluginForm } from './PluginForm';
 import { EventEmitTypes, events } from 'utils';
 import { Tabs } from 'antd';
 import { FiDatabase, FiFeather, FiGrid } from 'react-icons/fi';
@@ -14,7 +11,6 @@ import { DataAttrsEdit } from './DataAttrsEdit';
 import { StyleAttrsForm } from './StyleAttrsEdit';
 import { EventAttrForm } from './EventAttrForm';
 
-const { TabPane } = Tabs;
 interface Props {
   loading: boolean;
 }
@@ -22,13 +18,14 @@ interface Props {
 export enum AttrEditTab {
   DATA = 'data',
   STYLE = 'style',
-  ANIMATION = 'animation',
   EVENTS = 'events',
 }
 
+const { TabPane } = Tabs;
+
 function IAttributesEditor({ loading }: Props) {
   const { selectType } = selectStore;
-  const [activeKey, setActiveKey] = useState<string>(AttrEditTab.EVENTS);
+  const [activeKey, setActiveKey] = useState<string>(AttrEditTab.DATA);
 
   const handleSetActiveKey = (newTab: string) => {
     events.emit(EventEmitTypes.CHANGE_ATTR_EDIT_TAB, newTab, activeKey);
@@ -39,37 +36,26 @@ function IAttributesEditor({ loading }: Props) {
     events.on(EventEmitTypes.JUMP_ATTR_EDIT_TAB, handleSetActiveKey);
   }, []);
 
-  // the editor config title
-  const title = () => {
+  const title = useMemo(() => {
     switch (selectType) {
-      // case SelectType.PAGE:
-      //   return '全局属性配置';
+      case SelectType.GLOBAL:
+        return '全局属性配置';
       case SelectType.COMPONENT:
         return '组件编辑';
       case SelectType.PLUGIN:
         return '插件编辑';
       default:
-        return '全局属性配置';
+        return '属性配置';
     }
-  };
+  }, [selectType]);
 
   if (loading) {
-    return null;
+    return <div className="vize-attributes-editor" />;
   }
 
-  // let content: Maybe<React.ReactElement>;
-  // if (selectType === SelectType.COMPONENT) {
-  //     content = <ComponentForm />;
-  // } else if (selectType === SelectType.PLUGIN) {
-  //     content = <PluginForm />;
-  // } else {
-  //     // TODO
-  //     content = null;
-  // }
-
   return (
-    <div className={classnames(`vize-attributes-editor ${SelectType[selectType].toLocaleLowerCase()}`)}>
-      <p className="editor-title">{title()}</p>
+    <div className={classnames(`vize-attributes-editor ${selectType}`)}>
+      <p className="editor-title">{title}</p>
       <Tabs className="editor-prop-editor-tab" activeKey={activeKey} onChange={setActiveKey}>
         <TabPane
           key={AttrEditTab.DATA}
@@ -82,6 +68,7 @@ function IAttributesEditor({ loading }: Props) {
         >
           <DataAttrsEdit selectType={selectType} />
         </TabPane>
+
         <TabPane
           key={AttrEditTab.STYLE}
           tab={
@@ -93,6 +80,7 @@ function IAttributesEditor({ loading }: Props) {
         >
           <StyleAttrsForm selectType={selectType} />
         </TabPane>
+
         <TabPane
           key={AttrEditTab.EVENTS}
           tab={
@@ -105,7 +93,6 @@ function IAttributesEditor({ loading }: Props) {
           <EventAttrForm selectType={selectType} />
         </TabPane>
       </Tabs>
-      {/* {content} */}
     </div>
   );
 }
