@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { Maybe } from 'types';
+import { Generator, Maybe } from 'types';
 
 export interface DBConfig {
   type: 'mysql' | 'mariadb';
@@ -15,6 +15,9 @@ export interface VizeCGIConfig {
   workspacePath: string;
   npmRegistry?: string;
   db: DBConfig;
+  generators?: {
+    [name: string]: Generator;
+  };
 }
 
 export interface VizeCGIConfigWithPaths extends VizeCGIConfig {

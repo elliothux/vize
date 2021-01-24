@@ -60,7 +60,7 @@ export class SinglePageGenerator extends BaseGenerator {
       .generateSharedComponentsMap()
       .generatePageFiles();
     // return Promise.resolve(root);
-    await runBuild({
+    return runBuild({
       root,
       entryPaths,
       isMultiPage: this.isMultiPage,

@@ -21,6 +21,9 @@ export function runLocalServer() {
       password: '2333',
       database: 'vize',
     },
+    generators: {
+      web: require('../../generator-web'),
+    },
   };
 
   return bootstrap(config);

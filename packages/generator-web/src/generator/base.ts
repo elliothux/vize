@@ -7,7 +7,7 @@ import {
   getTpl,
   prepareTargetFolder,
   stringifyComponentInstances,
-  stringifyUmdCconstants,
+  stringifyUmdConstants,
   stringifyMaterialVars,
 } from '../utils';
 import { GlobalTplParams, MaterialsPathMap, PageMaterialsPathMap, PageTplParams } from '../types';
@@ -16,25 +16,25 @@ import { BaseConfigParams } from '../builder/base';
 interface InitParams {
   dsl: DSL;
   libsPath: BaseGenerator['libsPath'];
-  depsPath: BaseGenerator['depsPath'];
-  distWorkspacePath: string;
+  runtimePath: BaseGenerator['runtimePath'];
+  distPath: string;
 }
 
 export class BaseGenerator {
-  constructor({ dsl, libsPath, depsPath, distWorkspacePath }: InitParams) {
+  constructor({ dsl, libsPath, runtimePath, distPath }: InitParams) {
     this.dsl = dsl;
     this.libsPath = libsPath;
-    this.depsPath = depsPath;
-    this.distWorkspacePath = distWorkspacePath;
+    this.runtimePath = runtimePath;
+    this.distPath = distPath;
   }
 
   public readonly dsl: DSL;
 
-  public readonly distWorkspacePath: string;
+  public readonly distPath: string;
 
   private readonly libsPath: string;
 
-  private readonly depsPath: string;
+  private readonly runtimePath: string;
 
   private readonly pageComponentsPathMaps: PageMaterialsPathMap = [];
 
@@ -84,7 +84,7 @@ export class BaseGenerator {
       pageKey,
       container: { name, lib },
     } = this.dsl;
-    const [target, src] = await prepareTargetFolder(this.distWorkspacePath, pageKey);
+    const [target, src] = await prepareTargetFolder(this.distPath, pageKey);
 
     const containerPath = path.resolve(this.libsPath, `./${lib}/src/containers/${name}`);
     await this.copyContainerTemplate(containerPath, src);
@@ -108,10 +108,12 @@ export class BaseGenerator {
     );
   };
 
-  private createDepsSoftLink = (targetPath: string) => {
+  private createDepsSoftLink = async (targetPath: string) => {
+    const depsPath = path.resolve(targetPath, './deps/');
+    await fs.ensureDir(depsPath);
     return Promise.all([
       fs.symlink(this.libsPath, path.resolve(targetPath, './libs')),
-      fs.symlink(this.depsPath, path.resolve(targetPath, './deps')),
+      fs.symlink(this.runtimePath, path.resolve(depsPath, 'runtime-web')),
     ]);
   };
 
@@ -148,12 +150,12 @@ export class BaseGenerator {
       meta: JSON.stringify(metaInfo),
       global: JSON.stringify(globalProps),
       pluginVars: stringifyMaterialVars(pluginsPathMap),
-      pluginImports: stringifyUmdCconstants(pluginsPathMap),
+      pluginImports: stringifyUmdConstants(pluginsPathMap),
       pluginInstances: JSON.stringify(this.isMultiPage ? pluginInstances : singleModePluginInstances),
       actionVars: stringifyMaterialVars(actionsPathMap),
-      actionImports: stringifyUmdCconstants(actionsPathMap),
+      actionImports: stringifyUmdConstants(actionsPathMap),
       sharedComponentVars: stringifyMaterialVars(this.sharedComponentPathMap),
-      sharedComponentImports: stringifyUmdCconstants(this.sharedComponentPathMap),
+      sharedComponentImports: stringifyUmdConstants(this.sharedComponentPathMap),
       sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstances),
     };
   };
@@ -179,10 +181,10 @@ export class BaseGenerator {
     return {
       globalFilePath,
       componentVars: stringifyMaterialVars(componentsPathMap),
-      componentImports: stringifyUmdCconstants(componentsPathMap),
+      componentImports: stringifyUmdConstants(componentsPathMap),
       componentInstances: stringifyComponentInstances(componentInstances),
       actionVars: stringifyMaterialVars(actionsPathMap),
-      actionImports: stringifyUmdCconstants(actionsPathMap),
+      actionImports: stringifyUmdConstants(actionsPathMap),
     };
   };
 

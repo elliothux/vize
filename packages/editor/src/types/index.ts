@@ -5,6 +5,7 @@ export * from './dsl';
 export * from './eventListeners';
 export * from './events';
 export * from './form';
+export * from './generators';
 export * from './global';
 export * from './helper';
 export * from './materials';
