@@ -3,7 +3,6 @@ import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
 import { RouterProps } from './pages';
 import * as React from 'react';
-import { FormFieldComponent } from '../widgets/Form/Fields';
 
 export interface MaterialsInfo {
   name: string;
@@ -40,7 +39,7 @@ export interface MaterialsMain {
 export interface MaterialsForms {
   fields?: {
     field: string;
-    component: FormFieldComponent;
+    component: React.ComponentType;
   }[];
 }
 

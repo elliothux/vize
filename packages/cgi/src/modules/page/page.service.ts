@@ -5,6 +5,8 @@ import { PageEntity } from './page.entity';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
 import { QueryParams, RecordStatus } from '../../types';
 import { HistoryEntity } from '../history/history.entity';
+import { generateDSL } from '../../utils/dsl';
+import { getConfig } from '../../utils';
 
 @Injectable()
 export class PageService {
@@ -105,5 +107,18 @@ export class PageService {
   public async checkPageExists(key: string) {
     const count = await this.pageRepository.count({ key });
     return count > 0;
+  }
+
+  public async buildPage(key: string) {
+    const page = await this.getPageByKey(key)!;
+    const dsl = generateDSL(page);
+
+    const { generators, workspacePath } = getConfig();
+    const generator = generators[page.generator || 'web']!;
+    const result = await generator({
+      dsl,
+      workspacePath,
+    });
+    console.log(result);
   }
 }

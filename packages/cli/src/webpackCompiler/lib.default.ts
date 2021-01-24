@@ -14,7 +14,7 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
     mainEntryTemp,
     metaEntryTemp,
     formsEntryTemp,
-    output,
+    dist,
     nodeModules,
     src,
     containerList,
@@ -30,7 +30,7 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
   const config = <Configuration>{
     context: root,
     output: {
-      path: output,
+      path: dist,
       filename: `@vize-materials-${libName}-[name].js`,
       library: `@vize-materials-${libName}-[name]`,
       libraryTarget: 'window',

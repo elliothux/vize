@@ -30,6 +30,12 @@ export class PageEntity {
   @Column({ type: 'varchar', length: 16, nullable: false })
   pageMode: string;
 
+  @Column({ type: 'varchar', length: 16, nullable: true })
+  generator?: string;
+
+  @Column({ type: 'varchar', length: 128, nullable: false })
+  container: string;
+
   @Column({ type: 'tinyint', nullable: false, default: 1 })
   status: RecordStatus;
 

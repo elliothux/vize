@@ -2,12 +2,12 @@ import './index.scss';
 import * as React from 'react';
 import { SelectType } from 'states';
 import { componentsStore, globalStore } from 'states';
-import CommonStyleForm from './CommonStyleForm';
 import { Collapse } from 'antd';
 import { observer } from 'mobx-react';
 import { useCurrentComponentInstance } from 'hooks';
 import { isEmpty } from 'utils';
-import { Empty } from 'widgets/Empty';
+import { NotAvailable } from '../NotAvailable';
+import { CommonStyleForm } from './CommonStyleForm';
 
 const { Panel } = Collapse;
 
@@ -28,7 +28,7 @@ function IStyleAttrsEdit({ selectType }: Props) {
   }
 
   if (selectType !== SelectType.COMPONENT || !instance) {
-    return <Empty text="不可用" />;
+    return <NotAvailable />;
   }
 
   const { commonStyle, wrapperStyle } = instance;

@@ -31,3 +31,9 @@ export function ensureRunPathValid(runPath: string) {
     process.exit();
   }
 }
+
+export function getLibVersion(runPath: string): string {
+  const packagePath = path.resolve(runPath, './package.json');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  return require(packagePath).version as string;
+}

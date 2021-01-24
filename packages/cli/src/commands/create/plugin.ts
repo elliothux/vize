@@ -12,7 +12,7 @@ export async function createPlugin(name: Maybe<string>, { registry }: CreatePara
     return;
   }
 
-  const { plugins } = getLibPaths(process.cwd());
+  const { plugins } = getLibPaths();
   const targetPath = path.resolve(plugins, camelize(n, true));
   if (!(await ensureTargetPath(targetPath))) {
     return;

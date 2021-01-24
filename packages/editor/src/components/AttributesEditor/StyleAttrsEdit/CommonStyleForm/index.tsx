@@ -18,7 +18,7 @@ export interface StyleFormProps<T> {
 
 const { Panel } = Collapse;
 
-function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
+export function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
   return (
     <Collapse
       bordered={false}
@@ -82,4 +82,3 @@ function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
     </Collapse>
   );
 }
-export default CommonStyleForm;

@@ -1,6 +1,6 @@
 {
   "name": "@vize/materials-universal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "dev:local": "/Users/huqingyang/Desktop/Proj/vize/packages/cli/bin/vize.js dev ./"

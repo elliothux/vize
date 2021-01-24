@@ -12,7 +12,7 @@ export async function createContainer(name: Maybe<string>, { registry }: CreateP
     return;
   }
 
-  const { containers } = getLibPaths(process.cwd());
+  const { containers } = getLibPaths();
   const targetPath = path.resolve(containers, n.toLowerCase());
   if (!(await ensureTargetPath(targetPath))) {
     return;

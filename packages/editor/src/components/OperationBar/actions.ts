@@ -9,6 +9,7 @@ export async function save() {
   if (isDebugMode()) {
     return setTimeout(() => {
       localStorage.setItem('dsl', JSON.stringify(dsl));
+      message.destroy();
       message.success('保存成功');
     }, 0);
   }
