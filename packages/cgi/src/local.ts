@@ -12,6 +12,7 @@ export function runLocalServer() {
   const config: VizeCGIConfig = {
     port: 4001,
     workspacePath,
+    npmRegistry: 'https://registry.npm.taobao.org',
     db: {
       type: 'mysql',
       host: '127.0.0.1',

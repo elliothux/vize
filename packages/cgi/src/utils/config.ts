@@ -13,6 +13,7 @@ export interface DBConfig {
 export interface VizeCGIConfig {
   port: number;
   workspacePath: string;
+  npmRegistry?: string;
   db: DBConfig;
 }
 

@@ -37,7 +37,12 @@ export class MaterialsController {
       file.buffer,
     );
     console.log({ libName, version, file, packagePath });
-    await MaterialsService.extractMaterialsPackage(packagePath);
+    const extractedPackagePath = await MaterialsService.extractMaterialsPackage(
+      version,
+      packagePath,
+    );
+    await MaterialsService.installNPMPackages(extractedPackagePath);
+    await MaterialsService.createPackageSoftLink(libName, extractedPackagePath);
     return CGIResponse.success();
   }
 }

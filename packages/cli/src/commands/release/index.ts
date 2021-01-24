@@ -70,7 +70,7 @@ class Releaser {
   public runRelease = async () => {
     const version = await this.checkVersionValid();
     if (!version) {
-      return error(`Materials version "${version}" already exists`);
+      return error(`Materials version already exists.`);
     }
 
     // await dist();

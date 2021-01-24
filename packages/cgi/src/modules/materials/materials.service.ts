@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
+import * as cp from 'child_process';
 import * as semver from 'semver';
 import * as tar from 'tar';
 import { Injectable } from '@nestjs/common';
@@ -61,10 +62,50 @@ export class MaterialsService {
     return targetPath;
   }
 
-  static async extractMaterialsPackage(packagePath: string) {
+  static async extractMaterialsPackage(version: string, packagePath: string) {
+    const extractTarget = path.resolve(packagePath, `../${version}`);
+    await fs.ensureDir(extractTarget);
     await tar.extract({
       file: packagePath,
-      cwd: path.resolve(packagePath, './'),
+      cwd: extractTarget,
     });
+    return extractTarget;
+  }
+
+  static async installNPMPackages(packagePath: string) {
+    const { npmRegistry } = getConfig();
+    const command = `npm install --prefix ${packagePath} ${
+      npmRegistry ? `--registry ${npmRegistry}` : ''
+    }`;
+
+    return new Promise(resolve => {
+      const process = cp.exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+      });
+
+      process.on('close', resolve);
+      process.on('exit', resolve);
+      process.on('disconnect', resolve);
+    });
+  }
+
+  static async createPackageSoftLink(libName: string, packagePath: string) {
+    const {
+      paths: { materialsPath },
+    } = getConfig();
+
+    const target = path.resolve(materialsPath, libName);
+    if (fs.existsSync(target)) {
+      await fs.unlink(target);
+    }
+    return fs.symlink(packagePath, target);
   }
 }
