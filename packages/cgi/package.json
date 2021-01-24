@@ -1,10 +1,8 @@
 {
-  "name": "cgi-new",
+  "name": "@vize/cgi",
   "version": "0.0.1",
-  "description": "",
   "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "main": "dist/src/main",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -52,7 +50,6 @@
     "eslint-plugin-import": "^2.20.1",
     "jest": "26.0.1",
     "prettier": "^1.19.1",
-    "react": "^16.13.1",
     "supertest": "^4.0.2",
     "ts-jest": "26.1.0",
     "ts-loader": "^6.2.1",

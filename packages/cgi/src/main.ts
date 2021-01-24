@@ -1,9 +1,17 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { setConfig, VizeCGIConfig } from 'utils';
+import { getApp } from './app.module';
+import { runLocalServer } from './local';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(4001);
+export async function bootstrap(config: VizeCGIConfig) {
+  setConfig(config);
+
+  const app = await NestFactory.create(getApp());
+  await app.listen(config.port);
+
+  return app;
 }
 
-bootstrap();
+export { VizeCGIConfig };
+
+runLocalServer();
