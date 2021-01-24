@@ -2,5 +2,6 @@
   "libName": "universal",
   "author": "Aedron@github",
   "runtime": "react",
+  "releaseTo": "http://127.0.0.1:4001",
   "__isBuildIn": true
 }

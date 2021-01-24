@@ -9,6 +9,7 @@ import { PageModule } from 'modules/page/page.modules';
 import { HistoryModule } from 'modules/history/history.modules';
 import { Maybe, FirstParameter } from 'types';
 import { getConfig } from 'utils';
+import { MaterialsModule } from './modules/materials/materials.modules';
 
 type App = FirstParameter<typeof NestFactory.create>;
 
@@ -48,6 +49,7 @@ export function getApp(): App {
       BizModule,
       HistoryModule,
       PageModule,
+      MaterialsModule,
     ],
   })
   class AppModule {}

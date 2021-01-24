@@ -8,7 +8,7 @@ export interface LibPaths {
   src: string;
   temp: string;
   config: string;
-  output: string;
+  dist: string;
   components: string;
   componentsList: ComponentsList;
   plugins: string;
@@ -34,16 +34,18 @@ export interface LibPaths {
 
 let paths: Maybe<LibPaths> = null;
 
-export function getLibPaths(root: string, containerName?: string): LibPaths {
+export function getLibPaths(rootPath?: string, containerName?: string): LibPaths {
   if (paths) {
     return paths;
   }
+
+  const root = rootPath || process.cwd();
   ensureRunPathValid(root);
 
   const src = path.resolve(root, './src');
   const temp = path.resolve(root, './.temp');
   const config = path.resolve(root, './.vizerc');
-  const output = path.resolve(root, './dist');
+  const dist = path.resolve(root, './dist');
   const components = path.resolve(src, './components');
   const componentsList = getItemList(components);
   const plugins = path.resolve(src, './plugins');
@@ -66,7 +68,7 @@ export function getLibPaths(root: string, containerName?: string): LibPaths {
     src,
     temp,
     config,
-    output,
+    dist,
     mainEntryTemp,
     metaEntryTemp,
     components,

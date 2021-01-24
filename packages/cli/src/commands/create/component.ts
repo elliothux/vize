@@ -12,7 +12,7 @@ export async function createComponent(name: Maybe<string>, { registry }: CreateP
     return;
   }
 
-  const { components } = getLibPaths(process.cwd());
+  const { components } = getLibPaths();
   const targetPath = path.resolve(components, camelize(n, true));
   if (!(await ensureTargetPath(targetPath))) {
     return;

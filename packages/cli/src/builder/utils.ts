@@ -61,7 +61,7 @@ const TEMP_CLEAR_IGNORE = ['editor'];
 export async function clearTemp(libPaths: LibPaths) {
   logWithSpinner('💭', '清除缓存');
 
-  const { temp, output } = libPaths;
+  const { temp, dist } = libPaths;
   if (!(await fs.existsSync(temp))) {
     await fs.mkdir(temp);
   }
@@ -74,7 +74,7 @@ export async function clearTemp(libPaths: LibPaths) {
       }
       return fs.remove(path.join(temp, file));
     }),
-    fs.emptyDir(output),
+    fs.emptyDir(dist),
   ]);
 
   stopSpinner();

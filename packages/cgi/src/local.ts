@@ -10,7 +10,7 @@ export function runLocalServer() {
   const workspacePath = path.resolve(__dirname, '../../workspace');
 
   const config: VizeCGIConfig = {
-    port: 3456,
+    port: 4001,
     workspacePath,
     db: {
       type: 'mysql',
@@ -22,7 +22,7 @@ export function runLocalServer() {
     },
   };
 
-  bootstrap(config);
+  return bootstrap(config);
 }
 
 function isRunningLocally() {

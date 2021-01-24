@@ -12,7 +12,7 @@ export async function createAction(name: Maybe<string>, { registry }: CreatePara
     return;
   }
 
-  const { actions } = getLibPaths(process.cwd());
+  const { actions } = getLibPaths();
   const targetPath = path.resolve(actions, camelize(n, true));
   if (!(await ensureTargetPath(targetPath))) {
     return;

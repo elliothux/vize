@@ -13,7 +13,7 @@ export async function createFormField(name: Maybe<string>, { registry }: CreateP
     return;
   }
 
-  const paths = getLibPaths(process.cwd());
+  const paths = getLibPaths();
   const { formFields } = paths;
   const { libName } = getLibConfig(paths);
 

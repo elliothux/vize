@@ -10,6 +10,7 @@ import {
   createAction,
   createContainer,
   createFormField,
+  release,
 } from './commands';
 
 // eslint-disable-next-line
@@ -21,7 +22,7 @@ const program = new Command()
   .allowUnknownOption();
 
 program
-  .command('dev [entry]')
+  .command('dev')
   .description('开启调试服务')
   .option('-o, --open <open>', '自动打开编辑器')
   .option('-p, --port <port>', 'dev server 端口')
@@ -32,7 +33,12 @@ program
   });
 
 program
-  .command('dist [entry]')
+  .command('release')
+  .description('发布物料库')
+  .action(release);
+
+program
+  .command('dist')
   .description('构建物料库')
   .action(dist);
 

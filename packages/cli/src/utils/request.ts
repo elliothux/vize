@@ -1,6 +1,6 @@
-import urllib, { HttpClientResponse } from 'urllib';
+import urllib, { HttpClientResponse, HttpClient } from 'urllib';
 
-const httpClient: urllib.HttpClient = urllib.create();
+const httpClient: HttpClient = urllib.create();
 
 export function curl<T = any>(url: string, options: {}): Promise<HttpClientResponse<T>> {
   return httpClient.request<T>(url, {

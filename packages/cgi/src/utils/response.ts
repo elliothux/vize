@@ -22,15 +22,17 @@ export class CGIResponse {
 }
 
 export enum CGICodeMap {
-  BizExists = 400001,
-  PageExists = 400002,
-  PageNotExists = 400003,
-  PageUpdateFailed = 400004,
+  BizExists = 300001,
+  PageExists = 400001,
+  PageNotExists = 400002,
+  PageUpdateFailed = 400003,
+  MaterialsNotExists = 500001,
 }
 
 const CGIReasonMap: { [key in CGICodeMap]: string } = {
   [CGICodeMap.BizExists]: 'biz exists',
   [CGICodeMap.PageExists]: 'page exists',
   [CGICodeMap.PageNotExists]: 'page not exists',
-  [CGICodeMap.PageUpdateFailed]: '',
+  [CGICodeMap.PageUpdateFailed]: 'page update failed',
+  [CGICodeMap.MaterialsNotExists]: 'materials lib not exist',
 };

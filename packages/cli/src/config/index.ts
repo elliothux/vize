@@ -10,6 +10,7 @@ export interface LibConfig {
   libName: string;
   author?: string;
   runtime: LibConfigRuntime;
+  releaseTo: string;
   __isBuildIn?: boolean;
 }
 
@@ -24,19 +25,23 @@ export function getLibConfig({ config: configPath }: LibPaths): LibConfig {
     throw `no config file "${configPath}"`;
   }
 
-  const { libName, author, runtime, __isBuildIn } = JSON.parse(fs.readFileSync(configPath, 'utf-8')) as Partial<
-    LibConfig
-  >;
+  const { libName, author, runtime, releaseTo, __isBuildIn } = JSON.parse(
+    fs.readFileSync(configPath, 'utf-8'),
+  ) as Partial<LibConfig>;
 
   if (typeof libName !== 'string') {
-    throw `invalid libName: ${libName} in "${configPath}"`;
+    throw `invalid field "libName": ${libName} in "${configPath}"`;
+  }
+
+  if (typeof releaseTo !== 'string') {
+    throw `invalid field "releaseTo": ${releaseTo} in "${configPath}"`;
   }
 
   if (!Object.values(LibConfigRuntime).includes(runtime)) {
-    throw `invalid runtime: ${runtime} in "${configPath}"`;
+    throw `invalid field "runtime": ${runtime} in "${configPath}"`;
   }
 
-  libConfig = { libName, runtime, author, __isBuildIn };
+  libConfig = { libName, runtime, releaseTo, author, __isBuildIn };
 
   return libConfig;
 }

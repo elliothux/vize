@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { Maybe } from 'types';
 
 export interface DBConfig {
@@ -15,12 +16,33 @@ export interface VizeCGIConfig {
   db: DBConfig;
 }
 
-let config: Maybe<VizeCGIConfig> = null;
-
-export function setConfig(c: VizeCGIConfig) {
-  config = c;
+export interface VizeCGIConfigWithPaths extends VizeCGIConfig {
+  paths: {
+    workspacePath;
+    buildPath;
+    materialsPath;
+    materialsVersionsPath;
+  };
 }
 
-export function getConfig(): Maybe<VizeCGIConfig> {
+let config: Maybe<VizeCGIConfigWithPaths> = null;
+
+export function setConfig(c: VizeCGIConfig) {
+  const { workspacePath } = c;
+  const buildPath = path.join(workspacePath, 'build');
+  const materialsPath = path.join(workspacePath, 'materials');
+  const materialsVersionsPath = path.join(workspacePath, 'materials_version');
+  config = {
+    ...c,
+    paths: {
+      workspacePath,
+      buildPath,
+      materialsPath,
+      materialsVersionsPath,
+    },
+  };
+}
+
+export function getConfig(): Maybe<VizeCGIConfigWithPaths> {
   return config;
 }
