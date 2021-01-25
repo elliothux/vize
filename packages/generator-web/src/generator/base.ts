@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import * as fs from 'fs-extra';
-import { ComponentInstanceDSL, DSL, EventInstance, EventTargetType, PageMode, PluginInstanceDSL } from '../../types';
 import {
   formatGlobalStyle,
   getTpl,
@@ -10,7 +9,18 @@ import {
   stringifyUmdConstants,
   stringifyMaterialVars,
 } from '../utils';
-import { GlobalTplParams, MaterialsPathMap, PageMaterialsPathMap, PageTplParams } from '../types';
+import {
+  GlobalTplParams,
+  MaterialsPathMap,
+  PageMaterialsPathMap,
+  PageTplParams,
+  ComponentInstanceDSL,
+  DSL,
+  EventInstance,
+  EventTargetType,
+  PageMode,
+  PluginInstanceDSL,
+} from '../types';
 import { BaseConfigParams } from '../builder/base';
 
 interface InitParams {

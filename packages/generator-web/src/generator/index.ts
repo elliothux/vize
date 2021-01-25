@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { GeneratorParams, PageMode } from 'types';
+import { GeneratorParams, PageMode } from '../types';
 import { BaseGenerator } from './base';
 import { MultiPageGenerator } from './multi';
 import { SinglePageGenerator } from './single';

@@ -3,7 +3,10 @@ const fs = require('fs');
 
 [
   [path.resolve(__dirname, '../packages/editor/src/types'), path.resolve(__dirname, '../packages/cgi/types')],
-  [path.resolve(__dirname, '../packages/editor/src/types'), path.resolve(__dirname, '../packages/generator-web/types')],
+  [
+    path.resolve(__dirname, '../packages/editor/src/types'),
+    path.resolve(__dirname, '../packages/generator-web/src/sharedTypes'),
+  ],
   [path.resolve(__dirname, '../packages/editor/src/types'), path.resolve(__dirname, '../packages/runtime-web/types')],
   [
     path.resolve(__dirname, '../packages/editor/src/types'),

@@ -2,7 +2,7 @@
   "name": "@vize/generator-web",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "./node_modules/typescript/bin/tsc -w",
     "dist": "./node_modules/typescript/bin/tsc"

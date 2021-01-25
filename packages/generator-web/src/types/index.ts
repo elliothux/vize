@@ -1,3 +1,3 @@
-export * from '../../types';
+export * from '../sharedTypes';
 export * from './paths';
 export * from './template';
