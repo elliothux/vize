@@ -12,7 +12,8 @@
     "skipLibCheck": true
   },
   "compileOnSave": true,
-  "baseUrl": "src",
+  "baseUrl": "./src",
   "include": ["src", "types"],
+  "exclude": ["src/runtime"],
   "files": ["global.d.ts"]
 }

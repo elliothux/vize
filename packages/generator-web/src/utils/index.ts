@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
 import path from 'path';
 import tpl from 'lodash.template';
-import { mergeCommonStyle } from '../runtime/libs/style';
+import { mergeCommonStyle } from '@vize/runtime-web/src/libs/style';
 import { ComponentInstanceDSL, MaterialsPathMap } from '../types';
 
 export async function prepareTargetFolder(distWorkspacePath: string, pageKey: string): Promise<[string, string]> {

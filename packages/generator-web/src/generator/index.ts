@@ -8,7 +8,6 @@ export function generate({ dsl, workspacePath }: GeneratorParams): Promise<any> 
   const params: ConstructorParameters<typeof BaseGenerator>[0] = {
     dsl,
     libsPath: path.resolve(workspacePath, 'materials'),
-    runtimePath: path.resolve(__dirname, '../../../runtime-web'),
     distPath: path.resolve(workspacePath, 'build'),
   };
   const generator =

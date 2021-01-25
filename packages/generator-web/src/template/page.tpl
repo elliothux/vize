@@ -1,6 +1,6 @@
 // Import Libs and Runtime
 import * as React from "react";
-import { AppRender, injectReadonly, injectStyle, setMaterialsMap } from "../../deps/runtime-web/src";
+import { AppRender, injectReadonly, injectStyle, setMaterialsMap } from "@vize/runtime-web";
 import { global, meta, pluginInstances } from '<%= globalFilePath %>';
 
 // Import Components

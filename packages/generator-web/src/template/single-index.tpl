@@ -1,8 +1,8 @@
 import 'regenerator-runtime/runtime';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Router as DefaultRouter } from './deps/runtime-web/src/components/Router';
-import { ComponentInstances } from './deps/runtime-web/src/components/ComponentInstances';
+import { Router as DefaultRouter } from '@vize/runtime-web/src/components/Router';
+import { ComponentInstances } from '@vize/runtime-web/src/components/ComponentInstances';
 import { sharedComponentInstances, global, meta } from '<%= globalFilePath %>';
 import bootstrap from './src';
 

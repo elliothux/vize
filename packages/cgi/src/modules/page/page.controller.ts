@@ -85,4 +85,15 @@ export class PageController {
     }
     return CGIResponse.success();
   }
+
+  @Post('/publish/:key')
+  async buildPage(@Param('key') key) {
+    setTimeout(() => this.pageService.buildPage(key), 0);
+    return CGIResponse.success();
+  }
+
+  @Get('/publish/:key')
+  async getBuildStatus(@Param('key') id) {
+    return CGIResponse.success(this.pageService.getBuildStatus(id));
+  }
 }

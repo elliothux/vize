@@ -22,7 +22,7 @@ export function runLocalServer() {
       database: 'vize',
     },
     generators: {
-      web: require('../../generator-web'),
+      web: require('../../../generator-web'),
     },
   };
 
