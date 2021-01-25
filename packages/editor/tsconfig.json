@@ -18,5 +18,5 @@
     "baseUrl": "src",
     "noImplicitThis": false
   },
-  "include": ["src"]
+  "include": ["src", "@vize/types"]
 }

@@ -21,6 +21,7 @@
     }
   },
   "dependencies": {
+    "@formily/antd": "^1.3.9",
     "@types/promise-timeout": "^1.3.0",
     "@vize/runtime-web": "^0.0.3",
     "@vize/types": "^0.1.0",

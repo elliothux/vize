@@ -2,7 +2,7 @@
   "name": "@vize/types",
   "version": "0.1.0",
   "description": "",
-  "main": "src",
+  "main": "src/index.ts",
   "scripts": {
     "publish": "npm publish --access public"
   }

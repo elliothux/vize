@@ -25,5 +25,5 @@
     "baseUrl": "./src"
   },
   "include": ["src", "types", "config/*.json"],
-  "exclude": ["dist", "node_modules*"]
+  "exclude": ["dist", "./node_modules*"]
 }
