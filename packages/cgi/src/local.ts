@@ -8,10 +8,17 @@ export function runLocalServer() {
   }
 
   const workspacePath = path.resolve(__dirname, '../../workspace');
+  const editorPath = path.resolve(__dirname, '../../../editor/build');
+  const managementUIPath = path.resolve(
+    __dirname,
+    '../../../management-ui/build',
+  );
 
   const config: VizeCGIConfig = {
     port: 4001,
     workspacePath,
+    editorPath,
+    managementUIPath,
     npmRegistry: 'https://registry.npm.taobao.org',
     db: {
       type: 'mysql',
@@ -22,7 +29,8 @@ export function runLocalServer() {
       database: 'vize',
     },
     generators: {
-      web: require('../../../generator-web'),
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      web: require(path.resolve(__dirname, '../../../generator-web')).generate,
     },
   };
 

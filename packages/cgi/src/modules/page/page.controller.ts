@@ -86,6 +86,12 @@ export class PageController {
     return CGIResponse.success();
   }
 
+  @Get('/preview/:key')
+  async previewPage(@Param('key') key) {
+    const result = await this.pageService.buildPage(key);
+    return CGIResponse.success(result);
+  }
+
   @Post('/publish/:key')
   async buildPage(@Param('key') key) {
     setTimeout(() => this.pageService.buildPage(key), 0);

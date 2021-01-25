@@ -4,6 +4,7 @@ import path from 'path';
 import { runBuild } from '../builder';
 import { BuildConfigParams } from '../builder/configGenerator';
 import { getTpl } from '../utils';
+import { GeneratorResult } from '../types';
 
 export class SinglePageGenerator extends BaseGenerator {
   private preparePagesPath = (src: string) => {
@@ -55,17 +56,18 @@ export class SinglePageGenerator extends BaseGenerator {
     return [target, pagePaths];
   };
 
-  public run = async () => {
+  public run = async (): Promise<GeneratorResult> => {
     const [root, entryPaths] = await this.generateContainerParams(-1)
       .generateSharedComponentsMap()
       .generatePageFiles();
     // return Promise.resolve(root);
-    return runBuild({
+    await runBuild({
       root,
       entryPaths,
       isMultiPage: this.isMultiPage,
       containerPath: this.containerPath,
       containerParams: this.containerParams,
     });
+    return { path: path.resolve(root, 'dist') };
   };
 }

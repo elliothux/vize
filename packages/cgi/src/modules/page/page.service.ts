@@ -1,9 +1,17 @@
+import * as path from 'path';
+import * as fs from 'fs-extra';
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageEntity } from './page.entity';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
-import { BuildStatus, Maybe, QueryParams, RecordStatus } from 'types';
+import {
+  BuildStatus,
+  GeneratorResult,
+  Maybe,
+  QueryParams,
+  RecordStatus,
+} from 'types';
 import { HistoryEntity } from '../history/history.entity';
 import { generateDSL, getConfig } from 'utils';
 
@@ -117,16 +125,28 @@ export class PageService {
     const { generators, workspacePath } = getConfig();
     const generator = generators[page.generator || 'web']!;
     try {
-      const result = await generator({
+      const result: GeneratorResult = await generator({
         dsl,
         workspacePath,
       });
       this.buildStatus.set(key, BuildStatus.SUCCESS);
-      console.log(result);
+      await PageService.createPreviewSoftlink(key, result.path);
+      return {
+        ...result,
+        url: `/preview/${key}`,
+      };
     } catch (e) {
       this.buildStatus.set(key, BuildStatus.FAILED);
       console.error(e);
     }
+  }
+
+  static async createPreviewSoftlink(key: string, distPath: string) {
+    const {
+      paths: { previewPath },
+    } = getConfig();
+    const to = path.resolve(previewPath, key);
+    return fs.ensureSymlink(distPath, to);
   }
 
   public getBuildStatus(key: string): Maybe<BuildStatus> {

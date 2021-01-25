@@ -115,8 +115,6 @@ export class BaseGenerator {
   };
 
   private createDepsSoftLink = async (targetPath: string) => {
-    const depsPath = path.resolve(targetPath, './deps/');
-    await fs.ensureDir(depsPath);
     return fs.symlink(this.libsPath, path.resolve(targetPath, './libs'));
   };
 

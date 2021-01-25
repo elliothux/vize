@@ -16,14 +16,11 @@ import {
   FiSend,
   FiX,
 } from 'react-icons/fi';
-import { Tooltip } from 'antd';
 import { OperationItem } from './OperationItem';
 import { noop } from 'utils';
-import classNames from 'classnames';
-import { ReactComponent as Column } from 'static/images/right-column-layout.svg';
-import { save } from './actions';
+import { preview, save } from './actions';
 import { observer } from 'mobx-react';
-import { editStore } from '../../states';
+import { editStore } from 'states';
 
 @observer
 export class OperationBar extends React.Component {
@@ -41,6 +38,7 @@ export class OperationBar extends React.Component {
         <OperationItem title="redo" icon={FiCornerUpRight} action={noop} />
         <OperationItem title="清除" icon={FiX} action={noop} />
         <span className="operation_black" />
+
         <OperationItem
           title={previewMode ? '切换到编辑模式' : '切换到预览模式'}
           icon={previewMode ? FiEdit : FiEye}
@@ -48,6 +46,7 @@ export class OperationBar extends React.Component {
         />
         <OperationItem title="全屏" icon={FiMaximize2} action={noop} />
         <span className="operation_black" />
+
         <OperationItem
           title={
             isUserValid ? (
@@ -78,13 +77,8 @@ export class OperationBar extends React.Component {
           disabled={!!debugPort}
         />
         <span className="operation_black" />
-        {/*<OperationItem*/}
-        {/*  title={debugPort ? "Debug 模式不支持下载" : "下载页面 Bundle"}*/}
-        {/*  icon={FiDownload}*/}
-        {/*  action={noop}*/}
-        {/*  disabled={!!debugPort}*/}
-        {/*/>*/}
-        <OperationItem title="预览" icon={FiPlay} action={noop} />
+
+        <OperationItem title="预览" icon={FiPlay} action={preview} />
         <OperationItem
           disabled={isTemplate || !isUserValid || !!debugPort}
           title={

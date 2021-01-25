@@ -9,3 +9,7 @@ export function getPage(pageKey: string) {
 export function savePageHistory(dsl: DSL) {
   return postCGIJSON<{}>(prefix('history'), dsl);
 }
+
+export function previewPage(key: string) {
+  return getCGIJSON<{}>(prefix(`page/preview/${key}`));
+}

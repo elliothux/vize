@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -20,22 +19,31 @@ export function getApp(): App {
     return app;
   }
 
-  const { workspacePath, db } = getConfig()!;
+  const {
+    db,
+    paths: { materialsPath, previewPath, editorPath, managementUIPath },
+  } = getConfig()!;
+
+  console.log(managementUIPath);
 
   @Module({
     imports: [
       ServeStaticModule.forRoot({
         serveRoot: '/',
-        rootPath: path.join(workspacePath, 'pages/management-ui'),
-        exclude: ['/cgi/*', '/editor/*', '/materials/*'],
+        rootPath: managementUIPath,
+        exclude: ['/cgi/*', '/editor/*', '/materials/*', '/preview/*'],
       }),
       ServeStaticModule.forRoot({
         serveRoot: '/editor',
-        rootPath: path.join(workspacePath, 'pages/editor'),
+        rootPath: editorPath,
       }),
       ServeStaticModule.forRoot({
         serveRoot: '/materials',
-        rootPath: path.join(workspacePath, 'materials'),
+        rootPath: materialsPath,
+      }),
+      ServeStaticModule.forRoot({
+        serveRoot: '/preview',
+        rootPath: previewPath,
       }),
       ConfigModule.forRoot({
         load: [getConfig],

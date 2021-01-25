@@ -23,21 +23,22 @@ export function generateWebpackConfig({
   isProd = false,
 }: BuildConfigParams): Configuration[] {
   const libs = path.resolve(root, './libs');
-  const deps = path.resolve(root, './deps');
   const src = path.resolve(root, './src');
   const dist = path.resolve(root, `./dist`);
 
   const libPaths = fs.readdirSync(libs).map(name => path.resolve(libs, name));
   const libsNodeModules = libPaths.map(i => path.resolve(i, 'node_modules'));
   const libsSrc = libPaths.map(i => path.resolve(i, 'src'));
+  const runPath = path.resolve(process.cwd(), './node_modules');
 
   const babelConfig = useSWC ? getSWConfig() : getBabelConfig();
+  const modules = [src, runPath, ...libsNodeModules, ...libsSrc];
+  console.log('modules: ', modules);
 
   if (isMultiPage) {
     return entryPaths.map(({ pageKey, entryPath }) => {
       const config = getBaseWebpackConfig({ containerParams: containerParams[pageKey], containerPath, isProd });
       const output = entryPaths.length > 1 ? path.resolve(dist, pageKey.toString()) : dist;
-      const modules = [src, deps, ...libsNodeModules, ...libsSrc];
       modules.push(entryPath!);
 
       config.entry = entryPath;
@@ -57,7 +58,6 @@ export function generateWebpackConfig({
     },
     { index: mainEntry },
   );
-  const modules = [src, deps, ...libsNodeModules, ...libsSrc, mainEntry];
 
   config.entry = entry;
   config.output = { path: dist, filename: '[name].js' };
