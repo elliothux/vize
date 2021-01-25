@@ -1,3 +1,3 @@
-export * from '../sharedTypes';
+export * from '@vize/types';
 export * from './paths';
 export * from './template';

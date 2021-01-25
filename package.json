@@ -20,6 +20,12 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
+  "dependencies": {
+    "@types/promise-timeout": "^1.3.0",
+    "@vize/runtime-web": "^0.0.3",
+    "@vize/types": "^0.1.0",
+    "promise-timeout": "^1.3.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",

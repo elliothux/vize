@@ -1,0 +1,9 @@
+{
+  "name": "@vize/types",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src",
+  "scripts": {
+    "publish": "npm publish --access public"
+  }
+}
