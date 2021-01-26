@@ -6,7 +6,7 @@ import { getLibPaths, LibPaths, log, logWithSpinner, stopSpinner } from '../util
 import { LibConfig } from '../config';
 import { getLibWebpackConfig } from '../webpackCompiler';
 import { generateFormEntryFile, generateMaterialsEntryFile } from './autoRequire';
-import { clearTemp, openEditor, prepareEditor, webpackCallback } from './utils';
+import { clearTemp, generateMaterialsMeta, openEditor, prepareEditor, webpackCallback } from './utils';
 
 interface Options {
   libPaths: LibPaths;
@@ -144,9 +144,13 @@ export class Builder {
     await this.prepareFiles();
     const config = this.generateWebpackConfig(true);
 
-    logWithSpinner('🚀', '运行 Webpack 构建');
+    logWithSpinner('🚀', ' 运行 Webpack 构建');
     await new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
-    logWithSpinner('✨', ' 构建完成');
+
+    logWithSpinner('🚀', ' 生成 meta 文件');
+    await generateMaterialsMeta(this.libConfig.libName, this.libPaths.dist);
+
+    logWithSpinner('✨', ' 完成');
     stopSpinner();
     return;
   };

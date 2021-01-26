@@ -1,0 +1,16 @@
+{
+  "title": "Schema",
+  "type": "object",
+  "properties": {
+    "component": {
+      "type": "object",
+      "title": "组件配置",
+      "properties": {}
+    },
+    "plugins": {
+      "type": "object",
+      "title": "插件配置",
+      "properties": {}
+    }
+  }
+}

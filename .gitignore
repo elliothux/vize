@@ -295,3 +295,5 @@ lerna-debug.log*
 !/packages/cgi-new/dist/
 /packages/generator-web/test/dist
 /packages/cgi/workspace
+/packages/generator-pegasus
+/packages/runtime-web-rax

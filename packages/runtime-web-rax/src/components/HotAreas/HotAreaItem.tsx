@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useMemo } from 'react';
+import { createElement, useMemo } from 'rax';
 import { ComponentInstance, HotArea } from '@vize/types';
 import { NodeEventProxy } from '../NodeEventProxy';
 import { AppRenderProps } from '../AppRender/types';
@@ -22,6 +21,8 @@ export function HotAreaItem({ hotArea, global, meta, router }: Props) {
   );
 
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     <NodeEventProxy<HotArea>
       className="hotarea-event-proxy"
       childrenType="hotarea"
