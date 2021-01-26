@@ -11,7 +11,7 @@ import {
   Maybe,
   PageRouter,
   WithReactChildren,
-} from '@vize/types';
+} from '@vize/types/src';
 import {
   events,
   RuntimeEventEmitTypes,

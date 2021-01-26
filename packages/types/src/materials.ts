@@ -1,8 +1,9 @@
+import { ComponentType } from 'react';
 import { ComponentProps, MaterialsComponent, MaterialsComponentMeta } from './component';
 import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
 import { RouterProps } from './pages';
-import * as React from 'react';
+import { JsonSchemaProperties } from './helper';
 
 export interface MaterialsInfo {
   name: string;
@@ -39,13 +40,13 @@ export interface MaterialsMain {
 export interface MaterialsForms {
   fields?: {
     field: string;
-    component: React.ComponentType;
+    component: ComponentType;
   }[];
 }
 
 export interface RenderEntryParams extends Pick<ComponentProps, 'global' | 'meta'> {
   render: Function;
-  implementRouterController: (CustomRouter: React.ComponentType<RouterProps>) => void;
+  implementRouterController: (CustomRouter: ComponentType<RouterProps>) => void;
 }
 
 export type ContainerRenderEntry = (params: RenderEntryParams) => void;
@@ -58,4 +59,29 @@ export enum InstanceKeyType {
   Action = 'action',
   ComponentAction = 'component_action',
   PluginAction = 'plugin_action',
+}
+
+interface MaterialsManifestItem {
+  info: MaterialsInfo;
+  dataForm?: JsonSchemaProperties;
+}
+
+export interface MaterialsComponentManifestItem extends MaterialsManifestItem {
+  styleForm?: JsonSchemaProperties;
+}
+
+export type MaterialsPluginManifestItem = MaterialsManifestItem;
+
+export type MaterialsActionManifestItem = MaterialsManifestItem;
+
+export interface MaterialsManifest {
+  components: {
+    [name: string]: MaterialsComponentManifestItem;
+  };
+  plugins: {
+    [name: string]: MaterialsPluginManifestItem;
+  };
+  actions: {
+    [name: string]: MaterialsActionManifestItem;
+  };
 }

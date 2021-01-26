@@ -6,7 +6,7 @@ import { getLibPaths, LibPaths, log, logWithSpinner, stopSpinner } from '../util
 import { LibConfig } from '../config';
 import { getLibWebpackConfig } from '../webpackCompiler';
 import { generateFormEntryFile, generateMaterialsEntryFile } from './autoRequire';
-import { clearTemp, generateMaterialsMeta, openEditor, prepareEditor, webpackCallback } from './utils';
+import { clearTemp, generateMaterialsManifest, openEditor, prepareEditor, webpackCallback } from './utils';
 
 interface Options {
   libPaths: LibPaths;
@@ -148,7 +148,7 @@ export class Builder {
     await new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
 
     logWithSpinner('🚀', ' 生成 meta 文件');
-    await generateMaterialsMeta(this.libConfig.libName, this.libPaths.dist);
+    await generateMaterialsManifest(this.libConfig.libName, this.libPaths.dist);
 
     logWithSpinner('✨', ' 完成');
     stopSpinner();

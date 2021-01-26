@@ -1,5 +1,5 @@
 import { createElement, useMemo } from 'rax';
-import { ComponentInstance, HotArea } from '@vize/types';
+import { ComponentInstance, HotArea } from '@vize/types/src';
 import { NodeEventProxy } from '../NodeEventProxy';
 import { AppRenderProps } from '../AppRender/types';
 

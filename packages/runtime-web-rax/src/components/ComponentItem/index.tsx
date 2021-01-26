@@ -1,5 +1,5 @@
 import { createElement, useCallback } from 'rax';
-import { ComponentInstance, ComponentSelectedCallback } from '@vize/types';
+import { ComponentInstance, ComponentSelectedCallback } from '@vize/types/src';
 import {
   cancelCustomEvent,
   emitCustomEvent,
@@ -10,6 +10,8 @@ import {
 import { AppRenderProps } from '../AppRender/types';
 import { ComponentInstances } from '../ComponentInstances';
 import { HotAreas } from '../HotAreas';
+import { getData } from '../../utils';
+import { useMemo } from 'react';
 
 interface ItemProps extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
   instance: ComponentInstance;
@@ -39,13 +41,15 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
     key,
   ]);
 
+  const componentData = useMemo(() => getData(key, 'component'), [key]);
+
   const ViewRender = getMaterialsComponent(component)!;
   return (
     <ViewRender
       key={key}
       componentKey={key}
-      data={data}
-      style={style}
+      data={componentData?.data || data}
+      style={componentData?.style || style}
       commonStyle={commonStyle}
       on={on}
       cancel={cancel}

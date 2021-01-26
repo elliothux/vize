@@ -5,10 +5,11 @@ import {
   PluginUniversalEventTrigger,
   GlobalMeta,
   PageRouter,
-} from '@vize/types';
+} from '@vize/types/src';
 import { cancelCustomEvent, emitCustomEvent, onCustomEvent } from './customEvents';
 import { getMaterialsPlugin } from './materialsMap';
 import { generatePluginHandlers } from '../utils/eventHandlers';
+import { getData } from '../utils';
 
 export function executePlugins(
   pluginInstances: PluginInstanceDSL[],
@@ -19,6 +20,7 @@ export function executePlugins(
 ) {
   return pluginInstances.forEach(async instance => {
     const { key, plugin, data, events } = instance;
+    const pluginData = getData(key, 'plugin');
     const handlers = generatePluginHandlers(events, instance, router);
 
     if (handlers[PluginUniversalEventTrigger.BEFORE_EXEC]) {
@@ -28,7 +30,7 @@ export function executePlugins(
     const pluginFunction: MaterialsPlugin = getMaterialsPlugin(plugin)!;
     const params: PluginParams = {
       pluginKey: key,
-      data,
+      data: pluginData?.data || data,
       global,
       meta,
       router,

@@ -3,7 +3,13 @@ import * as fs from 'fs-extra';
 import open from 'open';
 import { Stats } from 'webpack';
 import { JSDOM } from 'jsdom';
-import { MaterialsMeta } from '@vize/types';
+import {
+  MaterialsMeta,
+  MaterialsManifest,
+  MaterialsComponentManifestItem,
+  MaterialsPluginManifestItem,
+  MaterialsActionManifestItem,
+} from '@vize/types';
 import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
 
 export function findThumb(entry: string) {
@@ -112,10 +118,10 @@ export function openEditor({ debugPorts, libs, container }: OpenParams) {
   open(url);
 }
 
-export async function generateMaterialsMeta(libName: string, distPath: string) {
+export async function generateMaterialsManifest(libName: string, distPath: string) {
   const { components, plugins, actions } = await getMaterialsMeta(libName, distPath);
-  const meta = {
-    components: Object.entries(components).reduce<{ [name: string]: {} }>(
+  const meta: MaterialsManifest = {
+    components: Object.entries(components).reduce<{ [name: string]: MaterialsComponentManifestItem }>(
       (accu, [name, { info, dataForm, styleForm }]) => {
         accu[name.toLowerCase()] = {
           info,
@@ -126,23 +132,29 @@ export async function generateMaterialsMeta(libName: string, distPath: string) {
       },
       {},
     ),
-    plugins: Object.entries(plugins).reduce<{ [name: string]: {} }>((accu, [name, { info, dataForm }]) => {
-      accu[name.toLowerCase()] = {
-        info,
-        dataForm: typeof dataForm === 'object' ? dataForm : undefined,
-      };
-      return accu;
-    }, {}),
-    actions: Object.entries(actions).reduce<{ [name: string]: {} }>((accu, [name, { info, dataForm }]) => {
-      accu[name.toLowerCase()] = {
-        info,
-        dataForm: typeof dataForm === 'object' ? dataForm : undefined,
-      };
-      return accu;
-    }, {}),
+    plugins: Object.entries(plugins).reduce<{ [name: string]: MaterialsPluginManifestItem }>(
+      (accu, [name, { info, dataForm }]) => {
+        accu[name.toLowerCase()] = {
+          info,
+          dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+        };
+        return accu;
+      },
+      {},
+    ),
+    actions: Object.entries(actions).reduce<{ [name: string]: MaterialsActionManifestItem }>(
+      (accu, [name, { info, dataForm }]) => {
+        accu[name.toLowerCase()] = {
+          info,
+          dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+        };
+        return accu;
+      },
+      {},
+    ),
   };
 
-  const outputPath = path.resolve(distPath, './meta.json');
+  const outputPath = path.resolve(distPath, `./@vize-materials-${libName}-manifest.json`);
   await fs.writeFile(outputPath, JSON.stringify(meta, undefined, 2));
   return outputPath;
 }
