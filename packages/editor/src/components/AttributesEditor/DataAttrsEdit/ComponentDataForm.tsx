@@ -51,15 +51,6 @@ function IComponentDataForm() {
       ) : null}
       {container}
       {hotArea}
-
-      {/* {styleForm ? (
-                <SchemaForm
-                    instanceKey={key}
-                    form={styleForm}
-                    data={toJS(style)}
-                    onChange={componentsStore.setCurrentComponentInstanceStyle}
-                />
-            ) : null} */}
     </div>
   );
 }

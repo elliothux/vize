@@ -21,9 +21,6 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
     containerEntry,
     containerHTML,
     containerName,
-    componentsList,
-    pluginsList,
-    actionsList,
   } = libPaths;
   const { libName, runtime } = libConfig;
 
@@ -42,7 +39,7 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
     },
     module: {
       rules: [
-        useSWC ? getSWConfig() : getBabelConfig(),
+        useSWC && runtime === 'react' ? getSWConfig() : getBabelConfig(),
         {
           test: /\.(css|scss|sass)$/,
           use: [
@@ -97,6 +94,7 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
       react: 'React',
       'react-dom': 'ReactDom',
       'react-dom/server': 'ReactDomServer',
+      '@formily/antd': 'Formily',
     },
     mode: isProd ? 'production' : 'development',
     devtool: 'source-map',

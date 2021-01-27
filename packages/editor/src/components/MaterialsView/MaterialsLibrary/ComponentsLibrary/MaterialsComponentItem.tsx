@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { MaterialsComponentMeta, Maybe } from 'types';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { componentsStore } from 'states';
 import { SVGRender } from 'widgets/SVGRender';
@@ -46,7 +46,7 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
         {thumb && <SVGRender content={thumb} />}
         <div>
           <p className="name">{name}</p>
-          <p className="desc">{desc}</p>
+          <p className="desc">{desc || '无组件描述'}</p>
         </div>
       </div>
       <div className="button" onClick={disabled ? undefined : onClickAdd}>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const { override, addWebpackModuleRule, addWebpackResolve, addLessLoader } = require('customize-cra');
+const { override, addWebpackModuleRule, addWebpackResolve, addLessLoader, babelInclude } = require('customize-cra');
 
 module.exports = override(
   addWebpackResolve({ symlinks: false }),
@@ -12,6 +12,7 @@ module.exports = override(
     test: /\.raw\.svg$/,
     use: [{ loader: 'raw-loader' }],
   }),
+  // babelInclude([path.resolve(__dirname, './src'), path.resolve(__dirname, '../../node_modules/@formily')]),
   addLessLoader({
     strictMath: false,
     noIeCompat: true,

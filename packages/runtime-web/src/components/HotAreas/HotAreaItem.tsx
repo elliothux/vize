@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { ComponentInstance, HotArea } from '@vize/types';
+import { ComponentInstance, HotArea } from '@vize/types/src';
 import { NodeEventProxy } from '../NodeEventProxy';
 import { AppRenderProps } from '../AppRender/types';
 

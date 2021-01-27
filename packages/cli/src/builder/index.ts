@@ -1,4 +1,5 @@
 import * as WebSocket from 'ws';
+import * as fs from 'fs-extra';
 import watch from 'node-watch';
 import webpack, { Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
@@ -81,6 +82,9 @@ export class Builder {
     logWithSpinner('🤖', '启动 File Watcher');
     const { components, plugins, actions, containers, formFields, formRules } = this.libPaths;
     [components, plugins, actions, containers, formFields, formRules].forEach((path: string) => {
+      if (!fs.existsSync(path)) {
+        return;
+      }
       watch(path, { recursive: false }, () => {
         log(`🔥  ${path} 目录更新`);
         return this.afterUpdate();

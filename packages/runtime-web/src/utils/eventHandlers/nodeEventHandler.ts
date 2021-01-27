@@ -6,7 +6,7 @@ import {
   HotArea,
   HotAreaUniversalEventTrigger,
   PageRouter,
-} from '@vize/types';
+} from '@vize/types/src';
 import { EventHandler } from './types';
 import { pipeEvents } from './utils';
 

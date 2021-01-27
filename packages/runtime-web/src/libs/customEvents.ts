@@ -1,4 +1,4 @@
-import { ComponentInstance, EventTriggerType, GlobalMeta, Maybe, PageRouter, PluginInstance } from '@vize/types';
+import { ComponentInstance, EventTriggerType, GlobalMeta, Maybe, PageRouter, PluginInstance } from '@vize/types/src';
 import { pipeEvents } from '../utils/eventHandlers';
 
 const componentCustomEventCallbackMap = new Map<number, Map<string, Function[]>>();

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Formily from '@formily/antd';
+import * as Formily from '@uform/antd';
 import { useMemo } from 'react';
 import { SchemaForm } from '../SchemaForm';
 import { OverrideFormProps, SchemaFormProps } from 'types';
@@ -13,15 +13,7 @@ function IOverrideForm({ onChange, children: Form, value, instanceKey }: Overrid
     [instanceKey],
   );
 
-  return (
-    <Form
-      key={instanceKey}
-      value={value}
-      onChange={onChange}
-      Formily={Formily as any}
-      JSONSchemaForm={JSONSchemaForm}
-    />
-  );
+  return <Form key={instanceKey} value={value} onChange={onChange} Formily={Formily} JSONSchemaForm={JSONSchemaForm} />;
 }
 
 export const OverrideForm = React.memo(IOverrideForm);

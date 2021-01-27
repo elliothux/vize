@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ISchema } from '@formily/antd';
+import { ISchema } from './schema';
 
 export type Maybe<T> = T | null | undefined;
 

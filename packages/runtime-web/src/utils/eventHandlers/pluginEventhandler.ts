@@ -1,4 +1,10 @@
-import { EventInstance, EventTriggerName, PageRouter, PluginInstance, PluginUniversalEventTrigger } from '@vize/types';
+import {
+  EventInstance,
+  EventTriggerName,
+  PageRouter,
+  PluginInstance,
+  PluginUniversalEventTrigger,
+} from '@vize/types/src';
 import { EventHandler } from './types';
 import { pipeEvents } from './utils';
 
