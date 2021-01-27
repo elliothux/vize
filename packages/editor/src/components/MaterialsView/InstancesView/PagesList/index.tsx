@@ -17,7 +17,7 @@ export class PagesList extends React.Component {
       <HeaderOptions type={MaterialsViewType.INSTANCES}>
         <div>
           <PlusOutlined onClick={this.addPage} />
-          <UpOutlined />
+          {/*<UpOutlined />*/}
         </div>
       </HeaderOptions>
     );

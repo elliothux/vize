@@ -36,9 +36,7 @@ export class WithTagsList<T extends MaterialsComponentMeta & MaterialsPluginMeta
   private renderHeader = () => {
     return (
       <HeaderOptions type={this.props.view}>
-        <div>
-          <UpOutlined />
-        </div>
+        <div>{/*<UpOutlined />*/}</div>
       </HeaderOptions>
     );
   };

@@ -26,12 +26,11 @@ export function MaterialsComponentPreview({ item }: Props) {
           </p>
           <p className="desc">{desc}</p>
           <p className="lib">
-            组件来自素材库
+            组件来自物料
             <span> {lib}</span>
           </p>
           <p className="author">
-            组件由
-            <span> {author} </span>
+            由<span> {author} </span>
             开发
           </p>
         </div>
