@@ -14,6 +14,10 @@ message.config({
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
 
+export function isMacOS() {
+  return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+}
+
 export function isDev() {
   return process.env['NODE_ENV'] === 'development';
 }
@@ -125,4 +129,23 @@ export function percent(percent: number): string {
 
 export function pxWithAuto(px: number | 'auto'): string {
   return px === 'auto' ? 'auto' : `${px}px`;
+}
+
+export function toggleFullScreen() {
+  if (!!document.fullscreenElement) {
+    return document.exitFullscreen();
+  }
+  return document.body.requestFullscreen();
+}
+
+export function withMessage(
+  operation: (...args: any[]) => any,
+  msg: string,
+  type: 'success' | 'warn' | 'error' = 'success',
+) {
+  return () => {
+    message.destroy();
+    message[type](msg);
+    return operation();
+  };
 }

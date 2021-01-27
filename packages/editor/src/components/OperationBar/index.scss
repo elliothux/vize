@@ -38,3 +38,17 @@
     }
   }
 }
+
+.vize-editor-operation-item-tooltip {
+  .ant-tooltip-inner {
+    & > p {
+      margin: 0;
+      text-align: center;
+      font-weight: bolder;
+
+      &.desc {
+        font-weight: normal;
+      }
+    }
+  }
+}

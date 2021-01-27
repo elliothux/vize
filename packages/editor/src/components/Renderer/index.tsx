@@ -6,7 +6,7 @@ import { contextMenu } from 'react-contexify';
 import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore, sharedStore } from 'states';
 import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
-import { initDocument } from 'utils';
+import { initDocument, registerHotkey } from 'utils';
 import { setMaterialsMap, executePlugins } from 'runtime';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
@@ -34,6 +34,7 @@ export class Renderer extends React.Component {
 
   private iframeDidMount = async (doc: Document, win: Window) => {
     injectRuntime(win);
+    registerHotkey(doc);
     setUserAgent(win);
     this.initIframeDocument(doc, win);
 

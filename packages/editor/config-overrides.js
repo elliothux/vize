@@ -12,7 +12,7 @@ module.exports = override(
     test: /\.raw\.svg$/,
     use: [{ loader: 'raw-loader' }],
   }),
-  // babelInclude([path.resolve(__dirname, './src'), path.resolve(__dirname, '../../node_modules/@formily')]),
+  babelInclude([path.resolve(__dirname, './src'), path.resolve(__dirname, '../../node_modules/@vize/types')]),
   addLessLoader({
     strictMath: false,
     noIeCompat: true,

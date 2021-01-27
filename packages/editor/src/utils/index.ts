@@ -11,6 +11,7 @@ export * from './dom';
 export * from './eventEmiter';
 export * from './eventHelper';
 export * from './hotAreaNodes';
+export * from './hotkey';
 export * from './hotReload';
 export * from './init';
 export * from './inject';

@@ -16,7 +16,11 @@ export interface OperationItemProps {
 export function OperationItem(props: OperationItemProps) {
   const { icon: Icon, disabled, placement } = props;
   return (
-    <Tooltip overlayClassName="editor-operation-item-tooltip" placement={placement || 'bottom'} title={props.title}>
+    <Tooltip
+      overlayClassName="vize-editor-operation-item-tooltip"
+      placement={placement || 'bottom'}
+      title={props.title}
+    >
       <div onClick={disabled ? noop : props.action} className={classnames('operation_item', { disabled })}>
         <Icon />
       </div>
