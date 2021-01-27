@@ -1,9 +1,0 @@
-{
-  "name": "@vize/boilerplate-form-field",
-  "version": "1.0.0",
-  "description": "materials form field boilerplate for vize",
-  "main": "index.js",
-  "scripts": {
-    "publish": "npm publish --access public"
-  }
-}

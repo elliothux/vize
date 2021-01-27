@@ -1,9 +1,0 @@
-{
-  "name": "@vize/boilerplate-component",
-  "version": "1.0.1",
-  "description": "materials component boilerplate for vize",
-  "main": "index.js",
-  "scripts": {
-    "publish": "npm publish --access public"
-  }
-}
