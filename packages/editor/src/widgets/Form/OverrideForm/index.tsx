@@ -13,7 +13,15 @@ function IOverrideForm({ onChange, children: Form, value, instanceKey }: Overrid
     [instanceKey],
   );
 
-  return <Form key={instanceKey} value={value} onChange={onChange} Formily={Formily} JSONSchemaForm={JSONSchemaForm} />;
+  return (
+    <Form
+      key={instanceKey}
+      value={value}
+      onChange={onChange}
+      Formily={Formily as any}
+      JSONSchemaForm={JSONSchemaForm}
+    />
+  );
 }
 
 export const OverrideForm = React.memo(IOverrideForm);

@@ -12,7 +12,7 @@ import {
   PageRouter,
   PluginEventTarget,
   PluginInstance,
-} from '@vize/types/src';
+} from '@vize/types';
 import { EventHandler, HandlerParams } from './types';
 import { getCustomEventCallbacks, getMaterialsAction } from '../../libs';
 

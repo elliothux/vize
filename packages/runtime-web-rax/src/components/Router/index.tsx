@@ -1,6 +1,6 @@
 import * as Rax from 'rax';
 import { createElement, useEffect, useMemo, useState } from 'rax';
-import { ComponentInstance, Maybe, PageRouter } from '@vize/types/src';
+import { ComponentInstance, Maybe, PageRouter } from '@vize/types';
 import { ComponentInstances } from '../../components/ComponentInstances';
 import { AppRenderProps } from '../AppRender/types';
 

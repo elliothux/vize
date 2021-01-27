@@ -13,7 +13,7 @@ interface Props {
   submitProps?: boolean | React.ReactChild;
 }
 
-export function SchemaForm({ form, data, onChange, instanceKey, submitProps }: Props) {
+export function SchemaForm({ form, data, onChange, instanceKey }: Props) {
   const isOverrideForm = useMemo(() => isFunction(form), [form]);
 
   if (isOverrideForm) {
@@ -24,16 +24,16 @@ export function SchemaForm({ form, data, onChange, instanceKey, submitProps }: P
     );
   }
 
-  if (submitProps) {
-    return (
-      <ISchemaForm
-        schema={form as JsonSchemaProperties}
-        value={data}
-        onSubmit={onChange}
-        submitProps={{ children: typeof submitProps === 'boolean' ? '确认' : submitProps }}
-      />
-    );
-  }
+  // if (submitProps) {
+  //   return (
+  //     <ISchemaForm
+  //       schema={form as JsonSchemaProperties}
+  //       value={data}
+  //       onSubmit={onChange}
+  //       submitProps={{ children: typeof submitProps === 'boolean' ? '确认' : submitProps }}
+  //     />
+  //   );
+  // }
 
   return <ISchemaForm schema={form as JsonSchemaProperties} value={data} onChange={onChange} />;
 }

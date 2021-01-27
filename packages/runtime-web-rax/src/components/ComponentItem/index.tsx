@@ -1,5 +1,5 @@
 import { createElement, useCallback } from 'rax';
-import { ComponentInstance, ComponentSelectedCallback } from '@vize/types/src';
+import { ComponentInstance, ComponentSelectedCallback } from '@vize/types';
 import {
   cancelCustomEvent,
   emitCustomEvent,

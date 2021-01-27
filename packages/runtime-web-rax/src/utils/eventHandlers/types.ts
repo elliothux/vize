@@ -1,5 +1,5 @@
 import * as Rax from 'rax';
-import { GlobalMeta, Maybe } from '@vize/types/src';
+import { GlobalMeta, Maybe } from '@vize/types';
 
 export interface HandlerParams {
   meta: GlobalMeta;

@@ -1,6 +1,6 @@
 import './index.scss';
 import { createElement } from 'rax';
-import { ComponentInstance } from '@vize/types/src';
+import { ComponentInstance } from '@vize/types';
 import { HotAreaItem } from './HotAreaItem';
 import { AppRenderProps } from '../AppRender/types';
 

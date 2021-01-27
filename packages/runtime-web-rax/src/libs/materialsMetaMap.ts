@@ -1,10 +1,4 @@
-import {
-  MaterialsActionMeta,
-  MaterialsComponentMeta,
-  MaterialsMeta,
-  MaterialsPluginMeta,
-  Maybe,
-} from '@vize/types/src';
+import { MaterialsActionMeta, MaterialsComponentMeta, MaterialsMeta, MaterialsPluginMeta, Maybe } from '@vize/types';
 import { getMaterialsIdentityName } from '../utils';
 
 // Component Materials Meta

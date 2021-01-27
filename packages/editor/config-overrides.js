@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const { override, addWebpackModuleRule, addWebpackResolve, addLessLoader, babelInclude } = require('customize-cra');
+const { override, addWebpackModuleRule, addWebpackResolve, addLessLoader } = require('customize-cra');
 
 module.exports = override(
   addWebpackResolve({ symlinks: false }),
@@ -17,7 +17,6 @@ module.exports = override(
     noIeCompat: true,
     javascriptEnabled: true,
   }),
-  babelInclude([path.resolve(__dirname, './src'), path.resolve(__dirname, '../../node_modules/@vize/types')]),
   // setWebpackPublicPath('/editor/'),
   setOutputPublicPath('/editor/'),
 );
