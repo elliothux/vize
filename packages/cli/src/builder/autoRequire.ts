@@ -1,12 +1,12 @@
 import * as fs from 'fs-extra';
+import { MaterialsLibConfig } from '@vize/types/src';
 import { LibPaths } from '../utils';
 import { findPreview, findThumb } from './utils';
 import { MaterialsItem, ComponentsList, PluginsList, ActionsList } from '../types';
-import { LibConfig } from '../config';
 
 export async function generateMaterialsEntryFile(
   { mainEntryTemp, metaEntryTemp, componentsList, pluginsList, actionsList }: LibPaths,
-  libConfig: LibConfig,
+  libConfig: MaterialsLibConfig,
   withForms: boolean,
   isProd: boolean,
 ): Promise<void> {
@@ -49,7 +49,7 @@ interface GenEntryParams {
   componentsList: ComponentsList;
   pluginsList: PluginsList;
   actionsList: ActionsList;
-  libConfig: LibConfig;
+  libConfig: MaterialsLibConfig;
   withForms: boolean;
 }
 
@@ -74,7 +74,9 @@ async function generateEntry({
   },
   actions: {
     ${actionsList.map(genItemContent).join(',')}
-  }${type === 'meta' && withForms ? ',\n\twithForms: true' : ''}
+  }${type === 'meta' && withForms ? ',\n\twithForms: true' : ''}${
+    type === 'meta' ? `,\n\tlib: ${JSON.stringify(libConfig)}` : ''
+  }
 }`;
 
   return writeFile(targetPath, content);
@@ -84,7 +86,7 @@ function genItemMainContent({ name, mainPath }: MaterialsItem) {
   return `${name}: require("${mainPath}").default`;
 }
 
-function genItemMetaContent({ name, entry, metaPath }: MaterialsItem, { __isBuildIn }: LibConfig) {
+function genItemMetaContent({ name, entry, metaPath }: MaterialsItem, { __isBuildIn }: MaterialsLibConfig) {
   const thumb = findThumb(entry);
   const preview = findPreview(entry);
   return `${name}: { ${thumb ? `thumb: require("${thumb}").default || require("${thumb}"), ` : ''}${

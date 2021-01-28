@@ -268,7 +268,7 @@ export class HotAreaManager extends React.Component {
 
     return (
       <div className="hot-area-manager" onScroll={this.onScroll}>
-        <div ref={node => (this.imgContainerRef = node)} style={{ position: 'relative' }}>
+        <div ref={node => (this.imgContainerRef = node)}>
           <img src={this.src} alt="[热区图片]" onLoad={this.onImgLoaded} />
           {this.state.loaded ? this.renderHotAreas() : this.renderLoading()}
         </div>

@@ -9,7 +9,7 @@ import {
   MaterialsComponentManifestItem,
   MaterialsPluginManifestItem,
   MaterialsActionManifestItem,
-} from '@vize/types';
+} from '@vize/types/src';
 import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
 
 export function findThumb(entry: string) {

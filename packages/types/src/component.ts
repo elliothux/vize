@@ -88,6 +88,7 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   global: object;
   instance: ComponentInstance;
   hotAreas?: React.ReactElement;
+  children?: React.ReactElement;
   on: (eventName: string, callback: Function) => void;
   cancel: (eventName: string, callback: Function) => void;
   emit: (eventName: string) => void;

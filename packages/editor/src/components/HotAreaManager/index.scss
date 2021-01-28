@@ -4,9 +4,20 @@
   position: relative;
   text-align: center;
   display: inline-block;
+  min-width: 350px;
+  max-width: 70vw;
   max-height: calc(100vh - 237px);
   overflow: scroll;
   margin-bottom: -5px;
+
+  & > div {
+    position: relative;
+    width: 100%;
+
+    & > img {
+      width: 100%;
+    }
+  }
 
   .hot-area-manager-mask {
     position: absolute;

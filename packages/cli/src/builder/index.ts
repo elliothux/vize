@@ -3,15 +3,15 @@ import * as fs from 'fs-extra';
 import watch from 'node-watch';
 import webpack, { Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import { MaterialsLibConfig } from '@vize/types/src';
 import { getLibPaths, LibPaths, log, logWithSpinner, stopSpinner } from '../utils';
-import { LibConfig } from '../config';
 import { getLibWebpackConfig } from '../webpackCompiler';
 import { generateFormEntryFile, generateMaterialsEntryFile } from './autoRequire';
 import { clearTemp, generateMaterialsManifest, openEditor, prepareEditor, webpackCallback } from './utils';
 
 interface Options {
   libPaths: LibPaths;
-  libConfig: LibConfig;
+  libConfig: MaterialsLibConfig;
   idProd: boolean;
   open?: boolean;
   port?: number;
@@ -36,7 +36,7 @@ export class Builder {
 
   private libPaths: LibPaths;
 
-  private readonly libConfig: LibConfig;
+  private readonly libConfig: MaterialsLibConfig;
 
   private readonly isProd: boolean;
 

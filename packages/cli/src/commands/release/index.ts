@@ -1,9 +1,9 @@
 import * as path from 'path';
 import * as tar from 'tar';
 import * as semver from 'semver';
+import { MaterialsLibConfig } from '@vize/types/src';
 import { dist } from '../dist';
-import { curl, error, getLibPaths, getLibVersion, LibPaths } from '../../utils';
-import { getLibConfig, LibConfig } from '../../config';
+import { curl, error, getLibPaths, getLibVersion, getLibConfig, LibPaths } from '../../utils';
 
 export function release() {
   const releaser = new Releaser();
@@ -18,7 +18,7 @@ class Releaser {
 
   private readonly paths: LibPaths;
 
-  private readonly config: LibConfig;
+  private readonly config: MaterialsLibConfig;
 
   private getURI(suffix = '') {
     return `${this.config.releaseTo}/cgi/materials/${this.config.libName}${suffix}`;

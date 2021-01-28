@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { MaterialsComponentMeta } from 'types';
 import { SVGRender } from 'widgets/SVGRender';
+import { getMaterialsLibInfo } from 'runtime';
+import { useMemo } from 'react';
 
 interface Props {
   item: MaterialsComponentMeta;
@@ -15,6 +17,8 @@ export function MaterialsComponentPreview({ item }: Props) {
     preview,
   } = item;
 
+  const { displayName } = useMemo(() => getMaterialsLibInfo(lib)!, [lib]);
+
   return (
     <div className="vize-materials-component-preview">
       {preview ? <img src={preview} alt={name} /> : null}
@@ -26,8 +30,8 @@ export function MaterialsComponentPreview({ item }: Props) {
           </p>
           <p className="desc">{desc}</p>
           <p className="lib">
-            组件来自物料
-            <span> {lib}</span>
+            来自物料库
+            <span> {displayName}</span>
           </p>
           <p className="author">
             由<span> {author} </span>

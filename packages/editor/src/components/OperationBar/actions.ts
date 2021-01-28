@@ -24,3 +24,9 @@ export async function preview() {
   const [err, result] = await previewPage(editStore.pageKey);
   debugger;
 }
+
+// TODO: REMOVE
+(window as any)['clearDSL'] = () => {
+  localStorage.removeItem('dsl');
+  console.log('clearDSL success');
+};

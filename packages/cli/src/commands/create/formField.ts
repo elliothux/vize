@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { camelize, downloadPackage, getLibPaths, log, logWithSpinner, stopSpinner } from '../../utils';
 import { checkNameValid, ensureTargetPath, processFiles } from './utils';
 import { CreateParams } from './types';
-import { getLibConfig } from '../../config';
+import { getLibConfig } from '../../utils';
 
 const PKG_NAME = '@vize/boilerplate-form-field';
 

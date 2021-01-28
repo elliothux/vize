@@ -22,6 +22,7 @@ export interface MaterialsMeta {
   actions: {
     [name: string]: MaterialsActionMeta;
   };
+  lib: MaterialsLibConfig;
   withForms?: boolean;
 }
 
@@ -84,4 +85,18 @@ export interface MaterialsManifest {
   actions: {
     [name: string]: MaterialsActionManifestItem;
   };
+}
+
+export enum MaterialsLibRuntime {
+  REACT = 'react',
+  RAX = 'rax',
+}
+
+export interface MaterialsLibConfig {
+  libName: string;
+  displayName?: string;
+  author?: string;
+  runtime: MaterialsLibRuntime;
+  releaseTo: string;
+  __isBuildIn?: boolean;
 }

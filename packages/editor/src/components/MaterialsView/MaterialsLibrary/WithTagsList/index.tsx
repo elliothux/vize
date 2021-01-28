@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { TagItem } from './TagItem';
-import { UpOutlined } from '@ant-design/icons';
 import { HeaderOptions, MaterialsViewType } from '../../HeaderOptions';
 import { MaterialsComponentMeta, MaterialsPluginMeta } from 'types';
 import { generateTagsMap, MaterialsTagsList } from './utils';
