@@ -1,6 +1,27 @@
 @import 'styles/helper';
 
 .vize-materials-tree {
+  .components-tree.select-mode {
+    .component-tree-node,
+    .child-component-tree-node {
+      &:hover {
+        span {
+          color: #fa8c16 !important;
+        }
+
+        &::before {
+          border-radius: 2px;
+          top: 4px;
+          bottom: 4px;
+          right: 5px;
+          left: 5px;
+          border: 1px solid #ffd591;
+          background-color: #fff7e6;
+        }
+      }
+    }
+  }
+
   .ant-tree-directory {
     background-color: rgba(0, 0, 0, 0);
     color: rgba(0, 0, 0, 0.85);
@@ -59,7 +80,8 @@
     }
   }
 
-  .child-component-tree-node {
+  .child-component-tree-node,
+  .child-hotarea-tree-node {
     .ant-tree-switcher-noop {
       width: 42px;
     }

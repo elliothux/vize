@@ -11,9 +11,15 @@
     "lint:fix": "eslint src --ext .jsx,js,ts,tsx --fix"
   },
   "dependencies": {
+    "@ali/iceluna-comp-image": "^1.0.1",
+    "@ali/iceluna-comp-text": "^1.0.4",
+    "classnames": "^2.2.6",
+    "i": "^0.3.6",
     "rax": "^1.2.0",
+    "rax-view": "^2.0.4",
     "react": "^16.14.0",
     "react-dom": "^16.13.1",
+    "tnpm": "^7.2.2",
     "universal-alert": "^1.2.1",
     "universal-toast": "^1.2.3"
   },

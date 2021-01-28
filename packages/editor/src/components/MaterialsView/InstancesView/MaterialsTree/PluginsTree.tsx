@@ -4,9 +4,9 @@ import { observer } from 'mobx-react';
 import { ComponentProps, useMemo } from 'react';
 import { pluginsStore, selectStore, SelectType } from 'states';
 import { FirstParameter, MustBe, PluginInstance } from 'types';
-import { FiFolder, FiPackage } from 'react-icons/fi';
+import { FiFolder } from 'react-icons/fi';
 import { PluginContextMenu, showPluginContextMenu } from 'components/ContextMenu';
-import { getMaterialsPluginMeta } from 'runtime';
+import { generatePluginTreeData } from './utils';
 
 const { DirectoryTree } = Tree;
 
@@ -40,6 +40,7 @@ function IPluginsTree() {
     <>
       <DirectoryTree
         className="plugins-tree"
+        expandAction="doubleClick"
         defaultExpandAll
         // onSelect={onSelect}
         // onExpand={onExpand}
@@ -74,22 +75,7 @@ function getTreeData(pluginInstances: PluginInstance[]): TreeData {
       icon: <FiFolder />,
       selectable: false,
       className: 'tree-root-node plugins-tree-root-node',
-      children: generateTreeData(pluginInstances),
+      children: generatePluginTreeData(pluginInstances),
     },
   ];
-}
-
-function generateTreeData(pluginInstances: PluginInstance[]): TreeData {
-  return pluginInstances.map(({ key, plugin }) => {
-    const {
-      info: { name },
-    } = getMaterialsPluginMeta(plugin)!;
-
-    return {
-      key,
-      title: `${name} (key=${key})`,
-      isLeaf: true,
-      icon: <FiPackage />,
-    };
-  });
 }

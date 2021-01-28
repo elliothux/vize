@@ -13,7 +13,7 @@ export default {
   info,
   enableStyleGroup,
   isContainer: true,
-  // hideEditMask: true,
+  hideEditMask: true,
   onEvents: [
     { displayName: '显示弹窗', eventName: 'show' },
     { displayName: '隐藏弹窗', eventName: 'hide' },

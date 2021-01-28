@@ -3,8 +3,8 @@ import { ComponentProps } from '@vize/types';
 
 export default function Container({ children, commonStyle }: ComponentProps) {
   return (
-    <p className="vize-materials-universal-container" style={commonStyle}>
+    <div className="vize-materials-universal-container" style={commonStyle}>
       {children}
-    </p>
+    </div>
   );
 }
