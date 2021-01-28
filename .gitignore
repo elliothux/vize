@@ -68,9 +68,6 @@ typings/
 # nuxt.js build output
 .nuxt
 
-# vuepress build output
-.vuepress/dist
-
 # Serverless directories
 .serverless
 
@@ -237,9 +234,6 @@ dist
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
-# vuepress build output
-.vuepress/dist
-
 # Serverless directories
 .serverless/
 
@@ -295,3 +289,5 @@ lerna-debug.log*
 !/packages/cgi-new/dist/
 /packages/generator-web/test/dist
 /packages/cgi/workspace
+/packages/generator-pegasus
+/packages/doc/src/.vuepress/dist/

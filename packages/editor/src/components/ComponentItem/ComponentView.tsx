@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ComponentInstance, ComponentSelectedCallback, WithReactChildren } from 'types';
-import { useCallback, useMemo } from 'react';
+import { ComponentInstance, ComponentSelectedCallback } from 'types';
+import { PropsWithChildren, useCallback, useMemo } from 'react';
 import {
   onCustomEvent,
   cancelCustomEvent,
@@ -13,11 +13,11 @@ import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime';
 import { editStore, globalStore, pagesStore } from 'states';
 
-interface Props extends WithReactChildren {
+interface Props {
   instance: ComponentInstance;
 }
 
-function IComponentView({ instance, children }: Props) {
+function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   const { key, component, data, style, commonStyle, wrapperStyle } = instance;
   const { previewMode } = editStore;
   const { metaInfo, globalProps } = globalStore;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Formily from '@formily/antd';
+import * as Formily from '@uform/antd';
 import { useMemo } from 'react';
 import { SchemaForm } from '../SchemaForm';
 import { OverrideFormProps, SchemaFormProps } from 'types';

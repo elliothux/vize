@@ -25,6 +25,7 @@ function IPluginEventInstances() {
     <div className="event_instances">
       <Title />
       <SortablePluginEventInstances
+        helperClass="dragging-event-instance"
         events={events}
         plugin={plugin}
         lockAxis="y"

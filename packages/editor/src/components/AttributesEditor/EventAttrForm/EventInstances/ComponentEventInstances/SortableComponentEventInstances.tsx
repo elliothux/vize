@@ -11,7 +11,7 @@ interface Props {
 
 function ISortableComponentEventInstances({ events, component }: Props) {
   return (
-    <div>
+    <>
       {events.map((event, index) => (
         <EventInstanceItem
           index={index}
@@ -21,7 +21,7 @@ function ISortableComponentEventInstances({ events, component }: Props) {
           onChangeData={data => eventStore.setEventInstanceDataOfCurrentComponentInstance(data, index)}
         />
       ))}
-    </div>
+    </>
   );
 }
 

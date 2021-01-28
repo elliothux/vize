@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import * as fs from 'fs-extra';
-import { ComponentInstanceDSL, DSL, EventInstance, EventTargetType, PageMode, PluginInstanceDSL } from '../../types';
 import {
   formatGlobalStyle,
   getTpl,
@@ -10,21 +9,30 @@ import {
   stringifyUmdConstants,
   stringifyMaterialVars,
 } from '../utils';
-import { GlobalTplParams, MaterialsPathMap, PageMaterialsPathMap, PageTplParams } from '../types';
+import {
+  GlobalTplParams,
+  MaterialsPathMap,
+  PageMaterialsPathMap,
+  PageTplParams,
+  ComponentInstanceDSL,
+  DSL,
+  EventInstance,
+  EventTargetType,
+  PageMode,
+  PluginInstanceDSL,
+} from '../types';
 import { BaseConfigParams } from '../builder/base';
 
 interface InitParams {
   dsl: DSL;
   libsPath: BaseGenerator['libsPath'];
-  runtimePath: BaseGenerator['runtimePath'];
   distPath: string;
 }
 
 export class BaseGenerator {
-  constructor({ dsl, libsPath, runtimePath, distPath }: InitParams) {
+  constructor({ dsl, libsPath, distPath }: InitParams) {
     this.dsl = dsl;
     this.libsPath = libsPath;
-    this.runtimePath = runtimePath;
     this.distPath = distPath;
   }
 
@@ -33,8 +41,6 @@ export class BaseGenerator {
   public readonly distPath: string;
 
   private readonly libsPath: string;
-
-  private readonly runtimePath: string;
 
   private readonly pageComponentsPathMaps: PageMaterialsPathMap = [];
 
@@ -109,12 +115,7 @@ export class BaseGenerator {
   };
 
   private createDepsSoftLink = async (targetPath: string) => {
-    const depsPath = path.resolve(targetPath, './deps/');
-    await fs.ensureDir(depsPath);
-    return Promise.all([
-      fs.symlink(this.libsPath, path.resolve(targetPath, './libs')),
-      fs.symlink(this.runtimePath, path.resolve(depsPath, 'runtime-web')),
-    ]);
+    return fs.symlink(this.libsPath, path.resolve(targetPath, './libs'));
   };
 
   public generatePagesFile = async (pageIndex: number, pagePath: string, globalPath: string) => {
@@ -141,8 +142,6 @@ export class BaseGenerator {
 
     const pluginsPathMap = pagePluginsPathMaps[pageIndex];
     const actionsPathMap = { ...pagePluginActionsPathMaps[pageIndex], ...this.sharedComponentActionsPathMap };
-
-    console.log(this.dsl.sharedComponentInstances, stringifyComponentInstances(this.dsl.sharedComponentInstances));
 
     return {
       globalStyle: formatGlobalStyle(globalStyle),

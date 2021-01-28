@@ -2,91 +2,102 @@
 
 .event_instances {
   margin-top: 32px;
+}
 
-  .vize_event_instance {
-    margin-bottom: 16px;
+.vize-event-instance {
+  margin-bottom: 16px;
+  box-shadow: $default-box-shadow-light;
+  border-radius: 4px;
+  overflow: hidden;
 
-    &.empty_form {
-      .ant-card-body {
-        display: none;
-      }
-    }
-
-    .ant-card-head {
-      padding: 0 12px;
-    }
-
+  &.empty_form {
     .ant-card-body {
-      padding: 18px 18px 0 !important;
+      display: none;
     }
 
     .ant-card-head-title {
-      padding: 8px 0;
-      position: relative;
+      margin-bottom: 2px;
+    }
+  }
 
-      & > button {
-        position: absolute;
-        right: 3px;
-        top: 15px;
+  .ant-card-head {
+    padding: 0 12px;
+  }
+
+  .ant-card-body {
+    padding: 18px 18px 0 !important;
+  }
+
+  .ant-card-head-title {
+    padding: 8px 0;
+    position: relative;
+
+    & > button {
+      position: absolute;
+      right: 3px;
+      top: 15px;
+
+      svg {
+        margin-top: 3px;
+      }
+    }
+
+    & > p {
+      margin: 0;
+
+      &:first-child {
+        font-size: 15px;
+        margin-bottom: 6px;
+        margin-right: 20px;
+      }
+
+      &.event_instance_trigger {
+        margin-bottom: 8px;
 
         svg {
-          margin-top: 3px;
+          width: 12px;
+          height: auto;
         }
       }
 
-      & > p {
-        margin: 0;
+      &.event_instance_trigger,
+      &.event_instance_target {
+        font-size: 13px;
+        font-weight: normal;
 
-        &:first-child {
+        span {
+          font-weight: bolder;
           font-size: 15px;
-          margin-bottom: 6px;
-          margin-right: 20px;
         }
 
-        &.event_instance_trigger {
-          margin-bottom: 8px;
-
-          svg {
-            width: 12px;
-            height: auto;
-          }
-        }
-
-        &.event_instance_trigger,
-        &.event_instance_target {
-          font-size: 13px;
-          font-weight: normal;
-
-          span {
-            font-weight: bolder;
-            font-size: 15px;
-          }
-
-          svg {
-            width: 14px;
-            height: auto;
-            margin-right: 6px;
-            position: relative;
-            top: 2px;
-          }
+        svg {
+          width: 14px;
+          height: auto;
+          margin-right: 6px;
+          position: relative;
+          top: 2px;
         }
       }
     }
   }
+}
 
-  .vize-event-title {
-    text-align: center;
-    border-bottom: $default-border;
-    margin-bottom: 20px;
+.vize-event-title {
+  text-align: center;
+  border-bottom: $default-border;
+  margin-bottom: 20px;
 
-    & > span {
-      font-size: 14px;
-      display: inline-block;
-      position: relative;
-      top: 10px;
-      background-color: white;
-      padding: 0 8px;
-      font-weight: bold;
-    }
+  & > span {
+    font-size: 14px;
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    background-color: white;
+    padding: 0 8px;
+    font-weight: bold;
   }
+}
+
+.dragging-event-instance {
+  z-index: 999;
 }

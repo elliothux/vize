@@ -15,7 +15,7 @@ export function camelize(str: string, upper = false) {
 
 export function cleanArgs(cmd: any) {
   const args: { [key: string]: string } = {};
-  cmd.options.forEach((o: any) => {
+  cmd?.options?.forEach((o: any) => {
     const key = camelize(o.long.replace(/^--/, ''));
     if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
       args[key] = cmd[key];

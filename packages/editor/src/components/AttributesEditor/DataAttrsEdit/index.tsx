@@ -4,13 +4,10 @@ import { SelectType } from 'states';
 import { ComponentDataForm } from './ComponentDataForm';
 import { PluginDataForm } from './PluginDataForm';
 import { GlobalDataForm } from './GlobalDataForm';
+import { NotAvailable } from '../NotAvailable';
 
 interface Props {
   selectType: SelectType;
-}
-
-function Empty() {
-  return <div>empty</div>;
 }
 
 function IDataAttrsEdit({ selectType }: Props) {
@@ -22,7 +19,7 @@ function IDataAttrsEdit({ selectType }: Props) {
   if (selectType === SelectType.GLOBAL) {
     return <GlobalDataForm />;
   }
-  return <Empty />;
+  return <NotAvailable />;
 }
 
 // export default DataAttrsEdit;

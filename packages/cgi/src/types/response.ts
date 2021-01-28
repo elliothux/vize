@@ -5,3 +5,9 @@ export interface Response<T> {
   data?: T;
   code: number;
 }
+
+export enum BuildStatus {
+  START = 'start',
+  SUCCESS = 'success',
+  FAILED = 'failed',
+}

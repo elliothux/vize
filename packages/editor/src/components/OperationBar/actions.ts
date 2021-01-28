@@ -1,6 +1,7 @@
 import { generateDSL, isDebugMode, promiseWrapper } from 'utils';
-import { savePageHistory } from 'api';
+import { previewPage, savePageHistory } from 'api';
 import { message } from 'antd';
+import { editStore } from 'states';
 
 export async function save() {
   message.loading('保存中...');
@@ -18,3 +19,14 @@ export async function save() {
   message.destroy();
   err ? message.error('保存失败') : message.success('保存成功');
 }
+
+export async function preview() {
+  const [err, result] = await previewPage(editStore.pageKey);
+  debugger;
+}
+
+// TODO: REMOVE
+(window as any)['clearDSL'] = () => {
+  localStorage.removeItem('dsl');
+  console.log('clearDSL success');
+};

@@ -18,7 +18,7 @@ function Container({ children, onSelected }: React.PropsWithChildren<Props>) {
   const onClose = useCallback(() => setVisible(false), []);
 
   useEffect(() => {
-    onSelected(({ selected }) => {
+    onSelected(({ selected }: any) => {
       setVisible(selected);
     });
   }, []);

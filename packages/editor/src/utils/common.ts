@@ -4,15 +4,20 @@ import { ComponentInstance, JsonSchemaProperties, Maybe } from 'types';
 import getDefaults from 'json-schema-defaults';
 import { editStore } from 'states';
 import { createSchema } from './create';
+import React from 'react';
 
 message.config({
-  top: 60,
+  top: 80,
   duration: 2,
   maxCount: 3,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
+
+export function isMacOS() {
+  return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+}
 
 export function isDev() {
   return process.env['NODE_ENV'] === 'development';
@@ -125,4 +130,33 @@ export function percent(percent: number): string {
 
 export function pxWithAuto(px: number | 'auto'): string {
   return px === 'auto' ? 'auto' : `${px}px`;
+}
+
+export function toggleFullScreen() {
+  if (!!document.fullscreenElement) {
+    return document.exitFullscreen();
+  }
+  return document.body.requestFullscreen();
+}
+
+export function withMessage(
+  operation: (...args: any[]) => any,
+  msg: string | (() => string),
+  type: 'success' | 'warn' | 'error' | 'open' = 'open',
+) {
+  return () => {
+    const content = typeof msg === 'string' ? msg : msg();
+    message.destroy();
+    if (type === 'open') {
+      message.open({
+        content,
+        icon: React.createElement('span', {}),
+        duration: 2,
+        type: 'success',
+      });
+    } else {
+      message[type](content);
+    }
+    return operation();
+  };
 }

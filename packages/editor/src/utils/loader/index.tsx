@@ -99,6 +99,7 @@ export async function loadMeta(libName: string, containerName: string, debugPort
     actions,
     plugins,
     withForms: meta.withForms,
+    lib: meta.lib,
   };
 
   function generateMaterials<T = MaterialsComponentMeta | MaterialsPluginMeta | MaterialsActionMeta>(

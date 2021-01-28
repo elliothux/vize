@@ -1,0 +1,11 @@
+{
+  "name": "@vize/runtime-web-rax",
+  "version": "0.1.1",
+  "scripts": {
+    "publish": "npm publish --access public"
+  },
+  "main": "src",
+  "files": [
+    "src"
+  ]
+}

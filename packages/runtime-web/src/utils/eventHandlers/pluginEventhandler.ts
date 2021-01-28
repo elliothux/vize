@@ -4,7 +4,7 @@ import {
   PageRouter,
   PluginInstance,
   PluginUniversalEventTrigger,
-} from '../../../types';
+} from '@vize/types/src';
 import { EventHandler } from './types';
 import { pipeEvents } from './utils';
 

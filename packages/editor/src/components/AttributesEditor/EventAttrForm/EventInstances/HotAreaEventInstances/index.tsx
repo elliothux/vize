@@ -25,6 +25,7 @@ function IHotAreaEventInstances() {
       <Title />
       <SortableHotAreaEventInstances
         events={events}
+        helperClass="dragging-event-instance"
         lockAxis="y"
         onSortEnd={onSortEnd}
         helperContainer={() => ref.current!}

@@ -3,10 +3,10 @@ import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import { SelectType } from 'states';
-import { EventTargetType, EventTriggerName, Maybe } from 'types';
+import { ComponentUniversalEventTrigger, EventTargetType, EventTriggerName, Maybe } from 'types';
 import { useCurrentComponentMeta, useCurrentPluginMeta } from 'hooks';
 import { EventTriggerSelector } from './TriggerSelector';
-import { TargetSelector, ActionTargetSelector, ComponentTargetSelector, PluginTargetSelector } from './TargetSelector';
+import { ActionTargetSelector, ComponentTargetSelector, PluginTargetSelector, TargetSelector } from './TargetSelector';
 import { EventInstances } from './EventInstances';
 import { NotAvailable } from '../NotAvailable';
 
@@ -18,7 +18,7 @@ function IEventAttrForm({ selectType }: Props) {
   const componentMeta = useCurrentComponentMeta();
   const pluginMeta = useCurrentPluginMeta();
 
-  const [trigger, setTrigger] = useState<Maybe<EventTriggerName>>(null);
+  const [trigger, setTrigger] = useState<Maybe<EventTriggerName>>(ComponentUniversalEventTrigger.CLICK);
   const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.ACTION);
 
   useEffect(() => {

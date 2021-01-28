@@ -6,6 +6,14 @@ import chalk from 'chalk';
 import { isText } from 'istextorbinary';
 import * as inquirer from 'inquirer';
 
+export function checkRuntime(runtime: Maybe<string>): string | void {
+  if (!['react', 'rax'.includes(runtime)]) {
+    return error(`Invalid runtime "${runtime}"`);
+  }
+
+  return runtime;
+}
+
 export function checkNameValid(name: Maybe<string>): string | void {
   if (!name) {
     return error('Missing required params "name". Try again with "vize create-lib <name>".');

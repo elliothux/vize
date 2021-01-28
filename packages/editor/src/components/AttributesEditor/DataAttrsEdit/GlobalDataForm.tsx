@@ -6,13 +6,13 @@ import { observer } from 'mobx-react';
 import { useCallback } from 'react';
 
 const TemplateDataSchema: JsonSchemaProperties = {
-  title: { title: '活动标题', type: 'string', default: '新页面', required: true },
-  desc: { title: '页面描述', type: 'textarea', required: true },
+  title: { title: '标题', type: 'string', default: 'new', required: true },
+  // desc: { title: '描述', type: 'textarea', required: true },
 };
 
 const PageDataSchema: JsonSchemaProperties = {
   ...TemplateDataSchema,
-  duration: { title: '起止时间', type: 'daterange', required: true },
+  // duration: { title: '起止时间', type: 'daterange', required: true },
 };
 
 function IGlobalDataForm() {

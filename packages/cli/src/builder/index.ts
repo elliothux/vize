@@ -1,16 +1,17 @@
 import * as WebSocket from 'ws';
+import * as fs from 'fs-extra';
 import watch from 'node-watch';
 import webpack, { Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import { MaterialsLibConfig } from '@vize/types/src';
 import { getLibPaths, LibPaths, log, logWithSpinner, stopSpinner } from '../utils';
-import { LibConfig } from '../config';
 import { getLibWebpackConfig } from '../webpackCompiler';
 import { generateFormEntryFile, generateMaterialsEntryFile } from './autoRequire';
-import { clearTemp, openEditor, prepareEditor, webpackCallback } from './utils';
+import { clearTemp, generateMaterialsManifest, openEditor, prepareEditor, webpackCallback } from './utils';
 
 interface Options {
   libPaths: LibPaths;
-  libConfig: LibConfig;
+  libConfig: MaterialsLibConfig;
   idProd: boolean;
   open?: boolean;
   port?: number;
@@ -35,7 +36,7 @@ export class Builder {
 
   private libPaths: LibPaths;
 
-  private readonly libConfig: LibConfig;
+  private readonly libConfig: MaterialsLibConfig;
 
   private readonly isProd: boolean;
 
@@ -81,6 +82,9 @@ export class Builder {
     logWithSpinner('🤖', '启动 File Watcher');
     const { components, plugins, actions, containers, formFields, formRules } = this.libPaths;
     [components, plugins, actions, containers, formFields, formRules].forEach((path: string) => {
+      if (!fs.existsSync(path)) {
+        return;
+      }
       watch(path, { recursive: false }, () => {
         log(`🔥  ${path} 目录更新`);
         return this.afterUpdate();
@@ -144,9 +148,13 @@ export class Builder {
     await this.prepareFiles();
     const config = this.generateWebpackConfig(true);
 
-    logWithSpinner('🚀', '运行 Webpack 构建');
+    logWithSpinner('🚀', ' 运行 Webpack 构建');
     await new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
-    logWithSpinner('✨', ' 构建完成');
+
+    logWithSpinner('🚀', ' 生成 meta 文件');
+    await generateMaterialsManifest(this.libConfig.libName, this.libPaths.dist);
+
+    logWithSpinner('✨', ' 完成');
     stopSpinner();
     return;
   };

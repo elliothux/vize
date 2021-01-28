@@ -1,5 +1,18 @@
-import { MaterialsActionMeta, MaterialsComponentMeta, MaterialsMeta, MaterialsPluginMeta, Maybe } from '../../types';
+import {
+  MaterialsActionMeta,
+  MaterialsComponentMeta,
+  MaterialsMeta,
+  MaterialsPluginMeta,
+  Maybe,
+  MaterialsLibConfig,
+} from '@vize/types/src';
 import { getMaterialsIdentityName } from '../utils';
+
+export const materialsLibInfoMap = new Map<string, MaterialsLibConfig>();
+
+export function getMaterialsLibInfo(libName: string): Maybe<MaterialsLibConfig> {
+  return materialsLibInfoMap.get(libName);
+}
 
 // Component Materials Meta
 
@@ -31,12 +44,19 @@ export function getMaterialsActionMeta(id: ActionID): Maybe<MaterialsActionMeta>
   return materialsActionMetaMap.get(id);
 }
 
-export function setMaterialsMetaMap(libName: string, { components, plugins, actions }: MaterialsMeta, clearOld = true) {
+export function setMaterialsMetaMap(
+  libName: string,
+  { components, plugins, actions, lib }: MaterialsMeta,
+  clearOld = true,
+) {
   if (clearOld) {
+    materialsLibInfoMap.clear();
     materialsComponentMetaMap.clear();
     materialsPluginMetaMap.clear();
     materialsActionMetaMap.clear();
   }
+
+  materialsLibInfoMap.set(libName, lib);
 
   Object.entries(components).map(([, component]) => {
     const id = getMaterialsIdentityName(libName, component.name);

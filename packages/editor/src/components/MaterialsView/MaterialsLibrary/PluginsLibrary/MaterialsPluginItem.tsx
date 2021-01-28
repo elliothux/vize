@@ -48,7 +48,7 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
         {thumb && <SVGRender content={thumb} />}
         <div>
           <p className="name">{name}</p>
-          <p className="desc">{desc}</p>
+          <p className="desc">{desc || '无插件描述'}</p>
         </div>
       </div>
       <div className="button" onClick={onAdd}>

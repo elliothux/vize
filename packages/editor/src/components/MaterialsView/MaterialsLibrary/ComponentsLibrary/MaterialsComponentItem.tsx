@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { MaterialsComponentMeta, Maybe } from 'types';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useRef } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { componentsStore } from 'states';
 import { SVGRender } from 'widgets/SVGRender';
@@ -25,13 +25,27 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
   const onFocus = useCallback(() => setFocus(true), [setFocus]);
   const onBlur = useCallback(() => setFocus(false), [setFocus]);
 
+  const ref = useRef<HTMLDivElement>(null);
+  const animateAdd = useCallback(() => {
+    if (!ref.current) {
+      return;
+    }
+    const newNode = ref.current.cloneNode(true);
+    document.body.appendChild(newNode);
+    console.log(newNode);
+  }, [ref.current]);
+
   const onClick = useCallback(() => onSelect(item), [item]);
-  const onClickAdd = useCallback(() => componentsStore.addComponentInstance(identityName), [identityName]);
+  const onClickAdd = useCallback(() => {
+    // animateAdd();
+    componentsStore.addComponentInstance(identityName);
+  }, [identityName]);
 
   const disabled = currentContainerComponentKey > -1 && isContainer;
 
   return (
     <div
+      ref={ref}
       className={classNames('vize-materials-component-item', {
         activated: !disabled && currentItem === identityName,
         disabled,
@@ -46,7 +60,7 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
         {thumb && <SVGRender content={thumb} />}
         <div>
           <p className="name">{name}</p>
-          <p className="desc">{desc}</p>
+          <p className="desc">{desc || '无组件描述'}</p>
         </div>
       </div>
       <div className="button" onClick={disabled ? undefined : onClickAdd}>

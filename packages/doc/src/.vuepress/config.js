@@ -5,7 +5,8 @@ module.exports = {
   serviceWorker: true,
   displayAllHeaders: true,
   // dest: path.resolve(__dirname, '../../public/docs'),
-  base: '/docs/',
+  // base: '/docs/',
+  base: '/',
   head: [
     [
       'link',
@@ -67,7 +68,13 @@ module.exports = {
       {
         title: '进阶',
         collapsable: true,
-        children: ['/advanced/meta', '/advanced/containerComponent'],
+        children: [
+          '/advanced/meta',
+          '/advanced/containerComponent',
+          '/advanced/routerController.md',
+          '/advanced/generator.md',
+          '/advanced/hot-area-component.md',
+        ],
       },
     ],
   },

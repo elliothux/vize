@@ -13,6 +13,8 @@ export interface DBConfig {
 export interface VizeCGIConfig {
   port: number;
   workspacePath: string;
+  editorPath?: string;
+  managementUIPath?: string;
   npmRegistry?: string;
   db: DBConfig;
   generators?: {
@@ -22,10 +24,13 @@ export interface VizeCGIConfig {
 
 export interface VizeCGIConfigWithPaths extends VizeCGIConfig {
   paths: {
-    workspacePath;
-    buildPath;
-    materialsPath;
-    materialsVersionsPath;
+    workspacePath: string;
+    buildPath: string;
+    previewPath: string;
+    materialsPath: string;
+    materialsVersionsPath: string;
+    editorPath: string;
+    managementUIPath: string;
   };
 }
 
@@ -34,6 +39,7 @@ let config: Maybe<VizeCGIConfigWithPaths> = null;
 export function setConfig(c: VizeCGIConfig) {
   const { workspacePath } = c;
   const buildPath = path.join(workspacePath, 'build');
+  const previewPath = path.join(workspacePath, 'preview');
   const materialsPath = path.join(workspacePath, 'materials');
   const materialsVersionsPath = path.join(workspacePath, 'materials_version');
   config = {
@@ -41,8 +47,12 @@ export function setConfig(c: VizeCGIConfig) {
     paths: {
       workspacePath,
       buildPath,
+      previewPath,
       materialsPath,
       materialsVersionsPath,
+      editorPath: c.editorPath || require.resolve('@vize/editor/build'),
+      managementUIPath:
+        c.managementUIPath || require.resolve('@vize/management-ui/build'),
     },
   };
 }

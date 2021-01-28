@@ -1,13 +1,13 @@
 import path from 'path';
 import fs from 'fs-extra';
+import { MaterialsLibConfig } from '@vize/types/src';
 import { Configuration } from 'webpack';
 import { LibPaths } from '../utils';
-import { LibConfig } from '../config';
 import { getLibDefaultWebpackConfig } from './lib.default';
 
 export interface Options {
   libPaths: LibPaths;
-  libConfig: LibConfig;
+  libConfig: MaterialsLibConfig;
   isProd: boolean;
   withForms: boolean;
   useSWC?: boolean;

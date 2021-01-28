@@ -3,7 +3,7 @@ import { Configuration } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as path from 'path';
-import { GlobalMeta } from '../../types';
+import { GlobalMeta } from 'types';
 
 export interface BaseConfigParams {
   containerPath: string;

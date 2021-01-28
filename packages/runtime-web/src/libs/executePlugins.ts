@@ -5,7 +5,7 @@ import {
   PluginUniversalEventTrigger,
   GlobalMeta,
   PageRouter,
-} from '../../types';
+} from '@vize/types/src';
 import { cancelCustomEvent, emitCustomEvent, onCustomEvent } from './customEvents';
 import { getMaterialsPlugin } from './materialsMap';
 import { generatePluginHandlers } from '../utils/eventHandlers';

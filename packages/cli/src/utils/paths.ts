@@ -95,12 +95,18 @@ export function getLibPaths(rootPath?: string, containerName?: string): LibPaths
   }
 
   if (fs.existsSync(formFields)) {
-    const items = fs.readdirSync(formFields).map(name => path.resolve(formFields, name));
+    const items = fs
+      .readdirSync(formFields)
+      .filter(isItemPathNameValid)
+      .map(name => path.resolve(formFields, name));
     paths.formFieldsList = items.length ? items : null;
   }
 
   if (fs.existsSync(formRules)) {
-    const items = fs.readdirSync(formRules).map(name => path.resolve(formRules, name));
+    const items = fs
+      .readdirSync(formRules)
+      .filter(isItemPathNameValid)
+      .map(name => path.resolve(formRules, name));
     paths.formRulesList = items.length ? items : null;
   }
 
@@ -109,7 +115,7 @@ export function getLibPaths(rootPath?: string, containerName?: string): LibPaths
 
 function getItemList(folderPath: string): MaterialsList {
   const items = fs.readdirSync(folderPath);
-  return items.map(name => {
+  return items.filter(isItemPathNameValid).map(name => {
     const itemPath = path.resolve(folderPath, name);
     return {
       name,
@@ -121,7 +127,7 @@ function getItemList(folderPath: string): MaterialsList {
 }
 
 function getContainerList(folderPath: string): ContainerList {
-  const items = fs.readdirSync(folderPath);
+  const items = fs.readdirSync(folderPath).filter(isItemPathNameValid);
   return items.map(name => {
     const itemPath = path.resolve(folderPath, name);
     const entry = path.resolve(itemPath, './index');
@@ -134,4 +140,8 @@ function getContainerList(folderPath: string): ContainerList {
       html,
     };
   });
+}
+
+function isItemPathNameValid(i: string) {
+  return !i.startsWith('.') || !i.startsWith('_');
 }

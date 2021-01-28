@@ -1,11 +1,11 @@
 import webpack from 'webpack';
 import { MultiCompiler, Stats } from 'webpack';
 import { BuildConfigParams, generateWebpackConfig } from './configGenerator';
-import { SecondParameter } from '../../types/helper';
+import { SecondParameter } from '../types';
 
 export function runBuild(params: BuildConfigParams) {
   const config = generateWebpackConfig(params);
-  // console.log(JSON.stringify(config, null, 4));
+  console.log(JSON.stringify(config, null, 4));
   return new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
 }
 

@@ -2,20 +2,14 @@ import * as React from 'react';
 import * as R from 'ramda';
 import { ComponentProps, useCallback, useMemo } from 'react';
 import { Tree } from 'antd';
-import { FiArchive, FiFolder, FiLayers, FiSquare } from 'react-icons/fi';
+import { FiFolder } from 'react-icons/fi';
 import { observer } from 'mobx-react';
 import { componentsStore, selectStore, SelectType, sharedStore } from 'states';
-import { ComponentInstance, FirstParameter, HotArea, Maybe, MustBe } from 'types';
+import { ComponentInstance, FirstParameter, Maybe, MustBe } from 'types';
 import { showComponentContextMenu, showHotAreaContextMenu } from 'components/ContextMenu';
-import {
-  ComponentIndex,
-  findComponentInstanceByIndex,
-  isString,
-  isNumber,
-  getCurrentPageComponentIndex,
-  getSharedComponentIndex,
-} from 'utils';
-import { getMaterialsComponentMeta } from 'runtime';
+import { ComponentIndex, findComponentInstanceByIndex, isString, isNumber } from 'utils';
+import classNames from 'classnames';
+import { generateComponentTreeData } from './utils';
 
 const { DirectoryTree } = Tree;
 
@@ -28,7 +22,7 @@ interface Props {
 function IComponentsTree({ shared }: Props) {
   const { componentInstances } = componentsStore;
   const { sharedComponentInstances } = sharedStore;
-  const { selectType, componentKey, hotAreaIndex } = selectStore;
+  const { selectType, componentKey, hotAreaIndex, selectMode } = selectStore;
 
   // const treeData = useMemo<TreeData>(() => getTreeData(componentInstances), [componentInstances]);
   const treeData = getTreeData(shared ? sharedComponentInstances : componentInstances, !!shared);
@@ -52,7 +46,8 @@ function IComponentsTree({ shared }: Props) {
 
   return (
     <DirectoryTree
-      className="components-tree"
+      className={classNames('components-tree', { 'select-mode': selectMode })}
+      expandAction="doubleClick"
       defaultExpandAll
       // draggable // TODO
       treeData={treeData}
@@ -74,17 +69,29 @@ function onSelect(shared: boolean, ...params: Parameters<MustBe<ComponentProps<t
       node: { key },
     },
   ] = params;
+  const { selectMode } = selectStore;
+
   if (isString(key)) {
+    if (selectMode) {
+      return;
+    }
+
     const [prefix, componentKey, index] = key.toString().split('-');
     if (prefix !== 'hotarea') {
       return;
     }
+
     return selectStore.selectHotArea(parseInt(index, 10), parseInt(componentKey, 10));
   }
 
   const instance = shared
     ? sharedStore.getCurrentSharedComponentInstance(key as number)
     : componentsStore.getCurrentPageComponentInstance(key as number);
+
+  if (selectMode) {
+    return selectStore.setSelectModeSelectComponent({ key: instance.key, parentKey: instance.parent?.key });
+  }
+
   selectStore.selectComponent(shared, instance.key, instance.parent?.key);
 }
 
@@ -177,42 +184,7 @@ function getTreeData(componentInstances: ComponentInstance[], shared: boolean): 
       icon: <FiFolder />,
       selectable: false,
       className: 'tree-root-node components-tree-root-node',
-      children: generateTreeData(componentInstances),
+      children: generateComponentTreeData(componentInstances),
     },
   ];
-}
-
-function generateTreeData(componentInstances: ComponentInstance[], isChildren = false): TreeData {
-  return componentInstances.map(({ key, children, component, hotAreas }) => {
-    const {
-      info: { name },
-    } = getMaterialsComponentMeta(component)!;
-    const isContainer = !!children;
-    const hasHotArea = !!hotAreas?.length;
-
-    return {
-      key,
-      title: `${name} (key=${key})`,
-      isLeaf: !(isContainer || hasHotArea),
-      icon: isContainer || hasHotArea ? <FiArchive /> : <FiLayers />,
-      children: isContainer
-        ? generateTreeData(children!, true)
-        : hasHotArea
-        ? generateHotAreaTreeData(key, hotAreas!)
-        : undefined,
-      className: isChildren ? 'child-component-tree-node' : undefined,
-    };
-  });
-}
-
-function generateHotAreaTreeData(componentKey: number, hotAreas: HotArea[]): TreeData {
-  return hotAreas.map(({ key }, index) => {
-    return {
-      key: `hotarea-${componentKey}-${index}`,
-      title: `热区（key=${key}）`,
-      isLeaf: true,
-      icon: <FiSquare />,
-      className: 'child-component-tree-node',
-    };
-  });
 }

@@ -1,0 +1,10 @@
+{
+  "name": "@vize/types",
+  "version": "0.1.4",
+  "description": "",
+  "main": "src/index",
+  "scripts": {
+    "build": "tsc ./src/*.ts",
+    "publish": "tsc ./src/*.ts; npm publish --access public;"
+  }
+}

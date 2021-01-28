@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useCallback, useMemo, useState } from 'react';
 import * as R from 'ramda';
+import { useCallback, useMemo, useState } from 'react';
 import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { Button, Select } from 'antd';
 import { eventStore } from 'states';
@@ -32,6 +32,7 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
     setTrigger(null);
   }, [trigger, actionId]);
 
+  console.log({ actionId, trigger });
   return (
     <>
       <div className="event-form-prop-item">

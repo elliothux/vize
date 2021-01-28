@@ -15,6 +15,8 @@ $default-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
 $default-box-shadow-heavy: 0 0px 8px rgba(0, 0, 0, 0.3);
 
+$default-box-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
+
 @function main-color-opacity($opacity: 1) {
   @return rgba(251, 159, 52, $opacity);
 }

@@ -1,13 +1,13 @@
 import * as R from 'ramda';
 import { ComponentType } from 'react';
-import { registerFormFields as registerFormilyFields, connect } from '@formily/antd';
+import { registerFormFields as registerFormilyFields, connect } from '@uform/antd';
 import { FormProps } from '../types';
 import { Color } from './Color';
 
 export type FormFieldComponent<T = any> = ComponentType<FormProps<T>>;
 
 export function registerFormFields(fieldsMap: { [type: string]: FormFieldComponent }) {
-  registerFormilyFields(R.mapObjIndexed(field => connect()(field), fieldsMap));
+  registerFormilyFields(R.mapObjIndexed(field => connect()(field as any), fieldsMap));
 }
 
 registerFormFields({

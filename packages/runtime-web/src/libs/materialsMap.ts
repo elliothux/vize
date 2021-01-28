@@ -7,7 +7,7 @@ import {
   MaterialsPlugin,
   MaterialsPluginMeta,
   Maybe,
-} from '../../types';
+} from '@vize/types/src';
 import { getMaterialsIdentityName } from '../utils';
 
 // Component Materials
@@ -40,11 +40,7 @@ export function getMaterialsAction(id: ActionID): Maybe<MaterialsAction> {
   return materialsActionsMap.get(id);
 }
 
-export function setMaterialsMap(
-  libName: string,
-  { components, plugins, actions }: Partial<MaterialsMain>,
-  clearOld = true,
-) {
+export function setMaterialsMap(libName: string, { components, plugins, actions }: MaterialsMain, clearOld = true) {
   if (clearOld) {
     materialsComponentsMap.clear();
     materialsPluginsMap.clear();

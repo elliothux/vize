@@ -11,15 +11,11 @@ import { getMaterialsComponentMeta } from 'runtime';
 function IComponentForm() {
   const { componentInstances } = componentsStore;
   const { componentKey } = selectStore;
-  console.log(componentKey);
-  console.log(componentInstances);
 
   const { index, parentIndex } = useMemo(() => getCurrentPageComponentIndex(componentKey)!, [
     componentKey,
     componentInstances,
   ]);
-
-  console.log(index);
 
   const { data, style, component, key } = useMemo<ComponentInstance>(() => {
     return parentIndex ? componentInstances[parentIndex].children![index] : componentInstances[index];

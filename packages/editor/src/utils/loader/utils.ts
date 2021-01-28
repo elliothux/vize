@@ -26,9 +26,7 @@ export function getMaterialsFileInfo(
   const fileName = `@vize-materials-${libName}${
     fileType === MaterialsFileType.Entry || fileType === MaterialsFileType.HTML ? `-container_${containerName}` : ''
   }-${fileType}`;
-  const name = debugPort
-    ? `http://127.0.0.1:${debugPort!}/${fileName}`
-    : `/materials/materials-${libName}/dist/${fileName}`;
+  const name = debugPort ? `http://127.0.0.1:${debugPort!}/${fileName}` : `/materials/${libName}/dist/${fileName}`;
 
   return {
     url: `${name}.js`,

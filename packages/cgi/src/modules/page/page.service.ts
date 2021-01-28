@@ -1,12 +1,19 @@
+import * as path from 'path';
+import * as fs from 'fs-extra';
 import { Injectable } from '@nestjs/common';
-import { Repository, FindManyOptions } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageEntity } from './page.entity';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
-import { QueryParams, RecordStatus } from '../../types';
+import {
+  BuildStatus,
+  GeneratorResult,
+  Maybe,
+  QueryParams,
+  RecordStatus,
+} from 'types';
 import { HistoryEntity } from '../history/history.entity';
-import { generateDSL } from '../../utils/dsl';
-import { getConfig } from '../../utils';
+import { generateDSL, getConfig } from 'utils';
 
 @Injectable()
 export class PageService {
@@ -110,15 +117,41 @@ export class PageService {
   }
 
   public async buildPage(key: string) {
+    this.buildStatus.set(key, BuildStatus.START);
+
     const page = await this.getPageByKey(key)!;
     const dsl = generateDSL(page);
 
     const { generators, workspacePath } = getConfig();
     const generator = generators[page.generator || 'web']!;
-    const result = await generator({
-      dsl,
-      workspacePath,
-    });
-    console.log(result);
+    try {
+      const result: GeneratorResult = await generator({
+        dsl,
+        workspacePath,
+      });
+      this.buildStatus.set(key, BuildStatus.SUCCESS);
+      await PageService.createPreviewSoftlink(key, result.path);
+      return {
+        ...result,
+        url: `/preview/${key}`,
+      };
+    } catch (e) {
+      this.buildStatus.set(key, BuildStatus.FAILED);
+      console.error(e);
+    }
   }
+
+  static async createPreviewSoftlink(key: string, distPath: string) {
+    const {
+      paths: { previewPath },
+    } = getConfig();
+    const to = path.resolve(previewPath, key);
+    return fs.ensureSymlink(distPath, to);
+  }
+
+  public getBuildStatus(key: string): Maybe<BuildStatus> {
+    return this.buildStatus.get(key);
+  }
+
+  private readonly buildStatus = new Map<string, BuildStatus>();
 }

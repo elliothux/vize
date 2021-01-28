@@ -1,9 +1,0 @@
-{
-  "name": "@vize/boilerplate-action",
-  "version": "1.0.1",
-  "description": "materials action boilerplate for vize",
-  "main": "index.js",
-  "scripts": {
-    "publish": "npm publish --access public"
-  }
-}

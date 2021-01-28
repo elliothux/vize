@@ -1,8 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import inquirer from 'inquirer';
-import { getLibPaths } from '../utils';
-import { getLibConfig } from '../config';
+import { getLibPaths, getLibConfig } from '../utils';
 import { Builder } from '../builder';
 
 interface DevOptions {

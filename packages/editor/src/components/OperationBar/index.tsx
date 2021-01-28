@@ -2,6 +2,7 @@
 import './index.scss';
 import * as React from 'react';
 import {
+  FiCopy,
   FiCornerUpLeft,
   FiCornerUpRight,
   FiEdit,
@@ -11,24 +12,33 @@ import {
   FiLink,
   FiMaximize2,
   FiPlay,
-  FiCopy,
   FiSave,
   FiSend,
   FiX,
 } from 'react-icons/fi';
-import { Tooltip } from 'antd';
 import { OperationItem } from './OperationItem';
-import { noop } from 'utils';
-import classNames from 'classnames';
-import { ReactComponent as Column } from 'static/images/right-column-layout.svg';
-import { save } from './actions';
+import { hotkeyEvents, HotKeyEventTypes, isMacOS, noop, toggleFullScreen, withMessage } from 'utils';
+import { preview, save } from './actions';
 import { observer } from 'mobx-react';
-import { editStore } from '../../states';
+import { editStore } from 'states';
+import { EditorResize } from './Resize';
+
+const unImplemented = withMessage(noop, '该功能开发中', 'warn');
 
 @observer
 export class OperationBar extends React.Component {
+  componentDidMount() {
+    hotkeyEvents.only(HotKeyEventTypes.SAVE, save);
+    hotkeyEvents.only(
+      HotKeyEventTypes.TOGGLE_PREVIEW,
+      withMessage(editStore.togglePreviewMode, () => (editStore.previewMode ? '切换编辑模式' : '切换预览模式')),
+    );
+    hotkeyEvents.only(HotKeyEventTypes.TOGGLE_FULLSCREEN, withMessage(toggleFullScreen, '切换全屏'));
+  }
+
   renderCenter = () => {
     // TODO
+    const hotKeyPrefix = isMacOS() ? 'command' : 'ctrl';
     const { previewMode } = editStore;
 
     const isUserValid = true;
@@ -37,21 +47,40 @@ export class OperationBar extends React.Component {
     const isTemplate = false;
     return (
       <div className="operation_bar center">
-        <OperationItem title="undo" icon={FiCornerUpLeft} action={noop} />
-        <OperationItem title="redo" icon={FiCornerUpRight} action={noop} />
-        <OperationItem title="清除" icon={FiX} action={noop} />
+        <OperationItem title="undo" icon={FiCornerUpLeft} action={unImplemented} />
+        <OperationItem title="redo" icon={FiCornerUpRight} action={unImplemented} />
+        <OperationItem title="清除" icon={FiX} action={unImplemented} />
         <span className="operation_black" />
+
         <OperationItem
-          title={previewMode ? '切换到编辑模式' : '切换到预览模式'}
+          title={
+            <>
+              <p>{previewMode ? '切换到编辑模式' : '切换到预览模式'}</p>
+              <p className="desc">({hotKeyPrefix} + p)</p>
+            </>
+          }
           icon={previewMode ? FiEdit : FiEye}
           action={editStore.togglePreviewMode}
         />
-        <OperationItem title="全屏" icon={FiMaximize2} action={noop} />
+        <OperationItem
+          title={
+            <>
+              <p>切换全屏</p>
+              <p className="desc">({hotKeyPrefix} + f)</p>
+            </>
+          }
+          icon={FiMaximize2}
+          action={toggleFullScreen}
+        />
         <span className="operation_black" />
+
         <OperationItem
           title={
             isUserValid ? (
-              '保存'
+              <>
+                <p>保存</p>
+                <p className="desc">({hotKeyPrefix} + s)</p>
+              </>
             ) : (
               <p>
                 没有保存权限
@@ -64,27 +93,23 @@ export class OperationBar extends React.Component {
           action={save}
           disabled={!isUserValid}
         />
-        <OperationItem title="复制" icon={FiCopy} action={noop} />
+
+        <OperationItem title="复制" icon={FiCopy} action={unImplemented} />
         <OperationItem
           title={debugPort ? 'Debug 模式不支持存为模板' : '存为模板'}
           icon={FiFilePlus}
-          action={noop}
+          action={unImplemented}
           disabled={!!debugPort}
         />
         <OperationItem
           title={debugPort ? 'Debug 模式不支持历史管理' : '历史管理'}
           icon={FiGitMerge}
-          action={noop}
+          action={unImplemented}
           disabled={!!debugPort}
         />
         <span className="operation_black" />
-        {/*<OperationItem*/}
-        {/*  title={debugPort ? "Debug 模式不支持下载" : "下载页面 Bundle"}*/}
-        {/*  icon={FiDownload}*/}
-        {/*  action={noop}*/}
-        {/*  disabled={!!debugPort}*/}
-        {/*/>*/}
-        <OperationItem title="预览" icon={FiPlay} action={noop} />
+
+        <OperationItem title="预览" icon={FiPlay} action={preview} />
         <OperationItem
           disabled={isTemplate || !isUserValid || !!debugPort}
           title={
@@ -101,29 +126,17 @@ export class OperationBar extends React.Component {
             )
           }
           icon={FiSend}
-          action={noop}
+          action={unImplemented}
         />
-        <OperationItem title="查看发布过的页面" icon={FiLink} action={noop} />
+        <OperationItem title="查看链接" icon={FiLink} action={unImplemented} />
       </div>
     );
   };
 
   renderRight = () => {
-    const hideLeft = false;
-    const hideRight = false;
-
     return (
       <div className="operation_bar right">
-        {/*<Tooltip title="收起左栏">*/}
-        {/*  <div className={classNames('hide_left', { activated: hideLeft })}>*/}
-        {/*    <Column />*/}
-        {/*  </div>*/}
-        {/*</Tooltip>*/}
-        {/*<Tooltip title="收起右栏">*/}
-        {/*  <div className={classNames('hide_right', { activated: hideRight })}>*/}
-        {/*    <Column />*/}
-        {/*  </div>*/}
-        {/*</Tooltip>*/}
+        <EditorResize />
       </div>
     );
   };

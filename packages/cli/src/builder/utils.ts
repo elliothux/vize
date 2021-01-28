@@ -2,6 +2,14 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import open from 'open';
 import { Stats } from 'webpack';
+import { JSDOM } from 'jsdom';
+import {
+  MaterialsMeta,
+  MaterialsManifest,
+  MaterialsComponentManifestItem,
+  MaterialsPluginManifestItem,
+  MaterialsActionManifestItem,
+} from '@vize/types/src';
 import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
 
 export function findThumb(entry: string) {
@@ -108,5 +116,58 @@ export function openEditor({ debugPorts, libs, container }: OpenParams) {
   const url = `http://127.0.0.1:${debugPorts}/editor/index.html?debugPorts=${debugPorts}&libs=${libs}&key=vize_debug_page&container=${container}`;
   console.log('url: ', url);
   open(url);
-  // setTimeout(() => , 500);
+}
+
+export async function generateMaterialsManifest(libName: string, distPath: string) {
+  const { components, plugins, actions } = await getMaterialsMeta(libName, distPath);
+  const meta: MaterialsManifest = {
+    components: Object.entries(components).reduce<{ [name: string]: MaterialsComponentManifestItem }>(
+      (accu, [name, { info, dataForm, styleForm }]) => {
+        accu[name.toLowerCase()] = {
+          info,
+          dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+          styleForm: typeof styleForm === 'object' ? styleForm : undefined,
+        };
+        return accu;
+      },
+      {},
+    ),
+    plugins: Object.entries(plugins).reduce<{ [name: string]: MaterialsPluginManifestItem }>(
+      (accu, [name, { info, dataForm }]) => {
+        accu[name.toLowerCase()] = {
+          info,
+          dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+        };
+        return accu;
+      },
+      {},
+    ),
+    actions: Object.entries(actions).reduce<{ [name: string]: MaterialsActionManifestItem }>(
+      (accu, [name, { info, dataForm }]) => {
+        accu[name.toLowerCase()] = {
+          info,
+          dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+        };
+        return accu;
+      },
+      {},
+    ),
+  };
+
+  const outputPath = path.resolve(distPath, `./@vize-materials-${libName}-manifest.json`);
+  await fs.writeFile(outputPath, JSON.stringify(meta, undefined, 2));
+  return outputPath;
+}
+
+export async function getMaterialsMeta(libName: string, distPath: string): Promise<MaterialsMeta> {
+  const name = `@vize-materials-${libName}-meta`;
+  const script = await fs.readFile(path.resolve(distPath, `${name}.js`), { encoding: 'utf8' });
+  const html = `<body><script>${script}</script></body>`;
+  const { window } = new JSDOM(html, {
+    runScripts: 'dangerously',
+    pretendToBeVisual: true,
+    url: 'https://vize.com/',
+    contentType: 'text/html',
+  });
+  return window[name].default as MaterialsMeta;
 }

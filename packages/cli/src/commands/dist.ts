@@ -1,5 +1,4 @@
-import { getLibPaths } from '../utils';
-import { getLibConfig } from '../config';
+import { getLibPaths, getLibConfig } from '../utils';
 import { Builder } from '../builder';
 
 export async function dist() {

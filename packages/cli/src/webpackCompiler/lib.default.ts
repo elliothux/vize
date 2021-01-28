@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import webpack, { Configuration } from 'webpack';
-import { LibConfigRuntime } from '../config';
+import { MaterialsLibRuntime } from '@vize/types/src';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { getLibRaxWebpackConfig } from './lib.rax';
 import { Options } from './index';
@@ -21,9 +21,6 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
     containerEntry,
     containerHTML,
     containerName,
-    componentsList,
-    pluginsList,
-    actionsList,
   } = libPaths;
   const { libName, runtime } = libConfig;
 
@@ -42,7 +39,7 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
     },
     module: {
       rules: [
-        useSWC ? getSWConfig() : getBabelConfig(),
+        useSWC && runtime === 'react' ? getSWConfig() : getBabelConfig(),
         {
           test: /\.(css|scss|sass)$/,
           use: [
@@ -97,6 +94,7 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
       react: 'React',
       'react-dom': 'ReactDom',
       'react-dom/server': 'ReactDomServer',
+      '@formily/antd': 'Formily',
     },
     mode: isProd ? 'production' : 'development',
     devtool: 'source-map',
@@ -158,10 +156,9 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
 
   config.entry = entryConfig;
 
-  if (runtime === LibConfigRuntime.RAX) {
+  if (runtime === MaterialsLibRuntime.RAX) {
     return getLibRaxWebpackConfig(config);
   }
 
-  console.log(config);
   return config;
 }

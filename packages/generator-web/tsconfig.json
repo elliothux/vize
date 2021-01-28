@@ -7,12 +7,12 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "src",
     "allowJs": false,
     "skipLibCheck": true
   },
   "compileOnSave": true,
-  "baseUrl": "src",
-  "include": ["src", "types"],
+  "include": ["src", "node_modules/@vize/runtime-web/src/libs/style.ts", "node_modules/@vize/runtime-web/types"],
+  "exclude": ["src/runtime"],
   "files": ["global.d.ts"]
 }
