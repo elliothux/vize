@@ -71,8 +71,15 @@ export class PageService {
     startPage = 0,
     pageSize = 20,
     biz,
-  }: QueryParams<{ biz?: number }>) {
-    const where = biz ? { biz } : undefined;
+    isTemplate,
+  }: QueryParams<{ biz?: string; isTemplate: string }>) {
+    const where = {
+      isTemplate: parseInt(isTemplate),
+    };
+    if (biz) {
+      where['biz'] = parseInt(biz);
+    }
+
     const options: FindManyOptions<PageEntity> = {
       order: {
         createdTime: 'DESC',

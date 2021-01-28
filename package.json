@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap --npm-client=tnpm",
-    "softlink": "node ./scripts/createPackageSoftLink.js",
+    "beforeDev": "node ./scripts/createPackageSoftLink.js",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "lint-staged": {

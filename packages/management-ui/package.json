@@ -33,7 +33,9 @@
     "raw-loader": "^4.0.1",
     "react-app-rewired": "^2.1.6",
     "typescript": "^3.8.3",
-    "webpack": "4.42.0"
+    "webpack": "4.42.0",
+    "less": "4.1.0",
+    "less-loader": "5.0.0"
   },
   "browserslist": {
     "production": [

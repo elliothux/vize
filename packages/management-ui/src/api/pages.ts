@@ -4,10 +4,13 @@ import { CGIIDResponse, getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix, With
 
 export function queryPages(
   biz: Maybe<BizRecord['id']>,
+  isTemplate: boolean,
   startPage: number,
   pageSize = 10,
 ): Promise<ParsedCGIResponse<WithPagination<PageRecord[]>>> {
-  return getCGIJSON<WithPagination<PageRecord[]>>(prefix('page', { biz, startPage, pageSize }));
+  return getCGIJSON<WithPagination<PageRecord[]>>(
+    prefix('page', { biz, startPage, pageSize, isTemplate: isTemplate ? '1' : '0' }),
+  );
 }
 
 export interface CreatePageParams

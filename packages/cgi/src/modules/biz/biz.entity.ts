@@ -19,4 +19,7 @@ export class BizEntity {
 
   @Column({ type: 'datetime', nullable: true })
   modifiedTime?: Date;
+
+  @Column({ type: 'varchar', length: 1024, nullable: true })
+  libs: string;
 }

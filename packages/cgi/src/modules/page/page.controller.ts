@@ -30,7 +30,9 @@ export class PageController {
   }
 
   @Get()
-  async getPages(@Query() query: QueryParams<{ biz?: number }>) {
+  async getPages(
+    @Query() query: QueryParams<{ biz?: string; isTemplate: string }>,
+  ) {
     const { pages, total } = await this.pageService.queryPageEntity(query);
     return CGIResponse.success({
       total,

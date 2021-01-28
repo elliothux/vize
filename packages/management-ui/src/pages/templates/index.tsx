@@ -1,5 +1,6 @@
 import * as React from 'react';
+import { PageList } from 'components/PageList';
 
 export function Templates() {
-  return <h1>Templates</h1>;
+  return <PageList isTemplate />;
 }

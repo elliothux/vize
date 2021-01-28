@@ -30,7 +30,7 @@ export function runLocalServer() {
     },
     generators: {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      web: require(path.resolve(__dirname, '../../../generator-web')).generate,
+      web: require(path.resolve(__dirname, '../../generator-web')).generate,
     },
   };
 
@@ -39,6 +39,6 @@ export function runLocalServer() {
 
 function isRunningLocally() {
   const runPath = process.cwd();
-  const currentPath = path.resolve(__dirname, '../../');
+  const currentPath = path.resolve(__dirname, '../');
   return runPath === currentPath;
 }
