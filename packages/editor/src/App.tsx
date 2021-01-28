@@ -4,7 +4,7 @@ import { useMount } from 'react-use';
 import { message, Spin } from 'antd';
 import { editStore, initStore, materialsStore } from 'states';
 import { Header } from 'components/Header';
-import { Simulator } from 'widgets/Simulator';
+import { Simulator } from 'components/Simulator';
 import { Renderer, WithRerender } from 'components/Renderer';
 import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';

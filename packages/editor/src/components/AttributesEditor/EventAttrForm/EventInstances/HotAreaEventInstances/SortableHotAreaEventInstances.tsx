@@ -10,7 +10,7 @@ interface Props {
 
 function ISortableHotAreaEventInstances({ events }: Props) {
   return (
-    <div>
+    <>
       {events.map((event, index) => (
         <EventInstanceItem
           index={index}
@@ -19,7 +19,7 @@ function ISortableHotAreaEventInstances({ events }: Props) {
           onChangeData={data => eventStore.setEventInstanceDataOfCurrentHotArea(data, index)}
         />
       ))}
-    </div>
+    </>
   );
 }
 

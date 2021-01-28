@@ -3,12 +3,11 @@ import * as React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import { WithReactChildren } from 'types';
 import { getOffsetToViewport } from 'utils';
-
-type Props = WithReactChildren;
+import { DeviceSimulator } from './DeviceSimulator';
 
 let [clientX, clientY] = [0, 0];
 
-export function Simulator({ children }: Props) {
+export function Simulator({ children }: WithReactChildren) {
   const ref = useRef<HTMLDivElement>(null);
 
   const setClientRect = useCallback(() => {
@@ -27,13 +26,7 @@ export function Simulator({ children }: Props) {
     }
   }, [ref.current]);
 
-  return (
-    <div className="vize-simulator-container">
-      <div className="simulator" ref={ref}>
-        {children}
-      </div>
-    </div>
-  );
+  return <DeviceSimulator ref={ref}>{children}</DeviceSimulator>;
 }
 
 export function getSimulatorNodeOffset() {

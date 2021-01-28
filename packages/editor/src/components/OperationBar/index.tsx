@@ -21,6 +21,7 @@ import { hotkeyEvents, HotKeyEventTypes, isMacOS, noop, toggleFullScreen, withMe
 import { preview, save } from './actions';
 import { observer } from 'mobx-react';
 import { editStore } from 'states';
+import { EditorResize } from './Resize';
 
 const unImplemented = withMessage(noop, '该功能开发中', 'warn');
 
@@ -28,7 +29,10 @@ const unImplemented = withMessage(noop, '该功能开发中', 'warn');
 export class OperationBar extends React.Component {
   componentDidMount() {
     hotkeyEvents.only(HotKeyEventTypes.SAVE, save);
-    hotkeyEvents.only(HotKeyEventTypes.TOGGLE_PREVIEW, withMessage(editStore.togglePreviewMode, '切换预览模式'));
+    hotkeyEvents.only(
+      HotKeyEventTypes.TOGGLE_PREVIEW,
+      withMessage(editStore.togglePreviewMode, () => (editStore.previewMode ? '切换编辑模式' : '切换预览模式')),
+    );
     hotkeyEvents.only(HotKeyEventTypes.TOGGLE_FULLSCREEN, withMessage(toggleFullScreen, '切换全屏'));
   }
 
@@ -130,21 +134,9 @@ export class OperationBar extends React.Component {
   };
 
   renderRight = () => {
-    const hideLeft = false;
-    const hideRight = false;
-
     return (
       <div className="operation_bar right">
-        {/*<Tooltip title="收起左栏">*/}
-        {/*  <div className={classNames('hide_left', { activated: hideLeft })}>*/}
-        {/*    <Column />*/}
-        {/*  </div>*/}
-        {/*</Tooltip>*/}
-        {/*<Tooltip title="收起右栏">*/}
-        {/*  <div className={classNames('hide_right', { activated: hideRight })}>*/}
-        {/*    <Column />*/}
-        {/*  </div>*/}
-        {/*</Tooltip>*/}
+        <EditorResize />
       </div>
     );
   };

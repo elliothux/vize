@@ -1,0 +1,50 @@
+@import 'styles/helper';
+
+.editor-resize {
+  position: relative;
+  left: 8px;
+
+  & > div {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    svg {
+      @include default-transition;
+      width: 22px;
+      height: 22px;
+    }
+
+    &.selected {
+      svg {
+        color: $main-color;
+      }
+    }
+  }
+}
+
+.editor-resize-items {
+  .editor-resize-item {
+    cursor: pointer;
+    padding: 6px 16px;
+    margin: 6px 0;
+    text-align: center;
+    border-radius: 3px;
+    transition: all ease 200ms;
+
+    &.selected {
+      background-color: $main-color;
+
+      &:hover {
+        color: white;
+      }
+    }
+
+    &:hover {
+      color: $main-color;
+    }
+  }
+}

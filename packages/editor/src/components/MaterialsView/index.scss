@@ -1,7 +1,7 @@
 @import 'styles/helper';
 
 .vize-materials-view {
-  background-color: #f2f2f2;
+  background-color: white;
   border-right: $main-border;
 }
 
@@ -10,6 +10,10 @@
   background-color: #fafafa;
   padding-top: 12px;
   padding-bottom: 28px;
+  border-bottom: $main-border;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
   header {
     display: flex;

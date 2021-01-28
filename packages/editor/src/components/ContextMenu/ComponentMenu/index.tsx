@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FiDelete, FiCopy, FiRefreshCw, FiCornerUpRight } from 'react-icons/fi';
+import { FiDelete, FiCopy, FiRefreshCw, FiCornerUpRight, FiPlus } from 'react-icons/fi';
 import { Menu, Item, theme, Separator, Submenu, animation } from 'react-contexify';
 import { useCallback } from 'react';
 import { componentsStore, selectStore, sharedStore } from 'states';
@@ -58,6 +58,10 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         }
         arrow={null}
       >
+        <Item onClick={noop}>
+          <FiPlus />
+          <span>新建页面</span>
+        </Item>
         {pages.map(({ name, key }, index) =>
           shared || index !== currentPageIndex ? (
             <Item key={key} onClick={noop}>
@@ -76,6 +80,10 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         }
         arrow={null}
       >
+        <Item onClick={noop}>
+          <FiPlus />
+          <span>新建页面</span>
+        </Item>
         {pages.map(({ name, key }, index) =>
           shared || index !== currentPageIndex ? (
             <Item key={key} onClick={noop}>

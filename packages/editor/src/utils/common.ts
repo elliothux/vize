@@ -4,9 +4,10 @@ import { ComponentInstance, JsonSchemaProperties, Maybe } from 'types';
 import getDefaults from 'json-schema-defaults';
 import { editStore } from 'states';
 import { createSchema } from './create';
+import React from 'react';
 
 message.config({
-  top: 60,
+  top: 80,
   duration: 2,
   maxCount: 3,
 });
@@ -140,12 +141,22 @@ export function toggleFullScreen() {
 
 export function withMessage(
   operation: (...args: any[]) => any,
-  msg: string,
-  type: 'success' | 'warn' | 'error' = 'success',
+  msg: string | (() => string),
+  type: 'success' | 'warn' | 'error' | 'open' = 'open',
 ) {
   return () => {
+    const content = typeof msg === 'string' ? msg : msg();
     message.destroy();
-    message[type](msg);
+    if (type === 'open') {
+      message.open({
+        content,
+        icon: React.createElement('span', {}),
+        duration: 2,
+        type: 'success',
+      });
+    } else {
+      message[type](content);
+    }
     return operation();
   };
 }

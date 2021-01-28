@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getSimulatorNodeOffset } from 'widgets/Simulator';
+import { getSimulatorNodeOffset } from 'components/Simulator';
 
 export function createMouseEventFromIframe(e: React.MouseEvent): MouseEvent {
   e.persist();

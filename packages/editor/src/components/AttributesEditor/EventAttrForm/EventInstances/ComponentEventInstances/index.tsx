@@ -10,7 +10,6 @@ import { eventStore } from 'states';
 function IComponentEventInstances() {
   const { events } = useCurrentComponentInstance()!;
   const component = useCurrentComponentMeta()!;
-  const ref = useRef<HTMLDivElement>(null);
 
   const onSortEnd = useCallback(
     ({ oldIndex, newIndex }: SortEnd) => eventStore.resortEventInstanceFromCurrentComponentInstance(oldIndex, newIndex),
@@ -22,14 +21,14 @@ function IComponentEventInstances() {
   }
 
   return (
-    <div className="event_instances" ref={ref}>
+    <div className="event_instances">
       <Title />
       <SortableComponentEventInstances
+        helperClass="dragging-event-instance"
         events={events}
         component={component}
         lockAxis="y"
         onSortEnd={onSortEnd}
-        helperContainer={() => ref.current!}
       />
     </div>
   );

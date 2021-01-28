@@ -11,7 +11,7 @@ interface Props {
 
 function ISortablePluginEventInstances({ events, plugin }: Props) {
   return (
-    <div>
+    <>
       {events.map((event, index) => (
         <EventInstanceItem
           index={index}
@@ -21,7 +21,7 @@ function ISortablePluginEventInstances({ events, plugin }: Props) {
           onChangeData={data => eventStore.setEventInstanceDataOfCurrentPluginInstance(data, index)}
         />
       ))}
-    </div>
+    </>
   );
 }
 
