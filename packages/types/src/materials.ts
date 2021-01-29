@@ -85,6 +85,7 @@ export interface MaterialsManifest {
   actions: {
     [name: string]: MaterialsActionManifestItem;
   };
+  lib: MaterialsLibConfig;
 }
 
 export enum MaterialsLibRuntime {
@@ -94,9 +95,11 @@ export enum MaterialsLibRuntime {
 
 export interface MaterialsLibConfig {
   libName: string;
-  displayName?: string;
-  author?: string;
+  displayName: string;
+  desc: string;
+  author: string;
   runtime: MaterialsLibRuntime;
   releaseTo: string;
+  thumb: string;
   __isBuildIn?: boolean;
 }

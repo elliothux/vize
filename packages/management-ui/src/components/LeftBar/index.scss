@@ -3,6 +3,9 @@
 #vize-left-bar {
   width: 180px;
   height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
 
   .name {
     display: flex;

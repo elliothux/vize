@@ -7,6 +7,7 @@ import { Spin, message, Pagination } from 'antd';
 import { PageItem } from './PageItem';
 import { useAsyncEffect } from 'hooks';
 import { queryPages } from 'api';
+import { Header } from '../Header';
 
 const PAGE_SIZE = 10;
 
@@ -19,6 +20,19 @@ export function PageList({ isTemplate = false }: Props) {
   const [biz, setBiz] = useState<Maybe<BizRecord['id']>>(null);
   const [pages, setPages] = useState<Maybe<PageRecord[]>>(null);
   const [[current, total], setPagination] = useState([0, 0]);
+
+  const setBizWithResetPagination = useCallback((biz: Maybe<BizRecord['id']>) => {
+    setBiz(biz);
+    setPagination([0, 0]);
+  }, []);
+
+  const setTotal = useCallback((total: number) => {
+    setPagination(([current]) => [current, total]);
+  }, []);
+
+  const setCurrentPage = useCallback((current: number) => {
+    setPagination(([, total]) => [current, total]);
+  }, []);
 
   useAsyncEffect(async () => {
     setLoading(true);
@@ -34,36 +48,32 @@ export function PageList({ isTemplate = false }: Props) {
     }
   }, [current, biz, isTemplate]);
 
-  const setBizWithResetPagination = useCallback((biz: Maybe<BizRecord['id']>) => {
-    setBiz(biz);
-    setPagination([0, 0]);
-  }, []);
-
-  const setTotal = useCallback((total: number) => {
-    setPagination(([current]) => [current, total]);
-  }, []);
-
-  const setCurrentPage = useCallback((current: number) => {
-    setPagination(([, total]) => [current, total]);
-  }, []);
-
   return (
     <>
-      <BizSelector onSelect={setBizWithResetPagination} />
       <Spin spinning={loading}>
-        <div className="pages">
+        <Header
+          title={isTemplate ? '页面模板列表' : '页面列表'}
+          searchText={`搜索${isTemplate ? '模板' : '页面'}...`}
+          onSearch={console.log}
+        />
+
+        <BizSelector className="page-list-biz-selector" onSelect={setBizWithResetPagination} />
+
+        <div className="pages content card-items">
           {pages?.map(page => (
-            <PageItem key={page.id} item={page} />
+            <PageItem key={page.id} item={page} isTemplate={isTemplate} />
           ))}
+
           <i aria-hidden="true" />
           <i aria-hidden="true" />
           <i aria-hidden="true" />
           <i aria-hidden="true" />
           <i aria-hidden="true" />
           <i aria-hidden="true" />
+
+          <Pagination pageSize={PAGE_SIZE} current={current + 1} total={total} onChange={i => setCurrentPage(i - 1)} />
         </div>
       </Spin>
-      <Pagination pageSize={PAGE_SIZE} current={current + 1} total={total} onChange={i => setCurrentPage(i - 1)} />
     </>
   );
 }

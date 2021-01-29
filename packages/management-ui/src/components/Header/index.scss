@@ -1,0 +1,43 @@
+@import 'styles/helper';
+
+.main-header {
+  background-color: white;
+  position: sticky;
+  top: 0;
+  box-shadow: $default-box-shadow;
+  padding: 0 40px 14px;
+  z-index: 999;
+
+  & > h1 {
+    margin-top: 24px;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header-operations {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .languages {
+        margin-right: 8px;
+      }
+
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .ant-input-search {
+    width: 30vw;
+    margin: 0 auto;
+    display: block;
+  }
+}

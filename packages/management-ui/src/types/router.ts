@@ -4,6 +4,8 @@ export enum RouterPaths {
   CREATE_PAGE = '/create-page',
   TEMPLATES = '/templates',
   BIZ = '/biz',
-  MATERIALS_MANAGE = '/materials_manage',
+  MATERIALS_LIB = '/libs',
+  MATERIALS_DETAIL = '/lib/:id',
   LOG = '/log',
+  USER = '/user',
 }

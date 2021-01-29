@@ -7,7 +7,7 @@ export function runLocalServer() {
     return;
   }
 
-  const workspacePath = path.resolve(__dirname, '../../workspace');
+  const workspacePath = path.resolve(__dirname, '../workspace');
   const editorPath = path.resolve(__dirname, '../../../editor/build');
   const managementUIPath = path.resolve(
     __dirname,

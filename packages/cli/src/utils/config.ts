@@ -13,7 +13,7 @@ export function getLibConfig({ config: configPath }: LibPaths): MaterialsLibConf
     throw `no config file "${configPath}"`;
   }
 
-  const { libName, displayName, author, runtime, releaseTo, __isBuildIn } = JSON.parse(
+  const { libName, displayName, desc, thumb, author, runtime, releaseTo, __isBuildIn } = JSON.parse(
     fs.readFileSync(configPath, 'utf-8'),
   ) as Partial<MaterialsLibConfig>;
 
@@ -29,7 +29,7 @@ export function getLibConfig({ config: configPath }: LibPaths): MaterialsLibConf
     throw `invalid field "runtime": ${runtime} in "${configPath}"`;
   }
 
-  libConfig = { libName, displayName: displayName || libName, runtime, releaseTo, author, __isBuildIn };
+  libConfig = { libName, displayName: displayName || libName, desc, thumb, runtime, releaseTo, author, __isBuildIn };
 
   return libConfig;
 }

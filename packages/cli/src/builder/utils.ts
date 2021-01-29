@@ -9,6 +9,7 @@ import {
   MaterialsComponentManifestItem,
   MaterialsPluginManifestItem,
   MaterialsActionManifestItem,
+  MaterialsLibConfig,
 } from '@vize/types/src';
 import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
 
@@ -118,7 +119,8 @@ export function openEditor({ debugPorts, libs, container }: OpenParams) {
   open(url);
 }
 
-export async function generateMaterialsManifest(libName: string, distPath: string) {
+export async function generateMaterialsManifest(libConfig: MaterialsLibConfig, distPath: string) {
+  const { libName } = libConfig;
   const { components, plugins, actions } = await getMaterialsMeta(libName, distPath);
   const meta: MaterialsManifest = {
     components: Object.entries(components).reduce<{ [name: string]: MaterialsComponentManifestItem }>(
@@ -152,6 +154,7 @@ export async function generateMaterialsManifest(libName: string, distPath: strin
       },
       {},
     ),
+    lib: libConfig,
   };
 
   const outputPath = path.resolve(distPath, `./@vize-materials-${libName}-manifest.json`);
