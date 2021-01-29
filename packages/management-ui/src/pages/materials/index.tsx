@@ -5,8 +5,9 @@ import { Maybe, MaterialsRecord } from 'types';
 import { useAsyncEffect } from 'hooks';
 import { queryLibs, syncLibManifest } from 'api';
 import { message, Spin } from 'antd';
+import { Header } from 'components/Header';
+import { FlexPlaceholder } from 'components/FlexPlaceholder';
 import { MaterialsItem } from './MaterialsItem';
-import { Header } from '../../components/Header';
 
 // TODO: Remove
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -32,7 +33,7 @@ export function Materials() {
       setLoading(false);
       console.log(libs);
     } else {
-      message.error(`获取页面列表失败：${response.message}`);
+      message.error(`获取物料库列表失败：${response.message}`);
     }
   }, []);
 
@@ -45,12 +46,7 @@ export function Materials() {
           <MaterialsItem key={i.id} item={i} />
         ))}
 
-        <i aria-hidden="true" />
-        <i aria-hidden="true" />
-        <i aria-hidden="true" />
-        <i aria-hidden="true" />
-        <i aria-hidden="true" />
-        <i aria-hidden="true" />
+        <FlexPlaceholder />
       </div>
     </Spin>
   );

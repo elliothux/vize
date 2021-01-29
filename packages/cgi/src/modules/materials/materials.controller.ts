@@ -27,7 +27,7 @@ export class MaterialsController {
     return CGIResponse.success(parseLibs(result));
   }
 
-  @Get(':id')
+  @Get('/:id')
   async queryLib(@Param('id') id: string) {
     const result = await this.materialsService.getLibEntity(parseInt(id));
     return CGIResponse.success(parseLibs([result])[0]);

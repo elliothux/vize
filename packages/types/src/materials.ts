@@ -65,6 +65,8 @@ export enum InstanceKeyType {
 interface MaterialsManifestItem {
   info: MaterialsInfo;
   dataForm?: JsonSchemaProperties;
+  thumb?: string;
+  preview?: string;
 }
 
 export interface MaterialsComponentManifestItem extends MaterialsManifestItem {

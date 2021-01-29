@@ -8,6 +8,7 @@ import { PageItem } from './PageItem';
 import { useAsyncEffect } from 'hooks';
 import { queryPages } from 'api';
 import { Header } from '../Header';
+import { FlexPlaceholder } from '../FlexPlaceholder';
 
 const PAGE_SIZE = 10;
 
@@ -64,12 +65,7 @@ export function PageList({ isTemplate = false }: Props) {
             <PageItem key={page.id} item={page} isTemplate={isTemplate} />
           ))}
 
-          <i aria-hidden="true" />
-          <i aria-hidden="true" />
-          <i aria-hidden="true" />
-          <i aria-hidden="true" />
-          <i aria-hidden="true" />
-          <i aria-hidden="true" />
+          <FlexPlaceholder />
 
           <Pagination pageSize={PAGE_SIZE} current={current + 1} total={total} onChange={i => setCurrentPage(i - 1)} />
         </div>
