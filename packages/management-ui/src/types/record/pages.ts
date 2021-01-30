@@ -9,6 +9,7 @@ export interface PageRecord {
   layoutMode: string;
   pageMode: string;
   generator?: string;
+  isTemplate: number;
   container: {
     lib: string;
     name: string;
@@ -20,8 +21,4 @@ export interface PageRecord {
 
 export interface PageRecordWithHistory extends PageRecord {
   latestHistory: HistoryRecord;
-}
-
-export interface TemplatePageRecord extends PageRecord {
-  isTemplate: true;
 }

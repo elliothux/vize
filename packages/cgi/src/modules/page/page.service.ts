@@ -32,6 +32,8 @@ export class PageService {
     biz,
     title,
     desc = '',
+    isTemplate,
+    container,
   }: CreatePageDTO) {
     const createdTime = new Date();
 
@@ -55,6 +57,8 @@ export class PageService {
       pageMode,
       biz: { id: biz },
       latestHistory,
+      isTemplate,
+      container,
     });
   }
 

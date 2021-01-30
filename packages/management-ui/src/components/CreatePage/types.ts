@@ -1,4 +1,4 @@
-import { CreatePageParams } from '../../api';
+import { CreatePageParams } from 'api';
 
 export interface ItemProps<T> {
   current: T;

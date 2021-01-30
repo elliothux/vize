@@ -2,10 +2,17 @@ import * as fs from 'fs-extra';
 import { MaterialsLibConfig } from '@vize/types/src';
 import { LibPaths } from '../utils';
 import { findPreview, findThumb } from './utils';
-import { MaterialsItem, ComponentsList, PluginsList, ActionsList } from '../types';
+import {
+  MaterialsItem,
+  ComponentsList,
+  PluginsList,
+  ActionsList,
+  ContainerList,
+  MaterialsContainerItem,
+} from '../types';
 
 export async function generateMaterialsEntryFile(
-  { mainEntryTemp, metaEntryTemp, componentsList, pluginsList, actionsList }: LibPaths,
+  { mainEntryTemp, metaEntryTemp, componentsList, pluginsList, actionsList, containerList }: LibPaths,
   libConfig: MaterialsLibConfig,
   withForms: boolean,
   isProd: boolean,
@@ -14,6 +21,7 @@ export async function generateMaterialsEntryFile(
     componentsList,
     pluginsList,
     actionsList,
+    containerList,
     libConfig,
     withForms,
   };
@@ -49,6 +57,7 @@ interface GenEntryParams {
   componentsList: ComponentsList;
   pluginsList: PluginsList;
   actionsList: ActionsList;
+  containerList: ContainerList;
   libConfig: MaterialsLibConfig;
   withForms: boolean;
 }
@@ -59,34 +68,50 @@ async function generateEntry({
   componentsList,
   pluginsList,
   actionsList,
+  containerList,
   libConfig,
   withForms,
 }: GenEntryParams): Promise<void> {
-  const genItemContent =
-    type === 'main' ? genItemMainContent : (item: MaterialsItem) => genItemMetaContent(item, libConfig);
+  const isMeta = type === 'meta';
+  const genItemContent = !isMeta
+    ? genItemMainContent
+    : (item: MaterialsItem | MaterialsContainerItem) => genItemMetaContent(item, libConfig);
+
+  const componentsStr = componentsList.map(genItemContent).join(',');
+  const pluginsStr = pluginsList.map(genItemContent).join(',');
+  const actionsStr = actionsList.map(genItemContent).join(',');
+  const containerStr = isMeta ? containerList.map(genItemContent).join(',') : '';
 
   const content = `export default {
   components: {
-    ${componentsList.map(genItemContent).join(',')}
+    ${componentsStr}
   },
   plugins: {
-    ${pluginsList.map(genItemContent).join(',')}
+    ${pluginsStr}
   },
   actions: {
-    ${actionsList.map(genItemContent).join(',')}
-  }${type === 'meta' && withForms ? ',\n\twithForms: true' : ''}${
-    type === 'meta' ? `,\n\tlib: ${JSON.stringify(libConfig)}` : ''
-  }
+    ${actionsStr}
+  },
+  containers: {
+    ${containerStr}
+  }${isMeta && withForms ? ',\n\twithForms: true' : ''}${isMeta ? `,\n\tlib: ${JSON.stringify(libConfig)}` : ''}
 }`;
 
   return writeFile(targetPath, content);
 }
 
-function genItemMainContent({ name, mainPath }: MaterialsItem) {
-  return `${name}: require("${mainPath}").default`;
+function genItemMainContent(item: MaterialsItem | MaterialsContainerItem) {
+  const mainPath = (item as MaterialsItem).mainPath;
+  if (!mainPath) {
+    throw new Error('Should not be here...');
+  }
+  return `${item.name}: require("${mainPath}").default`;
 }
 
-function genItemMetaContent({ name, entry, metaPath }: MaterialsItem, { __isBuildIn }: MaterialsLibConfig) {
+function genItemMetaContent(
+  { name, entry, metaPath }: MaterialsItem | MaterialsContainerItem,
+  { __isBuildIn }: MaterialsLibConfig,
+) {
   const thumb = findThumb(entry);
   const preview = findPreview(entry);
   return `${name}: { ${thumb ? `thumb: require("${thumb}").default || require("${thumb}"), ` : ''}${

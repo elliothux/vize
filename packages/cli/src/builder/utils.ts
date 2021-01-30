@@ -9,6 +9,7 @@ import {
   MaterialsComponentManifestItem,
   MaterialsPluginManifestItem,
   MaterialsActionManifestItem,
+  MaterialsContainerManifestItem,
   MaterialsLibConfig,
 } from '@vize/types/src';
 import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
@@ -121,11 +122,12 @@ export function openEditor({ debugPorts, libs, container }: OpenParams) {
 
 export async function generateMaterialsManifest(libConfig: MaterialsLibConfig, libPaths: LibPaths) {
   const { libName } = libConfig;
-  const { components, plugins, actions } = await getMaterialsMeta(libName, libPaths.dist);
+  const { components, plugins, actions, containers } = await getMaterialsMeta(libName, libPaths.dist);
   const meta: MaterialsManifest = {
     components: generateComponentsManifest(components, libPaths),
     plugins: generatePluginManifest(plugins, libPaths),
     actions: generateActionManifest(actions),
+    containers: generateContainerManifest(containers),
     lib: libConfig,
   };
 
@@ -177,6 +179,20 @@ function generateActionManifest(actions: MaterialsMeta['actions']) {
       accu[name] = {
         info,
         dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+      };
+      return accu;
+    },
+    {},
+  );
+}
+
+function generateContainerManifest(containers: MaterialsMeta['containers']) {
+  return Object.entries(containers).reduce<{ [name: string]: MaterialsContainerManifestItem }>(
+    (accu, [name, { info, dataForm, styleForm }]) => {
+      accu[name] = <MaterialsContainerManifestItem>{
+        info,
+        dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+        styleForm: typeof styleForm === 'object' ? styleForm : undefined,
       };
       return accu;
     },

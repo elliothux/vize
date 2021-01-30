@@ -42,7 +42,7 @@ export class MaterialsService {
       return this.createLib(libName);
     }
 
-    console.log('sync materials lib', libName);
+    console.log('sync materials lib: ', libName);
     const manifest = await getLibManifest(libName);
     const {
       lib: { displayName, author, desc, thumb, runtime },

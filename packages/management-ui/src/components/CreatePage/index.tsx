@@ -65,6 +65,7 @@ export function CreatePage({ visible, setVisible, isTemplate }: Props) {
         author: 'qy',
         pageMode,
         layoutMode,
+        isTemplate: isTemplate ? 1 : 0,
       });
 
       if (success) {
@@ -74,7 +75,7 @@ export function CreatePage({ visible, setVisible, isTemplate }: Props) {
         Modal.error({ title: '创建失败', content, onOk: () => setStep(2) });
       }
     },
-    [pageMode, layoutMode],
+    [pageMode, layoutMode, isTemplate],
   );
 
   const title = `创建${isTemplate ? '模板' : '页面'}`;
