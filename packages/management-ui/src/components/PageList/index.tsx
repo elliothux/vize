@@ -3,12 +3,14 @@ import * as React from 'react';
 import { BizSelector } from 'components/BizSelector';
 import { useCallback, useState } from 'react';
 import { BizRecord, PageRecord, Maybe } from 'types';
-import { Spin, message, Pagination } from 'antd';
+import { Spin, message, Pagination, Button } from 'antd';
 import { PageItem } from './PageItem';
 import { useAsyncEffect } from 'hooks';
 import { queryPages } from 'api';
 import { Header } from '../Header';
 import { FlexPlaceholder } from '../FlexPlaceholder';
+import { BiPlus } from 'react-icons/bi';
+import { CreatePage } from '../CreatePage';
 
 const PAGE_SIZE = 10;
 
@@ -18,6 +20,7 @@ interface Props {
 
 export function PageList({ isTemplate = false }: Props) {
   const [loading, setLoading] = useState(true);
+  const [createVisible, setCreateVisible] = useState(false);
   const [biz, setBiz] = useState<Maybe<BizRecord['id']>>(null);
   const [pages, setPages] = useState<Maybe<PageRecord[]>>(null);
   const [[current, total], setPagination] = useState([0, 0]);
@@ -50,26 +53,29 @@ export function PageList({ isTemplate = false }: Props) {
   }, [current, biz, isTemplate]);
 
   return (
-    <>
-      <Spin spinning={loading}>
-        <Header
-          title={isTemplate ? '页面模板列表' : '页面列表'}
-          searchText={`搜索${isTemplate ? '模板' : '页面'}...`}
-          onSearch={console.log}
-        />
+    <Spin spinning={loading}>
+      <Header
+        title={isTemplate ? '页面模板列表' : '页面列表'}
+        searchText={`搜索${isTemplate ? '模板' : '页面'}...`}
+        onSearch={console.log}
+        appendAfterSearch={
+          <Button type="primary" size="large" icon={<BiPlus />} onClick={() => setCreateVisible(true)} />
+        }
+      />
 
-        <BizSelector className="page-list-biz-selector" onSelect={setBizWithResetPagination} />
+      <BizSelector className="page-list-biz-selector" onSelect={setBizWithResetPagination} />
 
-        <div className="pages content card-items">
-          {pages?.map(page => (
-            <PageItem key={page.id} item={page} isTemplate={isTemplate} />
-          ))}
+      <div className="pages content card-items">
+        {pages?.map(page => (
+          <PageItem key={page.id} item={page} isTemplate={isTemplate} />
+        ))}
 
-          <FlexPlaceholder />
+        <FlexPlaceholder />
 
-          <Pagination pageSize={PAGE_SIZE} current={current + 1} total={total} onChange={i => setCurrentPage(i - 1)} />
-        </div>
-      </Spin>
-    </>
+        <Pagination pageSize={PAGE_SIZE} current={current + 1} total={total} onChange={i => setCurrentPage(i - 1)} />
+      </div>
+
+      <CreatePage visible={createVisible} setVisible={setCreateVisible} isTemplate={isTemplate} />
+    </Spin>
   );
 }

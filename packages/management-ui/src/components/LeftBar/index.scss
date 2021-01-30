@@ -11,11 +11,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     margin: 32px 0 38px;
 
     .logo {
       width: 50px;
       height: auto;
+    }
+
+    p {
+      margin-top: 16px;
+      font-size: 16px;
     }
   }
 

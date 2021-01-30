@@ -35,9 +35,26 @@
     }
   }
 
-  .ant-input-search {
-    width: 30vw;
-    margin: 0 auto;
-    display: block;
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ant-input-search {
+      width: 30vw;
+      display: block;
+    }
+
+    & > button {
+      margin-left: 12px;
+      border-radius: 2px;
+
+      svg {
+        width: 22px;
+        height: 22px;
+        position: relative;
+        top: 2px;
+      }
+    }
   }
 }

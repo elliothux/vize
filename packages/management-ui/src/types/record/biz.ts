@@ -5,4 +5,5 @@ export interface BizRecord {
   logo: string;
   createdTime: Date;
   modifiedTime?: Date;
+  libs: string[];
 }

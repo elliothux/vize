@@ -8,11 +8,12 @@ interface Props {
   title: string;
   searchText?: string;
   onSearch?: (v: string) => void;
+  appendAfterSearch?: React.ReactNode;
 }
 
 const { Search } = Input;
 
-export function Header({ title, children, searchText, onSearch }: React.PropsWithChildren<Props>) {
+export function Header({ title, children, searchText, onSearch, appendAfterSearch }: React.PropsWithChildren<Props>) {
   return (
     <PageHeader className="main-header">
       <div className="header-top">
@@ -37,7 +38,12 @@ export function Header({ title, children, searchText, onSearch }: React.PropsWit
 
       <h1>{title}</h1>
 
-      {onSearch ? <Search placeholder={searchText} onSearch={onSearch} enterButton size="large" /> : null}
+      {onSearch ? (
+        <div className="search-wrap">
+          <Search placeholder={searchText} onSearch={onSearch} enterButton size="large" />
+          {appendAfterSearch}
+        </div>
+      ) : null}
 
       {children}
     </PageHeader>

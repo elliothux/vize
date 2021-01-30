@@ -1,0 +1,51 @@
+@import 'styles/helper';
+
+.biz-item {
+  .ant-card-body {
+    padding-left: 16px;
+    padding-top: 22px;
+  }
+
+  .ant-avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .ids {
+    .info-item {
+      width: 50%;
+      margin-bottom: 12px;
+    }
+  }
+
+  .infos.libs {
+    margin-bottom: 12px;
+
+    .info-item > p:first-child {
+      margin-bottom: 5px;
+    }
+  }
+
+  .ant-card-actions li div {
+    svg {
+      width: 18px;
+      height: 18px;
+      position: relative;
+      top: 3px;
+      left: -5px;
+    }
+  }
+}
+
+.edit-biz {
+  .ant-form {
+    width: 60%;
+    margin: 80px auto;
+
+    .ant-btn {
+      position: relative;
+      left: 105px;
+      top: 20px;
+    }
+  }
+}

@@ -27,6 +27,7 @@ export function LeftBar() {
     <Menu id="vize-left-bar" theme="dark" mode="inline" defaultOpenKeys={['manage']} selectedKeys={[location]}>
       <div className="name">
         <img src={LOGO} alt="logo" className="logo" />
+        <p>Vize</p>
       </div>
 
       <Menu.Item key={RouterPaths.INTRO} icon={<BiTachometer />}>

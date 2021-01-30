@@ -40,11 +40,13 @@ export class PageController {
         const {
           latestHistory: { id, title, desc, author, createdTime },
           biz: { id: bizID },
+          container,
         } = page;
         return {
           ...page,
           latestHistory: { id, title, desc, author, createdTime },
           biz: { id: bizID },
+          container: JSON.parse(container),
         };
       }),
     });

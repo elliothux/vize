@@ -4,6 +4,8 @@ import { Card, Tooltip } from 'antd';
 import { EditOutlined, CopyOutlined, LineChartOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons';
 import { useMemo } from 'react';
 import day from 'dayjs';
+import { PreviewWithEmpty } from '../PreviewWithEmpty';
+import { goToEditor } from './utils';
 
 interface Props {
   item: PageRecord;
@@ -11,29 +13,28 @@ interface Props {
 }
 
 export function PageItem({
+  item,
   item: {
     latestHistory: { title, desc, createdTime: lastModifiedTime },
     createdTime,
     layoutMode,
     pageMode,
     author,
-    key,
   },
   isTemplate,
 }: Props) {
   const created = useMemo(() => day(createdTime).format('MM月DD日 HH:mm'), [createdTime]);
   const modified = useMemo(() => day(lastModifiedTime).format('MM月DD日 HH:mm'), [lastModifiedTime]);
-  const editorPath = useMemo(() => `/editor?key=${key}`, [key]);
 
   return (
     <Card
-      cover={<Cover />}
+      cover={<PreviewWithEmpty src={null} />}
       className="page-item card-item"
       actions={[
         <Tooltip title="编辑" key="edit">
-          <a href={editorPath} target="_blank" rel="noreferrer">
+          <div onClick={() => goToEditor(item)}>
             <EditOutlined />
-          </a>
+          </div>
         </Tooltip>,
         <Tooltip title="复制" key="copy">
           <CopyOutlined />
@@ -81,12 +82,4 @@ export function PageItem({
       </div>
     </Card>
   );
-}
-
-interface CoverProps {
-  cover?: string;
-}
-
-export function Cover({ cover }: CoverProps) {
-  return <div className="cover">{cover ? <img alt="cover" src={cover} /> : null}</div>;
 }

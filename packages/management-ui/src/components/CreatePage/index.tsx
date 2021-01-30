@@ -14,13 +14,14 @@ import { CreateResult } from './CreateResult';
 interface Props {
   visible: boolean;
   setVisible: (v: boolean) => void;
+  isTemplate: boolean;
 }
 
 const { TabPane } = Tabs;
 
 const TOGGLE_DELAY = 500;
 
-export function CreatePage({ visible, setVisible }: Props) {
+export function CreatePage({ visible, setVisible, isTemplate }: Props) {
   const [step, setStep] = useState(0);
   const [showErr, setShowErr] = useState(false);
   const [pageMode, setPageMode] = useState<Maybe<PageMode>>(null);
@@ -70,23 +71,25 @@ export function CreatePage({ visible, setVisible }: Props) {
         setPageID(result!.id);
       } else {
         const content = `错误码: ${code}$\n错误信息: ${message}`;
-        Modal.error({ title: '创建页面失败', content, onOk: () => setStep(2) });
+        Modal.error({ title: '创建失败', content, onOk: () => setStep(2) });
       }
     },
     [pageMode, layoutMode],
   );
 
+  const title = `创建${isTemplate ? '模板' : '页面'}`;
+
   return (
     <Drawer
       className="create-page"
-      title="创建页面"
+      title=""
       closable
-      onClose={() => setVisible(false)}
+      onClose={onBack}
       visible={visible}
       placement="bottom"
       headerStyle={{ display: 'none' }}
     >
-      <PageHeader onBack={onBack} title="创建页面" subTitle="" />
+      <PageHeader onBack={onBack} title={title} subTitle="" />
 
       <CreateSteps
         current={step}

@@ -135,23 +135,5 @@
   .preview-with-empty {
     width: 100%;
     height: 15vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(240, 240, 240);
-
-    img {
-      max-width: 90%;
-      max-height: 85%;
-      box-shadow: $default-box-shadow;
-    }
-
-    svg {
-      width: 30px;
-      height: auto;
-      margin-bottom: 12px;
-      opacity: 0.8;
-    }
   }
 }

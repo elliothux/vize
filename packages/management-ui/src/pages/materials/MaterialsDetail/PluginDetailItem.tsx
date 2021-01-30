@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Avatar, Card } from 'antd';
 import { MaterialsPluginManifestItem, MaterialsRecord } from 'types';
-import { PreviewWithEmpty } from './PreviewWithEmpty';
+import { PreviewWithEmpty } from 'components/PreviewWithEmpty';
 import { Link } from 'wouter';
 import { BiRocket } from 'react-icons/bi';
 import { useMemo } from 'react';

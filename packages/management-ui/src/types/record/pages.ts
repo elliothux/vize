@@ -8,6 +8,11 @@ export interface PageRecord {
   author: string;
   layoutMode: string;
   pageMode: string;
+  generator?: string;
+  container: {
+    lib: string;
+    name: string;
+  };
   status: number;
   biz: Pick<BizRecord, 'id'>;
   latestHistory: Pick<HistoryRecord, 'id' | 'title' | 'desc' | 'author' | 'createdTime'>;
@@ -15,4 +20,8 @@ export interface PageRecord {
 
 export interface PageRecordWithHistory extends PageRecord {
   latestHistory: HistoryRecord;
+}
+
+export interface TemplatePageRecord extends PageRecord {
+  isTemplate: true;
 }
