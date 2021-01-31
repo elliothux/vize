@@ -1,3 +1,4 @@
+import { GeneratorInfo } from 'types';
 import { MaterialsRecord } from '../types';
 import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from './utils';
 
@@ -11,4 +12,12 @@ export function getLibById(id: number | string): Promise<ParsedCGIResponse<Mater
 
 export function syncLibManifest(libName: string) {
   return postCGIJSON(prefix(`materials/sync/${libName}`), {});
+}
+
+export interface GeneratorCGIInfo extends GeneratorInfo {
+  key: string;
+}
+
+export function getGenerators(): Promise<ParsedCGIResponse<GeneratorCGIInfo[]>> {
+  return getCGIJSON(prefix('materials/generators/all'));
 }

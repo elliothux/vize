@@ -6,7 +6,7 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
-import { CGICodeMap, CGIResponse } from 'utils';
+import { CGICodeMap, CGIResponse, getConfig } from 'utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MaterialsService } from './materials.service';
 import {
@@ -72,5 +72,13 @@ export class MaterialsController {
         ? await this.materialsService.syncAllLibs()
         : await this.materialsService.syncLib(libName);
     return CGIResponse.success(result);
+  }
+
+  @Get('/generators/all')
+  async queryGenerators() {
+    const { generators } = getConfig();
+    return CGIResponse.success(
+      Object.entries(generators).map(([key, { info }]) => ({ ...info, key })),
+    );
   }
 }

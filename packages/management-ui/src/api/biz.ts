@@ -2,7 +2,7 @@ import { BizRecord } from 'types';
 import { getCGIJSON, postCGIJSON, prefix } from './utils';
 
 export function queryBiz() {
-  return getCGIJSON<BizRecord[]>(prefix('biz'));
+  return getCGIJSON<BizRecord[]>(prefix('biz', { withMaterials: '1' }));
 }
 
 export type CreateBizParams = Pick<BizRecord, 'key' | 'name' | 'logo'>;
@@ -12,7 +12,7 @@ export function createBiz(biz: CreateBizParams) {
 }
 
 export interface UpdateBizParams extends Pick<BizRecord, 'name' | 'logo'> {
-  libs?: string[];
+  materials?: string[];
 }
 
 export function updateBiz(id: number, biz: UpdateBizParams) {

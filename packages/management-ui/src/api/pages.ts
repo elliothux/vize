@@ -14,7 +14,7 @@ export function queryPages(
 }
 
 export interface CreatePageParams
-  extends Pick<PageRecord, 'key' | 'author' | 'layoutMode' | 'pageMode' | 'isTemplate'>,
+  extends Pick<PageRecord, 'key' | 'author' | 'layoutMode' | 'pageMode' | 'isTemplate' | 'generator' | 'container'>,
     Pick<HistoryRecord, 'desc' | 'title'> {
   biz: number;
 }

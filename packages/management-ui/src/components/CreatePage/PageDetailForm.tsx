@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { Form, Button, Input, Select } from 'antd';
+import { Form, Button, Input, Select, message } from 'antd';
 import { bizStore } from 'state';
 import { ItemProps, PageDetail } from './types';
 import { observer } from 'mobx-react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { Maybe } from 'types';
+import { getGenerators, GeneratorCGIInfo } from 'api';
+import { useAsyncEffect } from 'hooks';
 
 const { Item: FormItem } = Form;
-const { Option: SelectOption } = Select;
+const { Option: SelectOption, OptGroup } = Select;
 const { TextArea } = Input;
 
 const layout = {
@@ -15,11 +18,23 @@ const layout = {
 
 function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>) {
   const { bizList } = bizStore;
-
-  const [{ biz }, setValue] = useState(current);
+  const [biz, setBiz] = useState<number>(-1);
+  const onValueChange = useCallback((i: Partial<PageDetail>) => {
+    if (i.biz) {
+      setBiz(i.biz);
+    }
+  }, []);
   const currentBiz = useMemo(() => bizList?.find(i => i.id === biz), [bizList, biz]);
 
-  console.log(biz, currentBiz);
+  const [generators, setGenerators] = useState<Maybe<GeneratorCGIInfo[]>>(null);
+  useAsyncEffect(async () => {
+    const [success, result, response] = await getGenerators();
+    if (!success) {
+      console.error(response);
+      return message.error('获取生成器列表失败');
+    }
+    setGenerators(result!);
+  }, []);
 
   return (
     <Form
@@ -27,13 +42,37 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
       initialValues={current}
       className="page-detail-form"
       onFinish={setCurrent}
-      onValuesChange={setValue}
+      onValuesChange={onValueChange}
     >
       <FormItem label="业务" name="biz" hasFeedback rules={[{ required: true, message: '请选择业务' }]}>
         <Select loading={!bizList}>
           {bizList?.map(({ id, name }) => (
             <SelectOption value={id} key={id}>
               {name}
+            </SelectOption>
+          ))}
+        </Select>
+      </FormItem>
+
+      <FormItem label="页面容器" name="container" hasFeedback rules={[{ required: true, message: '请选择页面容器' }]}>
+        <Select>
+          {currentBiz?.materials?.map(({ manifest: { lib: { libName, displayName }, containers } }) => (
+            <OptGroup label={displayName} key={libName}>
+              {Object.entries(containers).map(([k, { info: { name } }]) => (
+                <SelectOption value={`{"lib":"${libName}","name":"${k}"}`} key={k} title={name}>
+                  {name}
+                </SelectOption>
+              ))}
+            </OptGroup>
+          ))}
+        </Select>
+      </FormItem>
+
+      <FormItem label="生成产物" name="generator" hasFeedback rules={[{ required: true, message: '请选择生成器' }]}>
+        <Select loading={!generators}>
+          {generators?.map(({ name, desc, key }) => (
+            <SelectOption value={key} key={key}>
+              {name} - {desc}
             </SelectOption>
           ))}
         </Select>

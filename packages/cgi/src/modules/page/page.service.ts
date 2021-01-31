@@ -34,6 +34,7 @@ export class PageService {
     desc = '',
     isTemplate,
     container,
+    generator,
   }: CreatePageDTO) {
     const createdTime = new Date();
 
@@ -59,6 +60,7 @@ export class PageService {
       latestHistory,
       isTemplate,
       container,
+      generator,
     });
   }
 
@@ -134,7 +136,7 @@ export class PageService {
     const dsl = generateDSL(page);
 
     const { generators, workspacePath } = getConfig();
-    const generator = generators[page.generator || 'web']!;
+    const { generator } = generators[page.generator || 'web']!;
     try {
       const result: GeneratorResult = await generator({
         dsl,

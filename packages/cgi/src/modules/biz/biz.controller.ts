@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CGICodeMap, CGIResponse } from 'utils';
 import { PageService } from 'modules/page/page.service';
 import { BizService } from './biz.service';
 import { CreateBizParams, UpdateBizParams } from './biz.interface';
+import { QueryParams } from '../../types';
 
 @Controller('/cgi/biz')
 export class BizController {
@@ -17,8 +18,8 @@ export class BizController {
       return CGIResponse.failed(CGICodeMap.BizExists);
     }
 
-    console.log(await this.bizService.createBizEntity(biz), this.pageService);
-    return CGIResponse.success();
+    const result = await this.bizService.createBizEntity(biz);
+    return CGIResponse.success(result);
   }
 
   @Post('/:id')
@@ -35,10 +36,8 @@ export class BizController {
   }
 
   @Get()
-  async queryBiz() {
-    const result = await this.bizService.queryBizEntities({});
-    return CGIResponse.success(
-      result.map(i => ({ ...i, libs: i.libs.split(',').map(i => i.trim()) })),
-    );
+  async queryBiz(@Query() query: QueryParams<{ withMaterials?: string }>) {
+    const result = await this.bizService.queryBizEntities(query);
+    return CGIResponse.success(result);
   }
 }

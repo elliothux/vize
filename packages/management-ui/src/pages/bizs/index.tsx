@@ -17,8 +17,13 @@ function IBizs() {
   const [createVisible, setCreateVisible] = useState(false);
 
   const onCreate = useCallback(async (biz: CreateBizParams) => {
-    await createBiz(biz);
-    setTimeout(() => bizStore.getBizList(), 0);
+    const [success, result, response] = await createBiz(biz);
+    if (!success) {
+      throw response;
+    } else {
+      setTimeout(() => bizStore.getBizList(), 0);
+    }
+    return result;
   }, []);
 
   return (

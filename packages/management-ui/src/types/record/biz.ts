@@ -1,3 +1,5 @@
+import { MaterialsRecord } from './materials';
+
 export interface BizRecord {
   id: number;
   key: string;
@@ -5,5 +7,5 @@ export interface BizRecord {
   logo: string;
   createdTime: Date;
   modifiedTime?: Date;
-  libs: string[];
+  materials?: MaterialsRecord[];
 }

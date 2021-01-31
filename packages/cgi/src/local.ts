@@ -30,7 +30,7 @@ export function runLocalServer() {
     },
     generators: {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      web: require(path.resolve(__dirname, '../../generator-web')).generate,
+      web: require(path.resolve(__dirname, '../../generator-web')).default,
     },
   };
 

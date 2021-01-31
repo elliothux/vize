@@ -10,7 +10,7 @@ interface Props {
   item: BizRecord;
 }
 
-export function BizItem({ item: { id, name, libs, key, createdTime, modifiedTime, logo } }: Props) {
+export function BizItem({ item: { id, name, materials, key, createdTime, modifiedTime, logo } }: Props) {
   const created = useMemo(() => day(createdTime).format('YYYY年MM月DD日 HH:mm'), [createdTime]);
   const modified = useMemo(() => (modifiedTime ? day(modifiedTime).format('YYYY年MM月DD日 HH:mm') : null), [
     modifiedTime,
@@ -64,9 +64,9 @@ export function BizItem({ item: { id, name, libs, key, createdTime, modifiedTime
               <div className="info-item">
                 <p>物料库</p>
                 <p>
-                  {libs.map(i => (
-                    <Tag key={i} color="orange">
-                      {i}
+                  {materials?.map(({ libName, displayName }) => (
+                    <Tag key={libName} color="orange">
+                      {displayName}
                     </Tag>
                   ))}
                 </p>
