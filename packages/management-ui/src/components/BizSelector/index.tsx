@@ -8,10 +8,11 @@ import { useEffect, useState } from 'react';
 const { CheckableTag } = Tag;
 
 interface Props {
+  className?: string;
   onSelect: (id: Maybe<BizRecord['id']>) => void;
 }
 
-function IBizSelector({ onSelect }: Props) {
+function IBizSelector({ onSelect, className = '' }: Props) {
   const { bizList } = bizStore;
 
   const [current, setCurrent] = useState<Maybe<BizRecord['id']>>(null);
@@ -25,7 +26,7 @@ function IBizSelector({ onSelect }: Props) {
   }
 
   return (
-    <div>
+    <div className={`biz-selector ${className}`}>
       <CheckableTag checked={!current} onClick={() => setCurrent(null)}>
         全部业务
       </CheckableTag>

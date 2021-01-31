@@ -3,37 +3,8 @@
   "version": "0.1.0",
   "main": "build",
   "scripts": {
-    "start": "SKIP_PREFLIGHT_CHECK=true PORT=3001 react-app-rewired start",
-    "build": "SKIP_PREFLIGHT_CHECK=true react-app-rewired build"
-  },
-  "dependencies": {
-    "@ant-design/icons": "^4.2.2",
-    "antd": "^4.8.2",
-    "classnames": "^2.2.6",
-    "dayjs": "^1.10.3",
-    "mobx": "^5.15.4",
-    "mobx-react": "^6.1.8",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-icons": "^3.11.0",
-    "wouter": "^2.5.3"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.9.1",
-    "@types/node": "^12.12.67",
-    "@types/react": "^16.9.51",
-    "@types/react-dom": "^16.9.8",
-    "@types/classnames": "^2.2.11",
-    "react-scripts": "3.4.3",
-    "customize-cra": "^1.0.0",
-    "node-sass": "^4.14.1",
-    "raw-loader": "^4.0.1",
-    "react-app-rewired": "^2.1.6",
-    "typescript": "^3.8.3",
-    "webpack": "4.42.0"
+    "start": "SKIP_PREFLIGHT_CHECK=true PORT=3001 ../../node_modules/.bin/react-app-rewired start",
+    "build": "SKIP_PREFLIGHT_CHECK=true ../../node_modules/.bin/react-app-rewired build"
   },
   "browserslist": {
     "production": [

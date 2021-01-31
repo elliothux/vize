@@ -32,6 +32,9 @@ export class PageService {
     biz,
     title,
     desc = '',
+    isTemplate,
+    container,
+    generator,
   }: CreatePageDTO) {
     const createdTime = new Date();
 
@@ -55,6 +58,9 @@ export class PageService {
       pageMode,
       biz: { id: biz },
       latestHistory,
+      isTemplate,
+      container,
+      generator,
     });
   }
 
@@ -71,8 +77,15 @@ export class PageService {
     startPage = 0,
     pageSize = 20,
     biz,
-  }: QueryParams<{ biz?: number }>) {
-    const where = biz ? { biz } : undefined;
+    isTemplate,
+  }: QueryParams<{ biz?: string; isTemplate: string }>) {
+    const where = {
+      isTemplate: parseInt(isTemplate),
+    };
+    if (biz) {
+      where['biz'] = parseInt(biz);
+    }
+
     const options: FindManyOptions<PageEntity> = {
       order: {
         createdTime: 'DESC',
@@ -123,7 +136,7 @@ export class PageService {
     const dsl = generateDSL(page);
 
     const { generators, workspacePath } = getConfig();
-    const generator = generators[page.generator || 'web']!;
+    const { generator } = generators[page.generator || 'web']!;
     try {
       const result: GeneratorResult = await generator({
         dsl,

@@ -5,6 +5,7 @@ export function prefix(path: string, params?: { [key: string]: string | number |
     ? '?' +
       Object.entries(params)
         .map(([k, v]) => (v ? `${k}=${v}` : ''))
+        .filter(i => !!i)
         .join('&')
     : '';
   return `/cgi/${path}${p}`;

@@ -14,18 +14,19 @@ import { CreateResult } from './CreateResult';
 interface Props {
   visible: boolean;
   setVisible: (v: boolean) => void;
+  isTemplate: boolean;
 }
 
 const { TabPane } = Tabs;
 
 const TOGGLE_DELAY = 500;
 
-export function CreatePage({ visible, setVisible }: Props) {
+export function CreatePage({ visible, setVisible, isTemplate }: Props) {
   const [step, setStep] = useState(0);
   const [showErr, setShowErr] = useState(false);
   const [pageMode, setPageMode] = useState<Maybe<PageMode>>(null);
   const [layoutMode, setLayoutMode] = useState<Maybe<LayoutMode>>(null);
-  const [pageDetail, setPageDetail] = useState<Partial<PageDetail>>({});
+  const [pageDetail, setPageDetail] = useState<Partial<PageDetail>>({ generator: 'web' });
   const [pageID, setPageID] = useState<Maybe<number>>(null);
 
   const onBack = useCallback(() => setVisible(false), []);
@@ -64,29 +65,32 @@ export function CreatePage({ visible, setVisible }: Props) {
         author: 'qy',
         pageMode,
         layoutMode,
+        isTemplate: isTemplate ? 1 : 0,
       });
 
       if (success) {
         setPageID(result!.id);
       } else {
         const content = `错误码: ${code}$\n错误信息: ${message}`;
-        Modal.error({ title: '创建页面失败', content, onOk: () => setStep(2) });
+        Modal.error({ title: '创建失败', content, onOk: () => setStep(2) });
       }
     },
-    [pageMode, layoutMode],
+    [pageMode, layoutMode, isTemplate],
   );
+
+  const title = `创建${isTemplate ? '模板' : '页面'}`;
 
   return (
     <Drawer
       className="create-page"
-      title="创建页面"
+      title=""
       closable
-      onClose={() => setVisible(false)}
+      onClose={onBack}
       visible={visible}
       placement="bottom"
       headerStyle={{ display: 'none' }}
     >
-      <PageHeader onBack={onBack} title="创建页面" subTitle="" />
+      <PageHeader onBack={onBack} title={title} subTitle="" />
 
       <CreateSteps
         current={step}
@@ -94,7 +98,7 @@ export function CreatePage({ visible, setVisible }: Props) {
         showErr={showErr}
         step1Finish={!!pageMode}
         step2Finish={!!layoutMode}
-        step3Finish={Object.keys(pageDetail).length > 0}
+        step3Finish={Object.keys(pageDetail).length > 1}
       />
 
       <Tabs activeKey={step.toString()} renderTabBar={() => <span />} tabPosition="top" animated>

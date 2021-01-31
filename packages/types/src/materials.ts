@@ -4,6 +4,7 @@ import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
 import { RouterProps } from './pages';
 import { JsonSchemaProperties } from './helper';
+import { MaterialsContainerMeta } from './container';
 
 export interface MaterialsInfo {
   name: string;
@@ -21,6 +22,9 @@ export interface MaterialsMeta {
   };
   actions: {
     [name: string]: MaterialsActionMeta;
+  };
+  containers: {
+    [name: string]: MaterialsContainerMeta;
   };
   lib: MaterialsLibConfig;
   withForms?: boolean;
@@ -65,6 +69,8 @@ export enum InstanceKeyType {
 interface MaterialsManifestItem {
   info: MaterialsInfo;
   dataForm?: JsonSchemaProperties;
+  thumb?: string;
+  preview?: string;
 }
 
 export interface MaterialsComponentManifestItem extends MaterialsManifestItem {
@@ -74,6 +80,8 @@ export interface MaterialsComponentManifestItem extends MaterialsManifestItem {
 export type MaterialsPluginManifestItem = MaterialsManifestItem;
 
 export type MaterialsActionManifestItem = MaterialsManifestItem;
+
+export type MaterialsContainerManifestItem = MaterialsManifestItem;
 
 export interface MaterialsManifest {
   components: {
@@ -85,6 +93,10 @@ export interface MaterialsManifest {
   actions: {
     [name: string]: MaterialsActionManifestItem;
   };
+  containers: {
+    [name: string]: MaterialsContainerManifestItem;
+  };
+  lib: MaterialsLibConfig;
 }
 
 export enum MaterialsLibRuntime {
@@ -94,8 +106,10 @@ export enum MaterialsLibRuntime {
 
 export interface MaterialsLibConfig {
   libName: string;
-  displayName?: string;
-  author?: string;
+  displayName: string;
+  desc?: string;
+  thumb?: string;
+  author: string;
   runtime: MaterialsLibRuntime;
   releaseTo: string;
   __isBuildIn?: boolean;

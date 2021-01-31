@@ -30,7 +30,9 @@ export class PageController {
   }
 
   @Get()
-  async getPages(@Query() query: QueryParams<{ biz?: number }>) {
+  async getPages(
+    @Query() query: QueryParams<{ biz?: string; isTemplate: string }>,
+  ) {
     const { pages, total } = await this.pageService.queryPageEntity(query);
     return CGIResponse.success({
       total,
@@ -38,11 +40,13 @@ export class PageController {
         const {
           latestHistory: { id, title, desc, author, createdTime },
           biz: { id: bizID },
+          container,
         } = page;
         return {
           ...page,
           latestHistory: { id, title, desc, author, createdTime },
           biz: { id: bizID },
+          container: JSON.parse(container),
         };
       }),
     });

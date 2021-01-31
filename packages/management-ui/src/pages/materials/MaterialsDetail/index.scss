@@ -1,0 +1,139 @@
+@import 'styles/helper';
+
+.lib-detail-menu {
+  border-bottom: none;
+  position: relative;
+  top: 13px;
+  left: -13px;
+  margin-top: 24px;
+}
+
+.materials-lib-info {
+  display: flex;
+  justify-content: flex-start;
+  margin: 40px;
+
+  .thumb {
+    width: 380px;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: $default-box-shadow-light;
+    background-size: cover;
+    margin-right: 64px;
+  }
+
+  & > div {
+    & > h1 {
+      margin-bottom: 2px;
+    }
+
+    & > h2 {
+      margin-bottom: 6px;
+      font-weight: normal;
+    }
+
+    & > p {
+      font-size: 14px;
+    }
+
+    & > p,
+    .infos {
+      color: #666;
+    }
+
+    .infos {
+      display: flex;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .info-item {
+      width: 240px;
+
+      span {
+        color: #555;
+        font-weight: bolder;
+        margin-right: 4px;
+      }
+    }
+
+    .operations {
+      margin-top: 32px;
+
+      button {
+        margin-right: 16px;
+
+        svg {
+          width: 16px;
+          height: 16px;
+          position: relative;
+          top: 2px;
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}
+
+.materials-detail-loading {
+  padding-bottom: 20px;
+}
+
+.materials-item-list {
+  .materials-action-item {
+    .ant-card-body {
+      padding-top: 18px;
+    }
+  }
+
+  .ant-card {
+    border-radius: 4px;
+  }
+
+  .ant-card-body {
+    padding-left: 12px;
+  }
+
+  .ant-card-meta {
+    .ant-card-meta-title {
+      margin-bottom: 0;
+    }
+
+    .ant-avatar {
+      width: 40px;
+      height: 40px;
+    }
+
+    .ant-card-meta-description > p {
+      margin-bottom: 0;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .info-item {
+      margin-bottom: 10px !important;
+      margin-top: 8px;
+
+      span {
+        margin-right: 6px;
+      }
+    }
+  }
+
+  .ant-card-actions {
+    svg {
+      width: 17px;
+      height: 17px;
+      position: relative;
+      top: 2px;
+      left: -4px;
+    }
+  }
+
+  .preview-with-empty {
+    width: 100%;
+    height: 15vw;
+  }
+}

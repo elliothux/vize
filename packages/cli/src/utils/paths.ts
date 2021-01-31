@@ -130,12 +130,14 @@ function getContainerList(folderPath: string): ContainerList {
   const items = fs.readdirSync(folderPath).filter(isItemPathNameValid);
   return items.map(name => {
     const itemPath = path.resolve(folderPath, name);
-    const entry = path.resolve(itemPath, './index');
-    const html = path.resolve(itemPath, './index.html.ejs');
+    const entry = path.resolve(itemPath, 'index');
+    const metaPath = path.resolve(itemPath, 'config');
+    const html = path.resolve(itemPath, 'index.html.ejs');
 
     return {
       name,
       path: itemPath,
+      metaPath,
       entry,
       html,
     };
@@ -143,5 +145,5 @@ function getContainerList(folderPath: string): ContainerList {
 }
 
 function isItemPathNameValid(i: string) {
-  return !i.startsWith('.') || !i.startsWith('_');
+  return !i.startsWith('.') && !i.startsWith('_');
 }

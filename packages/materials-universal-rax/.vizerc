@@ -3,5 +3,6 @@
   "displayName": "通用物料库（Rax）",
   "author": "aedron@github",
   "releaseTo": "",
-  "runtime": "rax"
+  "runtime": "rax",
+  "thumb": "https://gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png"
 }

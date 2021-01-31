@@ -1,111 +1,95 @@
-import * as fs from 'fs-extra';
-import * as path from 'path';
-import * as cp from 'child_process';
-import * as semver from 'semver';
-import * as tar from 'tar';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { getConfig } from 'utils';
-import { Maybe } from 'types';
-import { ensureDir } from 'fs-extra';
+import { QueryParams } from 'types';
+import { MaterialsEntity } from './materials.entity';
+import {
+  getLibCurrentVersion,
+  getLibManifest,
+  getLibVersions,
+  listLibs,
+} from './materials.utils';
 
 @Injectable()
 export class MaterialsService {
-  public async listVersions(libName: string) {
-    const {
-      paths: { materialsVersionsPath },
-    } = getConfig()!;
-    const libPath = path.resolve(materialsVersionsPath, libName);
+  constructor(
+    @InjectRepository(MaterialsEntity)
+    private readonly materialsEntity: Repository<MaterialsEntity>,
+  ) {}
 
-    let versions = [];
-    if (fs.existsSync(libPath)) {
-      versions = (await fs.readdir(libPath))
-        .map(i => semver.valid(i))
-        .filter(i => !!i);
-    }
-
-    return {
-      current: await MaterialsService.getCurrentVersion(libName),
-      versions: versions,
-    };
+  public async getLibEntity(id: number) {
+    return this.materialsEntity.findOne(id);
   }
 
-  static async getCurrentVersion(libName: string): Promise<Maybe<string>> {
+  public async getLibEntityByName(libName: string) {
+    return this.materialsEntity.findOne({ libName });
+  }
+
+  public async queryLibEntities({ startPage = 0, pageSize = 10 }: QueryParams) {
+    return this.materialsEntity.find({
+      take: pageSize,
+      skip: pageSize * startPage,
+    });
+  }
+
+  public async syncAllLibs() {
+    const libs = await listLibs();
+    return Promise.all(libs.map(i => this.syncLib(i)));
+  }
+
+  public async syncLib(libName: string) {
+    if (!(await this.checkMaterialsExists(libName))) {
+      return this.createLib(libName);
+    }
+
+    console.log('sync materials lib: ', libName);
+    const manifest = await getLibManifest(libName);
     const {
-      paths: { materialsPath },
-    } = getConfig()!;
-    const packageJsonPath = path.resolve(
-      materialsPath,
-      libName,
-      './package.json',
+      lib: { displayName, author, desc, thumb, runtime },
+    } = manifest;
+    return this.materialsEntity.update(
+      { libName },
+      {
+        modifiedTime: new Date(),
+        author,
+        libName,
+        displayName,
+        desc,
+        thumb,
+        runtime,
+        version: await getLibCurrentVersion(libName),
+        manifest: JSON.stringify(manifest),
+      },
     );
-
-    if (!fs.existsSync(packageJsonPath)) {
-      return null;
-    }
-
-    return (await fs.readJSON(packageJsonPath, { encoding: 'utf-8' })).version;
   }
 
-  static async saveMaterialsPackage(
-    libName: string,
-    version: string,
-    buffer: Buffer,
-  ) {
+  public async createLib(libName: string) {
+    const manifest = await getLibManifest(libName);
     const {
-      paths: { materialsVersionsPath },
-    } = getConfig();
-    const targetFolder = path.resolve(materialsVersionsPath, libName);
-    await ensureDir(targetFolder);
-
-    const targetPath = path.resolve(targetFolder, `${version}.tgz`);
-    await fs.writeFile(targetPath, buffer);
-    return targetPath;
-  }
-
-  static async extractMaterialsPackage(version: string, packagePath: string) {
-    const extractTarget = path.resolve(packagePath, `../${version}`);
-    await fs.ensureDir(extractTarget);
-    await tar.extract({
-      file: packagePath,
-      cwd: extractTarget,
-    });
-    return extractTarget;
-  }
-
-  static async installNPMPackages(packagePath: string) {
-    const { npmRegistry } = getConfig();
-    const command = `npm install --prefix ${packagePath} ${
-      npmRegistry ? `--registry ${npmRegistry}` : ''
-    }`;
-
-    return new Promise(resolve => {
-      const process = cp.exec(command, (error, stdout, stderr) => {
-        if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-        }
-        if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-        }
-        console.log(`stdout: ${stdout}`);
-      });
-
-      process.on('close', resolve);
-      process.on('exit', resolve);
-      process.on('disconnect', resolve);
+      lib: { displayName, author, desc, thumb, runtime },
+    } = manifest;
+    return this.materialsEntity.insert({
+      createdTime: new Date(),
+      author,
+      libName,
+      displayName,
+      desc,
+      thumb,
+      runtime,
+      version: await getLibCurrentVersion(libName),
+      manifest: JSON.stringify(manifest),
     });
   }
 
-  static async createPackageSoftLink(libName: string, packagePath: string) {
-    const {
-      paths: { materialsPath },
-    } = getConfig();
+  public async checkMaterialsExists(libName: string) {
+    const count = await this.materialsEntity.count({ libName });
+    return count > 0;
+  }
 
-    const target = path.resolve(materialsPath, libName);
-    if (fs.existsSync(target)) {
-      await fs.unlink(target);
-    }
-    return fs.symlink(packagePath, target);
+  public async listVersions(libName: string) {
+    return {
+      current: await getLibCurrentVersion(libName),
+      versions: await getLibVersions(libName),
+    };
   }
 }

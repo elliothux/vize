@@ -9,6 +9,8 @@ import {
   MaterialsComponentManifestItem,
   MaterialsPluginManifestItem,
   MaterialsActionManifestItem,
+  MaterialsContainerManifestItem,
+  MaterialsLibConfig,
 } from '@vize/types/src';
 import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
 
@@ -118,45 +120,84 @@ export function openEditor({ debugPorts, libs, container }: OpenParams) {
   open(url);
 }
 
-export async function generateMaterialsManifest(libName: string, distPath: string) {
-  const { components, plugins, actions } = await getMaterialsMeta(libName, distPath);
+export async function generateMaterialsManifest(libConfig: MaterialsLibConfig, libPaths: LibPaths) {
+  const { libName } = libConfig;
+  const { components, plugins, actions, containers } = await getMaterialsMeta(libName, libPaths.dist);
   const meta: MaterialsManifest = {
-    components: Object.entries(components).reduce<{ [name: string]: MaterialsComponentManifestItem }>(
-      (accu, [name, { info, dataForm, styleForm }]) => {
-        accu[name.toLowerCase()] = {
-          info,
-          dataForm: typeof dataForm === 'object' ? dataForm : undefined,
-          styleForm: typeof styleForm === 'object' ? styleForm : undefined,
-        };
-        return accu;
-      },
-      {},
-    ),
-    plugins: Object.entries(plugins).reduce<{ [name: string]: MaterialsPluginManifestItem }>(
-      (accu, [name, { info, dataForm }]) => {
-        accu[name.toLowerCase()] = {
-          info,
-          dataForm: typeof dataForm === 'object' ? dataForm : undefined,
-        };
-        return accu;
-      },
-      {},
-    ),
-    actions: Object.entries(actions).reduce<{ [name: string]: MaterialsActionManifestItem }>(
-      (accu, [name, { info, dataForm }]) => {
-        accu[name.toLowerCase()] = {
-          info,
-          dataForm: typeof dataForm === 'object' ? dataForm : undefined,
-        };
-        return accu;
-      },
-      {},
-    ),
+    components: generateComponentsManifest(components, libPaths),
+    plugins: generatePluginManifest(plugins, libPaths),
+    actions: generateActionManifest(actions),
+    containers: generateContainerManifest(containers),
+    lib: libConfig,
   };
 
-  const outputPath = path.resolve(distPath, `./@vize-materials-${libName}-manifest.json`);
+  const outputPath = path.resolve(libPaths.dist, `./@vize-materials-${libName}-manifest.json`);
   await fs.writeFile(outputPath, JSON.stringify(meta, undefined, 2));
   return outputPath;
+}
+
+function generateComponentsManifest(components: MaterialsMeta['components'], libPaths: LibPaths) {
+  return Object.entries(components).reduce<{ [name: string]: MaterialsComponentManifestItem }>(
+    (accu, [name, { info, dataForm, styleForm }]) => {
+      const entry = path.resolve(libPaths.components, name);
+      const thumb = findThumb(entry);
+      const preview = findPreview(entry);
+      accu[name] = <MaterialsComponentManifestItem>{
+        info,
+        dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+        styleForm: typeof styleForm === 'object' ? styleForm : undefined,
+        thumb: thumb ? path.extname(thumb) : undefined,
+        preview: preview ? path.extname(preview) : undefined,
+      };
+      return accu;
+    },
+    {},
+  );
+}
+
+function generatePluginManifest(plugins: MaterialsMeta['plugins'], libPaths: LibPaths) {
+  return Object.entries(plugins).reduce<{ [name: string]: MaterialsPluginManifestItem }>(
+    (accu, [name, { info, dataForm }]) => {
+      const entry = path.resolve(libPaths.plugins, name);
+      const thumb = findThumb(entry);
+      const preview = findPreview(entry);
+      accu[name] = <MaterialsPluginManifestItem>{
+        info,
+        dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+        thumb: thumb ? path.extname(thumb) : undefined,
+        preview: preview ? path.extname(preview) : undefined,
+      };
+      return accu;
+    },
+    {},
+  );
+}
+
+function generateActionManifest(actions: MaterialsMeta['actions']) {
+  return Object.entries(actions).reduce<{ [name: string]: MaterialsActionManifestItem }>(
+    (accu, [name, { info, dataForm }]) => {
+      accu[name] = {
+        info,
+        dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+      };
+      return accu;
+    },
+    {},
+  );
+}
+
+function generateContainerManifest(containers: MaterialsMeta['containers']) {
+  return Object.entries(containers).reduce<{ [name: string]: MaterialsContainerManifestItem }>(
+    (accu, [name, { info, dataForm, styleForm }]) => {
+      accu[name] = <MaterialsContainerManifestItem>{
+        info,
+        dataForm: typeof dataForm === 'object' ? dataForm : undefined,
+        styleForm: typeof styleForm === 'object' ? styleForm : undefined,
+      };
+      return accu;
+    },
+    {},
+  );
 }
 
 export async function getMaterialsMeta(libName: string, distPath: string): Promise<MaterialsMeta> {

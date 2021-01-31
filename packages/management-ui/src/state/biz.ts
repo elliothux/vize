@@ -3,13 +3,8 @@ import { BizRecord, Maybe } from 'types';
 import { queryBiz } from 'api';
 
 export class BizStore {
-  public init = async () => {
-    const [success, data, response] = await queryBiz();
-    if (!success) {
-      console.error('query biz failed: ', response);
-    }
-
-    this.setBizList(data!);
+  public init = () => {
+    return this.getBizList();
   };
 
   @observable
@@ -18,6 +13,15 @@ export class BizStore {
   @action
   public setBizList = (list: BizRecord[]) => {
     this.bizList = list;
+  };
+
+  public getBizList = async () => {
+    const [success, data, response] = await queryBiz();
+    if (!success) {
+      console.error('query biz failed: ', response);
+    }
+
+    this.setBizList(data!);
   };
 }
 

@@ -23,6 +23,7 @@ export class CGIResponse {
 
 export enum CGICodeMap {
   BizExists = 300001,
+  BizNotExists = 300002,
   PageExists = 400001,
   PageNotExists = 400002,
   PageUpdateFailed = 400003,
@@ -31,6 +32,7 @@ export enum CGICodeMap {
 
 const CGIReasonMap: { [key in CGICodeMap]: string } = {
   [CGICodeMap.BizExists]: 'biz exists',
+  [CGICodeMap.BizNotExists]: 'biz not exists',
   [CGICodeMap.PageExists]: 'page exists',
   [CGICodeMap.PageNotExists]: 'page not exists',
   [CGICodeMap.PageUpdateFailed]: 'page update failed',

@@ -30,6 +30,9 @@ export class PageEntity {
   @Column({ type: 'varchar', length: 16, nullable: false })
   pageMode: string;
 
+  @Column({ type: 'tinyint', nullable: false })
+  isTemplate: number;
+
   @Column({ type: 'varchar', length: 16, nullable: true })
   generator?: string;
 

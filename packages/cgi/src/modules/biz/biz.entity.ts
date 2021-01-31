@@ -19,4 +19,7 @@ export class BizEntity {
 
   @Column({ type: 'datetime', nullable: true })
   modifiedTime?: Date;
+
+  @Column({ type: 'simple-array', nullable: false })
+  materials: string[];
 }

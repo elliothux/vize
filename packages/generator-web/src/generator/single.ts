@@ -68,6 +68,6 @@ export class SinglePageGenerator extends BaseGenerator {
       containerPath: this.containerPath,
       containerParams: this.containerParams,
     });
-    return { path: path.resolve(root, 'dist') };
+    return { path: path.resolve(root, 'dist'), type: 'file' };
   };
 }

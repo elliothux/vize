@@ -1,53 +1,38 @@
 @import 'styles/helper';
 
 #vize-left-bar {
-  width: 80px;
-  height: calc(100vh - 60px);
+  width: 180px;
+  height: 100vh;
   position: fixed;
-  top: 60px;
   left: 0;
-  background-color: white;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  padding-top: 30px;
+  top: 0;
 
-  .item {
-    width: 100%;
-    height: 60px;
+  .name {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    margin-bottom: 22px;
-    color: #303030;
+    flex-direction: column;
+    margin: 32px 0 38px;
 
-    svg {
-      width: 24px;
-      height: 24px;
-      color: #484848;
+    .logo {
+      width: 50px;
+      height: auto;
     }
 
-    span {
-      font-size: 14px;
-      margin-top: 6px;
-      font-weight: normal;
-    }
-
-    &.activated {
-      color: $main-color;
-
-      svg {
-        color: $main-color;
-      }
+    p {
+      margin-top: 16px;
+      font-size: 16px;
     }
   }
 
-  .feedback {
-    position: absolute;
-    bottom: 10px;
-    width: 20px;
-    height: 20px;
-    margin-left: 25px;
-    //color: main-color-opacity(1);
+  .ant-menu-item,
+  .ant-menu-submenu {
+    svg {
+      width: 20px;
+      height: auto;
+      margin-right: 12px;
+      position: relative;
+      top: 5px;
+    }
   }
 }

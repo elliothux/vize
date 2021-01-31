@@ -16,6 +16,7 @@ export type ActionsList = MaterialsList;
 export interface MaterialsContainerItem {
   name: string;
   path: string;
+  metaPath: string;
   entry: string;
   html: string;
 }

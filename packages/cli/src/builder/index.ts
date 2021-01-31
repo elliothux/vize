@@ -152,7 +152,7 @@ export class Builder {
     await new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
 
     logWithSpinner('🚀', ' 生成 meta 文件');
-    await generateMaterialsManifest(this.libConfig.libName, this.libPaths.dist);
+    await generateMaterialsManifest(this.libConfig, this.libPaths);
 
     logWithSpinner('✨', ' 完成');
     stopSpinner();

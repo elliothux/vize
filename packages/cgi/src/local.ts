@@ -7,7 +7,7 @@ export function runLocalServer() {
     return;
   }
 
-  const workspacePath = path.resolve(__dirname, '../../workspace');
+  const workspacePath = path.resolve(__dirname, '../workspace');
   const editorPath = path.resolve(__dirname, '../../../editor/build');
   const managementUIPath = path.resolve(
     __dirname,
@@ -30,7 +30,7 @@ export function runLocalServer() {
     },
     generators: {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      web: require(path.resolve(__dirname, '../../../generator-web')).generate,
+      web: require(path.resolve(__dirname, '../../generator-web')).default,
     },
   };
 
@@ -39,6 +39,6 @@ export function runLocalServer() {
 
 function isRunningLocally() {
   const runPath = process.cwd();
-  const currentPath = path.resolve(__dirname, '../../');
+  const currentPath = path.resolve(__dirname, '../');
   return runPath === currentPath;
 }
