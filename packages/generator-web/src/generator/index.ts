@@ -4,7 +4,7 @@ import { BaseGenerator } from './base';
 import { MultiPageGenerator } from './multi';
 import { SinglePageGenerator } from './single';
 
-export function generate({ dsl, workspacePath }: GeneratorParams): Promise<any> {
+export function generate({ dsl, workspacePath }: GeneratorParams) {
   const params: ConstructorParameters<typeof BaseGenerator>[0] = {
     dsl,
     libsPath: path.resolve(workspacePath, 'materials'),

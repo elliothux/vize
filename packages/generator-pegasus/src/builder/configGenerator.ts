@@ -34,7 +34,6 @@ export function generateWebpackConfig({
   // const babelConfig = useSWC ? getSWConfig() : getBabelConfig();
   const babelConfig = getBabelConfig();
   const modules = [src, runPath, ...libsNodeModules, ...libsSrc];
-  console.log('modules: ', modules);
 
   if (isMultiPage) {
     return entryPaths.map(({ pageKey, entryPath }) => {

@@ -1,6 +1,6 @@
 import webpack from 'webpack';
 import { MultiCompiler, Stats } from 'webpack';
-import { SecondParameter } from '@vize/types';
+import { SecondParameter } from '../types';
 import { BuildConfigParams, generateWebpackConfig } from './configGenerator';
 
 export function runBuild(params: BuildConfigParams) {

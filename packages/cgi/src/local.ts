@@ -31,6 +31,9 @@ export function runLocalServer() {
     generators: {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       web: require(path.resolve(__dirname, '../../generator-web')).default,
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      pegasus: require(path.resolve(__dirname, '../../generator-pegasus'))
+        .default,
     },
   };
 

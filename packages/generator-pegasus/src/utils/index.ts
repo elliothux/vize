@@ -1,9 +1,8 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import tpl from 'lodash.template';
-import { ComponentInstanceDSL } from '@vize/types';
+import { ComponentInstanceDSL, MaterialsPathMap } from '../types';
 import { mergeCommonStyle } from '@vize/runtime-web-rax/src/libs/style';
-import { MaterialsPathMap } from '../types';
 
 export async function prepareTargetFolder(distWorkspacePath: string, pageKey: string): Promise<[string, string]> {
   if (!fs.existsSync(distWorkspacePath)) {

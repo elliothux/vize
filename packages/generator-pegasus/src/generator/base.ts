@@ -9,8 +9,18 @@ import {
   stringifyUmdConstants,
   stringifyMaterialVars,
 } from '../utils';
-import { GlobalTplParams, MaterialsPathMap, PageMaterialsPathMap, PageTplParams } from '../types';
-import { ComponentInstanceDSL, DSL, EventInstance, EventTargetType, PageMode, PluginInstanceDSL } from '@vize/types';
+import {
+  GlobalTplParams,
+  MaterialsPathMap,
+  PageMaterialsPathMap,
+  PageTplParams,
+  ComponentInstanceDSL,
+  DSL,
+  EventInstance,
+  EventTargetType,
+  PageMode,
+  PluginInstanceDSL,
+} from '../types';
 import { BaseConfigParams } from '../builder/base';
 
 interface InitParams {

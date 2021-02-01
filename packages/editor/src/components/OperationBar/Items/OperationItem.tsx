@@ -1,28 +1,25 @@
 import * as React from 'react';
-import { TooltipPlacement } from 'antd/lib/tooltip';
 import { Tooltip } from 'antd';
 import { IconType } from 'react-icons/lib';
+import { TooltipPlacement } from 'antd/lib/tooltip';
+import { LoadingOutlined } from '@ant-design/icons';
 import classnames from 'classnames';
 import { noop } from 'utils';
 
 export interface OperationItemProps {
   title: string | React.ReactElement;
-  icon: IconType | React.ComponentType;
+  icon: IconType;
   action: () => void;
   disabled?: boolean;
+  loading?: boolean;
   placement?: TooltipPlacement;
 }
 
-export function OperationItem(props: OperationItemProps) {
-  const { icon: Icon, disabled, placement } = props;
+export function OperationItem({ icon: Icon, disabled, placement, loading, action, title }: OperationItemProps) {
   return (
-    <Tooltip
-      overlayClassName="vize-editor-operation-item-tooltip"
-      placement={placement || 'bottom'}
-      title={props.title}
-    >
-      <div onClick={disabled ? noop : props.action} className={classnames('operation_item', { disabled })}>
-        <Icon />
+    <Tooltip overlayClassName="vize-editor-operation-item-tooltip" placement={placement || 'bottom'} title={title}>
+      <div onClick={disabled || loading ? noop : action} className={classnames('operation_item', { disabled })}>
+        {loading ? <LoadingOutlined /> : <Icon />}
       </div>
     </Tooltip>
   );

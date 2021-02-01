@@ -39,7 +39,7 @@ export function App() {
   });
 
   return (
-    <Spin spinning={loading} tip="loading" size="large" wrapperClassName="editor-loading">
+    <Spin spinning={loading} tip="loading" size="large" wrapperClassName="vize-editor-loading">
       <Header />
       <main className="vize-main">
         <MaterialsView loading={loading} />

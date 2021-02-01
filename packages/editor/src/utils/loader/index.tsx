@@ -15,7 +15,8 @@ import {
   MaterialsFileType,
   StringMaterialsFile,
 } from './utils';
-import { getMaterialsIdentityName, promiseWrapper } from '../common';
+import { promiseWrapper } from '../common';
+import { getMaterialsIdentityName } from 'runtime';
 
 export async function loadMaterials(libName: string, containerName: string, debugPort?: number) {
   const [[meta, forms], containerHTML, main, entry] = await Promise.all([

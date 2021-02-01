@@ -10,7 +10,9 @@ import { savePageHistory } from 'api';
 import { unImplemented } from './utils';
 
 function ISaveAndHistory() {
-  const { debugPorts } = editStore;
+  const {
+    debugPorts: [debugPort],
+  } = editStore;
   const hotKeyPrefix = isMacOS() ? 'command' : 'ctrl';
   // TODO
   const isUserValid = true;
@@ -43,16 +45,16 @@ function ISaveAndHistory() {
       />
       <OperationItem title="复制" icon={FiCopy} action={unImplemented} />
       <OperationItem
-        title={debugPorts ? 'Debug 模式不支持存为模板' : '存为模板'}
+        title={debugPort ? 'Debug 模式不支持存为模板' : '存为模板'}
         icon={FiFilePlus}
         action={unImplemented}
-        disabled={!!debugPorts}
+        disabled={!!debugPort}
       />
       <OperationItem
-        title={debugPorts ? 'Debug 模式不支持历史管理' : '历史管理'}
+        title={debugPort ? 'Debug 模式不支持历史管理' : '历史管理'}
         icon={FiGitMerge}
         action={unImplemented}
-        disabled={!!debugPorts}
+        disabled={!!debugPort}
       />
       <span className="operation_black" />
     </>

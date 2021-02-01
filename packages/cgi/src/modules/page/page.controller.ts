@@ -100,7 +100,7 @@ export class PageController {
   }
 
   @Post('/publish/:key')
-  async buildPage(@Param('key') key) {
+  async publishPage(@Param('key') key) {
     setTimeout(() => this.pageService.buildPage(key, false), 0);
     return CGIResponse.success();
   }
