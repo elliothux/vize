@@ -7,7 +7,7 @@ import { noop } from 'utils';
 
 export interface OperationItemProps {
   title: string | React.ReactElement;
-  icon: IconType;
+  icon: IconType | React.ComponentType;
   action: () => void;
   disabled?: boolean;
   placement?: TooltipPlacement;

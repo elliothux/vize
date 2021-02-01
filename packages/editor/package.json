@@ -7,7 +7,6 @@
     "build": "SKIP_PREFLIGHT_CHECK=true ../../node_modules/.bin/react-app-rewired build --max-old-space-size=12288",
     "publish": "npm publish --access public"
   },
-  "dependencies": {},
   "browserslist": {
     "production": [
       ">0.2%",

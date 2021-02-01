@@ -1,6 +1,7 @@
 export * from './dsl';
 export * from './indexMap';
 export * from './loader';
+export * from './clipboard';
 export * from './color';
 export * from './common';
 export * from './hotAreaNodes';

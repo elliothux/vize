@@ -11,6 +11,7 @@ export interface GeneratorParams {
 export interface GeneratorResult {
   type: 'url' | 'file';
   path: string;
+  url?: string;
 }
 
 export type GeneratorFunction = (params: GeneratorParams) => Promise<Maybe<GeneratorResult>>;
