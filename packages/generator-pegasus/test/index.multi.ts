@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import * as path from 'path';
 import { DSL } from '@vize/types';
-import { generate } from '../src';
+import Generator from '../src';
 
 const dsl = {
   pageKey: 'gen-test',
@@ -585,7 +585,8 @@ const dsl = {
   },
 } as DSL;
 
-const generator = generate({
+const generator = Generator.generator({
   dsl,
   workspacePath: '/Users/huqingyang/Desktop/Proj/vize/packages/cgi/workspace',
+  isPreview: false,
 }).then(console.log);

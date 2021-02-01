@@ -2,7 +2,7 @@ import './index.scss';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { PageHeader, Drawer, Tabs, Modal } from 'antd';
-import { LayoutMode, Maybe, PageMode } from 'types';
+import { LayoutMode, Maybe, PageMode, PageRecord } from 'types';
 import { createPage } from 'api';
 import { CreateSteps } from './CreateSteps';
 import { PageModeSelector } from './PageModeSelector';
@@ -27,9 +27,21 @@ export function CreatePage({ visible, setVisible, isTemplate }: Props) {
   const [pageMode, setPageMode] = useState<Maybe<PageMode>>(null);
   const [layoutMode, setLayoutMode] = useState<Maybe<LayoutMode>>(null);
   const [pageDetail, setPageDetail] = useState<Partial<PageDetail>>({ generator: 'web' });
-  const [pageID, setPageID] = useState<Maybe<number>>(null);
+  const [pageRecord, setPageRecord] = useState<Maybe<PageRecord>>(null);
 
   const onBack = useCallback(() => setVisible(false), []);
+
+  const onClear = useCallback(() => {
+    onBack();
+    setTimeout(() => {
+      setStep(0);
+      setShowErr(false);
+      setPageMode(null);
+      setLayoutMode(null);
+      setPageDetail({ generator: 'web' });
+      setPageRecord(null);
+    }, 1000);
+  }, []);
 
   const onSetPageMode = useCallback((mode: Maybe<PageMode>) => {
     setPageMode(mode);
@@ -68,8 +80,8 @@ export function CreatePage({ visible, setVisible, isTemplate }: Props) {
         isTemplate: isTemplate ? 1 : 0,
       });
 
-      if (success) {
-        setPageID(result!.id);
+      if (success && result) {
+        setPageRecord(result);
       } else {
         const content = `错误码: ${code}$\n错误信息: ${message}`;
         Modal.error({ title: '创建失败', content, onOk: () => setStep(2) });
@@ -112,7 +124,7 @@ export function CreatePage({ visible, setVisible, isTemplate }: Props) {
           <PageDetailForm current={pageDetail} setCurrent={onSetPageDetail} />
         </TabPane>
         <TabPane tab={3} key={3}>
-          <CreateResult pageID={pageID} onClose={onBack} />
+          <CreateResult pageRecord={pageRecord} onClose={onClear} />
         </TabPane>
       </Tabs>
     </Drawer>

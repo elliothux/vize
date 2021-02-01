@@ -14,12 +14,13 @@ img {
 //  pointer-events: none;
 //}
 
-.editor-loading {
+.vize-editor-loading {
   height: 100vh;
 
   .ant-spin {
     max-height: 85vh !important;
     height: 85vh !important;
+    left: -30px !important;
   }
 
   .ant-spin-container {
@@ -139,6 +140,7 @@ img {
   }
 }
 
-.ant-message {
-  left: -24px !important;
+.ant-message,
+.ant-modal {
+  left: -30px !important;
 }

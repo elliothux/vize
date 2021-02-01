@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import path from 'path';
+import * as path from 'path';
 import tpl from 'lodash.template';
 import { mergeCommonStyle } from '@vize/runtime-web/src/libs/style';
 import { ComponentInstanceDSL, MaterialsPathMap } from '../types';
@@ -51,9 +51,8 @@ export function stringifyUmdConstants(pathMap: MaterialsPathMap): string {
   return Object.entries(pathMap)
     .map(([, pathMap]) => {
       return Object.entries(pathMap)
-        .map(([identity, { path, name }]) => {
-          // return `const ${identity} = window["${name}"]`;
-          return `import ${identity} from "${path}";`;
+        .map(([identity, { path }]) => {
+          return `import ${formatIdentityVar(identity)} from "${path}";`;
         })
         .join('\n');
     })
@@ -76,7 +75,13 @@ export function stringifyMaterialVars(pathMap: MaterialsPathMap): string {
   return Object.entries(pathMap)
     .map(([, pathMap]) => {
       return Object.entries(pathMap)
-        .map(([identity]) => identity)
+        .map(([identity]) => {
+          const formated = formatIdentityVar(identity);
+          if (formated === identity) {
+            return identity;
+          }
+          return `"${identity}": ${formated}`;
+        })
         .join(', ');
     })
     .join('\n');
@@ -95,4 +100,8 @@ export function formatGlobalStyle(style: object): string {
 const hyphenateRE = /\B([A-Z])/g;
 function humpToMiddleLine(str: string): string {
   return str.replace(hyphenateRE, '-$1').toLowerCase();
+}
+
+function formatIdentityVar(identity: string) {
+  return identity.split('-').join('_');
 }

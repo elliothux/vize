@@ -112,10 +112,6 @@ export function getSchemaDefault(schema: JsonSchemaProperties) {
   return getDefaults(createSchema(schema));
 }
 
-export function getMaterialsIdentityName(libName: string, name: string) {
-  return `${libName}_${name}`.toLocaleLowerCase();
-}
-
 export function getHotAreaId(key: number): string {
   return `__vize-hotarea-wrapper-${key}`;
 }

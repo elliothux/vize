@@ -11,15 +11,10 @@ export type TreeData = ComponentProps<typeof DirectoryTree>['treeData'];
 
 export function generateComponentTreeData(componentInstances: ComponentInstance[], isChildren = false): TreeData {
   return componentInstances.reduce<TreeData>((accu, { key, children, component, hotAreas }) => {
-    const meta = getMaterialsComponentMeta(component);
-    if (!meta) {
-      console.warn(`Materials component not found: "${component}"`);
-      return accu;
-    }
-
     const {
       info: { name },
-    } = meta;
+    } = getMaterialsComponentMeta(component)!;
+
     const isContainer = !!children;
     const hasHotArea = !!hotAreas?.length;
     accu!.push({
@@ -53,15 +48,9 @@ function generateHotAreaTreeData(componentKey: number, hotAreas: HotArea[]): Tre
 
 export function generatePluginTreeData(pluginInstances: PluginInstance[]): TreeData {
   return pluginInstances.reduce<TreeData>((accu, { key, plugin }) => {
-    const meta = getMaterialsPluginMeta(plugin)!;
-    if (!meta) {
-      console.warn(`Materials plugin not found: "${plugin}"`);
-      return accu;
-    }
-
     const {
       info: { name },
-    } = meta;
+    } = getMaterialsPluginMeta(plugin)!;
 
     accu!.push({
       key,

@@ -33,7 +33,7 @@ export class MaterialsController {
     return CGIResponse.success(parseLibs([result])[0]);
   }
 
-  @Get('/version/:libName')
+  @Get('/versions/:libName')
   async listVersions(@Param('libName') libName: string) {
     if (!libName) {
       return CGIResponse.failed(CGICodeMap.MaterialsNotExists);
@@ -43,7 +43,7 @@ export class MaterialsController {
     return CGIResponse.success(result);
   }
 
-  @Post('/version/:libName/:version')
+  @Post('/versions/:libName/:version')
   @UseInterceptors(FileInterceptor('file'))
   async uploadLibPackage(
     @UploadedFile() file,
@@ -59,8 +59,8 @@ export class MaterialsController {
       version,
       packagePath,
     );
-    await installLibNPMPackages(extractedPackagePath);
     await createLibPackageSoftLink(libName, extractedPackagePath);
+    await installLibNPMPackages(extractedPackagePath);
     await this.materialsService.syncLib(libName);
     return CGIResponse.success();
   }

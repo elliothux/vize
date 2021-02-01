@@ -28,6 +28,7 @@ export enum CGICodeMap {
   PageNotExists = 400002,
   PageUpdateFailed = 400003,
   MaterialsNotExists = 500001,
+  BuildFailed = 600001,
 }
 
 const CGIReasonMap: { [key in CGICodeMap]: string } = {
@@ -37,4 +38,5 @@ const CGIReasonMap: { [key in CGICodeMap]: string } = {
   [CGICodeMap.PageNotExists]: 'page not exists',
   [CGICodeMap.PageUpdateFailed]: 'page update failed',
   [CGICodeMap.MaterialsNotExists]: 'materials lib not exist',
+  [CGICodeMap.BuildFailed]: 'page build failed',
 };

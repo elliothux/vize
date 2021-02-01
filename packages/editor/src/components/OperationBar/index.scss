@@ -13,6 +13,13 @@
       text-align: center;
       padding: 18px 0;
 
+      .anticon svg {
+        position: relative;
+        top: -1px;
+        width: 18px;
+        height: auto;
+      }
+
       svg {
         width: 16px;
         height: auto;
@@ -48,6 +55,36 @@
 
       &.desc {
         font-weight: normal;
+      }
+    }
+  }
+}
+
+.generator-result {
+  .ant-modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 320px;
+    padding-bottom: 32px;
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 24px;
+    }
+
+    p {
+      font-size: 14px;
+      margin-top: 18px;
+      margin-right: 4px;
+    }
+
+    .buttons {
+      margin-top: 12px;
+
+      .ant-btn-primary {
+        margin-right: 18px;
       }
     }
   }

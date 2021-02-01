@@ -155,7 +155,7 @@ export class BaseGenerator {
       actionImports: stringifyUmdConstants(actionsPathMap),
       sharedComponentVars: stringifyMaterialVars(this.sharedComponentPathMap),
       sharedComponentImports: stringifyUmdConstants(this.sharedComponentPathMap),
-      sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstances),
+      sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstances || []),
     };
   };
 
@@ -282,7 +282,7 @@ export class BaseGenerator {
   private getMaterialPathAndName = (lib: string, identityName: string, type: 'component' | 'plugin' | 'action') => {
     const identity = identityName.split('_')[1];
     return {
-      path: path.resolve(this.libsPath, `./${lib}/src/${type}s/${identity}`),
+      path: path.resolve(this.distPath, this.dsl.pageKey, './libs', `./${lib}/src/${type}s/${identity}`),
       name: `@vize-materials-${lib}-${identity}`,
     };
   };

@@ -6,7 +6,7 @@ import {
   JsonSchemaProperties,
   GeneratorResult,
   PluginInstanceDSL,
-} from '@vize/types';
+} from '../types';
 import { BaseGenerator } from './base';
 import { runBuild } from '../builder';
 import { BuildConfigParams } from '../builder/configGenerator';
@@ -174,6 +174,7 @@ export class SinglePageGenerator extends BaseGenerator {
     //   containerPath: this.containerPath,
     //   containerParams: this.containerParams,
     // });
-    return { path: path.resolve(root, 'dist') };
+    // TODO: publish module
+    return { path: path.resolve(root, 'src'), type: 'url' };
   };
 }

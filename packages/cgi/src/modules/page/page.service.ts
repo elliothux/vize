@@ -102,7 +102,9 @@ export class PageService {
   }
 
   public getPageById(id: number) {
-    return this.pageRepository.findOne(id);
+    return this.pageRepository.findOne(id, {
+      relations: ['biz'],
+    });
   }
 
   public getPageByKey(key: string) {
@@ -129,29 +131,37 @@ export class PageService {
     return count > 0;
   }
 
-  public async buildPage(key: string) {
-    this.buildStatus.set(key, BuildStatus.START);
-
+  public async buildPage(key: string, isPreview: boolean) {
+    this.buildStatus.set(key, [BuildStatus.START, null]);
     const page = await this.getPageByKey(key)!;
     const dsl = generateDSL(page);
-
     const { generators, workspacePath } = getConfig();
-    const { generator } = generators[page.generator || 'web']!;
+    const { generator, info } = generators[page.generator || 'web']!;
+    console.log('Start build use generator: ', info.name);
+
+    let result: Maybe<GeneratorResult> = null;
     try {
-      const result: GeneratorResult = await generator({
+      result = await generator({
         dsl,
         workspacePath,
+        isPreview,
       });
-      this.buildStatus.set(key, BuildStatus.SUCCESS);
-      await PageService.createPreviewSoftlink(key, result.path);
-      return {
-        ...result,
-        url: `/preview/${key}`,
-      };
     } catch (e) {
-      this.buildStatus.set(key, BuildStatus.FAILED);
       console.error(e);
+      this.buildStatus.set(key, [BuildStatus.FAILED, null]);
+      return { error: e };
     }
+
+    const generatorResult = {
+      ...result,
+      error: null,
+    };
+    if (result.type === 'file') {
+      await PageService.createPreviewSoftlink(key, result.path);
+      generatorResult['url'] = `/preview/${key}`;
+    }
+    this.buildStatus.set(key, [BuildStatus.SUCCESS, generatorResult]);
+    return generatorResult;
   }
 
   static async createPreviewSoftlink(key: string, distPath: string) {
@@ -162,9 +172,14 @@ export class PageService {
     return fs.ensureSymlink(distPath, to);
   }
 
-  public getBuildStatus(key: string): Maybe<BuildStatus> {
+  public getBuildStatus(
+    key: string,
+  ): Maybe<[BuildStatus, Maybe<GeneratorResult>]> {
     return this.buildStatus.get(key);
   }
 
-  private readonly buildStatus = new Map<string, BuildStatus>();
+  private readonly buildStatus = new Map<
+    string,
+    [BuildStatus, Maybe<GeneratorResult>]
+  >();
 }

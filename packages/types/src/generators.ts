@@ -5,11 +5,13 @@ import { MaterialsInfo } from './materials';
 export interface GeneratorParams {
   dsl: DSL;
   workspacePath: string;
+  isPreview: boolean;
 }
 
 export interface GeneratorResult {
   type: 'url' | 'file';
   path: string;
+  url?: string;
 }
 
 export type GeneratorFunction = (params: GeneratorParams) => Promise<Maybe<GeneratorResult>>;

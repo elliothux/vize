@@ -22,6 +22,7 @@ import {
 } from '../indexMap';
 import { componentEventDepsMap, generateEventDepFromItem, pluginEventDepsMap } from '../depsMap';
 import { setMaxKey } from '../key';
+import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
 
 export function restoreState({
   global,
@@ -67,7 +68,8 @@ function restorePageInstances(pages: ReturnType<typeof parseDSL>['pageInstances'
   });
 }
 
-function restoreComponentInstances(pageKey: number, componentInstances: ComponentInstance[]) {
+function restoreComponentInstances(pageKey: number, iComponentInstances: ComponentInstance[]) {
+  const componentInstances = iComponentInstances.filter(filterComponent);
   componentsStore.setState(componentsStore => {
     componentsStore.pagesComponentInstancesMap[pageKey] = componentInstances;
     componentsStore.pagesComponentInstancesMap[pageKey].forEach(component => {
@@ -86,7 +88,8 @@ function restoreComponentInstances(pageKey: number, componentInstances: Componen
   componentInstances.forEach(R.unary(restoreEventDep));
 }
 
-function restoreSharedComponentInstances(componentInstances: ComponentInstance[]) {
+function restoreSharedComponentInstances(iComponentInstances: ComponentInstance[]) {
+  const componentInstances = iComponentInstances.filter(filterComponent);
   sharedStore.setState(sharedStore => {
     sharedStore.sharedComponentInstances = componentInstances;
     sharedStore.sharedComponentInstances.forEach(component => {
@@ -105,7 +108,8 @@ function restoreSharedComponentInstances(componentInstances: ComponentInstance[]
   componentInstances.forEach(R.unary(restoreEventDep));
 }
 
-function restorePluginInstances(pageKey: number, pluginInstances: PluginInstance[]) {
+function restorePluginInstances(pageKey: number, iPluginInstances: PluginInstance[]) {
+  const pluginInstances = iPluginInstances.filter(filterPlugin);
   pluginsStore.setState(pluginsStore => {
     if (editStore.isSinglePageMode) {
       pluginsStore.singlePagePluginsInstances = pluginInstances;
@@ -163,4 +167,20 @@ function restoreEditInfo({ maxKeys, layoutMode, pageMode }: ReturnType<typeof pa
     setMaxKey(InstanceKeyType.Plugin, maxKeys[InstanceKeyType.Plugin]);
     setMaxKey(InstanceKeyType.Action, maxKeys[InstanceKeyType.Action]);
   }
+}
+
+function filterComponent(i: ComponentInstance) {
+  const meta = getMaterialsComponentMeta(i.component);
+  if (!meta) {
+    console.error(`Component "${i.component}" not found`);
+  }
+  return !!meta;
+}
+
+function filterPlugin(i: PluginInstance) {
+  const meta = getMaterialsPluginMeta(i.plugin);
+  if (!meta) {
+    console.error(`Plugin "${i.plugin}" not found`);
+  }
+  return !!meta;
 }

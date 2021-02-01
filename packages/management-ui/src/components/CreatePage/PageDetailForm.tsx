@@ -54,19 +54,21 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
         </Select>
       </FormItem>
 
-      <FormItem label="页面容器" name="container" hasFeedback rules={[{ required: true, message: '请选择页面容器' }]}>
-        <Select>
-          {currentBiz?.materials?.map(({ manifest: { lib: { libName, displayName }, containers } }) => (
-            <OptGroup label={displayName} key={libName}>
-              {Object.entries(containers).map(([k, { info: { name } }]) => (
-                <SelectOption value={`{"lib":"${libName}","name":"${k}"}`} key={k} title={name}>
-                  {name}
-                </SelectOption>
-              ))}
-            </OptGroup>
-          ))}
-        </Select>
-      </FormItem>
+      {biz ? (
+        <FormItem label="页面容器" name="container" hasFeedback rules={[{ required: true, message: '请选择页面容器' }]}>
+          <Select>
+            {currentBiz?.materials?.map(({ manifest: { lib: { libName, displayName }, containers } }) => (
+              <OptGroup label={displayName} key={libName}>
+                {Object.entries(containers).map(([k, { info: { name } }]) => (
+                  <SelectOption value={`{"lib":"${libName}","name":"${k}"}`} key={k} title={name}>
+                    {name}
+                  </SelectOption>
+                ))}
+              </OptGroup>
+            ))}
+          </Select>
+        </FormItem>
+      ) : null}
 
       <FormItem label="生成产物" name="generator" hasFeedback rules={[{ required: true, message: '请选择生成器' }]}>
         <Select loading={!generators}>
