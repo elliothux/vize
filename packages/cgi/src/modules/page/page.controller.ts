@@ -24,9 +24,10 @@ export class PageController {
     }
 
     const {
-      identifiers: [pageId],
+      identifiers: [{ id: pageId }],
     } = await this.pageService.createPageEntity(page);
-    return CGIResponse.success(pageId);
+    const result = await this.pageService.getPageById(pageId);
+    return CGIResponse.success(result);
   }
 
   @Get()

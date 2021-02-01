@@ -102,7 +102,9 @@ export class PageService {
   }
 
   public getPageById(id: number) {
-    return this.pageRepository.findOne(id);
+    return this.pageRepository.findOne(id, {
+      relations: ['biz'],
+    });
   }
 
   public getPageByKey(key: string) {
