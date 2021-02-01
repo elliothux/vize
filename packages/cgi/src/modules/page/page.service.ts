@@ -131,29 +131,32 @@ export class PageService {
     return count > 0;
   }
 
-  public async buildPage(key: string) {
+  public async buildPage(key: string, isPreview: boolean) {
     this.buildStatus.set(key, BuildStatus.START);
-
     const page = await this.getPageByKey(key)!;
     const dsl = generateDSL(page);
-
     const { generators, workspacePath } = getConfig();
     const { generator } = generators[page.generator || 'web']!;
+
+    let result: Maybe<GeneratorResult> = null;
     try {
-      const result: GeneratorResult = await generator({
+      result = await generator({
         dsl,
         workspacePath,
+        isPreview,
       });
-      this.buildStatus.set(key, BuildStatus.SUCCESS);
-      await PageService.createPreviewSoftlink(key, result.path);
-      return {
-        ...result,
-        url: `/preview/${key}`,
-      };
     } catch (e) {
-      this.buildStatus.set(key, BuildStatus.FAILED);
       console.error(e);
+      this.buildStatus.set(key, BuildStatus.FAILED);
+      return { error: e };
     }
+
+    this.buildStatus.set(key, BuildStatus.SUCCESS);
+    await PageService.createPreviewSoftlink(key, result.path);
+    return {
+      ...result,
+      url: `/preview/${key}`,
+    };
   }
 
   static async createPreviewSoftlink(key: string, distPath: string) {

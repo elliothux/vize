@@ -1,6 +1,6 @@
 import { BaseGenerator } from './base';
 import * as fs from 'fs-extra';
-import path from 'path';
+import * as path from 'path';
 import { runBuild } from '../builder';
 import { BuildConfigParams } from '../builder/configGenerator';
 import { getTpl } from '../utils';

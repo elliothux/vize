@@ -21,7 +21,7 @@ class Releaser {
   private readonly config: MaterialsLibConfig;
 
   private getURI(suffix = '') {
-    return `${this.config.releaseTo}/cgi/materials/${this.config.libName}${suffix}`;
+    return `${this.config.releaseTo}/cgi/materials/versions/${this.config.libName}${suffix}`;
   }
 
   private checkVersionValid = async (): Promise<Maybe<string>> => {
@@ -73,7 +73,7 @@ class Releaser {
       return error(`Materials version already exists.`);
     }
 
-    // await dist();
+    await dist();
     const packagePath: string = await this.createReleasePackage(version);
     await this.uploadReleasePackage(version, packagePath);
   };

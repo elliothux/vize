@@ -105,7 +105,7 @@ function genItemMainContent(item: MaterialsItem | MaterialsContainerItem) {
   if (!mainPath) {
     throw new Error('Should not be here...');
   }
-  return `${item.name}: require("${mainPath}").default`;
+  return `"${item.name}": require("${mainPath}").default`;
 }
 
 function genItemMetaContent(
@@ -114,7 +114,7 @@ function genItemMetaContent(
 ) {
   const thumb = findThumb(entry);
   const preview = findPreview(entry);
-  return `${name}: { ${thumb ? `thumb: require("${thumb}").default || require("${thumb}"), ` : ''}${
+  return `"${name}": { ${thumb ? `thumb: require("${thumb}").default || require("${thumb}"), ` : ''}${
     preview ? `preview: require("${preview}").default || require("${preview}"), ` : ''
   }${__isBuildIn ? 'isBuildIn: true,' : ''}...(require("${metaPath}").default) }`;
 }

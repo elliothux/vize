@@ -43,7 +43,7 @@ export async function getLibCurrentVersion(libName: string): Promise<string> {
 
 export async function installLibNPMPackages(packagePath: string) {
   const { npmRegistry } = getConfig();
-  const command = `npm install --prefix ${packagePath} ${
+  const command = `npm ci --prefix ${packagePath} ${
     npmRegistry ? `--registry ${npmRegistry}` : ''
   }`;
 

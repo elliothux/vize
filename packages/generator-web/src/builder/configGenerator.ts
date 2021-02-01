@@ -31,7 +31,8 @@ export function generateWebpackConfig({
   const libsSrc = libPaths.map(i => path.resolve(i, 'src'));
   const runPath = path.resolve(process.cwd(), './node_modules');
 
-  const babelConfig = useSWC ? getSWConfig() : getBabelConfig();
+  // const babelConfig = useSWC ? getSWConfig() : getBabelConfig();
+  const babelConfig = getBabelConfig();
   const modules = [src, runPath, ...libsNodeModules, ...libsSrc];
   console.log('modules: ', modules);
 

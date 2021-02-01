@@ -1,6 +1,6 @@
-import { getCGIJSON, postCGIJSON, prefix } from './utils';
+import { DSL } from 'types';
 import { PageRecordWithHistory } from 'sharedTypes';
-import { DSL } from '../types';
+import { getCGIJSON, postCGIJSON, prefix } from './utils';
 
 export function getPage(pageKey: string) {
   return getCGIJSON<PageRecordWithHistory>(`${prefix('page')}/${pageKey}`);

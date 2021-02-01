@@ -94,10 +94,17 @@ export async function loadMeta(libName: string, containerName: string, debugPort
     actions[item.identityName] = item;
   }, meta.actions);
 
+  const containers: MaterialsMeta['containers'] = {};
+  R.mapObjIndexed((i, key) => {
+    const item = generateMaterials(libName, i, key);
+    containers[item.identityName] = item;
+  }, meta.containers);
+
   return {
     components,
     actions,
     plugins,
+    containers,
     withForms: meta.withForms,
     lib: meta.lib,
   };

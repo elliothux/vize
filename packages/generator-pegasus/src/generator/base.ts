@@ -172,7 +172,7 @@ export class BaseGenerator {
       actionImports: stringifyUmdConstants(actionsPathMap),
       sharedComponentVars: stringifyMaterialVars(this.sharedComponentPathMap),
       sharedComponentImports: stringifyUmdConstants(this.sharedComponentPathMap),
-      sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstances),
+      sharedComponentInstances: stringifyComponentInstances(this.dsl.sharedComponentInstances || []),
     };
   };
 

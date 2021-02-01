@@ -21,7 +21,8 @@ export async function save() {
 }
 
 export async function preview() {
-  const [err, result] = await previewPage(editStore.pageKey);
+  const [success, result, response] = await previewPage(editStore.pageKey);
+  console.log({ success, result, response });
   debugger;
 }
 

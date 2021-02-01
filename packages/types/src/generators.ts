@@ -5,6 +5,7 @@ import { MaterialsInfo } from './materials';
 export interface GeneratorParams {
   dsl: DSL;
   workspacePath: string;
+  isPreview: boolean;
 }
 
 export interface GeneratorResult {

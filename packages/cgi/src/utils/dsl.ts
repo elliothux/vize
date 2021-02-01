@@ -7,6 +7,7 @@ export function generateDSL({
   layoutMode,
   pageMode,
   container,
+  isTemplate,
   latestHistory: {
     title,
     desc,
@@ -40,7 +41,7 @@ export function generateDSL({
         id,
         key,
         isEditor: false,
-        isTemplate: false, // TODO
+        isTemplate: !isTemplate,
       },
       globalProps: JSON.parse(globalProps),
       globalStyle: JSON.parse(globalStyle),
@@ -55,6 +56,8 @@ export function generateDSL({
       : undefined,
     pageInstances: JSON.parse(pageInstances),
     pluginInstances:
-      pageMode === PageMode.SINGLE ? JSON.parse(pluginInstances!) : undefined,
+      pageMode === PageMode.SINGLE
+        ? JSON.parse(pluginInstances || '[]')
+        : undefined,
   };
 }

@@ -17,6 +17,7 @@ export function parseDSLFromCGIRecord({
   key,
   layoutMode,
   pageMode,
+  isTemplate,
   latestHistory: {
     title,
     desc,
@@ -41,7 +42,7 @@ export function parseDSLFromCGIRecord({
         id,
         key,
         isEditor: true,
-        isTemplate: false, // TODO
+        isTemplate: !!isTemplate,
       },
       globalProps: JSON.parse(globalProps),
       globalStyle: JSON.parse(globalStyle),
@@ -49,13 +50,14 @@ export function parseDSLFromCGIRecord({
     editInfo: {
       layoutMode: layoutMode as LayoutMode,
       pageMode: pageMode as PageMode,
-      maxKeys: JSON.parse(maxKeys!),
+      maxKeys: maxKeys ? JSON.parse(maxKeys) : null,
     },
     sharedComponentInstances: sharedComponentInstances
       ? parseComponentInstancesDSL(JSON.parse(sharedComponentInstances))
       : undefined,
     pageInstances: parsePageInstancesDSL(JSON.parse(pageInstances), pageMode as PageMode),
-    pluginInstances: pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(JSON.parse(pluginInstances!)) : undefined,
+    pluginInstances:
+      pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(JSON.parse(pluginInstances || '[]')) : undefined,
   };
 }
 
