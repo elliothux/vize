@@ -1,4 +1,4 @@
-import { GlobalMeta, Maybe } from '@vize/types/src';
+import { GlobalMeta, Maybe } from '@vize/types';
 import * as React from 'react';
 
 export interface HandlerParams {

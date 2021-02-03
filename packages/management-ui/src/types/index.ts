@@ -1,3 +1,3 @@
-export * from '@vize/types/src';
+export * from '@vize/types';
 export * from './record';
 export * from './router';

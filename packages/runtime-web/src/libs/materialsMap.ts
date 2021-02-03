@@ -7,7 +7,7 @@ import {
   MaterialsPlugin,
   MaterialsPluginMeta,
   Maybe,
-} from '@vize/types/src';
+} from '@vize/types';
 import { getMaterialsIdentityName } from '../utils';
 
 // Component Materials

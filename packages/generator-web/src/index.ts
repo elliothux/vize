@@ -1,5 +1,5 @@
 import { generate as generator } from './generator';
-import { Generator } from '@vize/types/src';
+import { Generator } from '@vize/types';
 
 export default <Generator>{
   info: {

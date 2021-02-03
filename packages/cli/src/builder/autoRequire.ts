@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import { MaterialsLibConfig } from '@vize/types/src';
+import { MaterialsLibConfig } from '@vize/types';
 import { LibPaths } from '../utils';
 import { findPreview, findThumb } from './utils';
 import {

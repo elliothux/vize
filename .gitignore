@@ -291,3 +291,4 @@ lerna-debug.log*
 /packages/cgi/workspace
 /packages/generator-pegasus
 /packages/doc/src/.vuepress/dist/
+/packages/types/dist/

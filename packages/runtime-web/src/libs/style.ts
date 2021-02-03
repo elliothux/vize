@@ -1,4 +1,4 @@
-import { CommonStyle, FixedOutset, IPositionStyle, MergedCommonStyles, PositionStyle } from '@vize/types/src';
+import { CommonStyle, FixedOutset, IPositionStyle, MergedCommonStyles, PositionStyle } from '@vize/types';
 
 export function calcPosition(position: PositionStyle): IPositionStyle {
   if (typeof position === 'boolean') {

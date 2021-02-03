@@ -71,6 +71,7 @@
     "@types/tinycolor2": "^1.4.2",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
+    "@vize/types": "^0.1.6",
     "css-loader": "3.4.2",
     "css-to-string-loader": "^0.1.3",
     "customize-cra": "^0.9.1",
