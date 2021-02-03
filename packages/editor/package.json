@@ -1,10 +1,10 @@
 {
   "name": "@vize/editor",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "main": "build",
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true PORT=3000 ../../node_modules/.bin/react-app-rewired start --max-old-space-size=12288",
-    "build": "SKIP_PREFLIGHT_CHECK=true ../../node_modules/.bin/react-app-rewired build --max-old-space-size=12288",
+    "build": "rm -r ./build; SKIP_PREFLIGHT_CHECK=true ../../node_modules/.bin/react-app-rewired build --max-old-space-size=12288",
     "publish": "npm publish --access public"
   },
   "browserslist": {

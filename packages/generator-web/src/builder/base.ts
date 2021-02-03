@@ -47,6 +47,28 @@ export function getBaseWebpackConfig({ containerPath, containerParams, isProd }:
           ],
         },
         {
+          test: /\.less$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: false,
+                importLoaders: 2,
+                sourceMap: true,
+              },
+            },
+            {
+              loader: 'less-loader',
+              options: {
+                strictMath: false,
+                noIeCompat: true,
+                javascriptEnabled: true,
+              },
+            },
+          ],
+        },
+        {
           test: /\.(jpe?g|png|gif|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
           loader: 'base64-inline-loader',
         },

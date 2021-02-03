@@ -1,10 +1,11 @@
 {
-  "name": "management-ui",
+  "name": "@vize/management-ui",
   "version": "0.1.0",
   "main": "build",
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true PORT=3001 ../../node_modules/.bin/react-app-rewired start",
-    "build": "SKIP_PREFLIGHT_CHECK=true ../../node_modules/.bin/react-app-rewired build"
+    "build": "SKIP_PREFLIGHT_CHECK=true ../../node_modules/.bin/react-app-rewired build",
+    "publish": "npm publish --access public"
   },
   "browserslist": {
     "production": [

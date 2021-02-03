@@ -49,7 +49,6 @@ program
   .command('create-component <name>')
   .description('创建组件')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .option('--runtime <runtime>', '运行时 (react | rax)')
   .action((name, cmd) => {
     const options = cleanArgs(cmd);
     return createComponent(name, options);

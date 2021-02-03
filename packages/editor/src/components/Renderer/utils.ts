@@ -11,6 +11,7 @@ declare global {
     React: typeof React;
     ReactDom: typeof ReactDom;
     ReactDomServer: typeof ReactDomServer;
+    __iframeWindow: Window;
   }
 }
 

@@ -36,7 +36,7 @@ function IEventAttrForm({ selectType }: Props) {
       default:
         return null;
     }
-  }, [targetType]);
+  }, [targetType, trigger]);
 
   const isComponent = selectType === SelectType.COMPONENT;
   const isPlugin = selectType === SelectType.PLUGIN;

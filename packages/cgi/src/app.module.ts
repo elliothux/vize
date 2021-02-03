@@ -24,15 +24,18 @@ export function getApp(): App {
     paths: { materialsPath, previewPath, editorPath, managementUIPath },
   } = getConfig()!;
 
-  console.log(managementUIPath);
+  console.log({ managementUIPath });
 
   @Module({
     imports: [
-      ServeStaticModule.forRoot({
-        serveRoot: '/',
-        rootPath: managementUIPath,
-        exclude: ['/cgi/*', '/editor/*', '/materials/*', '/preview/*'],
-      }),
+      ...['/', '/templates', '/pages', '/libs', '/biz', '/log', '/user'].map(
+        i =>
+          ServeStaticModule.forRoot({
+            serveRoot: i,
+            rootPath: managementUIPath,
+            exclude: ['/cgi/*', '/editor/*', '/materials/*', '/preview/*'],
+          }),
+      ),
       ServeStaticModule.forRoot({
         serveRoot: '/editor',
         rootPath: editorPath,

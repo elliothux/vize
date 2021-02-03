@@ -32,7 +32,6 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
     setTrigger(null);
   }, [trigger, actionId]);
 
-  console.log({ actionId, trigger });
   return (
     <>
       <div className="event-form-prop-item">
