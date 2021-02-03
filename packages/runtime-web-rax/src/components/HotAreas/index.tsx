@@ -1,4 +1,4 @@
-import './index.scss';
+import './index.less';
 import { createElement } from 'rax';
 import { ComponentInstance } from '@vize/types';
 import { HotAreaItem } from './HotAreaItem';
