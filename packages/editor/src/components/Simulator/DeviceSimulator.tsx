@@ -23,8 +23,9 @@ function IDeviceSimulator({ children }: React.PropsWithChildren<{}>, ref: React.
   // }, [width, height, zoom]);
 
   return (
-    <div className="vize-simulator-container" ref={ref}>
+    <div className="vize-simulator-container">
       <div
+        ref={ref}
         className="simulator"
         style={{
           width: width + 2,

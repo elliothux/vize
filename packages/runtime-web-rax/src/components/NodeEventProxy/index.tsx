@@ -60,6 +60,9 @@ export class NodeEventProxy<T extends InstanceType> extends Rax.Component<Props<
     [key in keyof NodeEventHandlers]: (originalEvent: Maybe<Rax.SyntheticEvent>) => void;
   } = {};
 
+  // FIX: Stupid Rax type error
+  props: any;
+
   constructor(props: Props<T>) {
     super(props);
     this.handlerParams = { global: props.global!, meta: props.meta! };

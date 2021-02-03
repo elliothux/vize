@@ -1,4 +1,4 @@
-import { createElement, useCallback } from 'rax';
+import { createElement, useCallback, useMemo } from 'rax';
 import { ComponentInstance, ComponentSelectedCallback } from '@vize/types';
 import {
   cancelCustomEvent,
@@ -11,7 +11,6 @@ import { AppRenderProps } from '../AppRender/types';
 import { ComponentInstances } from '../ComponentInstances';
 import { HotAreas } from '../HotAreas';
 import { getData } from '../../utils';
-import { useMemo } from 'react';
 
 interface ItemProps extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
   instance: ComponentInstance;

@@ -1,0 +1,214 @@
+.mod {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 714px;
+  height: 426px;
+}
+.primary {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 3px;
+  margin-right: 27px;
+  width: 323px;
+  height: 427px;
+}
+.layer {
+  position: absolute;
+  top: 0;
+  align-self: center;
+  width: 323px;
+  height: 427px;
+}
+.container {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: row;
+  margin-top: -2px;
+  margin-left: 14px;
+  width: 59px;
+  height: 72px;
+}
+.largeIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 59px;
+  height: 72px;
+}
+.num {
+  position: absolute;
+  right: 16px;
+  bottom: 5px;
+  line-height: 40px;
+  letter-spacing: -0.8615384615384616px;
+  white-space: nowrap;
+  color: #ffffff;
+  font-family: Roboto-Black;
+  font-size: 28px;
+  font-weight: 400;
+}
+.top {
+  position: relative;
+  margin-top: 5px;
+  margin-left: 9px;
+  line-height: 28px;
+  white-space: nowrap;
+  color: #ffffff;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: 400;
+}
+.pic {
+  position: relative;
+  align-self: center;
+  margin-top: 72px;
+  width: 92px;
+  height: 92px;
+}
+.block {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: row;
+  margin-top: 51px;
+  margin-left: 14px;
+  width: 122px;
+  height: 132px;
+}
+.img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 122px;
+  height: 132px;
+}
+.outer {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 3px;
+  margin-left: 4px;
+}
+.smallItem {
+  position: relative;
+  width: 113px;
+  height: 113px;
+}
+.priceWrap {
+  display: flex;
+  position: absolute;
+  right: 3px;
+  bottom: 0;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 105px;
+  height: 33px;
+}
+.price {
+  max-width: 93px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 24px;
+  white-space: nowrap;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 500;
+}
+.side {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 1px;
+}
+.group {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+}
+.title {
+  position: relative;
+  line-height: 42px;
+  white-space: nowrap;
+  color: #111111;
+  font-size: 30px;
+  font-weight: 500;
+}
+.word {
+  position: relative;
+  max-width: 244px;
+  height: 42px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 42px;
+  white-space: nowrap;
+  color: #111111;
+  font-size: 30px;
+  font-weight: 500;
+}
+.txtBg {
+  position: relative;
+  margin-top: 32px;
+  width: 221px;
+  height: 30px;
+}
+.num_1 {
+  position: relative;
+  margin-top: 10px;
+  max-width: 210px;
+  height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 60px;
+  white-space: nowrap;
+  color: #ff1363;
+  font-size: 52px;
+  font-weight: 500;
+}
+.container_1 {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: row;
+  margin-top: 52px;
+  margin-left: 20px;
+}
+.block_1 {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 32px;
+  margin-left: 21px;
+  border-radius: 36px;
+  background-image: linear-gradient(-90deg, #ff1263 0%, #ff003a 100%);
+  width: 249px;
+  height: 73px;
+}
+.txt {
+  margin-top: -1px;
+  max-width: 237px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 32px;
+  white-space: nowrap;
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 500;
+}
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 141px;
+  height: 48px;
+}

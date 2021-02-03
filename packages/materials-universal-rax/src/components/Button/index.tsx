@@ -1,6 +1,6 @@
-import './index.scss';
+import './index.less';
 import { createElement } from 'rax';
-import { ComponentProps } from '@vize/types/src';
+import { ComponentProps } from '@vize/types';
 
 export default function Button({ data: { text }, commonStyle }: ComponentProps) {
   return (

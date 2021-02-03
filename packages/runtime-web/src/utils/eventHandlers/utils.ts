@@ -11,7 +11,7 @@ import {
   PageRouter,
   PluginEventTarget,
   PluginInstance,
-} from '@vize/types/src';
+} from '@vize/types';
 import { EventHandler, HandlerParams } from './types';
 import * as React from 'react';
 import { getCustomEventCallbacks, getMaterialsAction } from '../../libs';
@@ -34,10 +34,11 @@ export function pipeEvents(
           const params: FirstParameter<MaterialsAction> = { data: data!, global, meta, router };
 
           try {
-            await execAsyncFunctionWithTimeou(action, target.maxTimeout, params);
+            await execAsyncFunctionWithTimeout(action.bind(window.__iframeWindow), target.maxTimeout, params);
           } catch (e) {
             console.error('Action throw error: ', e);
           }
+          break;
         }
 
         case EventTargetType.COMPONENT: {
@@ -49,7 +50,7 @@ export function pipeEvents(
 
           for (const callback of callbacks) {
             try {
-              await execAsyncFunctionWithTimeou(callback, target.maxTimeout);
+              await execAsyncFunctionWithTimeout(callback.bind(window.__iframeWindow), target.maxTimeout);
             } catch (e) {
               console.error(
                 `Custom event callback on Component(key = ${key}) with EventName(${eventName}) throw error: `,
@@ -69,7 +70,7 @@ export function pipeEvents(
 
           for (const callback of callbacks) {
             try {
-              await execAsyncFunctionWithTimeou(callback, target.maxTimeout);
+              await execAsyncFunctionWithTimeout(callback.bind(window.__iframeWindow), target.maxTimeout);
             } catch (e) {
               console.error(
                 `Custom event callback on Plugin(key = ${key}) with EventName(${eventName}) throw error: `,
@@ -84,7 +85,7 @@ export function pipeEvents(
   };
 }
 
-async function execAsyncFunctionWithTimeou(fn: Function, maxTimeout: number | 'infinity', params?: any) {
+async function execAsyncFunctionWithTimeout(fn: Function, maxTimeout: number | 'infinity', params?: any) {
   if (maxTimeout === 'infinity') {
     await fn(params);
   } else {

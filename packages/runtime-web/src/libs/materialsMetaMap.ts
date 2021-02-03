@@ -5,7 +5,7 @@ import {
   MaterialsPluginMeta,
   Maybe,
   MaterialsLibConfig,
-} from '@vize/types/src';
+} from '@vize/types';
 import { getMaterialsIdentityName } from '../utils';
 
 export const materialsLibInfoMap = new Map<string, MaterialsLibConfig>();

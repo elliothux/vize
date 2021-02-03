@@ -1,6 +1,6 @@
-import './index.scss';
+import './index.less';
 import { createElement, useState, useCallback, useEffect } from 'rax';
-import { ComponentProps } from '@vize/types/src';
+import { ComponentProps } from '@vize/types';
 
 export default function Dialog({ children, onSelected, commonStyle, on }: ComponentProps) {
   const [visible, setVisible] = useState(false);

@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as tar from 'tar';
 import * as semver from 'semver';
-import { MaterialsLibConfig } from '@vize/types/src';
+import { MaterialsLibConfig } from '@vize/types';
 import { dist } from '../dist';
 import { curl, error, getLibPaths, getLibVersion, getLibConfig, LibPaths } from '../../utils';
 

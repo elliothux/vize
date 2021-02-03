@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import webpack, { Configuration } from 'webpack';
-import { MaterialsLibRuntime } from '@vize/types/src';
+import { MaterialsLibRuntime } from '@vize/types';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { getLibRaxWebpackConfig } from './lib.rax';
 import { Options } from './index';
@@ -60,6 +60,28 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
                   outputStyle: 'expanded',
                 },
                 sourceMap: true,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.less$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: false,
+                importLoaders: 2,
+                sourceMap: true,
+              },
+            },
+            {
+              loader: 'less-loader',
+              options: {
+                strictMath: false,
+                noIeCompat: true,
+                javascriptEnabled: true,
               },
             },
           ],

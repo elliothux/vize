@@ -3,6 +3,7 @@ import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { GlobalMeta } from './global';
 import { PageRouter } from './pages';
+import { ComponentInstance } from './component';
 
 export interface MaterialsActionMeta {
   identityName: string;
@@ -17,9 +18,9 @@ export interface MaterialsActionMeta {
 }
 
 // TODO
-export interface ActionParams {
-  data: { [key: string]: any };
-  global: object;
+export interface ActionParams<D extends object = ComponentInstance['data'], G extends object = object> {
+  data: D;
+  global: G;
   meta: GlobalMeta;
   router: PageRouter;
 }

@@ -109,7 +109,7 @@ function IPreviewAndPublish() {
       <OperationItem title="查看链接" icon={FiLink} action={unImplemented} />
 
       <Result title="生成预览成功" result={previewResult} setResult={setPreviewResult} />
-      <Result title="发布生成" result={publishResult} setResult={setPublishResult} />
+      <Result title="发布完成" result={publishResult} setResult={setPublishResult} />
     </>
   );
 }

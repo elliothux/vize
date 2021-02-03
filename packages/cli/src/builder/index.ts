@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import watch from 'node-watch';
 import webpack, { Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import { MaterialsLibConfig } from '@vize/types/src';
+import { MaterialsLibConfig } from '@vize/types';
 import { getLibPaths, LibPaths, log, logWithSpinner, stopSpinner } from '../utils';
 import { getLibWebpackConfig } from '../webpackCompiler';
 import { generateFormEntryFile, generateMaterialsEntryFile } from './autoRequire';

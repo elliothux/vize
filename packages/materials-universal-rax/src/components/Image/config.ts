@@ -31,5 +31,6 @@ export default {
   info,
   dataForm,
   enableStyleGroup,
-  hotArea: true
+  onEvents: [{ eventName: 'scroll', displayName: '滚动到此处' }],
+  hotArea: true,
 };

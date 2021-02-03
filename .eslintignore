@@ -13,3 +13,6 @@
 /packages/materials-universal/node_modules
 
 /packages/cgi/config
+/packages/cgi/workspace
+/packages/*/dist
+/packages/*/build

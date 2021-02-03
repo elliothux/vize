@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { MaterialsLibConfig, MaterialsLibRuntime } from '@vize/types/src';
+import { MaterialsLibConfig, MaterialsLibRuntime } from '@vize/types';
 import { LibPaths } from './paths';
 
 let libConfig: Maybe<MaterialsLibConfig> = null;

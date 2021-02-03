@@ -37,6 +37,7 @@ export class Renderer extends React.Component {
     registerHotkey(doc);
     setUserAgent(win);
     this.initIframeDocument(doc, win);
+    window.__iframeWindow = win;
 
     const renderEntry = await this.initMaterials(doc, win);
     if (!renderEntry) {

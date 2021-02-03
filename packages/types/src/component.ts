@@ -82,10 +82,16 @@ export interface ComponentSelectedCallbackParams {
 
 export type ComponentSelectedCallback = (params: ComponentSelectedCallbackParams) => unknown;
 
-export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style' | 'commonStyle'> {
+export interface ComponentProps<
+  D extends object = ComponentInstance['data'],
+  S extends object = ComponentInstance['style'],
+  G extends object = object
+> extends Pick<ComponentInstance, 'commonStyle'> {
   componentKey: Readonly<number>;
+  data: D;
+  style: S;
+  global: G;
   meta: GlobalMeta;
-  global: object;
   instance: ComponentInstance;
   hotAreas?: React.ReactElement;
   on: (eventName: string, callback: Function) => void;
@@ -93,6 +99,7 @@ export interface ComponentProps extends Pick<ComponentInstance, 'data' | 'style'
   emit: (eventName: string) => void;
   onSelected: (callback: ComponentSelectedCallback) => void;
   router: PageRouter;
+  children?: any;
 }
 
-export type MaterialsComponent = React.ComponentType<React.PropsWithChildren<ComponentProps>>;
+export type MaterialsComponent = React.ComponentType<ComponentProps>;

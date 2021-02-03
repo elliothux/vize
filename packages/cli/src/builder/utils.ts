@@ -11,7 +11,7 @@ import {
   MaterialsActionManifestItem,
   MaterialsContainerManifestItem,
   MaterialsLibConfig,
-} from '@vize/types/src';
+} from '@vize/types';
 import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
 
 export function findThumb(entry: string) {

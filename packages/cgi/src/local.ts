@@ -8,11 +8,8 @@ export function runLocalServer() {
   }
 
   const workspacePath = path.resolve(__dirname, '../workspace');
-  const editorPath = path.resolve(__dirname, '../../../editor/build');
-  const managementUIPath = path.resolve(
-    __dirname,
-    '../../../management-ui/build',
-  );
+  const editorPath = path.resolve(__dirname, '../../editor/build');
+  const managementUIPath = path.resolve(__dirname, '../../management-ui/build');
 
   const config: VizeCGIConfig = {
     port: 4001,
