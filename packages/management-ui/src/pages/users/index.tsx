@@ -15,7 +15,7 @@ export function Users() {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<Maybe<UserRecord[]>>(null);
 
-  const [editUser, setEditUser] = useState<Maybe<UserRecord & { bizs: number[] }>>(null);
+  const [editUser, setEditUser] = useState<Maybe<UserRecord>>(null);
   const [createVisible, setCreateVisible] = useState(false);
 
   const onCreate = useCallback(
@@ -45,6 +45,12 @@ export function Users() {
 
   useAsyncEffect(getUsers, []);
 
+  useEffect(() => {
+    if (!createVisible) {
+      setEditUser(null);
+    }
+  }, [createVisible]);
+
   return (
     <Spin spinning={loading}>
       <Header
@@ -62,7 +68,7 @@ export function Users() {
         <UserList
           users={users || []}
           onEdit={user => {
-            setEditUser({ ...user, bizs: user.bizIds.split(',').map(i => parseInt(i, 10)) });
+            setEditUser(user);
             setCreateVisible(true);
           }}
         />

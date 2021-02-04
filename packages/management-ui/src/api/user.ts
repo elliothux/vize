@@ -5,7 +5,7 @@ export function queryUser() {
   return getCGIJSON<UserRecord[]>(prefix('user'));
 }
 
-export type CreateUserParams = Pick<UserRecord, 'bizIds' | 'name' | 'extInfo' | 'isAdmin'>;
+export type CreateUserParams = Pick<UserRecord, 'bizs' | 'name' | 'extInfo' | 'isAdmin'>;
 
 export function createUser(user: CreateUserParams) {
   return postCGIJSON(prefix('user'), user);

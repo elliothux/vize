@@ -1,7 +1,8 @@
 import { BizEntity } from './biz.entity';
 
-export type CreateBizParams = Pick<BizEntity, 'key' | 'name' | 'logo'>;
+export type CreateBizParams = Pick<
+  BizEntity,
+  'materials' | 'key' | 'name' | 'logo'
+>;
 
-export interface UpdateBizParams extends Pick<BizEntity, 'name' | 'logo'> {
-  materials?: string[];
-}
+export type UpdateBizParams = Omit<CreateBizParams, 'key'>;

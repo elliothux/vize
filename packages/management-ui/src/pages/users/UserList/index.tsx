@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Table, Tooltip, Tag, Button } from 'antd';
 import { UserRecord } from 'types';
-import { bizStore } from 'state';
+import { bizStore, materialsStore } from 'state';
+import { observer } from 'mobx-react';
 import AVATAR from 'static/avatar.png';
 import day from 'dayjs';
 
@@ -12,7 +13,7 @@ interface Props {
   onEdit: (user: UserRecord) => void;
 }
 
-export function UserList({ users, onEdit }: Props) {
+function IUserList({ users, onEdit }: Props) {
   return (
     <Table dataSource={users} bordered>
       <Column
@@ -30,20 +31,14 @@ export function UserList({ users, onEdit }: Props) {
       />
       <Column
         title="所属业务"
-        dataIndex="bizIds"
-        key="bizIds"
-        render={bizIds =>
-          bizIds.split(',').map((id: string) => {
-            const biz = bizStore.bizList?.find(i => i.id === parseInt(id, 10));
-            if (!biz) {
-              return null;
-            }
-            return (
-              <Tag key={id} color="orange">
-                {biz.name}
-              </Tag>
-            );
-          })
+        dataIndex="bizs"
+        key="bizs"
+        render={(bizs: string[]) =>
+          bizStore.getBizsByKeys(bizs)?.map(({ id, name }) => (
+            <Tag key={id} color="orange">
+              {name}
+            </Tag>
+          ))
         }
       />
       <Column
@@ -66,3 +61,5 @@ export function UserList({ users, onEdit }: Props) {
     </Table>
   );
 }
+
+export const UserList = observer(IUserList);

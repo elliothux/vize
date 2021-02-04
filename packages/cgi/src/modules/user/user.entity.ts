@@ -8,8 +8,8 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 128, nullable: false })
   name: string;
 
-  @Column({ type: 'varchar', length: 512, nullable: false })
-  bizIds: string;
+  @Column({ type: 'simple-array', nullable: false })
+  bizs: string[];
 
   @Column({ type: 'tinyint', nullable: false })
   isAdmin: number;

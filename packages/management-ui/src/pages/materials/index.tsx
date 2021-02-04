@@ -1,13 +1,12 @@
 import './index.scss';
 import * as React from 'react';
-import { useState } from 'react';
-import { Maybe, MaterialsRecord } from 'types';
-import { useAsyncEffect } from 'hooks';
-import { queryLibs, syncLibManifest } from 'api';
-import { message, Spin } from 'antd';
+import { syncLibManifest } from 'api';
+import { Spin } from 'antd';
 import { Header } from 'components/Header';
 import { FlexPlaceholder } from 'components/FlexPlaceholder';
 import { MaterialsItem } from './MaterialsItem';
+import { materialsStore } from '../../state';
+import { observer } from 'mobx-react';
 
 // TODO: Remove
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -21,28 +20,15 @@ window['syncLib'] = async () => {
   });
 };
 
-export function Materials() {
-  const [loading, setLoading] = useState(true);
-  const [libs, setLibs] = useState<Maybe<MaterialsRecord[]>>(null);
-
-  useAsyncEffect(async () => {
-    setLoading(true);
-    const [success, libs, response] = await queryLibs();
-    if (success) {
-      setLibs(libs);
-      setLoading(false);
-      console.log(libs);
-    } else {
-      message.error(`获取物料库列表失败：${response.message}`);
-    }
-  }, []);
+function IMaterials() {
+  const { materialsList } = materialsStore;
 
   return (
-    <Spin spinning={loading}>
+    <Spin spinning={!materialsList}>
       <Header title="物料库" searchText="搜索物料库..." onSearch={console.log} />
 
       <div className="materials content card-items ">
-        {libs?.map(i => (
+        {materialsList?.map(i => (
           <MaterialsItem key={i.id} item={i} />
         ))}
 
@@ -51,5 +37,7 @@ export function Materials() {
     </Spin>
   );
 }
+
+export const Materials = observer(IMaterials);
 
 export { MaterialsDetail } from './MaterialsDetail';

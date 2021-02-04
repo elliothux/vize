@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Form, Button, Input, Select, message } from 'antd';
-import { bizStore } from 'state';
+import { bizStore, materialsStore } from 'state';
 import { ItemProps, PageDetail } from './types';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo, useState } from 'react';
@@ -57,15 +57,17 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
       {biz ? (
         <FormItem label="页面容器" name="container" hasFeedback rules={[{ required: true, message: '请选择页面容器' }]}>
           <Select>
-            {currentBiz?.materials?.map(({ manifest: { lib: { libName, displayName }, containers } }) => (
-              <OptGroup label={displayName} key={libName}>
-                {Object.entries(containers).map(([k, { info: { name } }]) => (
-                  <SelectOption value={`{"lib":"${libName}","name":"${k}"}`} key={k} title={name}>
-                    {name}
-                  </SelectOption>
-                ))}
-              </OptGroup>
-            ))}
+            {materialsStore
+              .getMaterialsByLibNames(currentBiz?.materials)
+              ?.map(({ manifest: { lib: { libName, displayName }, containers } }) => (
+                <OptGroup label={displayName} key={libName}>
+                  {Object.entries(containers).map(([k, { info: { name } }]) => (
+                    <SelectOption value={`{"lib":"${libName}","name":"${k}"}`} key={k} title={name}>
+                      {name}
+                    </SelectOption>
+                  ))}
+                </OptGroup>
+              ))}
           </Select>
         </FormItem>
       ) : null}

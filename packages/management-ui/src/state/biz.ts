@@ -23,6 +23,13 @@ export class BizStore {
 
     this.setBizList(data!);
   };
+
+  public getBizsByKeys = (bizKeys: string[] | undefined) => {
+    if (!bizKeys) {
+      return null;
+    }
+    return this.bizList?.filter(i => bizKeys.includes(i.key));
+  };
 }
 
 export const bizStore = new BizStore();

@@ -25,12 +25,10 @@ export function EditUser({ user, onComplete, visible, setVisible }: Props) {
   const onBack = useCallback(() => setVisible(false), []);
 
   const onFinish = useCallback(
-    async ({ extInfo, name, bizs, isAdmin }: UserRecord & { bizs: number[] }) => {
+    async ({ extInfo, name, bizs, isAdmin }: UserRecord) => {
       setLoading(true);
 
-      const [err] = await promiseWrapper(
-        onComplete({ name, extInfo, bizIds: bizs.join(','), isAdmin: isAdmin ? 1 : 0 }),
-      );
+      const [err] = await promiseWrapper(onComplete({ name, extInfo, bizs, isAdmin: isAdmin ? 1 : 0 }));
       if (err) {
         message.error('保存失败');
         return setLoading(false);
@@ -78,7 +76,7 @@ export function EditUser({ user, onComplete, visible, setVisible }: Props) {
           >
             <Select mode="multiple" placeholder="请选择所属业务">
               {bizStore.bizList?.map(biz => (
-                <Select.Option value={biz.id} key={biz.id}>
+                <Select.Option value={biz.key} key={biz.id}>
                   {biz.name}
                 </Select.Option>
               ))}

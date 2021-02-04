@@ -2,7 +2,7 @@ export interface UserRecord {
   id: number;
   name: string;
   createdTime: Date;
-  bizIds: string;
+  bizs: string[];
   isAdmin: number;
   extInfo?: string;
   avatar?: string;

@@ -29,8 +29,9 @@ export class BizController {
   }
 
   @Get()
-  async queryBiz(@Query() query: QueryParams<{ withMaterials?: string }>) {
+  async queryBiz(@Query() query: QueryParams) {
     const result = await this.bizService.queryBizEntities(query);
+    console.log('result', result);
     return CGIResponse.success(result);
   }
 }

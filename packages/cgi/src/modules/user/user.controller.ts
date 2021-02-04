@@ -20,7 +20,7 @@ export class UserController {
 
   @Post('/:id')
   async updateUser(@Body() user: UpdateUserParams, @Param('id') id: string) {
-    if (!(await this.userService.checkUserExistsById(parseInt(id)))) {
+    if (!(await this.userService.checkUserExists(user.name))) {
       return CGIResponse.failed(CGICodeMap.UserNotExists);
     }
 

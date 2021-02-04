@@ -34,13 +34,15 @@ export class UserService {
     name,
     extInfo,
     avatar,
-    bizIds,
+    bizs,
+    isAdmin,
   }: CreateUserParams) {
     return this.userRepository.insert({
       name,
       extInfo,
       avatar,
-      bizIds,
+      bizs,
+      isAdmin,
       createdTime: new Date(),
     });
   }

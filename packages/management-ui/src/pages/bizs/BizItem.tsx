@@ -2,15 +2,17 @@ import * as React from 'react';
 import { BizRecord } from 'types';
 import { Avatar, Card, Tag } from 'antd';
 import { useMemo } from 'react';
-import { BiEditAlt, BiPackage } from 'react-icons/bi';
+import { BiEditAlt } from 'react-icons/bi';
+import { materialsStore } from 'state';
 import THUMB from 'static/thumb.svg';
 import day from 'dayjs';
 
 interface Props {
   item: BizRecord;
+  onEdit: (i: BizRecord) => void;
 }
 
-export function BizItem({ item: { id, name, materials, key, createdTime, modifiedTime, logo } }: Props) {
+export function BizItem({ onEdit, item, item: { id, name, materials, key, createdTime, modifiedTime, logo } }: Props) {
   const created = useMemo(() => day(createdTime).format('YYYY年MM月DD日 HH:mm'), [createdTime]);
   const modified = useMemo(() => (modifiedTime ? day(modifiedTime).format('YYYY年MM月DD日 HH:mm') : null), [
     modifiedTime,
@@ -20,13 +22,9 @@ export function BizItem({ item: { id, name, materials, key, createdTime, modifie
     <Card
       className="biz-item card-item"
       actions={[
-        <div key="0">
+        <div key="0" onClick={() => onEdit(item)}>
           <BiEditAlt />
           <span>编辑</span>
-        </div>,
-        <div key="1">
-          <BiPackage />
-          <span>导入物料库</span>
         </div>,
       ]}
     >
@@ -64,11 +62,13 @@ export function BizItem({ item: { id, name, materials, key, createdTime, modifie
               <div className="info-item">
                 <p>物料库</p>
                 <p>
-                  {materials?.map(({ libName, displayName }) => (
-                    <Tag key={libName} color="orange">
-                      {displayName}
-                    </Tag>
-                  ))}
+                  {materialsStore.getMaterialsByLibNames(materials)?.map(({ libName, displayName }) => {
+                    return (
+                      <Tag key={libName} color="orange">
+                        {displayName}
+                      </Tag>
+                    );
+                  })}
                 </p>
               </div>
             </div>
