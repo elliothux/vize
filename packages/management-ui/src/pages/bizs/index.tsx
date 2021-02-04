@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { Button, Spin } from 'antd';
+import { Button, Spin, Tooltip } from 'antd';
 import { bizStore } from 'state';
 import { Header } from 'components/Header';
 import { FlexPlaceholder } from 'components/FlexPlaceholder';
@@ -33,7 +33,9 @@ function IBizs() {
         searchText="搜索业务..."
         onSearch={console.log}
         appendAfterSearch={
-          <Button type="primary" size="large" icon={<BiPlus />} onClick={() => setCreateVisible(true)} />
+          <Tooltip title="创建业务" placement="bottom">
+            <Button type="primary" size="large" icon={<BiPlus />} onClick={() => setCreateVisible(true)} />
+          </Tooltip>
         }
       />
 

@@ -9,11 +9,11 @@ import { Pages } from 'pages/pages';
 import { Templates } from 'pages/templates';
 import { Materials, MaterialsDetail } from 'pages/materials';
 import { Bizs } from 'pages/bizs';
+import { Users } from 'pages/users';
 
 export function App() {
   return (
     <>
-      {/*<TopBar />*/}
       <LeftBar />
 
       <div className="vize-main">
@@ -24,6 +24,7 @@ export function App() {
           <Route path={RouterPaths.MATERIALS_LIB} component={Materials} />
           <Route path={RouterPaths.MATERIALS_DETAIL} component={MaterialsDetail} />
           <Route path={RouterPaths.BIZ} component={Bizs} />
+          <Route path={RouterPaths.USER} component={Users} />
         </Switch>
       </div>
     </>

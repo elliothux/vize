@@ -6,9 +6,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { BizModule } from 'modules/biz/biz.modules';
 import { PageModule } from 'modules/page/page.modules';
 import { HistoryModule } from 'modules/history/history.modules';
+import { MaterialsModule } from 'modules/materials/materials.modules';
+import { UserModule } from 'modules/user/user.modules';
 import { Maybe, FirstParameter } from 'types';
 import { getConfig } from 'utils';
-import { MaterialsModule } from './modules/materials/materials.modules';
 
 type App = FirstParameter<typeof NestFactory.create>;
 
@@ -61,6 +62,7 @@ export function getApp(): App {
       HistoryModule,
       PageModule,
       MaterialsModule,
+      UserModule,
     ],
   })
   class AppModule {}
