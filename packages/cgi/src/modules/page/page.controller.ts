@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { PageService } from './page.service';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
-import { CGICodeMap, CGIResponse } from 'utils';
-import { QueryParams } from 'types';
+import { CGICodeMap, CGIResponse } from '../../utils';
+import { QueryParams } from '../../types';
 
 @Controller('/cgi/page')
 export class PageController {

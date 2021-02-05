@@ -1,38 +1,6 @@
 import * as path from 'path';
-import { Generator, Maybe } from 'types';
-
-export interface DBConfig {
-  type: 'mysql' | 'mariadb';
-  host: string;
-  port: number;
-  username: string;
-  password: string;
-  database: string;
-}
-
-export interface VizeCGIConfig {
-  port: number;
-  workspacePath: string;
-  editorPath?: string;
-  managementUIPath?: string;
-  npmRegistry?: string;
-  db: DBConfig;
-  generators?: {
-    [name: string]: Generator;
-  };
-}
-
-export interface VizeCGIConfigWithPaths extends VizeCGIConfig {
-  paths: {
-    workspacePath: string;
-    buildPath: string;
-    previewPath: string;
-    materialsPath: string;
-    materialsVersionsPath: string;
-    editorPath: string;
-    managementUIPath: string;
-  };
-}
+import { Maybe } from '../types';
+import { VizeCGIConfigWithPaths, VizeCGIConfig } from '../types';
 
 let config: Maybe<VizeCGIConfigWithPaths> = null;
 

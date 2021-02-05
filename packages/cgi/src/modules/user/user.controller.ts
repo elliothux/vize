@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { CGICodeMap, CGIResponse } from 'utils';
+import { CGICodeMap, CGIResponse } from '../../utils';
 import { UserService } from './user.service';
 import { CreateUserParams, UpdateUserParams } from './user.interface';
 import { QueryParams } from '../../types';

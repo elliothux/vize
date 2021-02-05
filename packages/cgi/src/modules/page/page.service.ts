@@ -11,9 +11,9 @@ import {
   Maybe,
   QueryParams,
   RecordStatus,
-} from 'types';
+} from '../../types';
 import { HistoryEntity } from '../history/history.entity';
-import { generateDSL, getConfig } from 'utils';
+import { generateDSL, getConfig } from '../../utils';
 
 @Injectable()
 export class PageService {

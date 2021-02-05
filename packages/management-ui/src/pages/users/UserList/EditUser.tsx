@@ -53,7 +53,7 @@ export function EditUser({ user, onComplete, visible, setVisible }: Props) {
       closable
     >
       <Spin spinning={loading}>
-        <PageHeader onBack={onBack} title={user ? '编辑用户' : '创建用户'} subTitle="" />
+        <PageHeader onBack={onBack} title={user ? '编辑用户' : '注册用户'} subTitle="" />
 
         <Form {...layout} initialValues={user || {}} onFinish={onFinish}>
           <FormItem label="名字" name="name" hasFeedback rules={[{ required: true, message: '请输入名字' }]}>

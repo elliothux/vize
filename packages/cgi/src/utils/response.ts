@@ -1,4 +1,4 @@
-import { Response } from 'types';
+import { Response } from '../types';
 
 export class CGIResponse {
   static success<T = any>(data?: T, msg?: string): Response<T> {

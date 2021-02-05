@@ -21,9 +21,8 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "inlineSourceMap": true,
-    "baseUrl": "./src"
+    "inlineSourceMap": true
   },
-  "include": ["src", "types", "config/*.json"],
-  "exclude": ["dist", "./node_modules*"]
+  "include": ["./src"],
+  "exclude": ["./dist", "./node_modules*"]
 }

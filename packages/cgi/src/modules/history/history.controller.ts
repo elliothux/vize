@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CGIResponse } from 'utils';
+import { CGIResponse } from '../../utils';
 import { HistoryService } from './history.service';
 import { CreateHistoryDTO } from './history.interface';
 import { PageService } from '../page/page.service';

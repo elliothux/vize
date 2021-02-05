@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { QueryParams } from 'types';
+import { QueryParams } from '../../types';
 import { CreateUserParams, UpdateUserParams } from './user.interface';
 import { UserEntity } from './user.entity';
 

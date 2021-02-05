@@ -1,15 +1,15 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { BizModule } from 'modules/biz/biz.modules';
-import { PageModule } from 'modules/page/page.modules';
-import { HistoryModule } from 'modules/history/history.modules';
-import { MaterialsModule } from 'modules/materials/materials.modules';
-import { UserModule } from 'modules/user/user.modules';
-import { Maybe, FirstParameter } from 'types';
-import { getConfig } from 'utils';
+import { BizModule } from './modules/biz/biz.modules';
+import { PageModule } from './modules/page/page.modules';
+import { HistoryModule } from './modules/history/history.modules';
+import { MaterialsModule } from './modules/materials/materials.modules';
+import { UserModule } from './modules/user/user.modules';
+import { Maybe, FirstParameter } from './types';
+import { getConfig } from './utils';
 
 type App = FirstParameter<typeof NestFactory.create>;
 
@@ -23,9 +23,8 @@ export function getApp(): App {
   const {
     db,
     paths: { materialsPath, previewPath, editorPath, managementUIPath },
+    middlewares,
   } = getConfig()!;
-
-  console.log({ managementUIPath });
 
   @Module({
     imports: [
@@ -65,7 +64,21 @@ export function getApp(): App {
       UserModule,
     ],
   })
-  class AppModule {}
+  class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+      if (middlewares) {
+        Object.entries(middlewares).forEach(
+          ([name, { apply, forRoutes = [], exclude = [] }]) => {
+            console.log(`Apply middle "${name}"...`);
+            consumer
+              .apply(apply)
+              .exclude(...exclude)
+              .forRoutes(...forRoutes);
+          },
+        );
+      }
+    }
+  }
 
   app = AppModule;
 

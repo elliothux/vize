@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { CGICodeMap, CGIResponse } from 'utils';
+import { CGICodeMap, CGIResponse } from '../../utils';
 import { BizService } from './biz.service';
 import { CreateBizParams, UpdateBizParams } from './biz.interface';
 import { QueryParams } from '../../types';
@@ -31,7 +31,6 @@ export class BizController {
   @Get()
   async queryBiz(@Query() query: QueryParams) {
     const result = await this.bizService.queryBizEntities(query);
-    console.log('result', result);
     return CGIResponse.success(result);
   }
 }

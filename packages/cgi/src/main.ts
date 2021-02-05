@@ -1,10 +1,13 @@
 import * as fs from 'fs-extra';
 import { NestFactory } from '@nestjs/core';
-import { setConfig, getConfig, VizeCGIConfig } from 'utils';
+import { INestApplication } from '@nestjs/common';
+import { setConfig, getConfig } from './utils';
+import { VizeCGIConfig } from './types';
 import { getApp } from './app.module';
-import { runLocalServer } from './local';
 
-export async function bootstrap(config: VizeCGIConfig) {
+export async function bootstrap(
+  config: VizeCGIConfig,
+): Promise<INestApplication> {
   setConfig(config);
   await init();
 
@@ -13,8 +16,6 @@ export async function bootstrap(config: VizeCGIConfig) {
 
   return app;
 }
-
-export { VizeCGIConfig };
 
 async function init() {
   const {
@@ -27,4 +28,4 @@ async function init() {
   );
 }
 
-runLocalServer();
+export * from './types';

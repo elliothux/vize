@@ -1,23 +1,23 @@
 {
   "name": "@vize/cgi",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "author": "",
-  "main": "dist/src/main",
+  "main": "dist/main.ts",
+  "module": "dist/main",
   "scripts": {
     "prebuild": "rimraf dist",
+    "tsc": "tsc --project ./",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "publish": "npm publish --access public",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "publish": "npm publish --access public"
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^7.4.4",
@@ -112,7 +112,6 @@
     "testEnvironment": "node"
   },
   "files": [
-    "dist",
-    "nest-cli.json"
+    "dist"
   ]
 }

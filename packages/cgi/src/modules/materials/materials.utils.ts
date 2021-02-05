@@ -3,8 +3,8 @@ import * as cp from 'child_process';
 import * as fs from 'fs-extra';
 import * as semver from 'semver';
 import * as tar from 'tar';
-import { MaterialsManifest } from 'types';
-import { getConfig } from 'utils';
+import { MaterialsManifest } from '../../types';
+import { getConfig } from '../../utils';
 import { ensureDir } from 'fs-extra';
 import { MaterialsEntity } from './materials.entity';
 

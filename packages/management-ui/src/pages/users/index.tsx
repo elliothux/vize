@@ -58,7 +58,7 @@ export function Users() {
         searchText="搜索用户"
         onSearch={console.log}
         appendAfterSearch={
-          <Tooltip title="创建用户" placement="bottom">
+          <Tooltip title="注册用户" placement="bottom">
             <Button type="primary" size="large" icon={<BiPlus />} onClick={() => setCreateVisible(true)} />
           </Tooltip>
         }
