@@ -11,11 +11,15 @@ import {
 import { PageService } from './page.service';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
 import { CGICodeMap, CGIResponse } from '../../utils';
-import { QueryParams } from '../../types';
+import { QueryParams, Maybe } from '../../types';
+
+let cgiPageService: Maybe<PageService> = null;
 
 @Controller('/cgi/page')
 export class PageController {
-  constructor(private readonly pageService: PageService) {}
+  constructor(private readonly pageService: PageService) {
+    cgiPageService = pageService;
+  }
 
   @Post()
   async createPage(@Body() page: CreatePageDTO) {
@@ -109,4 +113,8 @@ export class PageController {
   async getBuildStatus(@Param('key') id) {
     return CGIResponse.success(this.pageService.getBuildStatus(id));
   }
+}
+
+export function getPageService() {
+  return cgiPageService;
 }

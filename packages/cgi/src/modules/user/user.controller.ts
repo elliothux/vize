@@ -1,12 +1,16 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CGICodeMap, CGIResponse } from '../../utils';
+import { QueryParams, Maybe } from '../../types';
 import { UserService } from './user.service';
 import { CreateUserParams, UpdateUserParams } from './user.interface';
-import { QueryParams } from '../../types';
+
+let cgiUserService: Maybe<UserService> = null;
 
 @Controller('/cgi/user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) {
+    cgiUserService = userService;
+  }
 
   @Post()
   async createUser(@Body() user: CreateUserParams) {
@@ -33,4 +37,8 @@ export class UserController {
     const result = await this.userService.queryUserEntities(query);
     return CGIResponse.success(result);
   }
+}
+
+export function getUserService() {
+  return cgiUserService;
 }

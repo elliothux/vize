@@ -6,6 +6,7 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
+import { Maybe } from '../../types';
 import { CGICodeMap, CGIResponse, getConfig } from '../../utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MaterialsService } from './materials.service';
@@ -17,9 +18,13 @@ import {
   saveMaterialsPackage,
 } from './materials.utils';
 
+let cgiMaterialsService: Maybe<MaterialsService> = null;
+
 @Controller('/cgi/materials')
 export class MaterialsController {
-  constructor(private readonly materialsService: MaterialsService) {}
+  constructor(private readonly materialsService: MaterialsService) {
+    cgiMaterialsService = materialsService;
+  }
 
   @Get()
   async queryLibs() {
@@ -81,4 +86,8 @@ export class MaterialsController {
       Object.entries(generators).map(([key, { info }]) => ({ ...info, key })),
     );
   }
+}
+
+export function getMaterialsService() {
+  return cgiMaterialsService;
 }

@@ -67,15 +67,18 @@ export function getApp(): App {
   class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
       if (middlewares) {
-        Object.entries(middlewares).forEach(
-          ([name, { apply, forRoutes = [], exclude = [] }]) => {
-            console.log(`Apply middle "${name}"...`);
+        Object.entries(middlewares).forEach(([name, middeleware]) => {
+          console.log(`[Vize] Apply middle "${name}"...`);
+          const middlewares = Array.isArray(middeleware)
+            ? middeleware
+            : [middeleware];
+          middlewares.forEach(({ apply, forRoutes = [], exclude = [] }) => {
             consumer
               .apply(apply)
               .exclude(...exclude)
               .forRoutes(...forRoutes);
-          },
-        );
+          });
+        });
       }
     }
   }

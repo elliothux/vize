@@ -1,5 +1,5 @@
 import { Generator } from '@vize/types';
-import { CGIMiddlewareItem } from './middleware';
+import { CGIMiddleware } from './middleware';
 
 export interface DBConfig {
   type: 'mysql' | 'mariadb';
@@ -21,7 +21,7 @@ export interface VizeCGIConfig {
     [name: string]: Generator;
   };
   middlewares?: {
-    [name: string]: CGIMiddlewareItem;
+    [name: string]: CGIMiddleware | CGIMiddleware[];
   };
 }
 

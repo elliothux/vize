@@ -6,14 +6,14 @@ import {
 import { RouteInfo as MiddlewareRouteInfo } from '@nestjs/common/interfaces/middleware/middleware-configuration.interface';
 import { RequestMethod as MiddlewareRequestMethod } from '@nestjs/common/enums';
 
-export type CGIMiddleware = (
+export type CGIMiddlewareApply = (
   req: MiddlewareRequest,
   res: MiddlewareResponse,
   next: MiddlewareNextFunction,
 ) => any;
 
-export interface CGIMiddlewareItem {
-  apply: CGIMiddleware;
+export interface CGIMiddleware {
+  apply: CGIMiddlewareApply;
   forRoutes?: MiddlewareRouteInfo[];
   exclude?: MiddlewareRouteInfo[];
 }
