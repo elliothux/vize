@@ -9,3 +9,7 @@ export function promiseWrapper<T>(p: Promise<T>): PromiseResult<T> {
     }
   });
 }
+
+export function wait(time: number): Promise<void> {
+  return new Promise<void>(resolve => setTimeout(resolve, time));
+}

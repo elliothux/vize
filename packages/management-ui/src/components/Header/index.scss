@@ -58,3 +58,16 @@
     }
   }
 }
+
+.user-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  p {
+    font-size: 13px;
+    margin-bottom: 0;
+    margin-top: 4px;
+  }
+}

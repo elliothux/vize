@@ -1,7 +1,8 @@
 import './index.scss';
 import * as React from 'react';
-import { PageHeader, Breadcrumb, Button, Input } from 'antd';
+import { PageHeader, Breadcrumb, Button, Input, Tooltip } from 'antd';
 import { BiHomeAlt, BiGlobe } from 'react-icons/bi';
+import { useUser } from 'hooks';
 import AVATAR from 'static/avatar.png';
 
 interface Props {
@@ -14,6 +15,8 @@ interface Props {
 const { Search } = Input;
 
 export function Header({ title, children, searchText, onSearch, appendAfterSearch }: React.PropsWithChildren<Props>) {
+  const [, user] = useUser();
+
   return (
     <PageHeader className="main-header">
       <div className="header-top">
@@ -32,7 +35,18 @@ export function Header({ title, children, searchText, onSearch, appendAfterSearc
           <Button className="languages" icon={<BiGlobe />}>
             中
           </Button>
-          <img src={AVATAR} alt="avatar" className="avatar" />
+          <Tooltip
+            title={
+              <div className="user-logout">
+                <p>{user?.name}</p>
+                <a href="/logout">
+                  <Button type="link">登出</Button>
+                </a>
+              </div>
+            }
+          >
+            <img src={AVATAR} alt="avatar" className="avatar" />
+          </Tooltip>
         </div>
       </div>
 

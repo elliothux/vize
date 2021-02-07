@@ -3,6 +3,7 @@ import 'styles/index.scss';
 import * as React from 'react';
 import { Route, Switch } from 'wouter';
 import { LeftBar } from 'components/LeftBar';
+import { Login } from 'components/Login';
 import { RouterPaths } from 'types';
 import { Intro } from 'pages/intro';
 import { Pages } from 'pages/pages';
@@ -14,6 +15,7 @@ import { Users } from 'pages/users';
 export function App() {
   return (
     <>
+      <Login />
       <LeftBar />
 
       <div className="vize-main">
