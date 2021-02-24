@@ -6,7 +6,7 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
-import { Maybe } from '../../types';
+import { Maybe, FileInterceptorUploadedFile } from '../../types';
 import { CGICodeMap, CGIResponse, getConfig } from '../../utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MaterialsService } from './materials.service';
@@ -51,7 +51,7 @@ export class MaterialsController {
   @Post('/versions/:libName/:version')
   @UseInterceptors(FileInterceptor('file'))
   async uploadLibPackage(
-    @UploadedFile() file,
+    @UploadedFile() file: FileInterceptorUploadedFile,
     @Param('libName') libName: string,
     @Param('version') version: string,
   ) {

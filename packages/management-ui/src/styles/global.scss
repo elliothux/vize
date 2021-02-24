@@ -119,3 +119,14 @@ body {
     margin-bottom: 33px;
   }
 }
+
+.fade-enter,
+.fade-leave {
+  opacity: 0;
+  transition: all ease 500ms;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: all ease 500ms;
+}

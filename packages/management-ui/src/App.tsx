@@ -11,6 +11,7 @@ import { Templates } from 'pages/templates';
 import { Materials, MaterialsDetail } from 'pages/materials';
 import { Bizs } from 'pages/bizs';
 import { Users } from 'pages/users';
+import { Resources } from 'pages/resources';
 
 export function App() {
   return (
@@ -27,6 +28,7 @@ export function App() {
           <Route path={RouterPaths.MATERIALS_DETAIL} component={MaterialsDetail} />
           <Route path={RouterPaths.BIZ} component={Bizs} />
           <Route path={RouterPaths.USER} component={Users} />
+          <Route path={RouterPaths.RESOURCES} component={Resources} />
         </Switch>
       </div>
     </>

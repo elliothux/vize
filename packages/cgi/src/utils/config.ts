@@ -10,6 +10,7 @@ export function setConfig(c: VizeCGIConfig) {
   const previewPath = path.join(workspacePath, 'preview');
   const materialsPath = path.join(workspacePath, 'materials');
   const materialsVersionsPath = path.join(workspacePath, 'materials_version');
+  const uploadFilesPath = path.join(workspacePath, 'upload');
   config = {
     ...c,
     paths: {
@@ -18,6 +19,7 @@ export function setConfig(c: VizeCGIConfig) {
       previewPath,
       materialsPath,
       materialsVersionsPath,
+      uploadFilesPath,
       editorPath: c.editorPath || require.resolve('@vize/editor/build'),
       managementUIPath:
         c.managementUIPath || require.resolve('@vize/management-ui/build'),

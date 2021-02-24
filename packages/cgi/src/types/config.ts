@@ -32,6 +32,7 @@ export interface VizeCGIConfigWithPaths extends VizeCGIConfig {
     previewPath: string;
     materialsPath: string;
     materialsVersionsPath: string;
+    uploadFilesPath: string;
     editorPath: string;
     managementUIPath: string;
   };

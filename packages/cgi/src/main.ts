@@ -21,12 +21,25 @@ export async function bootstrap(
 
 async function init() {
   const {
-    paths: { workspacePath, buildPath, materialsVersionsPath, materialsPath },
+    paths: {
+      workspacePath,
+      buildPath,
+      materialsVersionsPath,
+      materialsPath,
+      uploadFilesPath,
+      previewPath,
+    },
   } = getConfig()!;
 
   await fs.ensureDir(workspacePath);
   await Promise.all(
-    [buildPath, materialsVersionsPath, materialsPath].map(i => fs.ensureDir(i)),
+    [
+      buildPath,
+      materialsVersionsPath,
+      materialsPath,
+      uploadFilesPath,
+      previewPath,
+    ].map(i => fs.ensureDir(i)),
   );
 }
 
@@ -38,3 +51,4 @@ export { getHistoryService } from './modules/history/history.controller';
 export { getMaterialsService } from './modules/materials/materials.controller';
 export { getPageService } from './modules/page/page.controller';
 export { getUserService } from './modules/user/user.controller';
+export { getResourceService } from './modules/resource/resource.controller';

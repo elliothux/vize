@@ -1,8 +1,9 @@
 import './index.scss';
 import * as React from 'react';
-import { PageHeader, Breadcrumb, Button, Input, Tooltip } from 'antd';
-import { BiHomeAlt, BiGlobe } from 'react-icons/bi';
+import { PageHeader, Button, Input, Tooltip } from 'antd';
+import { BiGlobe } from 'react-icons/bi';
 import { useUser } from 'hooks';
+import { BreadcrumbNavigator } from './BreadcrumbNavigator';
 import AVATAR from 'static/avatar.png';
 
 interface Props {
@@ -20,17 +21,7 @@ export function Header({ title, children, searchText, onSearch, appendAfterSearc
   return (
     <PageHeader className="main-header">
       <div className="header-top">
-        <Breadcrumb>
-          <Breadcrumb.Item href="">
-            <BiHomeAlt />
-          </Breadcrumb.Item>
-          <Breadcrumb.Item href="">
-            <BiHomeAlt />
-            <span>Application List</span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>Application</Breadcrumb.Item>
-        </Breadcrumb>
-
+        <BreadcrumbNavigator />
         <div className="header-operations">
           <Button className="languages" icon={<BiGlobe />}>
             中

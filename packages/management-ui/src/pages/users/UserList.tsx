@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Table, Tooltip, Tag, Button } from 'antd';
 import { UserRecord } from 'types';
-import { bizStore, materialsStore } from 'state';
+import { bizStore } from 'state';
 import { observer } from 'mobx-react';
 import AVATAR from 'static/avatar.png';
 import day from 'dayjs';

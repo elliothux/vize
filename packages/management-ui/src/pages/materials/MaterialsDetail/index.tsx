@@ -33,7 +33,7 @@ enum PageState {
 export function MaterialsDetail({ params: { id } }: RouteComponentProps) {
   const [loading, setLoading] = useState(true);
   const [lib, setLib] = useState<Maybe<MaterialsRecord>>(null);
-  const [page, setPage] = useState(PageState.INFO);
+  const [page, setPage] = useState<PageState>(PageState.INFO);
 
   useAsyncEffect(async () => {
     setLoading(true);
@@ -41,7 +41,6 @@ export function MaterialsDetail({ params: { id } }: RouteComponentProps) {
     if (success) {
       setLib(lib);
       setLoading(false);
-      console.log(lib);
     } else {
       message.error(`获取物料库详情失败：${response.message}`);
     }
@@ -69,7 +68,7 @@ export function MaterialsDetail({ params: { id } }: RouteComponentProps) {
       <Header title="物料库详情" searchText="搜索物料..." onSearch={console.log}>
         <Menu
           mode="horizontal"
-          className="lib-detail-menu"
+          className="header-menu"
           selectedKeys={[page]}
           onSelect={({ key }) => setPage(key as PageState)}
         >

@@ -1,6 +1,6 @@
 {
   "name": "@vize/cgi",
-  "version": "0.0.9",
+  "version": "0.0.1",
   "author": "aedron@github",
   "main": "dist/main",
   "module": "dist/main",
@@ -69,6 +69,7 @@
     "html-webpack-plugin": "^4.5.0",
     "jest": "26.0.1",
     "lodash.template": "^4.5.0",
+    "md5": "^2.3.0",
     "mini-css-extract-plugin": "^1.0.0",
     "mysql": "^2.18.1",
     "prettier": "^1.19.1",
@@ -88,13 +89,17 @@
     "tsconfig-paths": "^3.9.0",
     "typeorm": "^0.2.26",
     "typescript": "^4.0.2",
+    "uuid": "^8.3.2",
     "webpack": "^4.42.1",
     "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.10.3",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/md5": "^2.3.0",
+    "@types/uuid": "^8.3.0"
+  },
   "optionalDependencies": {},
   "jest": {
     "moduleFileExtensions": [

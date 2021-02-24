@@ -7,9 +7,10 @@ import { Button, message, Spin, Tooltip } from 'antd';
 import { Header } from 'components/Header';
 import { FlexPlaceholder } from 'components/FlexPlaceholder';
 import { createUser, CreateUserParams, queryUser, updateUser } from 'api';
-import { UserList } from './UserList';
 import { BiPlus } from 'react-icons/bi';
-import { EditUser } from './UserList/EditUser';
+import { withAdminValidation } from 'utils';
+import { UserList } from './UserList';
+import { EditUser } from './EditUser';
 
 export function Users() {
   const [loading, setLoading] = useState(true);
@@ -59,7 +60,12 @@ export function Users() {
         onSearch={console.log}
         appendAfterSearch={
           <Tooltip title="注册用户" placement="bottom">
-            <Button type="primary" size="large" icon={<BiPlus />} onClick={() => setCreateVisible(true)} />
+            <Button
+              type="primary"
+              size="large"
+              icon={<BiPlus />}
+              onClick={withAdminValidation(() => setCreateVisible(true))}
+            />
           </Tooltip>
         }
       />
@@ -67,10 +73,10 @@ export function Users() {
       <div className="users content card-items ">
         <UserList
           users={users || []}
-          onEdit={user => {
+          onEdit={withAdminValidation((user: UserRecord) => {
             setEditUser(user);
             setCreateVisible(true);
-          }}
+          })}
         />
         <FlexPlaceholder />
       </div>

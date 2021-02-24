@@ -18,6 +18,16 @@ export interface CGIMiddleware {
   exclude?: MiddlewareRouteInfo[];
 }
 
+export interface FileInterceptorUploadedFile {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  buffer: Buffer;
+  size: number;
+  path: string;
+}
+
 export {
   MiddlewareRouteInfo,
   MiddlewareRequestMethod,

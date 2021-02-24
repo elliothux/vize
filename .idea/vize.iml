@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/materials-tta0" />
-      <excludeFolder url="file://$MODULE_DIR$/packages/cgi/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/cgi/deploy-boilerplate/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cgi/public" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cgi/workspace" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cli/dist" />
@@ -17,6 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/materials-universal-rax/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/materials-universal/.temp" />
       <excludeFolder url="file://$MODULE_DIR$/packages/materials-universal/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/workspace" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
     </content>

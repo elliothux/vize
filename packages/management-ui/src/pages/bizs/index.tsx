@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { EditBiz } from './EditBiz';
 import { createBiz, CreateBizParams, updateBiz, UpdateBizParams } from 'api';
 import { BizRecord, Maybe } from 'types';
+import { withAdminValidation } from 'utils';
 
 function IBizs() {
   const { bizList } = bizStore;
@@ -47,7 +48,12 @@ function IBizs() {
         onSearch={console.log}
         appendAfterSearch={
           <Tooltip title="创建业务" placement="bottom">
-            <Button type="primary" size="large" icon={<BiPlus />} onClick={() => setCreateVisible(true)} />
+            <Button
+              type="primary"
+              size="large"
+              icon={<BiPlus />}
+              onClick={withAdminValidation(() => setCreateVisible(true))}
+            />
           </Tooltip>
         }
       />
@@ -57,10 +63,10 @@ function IBizs() {
           <BizItem
             key={i.id}
             item={i}
-            onEdit={biz => {
+            onEdit={withAdminValidation((biz: BizRecord) => {
               setEditBiz(biz);
               setCreateVisible(true);
-            }}
+            })}
           />
         ))}
 

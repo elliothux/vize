@@ -57,6 +57,18 @@
       }
     }
   }
+
+  .ant-breadcrumb-link {
+    cursor: pointer;
+  }
+
+  .header-menu {
+    border-bottom: none;
+    position: relative;
+    top: 13px;
+    left: -13px;
+    margin-top: 24px;
+  }
 }
 
 .user-logout {

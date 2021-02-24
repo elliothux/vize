@@ -12,6 +12,7 @@ import {
   BiBook,
   BiHelpCircle,
   BiUser,
+  BiPalette,
 } from 'react-icons/bi';
 import { Link, useLocation } from 'wouter';
 import { RouterPaths } from 'types';
@@ -54,6 +55,9 @@ export function LeftBar() {
         </Menu.Item>
         <Menu.Item key={RouterPaths.USER} icon={<BiUser />}>
           <Link href={RouterPaths.USER}>用户</Link>
+        </Menu.Item>
+        <Menu.Item key={RouterPaths.RESOURCES} icon={<BiPalette />}>
+          <Link href={RouterPaths.RESOURCES}>资源</Link>
         </Menu.Item>
       </SubMenu>
 

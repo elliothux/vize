@@ -8,6 +8,7 @@ import { PageModule } from './modules/page/page.modules';
 import { HistoryModule } from './modules/history/history.modules';
 import { MaterialsModule } from './modules/materials/materials.modules';
 import { UserModule } from './modules/user/user.modules';
+import { ResourceModule } from './modules/resource/resource.modules';
 import { Maybe, FirstParameter } from './types';
 import { getConfig } from './utils';
 
@@ -62,6 +63,7 @@ export function getApp(): App {
       PageModule,
       MaterialsModule,
       UserModule,
+      ResourceModule,
     ],
   })
   class AppModule implements NestModule {
