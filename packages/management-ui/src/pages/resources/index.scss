@@ -1,6 +1,54 @@
 @import 'styles/helper';
 
 .resources {
+  .resource-item {
+    .ant-card-cover {
+      height: 12.5vw;
+      overflow: hidden;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-preview {
+      max-width: 90%;
+      max-height: 90%;
+      box-shadow: $default-box-shadow;
+      width: auto;
+      height: auto;
+    }
+
+    .other-preview {
+      text-align: center;
+
+      .other-preview-extension {
+        position: relative;
+        display: inline-block;
+
+        svg {
+          width: 50px;
+          height: auto;
+          color: #484848;
+        }
+
+        span {
+          position: absolute;
+          left: 56%;
+          bottom: 5px;
+          background-color: #484848;
+          color: white;
+          padding: 0 8px;
+          border-radius: 4px;
+          font-size: 11px;
+        }
+      }
+    }
+
+    &.audio .ant-card-cover {
+      height: 120px;
+    }
+  }
 }
 
 .upload-resources {
@@ -12,6 +60,15 @@
 
   h3 {
     margin: 8px 0 12px 0;
+  }
+
+  .ant-upload {
+    margin-bottom: 18px;
+  }
+
+  .ant-upload-list {
+    max-height: 30vh;
+    overflow: scroll;
   }
 
   .upload-hint {
@@ -27,6 +84,11 @@
 
       li {
         margin-bottom: 4px;
+
+        span {
+          font-weight: bold;
+          margin-right: 4px;
+        }
       }
     }
   }

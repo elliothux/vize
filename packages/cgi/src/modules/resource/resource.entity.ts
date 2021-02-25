@@ -13,7 +13,7 @@ export class ResourceEntity {
   id: number;
 
   @Column({ type: 'varchar', length: 16, nullable: false })
-  type: 'image' | 'video' | 'audio' | string;
+  type: 'image' | 'video' | 'audio' | 'other';
 
   @Column({ type: 'varchar', length: 16, nullable: false })
   extension: string;
@@ -22,7 +22,7 @@ export class ResourceEntity {
   filename: string;
 
   @Column({ type: 'varchar', length: 1024, nullable: true })
-  url: string;
+  url?: string;
 
   @Column({ type: 'datetime', nullable: false })
   createdTime: Date;

@@ -29,8 +29,8 @@ function parseResponse<T>(response: CGIResponse<T>): ParsedCGIResponse<T> {
   return [response.status === 'success', response.data, response];
 }
 
-export async function getCGIJSON<T = any>(...params: Parameters<typeof fetch>): Promise<ParsedCGIResponse<T>> {
-  const response = await fetch(...params);
+export async function getCGIJSON<T = any>(...params: Parameters<typeof window.fetch>): Promise<ParsedCGIResponse<T>> {
+  const response = await window.fetch(...params);
   const result = await response.json();
   return parseResponse<T>(result);
 }
@@ -48,8 +48,15 @@ export async function postCGIJSON<T = any>(url: string, params: object): Promise
   return parseResponse<T>(result);
 }
 
+export async function deleteCGIJSON<T = any>(url: string): Promise<ParsedCGIResponse<T>> {
+  const response = await fetch(url, {
+    method: 'DELETE',
+  });
+  const result = await response.json();
+  return parseResponse<T>(result);
+}
+
 export interface WithPagination<T> {
   total: number;
-  current: number;
   data: T;
 }

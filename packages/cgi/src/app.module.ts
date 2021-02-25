@@ -23,7 +23,13 @@ export function getApp(): App {
 
   const {
     db,
-    paths: { materialsPath, previewPath, editorPath, managementUIPath },
+    paths: {
+      materialsPath,
+      previewPath,
+      editorPath,
+      managementUIPath,
+      uploadFilesPath,
+    },
     middlewares,
   } = getConfig()!;
 
@@ -34,7 +40,13 @@ export function getApp(): App {
           ServeStaticModule.forRoot({
             serveRoot: i,
             rootPath: managementUIPath,
-            exclude: ['/cgi/*', '/editor/*', '/materials/*', '/preview/*'],
+            exclude: [
+              '/cgi/*',
+              '/editor/*',
+              '/materials/*',
+              '/preview/*',
+              '/resource/*',
+            ],
           }),
       ),
       ServeStaticModule.forRoot({
@@ -48,6 +60,10 @@ export function getApp(): App {
       ServeStaticModule.forRoot({
         serveRoot: '/preview',
         rootPath: previewPath,
+      }),
+      ServeStaticModule.forRoot({
+        serveRoot: '/resource',
+        rootPath: uploadFilesPath,
       }),
       ConfigModule.forRoot({
         load: [getConfig],

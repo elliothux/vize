@@ -30,3 +30,19 @@ export function withAdminValidation(fn: Function, tips?: string) {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
+
+export function downloadFile(src: string, fileName: string) {
+  const a = document.createElement('a');
+  a.href = src;
+  a.download = fileName;
+  a.style.zIndex = '-1';
+  a.style.position = 'fixed';
+
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  setTimeout(function() {
+    URL.revokeObjectURL(a.href);
+  }, 1500);
+}

@@ -97,7 +97,7 @@ export class PageService {
     };
     return {
       pages: await this.pageRepository.find(options),
-      total: await this.pageRepository.count(where ? { where } : undefined),
+      total: await this.pageRepository.count({ where }),
     };
   }
 

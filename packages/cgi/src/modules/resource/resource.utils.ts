@@ -33,5 +33,14 @@ export function getFileType({
   mimetype,
 }: FileInterceptorUploadedFile): ResourceEntity['type'] {
   const [mine] = mimetype.split('/');
-  return mine;
+  switch (mine) {
+    case 'image':
+      return 'image';
+    case 'video':
+      return 'video';
+    case 'audio':
+      return 'audio';
+    default:
+      return 'other';
+  }
 }

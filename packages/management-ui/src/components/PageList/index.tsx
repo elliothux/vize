@@ -40,7 +40,7 @@ export function PageList({ isTemplate = false }: Props) {
 
   useAsyncEffect(async () => {
     setLoading(true);
-    const [success, pages, response] = await queryPages(biz, isTemplate, current, PAGE_SIZE);
+    const [success, pages, response] = await queryPages(biz, isTemplate || false, current, PAGE_SIZE);
     if (success) {
       const { data, total } = pages!;
       setPages(data);

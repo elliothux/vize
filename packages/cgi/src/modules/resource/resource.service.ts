@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { QueryParams, Maybe, FileInterceptorUploadedFile } from '../../types';
+import { Maybe, FileInterceptorUploadedFile } from '../../types';
 import { ResourceEntity } from './resource.entity';
-import { CreateResourceParams } from './resource.interface';
+import {
+  CreateResourceParams,
+  QueryResourceParams,
+} from './resource.interface';
 import { UserService } from '../user/user.service';
 
 let onUploadFileCallback = (
@@ -27,11 +30,17 @@ export class ResourceService {
   public async queryResourceEntities({
     startPage = 0,
     pageSize = 20,
-  }: QueryParams) {
-    return this.resourceRepository.find({
+    type,
+  }: QueryResourceParams) {
+    const where = { type };
+    const data = await this.resourceRepository.find({
+      order: { id: 'DESC' },
       take: pageSize,
       skip: pageSize * startPage,
+      where,
     });
+    const total = await this.resourceRepository.count({ where });
+    return { total, data };
   }
 
   public async createResourceEntity(
@@ -46,6 +55,10 @@ export class ResourceService {
       createdTime: new Date(),
       user: await this.userServices.getBizEntityByName(username),
     });
+  }
+
+  public deleteResourceEntity(id: number) {
+    return this.resourceRepository.delete({ id });
   }
 
   public onUploadFile = (callback: typeof onUploadFileCallback) => {

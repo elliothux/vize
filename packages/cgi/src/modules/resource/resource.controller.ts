@@ -2,16 +2,19 @@ import {
   Controller,
   Get,
   Post,
+  Delete,
   Query,
   UploadedFile,
   UseInterceptors,
+  Param,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { VizeUserName } from '../../decorators/VizeUserName';
 import { CGIResponse } from '../../utils';
-import { FileInterceptorUploadedFile, Maybe, QueryParams } from '../../types';
+import { FileInterceptorUploadedFile, Maybe } from '../../types';
 import { ResourceService } from './resource.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { getCreateResourceParams, saveUploadedFile } from './resource.utils';
+import { QueryResourceParams } from './resource.interface';
 
 let cgiResourceServices: Maybe<ResourceService> = null;
 
@@ -22,8 +25,16 @@ export class ResourceController {
   }
 
   @Get()
-  async queryResource(@Query() query: QueryParams) {
+  async queryResource(@Query() query: QueryResourceParams) {
     const result = await this.resourceService.queryResourceEntities(query);
+    return CGIResponse.success(result);
+  }
+
+  @Delete('/:id')
+  async deleteResource(@Param('id') id: string) {
+    const result = await this.resourceService.deleteResourceEntity(
+      parseInt(id, 10),
+    );
     return CGIResponse.success(result);
   }
 
