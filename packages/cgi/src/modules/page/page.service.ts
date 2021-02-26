@@ -11,9 +11,9 @@ import {
   Maybe,
   QueryParams,
   RecordStatus,
-} from 'types';
+} from '../../types';
 import { HistoryEntity } from '../history/history.entity';
-import { generateDSL, getConfig } from 'utils';
+import { generateDSL, getConfig } from '../../utils';
 
 @Injectable()
 export class PageService {
@@ -97,7 +97,7 @@ export class PageService {
     };
     return {
       pages: await this.pageRepository.find(options),
-      total: await this.pageRepository.count(where ? { where } : undefined),
+      total: await this.pageRepository.count({ where }),
     };
   }
 

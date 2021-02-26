@@ -4,6 +4,7 @@ import { Card, Tooltip } from 'antd';
 import { useMemo } from 'react';
 import { BiShow, BiRocket, BiAnalyse, BiTransfer } from 'react-icons/bi';
 import { Link } from 'wouter';
+import { withAdminValidation, noop } from 'utils';
 import day from 'dayjs';
 
 interface Props {
@@ -48,10 +49,10 @@ export function MaterialsItem({
           </div>
         </Tooltip>,
         <Tooltip title="同步 Manifest" key="sync">
-          <BiAnalyse />
+          <BiAnalyse onClick={withAdminValidation(noop)} />
         </Tooltip>,
         <Tooltip title="切换版本" key="versions">
-          <BiTransfer />
+          <BiTransfer onClick={withAdminValidation(noop)} />
         </Tooltip>,
       ]}
     >

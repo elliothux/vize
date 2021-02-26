@@ -39,13 +39,20 @@
 
 .edit-biz {
   .ant-form {
-    width: 60%;
-    margin: 80px auto;
+    width: 80%;
+    height: 270px;
+    margin: 20px auto 40px;
 
     .ant-btn {
       position: relative;
-      left: 105px;
+      left: 80px;
       top: 20px;
+    }
+  }
+
+  &.is-edit {
+    .ant-form {
+      height: 230px;
     }
   }
 }

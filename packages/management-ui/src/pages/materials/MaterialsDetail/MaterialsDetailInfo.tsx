@@ -4,6 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { Button } from 'antd';
 import { BiRocket, BiAnalyse, BiListPlus } from 'react-icons/bi';
 import { useLocation } from 'wouter';
+import { withAdminValidation, noop } from 'utils';
 import day from 'dayjs';
 
 interface Props {
@@ -71,10 +72,10 @@ export function MaterialsDetailInfo({ lib }: Props) {
           <Button type="primary" icon={<BiRocket />} onClick={goPlayground}>
             Playground
           </Button>
-          <Button type="default" icon={<BiAnalyse />}>
+          <Button type="default" icon={<BiAnalyse />} onClick={withAdminValidation(noop)}>
             同步 Manifest
           </Button>
-          <Button type="default" icon={<BiListPlus />}>
+          <Button type="default" icon={<BiListPlus />} onClick={withAdminValidation(noop)}>
             添加到业务
           </Button>
         </div>

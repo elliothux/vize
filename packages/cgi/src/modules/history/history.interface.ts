@@ -1,3 +1,3 @@
-import { DSL } from 'types';
+import { DSL } from '../../types';
 
 export type CreateHistoryDTO = DSL;

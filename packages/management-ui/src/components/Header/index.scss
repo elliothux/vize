@@ -57,4 +57,29 @@
       }
     }
   }
+
+  .ant-breadcrumb-link {
+    cursor: pointer;
+  }
+
+  .header-menu {
+    border-bottom: none;
+    position: relative;
+    top: 13px;
+    left: -13px;
+    margin-top: 24px;
+  }
+}
+
+.user-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  p {
+    font-size: 13px;
+    margin-bottom: 0;
+    margin-top: 4px;
+  }
 }

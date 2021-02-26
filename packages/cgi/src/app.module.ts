@@ -1,14 +1,16 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { BizModule } from 'modules/biz/biz.modules';
-import { PageModule } from 'modules/page/page.modules';
-import { HistoryModule } from 'modules/history/history.modules';
-import { Maybe, FirstParameter } from 'types';
-import { getConfig } from 'utils';
+import { BizModule } from './modules/biz/biz.modules';
+import { PageModule } from './modules/page/page.modules';
+import { HistoryModule } from './modules/history/history.modules';
 import { MaterialsModule } from './modules/materials/materials.modules';
+import { UserModule } from './modules/user/user.modules';
+import { ResourceModule } from './modules/resource/resource.modules';
+import { Maybe, FirstParameter } from './types';
+import { getConfig } from './utils';
 
 type App = FirstParameter<typeof NestFactory.create>;
 
@@ -21,10 +23,15 @@ export function getApp(): App {
 
   const {
     db,
-    paths: { materialsPath, previewPath, editorPath, managementUIPath },
+    paths: {
+      materialsPath,
+      previewPath,
+      editorPath,
+      managementUIPath,
+      uploadFilesPath,
+    },
+    middlewares,
   } = getConfig()!;
-
-  console.log({ managementUIPath });
 
   @Module({
     imports: [
@@ -33,7 +40,13 @@ export function getApp(): App {
           ServeStaticModule.forRoot({
             serveRoot: i,
             rootPath: managementUIPath,
-            exclude: ['/cgi/*', '/editor/*', '/materials/*', '/preview/*'],
+            exclude: [
+              '/cgi/*',
+              '/editor/*',
+              '/materials/*',
+              '/preview/*',
+              '/resource/*',
+            ],
           }),
       ),
       ServeStaticModule.forRoot({
@@ -48,6 +61,10 @@ export function getApp(): App {
         serveRoot: '/preview',
         rootPath: previewPath,
       }),
+      ServeStaticModule.forRoot({
+        serveRoot: '/resource',
+        rootPath: uploadFilesPath,
+      }),
       ConfigModule.forRoot({
         load: [getConfig],
         isGlobal: true,
@@ -61,9 +78,28 @@ export function getApp(): App {
       HistoryModule,
       PageModule,
       MaterialsModule,
+      UserModule,
+      ResourceModule,
     ],
   })
-  class AppModule {}
+  class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+      if (middlewares) {
+        Object.entries(middlewares).forEach(([name, middeleware]) => {
+          console.log(`[Vize] Apply middle "${name}"...`);
+          const middlewares = Array.isArray(middeleware)
+            ? middeleware
+            : [middeleware];
+          middlewares.forEach(({ apply, forRoutes = [], exclude = [] }) => {
+            consumer
+              .apply(apply)
+              .exclude(...exclude)
+              .forRoutes(...forRoutes);
+          });
+        });
+      }
+    }
+  }
 
   app = AppModule;
 

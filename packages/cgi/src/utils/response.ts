@@ -1,4 +1,4 @@
-import { Response } from 'types';
+import { Response } from '../types';
 
 export class CGIResponse {
   static success<T = any>(data?: T, msg?: string): Response<T> {
@@ -29,6 +29,8 @@ export enum CGICodeMap {
   PageUpdateFailed = 400003,
   MaterialsNotExists = 500001,
   BuildFailed = 600001,
+  UserExists = 700001,
+  UserNotExists = 700002,
 }
 
 const CGIReasonMap: { [key in CGICodeMap]: string } = {
@@ -39,4 +41,6 @@ const CGIReasonMap: { [key in CGICodeMap]: string } = {
   [CGICodeMap.PageUpdateFailed]: 'page update failed',
   [CGICodeMap.MaterialsNotExists]: 'materials lib not exist',
   [CGICodeMap.BuildFailed]: 'page build failed',
+  [CGICodeMap.UserExists]: 'user exists',
+  [CGICodeMap.UserNotExists]: 'user not exists',
 };

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HistoryEntity } from './history.entity';
-import { QueryParams } from 'types';
+import { QueryParams } from '../../types';
 import { CreateHistoryDTO } from './history.interface';
 
 @Injectable()

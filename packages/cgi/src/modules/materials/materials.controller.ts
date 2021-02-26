@@ -6,7 +6,8 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
-import { CGICodeMap, CGIResponse, getConfig } from 'utils';
+import { Maybe, FileInterceptorUploadedFile } from '../../types';
+import { CGICodeMap, CGIResponse, getConfig } from '../../utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MaterialsService } from './materials.service';
 import {
@@ -17,9 +18,13 @@ import {
   saveMaterialsPackage,
 } from './materials.utils';
 
+let cgiMaterialsService: Maybe<MaterialsService> = null;
+
 @Controller('/cgi/materials')
 export class MaterialsController {
-  constructor(private readonly materialsService: MaterialsService) {}
+  constructor(private readonly materialsService: MaterialsService) {
+    cgiMaterialsService = materialsService;
+  }
 
   @Get()
   async queryLibs() {
@@ -46,7 +51,7 @@ export class MaterialsController {
   @Post('/versions/:libName/:version')
   @UseInterceptors(FileInterceptor('file'))
   async uploadLibPackage(
-    @UploadedFile() file,
+    @UploadedFile() file: FileInterceptorUploadedFile,
     @Param('libName') libName: string,
     @Param('version') version: string,
   ) {
@@ -81,4 +86,8 @@ export class MaterialsController {
       Object.entries(generators).map(([key, { info }]) => ({ ...info, key })),
     );
   }
+}
+
+export function getMaterialsService() {
+  return cgiMaterialsService;
 }

@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { QueryParams } from 'types';
+import { QueryParams } from '../../types';
 import { MaterialsEntity } from './materials.entity';
 import {
   getLibCurrentVersion,

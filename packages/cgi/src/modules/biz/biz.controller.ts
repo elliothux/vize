@@ -1,16 +1,16 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { CGICodeMap, CGIResponse } from 'utils';
-import { PageService } from 'modules/page/page.service';
+import { CGICodeMap, CGIResponse } from '../../utils';
 import { BizService } from './biz.service';
 import { CreateBizParams, UpdateBizParams } from './biz.interface';
-import { QueryParams } from '../../types';
+import { Maybe, QueryParams } from '../../types';
+
+let cgiBizServices: Maybe<BizService> = null;
 
 @Controller('/cgi/biz')
 export class BizController {
-  constructor(
-    private readonly pageService: PageService,
-    private readonly bizService: BizService,
-  ) {}
+  constructor(private readonly bizService: BizService) {
+    cgiBizServices = bizService;
+  }
 
   @Post()
   async createBiz(@Body() biz: CreateBizParams) {
@@ -28,16 +28,17 @@ export class BizController {
       return CGIResponse.failed(CGICodeMap.BizNotExists);
     }
 
-    console.log(
-      await this.bizService.updateBizEntity(parseInt(id), biz),
-      this.pageService,
-    );
-    return CGIResponse.success();
+    const result = await this.bizService.updateBizEntity(parseInt(id), biz);
+    return CGIResponse.success(result);
   }
 
   @Get()
-  async queryBiz(@Query() query: QueryParams<{ withMaterials?: string }>) {
+  async queryBiz(@Query() query: QueryParams) {
     const result = await this.bizService.queryBizEntities(query);
     return CGIResponse.success(result);
   }
+}
+
+export function getBizService() {
+  return cgiBizServices;
 }

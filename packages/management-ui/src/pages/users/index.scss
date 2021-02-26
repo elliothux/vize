@@ -1,0 +1,39 @@
+.users {
+  .ant-table-wrapper {
+    width: 100%;
+  }
+
+  .user-name {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+
+    .ant-tag {
+      margin-left: 16px;
+    }
+  }
+
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    margin-right: 18px;
+  }
+}
+
+.edit-user {
+  .ant-form {
+    width: 80%;
+    height: 270px;
+    margin: 20px auto 40px;
+
+    .ant-btn {
+      position: relative;
+      left: 80px;
+      top: 20px;
+    }
+  }
+}

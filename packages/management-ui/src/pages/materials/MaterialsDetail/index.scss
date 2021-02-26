@@ -1,13 +1,5 @@
 @import 'styles/helper';
 
-.lib-detail-menu {
-  border-bottom: none;
-  position: relative;
-  top: 13px;
-  left: -13px;
-  margin-top: 24px;
-}
-
 .materials-lib-info {
   display: flex;
   justify-content: flex-start;
@@ -81,7 +73,8 @@
 }
 
 .materials-item-list {
-  .materials-action-item {
+  .materials-action-item,
+  .materials-container-item {
     .ant-card-body {
       padding-top: 18px;
     }

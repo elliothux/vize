@@ -1,6 +1,13 @@
 import * as path from 'path';
 import * as process from 'process';
-import { bootstrap, VizeCGIConfig } from './main';
+import {
+  bootstrap,
+  VizeCGIConfig,
+  MiddlewareRequestMethod,
+  MiddlewareResponse,
+  MiddlewareRequest,
+  MiddlewareNextFunction,
+} from './main';
 
 export function runLocalServer() {
   if (!isRunningLocally()) {
@@ -32,6 +39,20 @@ export function runLocalServer() {
       pegasus: require(path.resolve(__dirname, '../../generator-pegasus'))
         .default,
     },
+    middlewares: {
+      login: {
+        apply: function(
+          _req: MiddlewareRequest,
+          _res: MiddlewareResponse,
+          next: MiddlewareNextFunction,
+        ) {
+          next();
+        },
+        forRoutes: [
+          { path: '/cgi/login', method: MiddlewareRequestMethod.ALL },
+        ],
+      },
+    },
   };
 
   return bootstrap(config);
@@ -42,3 +63,5 @@ function isRunningLocally() {
   const currentPath = path.resolve(__dirname, '../');
   return runPath === currentPath;
 }
+
+runLocalServer();

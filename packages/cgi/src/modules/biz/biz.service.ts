@@ -1,18 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
-import { QueryParams } from 'types';
+import { Repository } from 'typeorm';
+import { QueryParams } from '../../types';
 import { BizEntity } from './biz.entity';
 import { CreateBizParams, UpdateBizParams } from './biz.interface';
-import { MaterialsEntity } from '../materials/materials.entity';
 
 @Injectable()
 export class BizService {
   constructor(
     @InjectRepository(BizEntity)
     private readonly bizRepository: Repository<BizEntity>,
-    @InjectRepository(MaterialsEntity)
-    private readonly materialsRepository: Repository<MaterialsEntity>,
   ) {}
 
   public async getBizEntityById(id: number) {
@@ -23,42 +20,24 @@ export class BizService {
     return this.bizRepository.findOne({ key });
   }
 
-  public async queryBizEntities({
-    startPage = 0,
-    pageSize = 20,
-    withMaterials,
-  }: QueryParams<{ withMaterials?: string }>) {
-    const result = await this.bizRepository.find({
+  public async queryBizEntities({ startPage = 0, pageSize = 20 }: QueryParams) {
+    return this.bizRepository.find({
       take: pageSize,
       skip: pageSize * startPage,
     });
-
-    if (withMaterials) {
-      await Promise.all(
-        result.map(async i => {
-          (i as any).materials = (
-            await this.materialsRepository.find({
-              where: { libName: In(i.materials) },
-            })
-          ).map(i => ({ ...i, manifest: JSON.parse(i.manifest) }));
-        }),
-      );
-    } else {
-      result.forEach(i => delete i.materials);
-    }
-
-    return result;
   }
 
-  public async createBizEntity({ key, name, logo }: CreateBizParams) {
-    const { libName } = await this.materialsRepository.findOne({
-      libName: 'universal',
-    });
+  public async createBizEntity({
+    key,
+    name,
+    logo,
+    materials,
+  }: CreateBizParams) {
     return this.bizRepository.insert({
       key,
       name,
       logo,
-      materials: [libName],
+      materials,
       createdTime: new Date(),
     });
   }
@@ -67,17 +46,15 @@ export class BizService {
     id: number,
     { name, logo, materials }: UpdateBizParams,
   ) {
-    const biz: Partial<BizEntity> = {
-      name,
-      logo,
-      modifiedTime: new Date(),
-    };
-
-    if (materials) {
-      biz.materials = materials;
-    }
-
-    return this.bizRepository.update({ id }, biz);
+    return this.bizRepository.update(
+      { id },
+      {
+        name,
+        logo,
+        materials,
+        modifiedTime: new Date(),
+      },
+    );
   }
 
   public async checkBizExistsById(id: number) {

@@ -1,5 +1,5 @@
-import { DSL, LayoutMode, PageMode } from 'types';
-import { PageEntity } from 'modules/page/page.entity';
+import { DSL, LayoutMode, PageMode } from '../types';
+import { PageEntity } from '../modules/page/page.entity';
 
 export function generateDSL({
   id,

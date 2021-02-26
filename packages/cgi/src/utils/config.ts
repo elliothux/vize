@@ -1,38 +1,6 @@
 import * as path from 'path';
-import { Generator, Maybe } from 'types';
-
-export interface DBConfig {
-  type: 'mysql' | 'mariadb';
-  host: string;
-  port: number;
-  username: string;
-  password: string;
-  database: string;
-}
-
-export interface VizeCGIConfig {
-  port: number;
-  workspacePath: string;
-  editorPath?: string;
-  managementUIPath?: string;
-  npmRegistry?: string;
-  db: DBConfig;
-  generators?: {
-    [name: string]: Generator;
-  };
-}
-
-export interface VizeCGIConfigWithPaths extends VizeCGIConfig {
-  paths: {
-    workspacePath: string;
-    buildPath: string;
-    previewPath: string;
-    materialsPath: string;
-    materialsVersionsPath: string;
-    editorPath: string;
-    managementUIPath: string;
-  };
-}
+import { Maybe } from '../types';
+import { VizeCGIConfigWithPaths, VizeCGIConfig } from '../types';
 
 let config: Maybe<VizeCGIConfigWithPaths> = null;
 
@@ -42,6 +10,7 @@ export function setConfig(c: VizeCGIConfig) {
   const previewPath = path.join(workspacePath, 'preview');
   const materialsPath = path.join(workspacePath, 'materials');
   const materialsVersionsPath = path.join(workspacePath, 'materials_version');
+  const uploadFilesPath = path.join(workspacePath, 'upload');
   config = {
     ...c,
     paths: {
@@ -50,6 +19,7 @@ export function setConfig(c: VizeCGIConfig) {
       previewPath,
       materialsPath,
       materialsVersionsPath,
+      uploadFilesPath,
       editorPath: c.editorPath || require.resolve('@vize/editor/build'),
       managementUIPath:
         c.managementUIPath || require.resolve('@vize/management-ui/build'),

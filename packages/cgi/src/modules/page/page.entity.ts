@@ -6,8 +6,8 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { RecordStatus } from 'types';
-import { BizEntity } from 'modules/biz/biz.entity';
+import { RecordStatus } from '../../types';
+import { BizEntity } from '../biz/biz.entity';
 import { HistoryEntity } from '../history/history.entity';
 
 @Entity()
