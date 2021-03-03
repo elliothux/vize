@@ -31,8 +31,16 @@ export class ResourceService {
     startPage = 0,
     pageSize = 20,
     type,
+    extension,
   }: QueryResourceParams) {
-    const where = { type };
+    const where = {};
+    if (type) {
+      where['type'] = type;
+    }
+    if (extension) {
+      where['extension'] = extension;
+    }
+
     const data = await this.resourceRepository.find({
       order: { id: 'DESC' },
       take: pageSize,
