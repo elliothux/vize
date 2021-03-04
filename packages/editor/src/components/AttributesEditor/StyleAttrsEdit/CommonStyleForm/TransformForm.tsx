@@ -4,7 +4,7 @@ import { Slider } from 'antd';
 import { getSliderValue } from 'utils';
 import { StyleFormProps } from './index';
 
-function TransformForm({ style, onChange }: StyleFormProps<TransformStyle>) {
+export function TransformForm({ style, onChange }: StyleFormProps<TransformStyle>) {
   const { rotate, scale, radius, opacity } = style;
   return (
     <div className="transform-style-item">
@@ -51,5 +51,3 @@ function TransformForm({ style, onChange }: StyleFormProps<TransformStyle>) {
     </div>
   );
 }
-
-export default TransformForm;

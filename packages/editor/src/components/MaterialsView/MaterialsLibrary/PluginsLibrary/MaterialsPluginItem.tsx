@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { MaterialsPluginMeta, Maybe } from 'types';
 import { FiPlus } from 'react-icons/fi';
 import { SVGRender } from 'widgets/SVGRender';
 import { pluginsStore } from 'states';
-import { EventEmitTypes, events } from '../../../../utils';
+import { useTranslation } from 'react-i18next';
+import { EventEmitTypes, events } from 'utils';
 
 interface Props {
   item: MaterialsPluginMeta;
@@ -20,7 +21,8 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
     thumb,
   } = item;
 
-  const [focus, setFocus] = React.useState(false);
+  const { t } = useTranslation();
+  const [focus, setFocus] = useState(false);
   const onFocus = useCallback(() => setFocus(true), [setFocus]);
   const onBlur = useCallback(() => setFocus(false), [setFocus]);
 
@@ -48,7 +50,7 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
         {thumb && <SVGRender content={thumb} />}
         <div>
           <p className="name">{name}</p>
-          <p className="desc">{desc || '无插件描述'}</p>
+          <p className="desc">{desc || t('No plugin description')}</p>
         </div>
       </div>
       <div className="button" onClick={onAdd}>

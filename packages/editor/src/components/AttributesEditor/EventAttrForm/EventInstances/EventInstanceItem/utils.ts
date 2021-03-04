@@ -9,31 +9,32 @@ import {
 } from 'types';
 import { FiMousePointer, FiLayers, FiEye, FiEyeOff } from 'react-icons/fi';
 import { MdCallReceived, MdCallMade, MdBlurCircular, MdPanTool } from 'react-icons/md';
+import { i18n } from 'i18n';
 
 const ComponentUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
-  [ComponentUniversalEventTrigger.CLICK]: ['点击', FiMousePointer],
-  [ComponentUniversalEventTrigger.DOUBLE_CLICK]: ['双击', FiMousePointer],
-  [ComponentUniversalEventTrigger.LONG_PRESS]: ['长按', MdPanTool],
-  [ComponentUniversalEventTrigger.ENTER_VIEW]: ['出现', FiEye],
-  [ComponentUniversalEventTrigger.LEAVE_VIEW]: ['消失', FiEyeOff],
-  [ComponentUniversalEventTrigger.INIT]: ['初始化', MdBlurCircular],
-  [ComponentUniversalEventTrigger.MOUSE_ENTER]: ['鼠标移入', MdCallReceived],
-  [ComponentUniversalEventTrigger.MOUSE_LEAVE]: ['鼠标移出', MdCallMade],
+  [ComponentUniversalEventTrigger.CLICK]: [i18n.t('click'), FiMousePointer],
+  [ComponentUniversalEventTrigger.DOUBLE_CLICK]: [i18n.t('double click'), FiMousePointer],
+  [ComponentUniversalEventTrigger.LONG_PRESS]: [i18n.t('long press'), MdPanTool],
+  [ComponentUniversalEventTrigger.ENTER_VIEW]: [i18n.t('appear'), FiEye],
+  [ComponentUniversalEventTrigger.LEAVE_VIEW]: [i18n.t('disappear'), FiEyeOff],
+  [ComponentUniversalEventTrigger.INIT]: [i18n.t('initialization'), MdBlurCircular],
+  [ComponentUniversalEventTrigger.MOUSE_ENTER]: [i18n.t('mouse in'), MdCallReceived],
+  [ComponentUniversalEventTrigger.MOUSE_LEAVE]: [i18n.t('mouse leave'), MdCallMade],
 };
 
 const PluginUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
-  [PluginUniversalEventTrigger.BEFORE_EXEC]: ['执行前', FiMousePointer],
-  [PluginUniversalEventTrigger.AFTER_EXEC]: ['执行后', FiMousePointer],
+  [PluginUniversalEventTrigger.BEFORE_EXEC]: [i18n.t('before execute'), FiMousePointer],
+  [PluginUniversalEventTrigger.AFTER_EXEC]: [i18n.t('after execute'), FiMousePointer],
 };
 
 const HotAreaUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
-  [HotAreaUniversalEventTrigger.CLICK]: ['点击', FiMousePointer],
-  [HotAreaUniversalEventTrigger.DOUBLE_CLICK]: ['双击', FiMousePointer],
-  [HotAreaUniversalEventTrigger.LONG_PRESS]: ['长按', MdPanTool],
-  [HotAreaUniversalEventTrigger.ENTER_VIEW]: ['出现', FiEye],
-  [HotAreaUniversalEventTrigger.LEAVE_VIEW]: ['消失', FiEyeOff],
-  [HotAreaUniversalEventTrigger.MOUSE_ENTER]: ['鼠标移入', MdCallReceived],
-  [HotAreaUniversalEventTrigger.MOUSE_LEAVE]: ['鼠标移出', MdCallMade],
+  [HotAreaUniversalEventTrigger.CLICK]: [i18n.t('click'), FiMousePointer],
+  [HotAreaUniversalEventTrigger.DOUBLE_CLICK]: [i18n.t('double click'), FiMousePointer],
+  [HotAreaUniversalEventTrigger.LONG_PRESS]: [i18n.t('long press'), MdPanTool],
+  [HotAreaUniversalEventTrigger.ENTER_VIEW]: [i18n.t('appear'), FiEye],
+  [HotAreaUniversalEventTrigger.LEAVE_VIEW]: [i18n.t('disappear'), FiEyeOff],
+  [HotAreaUniversalEventTrigger.MOUSE_ENTER]: [i18n.t('mouse in'), MdCallReceived],
+  [HotAreaUniversalEventTrigger.MOUSE_LEAVE]: [i18n.t('mouse leave'), MdCallMade],
 };
 
 export function getTriggerDisplayName(

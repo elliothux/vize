@@ -8,13 +8,15 @@ import { useCurrentComponentInstance, useCurrentComponentMeta } from 'hooks';
 import { Button } from 'antd';
 import { EventEmitTypes, events, getImageSrc } from 'utils';
 import { Empty } from 'widgets/Empty';
+import { useTranslation, Trans } from 'react-i18next';
 
 function IComponentDataForm() {
+  const { t } = useTranslation();
   const instance = useCurrentComponentInstance()!;
   const { dataForm } = useCurrentComponentMeta()!;
   const { data, key, children, hotAreas } = instance;
 
-  if (!instance) return <Empty text="不可用" />;
+  if (!instance) return <Empty text={t('Not available')} />;
 
   const container = children ? (
     <Button
@@ -23,7 +25,7 @@ function IComponentDataForm() {
       icon={<EditFilled />}
       type="primary"
     >
-      编辑子组件
+      <Trans>Edit children components</Trans>
     </Button>
   ) : null;
 
@@ -35,7 +37,7 @@ function IComponentDataForm() {
       icon={<EditFilled />}
       type="primary"
     >
-      编辑热区
+      <Trans>Edit hotareas</Trans>
     </Button>
   ) : null;
 

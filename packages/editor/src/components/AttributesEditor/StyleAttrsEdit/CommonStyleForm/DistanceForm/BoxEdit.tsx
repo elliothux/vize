@@ -176,7 +176,7 @@ export class BoxEditor extends React.Component<Partial<Props>, State> {
   }
 
   /**
-   * 初始化值
+   * Init value
    */
   private init = ({
     paddingLeft,

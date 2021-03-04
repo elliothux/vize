@@ -1,9 +1,12 @@
 import * as React from 'react';
+import { Trans } from 'react-i18next';
 
 export function Title() {
   return (
     <div className="vize-event-title">
-      <span>已添加的事件</span>
+      <span>
+        <Trans>Added events</Trans>
+      </span>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { percent, preventSyntheticEvent } from 'utils';
 import { EventEmitTypes, events } from 'utils';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime/components/NodeEventProxy';
+import { Trans } from 'react-i18next';
 import { AttrEditTab } from '../AttributesEditor';
 import { showHotAreaContextMenu } from '../ContextMenu/HotAreaContextMenu';
 
@@ -77,7 +78,9 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
       onContextMenu={onContextMenu}
       style={style}
     >
-      <p>热区（key={key}）</p>
+      <p>
+        <Trans>Hotarea</Trans>（key={key}）
+      </p>
     </div>
   );
 }

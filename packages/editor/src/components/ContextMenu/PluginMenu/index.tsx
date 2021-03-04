@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { pluginsStore, selectStore } from 'states';
 import { preventSyntheticEvent, showContextMenu } from 'utils';
 import { PluginInstance } from 'types';
+import { Trans } from 'react-i18next';
 
 interface Props {
   instance: PluginInstance;
@@ -18,7 +19,9 @@ export function PluginContextMenu({ instance }: Props) {
     <Menu id={getID(instance.key)} theme={theme.dark} animation={animation.fade}>
       <Item onClick={onDelete}>
         <FiDelete />
-        <span>删除</span>
+        <span>
+          <Trans>delete</Trans>
+        </span>
       </Item>
     </Menu>
   );

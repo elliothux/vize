@@ -8,8 +8,11 @@ import { observer } from 'mobx-react';
 import { message } from 'antd';
 import { savePageHistory } from 'api';
 import { unImplemented } from './utils';
+import { useTranslation, Trans } from 'react-i18next';
+import { i18n } from 'i18n';
 
 function ISaveAndHistory() {
+  const { t } = useTranslation();
   const {
     debugPorts: [debugPort],
   } = editStore;
@@ -28,14 +31,15 @@ function ISaveAndHistory() {
         title={
           isUserValid ? (
             <>
-              <p>保存</p>
+              <p>
+                <Trans>save</Trans>
+              </p>
               <p className="desc">({hotKeyPrefix} + s)</p>
             </>
           ) : (
             <p>
-              没有保存权限
-              <br />
-              （由 {owner} 创建）
+              {t("don't have permission to {{type}}", { type: 'save' })}
+              <br />（{t('Create by {{owner}}', { owner })}）
             </p>
           )
         }
@@ -43,15 +47,17 @@ function ISaveAndHistory() {
         action={save}
         disabled={!isUserValid}
       />
-      <OperationItem title="复制" icon={FiCopy} action={unImplemented} />
+      <OperationItem title={t('copy')} icon={FiCopy} action={unImplemented} />
       <OperationItem
-        title={debugPort ? 'Debug 模式不支持存为模板' : '存为模板'}
+        title={
+          debugPort ? t('{{type}} not allowed with DebugMode', { type: 'save as template' }) : t('save as template')
+        }
         icon={FiFilePlus}
         action={unImplemented}
         disabled={!!debugPort}
       />
       <OperationItem
-        title={debugPort ? 'Debug 模式不支持历史管理' : '历史管理'}
+        title={debugPort ? t('{{type}} not allowed with DebugMode', { type: 'history manager' }) : t('history manager')}
         icon={FiGitMerge}
         action={unImplemented}
         disabled={!!debugPort}
@@ -64,20 +70,20 @@ function ISaveAndHistory() {
 export const SaveAndHistory = observer(ISaveAndHistory);
 
 export async function save() {
-  message.loading('保存中...');
+  message.loading(`${i18n.t('saving')}...`);
 
   const dsl = generateDSL();
   if (isDebugMode()) {
     return setTimeout(() => {
       localStorage.setItem('dsl', JSON.stringify(dsl));
       message.destroy();
-      message.success('保存成功');
+      message.success(i18n.t('saved'));
     }, 0);
   }
 
   const [err] = await promiseWrapper(savePageHistory(dsl));
   message.destroy();
-  err ? message.error('保存失败') : message.success('保存成功');
+  err ? message.error(i18n.t('failed to save')) : message.success(i18n.t('saved'));
 }
 
 // TODO: Remove

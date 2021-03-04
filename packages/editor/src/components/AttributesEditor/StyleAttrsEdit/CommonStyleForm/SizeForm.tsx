@@ -4,7 +4,7 @@ import { InputNumber, Switch } from 'antd';
 import { Trans } from 'react-i18next';
 import { StyleFormProps } from './index';
 
-function SizeStyleForm({ style, onChange }: StyleFormProps<SizeStyle>) {
+export function SizeForm({ style, onChange }: StyleFormProps<SizeStyle>) {
   const { autoWidth, autoHeight, width, height } = style;
 
   return (
@@ -43,5 +43,3 @@ function SizeStyleForm({ style, onChange }: StyleFormProps<SizeStyle>) {
     </div>
   );
 }
-
-export default SizeStyleForm;

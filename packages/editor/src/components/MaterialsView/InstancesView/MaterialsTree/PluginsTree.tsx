@@ -6,6 +6,7 @@ import { pluginsStore, selectStore, SelectType } from 'states';
 import { FirstParameter, MustBe, PluginInstance } from 'types';
 import { FiFolder } from 'react-icons/fi';
 import { PluginContextMenu, showPluginContextMenu } from 'components/ContextMenu';
+import { i18n } from 'i18n';
 import { generatePluginTreeData } from './utils';
 
 const { DirectoryTree } = Tree;
@@ -69,7 +70,7 @@ function onRightClick({ node, event }: FirstParameter<MustBe<ComponentProps<type
 function getTreeData(pluginInstances: PluginInstance[]): TreeData {
   return [
     {
-      title: '已添加的插件',
+      title: i18n.t('Added plugins'),
       key: 'plugins',
       isLeaf: false,
       icon: <FiFolder />,

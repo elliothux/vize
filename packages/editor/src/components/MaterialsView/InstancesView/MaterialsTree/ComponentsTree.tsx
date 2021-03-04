@@ -8,6 +8,7 @@ import { componentsStore, selectStore, SelectType, sharedStore } from 'states';
 import { ComponentInstance, FirstParameter, Maybe, MustBe } from 'types';
 import { showComponentContextMenu, showHotAreaContextMenu } from 'components/ContextMenu';
 import { ComponentIndex, findComponentInstanceByIndex, isString, isNumber } from 'utils';
+import { i18n } from 'i18n';
 import classNames from 'classnames';
 import { generateComponentTreeData } from './utils';
 
@@ -178,7 +179,7 @@ function parseTreeNodeIndex(i: string): Maybe<ComponentIndex> {
 function getTreeData(componentInstances: ComponentInstance[], shared: boolean): TreeData {
   return [
     {
-      title: shared ? '跨页面共享的组件' : '已添加的组件',
+      title: i18n.t(shared ? 'Shared components' : 'Added components'),
       key: 'components',
       isLeaf: false,
       icon: <FiFolder />,

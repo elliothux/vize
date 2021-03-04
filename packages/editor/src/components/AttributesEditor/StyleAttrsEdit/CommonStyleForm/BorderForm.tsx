@@ -7,7 +7,7 @@ import { Color } from 'widgets/Form/Fields/Color';
 
 const { Group: RadioGroup } = Radio;
 
-function BorderStyleForm({ style, onChange }: StyleFormProps<BorderStyle>) {
+export function BorderForm({ style, onChange }: StyleFormProps<BorderStyle>) {
   const { type, color, width } = style;
   const disabled = type === 'none';
 
@@ -43,5 +43,3 @@ function BorderStyleForm({ style, onChange }: StyleFormProps<BorderStyle>) {
     </div>
   );
 }
-
-export default BorderStyleForm;

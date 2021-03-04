@@ -1,14 +1,15 @@
-import { Collapse } from 'antd';
 import * as React from 'react';
+import { Collapse } from 'antd';
 import { CommonStyle } from 'types';
-import PositionForm from './PositionForm';
-import TransformForm from './TransformForm';
-import FontForm from './FontForm';
-import BackgroundForm from './BackgroundForm';
+import { useTranslation } from 'react-i18next';
+import { PositionForm } from './PositionForm';
+import { TransformForm } from './TransformForm';
+import { FontForm } from './FontForm';
+import { BackgroundForm } from './BackgroundForm';
 import { DistanceStyleForm } from './DistanceForm';
-import BorderForm from './BorderForm';
-import SizeForm from './SizeForm';
-import ZindexForm from './ZindexForm';
+import { BorderForm } from './BorderForm';
+import { SizeForm } from './SizeForm';
+import { ZIndexForm } from './ZindexForm';
 
 export interface StyleFormProps<T> {
   style: T;
@@ -19,6 +20,7 @@ export interface StyleFormProps<T> {
 const { Panel } = Collapse;
 
 export function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>) {
+  const { t } = useTranslation();
   return (
     <Collapse
       bordered={false}
@@ -26,7 +28,7 @@ export function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>
       className="editor-prop-form common-style-form"
     >
       {(style.margin || style.padding) && (
-        <Panel header="边距" key="0">
+        <Panel header={t('Margins')} key="0">
           <DistanceStyleForm
             style={{ margin: style.margin, padding: style.padding }}
             onChange={({ margin, padding }) => onChange({ ...style, margin, padding })}
@@ -34,7 +36,7 @@ export function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>
         </Panel>
       )}
       {style.position && (
-        <Panel header="定位" key="1">
+        <Panel header={t('Position')} key="1">
           <PositionForm
             style={style.position}
             onChange={newStyle => {
@@ -47,17 +49,17 @@ export function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>
         </Panel>
       )}
       {style.transform && (
-        <Panel header="变形" key="2">
+        <Panel header={t('Transform')} key="2">
           <TransformForm style={style.transform} onChange={newStyle => onChange({ ...style, transform: newStyle })} />
         </Panel>
       )}
       {style.text && (
-        <Panel header="字体" key="3">
+        <Panel header={t('Font')} key="3">
           <FontForm style={style.text} onChange={(newStyle: any) => onChange({ ...style, text: newStyle })} />
         </Panel>
       )}
       {style.background && (
-        <Panel header="背景" key="4">
+        <Panel header={t('Background')} key="4">
           <BackgroundForm
             style={style.background}
             onChange={newStyle => onChange({ ...style, background: newStyle })}
@@ -65,18 +67,18 @@ export function CommonStyleForm({ style, onChange }: StyleFormProps<CommonStyle>
         </Panel>
       )}
       {style.border && (
-        <Panel header="边框" key="5">
+        <Panel header={t('Border')} key="5">
           <BorderForm style={style.border} onChange={(newStyle: any) => onChange({ ...style, border: newStyle })} />
         </Panel>
       )}
       {style.size && (
-        <Panel header="尺寸" key="6">
+        <Panel header={t('Size')} key="6">
           <SizeForm style={style.size} onChange={(newStyle: any) => onChange({ ...style, size: newStyle })} />
         </Panel>
       )}
       {style.zIndex && (
-        <Panel header="层级" key="7" style={{ borderBottom: 'none' }}>
-          <ZindexForm style={style.zIndex} onChange={newStyle => onChange({ ...style, zIndex: newStyle })} />
+        <Panel header={t('Layer')} key="7" style={{ borderBottom: 'none' }}>
+          <ZIndexForm style={style.zIndex} onChange={newStyle => onChange({ ...style, zIndex: newStyle })} />
         </Panel>
       )}
     </Collapse>

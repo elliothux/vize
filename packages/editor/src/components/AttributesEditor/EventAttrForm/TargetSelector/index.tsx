@@ -19,7 +19,7 @@ export function TargetSelector({ target, setTarget }: Props) {
   return (
     <div className="event-form-prop-item">
       <span>
-        <Trans>Execution Type</Trans>:
+        <Trans>Execute Type</Trans>:
       </span>
       <RadioGroup value={target} onChange={onChange}>
         <Radio value={EventTargetType.ACTION}>

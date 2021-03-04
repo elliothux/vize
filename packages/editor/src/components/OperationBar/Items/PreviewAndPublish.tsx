@@ -92,16 +92,15 @@ function IPreviewAndPublish() {
         disabled={isTemplate || !isUserValid || !!debugPort}
         title={
           isTemplate || !!debugPort ? (
-            t('publish not allowed with {{type}}', {
+            t('Publish not allowed with {{type}}', {
               type: debugPort ? 'Debug Mode' : 'template page',
             })
           ) : isUserValid ? (
             t('publish')
           ) : (
             <p>
-              {t("don't have permission to publish")}
-              <br />
-              {t('Create by {{owner}}', { owner })}
+              {t("don't have permission to {{type}}", { type: 'publish' })}
+              <br />（{t('Create by {{owner}}', { owner })}）
             </p>
           )
         }

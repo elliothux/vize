@@ -7,6 +7,7 @@ import { Button, Select } from 'antd';
 import { FiChevronsLeft, FiLayers, FiMousePointer, FiPlus, FiX } from 'react-icons/fi';
 import { useComponentMeta } from 'hooks';
 import { useUnmount } from 'react-use';
+import { Trans, useTranslation } from 'react-i18next';
 import { DEFAULT_MAX_TIMEOUT } from './constant';
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 const { Option: SelectOption } = Select;
 
 function IComponentTargetSelector({ trigger, setTrigger }: Props) {
+  const { t } = useTranslation();
   const [target, setTarget] = useState<Maybe<Omit<ComponentEventTarget, 'type'>>>(null);
 
   const { selectMode, selectModeSelectedComponent } = selectStore;
@@ -52,36 +54,49 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
   return (
     <>
       <div className="event-form-prop-item component-target-selector">
-        <span>目标组件:</span>
+        <span>
+          <Trans>Target component</Trans>:
+        </span>
         {selectMode ? (
           <Button onClick={onEndSelect} className="component-target-selector-button">
             <div className="show">
               {key ? (
-                <span>{`已选择（key=${key}）`}</span>
+                <span>{`${t('Selected')}（key=${key}）`}</span>
               ) : (
                 <>
                   <FiChevronsLeft className="component-target-selector-button-icon" />
-                  <span> 点击左侧组件以选择</span>
+                  <span>
+                    {' '}
+                    <Trans>Click component to select</Trans>
+                  </span>
                 </>
               )}
             </div>
 
             <div className="hide">
               <FiX />
-              <span> 取消选择</span>
+              <span>
+                {' '}
+                <Trans>Cancel select</Trans>
+              </span>
             </div>
           </Button>
         ) : (
           <Button onClick={onStartSelect} className="component-target-selector-button">
             <FiMousePointer />
-            <span> 点击选择</span>
+            <span>
+              {' '}
+              <Trans>Select component</Trans>
+            </span>
           </Button>
         )}
       </div>
 
       {meta ? (
         <div className="event-form-prop-item component-target-selector">
-          <span>执行动作:</span>
+          <span>
+            <Trans>execute action</Trans>:
+          </span>
           <Select
             value={eventName}
             onChange={onChangeEvent}
@@ -100,7 +115,9 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
 
       <Button disabled={disabled} type="primary" className="event-form-target-selector-add" onClick={onAddAction}>
         <FiPlus />
-        <span>添加</span>
+        <span>
+          <Trans>Add</Trans>
+        </span>
       </Button>
     </>
   );
