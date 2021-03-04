@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { debounce } from 'throttle-debounce';
+import { i18n } from 'i18n';
 import { EventEmitTypes, events } from './eventEmiter';
 
 enum HotReloadCommand {
@@ -27,13 +28,13 @@ function onReceiveMessage({ type, data: command }: MessageEvent) {
     case HotReloadCommand.RECOMPILE: {
       message.destroy();
       log('Start recompile materials...');
-      message.loading('构建物料库', 0);
+      message.loading(i18n.t('Rebuilding materials'), 0);
       return;
     }
     case HotReloadCommand.RELOAD: {
       message.destroy();
       log('Reload materials...');
-      message.loading('重新加载物料', 0);
+      message.loading(i18n.t('Reload materials'), 0);
       events.emit(EventEmitTypes.RELOAD_MATERIALS);
       return;
     }

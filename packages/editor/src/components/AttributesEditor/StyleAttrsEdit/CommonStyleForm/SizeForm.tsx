@@ -1,17 +1,22 @@
 import * as React from 'react';
 import { SizeStyle } from 'types';
 import { InputNumber, Switch } from 'antd';
+import { Trans } from 'react-i18next';
 import { StyleFormProps } from './index';
 
-function SizeStyleForm({ style, onChange }: StyleFormProps<SizeStyle>) {
+export function SizeForm({ style, onChange }: StyleFormProps<SizeStyle>) {
   const { autoWidth, autoHeight, width, height } = style;
 
   return (
     <div className="common-size-style-form">
       <div className="editor-prop-form-item">
-        <span>默认宽度</span>
+        <span>
+          <Trans>default width</Trans>
+        </span>
         <Switch checked={autoWidth} onChange={checked => onChange({ ...style, autoWidth: checked })} />
-        <span>宽</span>
+        <span>
+          <Trans>width</Trans>
+        </span>
         <InputNumber
           min={1}
           disabled={autoWidth}
@@ -19,10 +24,15 @@ function SizeStyleForm({ style, onChange }: StyleFormProps<SizeStyle>) {
           onChange={width => onChange({ ...style, width: (width as number) || 1 })}
         />
       </div>
+
       <div className="editor-prop-form-item">
-        <span>默认高度</span>
+        <span>
+          <Trans>default height</Trans>
+        </span>
         <Switch checked={autoHeight} onChange={checked => onChange({ ...style, autoHeight: checked })} />
-        <span>高</span>
+        <span>
+          <Trans>height</Trans>
+        </span>
         <InputNumber
           min={1}
           disabled={autoHeight}
@@ -33,5 +43,3 @@ function SizeStyleForm({ style, onChange }: StyleFormProps<SizeStyle>) {
     </div>
   );
 }
-
-export default SizeStyleForm;

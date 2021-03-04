@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import { MaterialsForm, JsonSchemaProperties, OverrideFormComponent } from 'types';
 import { isFunction } from 'utils';
+import { i18n } from 'i18n';
 import { OverrideForm } from './OverrideForm';
 import { SchemaForm as ISchemaForm } from './SchemaForm';
 
@@ -30,7 +31,7 @@ export function SchemaForm({ form, data, onChange, instanceKey, submitProps }: P
         schema={form as JsonSchemaProperties}
         value={data}
         onSubmit={onChange}
-        submitProps={{ children: typeof submitProps === 'boolean' ? '确认' : submitProps }}
+        submitProps={{ children: typeof submitProps === 'boolean' ? i18n.t('Confirm') : submitProps }}
       />
     );
   }

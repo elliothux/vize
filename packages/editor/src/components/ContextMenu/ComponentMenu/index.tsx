@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { componentsStore, selectStore, sharedStore } from 'states';
 import { noop, preventSyntheticEvent, showContextMenu } from 'utils';
 import { ComponentInstance, PageInstance } from 'types';
+import { Trans } from 'react-i18next';
 import { createMouseEventFromIframe } from '../utils';
 
 interface Props {
@@ -27,16 +28,22 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
     <Menu id={getID(instance.key)} theme={theme.dark} animation={animation.zoom}>
       {/*<Item onClick={onRename}>*/}
       {/*  <FiEdit />*/}
-      {/*  <span>重命名</span>*/}
-      {/*</Item>*/}
+      {/*  <span>*/}
+      {/*    <Trans>rename</Trans>*/}
+      {/*  </span>*/}
+      {/*</Item>`*/}
       <Item onClick={onDelete}>
         <FiDelete />
-        <span>删除</span>
+        <span>
+          <Trans>delete</Trans>
+        </span>
       </Item>
 
       <Item onClick={noop}>
         <FiCopy />
-        <span>复制</span>
+        <span>
+          <Trans>copy</Trans>
+        </span>
       </Item>
 
       <Separator />
@@ -45,7 +52,9 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
       {!shared ? (
         <Item onClick={onShared}>
           <FiRefreshCw />
-          <span>在页面间共享</span>
+          <span>
+            <Trans>share between pages</Trans>
+          </span>
         </Item>
       ) : null}
 
@@ -53,14 +62,18 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         label={
           <>
             <FiCornerUpRight />
-            <span>移动到</span>
+            <span>
+              <Trans>move to</Trans>
+            </span>
           </>
         }
         arrow={null}
       >
         <Item onClick={noop}>
           <FiPlus />
-          <span>新建页面</span>
+          <span>
+            <Trans>new page</Trans>
+          </span>
         </Item>
         {pages.map(({ name, key }, index) =>
           shared || index !== currentPageIndex ? (
@@ -75,14 +88,18 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         label={
           <>
             <FiCopy />
-            <span>复制到</span>
+            <span>
+              <Trans>copy to</Trans>
+            </span>
           </>
         }
         arrow={null}
       >
         <Item onClick={noop}>
           <FiPlus />
-          <span>新建页面</span>
+          <span>
+            <Trans>new page</Trans>
+          </span>
         </Item>
         {pages.map(({ name, key }, index) =>
           shared || index !== currentPageIndex ? (
@@ -97,7 +114,9 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         <>
           <Item onClick={onEditChildren}>
             <FiCopy />
-            <span>编辑子组件</span>
+            <span>
+              <Trans>edit children components</Trans>
+            </span>
           </Item>
         </>
       ) : null}

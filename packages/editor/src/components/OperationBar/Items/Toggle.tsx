@@ -1,21 +1,26 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { FiEdit, FiEye, FiMaximize2 } from 'react-icons/fi';
-import { OperationItem } from './OperationItem';
 import { editStore } from 'states';
 import { hotkeyEvents, HotKeyEventTypes, isMacOS, toggleFullScreen, withMessage } from 'utils';
 import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
+import { OperationItem } from './OperationItem';
 
 function IToggle() {
+  const { t } = useTranslation();
   const { previewMode } = editStore;
   const hotKeyPrefix = isMacOS() ? 'command' : 'ctrl';
 
   useEffect(() => {
     hotkeyEvents.only(
       HotKeyEventTypes.TOGGLE_PREVIEW,
-      withMessage(editStore.togglePreviewMode, () => (editStore.previewMode ? '切换编辑模式' : '切换预览模式')),
+      withMessage(editStore.togglePreviewMode, () =>
+        t('switch to {{type}} mode', { type: editStore.previewMode ? 'preview' : 'edit' }),
+      ),
     );
-    hotkeyEvents.only(HotKeyEventTypes.TOGGLE_FULLSCREEN, withMessage(toggleFullScreen, '切换全屏'));
+    hotkeyEvents.only(HotKeyEventTypes.TOGGLE_FULLSCREEN, withMessage(toggleFullScreen, t('toggle fullscreen')));
   }, []);
 
   return (
@@ -23,7 +28,7 @@ function IToggle() {
       <OperationItem
         title={
           <>
-            <p>{previewMode ? '切换到编辑模式' : '切换到预览模式'}</p>
+            <p>{t('switch to {{type}} mode', { type: previewMode ? 'preview' : 'edit' })}</p>
             <p className="desc">({hotKeyPrefix} + p)</p>
           </>
         }
@@ -33,7 +38,9 @@ function IToggle() {
       <OperationItem
         title={
           <>
-            <p>切换全屏</p>
+            <p>
+              <Trans>toggle fullscreen</Trans>
+            </p>
             <p className="desc">({hotKeyPrefix} + f)</p>
           </>
         }

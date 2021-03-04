@@ -14,6 +14,7 @@ import { Button, Select } from 'antd';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 import { useUnmount } from 'react-use';
 import { getMaterialsPluginMeta } from 'runtime';
+import { Trans } from 'react-i18next';
 import { DEFAULT_MAX_TIMEOUT } from './constant';
 
 interface Props {
@@ -64,7 +65,9 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
   return (
     <>
       <div className="event-form-prop-item">
-        <span>目标插件:</span>
+        <span>
+          <Trans>Target plugin</Trans>:
+        </span>
         <Select
           value={pluginKey || undefined}
           onChange={onChangePlugin}
@@ -82,7 +85,9 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
 
       {currentPlugin ? (
         <div className="event-form-prop-item">
-          <span>执行动作:</span>
+          <span>
+            <Trans>Execute Action</Trans>:
+          </span>
           <Select
             value={eventName || undefined}
             onChange={onChangeEvent}
@@ -101,7 +106,9 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
 
       <Button disabled={disabled} type="primary" className="event-form-target-selector-add" onClick={onAddAction}>
         <FiPlus />
-        <span>添加</span>
+        <span>
+          <Trans>Add</Trans>
+        </span>
       </Button>
     </>
   );

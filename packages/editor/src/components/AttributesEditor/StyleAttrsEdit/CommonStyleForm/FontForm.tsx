@@ -7,7 +7,7 @@ import { Color } from 'widgets/Form/Fields/Color';
 
 const { Group: RadioGroup } = Radio;
 
-function TextStyleForm({ style, onChange }: StyleFormProps<TextStyle>) {
+export function FontForm({ style, onChange }: StyleFormProps<TextStyle>) {
   const { color, fontSize, lineHeight, textAlign, weight } = style;
 
   return (
@@ -53,5 +53,3 @@ function TextStyleForm({ style, onChange }: StyleFormProps<TextStyle>) {
     </div>
   );
 }
-
-export default TextStyleForm;

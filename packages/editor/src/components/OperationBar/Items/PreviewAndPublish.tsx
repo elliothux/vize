@@ -2,19 +2,19 @@ import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { FiLink, FiSend, FiPlay } from 'react-icons/fi';
 import { BiScan } from 'react-icons/bi';
-import { LoadingOutlined } from '@ant-design/icons';
 import { editStore } from 'states';
 import { observer } from 'mobx-react';
 import { BuildStatus, getPublishStatus, previewPage, startPublishPage } from 'api';
 import { Button, message, Modal } from 'antd';
 import { GeneratorResult, Maybe } from 'types';
 import { copyToClipboardWithMessage } from 'utils';
+import { useTranslation, Trans } from 'react-i18next';
 import QRCode from 'qrcode.react';
 import { unImplemented } from './utils';
 import { OperationItem } from './OperationItem';
 
 const PUBLISH_POLL_STATUS_TIME = 3000;
-const MAX_PLBLISH_RETRY_TIMES = 3;
+const MAX_PUBLISH_RETRY_TIMES = 3;
 
 let publishTimer: Maybe<number> = null;
 let publishRetryTimes = 0;
@@ -28,6 +28,7 @@ function IPreviewAndPublish() {
   const isUserValid = true;
   const owner = 'admin';
 
+  const { t } = useTranslation();
   const [previewResult, setPreviewResult] = useState<Maybe<GeneratorResult>>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const preview = useCallback(async () => {
@@ -36,7 +37,7 @@ function IPreviewAndPublish() {
     setPreviewLoading(false);
     if (!success) {
       console.error(response);
-      return message.error('生成预览失败');
+      return message.error(t('failed to generate preview page'));
     }
     setPreviewResult(result);
   }, []);
@@ -57,16 +58,16 @@ function IPreviewAndPublish() {
     if (!success) {
       setPublishLoading(false);
       console.error(response);
-      return message.error('发布失败');
+      return message.error(t('failed to publish'));
     }
 
     publishTimer = window.setInterval(async () => {
       const [success, data, response] = await getPublishStatus(editStore.pageKey);
       if (!success || !data) {
-        if (publishRetryTimes > MAX_PLBLISH_RETRY_TIMES) {
+        if (publishRetryTimes > MAX_PUBLISH_RETRY_TIMES) {
           stopPublish();
           console.error(response);
-          return message.error('查询发布状态失败');
+          return message.error(t('failed to query publish status'));
         }
         return (publishRetryTimes += 1);
       }
@@ -75,7 +76,7 @@ function IPreviewAndPublish() {
       const [status, result] = data;
       if (status === BuildStatus.FAILED) {
         stopPublish();
-        return message.error('发布失败');
+        return message.error(t('failed to publish'));
       }
       if (status === BuildStatus.SUCCESS && data) {
         stopPublish();
@@ -86,19 +87,20 @@ function IPreviewAndPublish() {
 
   return (
     <>
-      <OperationItem title="预览" icon={FiPlay} action={preview} loading={previewLoading} />
+      <OperationItem title={t('preview')} icon={FiPlay} action={preview} loading={previewLoading} />
       <OperationItem
         disabled={isTemplate || !isUserValid || !!debugPort}
         title={
           isTemplate || !!debugPort ? (
-            `${debugPort ? 'Debug 模式' : '模板'}不支持发布`
+            t('Publish not allowed with {{type}}', {
+              type: debugPort ? 'Debug Mode' : 'template page',
+            })
           ) : isUserValid ? (
-            '发布'
+            t('publish')
           ) : (
             <p>
-              没有发布权限
-              <br />
-              （由 {owner} 创建）
+              {t("don't have permission to {{type}}", { type: 'publish' })}
+              <br />（{t('Create by {{owner}}', { owner })}）
             </p>
           )
         }
@@ -106,10 +108,10 @@ function IPreviewAndPublish() {
         action={publish}
         loading={publishLoading}
       />
-      <OperationItem title="查看链接" icon={FiLink} action={unImplemented} />
+      <OperationItem title={t('show link')} icon={FiLink} action={unImplemented} />
 
-      <Result title="生成预览成功" result={previewResult} setResult={setPreviewResult} />
-      <Result title="发布完成" result={publishResult} setResult={setPublishResult} />
+      <Result title={t('Generate preview success')} result={previewResult} setResult={setPreviewResult} />
+      <Result title={t('Publish success')} result={publishResult} setResult={setPublishResult} />
     </>
   );
 }
@@ -138,14 +140,14 @@ function Result({ setResult, result, title }: ResultProps) {
       <QRCode value={url} />
       <p>
         <BiScan />
-        手机扫码预览页面
+        <Trans>Scan the QR code with phone to preview the page</Trans>
       </p>
       <div className="buttons">
         <Button type="primary" onClick={() => window.open(result?.url, '__blank')}>
-          打开链接
+          <Trans>Open Link</Trans>
         </Button>
         <Button onClick={() => copyToClipboardWithMessage(url)} data-copy={url}>
-          复制链接
+          <Trans>Copy Link</Trans>
         </Button>
       </div>
     </Modal>

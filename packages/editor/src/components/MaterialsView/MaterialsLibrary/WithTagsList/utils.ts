@@ -1,13 +1,14 @@
 import * as R from 'ramda';
 import { getMaterialsLibInfo } from 'runtime';
 import { MaterialsComponentMeta, MaterialsPluginMeta } from 'types';
+import { i18n } from 'i18n';
 
 export type MaterialsTagsList<T> = { tag: string; items: T[] }[];
 
 export function generateTagsMap<T extends MaterialsComponentMeta & MaterialsPluginMeta>(
   items: T[],
 ): MaterialsTagsList<T> {
-  const result: MaterialsTagsList<T> = [{ tag: '全部', items }];
+  const result: MaterialsTagsList<T> = [{ tag: i18n.t('All'), items }];
 
   R.mapObjIndexed(
     (items, tag) => {

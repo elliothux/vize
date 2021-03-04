@@ -5,6 +5,7 @@ import { SketchPicker } from 'react-color';
 import { Popover } from 'antd';
 import classnames from 'classnames';
 import { ColorFormat, isAlphaSupported, parseColor, stringifyColor } from 'utils';
+import { i18n } from 'i18n';
 import { FormProps } from '../../types';
 
 const commonColors = [
@@ -36,7 +37,7 @@ function Color(props: Props) {
     <div className={classnames('form-color-picker', { disabled })}>
       <div className="form-color-picker-mask" />
       <Popover
-        title="选择颜色"
+        title={i18n.t('Choose color')}
         trigger="click"
         content={
           <SketchPicker

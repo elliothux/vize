@@ -4,6 +4,7 @@ import { Menu, Item, theme, Separator } from 'react-contexify';
 import { useCallback } from 'react';
 import { pagesStore } from 'states';
 import { noop, preventSyntheticEvent, showContextMenu } from 'utils';
+import { Trans } from 'react-i18next';
 
 interface Props {
   index: number;
@@ -20,20 +21,28 @@ export function PageContextMenu({ index, pageKey }: Props) {
     <Menu id={getID(pageKey)} theme={theme.dark}>
       <Item onClick={onRename}>
         <FiEdit />
-        <span>重命名</span>
+        <span>
+          <Trans>rename</Trans>
+        </span>
       </Item>
       <Item onClick={onSetHome}>
         <FiHome />
-        <span>设为主页面</span>
+        <span>
+          <Trans>set as home</Trans>
+        </span>
       </Item>
       <Separator />
       <Item onClick={onDelete}>
         <FiDelete />
-        <span>删除</span>
+        <span>
+          <Trans>delete</Trans>
+        </span>
       </Item>
       <Item onClick={noop}>
         <FiCopy />
-        <span>复制</span>
+        <span>
+          <Trans>duplicate</Trans>
+        </span>
       </Item>
     </Menu>
   );

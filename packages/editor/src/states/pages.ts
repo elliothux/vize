@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { message } from 'antd';
 import { PageInstance, PageRouter } from 'types';
+import { i18n } from 'i18n';
 import { createPageInstance } from '../utils';
 import { componentsStore } from './components';
 import { selectStore } from './select';
@@ -42,7 +43,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   @action
   public deletePage = (pageIndex: number): void => {
     if (this.pages.length === 1) {
-      message.warn('至少保留一个页面');
+      message.warn(i18n.t('must keep at least one page'));
       return;
     }
 

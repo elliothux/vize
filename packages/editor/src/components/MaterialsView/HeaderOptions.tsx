@@ -2,6 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { events, EventEmitTypes } from 'utils';
 import { WithReactChildren } from 'types';
+import { Trans } from 'react-i18next';
 
 export enum MaterialsViewType {
   COMPONENTS = 'components',
@@ -33,7 +34,7 @@ export function HeaderOptions({ type, children }: Props) {
             activated: type === MaterialsViewType.INSTANCES,
           })}
         >
-          页面
+          <Trans>Page</Trans>
         </p>
         <p
           onClick={setComponentsView}
@@ -41,7 +42,7 @@ export function HeaderOptions({ type, children }: Props) {
             activated: type === MaterialsViewType.COMPONENTS,
           })}
         >
-          组件库
+          <Trans>Components library</Trans>
         </p>
         <p
           onClick={setPluginsView}
@@ -49,7 +50,7 @@ export function HeaderOptions({ type, children }: Props) {
             activated: type === MaterialsViewType.PLUGINS,
           })}
         >
-          插件库
+          <Trans>Plugins library</Trans>
         </p>
       </div>
       {children}

@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 [
+  [path.resolve(__dirname, '../packages/i18n'), path.resolve(__dirname, '../packages/editor/src/i18n')],
   [path.resolve(__dirname, '../packages/types/src'), path.resolve(__dirname, '../packages/editor/src/types')],
   [path.resolve(__dirname, '../packages/runtime-web/src'), path.resolve(__dirname, '../packages/editor/src/runtime')],
   [

@@ -6,4 +6,7 @@ export type CreateResourceParams = Omit<
   'id' | 'createdTime' | 'user'
 >;
 
-export type QueryResourceParams = QueryParams<{ type: ResourceEntity['type'] }>;
+export type QueryResourceParams = QueryParams<{
+  type?: ResourceEntity['type'];
+  extension?: ResourceEntity['extension'];
+}>;

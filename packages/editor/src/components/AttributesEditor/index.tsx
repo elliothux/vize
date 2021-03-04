@@ -7,6 +7,8 @@ import { selectStore, SelectType } from 'states';
 import { EventEmitTypes, events } from 'utils';
 import { Tabs } from 'antd';
 import { FiDatabase, FiFeather, FiGrid } from 'react-icons/fi';
+import { i18n } from 'i18n';
+import { Trans } from 'react-i18next';
 import { DataAttrsEdit } from './DataAttrsEdit';
 import { StyleAttrsForm } from './StyleAttrsEdit';
 import { EventAttrForm } from './EventAttrForm';
@@ -39,13 +41,13 @@ function IAttributesEditor({ loading }: Props) {
   const title = useMemo(() => {
     switch (selectType) {
       case SelectType.GLOBAL:
-        return '全局属性配置';
+        return i18n.t('Global Configuration');
       case SelectType.COMPONENT:
-        return '组件编辑';
+        return i18n.t('Component Configuration');
       case SelectType.PLUGIN:
-        return '插件编辑';
+        return i18n.t('Plugin Configuration');
       default:
-        return '属性配置';
+        return i18n.t('Attributes Configuration');
     }
   }, [selectType]);
 
@@ -62,7 +64,9 @@ function IAttributesEditor({ loading }: Props) {
           tab={
             <div className="editor-prop-tab-item">
               <FiDatabase />
-              <span>&nbsp;数据</span>
+              <span>
+                &nbsp;<Trans>data</Trans>
+              </span>
             </div>
           }
         >
@@ -74,7 +78,9 @@ function IAttributesEditor({ loading }: Props) {
           tab={
             <div className="editor-prop-tab-item">
               <FiFeather />
-              <span>&nbsp;样式</span>
+              <span>
+                &nbsp;<Trans>style</Trans>
+              </span>
             </div>
           }
         >
@@ -86,7 +92,9 @@ function IAttributesEditor({ loading }: Props) {
           tab={
             <div className="editor-prop-tab-item">
               <FiGrid />
-              <span>&nbsp;事件</span>
+              <span>
+                &nbsp;<Trans>event</Trans>
+              </span>
             </div>
           }
         >

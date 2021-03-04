@@ -6,6 +6,8 @@ import { Button, Select } from 'antd';
 import { eventStore } from 'states';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 import { materialsActionMetaMap, getMaterialsActionMeta } from 'runtime';
+import { Trans } from 'react-i18next';
+import { i18n } from 'i18n';
 import { DEFAULT_MAX_TIMEOUT } from './constant';
 
 interface Props {
@@ -35,7 +37,9 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
   return (
     <>
       <div className="event-form-prop-item">
-        <span>执行动作:</span>
+        <span>
+          <Trans>Execute Action</Trans>:
+        </span>
         <Select
           value={actionId || undefined}
           onChange={setActionId}
@@ -43,7 +47,7 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
           dropdownClassName="event-form-selector-options"
         >
           {nonUniversalActions ? (
-            <OptGroup label="业务自定义动作">
+            <OptGroup label={i18n.t('Business custom actions')}>
               {nonUniversalActions.map(({ identityName, info: { name } }) => (
                 <SelectOption value={identityName} key={identityName}>
                   <FiLayers />
@@ -54,7 +58,7 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
           ) : null}
 
           {universalActions ? (
-            <OptGroup label="通用动作">
+            <OptGroup label={i18n.t('Universal actions')}>
               {universalActions.map(({ identityName, info: { name } }) => (
                 <SelectOption value={identityName} key={identityName}>
                   <FiLayers />
@@ -73,7 +77,9 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
         onClick={onAddAction}
       >
         <FiPlus />
-        <span>添加事件</span>
+        <span>
+          <Trans>Add event</Trans>
+        </span>
       </Button>
     </>
   );

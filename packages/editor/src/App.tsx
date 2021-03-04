@@ -9,6 +9,9 @@ import { Renderer, WithRerender } from 'components/Renderer';
 import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';
 import { HotAreaManager } from 'components/HotAreaManager';
+import { I18nextProvider } from 'react-i18next';
+import { i18n, initI18N } from 'i18n';
+import { getPage } from 'api';
 import {
   EventEmitTypes,
   events,
@@ -18,7 +21,6 @@ import {
   parseDSLFromCGIRecord,
   restoreState,
 } from 'utils';
-import { getPage } from './api';
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -39,26 +41,28 @@ export function App() {
   });
 
   return (
-    <Spin spinning={loading} tip="loading" size="large" wrapperClassName="vize-editor-loading">
-      <Header />
-      <main className="vize-main">
-        <MaterialsView loading={loading} />
-        <Simulator>
-          {loading ? null : (
-            <WithRerender>
-              <Renderer />
-            </WithRerender>
-          )}
-        </Simulator>
-        <AttributesEditor loading={loading} />
-      </main>
-      <HotAreaManager />
-    </Spin>
+    <I18nextProvider i18n={i18n}>
+      <Spin spinning={loading} tip="loading" size="large" wrapperClassName="vize-editor-loading">
+        <Header />
+        <main className="vize-main">
+          <MaterialsView loading={loading} />
+          <Simulator>
+            {loading ? null : (
+              <WithRerender>
+                <Renderer />
+              </WithRerender>
+            )}
+          </Simulator>
+          <AttributesEditor loading={loading} />
+        </main>
+        <HotAreaManager />
+      </Spin>
+    </I18nextProvider>
   );
 }
 
 async function init() {
-  await initStore();
+  await Promise.all([initStore(), initI18N]);
   try {
     await restore();
   } catch (e) {
@@ -92,7 +96,7 @@ async function restore() {
   const [success, result] = await getPage(editStore.pageKey);
   if (!success) {
     console.error(result);
-    message.error('获取页面数据失败');
+    message.error(i18n.t('failed to get page data'));
     return;
   }
 

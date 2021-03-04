@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ComponentUniversalEventTrigger, HotAreaUniversalEventTrigger, PluginUniversalEventTrigger } from 'types';
 import { MdBlurCircular, MdCallMade, MdCallReceived, MdPanTool } from 'react-icons/md';
 import { FiEye, FiEyeOff, FiMousePointer } from 'react-icons/fi';
+import { Trans } from 'react-i18next';
 
 export const triggerTextMap = new Map<
   ComponentUniversalEventTrigger | PluginUniversalEventTrigger | HotAreaUniversalEventTrigger,
@@ -11,119 +12,119 @@ export const triggerTextMap = new Map<
     ComponentUniversalEventTrigger.INIT,
     <>
       <MdBlurCircular />
-      初始化
+      <Trans>initialization</Trans>
     </>,
   ],
   [
     ComponentUniversalEventTrigger.CLICK,
     <>
       <FiMousePointer />
-      点击
+      <Trans>click</Trans>
     </>,
   ],
   [
     ComponentUniversalEventTrigger.MOUSE_ENTER,
     <>
       <MdCallReceived />
-      鼠标移入
+      <Trans>mouse in</Trans>
     </>,
   ],
   [
     ComponentUniversalEventTrigger.MOUSE_LEAVE,
     <>
       <MdCallMade />
-      鼠标移出
+      <Trans>mouse out</Trans>
     </>,
   ],
   [
     ComponentUniversalEventTrigger.DOUBLE_CLICK,
     <>
       <FiMousePointer />
-      双击
+      <Trans>double click</Trans>
     </>,
   ],
   [
     ComponentUniversalEventTrigger.LONG_PRESS,
     <>
       <MdPanTool />
-      长按
+      <Trans>long press</Trans>
     </>,
   ],
   [
     ComponentUniversalEventTrigger.ENTER_VIEW,
     <>
       <FiEye />
-      出现
+      <Trans>appear</Trans>
     </>,
   ],
   [
     ComponentUniversalEventTrigger.LEAVE_VIEW,
     <>
       <FiEyeOff />
-      消失
+      <Trans>disappear</Trans>
     </>,
   ],
   [
     PluginUniversalEventTrigger.BEFORE_EXEC,
     <>
       <MdBlurCircular />
-      执行前
+      <Trans>before execute</Trans>
     </>,
   ],
   [
     PluginUniversalEventTrigger.AFTER_EXEC,
     <>
       <MdBlurCircular />
-      执行后
+      <Trans>after execute</Trans>
     </>,
   ],
   [
     HotAreaUniversalEventTrigger.CLICK,
     <>
       <FiMousePointer />
-      点击
+      <Trans>click</Trans>
     </>,
   ],
   [
     HotAreaUniversalEventTrigger.MOUSE_ENTER,
     <>
       <MdCallReceived />
-      鼠标移入
+      <Trans>mouse in</Trans>
     </>,
   ],
   [
     HotAreaUniversalEventTrigger.MOUSE_LEAVE,
     <>
       <MdCallMade />
-      鼠标移出
+      <Trans>mouse out</Trans>
     </>,
   ],
   [
     HotAreaUniversalEventTrigger.DOUBLE_CLICK,
     <>
       <FiMousePointer />
-      双击
+      <Trans>double click</Trans>
     </>,
   ],
   [
     HotAreaUniversalEventTrigger.LONG_PRESS,
     <>
       <MdPanTool />
-      长按
+      <Trans>long press</Trans>
     </>,
   ],
   [
     HotAreaUniversalEventTrigger.ENTER_VIEW,
     <>
       <FiEye />
-      出现
+      <Trans>appear</Trans>
     </>,
   ],
   [
     HotAreaUniversalEventTrigger.LEAVE_VIEW,
     <>
       <FiEyeOff />
-      消失
+      <Trans>disappear</Trans>
     </>,
   ],
 ]);

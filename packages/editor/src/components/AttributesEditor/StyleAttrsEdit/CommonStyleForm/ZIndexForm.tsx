@@ -1,17 +1,22 @@
 import * as React from 'react';
 import { ZIndexStyle } from 'types';
 import { InputNumber, Switch } from 'antd';
+import { Trans } from 'react-i18next';
 import { StyleFormProps } from './index';
 
-function ZIndexStyleForm({ style: zIndex, onChange }: StyleFormProps<ZIndexStyle>) {
+export function ZIndexForm({ style: zIndex, onChange }: StyleFormProps<ZIndexStyle>) {
   const auto = typeof zIndex === 'boolean' && zIndex;
 
   return (
     <div className="common-zIndex-style-form">
       <div className="editor-prop-form-item">
-        <span>默认层级</span>
+        <span>
+          <Trans>Default layer</Trans>
+        </span>
         <Switch checked={auto} onChange={auto => onChange(auto ? true : 1)} />
-        <span>层级</span>
+        <span>
+          <Trans>Layer</Trans>
+        </span>
         <InputNumber
           disabled={auto}
           min={0}
@@ -23,5 +28,3 @@ function ZIndexStyleForm({ style: zIndex, onChange }: StyleFormProps<ZIndexStyle
     </div>
   );
 }
-
-export default ZIndexStyleForm;

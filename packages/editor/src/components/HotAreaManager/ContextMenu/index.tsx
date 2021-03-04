@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fi';
 import { animation, Item, Menu, Separator, theme } from 'react-contexify';
 import { MoveHotAreaDirection } from 'components/HotAreaManager/types';
+import { Trans } from 'react-i18next';
 
 interface Props {
   id: number;
@@ -25,41 +26,57 @@ export function ContextMenu({ id, onDelete, onCopy, onMove }: Props) {
     <Menu id={id} theme={theme.dark} animation={animation.fade}>
       <Item onClick={onDelete}>
         <FiDelete />
-        <span>删除</span>
+        <span>
+          <Trans>delete</Trans>
+        </span>
       </Item>
       <Item onClick={onCopy}>
         <FiCopy />
-        <span>复制</span>
+        <span>
+          <Trans>duplicate</Trans>
+        </span>
       </Item>
       <Separator />
       <Item onClick={() => onMove(MoveHotAreaDirection.CENTER)}>
         <FiCrosshair />
-        <span>居中</span>
+        <span>
+          <Trans>align</Trans>
+        </span>
       </Item>
       <Item onClick={() => onMove(MoveHotAreaDirection.HORIZONTALLY_CENTER)}>
         <FiMoreHorizontal />
-        <span>水平居中</span>
+        <span>
+          <Trans>align horizontally</Trans>
+        </span>
       </Item>
       <Item onClick={() => onMove(MoveHotAreaDirection.VERTICAL_CENTER)}>
         <FiMoreVertical />
-        <span>垂直居中</span>
+        <Trans>align vertically</Trans>
       </Item>
       <Separator />
       <Item onClick={() => onMove(MoveHotAreaDirection.TOP)}>
         <FiChevronsUp />
-        <span>移到最上</span>
+        <span>
+          <Trans>move to top</Trans>
+        </span>
       </Item>
       <Item onClick={() => onMove(MoveHotAreaDirection.BOTTOM)}>
         <FiChevronsDown />
-        <span>移到最下</span>
+        <span>
+          <Trans>move to bottom</Trans>
+        </span>
       </Item>
       <Item onClick={() => onMove(MoveHotAreaDirection.LEFT)}>
         <FiChevronsLeft />
-        <span>移到最左</span>
+        <span>
+          <Trans>move to left</Trans>
+        </span>
       </Item>
       <Item onClick={() => onMove(MoveHotAreaDirection.RIGHT)}>
         <FiChevronsRight />
-        <span>移到最右</span>
+        <span>
+          <Trans>move to right</Trans>
+        </span>
       </Item>
     </Menu>
   );

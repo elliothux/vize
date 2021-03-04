@@ -4,6 +4,7 @@ import { ComponentInstance, HotArea, PluginInstance } from 'types';
 import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
 import { FiArchive, FiLayers, FiPackage, FiSquare } from 'react-icons/fi';
 import { Tree } from 'antd';
+import { i18n } from 'i18n';
 
 const { DirectoryTree } = Tree;
 
@@ -38,7 +39,7 @@ function generateHotAreaTreeData(componentKey: number, hotAreas: HotArea[]): Tre
   return hotAreas.map(({ key }, index) => {
     return {
       key: `hotarea-${componentKey}-${index}`,
-      title: `热区（key=${key}）`,
+      title: `${i18n.t('Hotarea')}（key=${key}）`,
       isLeaf: true,
       icon: <FiSquare />,
       className: 'child-hotarea-tree-node',
