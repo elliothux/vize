@@ -11,6 +11,7 @@ import { Header } from '../Header';
 import { FlexPlaceholder } from '../FlexPlaceholder';
 import { BiPlus } from 'react-icons/bi';
 import { CreatePage } from '../CreatePage';
+import { useTranslation } from 'react-i18next';
 
 const PAGE_SIZE = 10;
 
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export function PageList({ isTemplate = false }: Props) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [createVisible, setCreateVisible] = useState(false);
   const [biz, setBiz] = useState<Maybe<BizRecord['id']>>(null);
@@ -48,15 +50,15 @@ export function PageList({ isTemplate = false }: Props) {
       setLoading(false);
       console.log(data);
     } else {
-      message.error(`获取页面列表失败：${response.message}`);
+      message.error(`${t('Failed to get pages list')}：${response.message}`);
     }
   }, [current, biz, isTemplate]);
 
   return (
     <Spin spinning={loading}>
       <Header
-        title={isTemplate ? '页面模板列表' : '页面列表'}
-        searchText={`搜索${isTemplate ? '模板' : '页面'}...`}
+        title={t(isTemplate ? 'Page List' : 'Template Page List')}
+        searchText={t(isTemplate ? 'Search template' : 'Search page')}
         onSearch={console.log}
         appendAfterSearch={
           <Button type="primary" size="large" icon={<BiPlus />} onClick={() => setCreateVisible(true)} />

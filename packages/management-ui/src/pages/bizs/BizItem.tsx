@@ -4,8 +4,9 @@ import { Avatar, Card, Tag } from 'antd';
 import { useMemo } from 'react';
 import { BiEditAlt } from 'react-icons/bi';
 import { materialsStore } from 'state';
-import THUMB from 'static/thumb.svg';
+import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
+import THUMB from 'static/thumb.svg';
 
 interface Props {
   item: BizRecord;
@@ -13,8 +14,9 @@ interface Props {
 }
 
 export function BizItem({ onEdit, item, item: { id, name, materials, key, createdTime, modifiedTime, logo } }: Props) {
-  const created = useMemo(() => day(createdTime).format('YYYY年MM月DD日 HH:mm'), [createdTime]);
-  const modified = useMemo(() => (modifiedTime ? day(modifiedTime).format('YYYY年MM月DD日 HH:mm') : null), [
+  const { t } = useTranslation();
+  const created = useMemo(() => day(createdTime).format(`${t('YYYY-MM-DD')} HH:mm`), [createdTime]);
+  const modified = useMemo(() => (modifiedTime ? day(modifiedTime).format(`${t('YYYY-MM-DD')} HH:mm`) : null), [
     modifiedTime,
   ]);
 
@@ -24,7 +26,9 @@ export function BizItem({ onEdit, item, item: { id, name, materials, key, create
       actions={[
         <div key="0" onClick={() => onEdit(item)}>
           <BiEditAlt />
-          <span>编辑</span>
+          <span>
+            <Trans>edit</Trans>
+          </span>
         </div>,
       ]}
     >
@@ -46,21 +50,27 @@ export function BizItem({ onEdit, item, item: { id, name, materials, key, create
 
             <div className="times infos">
               <div className="info-item">
-                <p>创建时间</p>
+                <p>
+                  <Trans>Created time</Trans>
+                </p>
                 <p>{created}</p>
               </div>
             </div>
 
             <div className="times infos">
               <div className="info-item">
-                <p>修改时间</p>
+                <p>
+                  <Trans>Modified time</Trans>
+                </p>
                 <p>{modified || created}</p>
               </div>
             </div>
 
             <div className="libs infos">
               <div className="info-item">
-                <p>物料库</p>
+                <p>
+                  <Trans>Materials library</Trans>
+                </p>
                 <p>
                   {materialsStore.getMaterialsByLibNames(materials)?.map(({ libName, displayName }) => {
                     return (

@@ -1,5 +1,6 @@
 import { getCurrentUser } from 'api';
 import { message } from 'antd';
+import { i18n } from 'i18n';
 
 export type PromiseResult<T> = Promise<[null, T] | [Error, null]>;
 
@@ -22,7 +23,7 @@ export function withAdminValidation(fn: Function, tips?: string) {
     const [, user] = await getCurrentUser();
     if (!user?.isAdmin) {
       message.destroy();
-      return message.warn(tips || '没有操作权限');
+      return message.warn(tips || i18n.t('No operation permission'));
     }
     return fn(...args);
   };

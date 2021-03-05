@@ -1,8 +1,9 @@
 import './index.scss';
 import * as React from 'react';
+import { useState } from 'react';
 import { PageHeader, Button, Input, Tooltip } from 'antd';
-import { BiGlobe } from 'react-icons/bi';
-import { useUser } from 'hooks';
+import { useAsyncEffect, useUser } from 'hooks';
+import { i18n } from 'i18n';
 import { BreadcrumbNavigator } from './BreadcrumbNavigator';
 import AVATAR from 'static/avatar.png';
 
@@ -17,15 +18,27 @@ const { Search } = Input;
 
 export function Header({ title, children, searchText, onSearch, appendAfterSearch }: React.PropsWithChildren<Props>) {
   const [, user] = useUser();
+  const [language, setLanguage] = useState<string>(i18n.language);
 
+  useAsyncEffect(async () => {
+    await i18n.changeLanguage(language);
+  }, [language]);
+
+  const isChinese = language === 'zh';
   return (
     <PageHeader className="main-header">
       <div className="header-top">
         <BreadcrumbNavigator />
         <div className="header-operations">
-          <Button className="languages" icon={<BiGlobe />}>
-            中
-          </Button>
+          {isChinese ? (
+            <Button className="languages" icon={'🇺🇸'} onClick={() => setLanguage('en')}>
+              English
+            </Button>
+          ) : (
+            <Button className="languages" icon={'🇨🇳'} onClick={() => setLanguage('zh')}>
+              中文
+            </Button>
+          )}
           <Tooltip
             title={
               <div className="user-logout">

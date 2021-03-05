@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { i18n } from 'i18n';
 import { PromiseResult, promiseWrapper } from './common';
 
 function fallbackCopyTextToClipboard(text: string) {
@@ -35,8 +36,8 @@ export async function copyToClipboardWithMessage(text: string) {
   const [err] = await copyToClipboard(text);
   if (err) {
     console.error(err);
-    message.error('复制失败');
+    message.error(i18n.t('failed to copy to clipboard'));
   } else {
-    message.success('已复制到剪切板');
+    message.success(i18n.t('copied'));
   }
 }

@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { BiShow, BiRocket, BiAnalyse, BiTransfer } from 'react-icons/bi';
 import { Link } from 'wouter';
 import { withAdminValidation, noop } from 'utils';
+import { useTranslation } from 'react-i18next';
 import day from 'dayjs';
 
 interface Props {
@@ -24,8 +25,9 @@ export function MaterialsItem({
     manifest: { components, plugins, actions },
   },
 }: Props) {
-  const created = useMemo(() => day(createdTime).format('MM月DD日 HH:mm'), [createdTime]);
-  const modified = useMemo(() => day(modifiedTime).format('MM月DD日 HH:mm'), [modifiedTime]);
+  const { t } = useTranslation();
+  const created = useMemo(() => day(createdTime).format(`${t('MM-DD')} HH:mm`), [createdTime]);
+  const modified = useMemo(() => day(modifiedTime).format(`${t('MM-DD')} HH:mm`), [modifiedTime]);
   const editorPath = useMemo(() => `/lib/${id}`, [id]);
   const playgroundPath = useMemo(() => `/playground?lib=${libName}`, [id]);
 
@@ -34,24 +36,24 @@ export function MaterialsItem({
       className="materials-item card-item"
       cover={<img src={thumb} />}
       actions={[
-        <Tooltip title="查看详情" key="detail">
+        <Tooltip title={t('view details')} key="detail">
           <div>
             <Link href={editorPath}>
               <BiShow />
             </Link>
           </div>
         </Tooltip>,
-        <Tooltip title="在 Playground 中体验" key="playground">
+        <Tooltip title={t('try with Playground')} key="playground">
           <div>
             <Link href={playgroundPath}>
               <BiRocket />
             </Link>
           </div>
         </Tooltip>,
-        <Tooltip title="同步 Manifest" key="sync">
+        <Tooltip title={t('sync manifest')} key="sync">
           <BiAnalyse onClick={withAdminValidation(noop)} />
         </Tooltip>,
-        <Tooltip title="切换版本" key="versions">
+        <Tooltip title={t('switch version')} key="versions">
           <BiTransfer onClick={withAdminValidation(noop)} />
         </Tooltip>,
       ]}

@@ -10,6 +10,7 @@ import { LayoutModeSelector } from './LayoutModeSelector';
 import { PageDetail } from './types';
 import { PageDetailForm } from './PageDetailForm';
 import { CreateResult } from './CreateResult';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   visible: boolean;
@@ -22,6 +23,7 @@ const { TabPane } = Tabs;
 const TOGGLE_DELAY = 500;
 
 export function CreatePage({ visible, setVisible, isTemplate }: Props) {
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const [showErr, setShowErr] = useState(false);
   const [pageMode, setPageMode] = useState<Maybe<PageMode>>(null);
@@ -83,14 +85,14 @@ export function CreatePage({ visible, setVisible, isTemplate }: Props) {
       if (success && result) {
         setPageRecord(result);
       } else {
-        const content = `错误码: ${code}$\n错误信息: ${message}`;
-        Modal.error({ title: '创建失败', content, onOk: () => setStep(2) });
+        const content = `Error Code: ${code}$\nInfo: ${message}`;
+        Modal.error({ title: t('Failed to create'), content, onOk: () => setStep(2) });
       }
     },
     [pageMode, layoutMode, isTemplate],
   );
 
-  const title = `创建${isTemplate ? '模板' : '页面'}`;
+  const title = t(isTemplate ? 'Create Template' : 'Create Page');
 
   return (
     <Drawer
