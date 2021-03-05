@@ -5,8 +5,8 @@ import * as R from 'ramda';
 import { ComponentInstance, Maybe } from 'types';
 import { IHotArea, IHotAreaPosition, IHotAreaSize, MoveHotAreaDirection } from './types';
 import { Modal, Spin } from 'antd';
-import { getImageSrc, getOffsetToViewport } from 'utils';
-import { events, EventEmitTypes } from '../../utils';
+import { getImageSrc, getOffsetToViewport, events, EventEmitTypes } from 'utils';
+import { i18n } from 'i18n';
 import {
   createHotArea,
   copyHotArea as iCopyHotArea,
@@ -269,7 +269,7 @@ export class HotAreaManager extends React.Component {
     return (
       <div className="hot-area-manager" onScroll={this.onScroll}>
         <div ref={node => (this.imgContainerRef = node)}>
-          <img src={this.src} alt="[热区图片]" onLoad={this.onImgLoaded} />
+          <img src={this.src} alt="hot-area-image" onLoad={this.onImgLoaded} />
           {this.state.loaded ? this.renderHotAreas() : this.renderLoading()}
         </div>
       </div>
@@ -280,7 +280,7 @@ export class HotAreaManager extends React.Component {
     return (
       <Modal
         width="auto"
-        title="热区管理"
+        title={i18n.t('Hotarea Manager')}
         wrapClassName="hot-area-manager-modal"
         visible={this.state.visible}
         maskClosable={false}

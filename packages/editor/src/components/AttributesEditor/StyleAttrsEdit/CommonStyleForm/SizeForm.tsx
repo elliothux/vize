@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SizeStyle } from 'types';
 import { InputNumber, Switch } from 'antd';
 import { Trans } from 'react-i18next';
-import { StyleFormProps } from './index';
+import { StyleFormProps } from './types';
 
 export function SizeForm({ style, onChange }: StyleFormProps<SizeStyle>) {
   const { autoWidth, autoHeight, width, height } = style;

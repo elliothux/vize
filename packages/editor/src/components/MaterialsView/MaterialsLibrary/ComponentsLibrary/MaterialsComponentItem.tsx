@@ -5,6 +5,7 @@ import { useCallback, useRef } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { componentsStore } from 'states';
 import { SVGRender } from 'widgets/SVGRender';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   item: MaterialsComponentMeta;
@@ -21,6 +22,7 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
     isContainer,
   } = item;
 
+  const { t } = useTranslation();
   const [focus, setFocus] = React.useState(false);
   const onFocus = useCallback(() => setFocus(true), [setFocus]);
   const onBlur = useCallback(() => setFocus(false), [setFocus]);
@@ -60,7 +62,7 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
         {thumb && <SVGRender content={thumb} />}
         <div>
           <p className="name">{name}</p>
-          <p className="desc">{desc || '无组件描述'}</p>
+          <p className="desc">{desc || t('No component description')}</p>
         </div>
       </div>
       <div className="button" onClick={disabled ? undefined : onClickAdd}>

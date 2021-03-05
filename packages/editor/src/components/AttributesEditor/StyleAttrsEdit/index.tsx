@@ -6,6 +6,7 @@ import { Collapse } from 'antd';
 import { observer } from 'mobx-react';
 import { useCurrentComponentInstance } from 'hooks';
 import { isEmpty } from 'utils';
+import { useTranslation } from 'react-i18next';
 import { NotAvailable } from '../NotAvailable';
 import { CommonStyleForm } from './CommonStyleForm';
 
@@ -16,6 +17,7 @@ interface Props {
 }
 
 function IStyleAttrsEdit({ selectType }: Props) {
+  const { t } = useTranslation();
   const instance = useCurrentComponentInstance();
   const { globalStyle } = globalStore;
 
@@ -40,12 +42,12 @@ function IStyleAttrsEdit({ selectType }: Props) {
       className="editor-prop-item editor-prop-edit-style"
     >
       {isEmpty(wrapperStyle) ? null : (
-        <Panel header="组件容器样式" key="wrapper">
+        <Panel header={t('Wrapper style of component')} key="wrapper">
           <CommonStyleForm style={wrapperStyle} onChange={componentsStore.setCurrentComponentInstanceWrapperStyle} />
         </Panel>
       )}
       {isEmpty(commonStyle) ? null : (
-        <Panel header="组件通用样式" key="common" className="common-style-form-panel">
+        <Panel header={t('Common style of component')} key="common" className="common-style-form-panel">
           <CommonStyleForm style={commonStyle} onChange={componentsStore.setCurrentComponentInstanceCommonStyle} />
         </Panel>
       )}

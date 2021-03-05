@@ -9,13 +9,8 @@ import { BackgroundForm } from './BackgroundForm';
 import { DistanceStyleForm } from './DistanceForm';
 import { BorderForm } from './BorderForm';
 import { SizeForm } from './SizeForm';
-import { ZIndexForm } from './ZindexForm';
-
-export interface StyleFormProps<T> {
-  style: T;
-  onChange: (newStyle: T) => void;
-  title?: string;
-}
+import { ZIndexForm } from './ZIndexForm';
+import { StyleFormProps } from './types';
 
 const { Panel } = Collapse;
 

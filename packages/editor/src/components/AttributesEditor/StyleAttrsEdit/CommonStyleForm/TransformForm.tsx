@@ -2,14 +2,17 @@ import * as React from 'react';
 import { TransformStyle } from 'types';
 import { Slider } from 'antd';
 import { getSliderValue } from 'utils';
-import { StyleFormProps } from './index';
+import { Trans } from 'react-i18next';
+import { StyleFormProps } from './types';
 
 export function TransformForm({ style, onChange }: StyleFormProps<TransformStyle>) {
   const { rotate, scale, radius, opacity } = style;
   return (
     <div className="transform-style-item">
       <div className="editor-prop-form-item">
-        <span>透明: {opacity}</span>
+        <span>
+          <Trans>Opacity</Trans>: {opacity}
+        </span>
         <Slider
           min={0}
           max={1}
@@ -19,7 +22,9 @@ export function TransformForm({ style, onChange }: StyleFormProps<TransformStyle
         />
       </div>
       <div className="editor-prop-form-item">
-        <span>旋转: {rotate}</span>
+        <span>
+          <Trans>Rotate</Trans>: {rotate}
+        </span>
         <Slider
           min={-180}
           max={180}
@@ -29,7 +34,9 @@ export function TransformForm({ style, onChange }: StyleFormProps<TransformStyle
         />
       </div>
       <div className="editor-prop-form-item">
-        <span>缩放: {scale}</span>
+        <span>
+          <Trans>Scale</Trans>: {scale}
+        </span>
         <Slider
           min={0.1}
           max={10}
@@ -39,7 +46,9 @@ export function TransformForm({ style, onChange }: StyleFormProps<TransformStyle
         />
       </div>
       <div className="editor-prop-form-item">
-        <span>圆角: {radius}</span>
+        <span>
+          <Trans>Border radius</Trans>: {radius}
+        </span>
         <Slider
           min={0}
           max={100}

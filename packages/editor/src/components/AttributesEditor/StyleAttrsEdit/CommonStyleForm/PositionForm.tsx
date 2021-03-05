@@ -2,9 +2,10 @@ import './index.scss';
 import * as React from 'react';
 import { FixedOutset, IPositionStyle, PositionStyle } from 'types';
 import { Radio } from 'antd';
+import { Trans } from 'react-i18next';
 import classnames from 'classnames';
-import { StyleFormProps } from './index';
 import OUTSET from 'static/images/outset.raw.svg';
+import { StyleFormProps } from './types';
 
 export const defaultDistance = { top: 0, left: 0, bottom: 0, right: 0 };
 const { Group: RadioGroup } = Radio;
@@ -20,15 +21,21 @@ export function PositionForm({ style, onChange }: StyleFormProps<PositionStyle>)
   return (
     <div className="position-style-form">
       <div className="editor-prop-form-item">
-        <span>定位:</span>
+        <span>
+          <Trans>Position</Trans>:
+        </span>
         <RadioGroup
           onChange={({ target: { value } }) => {
             onChange(value === 'static' ? true : { ...defaultDistance, outset: FixedOutset.BottomLeft });
           }}
           value={fixed ? 'fixed' : 'static'}
         >
-          <Radio value="static">默认</Radio>
-          <Radio value="fixed">固定</Radio>
+          <Radio value="static">
+            <Trans>default</Trans>
+          </Radio>
+          <Radio value="fixed">
+            <Trans>fixed</Trans>
+          </Radio>
         </RadioGroup>
       </div>
       {fixed && (
@@ -59,7 +66,9 @@ export function PositionForm({ style, onChange }: StyleFormProps<PositionStyle>)
             })}
             dangerouslySetInnerHTML={{ __html: OUTSET }}
           />
-          <span>定位点</span>
+          <span>
+            <Trans>Anchor point</Trans>
+          </span>
         </div>
       )}
     </div>
