@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ZIndexStyle } from 'types';
 import { InputNumber, Switch } from 'antd';
 import { Trans } from 'react-i18next';
-import { StyleFormProps } from './index';
+import { StyleFormProps } from './types';
 
 export function ZIndexForm({ style: zIndex, onChange }: StyleFormProps<ZIndexStyle>) {
   const auto = typeof zIndex === 'boolean' && zIndex;

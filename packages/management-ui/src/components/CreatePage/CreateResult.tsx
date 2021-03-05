@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Result, Button } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Maybe, PageRecord } from 'types';
+import { useTranslation, Trans } from 'react-i18next';
 import { goToEditor } from '../PageList/utils';
 
 interface Props {
@@ -10,18 +11,22 @@ interface Props {
 }
 
 export function CreateResult({ pageRecord, onClose }: Props) {
+  const { t } = useTranslation();
+
   if (pageRecord) {
     return (
       <Result
         status="success"
-        title="创建成功"
-        subTitle={`成功创建页面 ID: ${pageRecord.id}`}
+        title={t('Created')}
+        subTitle={`${t('Created page successfully with')} ID: ${pageRecord.id}`}
         extra={
           <>
             <Button type="primary" onClick={() => goToEditor(pageRecord)}>
-              去编辑
+              <Trans>go edit</Trans>
             </Button>
-            <Button onClick={onClose}>关闭</Button>
+            <Button onClick={onClose}>
+              <Trans>close</Trans>
+            </Button>
           </>
         }
       />
@@ -31,7 +36,9 @@ export function CreateResult({ pageRecord, onClose }: Props) {
   return (
     <div className="page-create-result">
       <LoadingOutlined />
-      <p>请稍候</p>
+      <p>
+        <Trans>Waiting</Trans>
+      </p>
     </div>
   );
 }

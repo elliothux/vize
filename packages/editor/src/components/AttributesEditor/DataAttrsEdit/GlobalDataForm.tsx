@@ -4,15 +4,17 @@ import { globalStore } from 'states';
 import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
 import { useCallback } from 'react';
+import { i18n } from 'i18n';
 
 const TemplateDataSchema: JsonSchemaProperties = {
-  title: { title: '标题', type: 'string', default: 'new', required: true },
-  // desc: { title: '描述', type: 'textarea', required: true },
+  title: { title: i18n.t('Title'), type: 'string', default: 'new', required: true },
+  // desc: { title: i18n.t('Description'), type: 'textarea', required: true },
 };
 
+// TODO
 const PageDataSchema: JsonSchemaProperties = {
   ...TemplateDataSchema,
-  // duration: { title: '起止时间', type: 'daterange', required: true },
+  // duration: { title: i18n.t('Duration'), type: 'daterange', required: true },
 };
 
 function IGlobalDataForm() {

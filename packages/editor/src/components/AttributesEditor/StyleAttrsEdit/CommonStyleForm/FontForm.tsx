@@ -2,8 +2,9 @@ import * as React from 'react';
 import { TextStyle } from 'types';
 import { Radio, Slider } from 'antd';
 import { ColorFormat, getSliderValue } from 'utils';
-import { StyleFormProps } from './index';
 import { Color } from 'widgets/Form/Fields/Color';
+import { Trans } from 'react-i18next';
+import { StyleFormProps } from './types';
 
 const { Group: RadioGroup } = Radio;
 
@@ -13,27 +14,47 @@ export function FontForm({ style, onChange }: StyleFormProps<TextStyle>) {
   return (
     <div className="common-text-style-form">
       <div className="editor-prop-form-item">
-        <span>颜色:</span>
+        <span>
+          <Trans>Color</Trans>:
+        </span>
         <Color value={color} onChange={color => onChange({ ...style, color })} format={ColorFormat.HEX} />
       </div>
       <div className="editor-prop-form-item">
-        <span>对齐:</span>
+        <span>
+          <Trans>Align</Trans>:
+        </span>
         <RadioGroup onChange={e => onChange({ ...style, textAlign: e.target.value })} value={textAlign}>
-          <Radio value="left">左</Radio>
-          <Radio value="center">居中</Radio>
-          <Radio value="right">右</Radio>
+          <Radio value="left">
+            <Trans>left</Trans>
+          </Radio>
+          <Radio value="center">
+            <Trans>center</Trans>
+          </Radio>
+          <Radio value="right">
+            <Trans>right</Trans>
+          </Radio>
         </RadioGroup>
       </div>
       <div className="editor-prop-form-item">
-        <span>粗细:</span>
+        <span>
+          <Trans>Font Weight</Trans>:
+        </span>
         <RadioGroup onChange={e => onChange({ ...style, weight: e.target.value })} value={weight}>
-          <Radio value="lighter">细</Radio>
-          <Radio value="normal">正常</Radio>
-          <Radio value="bolder">粗</Radio>
+          <Radio value="lighter">
+            <Trans>lighter</Trans>
+          </Radio>
+          <Radio value="normal">
+            <Trans>normal</Trans>
+          </Radio>
+          <Radio value="bolder">
+            <Trans>bolder</Trans>
+          </Radio>
         </RadioGroup>
       </div>
       <div className="editor-prop-form-item">
-        <span>大小: {fontSize}</span>
+        <span>
+          <Trans>Font size</Trans>: {fontSize}
+        </span>
         <Slider
           min={1}
           max={64}
@@ -42,7 +63,9 @@ export function FontForm({ style, onChange }: StyleFormProps<TextStyle>) {
         />
       </div>
       <div className="editor-prop-form-item">
-        <span>行高: {lineHeight}</span>
+        <span>
+          <Trans>Line height</Trans>: {lineHeight}
+        </span>
         <Slider
           min={1}
           max={128}

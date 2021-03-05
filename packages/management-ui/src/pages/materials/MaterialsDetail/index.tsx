@@ -13,12 +13,13 @@ import { useAsyncEffect } from 'hooks';
 import { getLibById } from 'api';
 import { message, Spin, Menu } from 'antd';
 import { RouteComponentProps } from 'wouter';
+import { useTranslation, Trans } from 'react-i18next';
 import { Header } from 'components/Header';
+import { FlexPlaceholder } from 'components/FlexPlaceholder';
 import { MaterialsDetailInfo } from './MaterialsDetailInfo';
 import { ComponentDetailItem } from './ComponentDetailItem';
 import { PluginDetailItem } from './PluginDetailItem';
 import { ActionDetailItem } from './ActionDetailItem';
-import { FlexPlaceholder } from '../../../components/FlexPlaceholder';
 import { ContainerDetailItem } from './ContainerDetailItem';
 
 enum PageState {
@@ -31,6 +32,7 @@ enum PageState {
 }
 
 export function MaterialsDetail({ params: { id } }: RouteComponentProps) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [lib, setLib] = useState<Maybe<MaterialsRecord>>(null);
   const [page, setPage] = useState<PageState>(PageState.INFO);
@@ -42,7 +44,7 @@ export function MaterialsDetail({ params: { id } }: RouteComponentProps) {
       setLib(lib);
       setLoading(false);
     } else {
-      message.error(`获取物料库详情失败：${response.message}`);
+      message.error(`${t('Failed to get materials library detail')}: ${response.message}`);
     }
   }, [id]);
 
@@ -65,19 +67,31 @@ export function MaterialsDetail({ params: { id } }: RouteComponentProps) {
 
   return (
     <Spin spinning={loading} wrapperClassName="materials-detail-loading">
-      <Header title="物料库详情" searchText="搜索物料..." onSearch={console.log}>
+      <Header title={t('Materials Library Detail')} searchText={t('Search materials')} onSearch={console.log}>
         <Menu
           mode="horizontal"
           className="header-menu"
           selectedKeys={[page]}
           onSelect={({ key }) => setPage(key as PageState)}
         >
-          <Menu.Item key={PageState.INFO}>详情</Menu.Item>
-          <Menu.Item key={PageState.COMPONENTS}>组件 ({components.length})</Menu.Item>
-          <Menu.Item key={PageState.PLUGINS}>插件 ({plugins.length})</Menu.Item>
-          <Menu.Item key={PageState.ACTIONS}>动作 ({actions.length})</Menu.Item>
-          <Menu.Item key={PageState.CONTAINERS}>页面容器 ({contains.length})</Menu.Item>
-          <Menu.Item key={PageState.VERSIONS}>版本</Menu.Item>
+          <Menu.Item key={PageState.INFO}>
+            <Trans>Detail</Trans>
+          </Menu.Item>
+          <Menu.Item key={PageState.COMPONENTS}>
+            <Trans>Components</Trans> ({components.length})
+          </Menu.Item>
+          <Menu.Item key={PageState.PLUGINS}>
+            <Trans>Plugins</Trans> ({plugins.length})
+          </Menu.Item>
+          <Menu.Item key={PageState.ACTIONS}>
+            <Trans>Actions</Trans> ({actions.length})
+          </Menu.Item>
+          <Menu.Item key={PageState.CONTAINERS}>
+            <Trans>Containers</Trans> ({contains.length})
+          </Menu.Item>
+          <Menu.Item key={PageState.VERSIONS}>
+            <Trans>Versions</Trans>
+          </Menu.Item>
         </Menu>
       </Header>
 

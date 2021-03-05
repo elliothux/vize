@@ -2,8 +2,9 @@ import * as React from 'react';
 import { BorderStyle } from 'types';
 import { Radio, Slider } from 'antd';
 import { ColorFormat, getSliderValue } from 'utils';
-import { StyleFormProps } from './index';
 import { Color } from 'widgets/Form/Fields/Color';
+import { Trans } from 'react-i18next';
+import { StyleFormProps } from './types';
 
 const { Group: RadioGroup } = Radio;
 
@@ -14,15 +15,25 @@ export function BorderForm({ style, onChange }: StyleFormProps<BorderStyle>) {
   return (
     <div className="common-border-style-form">
       <div className="editor-prop-form-item">
-        <span>类型:</span>
+        <span>
+          <Trans>Type</Trans>:
+        </span>
         <RadioGroup onChange={e => onChange({ ...style, type: e.target.value })} value={type}>
-          <Radio value="none">无</Radio>
-          <Radio value="solid">实线</Radio>
-          <Radio value="dashed">虚线</Radio>
+          <Radio value="none">
+            <Trans>none</Trans>
+          </Radio>
+          <Radio value="solid">
+            <Trans>solid</Trans>
+          </Radio>
+          <Radio value="dashed">
+            <Trans>dashed</Trans>
+          </Radio>
         </RadioGroup>
       </div>
       <div className="editor-prop-form-item">
-        <span>颜色:</span>
+        <span>
+          <Trans>Color</Trans>:
+        </span>
         <Color
           disabled={disabled}
           value={color}
@@ -31,7 +42,9 @@ export function BorderForm({ style, onChange }: StyleFormProps<BorderStyle>) {
         />
       </div>
       <div className="editor-prop-form-item">
-        <span>宽: {width}</span>
+        <span>
+          <Trans>Width</Trans>: {width}
+        </span>
         <Slider
           disabled={disabled}
           min={0}

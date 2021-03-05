@@ -12,6 +12,7 @@ import {
   PluginUniversalEventTrigger,
 } from 'types';
 import { SelectType } from 'states';
+import { Trans, useTranslation } from 'react-i18next';
 import { triggerTextMap } from './utils';
 
 const { Option: SelectOption, OptGroup } = Select;
@@ -24,6 +25,7 @@ interface Props {
 }
 
 export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }: Props) {
+  const { t } = useTranslation();
   const onChange = useMemo(() => R.unary(setTrigger), []);
   const isComponent = type === SelectType.COMPONENT;
   const universalEventTriggers = useMemo(
@@ -39,7 +41,9 @@ export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }
 
   return (
     <div className="event-form-prop-item">
-      <span>触发条件:</span>
+      <span>
+        <Trans>Trigger</Trans>:
+      </span>
       <Select
         value={trigger || undefined}
         onChange={onChange}
@@ -47,7 +51,7 @@ export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }
         dropdownClassName="event-form-selector-options"
       >
         {customEvents?.length ? (
-          <OptGroup label={`${isComponent ? '组件' : '插件'}自定义触发`}>
+          <OptGroup label={`${t(isComponent ? 'Component' : 'Plugin')}${t(' custom triggers')}`}>
             {customEvents.map(({ eventName, displayName }) => (
               <SelectOption value={eventName} key={eventName}>
                 <FiLayers />
@@ -57,7 +61,7 @@ export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }
           </OptGroup>
         ) : null}
 
-        <OptGroup label="通用触发">
+        <OptGroup label={t('Universal triggers')}>
           {Object.entries(universalEventTriggers).map(([, trigger]) => (
             <SelectOption value={trigger} key={trigger}>
               {triggerTextMap.get(trigger)}

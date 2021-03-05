@@ -12,7 +12,7 @@ export const initI18N = i18n
   .init({
     resources: languages,
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     ns: ['translations'],
     defaultNS: 'translations',
     keySeparator: false,

@@ -4,14 +4,16 @@ import { useState } from 'react';
 import { Button, Menu, Spin, Tooltip } from 'antd';
 import { Header } from 'components/Header';
 import { BiUpArrowAlt } from 'react-icons/bi';
-import { UploadResources } from './UploadResources';
+import { useTranslation, Trans } from 'react-i18next';
 import { ResourceType } from 'types';
 import { ResourceList } from './list';
+import { UploadResources } from './UploadResources';
 
 type PageState = ResourceType;
 const PageState = ResourceType;
 
 export function Resources() {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [uploadVisible, setUploadVisible] = useState(false);
   const [page, setPage] = useState<PageState>(PageState.IMAGE);
@@ -19,11 +21,11 @@ export function Resources() {
   return (
     <Spin spinning={loading}>
       <Header
-        title="静态资源管理"
-        searchText="搜索资源"
+        title={t('Resource Management')}
+        searchText={t('Search resources')}
         onSearch={console.log}
         appendAfterSearch={
-          <Tooltip title="上传资源" placement="bottom">
+          <Tooltip title={t('Upload Resources')} placement="bottom">
             <Button type="primary" size="large" icon={<BiUpArrowAlt />} onClick={() => setUploadVisible(true)} />
           </Tooltip>
         }
@@ -34,10 +36,18 @@ export function Resources() {
           selectedKeys={[page]}
           onSelect={({ key }) => setPage(key as PageState)}
         >
-          <Menu.Item key={PageState.IMAGE}>图像</Menu.Item>
-          <Menu.Item key={PageState.VIDEO}>视频</Menu.Item>
-          <Menu.Item key={PageState.AUDIO}>音频</Menu.Item>
-          <Menu.Item key={PageState.OTHER}>其他</Menu.Item>
+          <Menu.Item key={PageState.IMAGE}>
+            <Trans>Images</Trans>
+          </Menu.Item>
+          <Menu.Item key={PageState.VIDEO}>
+            <Trans>Videos</Trans>
+          </Menu.Item>
+          <Menu.Item key={PageState.AUDIO}>
+            <Trans>Audios</Trans>
+          </Menu.Item>
+          <Menu.Item key={PageState.OTHER}>
+            <Trans>Others</Trans>
+          </Menu.Item>
         </Menu>
       </Header>
 

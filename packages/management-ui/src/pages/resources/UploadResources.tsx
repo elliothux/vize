@@ -4,6 +4,7 @@ import { Modal, PageHeader, Upload, message, Tag } from 'antd';
 import { UploadChangeParam } from 'antd/es/upload/interface';
 import { BiArchiveOut } from 'react-icons/bi';
 import { ResourceType } from 'types';
+import { useTranslation, Trans } from 'react-i18next';
 
 interface Props {
   visible: boolean;
@@ -14,6 +15,7 @@ interface Props {
 const { Dragger } = Upload;
 
 export function UploadResources({ visible, setVisible, type }: Props) {
+  const { t } = useTranslation();
   const onBack = useCallback(() => setVisible(false), []);
 
   const uploadProps = useMemo(() => {
@@ -26,10 +28,10 @@ export function UploadResources({ visible, setVisible, type }: Props) {
         const { status, name } = info.file;
         if (status === 'done') {
           message.destroy();
-          return message.success(`"${name}" 上传成功`);
+          return message.success(`"${name}" ${t('uploaded successfully')}`);
         } else if (status === 'error') {
           message.destroy();
-          return message.error(`"${name}" 上传失败`);
+          return message.error(`"${name}" ${t('failed to upload')}`);
         }
       },
     };
@@ -46,31 +48,47 @@ export function UploadResources({ visible, setVisible, type }: Props) {
       destroyOnClose
       closable
     >
-      <PageHeader onBack={onBack} title="上传资源" subTitle="" />
+      <PageHeader onBack={onBack} title={t('Upload Resources')} subTitle="" />
       <Dragger {...uploadProps}>
         <BiArchiveOut className="upload-drag-icon" />
-        <h3>点击或拖动文件到此处上传</h3>
+        <h3>
+          <Trans>Click or drag files here to upload</Trans>
+        </h3>
         <div className="upload-hint">
-          <p>支持多文件上传，支持格式：</p>
+          <p>
+            <Trans>Support multiple files. Supported formats</Trans>:
+          </p>
           <ul>
             <li>
-              <span>图像: </span>
+              <span>
+                <Trans>Images</Trans>:
+              </span>
               <Tag color="orange">jp(e)g</Tag>
               <Tag color="orange">(a)png</Tag>
               <Tag color="orange">gif</Tag>
               <Tag color="orange">webp</Tag>
+              <Trans>...</Trans>
             </li>
             <li>
-              <span>视频(H264): </span>
+              <span>
+                <Trans>Videos</Trans>(H264):
+              </span>
               <Tag color="orange">mp4</Tag>
-              <Tag color="orange">WebM</Tag>等
+              <Tag color="orange">WebM</Tag>
+              <Trans>...</Trans>
             </li>
             <li>
-              <span>音频(AAC): </span>
-              <Tag color="orange">mp3</Tag>等
+              <span>
+                <Trans>Audios</Trans>(AAC):
+              </span>
+              <Tag color="orange">mp3</Tag>
+              <Trans>...</Trans>
             </li>
             <li>
-              <span>其他文件: </span>如文本等
+              <span>
+                <Trans>Others</Trans>:
+              </span>
+              <Trans>Like text etc.</Trans>
             </li>
           </ul>
         </div>

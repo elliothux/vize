@@ -2,6 +2,7 @@ import './index.scss';
 import * as React from 'react';
 import { Button, Modal } from 'antd';
 import { useUser } from 'hooks';
+import { Trans } from 'react-i18next';
 import LOGO from 'static/logo.svg';
 
 export function Login() {
@@ -15,7 +16,9 @@ export function Login() {
     return (
       <Modal wrapClassName="login-loading" visible footer={null} closable={false}>
         <img src={LOGO} alt="logo" />
-        <span>登录中</span>
+        <span>
+          <Trans>logging in</Trans>
+        </span>
       </Modal>
     );
   }
@@ -23,9 +26,13 @@ export function Login() {
   return (
     <Modal wrapClassName="login" visible footer={null} closable={false}>
       <img src={LOGO} alt="logo" />
-      <h2>未登录</h2>
+      <h2>
+        <Trans>Not logged in</Trans>
+      </h2>
       <a href="/login">
-        <Button type="primary">立即登录</Button>
+        <Button type="primary">
+          <Trans>Login</Trans>
+        </Button>
       </a>
     </Modal>
   );

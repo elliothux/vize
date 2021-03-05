@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { getMaterialsComponentMeta } from 'runtime';
 import { observer } from 'mobx-react';
 import { editStore } from 'states';
+import { i18n } from 'i18n';
 
 interface Props {
   instance: ComponentInstance;
@@ -18,9 +19,15 @@ function IComponentMask({ instance, onClick, onDoubleClick, onContextMenu, child
     info: { name },
   } = useMemo<MaterialsComponentMeta>(() => getMaterialsComponentMeta(instance.component)!, [instance.component]);
 
-  const desc = useMemo(() => (instance.children ? '[双击编辑子组件]' : instance.hotAreas ? '[双击编辑热区]' : ''), [
-    instance,
-  ]);
+  const desc = useMemo(
+    () =>
+      instance.children
+        ? `[${i18n.t('Double click to edit children')}]`
+        : instance.hotAreas
+        ? `[${i18n.t('Double click to edit hotarea')}]`
+        : '',
+    [instance],
+  );
 
   const { previewMode } = editStore;
 

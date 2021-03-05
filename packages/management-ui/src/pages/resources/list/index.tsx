@@ -6,6 +6,7 @@ import { Maybe, ResourceRecord, ResourceType } from 'types';
 import { useAsyncEffect } from 'hooks';
 import { queryResources } from '../../../api';
 import { ResourceItem } from './Item';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   type: ResourceType;
@@ -15,6 +16,7 @@ interface Props {
 const PAGE_SIZE = 20;
 
 export function ResourceList({ setLoading, type }: Props) {
+  const { t } = useTranslation();
   const [resources, setResources] = useState<Maybe<ResourceRecord[]>>(null);
   const [[current, total], setPagination] = useState([0, 0]);
 
@@ -36,7 +38,7 @@ export function ResourceList({ setLoading, type }: Props) {
       setLoading(false);
       console.log(data);
     } else {
-      message.error(`获取资源列表失败：${response.message}`);
+      message.error(`${t('Failed to get resources list')}: ${response.message}`);
     }
   }, []);
 
@@ -54,7 +56,7 @@ export function ResourceList({ setLoading, type }: Props) {
   useAsyncEffect(() => getResources(type, current), [type, current]);
 
   if (resources && !resources.length) {
-    return <Empty description="暂未上传资源" style={{ marginTop: '48px' }} />;
+    return <Empty description={t('No resources uploaded yet')} style={{ marginTop: '48px' }} />;
   }
 
   return (

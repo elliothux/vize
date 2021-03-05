@@ -3,6 +3,7 @@ import { LayoutMode, PageMode, PageRecord } from 'types';
 import { Card, Tooltip } from 'antd';
 import { EditOutlined, CopyOutlined, LineChartOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons';
 import { useMemo } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
 import { PreviewWithEmpty } from '../PreviewWithEmpty';
 import { goToEditor } from './utils';
@@ -23,29 +24,30 @@ export function PageItem({
   },
   isTemplate,
 }: Props) {
-  const created = useMemo(() => day(createdTime).format('MM月DD日 HH:mm'), [createdTime]);
-  const modified = useMemo(() => day(lastModifiedTime).format('MM月DD日 HH:mm'), [lastModifiedTime]);
+  const { t } = useTranslation();
+  const created = useMemo(() => day(createdTime).format(`${t('MM-DD')} HH:mm`), [createdTime]);
+  const modified = useMemo(() => day(lastModifiedTime).format(`${t('MM-DD')} HH:mm`), [lastModifiedTime]);
 
   return (
     <Card
       cover={<PreviewWithEmpty src={null} />}
       className="page-item card-item"
       actions={[
-        <Tooltip title="编辑" key="edit">
+        <Tooltip title={t('edit')} key="edit">
           <div onClick={() => goToEditor(item)}>
             <EditOutlined />
           </div>
         </Tooltip>,
-        <Tooltip title="复制" key="copy">
+        <Tooltip title={t('copy')} key="copy">
           <CopyOutlined />
         </Tooltip>,
         isTemplate ? null : (
-          <Tooltip title="查看数据" key="data">
+          <Tooltip title={t('statistics')} key="data">
             <LineChartOutlined />
           </Tooltip>
         ),
         isTemplate ? null : (
-          <Tooltip title="复制链接" key="link">
+          <Tooltip title={t('copy link')} key="link">
             <LinkOutlined />
           </Tooltip>
         ),
@@ -57,26 +59,40 @@ export function PageItem({
 
       <div className="times infos">
         <div className="info-item">
-          <p>创建时间</p>
+          <p>
+            <Trans>Created time</Trans>
+          </p>
           <p>{created}</p>
         </div>
         <div className="info-item">
-          <p>修改时间</p>
+          <p>
+            <Trans>Modified time</Trans>
+          </p>
           <p>{modified}</p>
         </div>
       </div>
 
       <div className="infos">
         <div className="info-item">
-          <p>布局模式</p>
-          <p>{layoutMode === LayoutMode.FREE ? '自由布局' : '流式布局'}</p>
+          <p>
+            <Trans>Layout mode</Trans>
+          </p>
+          <p>
+            <Trans>{layoutMode === LayoutMode.FREE ? 'Free' : 'Stream'}</Trans>
+          </p>
         </div>
         <div className="info-item">
-          <p>页面模式</p>
-          <p>{pageMode === PageMode.SINGLE ? '单页' : '多页'}</p>
+          <p>
+            <Trans>Page mode</Trans>
+          </p>
+          <p>
+            <Trans>{pageMode === PageMode.SINGLE ? 'Single' : 'Multi'}</Trans>
+          </p>
         </div>
         <div className="info-item">
-          <p>创建人</p>
+          <p>
+            <Trans>Creator</Trans>
+          </p>
           <p>{author}</p>
         </div>
       </div>

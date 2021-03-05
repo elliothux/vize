@@ -3,6 +3,7 @@ import { MaterialsComponentMeta } from 'types';
 import { SVGRender } from 'widgets/SVGRender';
 import { getMaterialsLibInfo } from 'runtime';
 import { useMemo } from 'react';
+import { Trans } from 'react-i18next';
 
 interface Props {
   item: MaterialsComponentMeta;
@@ -30,12 +31,13 @@ export function MaterialsComponentPreview({ item }: Props) {
           </p>
           <p className="desc">{desc}</p>
           <p className="lib">
-            来自物料库
+            <Trans>From materials library</Trans>
             <span> {displayName}</span>
           </p>
           <p className="author">
-            由<span> {author} </span>
-            开发
+            <Trans i18nKey="DevelopedBy">
+              Development by <span> {{ author }} </span>
+            </Trans>
           </p>
         </div>
       </div>

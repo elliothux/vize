@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { DistanceStyle, DistanceStyleWithAuto, MarginAndPaddingStyle } from 'types';
-import { StyleFormProps } from '../index';
+import { StyleFormProps } from '../types';
 import { BoxEditor } from './BoxEdit';
 import { MarginPaddingField } from './types';
 import { defaultDistance } from 'utils';

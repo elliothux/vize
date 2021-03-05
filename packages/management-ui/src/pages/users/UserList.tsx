@@ -3,8 +3,9 @@ import { Table, Tooltip, Tag, Button } from 'antd';
 import { UserRecord } from 'types';
 import { bizStore } from 'state';
 import { observer } from 'mobx-react';
-import AVATAR from 'static/avatar.png';
+import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
+import AVATAR from 'static/avatar.png';
 
 const { Column } = Table;
 
@@ -14,10 +15,11 @@ interface Props {
 }
 
 function IUserList({ users, onEdit }: Props) {
+  const { t } = useTranslation();
   return (
     <Table dataSource={users} bordered>
       <Column
-        title="用户"
+        title={t('User')}
         key="name"
         render={(t, { avatar, name, id, isAdmin }: UserRecord) => (
           <div className="user-name">
@@ -30,7 +32,7 @@ function IUserList({ users, onEdit }: Props) {
         )}
       />
       <Column
-        title="所属业务"
+        title={t('Business')}
         dataIndex="bizs"
         key="bizs"
         render={(bizs: string[]) =>
@@ -42,18 +44,18 @@ function IUserList({ users, onEdit }: Props) {
         }
       />
       <Column
-        title="创建日期"
+        title={t('Created time')}
         dataIndex="createdTime"
         key="createdTime"
         render={createdTime => day(createdTime).format('MM月DD日 HH:mm')}
       />
       <Column
-        title="操作"
+        title={t('Operations')}
         key="action"
         render={(t, user: UserRecord) => (
           <>
             <Button type="link" size="small" onClick={() => onEdit(user)}>
-              编辑
+              <Trans>edit</Trans>
             </Button>
           </>
         )}

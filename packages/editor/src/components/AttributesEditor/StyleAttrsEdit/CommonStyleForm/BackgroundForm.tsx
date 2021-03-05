@@ -4,7 +4,7 @@ import { Radio, Select } from 'antd';
 import { isEmpty, ColorFormat } from 'utils';
 import { Color } from 'widgets/Form/Fields/Color';
 import { Trans } from 'react-i18next';
-import { StyleFormProps } from './index';
+import { StyleFormProps } from './types';
 
 const { Option } = Select;
 const { Group: RadioGroup } = Radio;
