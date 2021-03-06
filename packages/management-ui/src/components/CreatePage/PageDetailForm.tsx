@@ -1,23 +1,26 @@
 import * as React from 'react';
 import { Form, Button, Input, Select, message } from 'antd';
 import { bizStore, materialsStore } from 'state';
-import { ItemProps, PageDetail } from './types';
 import { observer } from 'mobx-react';
 import { useCallback, useMemo, useState } from 'react';
 import { Maybe } from 'types';
 import { getGenerators, GeneratorCGIInfo } from 'api';
 import { useAsyncEffect } from 'hooks';
+import { useTranslation, Trans } from 'react-i18next';
+import { ItemProps, PageDetail } from './types';
 
 const { Item: FormItem } = Form;
 const { Option: SelectOption, OptGroup } = Select;
 const { TextArea } = Input;
 
 const layout = {
-  labelCol: { span: 5 },
+  labelCol: { span: 6 },
 };
 
+// eslint-disable-next-line max-lines-per-function
 function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>) {
   const { bizList } = bizStore;
+  const { t } = useTranslation();
   const [biz, setBiz] = useState<number>(-1);
   const onValueChange = useCallback((i: Partial<PageDetail>) => {
     if (i.biz) {
@@ -31,10 +34,11 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
     const [success, result, response] = await getGenerators();
     if (!success) {
       console.error(response);
-      return message.error('获取生成器列表失败');
+      message.error(t('Failed to get generator list'));
+      return;
     }
     setGenerators(result!);
-  }, []);
+  });
 
   return (
     <Form
@@ -44,7 +48,12 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
       onFinish={setCurrent}
       onValuesChange={onValueChange}
     >
-      <FormItem label="业务" name="biz" hasFeedback rules={[{ required: true, message: '请选择业务' }]}>
+      <FormItem
+        label={t('Business')}
+        name="biz"
+        hasFeedback
+        rules={[{ required: true, message: t('Please select one business∏') }]}
+      >
         <Select loading={!bizList}>
           {bizList?.map(({ id, name }) => (
             <SelectOption value={id} key={id}>
@@ -55,7 +64,12 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
       </FormItem>
 
       {biz ? (
-        <FormItem label="页面容器" name="container" hasFeedback rules={[{ required: true, message: '请选择页面容器' }]}>
+        <FormItem
+          label={t('Container')}
+          name="container"
+          hasFeedback
+          rules={[{ required: true, message: t('Please select one container') }]}
+        >
           <Select>
             {materialsStore
               .getMaterialsByLibNames(currentBiz?.materials)
@@ -72,7 +86,12 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
         </FormItem>
       ) : null}
 
-      <FormItem label="生成产物" name="generator" hasFeedback rules={[{ required: true, message: '请选择生成器' }]}>
+      <FormItem
+        label={t('Generate Target')}
+        name="generator"
+        hasFeedback
+        rules={[{ required: true, message: t('Please select one generator') }]}
+      >
         <Select loading={!generators}>
           {generators?.map(({ name, desc, key }) => (
             <SelectOption value={key} key={key}>
@@ -82,41 +101,30 @@ function IPageDetailForm({ current, setCurrent }: ItemProps<Partial<PageDetail>>
         </Select>
       </FormItem>
 
-      <FormItem label="页面地址" className="page-detail-key" required hasFeedback>
+      <FormItem label={t('Page URL')} className="page-detail-key" required hasFeedback>
         <span>https://vize.com/{currentBiz?.key || 'bizKey'}/</span>
-        <FormItem name="key" rules={[{ required: true, message: '请输入页面 key' }]}>
+        <FormItem name="key" rules={[{ required: true, message: t('Please enter a valid url') }]}>
           <Input />
         </FormItem>
         <span>/index.html</span>
       </FormItem>
 
-      <FormItem label="页面标题" name="title" rules={[{ required: true, message: '请输入标题' }]} hasFeedback>
+      <FormItem
+        label={t('Page Title')}
+        name="title"
+        rules={[{ required: true, message: t('Please enter a valid title') }]}
+        hasFeedback
+      >
         <Input />
       </FormItem>
 
-      <FormItem label="页面描述" name="desc">
+      <FormItem label={t('Page Description')} name="desc">
         <TextArea />
       </FormItem>
 
-      {/*<Form.Item label="上下线时间">*/}
-      {/*  <Form.Item*/}
-      {/*    validateStatus="error"*/}
-      {/*    help="上线时间"*/}
-      {/*    style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}*/}
-      {/*  >*/}
-      {/*    <DatePicker />*/}
-      {/*  </Form.Item>*/}
-
-      {/*  <span style={{ display: 'inline-block', width: '24px', lineHeight: '32px', textAlign: 'center' }}>-</span>*/}
-
-      {/*  <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }} help="下线时间">*/}
-      {/*    <DatePicker />*/}
-      {/*  </Form.Item>*/}
-      {/*</Form.Item>*/}
-
       <FormItem>
         <Button type="primary" htmlType="submit">
-          创建
+          <Trans>Create</Trans>
         </Button>
       </FormItem>
     </Form>

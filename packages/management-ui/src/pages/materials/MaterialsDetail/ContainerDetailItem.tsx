@@ -4,6 +4,7 @@ import { MaterialsContainerManifestItem, MaterialsRecord } from 'types';
 import { Link } from 'wouter';
 import { BiRocket } from 'react-icons/bi';
 import { useMemo } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import REACT from 'static/react-icon.png';
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 const { Meta } = Card;
 
 export function ContainerDetailItem({ item: [name, item], lib }: Props) {
+  const { t } = useTranslation();
   const thumb = item.thumb ? `/materials/${lib.libName}/src/containers/${name}/thumb${item.thumb}` : REACT;
   const playgroundPath = useMemo(() => `/playground?lib=${lib.libName}&plugin=${name}`, [lib]);
 
@@ -23,7 +25,9 @@ export function ContainerDetailItem({ item: [name, item], lib }: Props) {
       actions={[
         <Link href={playgroundPath} key="0">
           <BiRocket />
-          <span>在 Playground 中体验</span>
+          <span>
+            <Trans>Try with Playground</Trans>
+          </span>
         </Link>,
       ]}
     >
@@ -37,9 +41,12 @@ export function ContainerDetailItem({ item: [name, item], lib }: Props) {
         }
         description={
           <>
-            <p>{item.info.desc || '暂无页面容器描述...'}</p>
+            <p>{item.info.desc || t('No container description')}</p>
             <p className="info-item">
-              <span>开发者:</span> {item.info.author}
+              <span>
+                <Trans>Developer</Trans>:{' '}
+              </span>
+              {item.info.author}
             </p>
           </>
         }

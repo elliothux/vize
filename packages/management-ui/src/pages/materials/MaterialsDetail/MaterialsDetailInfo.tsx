@@ -5,6 +5,7 @@ import { Button } from 'antd';
 import { BiRocket, BiAnalyse, BiListPlus } from 'react-icons/bi';
 import { useLocation } from 'wouter';
 import { withAdminValidation, noop } from 'utils';
+import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
 
 interface Props {
@@ -12,9 +13,10 @@ interface Props {
 }
 
 export function MaterialsDetailInfo({ lib }: Props) {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
-  const created = useMemo(() => day(lib.createdTime).format('YYYY年MM月DD日 HH:mm'), [lib]);
-  const modified = useMemo(() => day(lib.modifiedTime).format('YYYY年MM月DD日 HH:mm'), [lib]);
+  const created = useMemo(() => day(lib.createdTime).format(`${t('YYYY-MM-DD')} HH:mm`), [lib]);
+  const modified = useMemo(() => day(lib.modifiedTime).format(`${t('YYYY-MM-DD')} HH:mm`), [lib]);
 
   const goPlayground = useCallback(() => {
     if (!lib) {
@@ -30,7 +32,7 @@ export function MaterialsDetailInfo({ lib }: Props) {
       <div>
         <h1>{lib?.displayName}</h1>
         <h2>{lib.libName}</h2>
-        <p>{lib.desc || '暂无物料库描述...'}</p>
+        <p>{lib.desc || t('No materials library description')}</p>
 
         <div className="infos">
           <div className="info-item">
@@ -39,31 +41,41 @@ export function MaterialsDetailInfo({ lib }: Props) {
           </div>
 
           <div className="info-item">
-            <span>当前版本: </span>
+            <span>
+              <Trans>Current Version</Trans>:{' '}
+            </span>
             {lib.version}
           </div>
         </div>
 
         <div className="infos">
           <div className="info-item">
-            <span>视图框架: </span>
+            <span>
+              <Trans>View Runtime</Trans>:{' '}
+            </span>
             {lib.runtime || 'react'}
           </div>
 
           <div className="info-item">
-            <span>开发者: </span>
+            <span>
+              <Trans>Developer</Trans>:{' '}
+            </span>
             {lib.author}
           </div>
         </div>
 
         <div className="infos">
           <div className="info-item">
-            <span>创建时间: </span>
+            <span>
+              <Trans>Created time</Trans>:{' '}
+            </span>
             {created}
           </div>
 
           <div className="info-item">
-            <span>更新时间: </span>
+            <span>
+              <Trans>Updated time</Trans>:{' '}
+            </span>
             {modified}
           </div>
         </div>
@@ -73,10 +85,10 @@ export function MaterialsDetailInfo({ lib }: Props) {
             Playground
           </Button>
           <Button type="default" icon={<BiAnalyse />} onClick={withAdminValidation(noop)}>
-            同步 Manifest
+            <Trans>Sync manifest</Trans>
           </Button>
           <Button type="default" icon={<BiListPlus />} onClick={withAdminValidation(noop)}>
-            添加到业务
+            <Trans>Add to business</Trans>
           </Button>
         </div>
       </div>

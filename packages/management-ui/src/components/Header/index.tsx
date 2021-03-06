@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { PageHeader, Button, Input, Tooltip } from 'antd';
 import { useAsyncEffect, useUser } from 'hooks';
 import { i18n } from 'i18n';
+import { Trans } from 'react-i18next';
 import { BreadcrumbNavigator } from './BreadcrumbNavigator';
 import AVATAR from 'static/avatar.png';
 
@@ -44,7 +45,9 @@ export function Header({ title, children, searchText, onSearch, appendAfterSearc
               <div className="user-logout">
                 <p>{user?.name}</p>
                 <a href="/logout">
-                  <Button type="link">登出</Button>
+                  <Button type="link">
+                    <Trans>Log out</Trans>
+                  </Button>
                 </a>
               </div>
             }

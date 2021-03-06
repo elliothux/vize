@@ -8,11 +8,13 @@ import { Header } from 'components/Header';
 import { FlexPlaceholder } from 'components/FlexPlaceholder';
 import { createUser, CreateUserParams, queryUser, updateUser } from 'api';
 import { BiPlus } from 'react-icons/bi';
+import { useTranslation } from 'react-i18next';
 import { withAdminValidation } from 'utils';
 import { UserList } from './UserList';
 import { EditUser } from './EditUser';
 
 export function Users() {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<Maybe<UserRecord[]>>(null);
 
@@ -40,7 +42,7 @@ export function Users() {
       setLoading(false);
       console.log(users);
     } else {
-      message.error(`获取用户列表失败：${response.message}`);
+      message.error(`${t('Failed to get users list')}：${response.message}`);
     }
   }, []);
 
@@ -55,11 +57,11 @@ export function Users() {
   return (
     <Spin spinning={loading}>
       <Header
-        title="用户管理"
-        searchText="搜索用户"
+        title={t('User Management')}
+        searchText={t('Search users')}
         onSearch={console.log}
         appendAfterSearch={
-          <Tooltip title="注册用户" placement="bottom">
+          <Tooltip title={t('register user')} placement="bottom">
             <Button
               type="primary"
               size="large"
