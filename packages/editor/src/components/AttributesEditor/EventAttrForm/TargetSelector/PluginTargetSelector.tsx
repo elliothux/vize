@@ -66,7 +66,7 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
     <>
       <div className="event-form-prop-item">
         <span>
-          <Trans>Target plugin</Trans>:
+          <Trans>Target Plugin</Trans>:
         </span>
         <Select
           value={pluginKey || undefined}
@@ -86,7 +86,7 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
       {currentPlugin ? (
         <div className="event-form-prop-item">
           <span>
-            <Trans>Execute Action</Trans>:
+            <Trans>Target Action</Trans>:
           </span>
           <Select
             value={eventName || undefined}

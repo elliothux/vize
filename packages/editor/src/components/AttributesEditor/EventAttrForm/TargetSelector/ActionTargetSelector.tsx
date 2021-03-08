@@ -38,7 +38,7 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
     <>
       <div className="event-form-prop-item">
         <span>
-          <Trans>Execute Action</Trans>:
+          <Trans>Target Action</Trans>:
         </span>
         <Select
           value={actionId || undefined}

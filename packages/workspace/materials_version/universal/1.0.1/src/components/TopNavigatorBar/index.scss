@@ -1,0 +1,30 @@
+.vize-materials-universal.top-navigator-bar {
+  width: 100vw;
+  height: 50px;
+  padding-left: 30px;
+  margin-top: 20px;
+
+  & > div {
+    display: inline-block;
+    margin-right: 24px;
+    font-size: 18px;
+    color: #1f1f1f;
+    font-weight: 400;
+    transition: all ease 300ms;
+
+    &.selected {
+      transform: scale(1.2);
+
+      &::after {
+        content: '';
+        width: 24px;
+        height: 3px;
+        border-radius: 2px;
+        background-color: #fb8f8f;
+        position: absolute;
+        bottom: -8px;
+        left: calc(50% - 12px);
+      }
+    }
+  }
+}

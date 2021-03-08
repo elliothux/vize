@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { useCallback } from 'react';
-import { Radio } from 'antd';
+import { Radio, Select } from 'antd';
 import { EventTargetType, MaterialsCustomEvent, Maybe } from 'types';
 import { Trans } from 'react-i18next';
 
@@ -11,27 +11,30 @@ interface Props {
   customEvents?: MaterialsCustomEvent[];
 }
 
-const { Group: RadioGroup } = Radio;
+const { Option: SelectOption } = Select;
 
 export function TargetSelector({ target, setTarget }: Props) {
-  const onChange = useCallback(e => setTarget(e.target.value), []);
-
   return (
     <div className="event-form-prop-item">
       <span>
         <Trans>Execute Type</Trans>:
       </span>
-      <RadioGroup value={target} onChange={onChange}>
-        <Radio value={EventTargetType.ACTION}>
+      <Select
+        className="event-form-selector"
+        dropdownClassName="event-form-selector-options"
+        value={target || undefined}
+        onChange={setTarget}
+      >
+        <SelectOption value={EventTargetType.ACTION}>
           <Trans>Action</Trans>
-        </Radio>
-        <Radio value={EventTargetType.COMPONENT}>
+        </SelectOption>
+        <SelectOption value={EventTargetType.COMPONENT}>
           <Trans>Component</Trans>
-        </Radio>
-        <Radio value={EventTargetType.PLUGIN}>
+        </SelectOption>
+        <SelectOption value={EventTargetType.PLUGIN}>
           <Trans>Plugin</Trans>
-        </Radio>
-      </RadioGroup>
+        </SelectOption>
+      </Select>
     </div>
   );
 }
