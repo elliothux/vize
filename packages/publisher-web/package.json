@@ -1,0 +1,13 @@
+{
+  "name": "@vize/publisher-web",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "copyFiles": "cp -rf ./src/template ./dist/src",
+    "dev": "./node_modules/typescript/bin/tsc -w",
+    "dist": "rm -rf ./dist; ./node_modules/typescript/bin/tsc; npm run copyFiles"
+  },
+  "author": "",
+  "license": "MIT"
+}

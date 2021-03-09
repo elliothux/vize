@@ -56,7 +56,7 @@ export class SinglePageGenerator extends BaseGenerator {
     return [target, pagePaths];
   };
 
-  public run = async (): Promise<GeneratorResult> => {
+  public run = async (isPreview: boolean): Promise<GeneratorResult> => {
     const [root, entryPaths] = await this.generateContainerParams(-1)
       .generateSharedComponentsMap()
       .generatePageFiles();
@@ -67,7 +67,8 @@ export class SinglePageGenerator extends BaseGenerator {
       isMultiPage: this.isMultiPage,
       containerPath: this.containerPath,
       containerParams: this.containerParams,
+      isProd: !isPreview,
     });
-    return { path: path.resolve(root, 'dist'), type: 'file' };
+    return { path: path.resolve(root, isPreview ? 'preview' : 'dist'), type: 'file' };
   };
 }

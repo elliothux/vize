@@ -39,6 +39,9 @@ export class PageEntity {
   @Column({ type: 'varchar', length: 128, nullable: false })
   container: string;
 
+  @Column({ type: 'varchar', length: 1024, nullable: true })
+  url?: string;
+
   @Column({ type: 'tinyint', nullable: false, default: 1 })
   status: RecordStatus;
 

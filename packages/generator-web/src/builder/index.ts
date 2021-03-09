@@ -5,7 +5,6 @@ import { SecondParameter } from '../types';
 
 export function runBuild(params: BuildConfigParams) {
   const config = generateWebpackConfig(params);
-  console.log(JSON.stringify(config, null, 4));
   return new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
 }
 
@@ -16,7 +15,7 @@ function webpackCallback(resolve: Function, reject: Function) {
       if ((err as any).details) {
         console.error('fatal webpack errors:', (err as any).details.trim());
       }
-      reject();
+      reject(err);
     }
 
     const info = (stats as Stats).toJson();
@@ -26,7 +25,7 @@ function webpackCallback(resolve: Function, reject: Function) {
           console.error('\n\nWebpack compilation errors:', e.trim());
         }
       });
-      return reject();
+      return reject(info.errors.join('\n'));
     }
     return resolve();
   };

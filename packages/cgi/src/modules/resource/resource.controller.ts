@@ -32,10 +32,14 @@ export class ResourceController {
 
   @Delete('/:id')
   async deleteResource(@Param('id') id: string) {
-    const result = await this.resourceService.deleteResourceEntity(
+    const item = await this.resourceService.getResourceEntityById(
       parseInt(id, 10),
     );
-    return CGIResponse.success(result);
+    const result = await this.resourceService.getDeleteFileCallback()(item);
+    const dbResult = await this.resourceService.deleteResourceEntity(
+      parseInt(id, 10),
+    );
+    return CGIResponse.success(result || dbResult);
   }
 
   @Post('/upload')

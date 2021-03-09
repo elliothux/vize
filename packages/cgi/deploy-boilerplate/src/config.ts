@@ -34,10 +34,6 @@ export function getConfig(): VizeCGIConfig {
         '/Users/huqingyang/Desktop/Proj/vize/packages/',
         'generator-web',
       )).default,
-      pegasus: require(path.resolve(
-        '/Users/huqingyang/Desktop/Proj/vize/packages/',
-        'generator-pegasus',
-      )).default,
     },
     middlewares: {
       login,

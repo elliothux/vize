@@ -147,9 +147,11 @@ export class PageService {
         isPreview,
       });
     } catch (e) {
-      console.error(e);
+      console.error('Build with error: ', e);
       this.buildStatus.set(key, [BuildStatus.FAILED, null]);
-      return { error: e };
+      return {
+        error: e || `Unknown build error with generator: ${info.name}`,
+      };
     }
 
     const generatorResult = {

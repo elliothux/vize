@@ -24,9 +24,12 @@ export function generateWebpackConfig({
 }: BuildConfigParams): Configuration[] {
   const libs = path.resolve(root, './libs');
   const src = path.resolve(root, './src');
-  const dist = path.resolve(root, `./dist`);
+  const dist = path.resolve(root, isProd ? `./dist` : './preview');
 
-  const libPaths = fs.readdirSync(libs).map(name => path.resolve(libs, name));
+  const libPaths = fs
+    .readdirSync(libs)
+    .filter(i => !/\.DS_Store/.test(i))
+    .map(name => path.resolve(libs, name));
   const libsNodeModules = libPaths.map(i => path.resolve(i, 'node_modules'));
   const libsSrc = libPaths.map(i => path.resolve(i, 'src'));
   const runPath = path.resolve(process.cwd(), './node_modules');
