@@ -11,6 +11,6 @@ export interface CreatePageDTO
 }
 
 export interface UpdatePageDTO {
-  author?: string;
   latestHistory?: HistoryEntity;
+  url?: string;
 }

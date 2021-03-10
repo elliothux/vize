@@ -1,11 +1,11 @@
 {
   "name": "@vize/types",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "",
   "main": "dist",
   "types": "dist",
   "scripts": {
     "build": "rm -rf ./dist; tsc ./src/*.ts --outDir dist --declaration true",
-    "publish": "npm run build; npm publish --access public;"
+    "publish": "npm publish --access public;"
   }
 }

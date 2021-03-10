@@ -6,8 +6,9 @@ export interface Response<T> {
   code: number;
 }
 
-export enum BuildStatus {
+export enum PublishStatus {
   START = 'start',
+  BUILD_SUCCESS = 'build_success',
   SUCCESS = 'success',
   FAILED = 'failed',
 }

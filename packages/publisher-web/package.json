@@ -2,11 +2,10 @@
   "name": "@vize/publisher-web",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "copyFiles": "cp -rf ./src/template ./dist/src",
-    "dev": "./node_modules/typescript/bin/tsc -w",
-    "dist": "rm -rf ./dist; ./node_modules/typescript/bin/tsc; npm run copyFiles"
+    "dev": "../../node_modules/.bin/tsc -w",
+    "dist": "../../node_modules/.bin/tsc"
   },
   "author": "",
   "license": "MIT"

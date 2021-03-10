@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
+import * as cookieParser from 'cookie-parser';
 import { NestFactory } from '@nestjs/core';
 import { INestApplication } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
 import { setConfig, getConfig } from './utils';
 import { VizeCGIConfig } from './types';
 import { getApp } from './app.module';
@@ -22,12 +22,13 @@ export async function bootstrap(
 async function init() {
   const {
     paths: {
-      workspacePath,
+      root: workspacePath,
       buildPath,
       materialsVersionsPath,
       materialsPath,
       uploadFilesPath,
       previewPath,
+      publishPath,
     },
   } = getConfig()!;
 
@@ -39,6 +40,7 @@ async function init() {
       materialsPath,
       uploadFilesPath,
       previewPath,
+      publishPath,
     ].map(i => fs.ensureDir(i)),
   );
 }

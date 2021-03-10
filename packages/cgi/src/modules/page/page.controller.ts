@@ -12,6 +12,7 @@ import { PageService } from './page.service';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
 import { CGICodeMap, CGIResponse } from '../../utils';
 import { QueryParams, Maybe } from '../../types';
+import { GeneratorResult } from '@vize/types';
 
 let cgiPageService: Maybe<PageService> = null;
 
@@ -105,7 +106,13 @@ export class PageController {
 
   @Post('/publish/:key')
   async publishPage(@Param('key') key) {
-    setTimeout(() => this.pageService.buildPage(key, false), 0);
+    setTimeout(async () => {
+      const result = await this.pageService.buildPage(key, false);
+      if (result?.error) {
+        return;
+      }
+      return this.pageService.publishPage(key, result as GeneratorResult);
+    }, 0);
     return CGIResponse.success();
   }
 

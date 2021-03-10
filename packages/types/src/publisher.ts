@@ -1,11 +1,12 @@
 import { Maybe } from './helper';
 import { MaterialsInfo } from './materials';
 import { GeneratorResult } from './generators';
+import { WorkspacePaths } from './paths';
 import { DSL } from './dsl';
 
 export interface PublisherParams {
   dsl: DSL;
-  workspacePath: string;
+  workspacePaths: WorkspacePaths;
   generatorResult: GeneratorResult;
 }
 
