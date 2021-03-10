@@ -9,7 +9,8 @@
     "outDir": "dist",
     "baseUrl": "src",
     "allowJs": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["ES2015"]
   },
   "compileOnSave": true,
   "include": ["src", "node_modules/@vize/runtime-web/src/libs/style.ts", "node_modules/@vize/runtime-web/types"],

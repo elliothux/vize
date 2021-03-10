@@ -1,0 +1,12 @@
+{
+  "name": "@vize/publisher-web",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "../../node_modules/.bin/tsc -w",
+    "dist": "../../node_modules/.bin/tsc"
+  },
+  "author": "",
+  "license": "MIT"
+}

@@ -10,5 +10,7 @@ export * from './global';
 export * from './helper';
 export * from './materials';
 export * from './pages';
+export * from './paths';
 export * from './plugins';
+export * from './publisher';
 export * from './styles';

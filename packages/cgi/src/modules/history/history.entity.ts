@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { UserEntity } from '../user/user.entity';
 
 @Entity()
 export class HistoryEntity {
@@ -7,9 +14,6 @@ export class HistoryEntity {
 
   @Column({ type: 'datetime', nullable: false })
   createdTime: Date;
-
-  @Column({ type: 'varchar', length: 128, nullable: false })
-  author: string;
 
   @Column({ type: 'varchar', length: 128, nullable: false })
   title: string;
@@ -43,4 +47,12 @@ export class HistoryEntity {
 
   @Column({ type: 'text', nullable: true })
   maxKeys?: string;
+
+  @ManyToOne(
+    () => UserEntity,
+    user => user.id,
+    { nullable: false },
+  )
+  @JoinColumn()
+  creator: UserEntity;
 }

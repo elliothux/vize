@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Steps } from 'antd';
 import { ItemProps } from './types';
+import { useTranslation } from 'react-i18next';
 
 const { Step } = Steps;
 
@@ -20,34 +21,35 @@ export function CreateSteps({
   step3Finish,
   step4Finish,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <Steps type="navigation" size="small" current={current} onChange={setCurrent}>
       <Step
-        title="选择页面模式"
+        title={t('Select Page Mode')}
         subTitle="Step 1"
         status={step1Finish ? 'finish' : showErr ? 'error' : 'process'}
-        description="单页或多页模式"
+        description={t('Single or Multi mode')}
         disabled={current === 3}
       />
       <Step
-        title="选择布局模式"
+        title={t('Select Layout Mode')}
         subTitle="Step 2"
         status={step2Finish ? 'finish' : showErr ? 'error' : 'process'}
-        description="流式或自由布局"
+        description={t('Stream or Free layout')}
         disabled={current === 3}
       />
       <Step
-        title="完善页面详情"
+        title={t('Complete Details')}
         subTitle="Step 3"
         status={step3Finish ? 'finish' : showErr ? 'error' : 'process'}
-        description="业务、标题等详细信息"
+        description={t('Some detail infos')}
         disabled={current === 3}
       />
       <Step
-        title="完成页面创建"
+        title={t('Complete')}
         subTitle="Step 4"
         status={step4Finish ? 'finish' : 'process'}
-        description="完成页面创建"
+        description={t('Complete Details')}
         disabled={current !== 3}
       />
     </Steps>

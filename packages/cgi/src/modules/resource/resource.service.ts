@@ -15,6 +15,10 @@ let onUploadFileCallback = (
   return Promise.resolve(null);
 };
 
+let onDeleteFileCallback = (_: ResourceEntity): Promise<Maybe<string>> => {
+  return Promise.resolve(null);
+};
+
 @Injectable()
 export class ResourceService {
   constructor(
@@ -69,9 +73,17 @@ export class ResourceService {
     return this.resourceRepository.delete({ id });
   }
 
+  // Upload file callback
   public onUploadFile = (callback: typeof onUploadFileCallback) => {
     onUploadFileCallback = callback;
   };
 
   public getUploadFileCallback = () => onUploadFileCallback;
+
+  // Delete file callback
+  public onDeleteFile = (callback: typeof onDeleteFileCallback) => {
+    onDeleteFileCallback = callback;
+  };
+
+  public getDeleteFileCallback = () => onDeleteFileCallback;
 }

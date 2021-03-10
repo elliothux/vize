@@ -1,0 +1,107 @@
+.operation_bar {
+  &.center {
+    height: 100%;
+
+    & > div {
+      display: inline-block;
+    }
+
+    .operation_item {
+      cursor: pointer;
+      width: 36px;
+      height: 100%;
+      text-align: center;
+      padding: 18px 0;
+
+      .anticon svg {
+        position: relative;
+        top: -1px;
+        width: 18px;
+        height: auto;
+      }
+
+      svg {
+        width: 16px;
+        height: auto;
+      }
+    }
+
+    .operation_black {
+      width: 22px;
+      height: 1px;
+      display: inline-block;
+    }
+  }
+
+  &.right {
+    .hide_left,
+    .hide_right {
+      cursor: pointer;
+
+      svg {
+        width: 20px;
+        height: auto;
+      }
+    }
+  }
+}
+
+.vize-editor-operation-item-tooltip {
+  .ant-tooltip-inner {
+    & > p {
+      margin: 0;
+      text-align: center;
+      font-weight: bolder;
+
+      &.desc {
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.generator-result {
+  .ant-modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 320px;
+    padding-bottom: 32px;
+
+    & > h1 {
+      font-size: 20px;
+      margin-bottom: 24px;
+    }
+
+    & > p {
+      font-size: 14px;
+      margin-top: 18px;
+      margin-right: 4px;
+
+      svg {
+        width: 20px;
+        height: auto;
+        margin-right: 8px;
+        position: relative;
+        top: 4px;
+      }
+    }
+
+    .buttons {
+      margin-top: 12px;
+
+      .ant-btn-primary {
+        margin-right: 18px;
+      }
+
+      svg {
+        width: 15px;
+        height: auto;
+        margin-right: 2px;
+        position: relative;
+        top: 2px;
+      }
+    }
+  }
+}

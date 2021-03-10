@@ -29,7 +29,7 @@ export function PluginDetailItem({ item: [name, item], lib }: Props) {
         <Link href={playgroundPath} key="0">
           <BiRocket />
           <span>
-            <Trans>try with Playground</Trans>
+            <Trans>Try with Playground</Trans>
           </span>
         </Link>,
       ]}

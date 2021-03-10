@@ -1,4 +1,4 @@
-import { DSL, GeneratorResult, Maybe } from 'types';
+import { DSL, GeneratorResult, PublisherResult } from 'types';
 import { PageRecordWithHistory } from 'sharedTypes';
 import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from './utils';
 
@@ -18,14 +18,19 @@ export function startPublishPage(key: string): Promise<ParsedCGIResponse<Generat
   return postCGIJSON(prefix(`page/publish/${key}`), {});
 }
 
-export function getPublishStatus(
-  key: string,
-): Promise<ParsedCGIResponse<Maybe<[BuildStatus, Maybe<GeneratorResult>]>>> {
+export function getPublishStatus(key: string): Promise<ParsedCGIResponse<PublishStatusResponse>> {
   return getCGIJSON(prefix(`page/publish/${key}`));
 }
 
-export enum BuildStatus {
+export interface PublishStatusResponse {
+  status: PublishStatus;
+  result?: GeneratorResult | PublisherResult;
+  error?: Error;
+}
+
+export enum PublishStatus {
   START = 'start',
+  BUILD_SUCCESS = 'build_success',
   SUCCESS = 'success',
   FAILED = 'failed',
 }

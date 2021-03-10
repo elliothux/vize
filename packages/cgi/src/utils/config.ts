@@ -8,15 +8,17 @@ export function setConfig(c: VizeCGIConfig) {
   const { workspacePath } = c;
   const buildPath = path.join(workspacePath, 'build');
   const previewPath = path.join(workspacePath, 'preview');
+  const publishPath = path.join(workspacePath, 'publish');
   const materialsPath = path.join(workspacePath, 'materials');
   const materialsVersionsPath = path.join(workspacePath, 'materials_version');
   const uploadFilesPath = path.join(workspacePath, 'upload');
   config = {
     ...c,
     paths: {
-      workspacePath,
+      root: workspacePath,
       buildPath,
       previewPath,
+      publishPath,
       materialsPath,
       materialsVersionsPath,
       uploadFilesPath,

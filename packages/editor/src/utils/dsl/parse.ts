@@ -10,7 +10,7 @@ import {
   PluginInstance,
   PluginInstanceDSL,
 } from 'types';
-import { PageRecordWithHistory } from 'sharedTypes';
+import { PageRecordWithHistory, UserRecord } from 'sharedTypes';
 
 export function parseDSLFromCGIRecord({
   id,
@@ -31,37 +31,47 @@ export function parseDSLFromCGIRecord({
     sharedComponentInstances,
     maxKeys,
   },
-}: PageRecordWithHistory): ReturnType<typeof parseDSL> {
-  return {
-    global: {
-      metaInfo: {
-        title,
-        desc,
-        duration: startTime && endTime ? [new Date(startTime).getTime(), new Date(endTime).getTime()] : null,
-        expiredJump,
-        id,
-        key,
-        isEditor: true,
-        isTemplate: !!isTemplate,
+  owner,
+}: PageRecordWithHistory): [ReturnType<typeof parseDSLFromLocalStorage>, UserRecord] {
+  return [
+    {
+      global: {
+        metaInfo: {
+          title,
+          desc,
+          duration: startTime && endTime ? [new Date(startTime).getTime(), new Date(endTime).getTime()] : null,
+          expiredJump,
+          id,
+          key,
+          isEditor: true,
+          isTemplate: !!isTemplate,
+        },
+        globalProps: JSON.parse(globalProps),
+        globalStyle: JSON.parse(globalStyle),
       },
-      globalProps: JSON.parse(globalProps),
-      globalStyle: JSON.parse(globalStyle),
+      editInfo: {
+        layoutMode: layoutMode as LayoutMode,
+        pageMode: pageMode as PageMode,
+        maxKeys: maxKeys ? JSON.parse(maxKeys) : null,
+      },
+      sharedComponentInstances: sharedComponentInstances
+        ? parseComponentInstancesDSL(JSON.parse(sharedComponentInstances))
+        : undefined,
+      pageInstances: parsePageInstancesDSL(JSON.parse(pageInstances), pageMode as PageMode),
+      pluginInstances:
+        pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(JSON.parse(pluginInstances || '[]')) : undefined,
     },
-    editInfo: {
-      layoutMode: layoutMode as LayoutMode,
-      pageMode: pageMode as PageMode,
-      maxKeys: maxKeys ? JSON.parse(maxKeys) : null,
-    },
-    sharedComponentInstances: sharedComponentInstances
-      ? parseComponentInstancesDSL(JSON.parse(sharedComponentInstances))
-      : undefined,
-    pageInstances: parsePageInstancesDSL(JSON.parse(pageInstances), pageMode as PageMode),
-    pluginInstances:
-      pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(JSON.parse(pluginInstances || '[]')) : undefined,
-  };
+    owner,
+  ];
 }
 
-export function parseDSL({ global, pageInstances, pluginInstances, sharedComponentInstances, editInfo }: DSL) {
+export function parseDSLFromLocalStorage({
+  global,
+  pageInstances,
+  pluginInstances,
+  sharedComponentInstances,
+  editInfo,
+}: DSL) {
   return {
     global,
     editInfo,

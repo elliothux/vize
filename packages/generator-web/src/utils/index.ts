@@ -11,7 +11,12 @@ export async function prepareTargetFolder(distWorkspacePath: string, pageKey: st
 
   const p = path.resolve(distWorkspacePath, pageKey);
   if (fs.existsSync(p)) {
-    fs.rmdirSync(p, { recursive: true });
+    await Promise.all(
+      fs
+        .readdirSync(p)
+        .filter(i => !/preview/.test(i))
+        .map(i => fs.rmdirSync(path.resolve(p, i), { recursive: true })),
+    );
   }
   await fs.mkdirp(p);
 

@@ -12,10 +12,12 @@ import { EditBiz } from './EditBiz';
 import { createBiz, CreateBizParams, updateBiz, UpdateBizParams } from 'api';
 import { BizRecord, Maybe } from 'types';
 import { withAdminValidation } from 'utils';
+import { useTranslation } from 'react-i18next';
 
 function IBizs() {
   const { bizList } = bizStore;
 
+  const { t } = useTranslation();
   const [editBiz, setEditBiz] = useState<Maybe<BizRecord>>(null);
   const [createVisible, setCreateVisible] = useState(false);
 
@@ -43,11 +45,11 @@ function IBizs() {
   return (
     <Spin spinning={!bizList}>
       <Header
-        title="业务管理"
-        searchText="搜索业务..."
+        title={t('Business Management')}
+        searchText={t('Search business')}
         onSearch={console.log}
         appendAfterSearch={
-          <Tooltip title="创建业务" placement="bottom">
+          <Tooltip title={t('register business')} placement="bottom">
             <Button
               type="primary"
               size="large"

@@ -4,28 +4,36 @@ import { Repository } from 'typeorm';
 import { HistoryEntity } from './history.entity';
 import { QueryParams } from '../../types';
 import { CreateHistoryDTO } from './history.interface';
+import { UserEntity } from '../user/user.entity';
 
 @Injectable()
 export class HistoryService {
   constructor(
     @InjectRepository(HistoryEntity)
     private readonly historyRepository: Repository<HistoryEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  public createHistory({
-    global: {
-      metaInfo: { title, desc, duration, expiredJump },
-      globalProps,
-      globalStyle,
-    },
-    sharedComponentInstances,
-    pageInstances,
-    pluginInstances,
-    editInfo,
-  }: CreateHistoryDTO) {
+  public async createHistory(
+    username: string,
+    {
+      global: {
+        metaInfo: { title, desc, duration, expiredJump },
+        globalProps,
+        globalStyle,
+      },
+      sharedComponentInstances,
+      pageInstances,
+      pluginInstances,
+      editInfo,
+    }: CreateHistoryDTO,
+  ) {
+    const { id: creator } = await this.userRepository.findOne({
+      name: username,
+    });
     return this.historyRepository.insert({
       createdTime: new Date(),
-      author: 'qy',
       title,
       desc,
       startTime: duration ? new Date(duration?.[0]) : undefined,
@@ -37,6 +45,7 @@ export class HistoryService {
       pluginInstances: JSON.stringify(pluginInstances),
       sharedComponentInstances: JSON.stringify(sharedComponentInstances),
       maxKeys: JSON.stringify(editInfo.maxKeys),
+      creator: { id: creator },
     });
   }
 

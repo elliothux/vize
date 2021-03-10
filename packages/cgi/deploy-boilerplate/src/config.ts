@@ -30,14 +30,14 @@ export function getConfig(): VizeCGIConfig {
       database: 'vize',
     },
     generators: {
-      web: require(path.resolve(
-        '/Users/huqingyang/Desktop/Proj/vize/packages/',
-        'generator-web',
-      )).default,
-      pegasus: require(path.resolve(
-        '/Users/huqingyang/Desktop/Proj/vize/packages/',
-        'generator-pegasus',
-      )).default,
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      web: require(path.resolve(__dirname, '../../../../../generator-web'))
+        .default,
+    },
+    publishers: {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      web: require(path.resolve(__dirname, '../../../../../publisher-web'))
+        .default,
     },
     middlewares: {
       login,

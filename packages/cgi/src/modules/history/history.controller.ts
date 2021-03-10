@@ -4,6 +4,7 @@ import { CGIResponse } from '../../utils';
 import { HistoryService } from './history.service';
 import { CreateHistoryDTO } from './history.interface';
 import { PageService } from '../page/page.service';
+import { VizeUserName } from '../../decorators/VizeUserName';
 
 let cgiHistoryServices: Maybe<HistoryService> = null;
 
@@ -17,10 +18,10 @@ export class HistoryController {
   }
 
   @Post()
-  async createHistory(@Body() dsl: CreateHistoryDTO) {
+  async createHistory(@VizeUserName() username, @Body() dsl: CreateHistoryDTO) {
     const {
       identifiers: [{ id: historyId }],
-    } = await this.historyService.createHistory(dsl);
+    } = await this.historyService.createHistory(username, dsl);
     const result = this.pageService.updateLatestHistory(dsl.pageKey, historyId);
     return CGIResponse.success(result);
   }

@@ -9,6 +9,7 @@ import {
 import { RecordStatus } from '../../types';
 import { BizEntity } from '../biz/biz.entity';
 import { HistoryEntity } from '../history/history.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Entity()
 export class PageEntity {
@@ -20,9 +21,6 @@ export class PageEntity {
 
   @Column({ type: 'datetime', nullable: false })
   createdTime: Date;
-
-  @Column({ type: 'varchar', length: 128, nullable: false })
-  author: string;
 
   @Column({ type: 'varchar', length: 16, nullable: false })
   layoutMode: string;
@@ -39,8 +37,19 @@ export class PageEntity {
   @Column({ type: 'varchar', length: 128, nullable: false })
   container: string;
 
+  @Column({ type: 'varchar', length: 1024, nullable: true })
+  url?: string;
+
   @Column({ type: 'tinyint', nullable: false, default: 1 })
   status: RecordStatus;
+
+  @ManyToOne(
+    () => UserEntity,
+    user => user.id,
+    { nullable: false },
+  )
+  @JoinColumn()
+  owner: UserEntity;
 
   @ManyToOne(
     () => BizEntity,

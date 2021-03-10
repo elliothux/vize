@@ -5,6 +5,7 @@ import { promiseWrapper } from 'utils';
 import { materialsStore } from 'state';
 import { BizRecord, Maybe } from 'types';
 import { CreateBizParams, UpdateBizParams } from 'api';
+import { useTranslation, Trans } from 'react-i18next';
 import classNames from 'classnames';
 
 interface Props {
@@ -21,6 +22,7 @@ const layout = {
 };
 
 export function EditBiz({ biz, onComplete, visible, setVisible }: Props) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
   const onBack = useCallback(() => setVisible(false), []);
@@ -31,11 +33,11 @@ export function EditBiz({ biz, onComplete, visible, setVisible }: Props) {
 
       const [err] = await promiseWrapper(onComplete({ key, name, logo, materials }));
       if (err) {
-        message.error('保存失败');
+        message.error(t('failed to save'));
         return setLoading(false);
       }
 
-      message.success('成功');
+      message.success(t('saved'));
       setLoading(false);
       setVisible(false);
     },
@@ -54,10 +56,15 @@ export function EditBiz({ biz, onComplete, visible, setVisible }: Props) {
       closable
     >
       <Spin spinning={loading}>
-        <PageHeader onBack={onBack} title={biz ? '编辑业务' : '创建业务'} subTitle="" />
+        <PageHeader onBack={onBack} title={t(biz ? 'Edit Business' : 'Register Business')} subTitle="" />
 
         <Form {...layout} initialValues={biz || undefined} onFinish={onFinish}>
-          <FormItem label="业务名" name="name" hasFeedback rules={[{ required: true, message: '请输入业务名' }]}>
+          <FormItem
+            label={t('Name')}
+            name="name"
+            hasFeedback
+            rules={[{ required: true, message: t('Please enter a valid business name') }]}
+          >
             <Input />
           </FormItem>
 
@@ -65,23 +72,28 @@ export function EditBiz({ biz, onComplete, visible, setVisible }: Props) {
             label="Logo"
             name="logo"
             hasFeedback
-            rules={[{ required: true, type: 'url', message: '请输入正确的 Logo URL' }]}
+            rules={[{ required: true, type: 'url', message: t('Please enter a valid image URL') }]}
           >
             <Input type="url" />
           </FormItem>
 
           {!biz ? (
-            <FormItem label="Key" name="key" hasFeedback rules={[{ required: true, message: '请输入正确的业务 key' }]}>
-              <Input placeholder="将作为URL后缀，创建无无法更改" />
+            <FormItem
+              label="Key"
+              name="key"
+              hasFeedback
+              rules={[{ required: true, message: t('Please enter a valid business key') }]}
+            >
+              <Input placeholder={t('Used as the URL suffix and cannot be modified')} />
             </FormItem>
           ) : null}
 
           <Form.Item
-            label="物料库"
+            label={t('Materials')}
             name="materials"
-            rules={[{ required: true, message: '请至少绑定一个物料库', type: 'array' }]}
+            rules={[{ required: true, message: t('Please select at least one materials library'), type: 'array' }]}
           >
-            <Select mode="multiple" placeholder="请绑定物料库">
+            <Select mode="multiple" placeholder={t('Select Materials Library')}>
               {materialsStore.materialsList?.map(({ id, displayName, libName }) => (
                 <Select.Option value={libName} key={id}>
                   {displayName}
@@ -92,7 +104,7 @@ export function EditBiz({ biz, onComplete, visible, setVisible }: Props) {
 
           <FormItem>
             <Button type="primary" htmlType="submit">
-              确定
+              <Trans>Confirm</Trans>
             </Button>
           </FormItem>
         </Form>

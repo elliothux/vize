@@ -10,17 +10,26 @@ img {
   pointer-events: none;
 }
 
-//img {
-//  pointer-events: none;
-//}
-
 .vize-editor-loading {
   height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 999;
 
   .ant-spin {
-    max-height: 85vh !important;
-    height: 85vh !important;
-    left: -30px !important;
+    width: 120px !important;
+    left: calc((100vw - 120px) / 2 - 28px) !important;
+    height: 88px !important;
+    top: calc((100vh - 88px) / 2 - 30px) !important;
+    background-color: white;
+    border-radius: 4px;
+
+    svg {
+      width: 16px;
+      height: auto;
+      margin-right: 4px;
+      position: relative;
+      top: 3px;
+    }
   }
 
   .ant-spin-container {
@@ -143,4 +152,17 @@ img {
 .ant-message,
 .ant-modal {
   left: -30px !important;
+}
+
+.icon-loading {
+  animation: icon-loading-animation linear infinite 800ms;
+
+  @keyframes icon-loading-animation {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }

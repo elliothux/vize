@@ -27,7 +27,11 @@ function IUserList({ users, onEdit }: Props) {
             <Tooltip title={`id: ${id}`}>
               <span>{name}</span>
             </Tooltip>
-            {isAdmin ? <Tag color="red">管理员</Tag> : null}
+            {isAdmin ? (
+              <Tag color="red">
+                <Trans>Administrator</Trans>
+              </Tag>
+            ) : null}
           </div>
         )}
       />
@@ -47,7 +51,7 @@ function IUserList({ users, onEdit }: Props) {
         title={t('Created time')}
         dataIndex="createdTime"
         key="createdTime"
-        render={createdTime => day(createdTime).format('MM月DD日 HH:mm')}
+        render={createdTime => day(createdTime).format(`${t('YYYY-MM-DD')} HH:mm`)}
       />
       <Column
         title={t('Operations')}

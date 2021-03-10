@@ -55,7 +55,7 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
     <>
       <div className="event-form-prop-item component-target-selector">
         <span>
-          <Trans>Target component</Trans>:
+          <Trans>Target Comp</Trans>:
         </span>
         {selectMode ? (
           <Button onClick={onEndSelect} className="component-target-selector-button">
@@ -67,7 +67,7 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
                   <FiChevronsLeft className="component-target-selector-button-icon" />
                   <span>
                     {' '}
-                    <Trans>Click component to select</Trans>
+                    <Trans>Select target component</Trans>
                   </span>
                 </>
               )}
@@ -95,7 +95,7 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
       {meta ? (
         <div className="event-form-prop-item component-target-selector">
           <span>
-            <Trans>execute action</Trans>:
+            <Trans>Target Action</Trans>:
           </span>
           <Select
             value={eventName}

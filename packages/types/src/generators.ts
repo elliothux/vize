@@ -1,10 +1,11 @@
 import { DSL } from './dsl';
 import { Maybe } from './helper';
 import { MaterialsInfo } from './materials';
+import { WorkspacePaths } from './paths';
 
 export interface GeneratorParams {
   dsl: DSL;
-  workspacePath: string;
+  workspacePaths: WorkspacePaths;
   isPreview: boolean;
 }
 

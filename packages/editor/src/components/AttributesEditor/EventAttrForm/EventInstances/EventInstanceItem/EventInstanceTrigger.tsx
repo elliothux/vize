@@ -13,20 +13,23 @@ interface Props {
 
 export function EventInstanceTrigger({ trigger, target, customEvents }: Props) {
   const [triggerDisplayName, TriggerIcon] = useMemo(() => getTriggerDisplayName(trigger, customEvents), []);
+  const actionDesc = i18n.t(getTargetTypeDesc(target.type));
 
   return (
     <p className="event_instance_trigger">
       <TriggerIcon />
-      <Trans>when</Trans> <span>{triggerDisplayName}</span> <Trans>do</Trans> {getTargetTypeDesc(target.type)}
+      <Trans i18nKey="TriggerWhen">
+        when <span>{{ trigger: triggerDisplayName, action: actionDesc }}</span>
+      </Trans>
     </p>
   );
 }
 
 function getTargetTypeDesc(type: EventTargetType) {
   const descMap = {
-    [EventTargetType.ACTION]: i18n.t('execute action'),
-    [EventTargetType.PLUGIN]: i18n.t('trigger plugin event'),
-    [EventTargetType.COMPONENT]: i18n.t('trigger component event'),
+    [EventTargetType.ACTION]: 'Execute action',
+    [EventTargetType.PLUGIN]: 'Trigger plugin',
+    [EventTargetType.COMPONENT]: 'Trigger component',
   };
   return descMap[type];
 }

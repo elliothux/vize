@@ -4,6 +4,7 @@ import { bizStore } from 'state';
 import { Tag } from 'antd';
 import { BizRecord, Maybe } from 'types';
 import { useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 
 const { CheckableTag } = Tag;
 
@@ -28,7 +29,7 @@ function IBizSelector({ onSelect, className = '' }: Props) {
   return (
     <div className={`biz-selector ${className}`}>
       <CheckableTag checked={!current} onClick={() => setCurrent(null)}>
-        全部业务
+        <Trans>All business</Trans>
       </CheckableTag>
 
       {bizList.map(({ name, key, id }) => (

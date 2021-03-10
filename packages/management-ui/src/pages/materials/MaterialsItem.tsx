@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { BiShow, BiRocket, BiAnalyse, BiTransfer } from 'react-icons/bi';
 import { Link } from 'wouter';
 import { withAdminValidation, noop } from 'utils';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
 
 interface Props {
@@ -22,7 +22,8 @@ export function MaterialsItem({
     libName,
     displayName,
     desc,
-    manifest: { components, plugins, actions },
+    version,
+    manifest: { components, plugins, actions, containers },
   },
 }: Props) {
   const { t } = useTranslation();
@@ -43,7 +44,7 @@ export function MaterialsItem({
             </Link>
           </div>
         </Tooltip>,
-        <Tooltip title={t('try with Playground')} key="playground">
+        <Tooltip title={t('Try with Playground')} key="playground">
           <div>
             <Link href={playgroundPath}>
               <BiRocket />
@@ -62,35 +63,35 @@ export function MaterialsItem({
         {displayName}
         <span> {libName}</span>
       </h3>
-      <p className="desc">{desc || '无描述...'}</p>
+      <p className="desc">{desc || t('No materials description')}</p>
 
       <div className="times infos">
         <div className="info-item">
-          <p>创建时间</p>
+          <p>
+            <Trans>Created time</Trans>
+          </p>
           <p>{created}</p>
         </div>
         <div className="info-item">
-          <p>修改时间</p>
+          <p>
+            <Trans>Modified time</Trans>
+          </p>
           <p>{modified}</p>
         </div>
       </div>
 
       <div className="infos">
         <div className="info-item">
-          <p>开发者</p>
+          <p>
+            <Trans>Developer</Trans>
+          </p>
           <p>{author}</p>
         </div>
         <div className="info-item">
-          <p>组件</p>
-          <p>{Object.keys(components).length}个</p>
-        </div>
-        <div className="info-item">
-          <p>插件</p>
-          <p>{Object.keys(plugins).length}个</p>
-        </div>
-        <div className="info-item">
-          <p>动作</p>
-          <p>{Object.keys(actions).length}个</p>
+          <p>
+            <Trans>Current Version</Trans>
+          </p>
+          <p style={{ minWidth: '90px' }}>{version}</p>
         </div>
       </div>
     </Card>

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": "src",
+    "allowJs": false,
+    "skipLibCheck": true,
+    "lib": ["ES2015"]
+  },
+  "compileOnSave": true,
+  "include": ["src"],
+  "exclude": ["src/runtime"]
+}

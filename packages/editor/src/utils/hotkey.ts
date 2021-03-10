@@ -81,15 +81,15 @@ export function registerHotkey(element: Document) {
     handlerWrapper(() => hotkeyEvents.emit(HotKeyEventTypes.TOGGLE_PREVIEW)),
   );
   hotkeys(
-    'ctrl+shift+p,command+shift+p',
+    'ctrl+g,command+g',
     options,
     handlerWrapper(() => hotkeyEvents.emit(HotKeyEventTypes.PREVIEW)),
   );
-  // hotkeys(
-  //   'ctrl+shift+p,command+shift+p',
-  //   options,
-  //   handlerWrapper(() => hotkeyEvents.emit(HotKeyEventTypes.PUBLISH)),
-  // );
+  hotkeys(
+    'ctrl+u,command+u',
+    options,
+    handlerWrapper(() => hotkeyEvents.emit(HotKeyEventTypes.PUBLISH)),
+  );
   hotkeys(
     'ctrl+f,command+f',
     options,

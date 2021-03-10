@@ -41,7 +41,7 @@ function IAttributesEditor({ loading }: Props) {
   const title = useMemo(() => {
     switch (selectType) {
       case SelectType.GLOBAL:
-        return i18n.t('Global Configuration');
+        return i18n.t('Global Attributes');
       case SelectType.COMPONENT:
         return i18n.t('Component Configuration');
       case SelectType.PLUGIN:
@@ -65,7 +65,7 @@ function IAttributesEditor({ loading }: Props) {
             <div className="editor-prop-tab-item">
               <FiDatabase />
               <span>
-                &nbsp;<Trans>data</Trans>
+                &nbsp;<Trans>Data</Trans>
               </span>
             </div>
           }
@@ -79,7 +79,7 @@ function IAttributesEditor({ loading }: Props) {
             <div className="editor-prop-tab-item">
               <FiFeather />
               <span>
-                &nbsp;<Trans>style</Trans>
+                &nbsp;<Trans>Style</Trans>
               </span>
             </div>
           }
@@ -93,7 +93,7 @@ function IAttributesEditor({ loading }: Props) {
             <div className="editor-prop-tab-item">
               <FiGrid />
               <span>
-                &nbsp;<Trans>event</Trans>
+                &nbsp;<Trans>Event</Trans>
               </span>
             </div>
           }

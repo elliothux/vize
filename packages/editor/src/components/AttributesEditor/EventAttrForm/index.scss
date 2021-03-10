@@ -7,6 +7,10 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 12px;
+
+    & > span {
+      width: 100px;
+    }
   }
 
   .event-form-selector {
