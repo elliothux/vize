@@ -6,7 +6,7 @@ export interface CreatePageDTO
       PageEntity,
       'id' | 'createdTime' | 'biz' | 'status' | 'latestHistory'
     >,
-    Pick<HistoryEntity, 'author' | 'title' | 'desc'> {
+    Pick<HistoryEntity, 'title' | 'desc'> {
   biz: number;
 }
 

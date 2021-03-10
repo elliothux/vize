@@ -11,6 +11,7 @@ import {
   QueryParams,
   RecordStatus,
 } from '../../types';
+import { UserEntity } from '../user/user.entity';
 import { HistoryEntity } from '../history/history.entity';
 import { generateDSL, getConfig } from '../../utils';
 import {
@@ -28,29 +29,34 @@ export class PageService {
     private readonly pageRepository: Repository<PageEntity>,
     @InjectRepository(HistoryEntity)
     private readonly historyRepository: Repository<HistoryEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  public async createPageEntity({
-    key,
-    author,
-    layoutMode,
-    pageMode,
-    biz,
-    title,
-    desc = '',
-    isTemplate,
-    container,
-    generator,
-  }: CreatePageDTO) {
+  public async createPageEntity(
+    username: string,
+    {
+      key,
+      layoutMode,
+      pageMode,
+      biz,
+      title,
+      desc = '',
+      isTemplate,
+      container,
+      generator,
+    }: CreatePageDTO,
+  ) {
     const createdTime = new Date();
 
+    const { id: owner } = await this.userRepository.findOne({ name: username });
     const {
       identifiers: [{ id: latestHistory }],
     } = await this.historyRepository.insert({
       title,
       desc,
       createdTime,
-      author,
+      creator: { id: owner },
       globalProps: '{}',
       globalStyle: '{}',
       pageInstances: '[]',
@@ -59,12 +65,12 @@ export class PageService {
     return this.pageRepository.insert({
       key,
       createdTime,
-      author,
       layoutMode,
       pageMode,
       isTemplate,
       generator,
       container,
+      owner: { id: owner },
       biz: { id: biz },
       latestHistory: { id: latestHistory },
     });
@@ -116,7 +122,7 @@ export class PageService {
   public getPageByKey(key: string) {
     return this.pageRepository.findOne(
       { key },
-      { relations: ['latestHistory'] },
+      { relations: ['latestHistory', 'owner'] },
     );
   }
 

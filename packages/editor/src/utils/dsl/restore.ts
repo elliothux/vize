@@ -11,8 +11,9 @@ import {
   HotArea,
   MustBe,
 } from 'types';
+import { UserRecord } from 'sharedTypes';
 import { componentsStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
-import { parseDSL } from './parse';
+import { parseDSLFromLocalStorage } from './parse';
 import {
   addPageComponentInstanceIndexMap,
   addPagePluginInstanceIndexMap,
@@ -24,13 +25,16 @@ import { componentEventDepsMap, generateEventDepFromItem, pluginEventDepsMap } f
 import { setMaxKey } from '../key';
 import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
 
-export function restoreState({
-  global,
-  pageInstances,
-  pluginInstances,
-  sharedComponentInstances,
-  editInfo,
-}: ReturnType<typeof parseDSL>) {
+export function restoreState(
+  {
+    global,
+    pageInstances,
+    pluginInstances,
+    sharedComponentInstances,
+    editInfo,
+  }: ReturnType<typeof parseDSLFromLocalStorage>,
+  extraInfo?: ExtraInfo,
+) {
   restoreEditInfo(editInfo);
   restorePageInstances(pageInstances);
 
@@ -42,6 +46,20 @@ export function restoreState({
     restorePluginInstances(0, pluginInstances!);
     restoreGlobalState(global!);
   }
+
+  if (extraInfo) {
+    restoreExtraInfo(extraInfo);
+  }
+}
+
+interface ExtraInfo {
+  owner: UserRecord;
+}
+
+function restoreExtraInfo({ owner }: ExtraInfo) {
+  return editStore.setState(store => {
+    store.owner = owner;
+  }, true);
 }
 
 function restoreGlobalState({ globalProps, globalStyle, metaInfo }: MustBe<DSL['global']>) {
@@ -52,7 +70,7 @@ function restoreGlobalState({ globalProps, globalStyle, metaInfo }: MustBe<DSL['
   });
 }
 
-function restorePageInstances(pages: ReturnType<typeof parseDSL>['pageInstances']) {
+function restorePageInstances(pages: ReturnType<typeof parseDSLFromLocalStorage>['pageInstances']) {
   return pages.forEach(([pageInstance, { componentInstances, pluginInstances }], index) => {
     pagesStore.setState(pagesStore => {
       if (index === 0) {
@@ -154,7 +172,7 @@ function restoreEventDep(
   });
 }
 
-function restoreEditInfo({ maxKeys, layoutMode, pageMode }: ReturnType<typeof parseDSL>['editInfo']) {
+function restoreEditInfo({ maxKeys, layoutMode, pageMode }: ReturnType<typeof parseDSLFromLocalStorage>['editInfo']) {
   editStore.setState(editStore => {
     editStore.layoutMode = layoutMode;
     editStore.pageMode = pageMode;

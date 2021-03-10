@@ -69,15 +69,23 @@
     min-height: 320px;
     padding-bottom: 32px;
 
-    h1 {
+    & > h1 {
       font-size: 20px;
       margin-bottom: 24px;
     }
 
-    p {
+    & > p {
       font-size: 14px;
       margin-top: 18px;
       margin-right: 4px;
+
+      svg {
+        width: 20px;
+        height: auto;
+        margin-right: 8px;
+        position: relative;
+        top: 4px;
+      }
     }
 
     .buttons {
@@ -85,6 +93,14 @@
 
       .ant-btn-primary {
         margin-right: 18px;
+      }
+
+      svg {
+        width: 15px;
+        height: auto;
+        margin-right: 2px;
+        position: relative;
+        top: 2px;
       }
     }
   }

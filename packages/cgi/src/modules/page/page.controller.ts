@@ -13,6 +13,7 @@ import { CreatePageDTO, UpdatePageDTO } from './page.interface';
 import { CGICodeMap, CGIResponse } from '../../utils';
 import { QueryParams, Maybe } from '../../types';
 import { GeneratorResult } from '@vize/types';
+import { VizeUserName } from '../../decorators/VizeUserName';
 
 let cgiPageService: Maybe<PageService> = null;
 
@@ -23,14 +24,14 @@ export class PageController {
   }
 
   @Post()
-  async createPage(@Body() page: CreatePageDTO) {
+  async createPage(@VizeUserName() username, @Body() page: CreatePageDTO) {
     if (await this.pageService.checkPageExists(page.key)) {
       return CGIResponse.failed(CGICodeMap.PageExists);
     }
 
     const {
       identifiers: [{ id: pageId }],
-    } = await this.pageService.createPageEntity(page);
+    } = await this.pageService.createPageEntity(username, page);
     const result = await this.pageService.getPageById(pageId);
     return CGIResponse.success(result);
   }
@@ -44,13 +45,13 @@ export class PageController {
       total,
       data: pages.map(page => {
         const {
-          latestHistory: { id, title, desc, author, createdTime },
+          latestHistory: { id, title, desc, createdTime },
           biz: { id: bizID },
           container,
         } = page;
         return {
           ...page,
-          latestHistory: { id, title, desc, author, createdTime },
+          latestHistory: { id, title, desc, createdTime },
           biz: { id: bizID },
           container: JSON.parse(container),
         };

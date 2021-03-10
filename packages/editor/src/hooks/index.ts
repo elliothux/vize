@@ -5,3 +5,4 @@ export * from './useComponent';
 export * from './useHotArea';
 export * from './usePlugin';
 export * from './usePromise';
+export * from './useUser';

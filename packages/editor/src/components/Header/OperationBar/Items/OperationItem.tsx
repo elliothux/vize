@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Tooltip } from 'antd';
 import { IconType } from 'react-icons/lib';
 import { TooltipPlacement } from 'antd/lib/tooltip';
-import { LoadingOutlined } from '@ant-design/icons';
+import { BiLoaderAlt } from 'react-icons/bi';
 import classnames from 'classnames';
 import { noop } from 'utils';
 
@@ -19,7 +19,7 @@ export function OperationItem({ icon: Icon, disabled, placement, loading, action
   return (
     <Tooltip overlayClassName="vize-editor-operation-item-tooltip" placement={placement || 'bottom'} title={title}>
       <div onClick={disabled || loading ? noop : action} className={classnames('operation_item', { disabled })}>
-        {loading ? <LoadingOutlined /> : <Icon />}
+        {loading ? <BiLoaderAlt className="icon-loading" /> : <Icon />}
       </div>
     </Tooltip>
   );

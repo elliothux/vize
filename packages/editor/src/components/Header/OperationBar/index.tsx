@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import './index.scss';
 import * as React from 'react';
 import { EditorResize } from './Resize';

@@ -1,0 +1,50 @@
+.login {
+  text-align: center;
+
+  .ant-modal-content {
+    width: 240px;
+    position: relative;
+    left: calc((520px - 240px) / 2);
+    top: 18vh;
+
+    img {
+      width: 40px;
+      height: auto;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    button {
+      border-radius: 16px;
+    }
+  }
+}
+
+.login-loading {
+  text-align: center;
+
+  .ant-modal-content {
+    width: 100px;
+    position: relative;
+    left: calc((520px - 100px) / 2);
+    top: 20vh;
+
+    .ant-modal-body {
+      padding: 12px 0;
+    }
+
+    img {
+      width: 28px;
+      height: auto;
+      margin-right: 8px;
+    }
+
+    span {
+      position: relative;
+      top: 2px;
+    }
+  }
+}

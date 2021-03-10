@@ -54,7 +54,7 @@ export const zh = {
     'show link': '查看链接',
     'Generate preview success': '生成预览成功',
     'Publish success': '发布成功',
-    'Scan the QR code with phone to preview the page': '手机扫码预览页面',
+    'Scan the QR code to preview the page': '手机扫码预览页面',
     'Open Link': '打开链接',
     'Copy Link': '复制链接',
     'copy link': '复制链接',

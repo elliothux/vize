@@ -28,7 +28,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     expiredJump: '',
     id: null,
     key: '',
-    isTemplate: false, // TODO
+    isTemplate: false,
     isEditor: true,
   };
 

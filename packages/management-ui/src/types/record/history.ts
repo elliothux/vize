@@ -1,7 +1,8 @@
+import { UserRecord } from './user';
+
 export interface HistoryRecord {
   id: number;
   createdTime: Date;
-  author: string;
   title: string;
   desc: string;
   startTime?: Date;
@@ -13,4 +14,5 @@ export interface HistoryRecord {
   pluginInstances?: string;
   sharedComponentInstances?: string;
   maxKeys?: string;
+  creator?: UserRecord;
 }

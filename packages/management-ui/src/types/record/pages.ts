@@ -1,22 +1,24 @@
 import { BizRecord } from './biz';
 import { HistoryRecord } from './history';
+import { UserRecord } from './user';
 
 export interface PageRecord {
   id: number;
   key: string;
   createdTime: Date;
-  author: string;
   layoutMode: string;
   pageMode: string;
-  generator?: string;
   isTemplate: number;
+  generator?: string;
   container: {
     lib: string;
     name: string;
   };
+  url?: string;
   status: number;
+  owner: UserRecord;
   biz: Pick<BizRecord, 'id'>;
-  latestHistory: Pick<HistoryRecord, 'id' | 'title' | 'desc' | 'author' | 'createdTime'>;
+  latestHistory: Pick<HistoryRecord, 'id' | 'title' | 'desc' | 'createdTime'>;
 }
 
 export interface PageRecordWithHistory extends PageRecord {

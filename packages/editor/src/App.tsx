@@ -9,18 +9,21 @@ import { Renderer, WithRerender } from 'components/Renderer';
 import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';
 import { HotAreaManager } from 'components/HotAreaManager';
+import { Login } from 'components/Login';
 import { I18nextProvider } from 'react-i18next';
 import { i18n, initI18N } from 'i18n';
-import { getPage } from 'api';
+import { getCurrentUser, getPage } from 'api';
+import { BiLoaderAlt } from 'react-icons/bi';
 import {
   EventEmitTypes,
   events,
   initMaterialsHotReload,
   isDebugMode,
-  parseDSL,
+  parseDSLFromLocalStorage,
   parseDSLFromCGIRecord,
   restoreState,
 } from 'utils';
+import LOGO from 'static/images/logo.svg';
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -42,7 +45,20 @@ export function App() {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <Spin spinning={loading} tip="loading" size="large" wrapperClassName="vize-editor-loading">
+      <Spin
+        spinning={loading}
+        tip={
+          (
+            <>
+              <BiLoaderAlt className="icon-loading" />
+              <span>loading...</span>
+            </>
+          ) as any
+        }
+        size="large"
+        wrapperClassName="vize-editor-loading"
+        indicator={<img className="loading-logo" src={LOGO} alt="logo" />}
+      >
         <Header />
         <main className="vize-main">
           <MaterialsView loading={loading} />
@@ -57,12 +73,13 @@ export function App() {
         </main>
         <HotAreaManager />
       </Spin>
+      {loading ? null : <Login />}
     </I18nextProvider>
   );
 }
 
 async function init() {
-  await Promise.all([initStore(), initI18N]);
+  await Promise.all([initStore(), getCurrentUser(), initI18N]);
   try {
     await restore();
   } catch (e) {
@@ -89,7 +106,7 @@ async function restore() {
       return;
     }
 
-    const dsl = parseDSL(JSON.parse(dslString));
+    const dsl = parseDSLFromLocalStorage(JSON.parse(dslString));
     return restoreState(dsl);
   }
 
@@ -100,6 +117,6 @@ async function restore() {
     return;
   }
 
-  const dsl = parseDSLFromCGIRecord(result!);
-  return restoreState(dsl);
+  const [dsl, owner] = parseDSLFromCGIRecord(result!);
+  return restoreState(dsl, { owner });
 }

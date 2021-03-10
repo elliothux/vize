@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { FiCopy, FiFilePlus, FiGitMerge, FiSave } from 'react-icons/fi';
 import { OperationItem } from './OperationItem';
 import { editStore } from 'states';
-import { generateDSL, hotkeyEvents, HotKeyEventTypes, isDebugMode, isMacOS, promiseWrapper } from 'utils';
+import { generateDSL, hotkeyEvents, HotKeyEventTypes, isDebugMode, promiseWrapper } from 'utils';
 import { observer } from 'mobx-react';
 import { message } from 'antd';
 import { savePageHistory } from 'api';
-import { unImplemented } from './utils';
+import { unImplemented, hotKeyPrefix } from './utils';
 import { useTranslation, Trans } from 'react-i18next';
 import { i18n } from 'i18n';
 
@@ -16,7 +16,6 @@ function ISaveAndHistory() {
   const {
     debugPorts: [debugPort],
   } = editStore;
-  const hotKeyPrefix = isMacOS() ? 'command' : 'ctrl';
   // TODO
   const isUserValid = true;
   const owner = 'admin';
@@ -34,7 +33,7 @@ function ISaveAndHistory() {
               <p>
                 <Trans>save</Trans>
               </p>
-              <p className="desc">({hotKeyPrefix} + s)</p>
+              <p className="desc">({hotKeyPrefix} + S)</p>
             </>
           ) : (
             <p>
@@ -86,8 +85,10 @@ export async function save() {
   err ? message.error(i18n.t('failed to save')) : message.success(i18n.t('saved'));
 }
 
-// TODO: Remove
-(window as any)['clearDSL'] = () => {
+(window as any)['clearDebugDSL'] = () => {
   localStorage.removeItem('dsl');
-  console.log('clearDSL success');
+  console.log('Clear debug DSL success');
+  setTimeout(() => {
+    window.location.reload();
+  }, 1000);
 };
