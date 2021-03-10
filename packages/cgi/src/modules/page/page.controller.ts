@@ -98,17 +98,20 @@ export class PageController {
 
   @Get('/preview/:key')
   async previewPage(@Param('key') key) {
-    const result = await this.pageService.buildPage(key, true);
-    return result.error
-      ? CGIResponse.failed(CGICodeMap.BuildFailed, JSON.stringify(result.error))
+    const result = await this.pageService.generatePage(key, true);
+    return result['error']
+      ? CGIResponse.failed(
+          CGICodeMap.BuildFailed,
+          JSON.stringify(result['error']),
+        )
       : CGIResponse.success(result);
   }
 
   @Post('/publish/:key')
   async publishPage(@Param('key') key) {
     setTimeout(async () => {
-      const result = await this.pageService.buildPage(key, false);
-      if (result?.error) {
+      const result = await this.pageService.generatePage(key, false);
+      if (result['error']) {
         return;
       }
       return this.pageService.publishPage(key, result as GeneratorResult);
@@ -117,8 +120,8 @@ export class PageController {
   }
 
   @Get('/publish/:key')
-  async getBuildStatus(@Param('key') id) {
-    return CGIResponse.success(this.pageService.getBuildStatus(id));
+  async getPublishStatus(@Param('key') id) {
+    return CGIResponse.success(this.pageService.getPublishStatus(id));
   }
 }
 

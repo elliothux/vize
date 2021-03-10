@@ -1,9 +1,7 @@
-import * as path from 'path';
-import * as fs from 'fs-extra';
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DSL, PublisherResult } from '@vize/types';
+import { PublisherResult } from '@vize/types';
 import { PageEntity } from './page.entity';
 import { CreatePageDTO, UpdatePageDTO } from './page.interface';
 import {
@@ -15,12 +13,13 @@ import {
 } from '../../types';
 import { HistoryEntity } from '../history/history.entity';
 import { generateDSL, getConfig } from '../../utils';
-
-type PublishStatusResponse = [
-  PublishStatus,
-  Maybe<GeneratorResult | PublisherResult>,
-  Maybe<Error>,
-];
+import {
+  PublishStatusResponse,
+  getPublishStatus,
+  dslMap,
+  setPublishStatus,
+  createPreviewSoftlink,
+} from './page.utils';
 
 @Injectable()
 export class PageService {
@@ -145,45 +144,48 @@ export class PageService {
     const { publishers, paths: workspacePaths } = getConfig();
     // TODO: support custom publisher
     const { publisher, info } = publishers['web']!;
-    console.log('Start build use publisher: ', info.name);
+    console.log(`Start publish page "${key}" with publisher: "${info.name}"`);
 
+    const dsl = dslMap.get(key)!;
+    dslMap.delete(key);
     let result: Maybe<PublisherResult> = null;
     try {
       result = await publisher({
-        dsl: this.dslMap.get(key)!,
+        dsl,
         workspacePaths,
         generatorResult,
       });
     } catch (e) {
-      const error = e || `Unknown publish error with publisher: ${info.name}`;
-      console.error('Build with error: ', error);
-      this.publishStatus.set(key, [PublishStatus.FAILED, null, error]);
+      const error = e || `Unknown publish error with publisher: "${info.name}"`;
+      console.error(`Publish page "${key}" with error: `, error);
+      setPublishStatus(key, PublishStatus.FAILED, error);
       return { error };
     }
 
+    console.log(`Publish page "${key}" success`);
     const publisherResult = {
       ...result,
-      error: null,
+      url: `/p/${key}`,
     };
     if (result.type === 'url') {
       await this.updatePageByKey(key, { url: result.url! });
     }
-    this.publishStatus.set(key, [PublishStatus.SUCCESS, publisherResult, null]);
+    setPublishStatus(key, PublishStatus.SUCCESS, null, publisherResult);
     return publisherResult;
   }
 
-  public async buildPage(
+  public async generatePage(
     key: string,
     isPreview: boolean,
   ): Promise<GeneratorResult | { error: Error }> {
-    this.publishStatus.set(key, [PublishStatus.START, null, null]);
-    const page = await this.getPageByKey(key)!;
-    const dsl = generateDSL(page);
-    this.dslMap.set(key, dsl);
+    setPublishStatus(key, PublishStatus.START);
+    const page = await this.getPageByKey(key);
+    const dsl = generateDSL(page!);
+    dslMap.set(key, dsl);
 
     const { generators, paths: workspacePaths } = getConfig();
     const { generator, info } = generators[page.generator || 'web']!;
-    console.log('Start build use generator: ', info.name);
+    console.log(`Start generate page "${key}" with generator: "${info.name}"`);
 
     let result: Maybe<GeneratorResult> = null;
     try {
@@ -193,41 +195,22 @@ export class PageService {
         isPreview,
       });
     } catch (e) {
-      const error = e || `Unknown build error with generator: ${info.name}`;
-      console.error('Build with error: ', error);
-      this.publishStatus.set(key, [PublishStatus.FAILED, null, error]);
+      const error = e || `Unknown generate error with generator: ${info.name}`;
+      console.error(`Generate page "${key}" with error: `, error);
+      setPublishStatus(key, PublishStatus.FAILED, error);
       return { error };
     }
 
-    const generatorResult = {
-      ...result,
-      error: null,
-    };
-    if (result.type === 'file') {
-      await PageService.createPreviewSoftlink(key, result.path);
-      generatorResult['url'] = `/preview/${key}`;
+    console.log(`Generate page "${key}" success`);
+    if (isPreview && result.type === 'file') {
+      await createPreviewSoftlink(key, result.path);
+      result['url'] = `/preview/${key}`;
     }
-    this.publishStatus.set(key, [
-      PublishStatus.BUILD_SUCCESS,
-      generatorResult,
-      null,
-    ]);
-    return generatorResult;
+    setPublishStatus(key, PublishStatus.BUILD_SUCCESS, null, result);
+    return result;
   }
 
-  static async createPreviewSoftlink(key: string, distPath: string) {
-    const {
-      paths: { previewPath },
-    } = getConfig();
-    const to = path.resolve(previewPath, key);
-    return fs.ensureSymlink(distPath, to);
+  public getPublishStatus(key: string): Maybe<PublishStatusResponse> {
+    return getPublishStatus(key);
   }
-
-  public getBuildStatus(key: string): Maybe<PublishStatusResponse> {
-    return this.publishStatus.get(key);
-  }
-
-  private readonly publishStatus = new Map<string, PublishStatusResponse>();
-
-  private readonly dslMap = new Map<string, DSL>();
 }
