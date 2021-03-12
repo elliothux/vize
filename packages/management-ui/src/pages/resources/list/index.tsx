@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { message, Pagination, Empty } from 'antd';
 import { FlexPlaceholder } from 'components/FlexPlaceholder';
 import { Maybe, ResourceRecord, ResourceType } from 'types';
@@ -10,15 +10,16 @@ import { useTranslation } from 'react-i18next';
 
 interface Props {
   type: ResourceType;
+  searchKeywords: string;
   setLoading: (v: boolean) => void;
 }
 
 const PAGE_SIZE = 20;
 
-export function ResourceList({ setLoading, type }: Props) {
+function IResourceList({ setLoading, searchKeywords, type }: Props) {
   const { t } = useTranslation();
   const [resources, setResources] = useState<Maybe<ResourceRecord[]>>(null);
-  const [[current, total], setPagination] = useState([0, 0]);
+  const [[current, total], setPagination] = useState([-1, 0]);
 
   const setTotal = useCallback((total: number) => {
     setPagination(([current]) => [current, total]);
@@ -28,15 +29,14 @@ export function ResourceList({ setLoading, type }: Props) {
     setPagination(([, total]) => [current, total]);
   }, []);
 
-  const getResources = useCallback(async (type: ResourceType, current: number) => {
+  const getResources = useCallback(async (type: ResourceType, current: number, keywords: string) => {
     setLoading(true);
-    const [success, pages, response] = await queryResources(type, current, PAGE_SIZE);
+    const [success, pages, response] = await queryResources(type, current, PAGE_SIZE, keywords);
     if (success) {
       const { data, total } = pages!;
       setResources(data);
       setTotal(total);
       setLoading(false);
-      console.log(data);
     } else {
       message.error(`${t('Failed to get resources list')}: ${response.message}`);
     }
@@ -46,14 +46,24 @@ export function ResourceList({ setLoading, type }: Props) {
     if (resources && resources.length <= 1 && current > 0) {
       setCurrentPage(current - 1);
     }
-    return getResources(type, current);
-  }, [current, type, resources, getResources]);
+    return getResources(type, current, searchKeywords);
+  }, [current, type, searchKeywords, resources]);
 
   useEffect(() => {
     setResources([]);
   }, [type]);
 
-  useAsyncEffect(() => getResources(type, current), [type, current]);
+  useEffect(() => {
+    setCurrentPage(-1);
+    setTimeout(() => setCurrentPage(0), 0);
+  }, [searchKeywords]);
+
+  useAsyncEffect(() => {
+    if (current < 0) {
+      return;
+    }
+    return getResources(type, current, searchKeywords);
+  }, [type, current]);
 
   if (resources && !resources.length) {
     return <Empty description={t('No resources uploaded yet')} style={{ marginTop: '48px' }} />;
@@ -77,3 +87,5 @@ export function ResourceList({ setLoading, type }: Props) {
     </div>
   );
 }
+
+export const ResourceList = memo(IResourceList);

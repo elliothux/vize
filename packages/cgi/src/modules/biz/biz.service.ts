@@ -31,9 +31,7 @@ export class BizService {
         }))
       : undefined;
     return this.bizRepository.find({
-      order: {
-        createdTime: 'DESC',
-      },
+      order: { createdTime: 'DESC' },
       take: pageSize,
       skip: pageSize * startPage,
       where,

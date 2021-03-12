@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Menu, Spin, Tooltip } from 'antd';
 import { Header } from 'components/Header';
 import { BiUpArrowAlt } from 'react-icons/bi';
@@ -17,13 +17,17 @@ export function Resources() {
   const [loading, setLoading] = useState(false);
   const [uploadVisible, setUploadVisible] = useState(false);
   const [page, setPage] = useState<PageState>(PageState.IMAGE);
+  const [keywords, setKeywords] = useState('');
+  const [searchKeywords, setSearchKeywords] = useState('');
 
   return (
     <Spin spinning={loading}>
       <Header
         title={t('Resource Management')}
-        searchText={t('Search resources')}
-        onSearch={console.log}
+        searchText={t('Search {{type}}', { type: page })}
+        searchValue={keywords}
+        onSearch={setSearchKeywords}
+        onSearchChange={setKeywords}
         appendAfterSearch={
           <Tooltip title={t('Upload Resources')} placement="bottom">
             <Button type="primary" size="large" icon={<BiUpArrowAlt />} onClick={() => setUploadVisible(true)} />
@@ -34,7 +38,11 @@ export function Resources() {
           mode="horizontal"
           className="header-menu"
           selectedKeys={[page]}
-          onSelect={({ key }) => setPage(key as PageState)}
+          onSelect={({ key }) => {
+            setKeywords('');
+            setSearchKeywords('');
+            setPage(key as PageState);
+          }}
         >
           <Menu.Item key={PageState.IMAGE}>
             <Trans>Images</Trans>
@@ -51,7 +59,7 @@ export function Resources() {
         </Menu>
       </Header>
 
-      <ResourceList setLoading={setLoading} type={page} />
+      <ResourceList setLoading={setLoading} type={page} searchKeywords={searchKeywords} />
 
       <UploadResources visible={uploadVisible} setVisible={setUploadVisible} type={page} />
     </Spin>

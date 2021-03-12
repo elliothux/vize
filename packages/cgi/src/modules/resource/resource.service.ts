@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Maybe, FileInterceptorUploadedFile } from '../../types';
 import { ResourceEntity } from './resource.entity';
 import {
@@ -36,13 +36,22 @@ export class ResourceService {
     pageSize = 20,
     type,
     extension,
+    keywords,
   }: QueryResourceParams) {
-    const where = {};
+    const whereOptions = {};
     if (type) {
-      where['type'] = type;
+      whereOptions['type'] = type;
     }
     if (extension) {
-      where['extension'] = extension;
+      whereOptions['extension'] = extension;
+    }
+
+    let where = [whereOptions];
+    if (keywords) {
+      where = ['filename', 'extension', 'url'].map(key => ({
+        ...whereOptions,
+        [key]: Like(`%${keywords}%`),
+      }));
     }
 
     const data = await this.resourceRepository.find({
