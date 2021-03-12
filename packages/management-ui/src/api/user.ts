@@ -1,8 +1,12 @@
 import { UserRecord, Maybe } from 'types';
-import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from './utils';
+import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix, WithPagination } from './utils';
 
-export function queryUser() {
-  return getCGIJSON<UserRecord[]>(prefix('user'));
+export function queryUser(
+  startPage: number,
+  pageSize: number,
+  keywords: string,
+): Promise<ParsedCGIResponse<WithPagination<UserRecord[]>>> {
+  return getCGIJSON<WithPagination<UserRecord[]>>(prefix('user', { startPage, pageSize, keywords }));
 }
 
 export type CreateUserParams = Pick<UserRecord, 'bizs' | 'name' | 'extInfo' | 'isAdmin'>;

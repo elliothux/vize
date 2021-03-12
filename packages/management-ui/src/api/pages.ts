@@ -6,8 +6,8 @@ export function queryPages(
   biz: Maybe<BizRecord['id']>,
   isTemplate: boolean,
   startPage: number,
+  pageSize: number,
   keywords: Maybe<string>,
-  pageSize = 10,
 ): Promise<ParsedCGIResponse<WithPagination<PageRecord[]>>> {
   return getCGIJSON<WithPagination<PageRecord[]>>(
     prefix('page', { biz, startPage, pageSize, keywords, isTemplate: isTemplate ? '1' : '0' }),

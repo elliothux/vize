@@ -22,11 +22,11 @@ interface Props {
 export function PageList({ isTemplate = false }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
-  const [createVisible, setCreateVisible] = useState(false);
   const [keywords, setKeywords] = useState('');
   const [biz, setBiz] = useState<Maybe<BizRecord['id']>>(null);
   const [pages, setPages] = useState<Maybe<PageRecord[]>>(null);
-  const [[current, total], setPagination] = useState([0, 0]);
+  const [[current, total], setPagination] = useState([0, 1]);
+  const [createVisible, setCreateVisible] = useState(false);
 
   const setBizWithResetPagination = useCallback((biz: Maybe<BizRecord['id']>) => {
     setBiz(biz);
@@ -43,7 +43,7 @@ export function PageList({ isTemplate = false }: Props) {
 
   useAsyncEffect(async () => {
     setLoading(true);
-    const [success, pages, response] = await queryPages(biz, isTemplate || false, current, keywords.trim(), PAGE_SIZE);
+    const [success, pages, response] = await queryPages(biz, isTemplate || false, current, PAGE_SIZE, keywords.trim());
     setLoading(false);
 
     if (success) {
@@ -55,12 +55,17 @@ export function PageList({ isTemplate = false }: Props) {
     }
   }, [current, biz, keywords, isTemplate]);
 
+  const onSetKeywords = useCallback((keywords: string) => {
+    setCurrentPage(0);
+    setKeywords(keywords);
+  }, []);
+
   return (
     <Spin spinning={loading}>
       <Header
         title={t(isTemplate ? 'Template List' : 'Page List')}
         searchText={t(isTemplate ? 'Search template' : 'Search page')}
-        onSearch={setKeywords}
+        onSearch={onSetKeywords}
         appendAfterSearch={
           <Button type="primary" size="large" icon={<BiPlus />} onClick={() => setCreateVisible(true)} />
         }

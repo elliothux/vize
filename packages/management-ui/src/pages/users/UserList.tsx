@@ -17,7 +17,7 @@ interface Props {
 function IUserList({ users, onEdit }: Props) {
   const { t } = useTranslation();
   return (
-    <Table dataSource={users} bordered>
+    <Table dataSource={users} pagination={false} bordered>
       <Column
         title={t('User')}
         key="name"
