@@ -9,7 +9,7 @@ import {
   Param,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { VizeUserName } from '../../decorators/VizeUserName';
+import { VizeUserName } from '../../decorators';
 import { CGIResponse } from '../../utils';
 import { FileInterceptorUploadedFile, Maybe } from '../../types';
 import { ResourceService } from './resource.service';

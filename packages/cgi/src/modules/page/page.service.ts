@@ -1,14 +1,18 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@nestjs/common';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, Repository, In } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PublisherResult } from '@vize/types';
 import { PageEntity } from './page.entity';
-import { CreatePageDTO, UpdatePageDTO } from './page.interface';
+import {
+  CreatePageDTO,
+  QueryPageParams,
+  UpdatePageDTO,
+} from './page.interface';
 import {
   PublishStatus,
   GeneratorResult,
   Maybe,
-  QueryParams,
   RecordStatus,
 } from '../../types';
 import { UserEntity } from '../user/user.entity';
@@ -21,10 +25,12 @@ import {
   setPublishStatus,
   createPreviewSoftlink,
 } from './page.utils';
+import { HistoryService } from '../history/history.service';
 
 @Injectable()
 export class PageService {
   constructor(
+    private readonly historyService: HistoryService,
     @InjectRepository(PageEntity)
     private readonly pageRepository: Repository<PageEntity>,
     @InjectRepository(HistoryEntity)
@@ -77,6 +83,15 @@ export class PageService {
   }
 
   public async updateLatestHistory(pageKey: string, historyId: number) {
+    const {
+      latestHistory: { id: currentHistoryId },
+    } = await this.getPageByKey(pageKey);
+
+    await this.historyRepository.update(
+      { id: currentHistoryId },
+      { status: RecordStatus.NOT_USED },
+    );
+
     return this.pageRepository.update(
       {
         key: pageKey,
@@ -90,12 +105,19 @@ export class PageService {
     pageSize = 20,
     biz,
     isTemplate,
-  }: QueryParams<{ biz?: string; isTemplate: string }>) {
+    keywords,
+  }: QueryPageParams) {
     const where = {
       isTemplate: parseInt(isTemplate),
     };
     if (biz) {
       where['biz'] = parseInt(biz);
+    }
+
+    if (keywords) {
+      const keys = await this.historyService.searchHistoryPageKeys(keywords);
+      console.log(keys);
+      where['key'] = In(keys);
     }
 
     const options: FindManyOptions<PageEntity> = {
@@ -104,9 +126,10 @@ export class PageService {
       },
       take: pageSize,
       skip: startPage * pageSize,
-      relations: ['latestHistory', 'biz'],
+      relations: ['latestHistory', 'biz', 'owner'],
       where,
     };
+
     return {
       pages: await this.pageRepository.find(options),
       total: await this.pageRepository.count({ where }),

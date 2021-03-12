@@ -20,7 +20,8 @@ export function PageItem({
     createdTime,
     layoutMode,
     pageMode,
-    author,
+    owner,
+    key,
   },
   isTemplate,
 }: Props) {
@@ -54,7 +55,9 @@ export function PageItem({
         <MoreOutlined key="more" />,
       ].filter(i => !!i)}
     >
-      <h3>{title}</h3>
+      <Tooltip title={`key: ${key}`} placement="topLeft">
+        <h3>{title}</h3>
+      </Tooltip>
       <p className="desc">{desc || '...'}</p>
 
       <div className="times infos">
@@ -93,7 +96,7 @@ export function PageItem({
           <p>
             <Trans>Creator</Trans>
           </p>
-          <p>{author}</p>
+          <p>{owner.name}</p>
         </div>
       </div>
     </Card>

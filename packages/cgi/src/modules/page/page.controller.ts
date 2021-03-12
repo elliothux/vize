@@ -8,12 +8,16 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { PageService } from './page.service';
-import { CreatePageDTO, UpdatePageDTO } from './page.interface';
-import { CGICodeMap, CGIResponse } from '../../utils';
-import { QueryParams, Maybe } from '../../types';
 import { GeneratorResult } from '@vize/types';
-import { VizeUserName } from '../../decorators/VizeUserName';
+import { PageService } from './page.service';
+import {
+  CreatePageDTO,
+  QueryPageParams,
+  UpdatePageDTO,
+} from './page.interface';
+import { CGICodeMap, CGIResponse } from '../../utils';
+import { Maybe } from '../../types';
+import { VizeUserName } from '../../decorators';
 
 let cgiPageService: Maybe<PageService> = null;
 
@@ -37,9 +41,7 @@ export class PageController {
   }
 
   @Get()
-  async getPages(
-    @Query() query: QueryParams<{ biz?: string; isTemplate: string }>,
-  ) {
+  async getPages(@Query() query: QueryPageParams) {
     const { pages, total } = await this.pageService.queryPageEntity(query);
     return CGIResponse.success({
       total,
@@ -58,6 +60,12 @@ export class PageController {
       }),
     });
   }
+  //
+  // @Get('/search/:keywords')
+  // async searchPages(
+  //   @Param('keywords') keywords: string,
+  //   @Query() query: QueryParams<{ biz?: string; isTemplate: string }>,
+  // ) {}
 
   @Get(':key')
   async getPage(@Param('key') key: string) {

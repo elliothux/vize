@@ -15,8 +15,6 @@ import {
   DepsTargetType,
   findComponentInstanceByIndex,
   getCurrentPageComponentIndex,
-  injectGlobalReadonlyGetter,
-  isDev,
   isNumber,
   setCurrentPageComponentIndex,
 } from '../utils';
@@ -288,7 +286,3 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
 }
 
 export const componentsStore = new ComponentsStore();
-
-if (isDev()) {
-  setTimeout(() => injectGlobalReadonlyGetter('vize_components_store', () => toJS(componentsStore)), 1000);
-}

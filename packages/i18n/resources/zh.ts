@@ -227,7 +227,7 @@ export const zh = {
     'Resource Management': '静态资源管理',
     'No operation permission': '没有操作权限',
     'Page List': '页面列表',
-    'Template Page List': '模板页面列表',
+    'Template List': '模板页面列表',
     'Search resources': '搜索资源',
     'Search page': '搜索页面',
     'Search template': '搜索模板',
@@ -330,5 +330,6 @@ export const zh = {
       '多页面间互相独立，每个页面有单独的浏览器上下文',
     'Please select one page mode': '请选择【布局模式】后再完成页面创建',
     'No Preview': '暂无预览图',
+    'No page data': '暂无页面数据',
   },
 };

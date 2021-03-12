@@ -42,7 +42,7 @@ export function LeftBar() {
       </Menu.Item>
 
       <Menu.Item key={RouterPaths.TEMPLATES} icon={<BiBookContent />}>
-        <Link href={RouterPaths.TEMPLATES}>{t('Pages')}</Link>
+        <Link href={RouterPaths.TEMPLATES}>{t('Templates')}</Link>
       </Menu.Item>
 
       <SubMenu key="manage" icon={<BiCog />} title={t('Manage')}>
@@ -64,13 +64,13 @@ export function LeftBar() {
       </SubMenu>
 
       <Menu.Item key="doc" icon={<BiBook />}>
-        <a href="https://vize-team.github.io/" target="_blank" rel="noreferrer">
+        <a href="https://vize-team.github.io/" target="_blank" rel="noopener noreferrer">
           {t('Document')}
         </a>
       </Menu.Item>
 
       <Menu.Item key="github" icon={<BiHelpCircle />}>
-        <a href="https://github.com/vize-team/vize/issues" target="_blank" rel="noreferrer">
+        <a href="https://github.com/vize-team/vize/issues" target="_blank" rel="noopener noreferrer">
           {t('Feedback & Help')}
         </a>
       </Menu.Item>
