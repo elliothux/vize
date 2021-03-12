@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { QueryParams } from '../../types';
+import { Like, Repository } from 'typeorm';
+import { QueryParams, WithKeywords } from '../../types';
 import { BizEntity } from './biz.entity';
 import { CreateBizParams, UpdateBizParams } from './biz.interface';
 
@@ -20,10 +20,23 @@ export class BizService {
     return this.bizRepository.findOne({ key });
   }
 
-  public async queryBizEntities({ startPage = 0, pageSize = 20 }: QueryParams) {
+  public async queryBizEntities({
+    startPage = 0,
+    pageSize = 20,
+    keywords,
+  }: WithKeywords<QueryParams>) {
+    const where = keywords
+      ? ['key', 'name'].map(key => ({
+          [key]: Like(`%${keywords}%`),
+        }))
+      : undefined;
     return this.bizRepository.find({
+      order: {
+        createdTime: 'DESC',
+      },
       take: pageSize,
       skip: pageSize * startPage,
+      where,
     });
   }
 

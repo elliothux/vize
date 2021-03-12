@@ -1,8 +1,8 @@
 import { BizRecord } from 'types';
 import { getCGIJSON, postCGIJSON, prefix } from './utils';
 
-export function queryBiz() {
-  return getCGIJSON<BizRecord[]>(prefix('biz'));
+export function queryBiz(keywords?: string) {
+  return getCGIJSON<BizRecord[]>(prefix('biz', { keywords }));
 }
 
 export type CreateBizParams = Pick<BizRecord, 'key' | 'name' | 'logo' | 'materials'>;

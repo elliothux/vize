@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CGICodeMap, CGIResponse } from '../../utils';
 import { BizService } from './biz.service';
 import { CreateBizParams, UpdateBizParams } from './biz.interface';
-import { Maybe, QueryParams } from '../../types';
+import { Maybe, WithKeywords } from '../../types';
 
 let cgiBizServices: Maybe<BizService> = null;
 
@@ -10,6 +10,12 @@ let cgiBizServices: Maybe<BizService> = null;
 export class BizController {
   constructor(private readonly bizService: BizService) {
     cgiBizServices = bizService;
+  }
+
+  @Get()
+  async queryBiz(@Query() { keywords }: WithKeywords) {
+    const result = await this.bizService.queryBizEntities({ keywords });
+    return CGIResponse.success(result);
   }
 
   @Post()
@@ -29,12 +35,6 @@ export class BizController {
     }
 
     const result = await this.bizService.updateBizEntity(parseInt(id), biz);
-    return CGIResponse.success(result);
-  }
-
-  @Get()
-  async queryBiz(@Query() query: QueryParams) {
-    const result = await this.bizService.queryBizEntities(query);
     return CGIResponse.success(result);
   }
 }

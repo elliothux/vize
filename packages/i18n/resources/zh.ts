@@ -224,6 +224,7 @@ export const zh = {
     'Failed to get materials library detail': '获取物料库详情失败',
     'Failed to get users list': '获取用户列表失败',
     'Failed to get generator list': '获取生成器列表失败',
+    'Failed to get bizs': '获取业务列表失败',
     'No resources uploaded yet': '暂未上传资源',
     'Resource Management': '静态资源管理',
     'No operation permission': '没有操作权限',
@@ -333,5 +334,6 @@ export const zh = {
     'No Preview': '暂无预览图',
     'No page data': '暂无页面数据',
     'No materials data': '暂无物料库',
+    'No bizs data': '暂无业务',
   },
 };

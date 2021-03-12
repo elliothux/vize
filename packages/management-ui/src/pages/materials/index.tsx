@@ -32,6 +32,7 @@ function IMaterials() {
     if (success) {
       setMaterials(data!);
     } else {
+      setMaterials([]);
       message.error(`${t('Failed to get materials list')}：${response.message}`);
     }
   }, [keywords, materialsList]);
