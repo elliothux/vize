@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { QueryParams } from '../../types';
+import { QueryParams, WithKeywords } from '../../types';
 import { MaterialsEntity } from './materials.entity';
 import {
   getLibCurrentVersion,
@@ -25,10 +25,23 @@ export class MaterialsService {
     return this.materialsEntity.findOne({ libName });
   }
 
-  public async queryLibEntities({ startPage = 0, pageSize = 10 }: QueryParams) {
+  public async queryLibEntities({
+    startPage = 0,
+    pageSize = 10,
+    keywords,
+  }: WithKeywords<QueryParams>) {
+    const where = keywords
+      ? ['libName', 'displayName', 'desc', 'author'].map(key => ({
+          [key]: Like(`%${keywords}%`),
+        }))
+      : undefined;
     return this.materialsEntity.find({
+      order: {
+        createdTime: 'DESC',
+      },
       take: pageSize,
       skip: pageSize * startPage,
+      where,
     });
   }
 

@@ -1,4 +1,4 @@
-import { QueryParams } from '../../types';
+import { QueryParams, WithKeywords } from '../../types';
 import { PageEntity } from './page.entity';
 import { HistoryEntity } from '../history/history.entity';
 
@@ -16,8 +16,9 @@ export interface UpdatePageDTO {
   url?: string;
 }
 
-export type QueryPageParams = QueryParams<{
-  biz?: string;
-  isTemplate: string;
-  keywords?: string;
-}>;
+export type QueryPageParams = WithKeywords<
+  QueryParams<{
+    biz?: string;
+    isTemplate: string;
+  }>
+>;

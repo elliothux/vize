@@ -44,12 +44,12 @@ export function PageList({ isTemplate = false }: Props) {
   useAsyncEffect(async () => {
     setLoading(true);
     const [success, pages, response] = await queryPages(biz, isTemplate || false, current, keywords.trim(), PAGE_SIZE);
+    setLoading(false);
+
     if (success) {
       const { data, total } = pages!;
       setPages(data);
       setTotal(total);
-      setLoading(false);
-      console.log(data);
     } else {
       message.error(`${t('Failed to get pages list')}：${response.message}`);
     }

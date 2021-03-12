@@ -116,7 +116,6 @@ export class PageService {
 
     if (keywords) {
       const keys = await this.historyService.searchHistoryPageKeys(keywords);
-      console.log(keys);
       where['key'] = In(keys);
     }
 

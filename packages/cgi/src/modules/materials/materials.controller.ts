@@ -5,8 +5,9 @@ import {
   Param,
   UseInterceptors,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
-import { Maybe, FileInterceptorUploadedFile } from '../../types';
+import { Maybe, FileInterceptorUploadedFile, WithKeywords } from '../../types';
 import { CGICodeMap, CGIResponse, getConfig } from '../../utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MaterialsService } from './materials.service';
@@ -27,8 +28,8 @@ export class MaterialsController {
   }
 
   @Get()
-  async queryLibs() {
-    const result = await this.materialsService.queryLibEntities({});
+  async queryLibs(@Query() { keywords }: WithKeywords) {
+    const result = await this.materialsService.queryLibEntities({ keywords });
     return CGIResponse.success(parseLibs(result));
   }
 

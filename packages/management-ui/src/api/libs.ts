@@ -2,8 +2,8 @@ import { GeneratorInfo } from 'types';
 import { MaterialsRecord } from '../types';
 import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from './utils';
 
-export function queryLibs(): Promise<ParsedCGIResponse<MaterialsRecord[]>> {
-  return getCGIJSON<MaterialsRecord[]>(prefix('materials'));
+export function queryLibs(keywords?: string): Promise<ParsedCGIResponse<MaterialsRecord[]>> {
+  return getCGIJSON<MaterialsRecord[]>(prefix('materials', { keywords }));
 }
 
 export function getLibById(id: number | string): Promise<ParsedCGIResponse<MaterialsRecord>> {

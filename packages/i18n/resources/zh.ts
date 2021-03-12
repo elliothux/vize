@@ -220,6 +220,7 @@ export const zh = {
     '...': '等',
     'Failed to get resources list': '获取资源列表失败',
     'Failed to get pages list': '获取页面列表失败',
+    'Failed to get materials list': '获取物料库列表失败',
     'Failed to get materials library detail': '获取物料库详情失败',
     'Failed to get users list': '获取用户列表失败',
     'Failed to get generator list': '获取生成器列表失败',
@@ -331,5 +332,6 @@ export const zh = {
     'Please select one page mode': '请选择【布局模式】后再完成页面创建',
     'No Preview': '暂无预览图',
     'No page data': '暂无页面数据',
+    'No materials data': '暂无物料库',
   },
 };

@@ -60,12 +60,6 @@ export class PageController {
       }),
     });
   }
-  //
-  // @Get('/search/:keywords')
-  // async searchPages(
-  //   @Param('keywords') keywords: string,
-  //   @Query() query: QueryParams<{ biz?: string; isTemplate: string }>,
-  // ) {}
 
   @Get(':key')
   async getPage(@Param('key') key: string) {

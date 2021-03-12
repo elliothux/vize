@@ -66,8 +66,4 @@ export class BizService {
     const count = await this.bizRepository.count({ key });
     return count > 0;
   }
-
-  // public async getBizContainers(key: string) {
-  //   // const biz = await this.getBizEntity(key);
-  // }
 }
