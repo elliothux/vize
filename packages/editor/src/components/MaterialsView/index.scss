@@ -28,17 +28,27 @@
         display: inline-block;
         padding: 6px 2px 0 2px;
         cursor: pointer;
-        margin-right: 8px;
+        margin-right: 5px;
         border-top: 2px solid white;
+        font-size: 12px;
+        transition: all ease 300ms;
 
         &:hover {
           color: $main-color;
         }
-      }
 
-      p.activated {
-        font-weight: bold;
-        border-color: $main-color;
+        &.activated {
+          border-color: $main-color;
+          color: $main-color;
+        }
+
+        svg {
+          width: 12px;
+          height: auto;
+          margin-right: 2px;
+          position: relative;
+          top: 1px;
+        }
       }
     }
 

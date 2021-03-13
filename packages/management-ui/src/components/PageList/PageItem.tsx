@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LayoutMode, PageMode, PageRecord } from 'types';
 import { Card, Tooltip } from 'antd';
 import { EditOutlined, CopyOutlined, LineChartOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
 import { PreviewWithEmpty } from '../PreviewWithEmpty';
@@ -13,7 +13,7 @@ interface Props {
   isTemplate: boolean;
 }
 
-export function PageItem({
+function IPageItem({
   item,
   item: {
     latestHistory: { title, desc, createdTime: lastModifiedTime },
@@ -102,3 +102,5 @@ export function PageItem({
     </Card>
   );
 }
+
+export const PageItem = memo(IPageItem);

@@ -26,7 +26,7 @@ export function App() {
   });
 
   if (loading) {
-    return <Spin spinning tip="loading" size="large" />;
+    return <Spin style={{ width: '100%', marginTop: '40vh' }} spinning tip="loading" size="large" />;
   }
 
   return (

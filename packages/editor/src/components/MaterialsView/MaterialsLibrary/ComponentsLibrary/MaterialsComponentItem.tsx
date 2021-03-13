@@ -2,10 +2,11 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { MaterialsComponentMeta, Maybe } from 'types';
 import { useCallback, useRef } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { FiLayers, FiPlus } from 'react-icons/fi';
 import { componentsStore } from 'states';
 import { SVGRender } from 'widgets/SVGRender';
 import { useTranslation } from 'react-i18next';
+import NO_THUMB from 'static/images/no_thumb.svg';
 
 interface Props {
   item: MaterialsComponentMeta;
@@ -59,10 +60,18 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
       onClick={disabled ? undefined : onClick}
     >
       <div className="content">
-        {thumb && <SVGRender content={thumb} />}
+        {thumb ? (
+          <SVGRender content={thumb} />
+        ) : (
+          <span className="svg-render">
+            <img className="no_thumb" src={NO_THUMB} alt="no thumb" />
+          </span>
+        )}
         <div>
           <p className="name">{name}</p>
-          <p className="desc">{desc || t('No component description')}</p>
+          <p className="desc">
+            <nobr>{desc || t('No component description')}</nobr>
+          </p>
         </div>
       </div>
       <div className="button" onClick={disabled ? undefined : onClickAdd}>

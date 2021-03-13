@@ -27,7 +27,9 @@ export function MaterialsComponentPreview({ item }: Props) {
         {thumb ? <SVGRender content={thumb} /> : null}
         <div>
           <p className="name">
-            {name} ({componentName})
+            {name}
+            <br />
+            {componentName}
           </p>
           <p className="desc">{desc}</p>
           <p className="lib">

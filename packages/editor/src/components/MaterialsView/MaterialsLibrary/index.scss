@@ -40,16 +40,19 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 6px 0 6px 16px;
+    padding: 6px 0 6px 12px;
 
-    span.svg-render > svg {
-      width: 38px;
-      height: 38px;
-      position: relative;
-      top: 2px;
-      margin-right: 8px;
-      background-color: white;
-      border-radius: 4px;
+    span.svg-render {
+      & > svg,
+      & > img {
+        width: 38px;
+        height: 38px;
+        position: relative;
+        top: 1px;
+        margin-right: 8px;
+        background-color: white;
+        border-radius: 4px;
+      }
     }
 
     & > div > p {
@@ -65,6 +68,10 @@
     p.desc {
       font-size: 12px;
       margin-bottom: 0;
+      letter-spacing: 0;
+      text-overflow: ellipsis;
+      max-width: 145px;
+      overflow: hidden;
     }
   }
 
@@ -80,14 +87,16 @@
 
 .vize-materials-component-preview,
 .vize-materials-plugin-preview {
-  position: fixed;
+  position: sticky;
+  z-index: 10;
   left: 0;
   bottom: 0;
   background-color: white;
   border-top: $main-border;
   padding: 16px 8px;
-  width: 259px;
+  width: 256px;
   text-align: center;
+  margin-top: -1px;
 
   & > img {
     max-width: 70%;

@@ -27,9 +27,9 @@
   text-align: center;
 
   .ant-modal-content {
-    width: 100px;
+    width: 110px;
+    left: calc((520px - 110px) / 2);
     position: relative;
-    left: calc((520px - 100px) / 2);
     top: 20vh;
 
     .ant-modal-body {

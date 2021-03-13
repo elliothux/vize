@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { ComponentType } from 'react';
+import { ComponentType, memo } from 'react';
 import { registerFormFields as registerFormilyFields, connect } from '@uform/antd';
 import { FormProps } from '../types';
 import { Color } from './Color';
@@ -11,5 +11,5 @@ export function registerFormFields(fieldsMap: { [type: string]: FormFieldCompone
 }
 
 registerFormFields({
-  color: Color,
+  color: memo(Color),
 });

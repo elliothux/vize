@@ -27,7 +27,9 @@ export function MaterialsPluginPreview({ item }: Props) {
         {thumb ? <SVGRender content={thumb} /> : null}
         <div>
           <p className="name">
-            {name} ({pluginName})
+            {name}
+            <br />
+            {pluginName}
           </p>
           <p className="desc">{desc}</p>
           <p className="lib">
