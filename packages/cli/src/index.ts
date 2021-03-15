@@ -30,7 +30,7 @@ program
   .option('-o, --open <open>', '自动打开编辑器')
   .option('-p, --port <port>', 'dev server 端口')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .action((name, cmd) => {
+  .action(cmd => {
     const options = cleanArgs(cmd);
     dev(options);
   });
@@ -49,7 +49,7 @@ program
   .command('create-component <name>')
   .description('创建组件')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .action((name, cmd) => {
+  .action(cmd => {
     const options = cleanArgs(cmd);
     return createComponent(name, options);
   });
@@ -58,7 +58,7 @@ program
   .command('create-plugin <name>')
   .description('创建插件')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .action((name, cmd) => {
+  .action(cmd => {
     const options = cleanArgs(cmd);
     return createPlugin(name, options);
   });
@@ -67,7 +67,7 @@ program
   .command('create-action <name>')
   .description('创建动作')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .action((name, cmd) => {
+  .action(cmd => {
     const options = cleanArgs(cmd);
     return createAction(name, options);
   });
@@ -76,7 +76,7 @@ program
   .command('create-container <name>')
   .description('创建页面容器')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .action((name, cmd) => {
+  .action(cmd => {
     const options = cleanArgs(cmd);
     return createContainer(name, options);
   });
@@ -85,7 +85,7 @@ program
   .command('create-form-field <name>')
   .description('创建 Schema Field')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
-  .action((name, cmd) => {
+  .action(cmd => {
     const options = cleanArgs(cmd);
     return createFormField(name, options);
   });
@@ -95,7 +95,7 @@ program
   .description('创建物料库')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
   .option('--runtime <runtime>', '运行时 (react | rax)')
-  .action((name, cmd) => {
+  .action(cmd => {
     const options = cleanArgs(cmd);
     return createLib(name, options);
   });
