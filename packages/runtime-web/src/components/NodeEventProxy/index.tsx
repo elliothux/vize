@@ -42,7 +42,7 @@ const nodeIntersectionObserver = new IntersectionObserver(entries => {
   });
 });
 
-export class NodeEventProxy<T extends InstanceType> extends React.Component<Props<T>> {
+export class NodeEventProxy<T extends InstanceType> extends React.Component<Props<T>, void> {
   private readonly handlerParams: HandlerParams;
 
   private containerRef: Maybe<HTMLDivElement> = null;

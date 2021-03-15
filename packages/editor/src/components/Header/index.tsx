@@ -1,9 +1,10 @@
 import * as React from 'react';
 import LOGO from 'static/images/logo.svg';
 import { OperationBar } from './OperationBar';
+import { memo } from 'react';
 import './index.scss';
 
-export function Header() {
+function IHeader() {
   return (
     <div className="main-header">
       <a href="/">
@@ -13,3 +14,5 @@ export function Header() {
     </div>
   );
 }
+
+export const Header = memo(IHeader);

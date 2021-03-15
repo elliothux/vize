@@ -19,7 +19,7 @@ interface Props {
   iframeDidMount?: (doc: Document, win: Window) => void;
 }
 
-export class RenderSandbox extends React.Component<Props> {
+export class RenderSandbox extends React.Component<Props, void> {
   static defaultProps = {
     iframeDidMount: noop,
   };

@@ -156,3 +156,30 @@ export function withMessage(
     return operation();
   };
 }
+
+export function camelize(str: string, upper = false) {
+  const result = str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+    if (+match === 0) return '';
+    return index === 0 ? match.toLowerCase() : match.toUpperCase();
+  });
+  if (!upper) {
+    return result;
+  }
+  return `${result[0].toUpperCase()}${result.substring(1)}`;
+}
+
+export function downloadFile(src: string, fileName: string) {
+  const a = document.createElement('a');
+  a.href = src;
+  a.download = fileName;
+  a.style.zIndex = '-1';
+  a.style.position = 'fixed';
+
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  setTimeout(function() {
+    URL.revokeObjectURL(a.href);
+  }, 1500);
+}

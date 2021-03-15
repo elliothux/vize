@@ -26,7 +26,7 @@ interface Props extends Pick<SelectStore, 'selectMode' | 'selectModeSelectedComp
   currentPageIndex: number;
 }
 
-export class ComponentItem extends React.Component<WithReactChildren<Props>> {
+export class ComponentItem extends React.Component<WithReactChildren<Props>, void> {
   private refNode: Maybe<HTMLDivElement> = null;
 
   private get hideEditMask(): Maybe<boolean> {

@@ -9,7 +9,7 @@ interface Props {
   loading: boolean;
 }
 
-export class MaterialsView extends React.Component<Props> {
+export class MaterialsView extends React.Component<Props, void> {
   public state = {
     view: MaterialsViewType.INSTANCES,
   };

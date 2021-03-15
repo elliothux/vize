@@ -25,6 +25,6 @@ declare module 'form-render/lib/antd' {
     readOnly?: boolean;
     labelWidth?: number | string;
   }
-  class FormRender extends React.Component<FRProps> {}
+  class FormRender extends React.Component<FRProps, void> {}
   export default FormRender;
 }

@@ -54,7 +54,7 @@ export function Resources() {
             <Trans>Audios</Trans>
           </Menu.Item>
           <Menu.Item key={PageState.OTHER}>
-            <Trans>Others</Trans>
+            <Trans>Others Files</Trans>
           </Menu.Item>
         </Menu>
       </Header>

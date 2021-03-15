@@ -9,7 +9,7 @@
     width: 100%;
     height: 43px;
 
-    &>div:first-child {
+    & > div:first-child {
       width: 100%;
       height: 100%;
     }
@@ -119,7 +119,7 @@
   //  margin-bottom: 8px;
   //}
 
-  &>div>.editor-prop-form-item:last-child {
+  & > div > .editor-prop-form-item:last-child {
     margin-bottom: 0;
   }
 }
@@ -152,22 +152,22 @@
     .array-item-wrapper {
       margin: 0 -12px;
 
-      &>div {
+      & > div {
         width: 100%;
       }
     }
 
-    &>.ant-form-item-label {
+    & > .ant-form-item-label {
       top: 0;
       display: block;
       width: 100%;
     }
 
-    &>.ant-col {
+    & > .ant-col {
       width: 100%;
     }
 
-    &>.ant-form-item-control {
+    & > .ant-form-item-control {
       width: 100%;
 
       .editor-prop-form-item {
@@ -177,15 +177,15 @@
     }
   }
 
-  &>span,
-  .ant-form-item-label>label {
+  & > span,
+  .ant-form-item-label > label {
     margin-right: 0;
     font-weight: bold;
     font-size: 12px;
   }
 
   .form-range {
-    &~.ant-form-item-space {
+    & ~ .ant-form-item-space {
       display: none;
     }
   }
@@ -196,7 +196,7 @@
   }
 
   .ant-radio-wrapper {
-    &>span {
+    & > span {
       padding: 0 3px;
     }
   }
@@ -211,7 +211,7 @@
   border-bottom: $default-border;
   text-align: center;
 
-  &>span {
+  & > span {
     position: relative;
     top: 9px;
     display: inline-block;
@@ -244,4 +244,9 @@
     width: auto;
     height: 20px;
   }
+}
+
+.ant-modal-content .ant-page-header {
+  padding: 0;
+  margin-bottom: 12px;
 }

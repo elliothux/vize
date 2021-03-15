@@ -10,12 +10,12 @@ img {
   pointer-events: none;
 }
 
-.vize-editor-loading {
+.vize-editor-loading-wrap {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.45);
   z-index: 999;
 
-  .ant-spin {
+  .vize-editor-loading {
     width: 120px !important;
     left: calc((100vw - 120px) / 2 - 28px) !important;
     height: 88px !important;
@@ -164,5 +164,20 @@ img {
     to {
       transform: rotate(360deg);
     }
+  }
+}
+
+.vize-materials-view,
+.vize-attributes-editor {
+  transition: all ease-in-out 300ms;
+}
+
+.vize-main.preview-mode {
+  .vize-materials-view {
+    transform: translateX(-100%);
+  }
+
+  .vize-attributes-editor {
+    transform: translateX(100%);
   }
 }

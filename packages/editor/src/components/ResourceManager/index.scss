@@ -1,0 +1,57 @@
+@import 'styles/helper';
+
+.vize-resource-manager {
+  .ant-modal-close-x {
+    display: none;
+  }
+
+  .ant-pagination {
+    text-align: center;
+  }
+}
+
+.upload-resources {
+  .upload-drag-icon {
+    width: 28px;
+    height: auto;
+    margin-right: 6px;
+    position: relative;
+    top: 7px;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin: 8px 0 12px 0;
+  }
+
+  .ant-upload {
+    padding-top: 2px !important;
+  }
+
+  .ant-upload-list {
+    max-height: 30vh;
+    overflow: scroll;
+  }
+
+  .upload-hint {
+    & > p {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    ul {
+      text-align: left;
+      width: 315px;
+      margin: 0 auto 12px;
+
+      li {
+        margin-bottom: 4px;
+
+        span {
+          font-weight: bold;
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+}

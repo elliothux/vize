@@ -215,7 +215,8 @@ export const zh = {
     Images: '图像',
     Videos: '视频',
     Audios: '音频',
-    Others: '其他',
+    Others: '文件',
+    'Others Files': '其他文件',
     'Like text etc.': '如文本等',
     '...': '等',
     'Failed to get resources list': '获取资源列表失败',
@@ -339,5 +340,7 @@ export const zh = {
     'No page data': '暂无页面数据',
     'No materials data': '暂无物料库',
     'No bizs data': '暂无业务',
+    'Select {{type}}': '选择$t({{type}})',
+    Select: '选择',
   },
 };
