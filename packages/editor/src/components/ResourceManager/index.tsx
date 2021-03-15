@@ -1,19 +1,19 @@
 import './index.scss';
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Modal, PageHeader, Radio, Spin } from 'antd';
 import { RadioChangeEvent } from 'antd/lib/radio/interface';
 import { ResourceType } from 'sharedTypes';
 import { useTranslation } from 'react-i18next';
 import { i18n } from 'i18n';
-import { camelize } from 'utils';
+import { camelize, EventEmitTypes, events } from 'utils';
 import { Maybe } from 'types';
 import { UploadResources } from './UploadResources';
 import { ResourceList } from './list';
 
 export function ResourceManager() {
   const { t } = useTranslation();
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [type, setType] = useState(ResourceType.IMAGE);
   const [extension, setExtension] = useState<Maybe<string>>(null);
@@ -31,16 +31,25 @@ export function ResourceManager() {
       onOk={close}
       width="70vw"
       style={{ maxWidth: '980px' }}
+      forceRender
     >
       <PageHeader
         onBack={close}
-        title={t('Select {{type}}', { type: camelize(type, true) + 's' }) + extension ? ` (${extension})` : ''}
+        title={t('Select {{type}}', { type: camelize(type, true) + 's' }) + (extension ? ` (${extension})` : '')}
         subTitle=""
         extra={<Tabs type={type} setType={setType} />}
       />
       <Spin spinning={loading}>
         <UploadResources type={type} />
-        <ResourceList type={type} setLoading={setLoading} setVisible={setVisible} />
+        <ResourceList
+          visible={visible}
+          type={type}
+          extension={extension}
+          setType={setType}
+          setLoading={setLoading}
+          setVisible={setVisible}
+          setExtension={setExtension}
+        />
       </Spin>
     </Modal>
   );

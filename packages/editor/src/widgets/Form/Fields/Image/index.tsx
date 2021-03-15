@@ -1,71 +1,39 @@
 import './index.scss';
 import * as React from 'react';
-import { Icon, Input } from 'antd';
-import classnames from 'classnames';
-import { events, EventEmitTypes } from 'pages/editor/utils';
-import { FileType, SrcWithSize } from 'types';
+import { ChangeEvent, useCallback, useMemo } from 'react';
+import { Input } from 'antd';
+import { events, EventEmitTypes, getResourceURL } from 'utils';
 import { isEmpty } from 'utils';
-import { FormProps } from '../types';
-import { ResourceManagerParams } from '../../components/StaticResourceManager';
+import { FiArrowUp } from 'react-icons/fi';
+import { ResourceRecord, ResourceType } from 'sharedTypes';
+import classnames from 'classnames';
+import { FormProps } from '../../types';
 
-export function Image({ onChange: iOnChange, value }: FormProps<string>) {
-  const onChange = (value: SrcWithSize) => iOnChange(value[0]);
+export function Image({ onChange: onFieldChange, value }: FormProps<string>) {
+  const onChange = useCallback((record: ResourceRecord) => onFieldChange(getResourceURL(record)), []);
 
-  const button = (
-    <Icon
-      type="cloud-upload"
-      onClick={() =>
-        events.emit(EventEmitTypes.MANAGE_RESOURCE, {
-          type: FileType.IMAGE,
-          multiple: false,
-          onSelect: onChange,
-          initValues: [value],
-        } as ResourceManagerParams<SrcWithSize>)
-      }
-    />
+  const button = useMemo(
+    () => (
+      <FiArrowUp
+        onClick={() => {
+          events.emit(EventEmitTypes.CHOOSE_RESOURCES, ResourceType.IMAGE, false, null, onChange);
+        }}
+      />
+    ),
+    [],
   );
+  const isValueEmpty = useMemo(() => isEmpty(value), [value]);
+
+  const onInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => onFieldChange(e.target.value), []);
 
   return (
-    <span className="ant-input-affix-wrapper">
-      <div className={classnames('form-image-picker')}>
-        <Input
-          addonAfter={button}
-          value={value}
-          onChange={e => iOnChange(e.target.value || '')}
-          allowClear
-        />
-        {!isEmpty(value) && (
-          <div className="form-image-picker-preview" style={{ backgroundImage: `url(${value})` }} />
-        )}
-      </div>
-    </span>
-  );
-}
-
-export function ImageWithSizeInfo({ onChange, value: v }: FormProps<SrcWithSize>) {
-  const value = v[0];
-  const button = (
-    <Icon
-      type="cloud-upload"
-      onClick={() =>
-        events.emit(EventEmitTypes.MANAGE_RESOURCE, {
-          type: FileType.IMAGE,
-          multiple: false,
-          onSelect: onChange,
-          initValues: [value],
-        } as ResourceManagerParams<SrcWithSize>)
-      }
-    />
-  );
-
-  return (
-    <span className="ant-input-affix-wrapper">
-      <div className={classnames('form-image-picker')}>
-        <Input addonAfter={button} value={value} disabled allowClear={false} />
-        {!isEmpty(value) && (
-          <div className="form-image-picker-preview" style={{ backgroundImage: `url(${value})` }} />
-        )}
-      </div>
-    </span>
+    <div className={classnames('form-image-picker')}>
+      <Input addonAfter={button} value={value} onChange={onInputChange} allowClear />
+      {isValueEmpty ? null : (
+        <div className="form-image-picker-preview">
+          <img src={value} alt="preview" />
+        </div>
+      )}
+    </div>
   );
 }

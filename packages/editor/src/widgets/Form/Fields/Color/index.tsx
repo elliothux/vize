@@ -26,12 +26,12 @@ interface Props extends FormProps<string> {
   format?: ColorFormat;
 }
 
-function Color(props: Props) {
-  const disabled = useMemo(() => (typeof props.disabled === 'boolean' ? props.disabled : false), [props.disabled]);
+function Color({ disabled: fieldDisabled, format: fieldFormat, value, onChange }: Props) {
+  const disabled = useMemo(() => (typeof fieldDisabled === 'boolean' ? fieldDisabled : false), [fieldDisabled]);
   const [format, supportAlpha] = useMemo(() => {
-    const format = props.format ? (props.format.toLowerCase() as ColorFormat) : ColorFormat.HEX;
+    const format = fieldFormat ? (fieldFormat.toLowerCase() as ColorFormat) : ColorFormat.HEX;
     return [format, isAlphaSupported(format)];
-  }, [props.format]);
+  }, [fieldFormat]);
 
   return (
     <div className={classnames('form-color-picker', { disabled })}>
@@ -42,19 +42,19 @@ function Color(props: Props) {
         content={
           <SketchPicker
             disableAlpha={!supportAlpha}
-            color={parseColor(props.value)}
-            onChangeComplete={color => props.onChange(stringifyColor(color.rgb, format))}
+            color={parseColor(value)}
+            onChangeComplete={color => onChange(stringifyColor(color.rgb, format))}
             width="256px"
           />
         }
         overlayClassName="form-color-picker-popover"
         arrowPointAtCenter
       >
-        <div className="form-color-picker-color" style={{ backgroundColor: props.value }} />
+        <div className="form-color-picker-color" style={{ backgroundColor: value }} />
       </Popover>
       <div className="form-color-picker-commons">
         {commonColors.map(i => (
-          <div key={i} style={{ backgroundColor: i }} onClick={() => props.onChange(stringifyColor(i, format))} />
+          <div key={i} style={{ backgroundColor: i }} onClick={() => onChange(stringifyColor(i, format))} />
         ))}
       </div>
     </div>

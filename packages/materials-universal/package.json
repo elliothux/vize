@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "",
   "scripts": {
-    "dev:local": "/Users/huqingyang/Desktop/Proj/vize/packages/cli/bin/vize.js dev ./"
+    "dev:local": "/Users/huqingyang/Desktop/Proj/vize/packages/cli/bin/vize.js dev -r https://registry.npm.taobao.org"
   },
   "author": "",
   "license": "ISC",
