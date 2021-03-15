@@ -24,7 +24,7 @@ const dataForm = {
     title: '内容',
     description: '请输入内容',
     type: 'string',
-    default: 'Hello World!',
+    default: 'Hello Vize!',
   },
 };
 

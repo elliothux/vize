@@ -49,7 +49,7 @@ export interface MaterialsForms {
   }[];
 }
 
-export interface RenderEntryParams extends Pick<ComponentProps, 'global' | 'meta'> {
+export interface RenderEntryParams extends Pick<ComponentProps, 'data' | 'style' | 'meta'> {
   render: Function;
   implementRouterController: (CustomRouter: ComponentType<RouterProps>) => void;
 }
