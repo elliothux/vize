@@ -10,6 +10,7 @@ export enum EventEmitTypes {
   NODE_INTERSECTING_CHANGE = 'node_intersecting_change',
   RELOAD_RENDERER = 'reload_renderer',
   RELOAD_MATERIALS = 'reload_materials',
+  CHOOSE_RESOURCES = 'CHOOSE_RESOURCES',
 }
 
 export const events = new EventProxy<EventEmitTypes>();

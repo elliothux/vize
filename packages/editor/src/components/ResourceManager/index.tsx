@@ -7,6 +7,7 @@ import { ResourceType } from 'sharedTypes';
 import { useTranslation } from 'react-i18next';
 import { i18n } from 'i18n';
 import { camelize } from 'utils';
+import { Maybe } from 'types';
 import { UploadResources } from './UploadResources';
 import { ResourceList } from './list';
 
@@ -15,6 +16,7 @@ export function ResourceManager() {
   const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(true);
   const [type, setType] = useState(ResourceType.IMAGE);
+  const [extension, setExtension] = useState<Maybe<string>>(null);
 
   const close = useCallback(() => setVisible(false), []);
 
@@ -32,13 +34,13 @@ export function ResourceManager() {
     >
       <PageHeader
         onBack={close}
-        title={t('Select {{type}}', { type: camelize(type, true) + 's' })}
+        title={t('Select {{type}}', { type: camelize(type, true) + 's' }) + extension ? ` (${extension})` : ''}
         subTitle=""
         extra={<Tabs type={type} setType={setType} />}
       />
       <Spin spinning={loading}>
         <UploadResources type={type} />
-        <ResourceList type={type} setLoading={setLoading} />
+        <ResourceList type={type} setLoading={setLoading} setVisible={setVisible} />
       </Spin>
     </Modal>
   );
