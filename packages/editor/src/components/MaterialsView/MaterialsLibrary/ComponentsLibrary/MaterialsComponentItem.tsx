@@ -69,9 +69,7 @@ export function MaterialsComponentItem({ item, currentItem, onSelect, currentCon
         )}
         <div>
           <p className="name">{name}</p>
-          <p className="desc">
-            <nobr>{desc || t('No component description')}</nobr>
-          </p>
+          <p className="desc">{desc || t('No component description')}</p>
         </div>
       </div>
       <div className="button" onClick={disabled ? undefined : onClickAdd}>

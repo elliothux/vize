@@ -11,7 +11,7 @@ interface Props {
   onClickText?: Function;
 }
 
-export class EditableText extends React.Component<Props, void> {
+export class EditableText extends React.Component<Props> {
   public state = {
     value: this.props.children,
   };

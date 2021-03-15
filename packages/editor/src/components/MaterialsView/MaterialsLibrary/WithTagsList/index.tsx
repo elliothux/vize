@@ -12,7 +12,7 @@ interface Props<T extends MaterialsComponentMeta & MaterialsPluginMeta> {
   children: (item: T) => React.ReactElement;
 }
 
-export class WithTagsList<T extends MaterialsComponentMeta & MaterialsPluginMeta> extends React.Component<Props<T>, void> {
+export class WithTagsList<T extends MaterialsComponentMeta & MaterialsPluginMeta> extends React.Component<Props<T>> {
   private readonly tagsList: MaterialsTagsList<MaterialsComponentMeta>;
 
   private readonly tagNames: string[];
