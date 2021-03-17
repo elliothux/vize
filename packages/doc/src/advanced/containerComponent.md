@@ -24,17 +24,18 @@ Container 组件只需要在组件配置文件 `config.ts` 内声明 `isContaine
 
 编辑 `config.ts`：
 
-```ts {8}
+```ts {3-5}
 export default {
   info: { ... },
   isContainer: true,
+  // 隐藏默认的编辑蒙层
   hideEditMask: true,
 };
 ```
 
 编辑 `index.tsx`：
 
-```tsx {36}
+```tsx {22-25,37}
 import './index.scss';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
@@ -56,6 +57,7 @@ function Container({ children, onSelected }: React.PropsWithChildren<Props>) {
   const onClose = useCallback(() => setVisible(false), []);
 
   useEffect(() => {
+    // 在编辑器中选中组件时，展示弹窗方便编辑
     onSelected(({ selected }) => {
       setVisible(selected);
     });
