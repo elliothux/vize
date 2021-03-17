@@ -1,5 +1,6 @@
 import { Generator, Publisher, WorkspacePaths } from '@vize/types';
 import { CGIMiddleware } from './middleware';
+import { UploadResourceCallback, DeleteResourceCallback } from '../types';
 
 export interface DBConfig {
   type: 'mysql' | 'mariadb';
@@ -11,15 +12,31 @@ export interface DBConfig {
 }
 
 export interface VizeCGIConfig {
-  port: number;
   workspacePath: string;
+  port: number;
+  db: DBConfig;
+  npmRegistry?: string;
   editorPath?: string;
   managementUIPath?: string;
-  npmRegistry?: string;
-  db: DBConfig;
   middlewares?: {
     [name: string]: CGIMiddleware | CGIMiddleware[];
   };
+  generators?: {
+    web?: Generator;
+    [name: string]: Generator;
+  };
+  publishers?: {
+    web?: Publisher;
+    [name: string]: Publisher;
+  };
+  resources?: {
+    onUpload?: UploadResourceCallback;
+    onDelete?: DeleteResourceCallback;
+  };
+}
+
+export interface VizeCGIConfigWithPaths extends VizeCGIConfig {
+  paths: WorkspacePaths;
   generators: {
     web: Generator;
     [name: string]: Generator;
@@ -28,8 +45,8 @@ export interface VizeCGIConfig {
     web: Publisher;
     [name: string]: Publisher;
   };
-}
-
-export interface VizeCGIConfigWithPaths extends VizeCGIConfig {
-  paths: WorkspacePaths;
+  resources: {
+    onUpload: UploadResourceCallback;
+    onDelete: DeleteResourceCallback;
+  };
 }

@@ -33,7 +33,7 @@ export async function getCurrentUser() {
     return await getUserPromise;
   }
 
-  getUserPromise = getCGIJSON<UserRecord>(prefix('user/my'));
+  getUserPromise = getCGIJSON<UserRecord>('/user-info');
   user = await getUserPromise;
   return user;
 }

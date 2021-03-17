@@ -12,11 +12,11 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  public async getBizEntityById(id: number) {
+  public async getUserEntityById(id: number) {
     return this.userRepository.findOne(id);
   }
 
-  public async getBizEntityByName(name: string) {
+  public async getUserEntityByName(name: string) {
     return this.userRepository.findOne({ name });
   }
 

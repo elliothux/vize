@@ -1,6 +1,6 @@
 {
   "name": "@vize/cgi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "aedron@github",
   "main": "dist/main",
   "module": "dist/main",
@@ -117,6 +117,7 @@
     "testEnvironment": "node"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ]
 }
