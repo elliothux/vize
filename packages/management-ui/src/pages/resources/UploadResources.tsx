@@ -74,7 +74,7 @@ export function UploadResources({ visible, setVisible, type }: Props) {
                 <Trans>Videos</Trans>(H264):
               </span>
               <Tag color="orange">mp4</Tag>
-              <Tag color="orange">WebM</Tag>
+              <Tag color="orange">m4v</Tag>
               <Trans>...</Trans>
             </li>
             <li>
@@ -82,6 +82,7 @@ export function UploadResources({ visible, setVisible, type }: Props) {
                 <Trans>Audios</Trans>(AAC):
               </span>
               <Tag color="orange">mp3</Tag>
+              <Tag color="orange">ogg</Tag>
               <Trans>...</Trans>
             </li>
             <li>

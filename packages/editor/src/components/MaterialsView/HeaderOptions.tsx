@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { events, EventEmitTypes } from 'utils';
 import { WithReactChildren } from 'types';
 import { Trans } from 'react-i18next';
+import { FiColumns, FiLayers, FiPackage } from 'react-icons/fi';
 
 export enum MaterialsViewType {
   COMPONENTS = 'components',
@@ -34,6 +35,7 @@ export function HeaderOptions({ type, children }: Props) {
             activated: type === MaterialsViewType.INSTANCES,
           })}
         >
+          <FiColumns />
           <Trans>Page</Trans>
         </p>
         <p
@@ -42,6 +44,7 @@ export function HeaderOptions({ type, children }: Props) {
             activated: type === MaterialsViewType.COMPONENTS,
           })}
         >
+          <FiLayers />
           <Trans>Components library</Trans>
         </p>
         <p
@@ -50,6 +53,7 @@ export function HeaderOptions({ type, children }: Props) {
             activated: type === MaterialsViewType.PLUGINS,
           })}
         >
+          <FiPackage />
           <Trans>Plugins library</Trans>
         </p>
       </div>

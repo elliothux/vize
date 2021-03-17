@@ -1,13 +1,13 @@
 import './index.scss';
 import * as React from 'react';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import { useUser } from 'hooks';
 import { Trans } from 'react-i18next';
 import { editStore } from 'states';
 import LOGO from 'static/images/logo.svg';
 
-export function Login() {
+function ILogin() {
   const [success, user] = useUser();
 
   useEffect(() => {
@@ -36,3 +36,5 @@ export function Login() {
     </Modal>
   );
 }
+
+export const Login = memo(ILogin);

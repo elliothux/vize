@@ -1,14 +1,14 @@
 import './index.scss';
 import * as React from 'react';
-import { useCallback, useEffect, useRef } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 import { WithReactChildren } from 'types';
 import { getOffsetToViewport } from 'utils';
 import { DeviceSimulator } from './DeviceSimulator';
 
 let [clientX, clientY] = [0, 0];
 
-export function Simulator({ children }: WithReactChildren) {
-  const ref = useRef<HTMLDivElement>(null);
+function ISimulator({ children }: WithReactChildren) {
+  const ref = useRef<HTMLDivElement>();
 
   const setClientRect = useCallback(() => {
     const { top, left } = getOffsetToViewport(ref.current!);
@@ -28,6 +28,8 @@ export function Simulator({ children }: WithReactChildren) {
 
   return <DeviceSimulator ref={ref}>{children}</DeviceSimulator>;
 }
+
+export const Simulator = memo(ISimulator);
 
 export function getSimulatorNodeOffset() {
   return [clientX, clientY];

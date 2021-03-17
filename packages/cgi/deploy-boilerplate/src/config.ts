@@ -1,6 +1,5 @@
 import * as path from 'path';
 import { VizeCGIConfig } from '../../dist/main';
-import { login } from './middlewares/login';
 import { user } from './middlewares/user';
 
 export function getConfig(): VizeCGIConfig {
@@ -40,7 +39,6 @@ export function getConfig(): VizeCGIConfig {
         .default,
     },
     middlewares: {
-      login,
       user,
     },
   };

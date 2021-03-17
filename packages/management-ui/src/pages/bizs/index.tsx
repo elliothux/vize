@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { Button, Spin, Tooltip } from 'antd';
+import { Button, Empty, message, Spin, Tooltip } from 'antd';
 import { bizStore } from 'state';
 import { Header } from 'components/Header';
 import { FlexPlaceholder } from 'components/FlexPlaceholder';
@@ -9,15 +9,20 @@ import { observer } from 'mobx-react';
 import { BiPlus } from 'react-icons/bi';
 import { useCallback, useEffect, useState } from 'react';
 import { EditBiz } from './EditBiz';
-import { createBiz, CreateBizParams, updateBiz, UpdateBizParams } from 'api';
+import { createBiz, CreateBizParams, queryBiz, updateBiz, UpdateBizParams } from 'api';
 import { BizRecord, Maybe } from 'types';
 import { withAdminValidation } from 'utils';
 import { useTranslation } from 'react-i18next';
+import { useAsyncEffect } from '../../hooks';
 
 function IBizs() {
+  const { t } = useTranslation();
   const { bizList } = bizStore;
 
-  const { t } = useTranslation();
+  const [keywords, setKeywords] = useState('');
+  const [bizs, setBizs] = useState<BizRecord[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const [editBiz, setEditBiz] = useState<Maybe<BizRecord>>(null);
   const [createVisible, setCreateVisible] = useState(false);
 
@@ -42,12 +47,29 @@ function IBizs() {
     }
   }, [createVisible]);
 
+  useAsyncEffect(async () => {
+    if (!keywords) {
+      return setBizs(bizList || []);
+    }
+
+    setLoading(true);
+    const [success, data, response] = await queryBiz(keywords);
+    setLoading(false);
+
+    if (success) {
+      setBizs(data!);
+    } else {
+      setBizs([]);
+      message.error(`${t('Failed to get bizs')}：${response.message}`);
+    }
+  }, [keywords, bizList]);
+
   return (
-    <Spin spinning={!bizList}>
+    <Spin spinning={loading || !bizList}>
       <Header
         title={t('Business Management')}
         searchText={t('Search business')}
-        onSearch={console.log}
+        onSearch={setKeywords}
         appendAfterSearch={
           <Tooltip title={t('register business')} placement="bottom">
             <Button
@@ -60,20 +82,24 @@ function IBizs() {
         }
       />
 
-      <div className="materials content card-items ">
-        {bizList?.map(i => (
-          <BizItem
-            key={i.id}
-            item={i}
-            onEdit={withAdminValidation((biz: BizRecord) => {
-              setEditBiz(biz);
-              setCreateVisible(true);
-            })}
-          />
-        ))}
+      {bizs.length ? (
+        <div className="materials content card-items ">
+          {bizs.map(i => (
+            <BizItem
+              key={i.id}
+              item={i}
+              onEdit={withAdminValidation((biz: BizRecord) => {
+                setEditBiz(biz);
+                setCreateVisible(true);
+              })}
+            />
+          ))}
 
-        <FlexPlaceholder />
-      </div>
+          <FlexPlaceholder />
+        </div>
+      ) : (
+        <Empty className="empty-content" description={t('No bizs data')} />
+      )}
 
       <EditBiz biz={editBiz} visible={createVisible} setVisible={setCreateVisible} onComplete={onCreate} />
     </Spin>

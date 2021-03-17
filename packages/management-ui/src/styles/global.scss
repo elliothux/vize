@@ -13,6 +13,10 @@ body {
   .content {
     padding: 40px;
   }
+
+  .empty-content {
+    margin-top: 80px;
+  }
 }
 
 .card-items {
@@ -129,4 +133,9 @@ body {
 .fade-enter.fade-enter-active {
   opacity: 1;
   transition: all ease 500ms;
+}
+
+.ant-modal-content .ant-page-header {
+  padding: 0;
+  margin-bottom: 12px;
 }

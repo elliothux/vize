@@ -76,7 +76,6 @@ export function CreatePage({ visible, setVisible, isTemplate }: Props) {
 
       const [success, result, { message, code }] = await createPage({
         ...(detail as Required<PageDetail>),
-        author: 'qy',
         pageMode,
         layoutMode,
         isTemplate: isTemplate ? 1 : 0,

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LayoutMode, PageMode, PageRecord } from 'types';
 import { Card, Tooltip } from 'antd';
 import { EditOutlined, CopyOutlined, LineChartOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
 import { PreviewWithEmpty } from '../PreviewWithEmpty';
@@ -13,14 +13,15 @@ interface Props {
   isTemplate: boolean;
 }
 
-export function PageItem({
+function IPageItem({
   item,
   item: {
     latestHistory: { title, desc, createdTime: lastModifiedTime },
     createdTime,
     layoutMode,
     pageMode,
-    author,
+    owner,
+    key,
   },
   isTemplate,
 }: Props) {
@@ -54,7 +55,9 @@ export function PageItem({
         <MoreOutlined key="more" />,
       ].filter(i => !!i)}
     >
-      <h3>{title}</h3>
+      <Tooltip title={`key: ${key}`} placement="topLeft">
+        <h3>{title}</h3>
+      </Tooltip>
       <p className="desc">{desc || '...'}</p>
 
       <div className="times infos">
@@ -93,9 +96,11 @@ export function PageItem({
           <p>
             <Trans>Creator</Trans>
           </p>
-          <p>{author}</p>
+          <p>{owner.name}</p>
         </div>
       </div>
     </Card>
   );
 }
+
+export const PageItem = memo(IPageItem);

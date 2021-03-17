@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { memo } from 'react';
 import { Table, Tooltip, Tag, Button } from 'antd';
 import { UserRecord } from 'types';
 import { bizStore } from 'state';
@@ -17,7 +18,7 @@ interface Props {
 function IUserList({ users, onEdit }: Props) {
   const { t } = useTranslation();
   return (
-    <Table dataSource={users} bordered>
+    <Table dataSource={users} pagination={false} bordered>
       <Column
         title={t('User')}
         key="name"
@@ -68,4 +69,4 @@ function IUserList({ users, onEdit }: Props) {
   );
 }
 
-export const UserList = observer(IUserList);
+export const UserList = memo(observer(IUserList));

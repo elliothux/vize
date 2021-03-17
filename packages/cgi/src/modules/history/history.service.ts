@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { HistoryEntity } from './history.entity';
 import { QueryParams } from '../../types';
 import { CreateHistoryDTO } from './history.interface';
@@ -27,6 +27,7 @@ export class HistoryService {
       pageInstances,
       pluginInstances,
       editInfo,
+      pageKey,
     }: CreateHistoryDTO,
   ) {
     const { id: creator } = await this.userRepository.findOne({
@@ -46,6 +47,7 @@ export class HistoryService {
       sharedComponentInstances: JSON.stringify(sharedComponentInstances),
       maxKeys: JSON.stringify(editInfo.maxKeys),
       creator: { id: creator },
+      pageKey,
     });
   }
 
@@ -63,5 +65,23 @@ export class HistoryService {
 
   public deleteHistoryById(id: number) {
     return this.historyRepository.delete(id);
+  }
+
+  public updateHistoryById(id: number, history: Partial<HistoryEntity>) {
+    return this.historyRepository.update({ id }, history);
+  }
+
+  public async searchHistoryPageKeys(keywords: string): Promise<string[]> {
+    const result = await this.historyRepository.find({
+      select: ['pageKey'],
+      order: {
+        createdTime: 'DESC',
+      },
+      where: ['pageKey', 'title', 'desc'].map(key => ({
+        [key]: Like(`%${keywords}%`),
+        status: 1,
+      })),
+    });
+    return result.map(i => i.pageKey);
   }
 }

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { WithReactChildren } from '../../types';
-import { EventEmitTypes, events } from '../../utils';
+import { memo, useEffect, useState } from 'react';
+import { WithReactChildren } from 'types';
+import { EventEmitTypes, events } from 'utils';
 import { Spin } from 'antd';
 
-export function WithRerender({ children }: WithReactChildren): React.ReactElement {
+function IWithRerender({ children }: WithReactChildren): React.ReactElement {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -22,3 +22,5 @@ export function WithRerender({ children }: WithReactChildren): React.ReactElemen
 
   return children as React.ReactElement;
 }
+
+export const WithRerender = memo(IWithRerender);

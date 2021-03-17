@@ -1,5 +1,6 @@
 import './states';
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import { useMount } from 'react-use';
 import { message, Spin } from 'antd';
 import { editStore, initStore, materialsStore } from 'states';
@@ -23,9 +24,13 @@ import {
   parseDSLFromCGIRecord,
   restoreState,
 } from 'utils';
+import classNames from 'classnames';
 import LOGO from 'static/images/logo.svg';
+import { ResourceManager } from './components/ResourceManager';
 
-export function App() {
+function IApp() {
+  const { previewMode } = editStore;
+
   const [loading, setLoading] = React.useState<boolean>(true);
 
   useMount(async () => {
@@ -56,11 +61,12 @@ export function App() {
           ) as any
         }
         size="large"
-        wrapperClassName="vize-editor-loading"
+        className="vize-editor-loading"
+        wrapperClassName="vize-editor-loading-wrap"
         indicator={<img className="loading-logo" src={LOGO} alt="logo" />}
       >
         <Header />
-        <main className="vize-main">
+        <main className={classNames('vize-main', { 'preview-mode': previewMode })}>
           <MaterialsView loading={loading} />
           <Simulator>
             {loading ? null : (
@@ -72,11 +78,14 @@ export function App() {
           <AttributesEditor loading={loading} />
         </main>
         <HotAreaManager />
+        <ResourceManager />
       </Spin>
       {loading ? null : <Login />}
     </I18nextProvider>
   );
 }
+
+export const App = observer(IApp);
 
 async function init() {
   await Promise.all([initStore(), getCurrentUser(), initI18N]);

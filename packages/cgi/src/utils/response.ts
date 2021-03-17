@@ -11,12 +11,24 @@ export class CGIResponse {
     };
   }
 
-  static failed<T = any>(code: CGICodeMap, reason?: string): Response<T> {
+  static failed<T = any>(
+    codeOrReason: CGICodeMap | string,
+    reason?: string,
+  ): Response<T> {
+    if (typeof codeOrReason === 'string') {
+      return {
+        t: Date.now(),
+        status: 'failed',
+        message: codeOrReason,
+        code: -1,
+      };
+    }
     return {
       t: Date.now(),
       status: 'failed',
-      message: reason || CGIReasonMap[code] || `ErrorCode: ${code}`,
-      code,
+      message:
+        reason || CGIReasonMap[codeOrReason] || `ErrorCode: ${codeOrReason}`,
+      code: codeOrReason,
     };
   }
 }
@@ -31,6 +43,8 @@ export enum CGICodeMap {
   BuildFailed = 600001,
   UserExists = 700001,
   UserNotExists = 700002,
+  UploadResourceCallbackError = 80001,
+  DeleteResourceCallbackError = 80002,
 }
 
 const CGIReasonMap: { [key in CGICodeMap]: string } = {
@@ -43,4 +57,20 @@ const CGIReasonMap: { [key in CGICodeMap]: string } = {
   [CGICodeMap.BuildFailed]: 'page build failed',
   [CGICodeMap.UserExists]: 'user exists',
   [CGICodeMap.UserNotExists]: 'user not exists',
+  [CGICodeMap.UploadResourceCallbackError]:
+    'upload resource callback occurred error',
+  [CGICodeMap.DeleteResourceCallbackError]:
+    'delete resource callback occurred error',
 };
+
+export type PromiseResult<T> = Promise<[null, T] | [Error, null]>;
+
+export function promiseWrapper<T>(p: Promise<T>): PromiseResult<T> {
+  return new Promise(resolve => {
+    try {
+      p.then(i => resolve([null, i as T])).catch(e => resolve([e, null]));
+    } catch (e) {
+      resolve([e, null]);
+    }
+  });
+}

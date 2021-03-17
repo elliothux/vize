@@ -4,5 +4,7 @@ export const en = {
     'Components library': 'Components',
     'Plugins library': 'Plugins',
     TriggerWhen: '{{action}} when <1>$t({{trigger}})</1>',
+    'From materials library': 'From',
+    'Others Files': 'Others',
   },
 };

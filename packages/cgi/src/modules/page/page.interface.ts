@@ -1,3 +1,4 @@
+import { QueryParams, WithKeywords } from '../../types';
 import { PageEntity } from './page.entity';
 import { HistoryEntity } from '../history/history.entity';
 
@@ -14,3 +15,10 @@ export interface UpdatePageDTO {
   latestHistory?: HistoryEntity;
   url?: string;
 }
+
+export type QueryPageParams = WithKeywords<
+  QueryParams<{
+    biz?: string;
+    isTemplate: string;
+  }>
+>;

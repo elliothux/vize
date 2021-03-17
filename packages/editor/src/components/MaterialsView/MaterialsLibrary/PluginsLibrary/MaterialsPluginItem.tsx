@@ -7,6 +7,7 @@ import { SVGRender } from 'widgets/SVGRender';
 import { pluginsStore } from 'states';
 import { useTranslation } from 'react-i18next';
 import { EventEmitTypes, events } from 'utils';
+import NO_THUMB from '../../../../static/images/no_thumb.svg';
 
 interface Props {
   item: MaterialsPluginMeta;
@@ -47,7 +48,13 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
       onClick={disabled ? undefined : onClick}
     >
       <div className="content">
-        {thumb && <SVGRender content={thumb} />}
+        {thumb ? (
+          <SVGRender content={thumb} />
+        ) : (
+          <span className="svg-render">
+            <img className="no_thumb" src={NO_THUMB} alt="no thumb" />
+          </span>
+        )}
         <div>
           <p className="name">{name}</p>
           <p className="desc">{desc || t('No plugin description')}</p>

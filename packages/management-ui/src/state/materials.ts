@@ -1,6 +1,8 @@
 import { observable, action } from 'mobx';
 import { MaterialsRecord, Maybe } from 'types';
 import { queryLibs } from 'api';
+import { message } from 'antd';
+import { i18n } from 'i18n';
 
 export class MaterialsStore {
   public init = () => {
@@ -18,7 +20,7 @@ export class MaterialsStore {
   public getMaterialsList = async () => {
     const [success, data, response] = await queryLibs();
     if (!success) {
-      console.error('query materials failed: ', response);
+      message.error(`${i18n.t('Failed to get materials list')}：${response.message}`);
     }
 
     this.setMaterialsList(data!);

@@ -1,6 +1,6 @@
 {
   "name": "@vize/cgi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "aedron@github",
   "main": "dist/main",
   "module": "dist/main",
@@ -88,6 +88,7 @@
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typeorm": "^0.2.26",
+    "typeorm-text-search": "^1.1.2",
     "typescript": "^4.0.2",
     "uuid": "^8.3.2",
     "webpack": "^4.42.1",
@@ -116,6 +117,7 @@
     "testEnvironment": "node"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ]
 }

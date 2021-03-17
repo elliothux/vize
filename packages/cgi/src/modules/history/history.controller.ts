@@ -4,7 +4,7 @@ import { CGIResponse } from '../../utils';
 import { HistoryService } from './history.service';
 import { CreateHistoryDTO } from './history.interface';
 import { PageService } from '../page/page.service';
-import { VizeUserName } from '../../decorators/VizeUserName';
+import { VizeUserName } from '../../decorators';
 
 let cgiHistoryServices: Maybe<HistoryService> = null;
 
@@ -22,7 +22,10 @@ export class HistoryController {
     const {
       identifiers: [{ id: historyId }],
     } = await this.historyService.createHistory(username, dsl);
-    const result = this.pageService.updateLatestHistory(dsl.pageKey, historyId);
+    const result = await this.pageService.updateLatestHistory(
+      dsl.pageKey,
+      historyId,
+    );
     return CGIResponse.success(result);
   }
 }

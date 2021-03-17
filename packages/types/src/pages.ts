@@ -30,5 +30,5 @@ export interface PageRouter {
 export interface RouterProps extends Pick<ComponentProps, 'global' | 'meta'> {
   pages: PageRouter['pages'];
   dynamicImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<object> }> };
-  sharedComponentInstances: ComponentInstance[];
+  SharedComponentInstances: React.ComponentType<{ router: PageRouter }>;
 }

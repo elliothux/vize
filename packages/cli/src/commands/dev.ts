@@ -16,6 +16,7 @@ export async function dev({ port, open, registry }: DevOptions) {
   const paths = getLibPaths(root, containerName);
   const config = getLibConfig(paths);
 
+  console.log({ registry });
   const builder = new Builder({
     libPaths: paths,
     libConfig: config,

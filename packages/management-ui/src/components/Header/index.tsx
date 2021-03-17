@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { PageHeader, Button, Input, Tooltip } from 'antd';
 import { useAsyncEffect, useUser } from 'hooks';
 import { i18n } from 'i18n';
@@ -12,14 +12,29 @@ interface Props {
   title: string;
   searchText?: string;
   onSearch?: (v: string) => void;
+  searchValue?: string;
+  onSearchChange?: (v: string) => void;
   appendAfterSearch?: React.ReactNode;
 }
 
 const { Search } = Input;
 
-export function Header({ title, children, searchText, onSearch, appendAfterSearch }: React.PropsWithChildren<Props>) {
+export function Header({
+  title,
+  children,
+  searchText,
+  onSearch,
+  searchValue,
+  onSearchChange,
+  appendAfterSearch,
+}: React.PropsWithChildren<Props>) {
   const [, user] = useUser();
   const [language, setLanguage] = useState<string>(i18n.language);
+
+  const onChange = useMemo(
+    () => (onSearchChange ? (e: ChangeEvent<HTMLInputElement>) => onSearchChange!(e.target.value) : undefined),
+    [onSearchChange],
+  );
 
   useAsyncEffect(async () => {
     await i18n.changeLanguage(language);
@@ -61,7 +76,14 @@ export function Header({ title, children, searchText, onSearch, appendAfterSearc
 
       {onSearch ? (
         <div className="search-wrap">
-          <Search placeholder={searchText} onSearch={onSearch} enterButton size="large" />
+          <Search
+            value={searchValue}
+            placeholder={searchText}
+            onSearch={onSearch}
+            onChange={onChange}
+            enterButton
+            size="large"
+          />
           {appendAfterSearch}
         </div>
       ) : null}

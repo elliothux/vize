@@ -1,23 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Maybe, FileInterceptorUploadedFile } from '../../types';
+import { Like, Repository } from 'typeorm';
 import { ResourceEntity } from './resource.entity';
 import {
   CreateResourceParams,
   QueryResourceParams,
 } from './resource.interface';
 import { UserService } from '../user/user.service';
-
-let onUploadFileCallback = (
-  _: FileInterceptorUploadedFile,
-): Promise<Maybe<string>> => {
-  return Promise.resolve(null);
-};
-
-let onDeleteFileCallback = (_: ResourceEntity): Promise<Maybe<string>> => {
-  return Promise.resolve(null);
-};
 
 @Injectable()
 export class ResourceService {
@@ -36,13 +25,22 @@ export class ResourceService {
     pageSize = 20,
     type,
     extension,
+    keywords,
   }: QueryResourceParams) {
-    const where = {};
+    const whereOptions = {};
     if (type) {
-      where['type'] = type;
+      whereOptions['type'] = type;
     }
     if (extension) {
-      where['extension'] = extension;
+      whereOptions['extension'] = extension;
+    }
+
+    let where = [whereOptions];
+    if (keywords) {
+      where = ['filename', 'extension', 'url'].map(key => ({
+        ...whereOptions,
+        [key]: Like(`%${keywords}%`),
+      }));
     }
 
     const data = await this.resourceRepository.find({
@@ -65,25 +63,11 @@ export class ResourceService {
       filename,
       url,
       createdTime: new Date(),
-      user: await this.userServices.getBizEntityByName(username),
+      user: await this.userServices.getUserEntityByName(username),
     });
   }
 
   public deleteResourceEntity(id: number) {
     return this.resourceRepository.delete({ id });
   }
-
-  // Upload file callback
-  public onUploadFile = (callback: typeof onUploadFileCallback) => {
-    onUploadFileCallback = callback;
-  };
-
-  public getUploadFileCallback = () => onUploadFileCallback;
-
-  // Delete file callback
-  public onDeleteFile = (callback: typeof onDeleteFileCallback) => {
-    onDeleteFileCallback = callback;
-  };
-
-  public getDeleteFileCallback = () => onDeleteFileCallback;
 }

@@ -69,8 +69,4 @@ Container
 
 可以在此做一些初始化工作，如引入公共库、初始化上报等。
 
-### 注册路由控制器
-
-TODO
-
 示例参考：[vize/materials-universal/containers/universal/index.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/containers/universal/index.ts)

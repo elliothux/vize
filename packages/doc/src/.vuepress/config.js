@@ -38,7 +38,7 @@ module.exports = {
       {
         title: '欢迎',
         collapsable: true,
-        children: ['/welcome/intro'],
+        children: ['/welcome/intro', '/welcome/packages'],
       },
       {
         title: '快速上手',
@@ -72,9 +72,25 @@ module.exports = {
           '/advanced/meta',
           '/advanced/containerComponent',
           '/advanced/routerController.md',
-          '/advanced/generator.md',
           '/advanced/hot-area-component.md',
+          '/advanced/dsl.md',
         ],
+      },
+      {
+        title: '部署',
+        collapsable: true,
+        children: [
+          '/deploy/intro',
+          '/deploy/user',
+          '/deploy/generator',
+          '/deploy/publisher',
+          '/deploy/resources',
+          '/deploy/middleware',
+        ],
+      },
+      {
+        title: 'CLI',
+        collapsable: true,
       },
     ],
   },

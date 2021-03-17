@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Button, Select, Form, Input, message, Modal, PageHeader, Spin, Switch } from 'antd';
 import { promiseWrapper } from 'utils';
 import { UserRecord, Maybe } from 'types';
@@ -20,7 +20,7 @@ const layout = {
   labelCol: { span: 5 },
 };
 
-export function EditUser({ user, onComplete, visible, setVisible }: Props) {
+function IEditUser({ user, onComplete, visible, setVisible }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
@@ -104,3 +104,5 @@ export function EditUser({ user, onComplete, visible, setVisible }: Props) {
     </Modal>
   );
 }
+
+export const EditUser = memo(IEditUser);

@@ -108,12 +108,10 @@ export class Builder {
     const compiler = webpack(config);
 
     compiler.hooks.beforeCompile.tap('BeforeMaterialsCompile', () => {
-      console.log('BeforeMaterialsCompile', this.recompileCallback);
       this.recompileCallback?.(RecompileCallbackCommand.RECOMPILE);
     });
 
     compiler.hooks.emit.tap('EmitMaterialsCompile', () => {
-      console.log('EmitMaterialsCompile', this.recompileCallback);
       this.recompileCallback?.(RecompileCallbackCommand.RELOAD);
     });
 

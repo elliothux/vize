@@ -19,5 +19,5 @@ export * from './inject';
 export * from './is';
 export * from './key';
 export * from './request';
+export * from './resource';
 export * from './style';
-export * from './color';

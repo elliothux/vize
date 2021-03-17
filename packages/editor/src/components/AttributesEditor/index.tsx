@@ -2,7 +2,7 @@ import './index.scss';
 import * as React from 'react';
 import classnames from 'classnames';
 import { observer } from 'mobx-react';
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { selectStore, SelectType } from 'states';
 import { EventEmitTypes, events } from 'utils';
 import { Tabs } from 'antd';
@@ -105,4 +105,4 @@ function IAttributesEditor({ loading }: Props) {
   );
 }
 
-export const AttributesEditor = observer(IAttributesEditor);
+export const AttributesEditor = memo(observer(IAttributesEditor));
