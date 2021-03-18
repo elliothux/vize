@@ -8,7 +8,7 @@ const dataForm = {
   text: {
     title: '按钮文字',
     default: '按钮',
-    type: 'txt',
+    type: 'string',
   },
 };
 

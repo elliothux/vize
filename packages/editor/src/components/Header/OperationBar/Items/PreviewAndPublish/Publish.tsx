@@ -29,7 +29,6 @@ function IPublish() {
     metaInfo: { isTemplate },
   } = globalStore;
   const isUserValid = isAdmin || ownerId === userId;
-  console.log(toJS(editStore), { ownerId, userId });
 
   const { t } = useTranslation();
   const [publishResult, setPublishResult] = useState<Maybe<PublisherResult>>(null);

@@ -26,7 +26,7 @@ export default {
 
 ## 2. 声明自动注入
 
-编辑组件 `ts.js` 的 styleForm 属性，给需要注入的样式 Schema 声明增加 `inject` 属性：
+编辑组件 `config.ts` 的 styleForm 属性，给需要注入的样式 Schema 声明增加 `inject` 属性：
 
 ```ts {4,5,6,7}
 const styleForm = {

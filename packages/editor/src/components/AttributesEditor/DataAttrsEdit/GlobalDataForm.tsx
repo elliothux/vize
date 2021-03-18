@@ -1,30 +1,32 @@
 import * as React from 'react';
-import { GlobalMeta, JsonSchemaProperties } from 'types';
+import { useCallback } from 'react';
+import { observer } from 'mobx-react';
+import { EventEmitTypes, events, getMaterialsContainerMeta } from 'utils';
 import { globalStore } from 'states';
 import { SchemaForm } from 'widgets/Form';
-import { observer } from 'mobx-react';
-import { useCallback } from 'react';
-import { i18n } from 'i18n';
-
-const TemplateDataSchema: JsonSchemaProperties = {
-  title: { title: i18n.t('Title'), type: 'string', default: 'new', required: true },
-  // desc: { title: i18n.t('Description'), type: 'textarea', required: true },
-};
-
-// TODO
-const PageDataSchema: JsonSchemaProperties = {
-  ...TemplateDataSchema,
-  // duration: { title: i18n.t('Duration'), type: 'daterange', required: true },
-};
+import { NotAvailable } from '../NotAvailable';
 
 function IGlobalDataForm() {
-  const { metaInfo, setMetaInfo } = globalStore;
-  const onChange = useCallback((v: Partial<GlobalMeta>) => setMetaInfo(v), []);
+  const { dataForm } = getMaterialsContainerMeta()!;
+  const { globalProps, setGlobalProps } = globalStore;
+
+  const onChange = useCallback((v: object) => {
+    setGlobalProps(v);
+    events.emit(EventEmitTypes.RELOAD_RENDERER);
+  }, []);
+
+  if (!dataForm) {
+    return <NotAvailable />;
+  }
 
   return (
-    <div className="editor-prop-item editor-prop-edit-data">
-      <SchemaForm instanceKey={999} form={PageDataSchema} data={metaInfo} onChange={onChange} />
-    </div>
+    <SchemaForm
+      instanceKey={Number.MAX_SAFE_INTEGER - 1}
+      form={dataForm}
+      data={globalProps}
+      onChange={onChange}
+      submitProps
+    />
   );
 }
 

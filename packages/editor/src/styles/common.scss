@@ -136,9 +136,18 @@
     width: 100%;
     line-height: 32px;
 
-    .form-image-picker {
-      //max-width: calc(100% - 40px) !important;
-      //margin: 0 20px;
+    .ant-switch {
+      width: 36px;
+    }
+
+    .ant-picker-range {
+      .ant-picker-input > input {
+        font-size: 10px;
+      }
+
+      .ant-picker-range-separator {
+        padding: 0 4px 0 0;
+      }
     }
 
     .array-empty-wrapper {

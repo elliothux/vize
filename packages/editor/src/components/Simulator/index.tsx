@@ -8,7 +8,7 @@ import { DeviceSimulator } from './DeviceSimulator';
 let [clientX, clientY] = [0, 0];
 
 function ISimulator({ children }: WithReactChildren) {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
 
   const setClientRect = useCallback(() => {
     const { top, left } = getOffsetToViewport(ref.current!);

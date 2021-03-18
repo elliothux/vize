@@ -1,8 +1,8 @@
 import './index.scss';
-import { Router } from './Router';
 
-export default function({ render, implementRouterController }: any) {
+export default function({ render, data }: any) {
   // DO something before render
   // implementRouterController(Router);
+  // console.log('container data: ', data);
   render();
 }

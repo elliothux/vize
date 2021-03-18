@@ -46,11 +46,11 @@ export function getApp(): App {
     configure(consumer: MiddlewareConsumer) {
       if (middlewares) {
         Object.entries(middlewares).forEach(([name, middeleware]) => {
-          console.log(`[Vize] Apply middle "${name}"...`);
           const middlewares = Array.isArray(middeleware)
             ? middeleware
             : [middeleware];
           middlewares.forEach(({ apply, forRoutes = [], exclude = [] }) => {
+            console.log(`[Vize] Apply middle "${name}" for routes:`, forRoutes);
             consumer
               .apply(apply)
               .exclude(...exclude)

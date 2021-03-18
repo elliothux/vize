@@ -38,8 +38,8 @@ function IStyleAttrsEdit({ selectType }: Props) {
   return (
     <Collapse
       bordered={false}
-      defaultActiveKey={['style', 'wrapper', 'common']}
-      className="editor-prop-item editor-prop-edit-style"
+      defaultActiveKey={['wrapper', 'common']}
+      className="editor-prop-item editor-prop-edit-style with-collapsed"
     >
       {isEmpty(wrapperStyle) ? null : (
         <Panel header={t('Wrapper style of component')} key="wrapper">

@@ -342,5 +342,10 @@ export const zh = {
     'No bizs data': '暂无业务',
     'Select {{type}}': '选择$t({{type}})',
     Select: '选择',
+    'Long term': '长期在线',
+    'Expired url': '过期跳转',
+    'Jump url after page expires': '页面过期后的跳转链接',
+    'Meta info of page': '页面基础信息',
+    'Global info of container': '容器全局配置',
   },
 };

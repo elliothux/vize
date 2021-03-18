@@ -15,7 +15,7 @@ export interface CGIIDResponse {
   id: number;
 }
 
-interface CGIResponse<T> {
+export interface CGIResponse<T> {
   t: Date;
   status: 'success' | 'failed';
   message: string;

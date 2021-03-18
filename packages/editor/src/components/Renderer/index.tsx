@@ -22,7 +22,8 @@ export class Renderer extends React.Component {
   constructor(props: {}) {
     super(props);
     const { containerHTML } = materialsStore;
-    const params = { global: {}, meta: {}, mainStyle: '', mainScript: '' };
+    const { globalProps, globalStyle, metaInfo } = globalStore;
+    const params = { data: globalProps, style: globalStyle, meta: metaInfo, mainStyle: '', mainScript: '' };
     this.containerHTML = tpl(containerHTML)(params);
   }
 
@@ -98,13 +99,13 @@ export class Renderer extends React.Component {
 
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
     const { globalProps: global, globalStyle, metaInfo: meta } = globalStore;
-    // TODO
+    // TODO: implementRouterController
     renderEntry({
-      implementRouterController: console.log,
-      render: () => this.setState({ ready: true }),
       data: global,
       style: globalStyle,
       meta,
+      implementRouterController: console.log,
+      render: () => this.setState({ ready: true }),
     });
   };
 
@@ -124,7 +125,6 @@ export class Renderer extends React.Component {
         <InjectedStylesRender />
         <LayoutRender
           mountTarget={mountTarget}
-          // renderContext={win}
           componentInstances={componentInstances}
           sharedComponentInstances={sharedComponentInstances}
         />

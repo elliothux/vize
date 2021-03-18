@@ -51,7 +51,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   };
 
   @action
-  public setPageDuration = (duration: Maybe<[number, number]>) => {
+  public setPageDuration = (duration: Maybe<[string, string]>) => {
     this.metaInfo.duration = duration;
   };
 

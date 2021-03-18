@@ -6,14 +6,14 @@ module.exports = {
   repo: 'https://github.com/vize-team/vize',
   serviceWorker: true,
   displayAllHeaders: true,
-  base: '/docs/',
+  base: '/',
   head: [
     [
       'link',
       {
         rel: 'shortcut icon',
         type: 'image/x-icon',
-        href: 'https://raw.githubusercontent.com/vize-team/vize/doc/dev-doc/packages/editor/public/favicon.ico',
+        href: 'https://gw.alicdn.com/imgextra/i2/O1CN01UvNTMG1TWfGYzk7xX_!!6000000002390-73-tps-32-32.ico',
       },
     ],
   ],
@@ -41,8 +41,14 @@ module.exports = {
     '@vuepress/active-header-links',
     '@vuepress/back-to-top',
     '@vuepress/plugin-nprogress',
-    '@vuepress/plugin-pwa',
     '@vuepress/last-updated',
+    [
+      '@vuepress/plugin-pwa',
+      {
+        serviceWorker: true,
+        updatePopup: true,
+      },
+    ],
     [
       '@vuepress/plugin-medium-zoom',
       {

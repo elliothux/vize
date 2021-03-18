@@ -2,7 +2,7 @@ import { action, observable, computed, toJS, runInAction } from 'mobx';
 import { Maybe } from 'types';
 import { setMaterialsMetaMap } from 'runtime';
 import { initMaterialsForms } from 'widgets/Form/utils';
-import { loadMaterials, injectGlobalReadonlyGetter, isDev } from '../utils';
+import { loadMaterials, injectGlobalReadonlyGetter, isDev, setMaterialsContainerMeta } from 'utils';
 import { editStore } from './edit';
 
 interface MaterialsLibItem {
@@ -56,6 +56,7 @@ export class MaterialsStore {
       forms,
     } = await loadMaterials(libName, containerName, debugPort || undefined);
 
+    setMaterialsContainerMeta(meta.containers[`${libName}_${containerName}`]);
     setMaterialsMetaMap(libName, meta, true);
     initMaterialsForms(forms);
 

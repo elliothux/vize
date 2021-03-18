@@ -11,6 +11,7 @@ import {
   PluginInstanceDSL,
 } from 'types';
 import { PageRecordWithHistory, UserRecord } from 'sharedTypes';
+import { getDateTimeString } from '../time';
 
 export function parseDSLFromCGIRecord({
   id,
@@ -33,13 +34,15 @@ export function parseDSLFromCGIRecord({
   },
   owner,
 }: PageRecordWithHistory): [ReturnType<typeof parseDSLFromLocalStorage>, UserRecord] {
+  const longTerm = !(startTime && endTime);
   return [
     {
       global: {
         metaInfo: {
           title,
           desc,
-          duration: startTime && endTime ? [new Date(startTime).getTime(), new Date(endTime).getTime()] : null,
+          longTerm,
+          duration: longTerm ? null : [getDateTimeString(startTime), getDateTimeString(endTime)],
           expiredJump,
           id,
           key,

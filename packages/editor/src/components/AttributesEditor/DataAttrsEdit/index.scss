@@ -1,6 +1,9 @@
 @import 'styles/helper';
 
 .editor-prop-edit-data {
+  &.global {
+    padding: 0 !important;
+  }
 
   .edit-container-button,
   .add-hot-area-button {
