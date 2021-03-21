@@ -1,4 +1,4 @@
-import { GlobalMeta, GlobalStyle, LayoutMode } from './global';
+import { GlobalMeta, LayoutMode } from './global';
 import { PageInstance, PageMode } from './pages';
 import { ComponentInstance, HotArea } from './component';
 import { PluginInstance } from './plugins';
@@ -28,7 +28,7 @@ export interface EditInfoDSL {
 export interface GlobalDSL {
   metaInfo: GlobalMeta;
   globalProps: object;
-  globalStyle: GlobalStyle;
+  globalStyle: object;
 }
 
 export interface PageDSL extends Omit<PageInstance, 'isNameEditing'> {

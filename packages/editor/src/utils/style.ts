@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import * as R from 'ramda';
 import { CommonStyle, CommonStyleMeta, DistanceStyle, FixedOutset, PositionStyle } from 'types';
-import { Maybe, GlobalStyle } from 'types';
+import { Maybe } from 'types';
 import { isNumber } from './is';
 
 export const defaultDistance = { top: 0, left: 0, bottom: 0, right: 0 };
@@ -91,33 +91,6 @@ export function getDefaultCommonStyle(styleGroup: Maybe<CommonStyleMeta | '*'>):
 
   return style;
 }
-
-export const defaultPageStyle: GlobalStyle = {
-  margin: {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  },
-  padding: {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  },
-  border: {
-    type: 'none',
-    color: '#161616',
-    width: 1,
-  },
-  background: {
-    color: '#ffffff',
-    image: '',
-    size: 'auto',
-    position: 'center top',
-    repeat: 'repeat-y',
-  },
-};
 
 export function getPositionFromMeta(style: DistanceStyle): PositionStyle {
   const { top, right } = style;

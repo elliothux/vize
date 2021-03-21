@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { SelectType } from 'states';
-import { componentsStore, globalStore } from 'states';
+import { componentsStore } from 'states';
 import { Collapse } from 'antd';
 import { observer } from 'mobx-react';
 import { useCurrentComponentInstance } from 'hooks';
@@ -9,6 +9,7 @@ import { isEmpty } from 'utils';
 import { useTranslation } from 'react-i18next';
 import { NotAvailable } from '../NotAvailable';
 import { CommonStyleForm } from './CommonStyleForm';
+import { GlobalStyleForm } from './GlobalStyleForm';
 
 const { Panel } = Collapse;
 
@@ -19,14 +20,9 @@ interface Props {
 function IStyleAttrsEdit({ selectType }: Props) {
   const { t } = useTranslation();
   const instance = useCurrentComponentInstance();
-  const { globalStyle } = globalStore;
 
   if (selectType === SelectType.GLOBAL) {
-    return (
-      <div className="editor-prop-item editor-prop-edit-style">
-        <CommonStyleForm style={globalStyle} onChange={globalStore.setGlobalStyle} />
-      </div>
-    );
+    return <GlobalStyleForm />;
   }
 
   if (selectType !== SelectType.COMPONENT || !instance) {
@@ -54,6 +50,5 @@ function IStyleAttrsEdit({ selectType }: Props) {
     </Collapse>
   );
 }
-export const StyleAttrsForm = observer(IStyleAttrsEdit);
 
-// export default IStyleAttrsEdit;
+export const StyleAttrsForm = observer(IStyleAttrsEdit);

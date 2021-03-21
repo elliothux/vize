@@ -26,7 +26,7 @@ function ISchemaForm(props: SchemaFormProps) {
   const v = { ...value };
 
   return (
-    <USchemaForm schema={schema} value={v} onChange={onChange} onSubmit={onSubmit}>
+    <USchemaForm schema={schema} initialValues={v} value={v} onChange={onChange} onSubmit={onSubmit}>
       {submitProps && (
         <Submit className="submit-btn" {...submitProps}>
           {submitProps.children}

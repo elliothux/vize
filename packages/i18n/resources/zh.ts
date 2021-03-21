@@ -150,6 +150,7 @@ export const zh = {
     'Tile horizontally & vertically': '水平垂直平铺',
     'Wrapper style of component': '组件容器样式',
     'Common style of component': '组件通用样式',
+    'Global style of page': '页面全局样式',
     'Confirm delete?': '确认删除吗？',
     Cancel: '取消',
     Delete: '删除',

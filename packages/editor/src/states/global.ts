@@ -1,6 +1,6 @@
 import { action, observable, toJS } from 'mobx';
-import { defaultPageStyle, injectGlobalReadonlyGetter, isDev } from 'utils';
-import { GlobalMeta, GlobalStyle, Maybe } from 'types';
+import { injectGlobalReadonlyGetter, isDev } from 'utils';
+import { GlobalMeta, Maybe } from 'types';
 import { StoreWithUtils } from './utils';
 
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
@@ -13,10 +13,10 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   };
 
   @observable
-  public globalStyle: GlobalStyle = defaultPageStyle;
+  public globalStyle: object = {};
 
   @action
-  public setGlobalStyle = (data: GlobalStyle) => {
+  public setGlobalStyle = (data: object) => {
     this.globalStyle = data;
   };
 

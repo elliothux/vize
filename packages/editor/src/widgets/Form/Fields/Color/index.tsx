@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
-import { useMemo } from 'react';
-import { SketchPicker } from 'react-color';
+import { useCallback, useMemo } from 'react';
+import { ColorResult, SketchPicker } from 'react-color';
 import { Popover } from 'antd';
 import classnames from 'classnames';
 import { ColorFormat, isAlphaSupported, parseColor, stringifyColor } from 'utils';
@@ -32,6 +32,8 @@ function Color({ disabled: fieldDisabled, format: fieldFormat, value, onChange }
     const format = fieldFormat ? (fieldFormat.toLowerCase() as ColorFormat) : ColorFormat.HEX;
     return [format, isAlphaSupported(format)];
   }, [fieldFormat]);
+  const color = useMemo(() => parseColor(value), [value]);
+  const onChangeComplete = useCallback((color: ColorResult) => onChange(stringifyColor(color.rgb, format)), [onChange]);
 
   return (
     <div className={classnames('form-color-picker', { disabled })}>
@@ -40,12 +42,7 @@ function Color({ disabled: fieldDisabled, format: fieldFormat, value, onChange }
         title={i18n.t('Choose color')}
         trigger="click"
         content={
-          <SketchPicker
-            disableAlpha={!supportAlpha}
-            color={parseColor(value)}
-            onChangeComplete={color => onChange(stringifyColor(color.rgb, format))}
-            width="256px"
-          />
+          <SketchPicker disableAlpha={!supportAlpha} color={color} onChangeComplete={onChangeComplete} width="256px" />
         }
         overlayClassName="form-color-picker-popover"
         arrowPointAtCenter

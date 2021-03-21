@@ -13,6 +13,7 @@ import {
 } from 'types';
 import { UserRecord } from 'sharedTypes';
 import { componentsStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
+import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
 import { parseDSLFromLocalStorage } from './parse';
 import {
   addPageComponentInstanceIndexMap,
@@ -23,7 +24,6 @@ import {
 } from '../indexMap';
 import { componentEventDepsMap, generateEventDepFromItem, pluginEventDepsMap } from '../depsMap';
 import { setMaxKey } from '../key';
-import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
 
 export function restoreState(
   {
