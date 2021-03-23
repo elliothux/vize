@@ -34,6 +34,9 @@ export function TargetSelector({ target, setTarget }: Props) {
         <SelectOption value={EventTargetType.PLUGIN}>
           <Trans>Plugin</Trans>
         </SelectOption>
+        <SelectOption value={EventTargetType.CONTAINER}>
+          <Trans>Container</Trans>
+        </SelectOption>
       </Select>
     </div>
   );

@@ -24,4 +24,6 @@ export default {
   info,
   dataForm,
   styleForm,
+  emitEvents: [{ displayName: 'emit测试', eventName: 'test' }],
+  onEvents: [{ displayName: 'on测试', eventName: 'test' }],
 };

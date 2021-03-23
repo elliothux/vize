@@ -30,6 +30,7 @@ function getTargetTypeDesc(type: EventTargetType) {
     [EventTargetType.ACTION]: 'Execute action',
     [EventTargetType.PLUGIN]: 'Trigger plugin',
     [EventTargetType.COMPONENT]: 'Trigger component',
+    [EventTargetType.CONTAINER]: 'Trigger container',
   };
   return descMap[type];
 }

@@ -1,3 +1,12 @@
 .vize-materials-list {
   min-height: calc(100vh - 300px);
 }
+
+.toggle-materials-view {
+  width: 24px;
+  height: auto;
+  position: relative;
+  top: -2px;
+  padding: 4px;
+  cursor: pointer;
+}

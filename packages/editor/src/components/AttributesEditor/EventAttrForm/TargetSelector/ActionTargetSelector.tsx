@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as R from 'ramda';
 import { useCallback, useMemo, useState } from 'react';
-import { EventTargetType, EventTriggerName, Maybe } from 'types';
+import { ActionEventTarget, EventTargetType, EventTriggerName, Maybe } from 'types';
 import { Button, Select } from 'antd';
 import { eventStore } from 'states';
 import { FiLayers, FiPlus } from 'react-icons/fi';
@@ -29,7 +29,12 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
 
   const onAddAction = useCallback(() => {
     const { identityName, lib, maxTimeout = DEFAULT_MAX_TIMEOUT } = getMaterialsActionMeta(actionId!)!;
-    eventStore.addEventInstance(trigger!, { type: EventTargetType.ACTION, id: identityName, lib, maxTimeout });
+    eventStore.addEventInstance(trigger!, {
+      type: EventTargetType.ACTION,
+      id: identityName,
+      lib,
+      maxTimeout,
+    } as ActionEventTarget);
     setActionId(null);
     setTrigger(null);
   }, [trigger, actionId]);

@@ -38,7 +38,7 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
       eventName: eventName!,
       key: key!,
       maxTimeout,
-    });
+    } as ComponentEventTarget);
     onEndSelect();
     setTrigger(null);
   }, [trigger, eventName, key]);

@@ -5,6 +5,7 @@ import { Select } from 'antd';
 import { FiLayers } from 'react-icons/fi';
 import {
   ComponentUniversalEventTrigger,
+  ContainerUniversalEventTrigger,
   EventTriggerName,
   HotAreaUniversalEventTrigger,
   MaterialsCustomEvent,
@@ -28,13 +29,19 @@ export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }
   const { t } = useTranslation();
   const onChange = useMemo(() => R.unary(setTrigger), []);
   const isComponent = type === SelectType.COMPONENT;
-  const universalEventTriggers = useMemo(
+  const universalEventTriggers = useMemo<{
+    [name: string]:
+      | ComponentUniversalEventTrigger
+      | PluginUniversalEventTrigger
+      | HotAreaUniversalEventTrigger
+      | ContainerUniversalEventTrigger;
+  }>(
     () =>
       ({
         [SelectType.COMPONENT]: ComponentUniversalEventTrigger,
         [SelectType.PLUGIN]: PluginUniversalEventTrigger,
         [SelectType.HOTAREA]: HotAreaUniversalEventTrigger,
-        [SelectType.GLOBAL]: {} as typeof ComponentUniversalEventTrigger,
+        [SelectType.GLOBAL]: ContainerUniversalEventTrigger,
       }[type]),
     [type],
   );

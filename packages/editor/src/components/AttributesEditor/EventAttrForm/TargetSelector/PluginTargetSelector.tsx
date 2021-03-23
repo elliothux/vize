@@ -55,7 +55,7 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
       eventName: eventName!,
       key: pluginKey!,
       maxTimeout,
-    });
+    } as PluginEventTarget);
     setTarget(null);
     setTrigger(null);
   }, [eventName, pluginKey]);

@@ -1,10 +1,11 @@
-import * as React from 'react';
-import { TagItem } from './TagItem';
-import { HeaderOptions, MaterialsViewType } from '../../HeaderOptions';
-import { MaterialsComponentMeta, MaterialsPluginMeta } from 'types';
-import { generateTagsMap, MaterialsTagsList } from './utils';
-import * as R from 'ramda';
 import './index.scss';
+import * as React from 'react';
+import * as R from 'ramda';
+import { MaterialsComponentMeta, MaterialsPluginMeta } from 'types';
+import { FiList } from 'react-icons/fi';
+import { TagItem } from './TagItem';
+import { generateTagsMap, MaterialsTagsList } from './utils';
+import { HeaderOptions, MaterialsViewType } from '../../HeaderOptions';
 
 interface Props<T extends MaterialsComponentMeta & MaterialsPluginMeta> {
   view: MaterialsViewType;
@@ -35,7 +36,7 @@ export class WithTagsList<T extends MaterialsComponentMeta & MaterialsPluginMeta
   private renderHeader = () => {
     return (
       <HeaderOptions type={this.props.view}>
-        <div>{/*<UpOutlined />*/}</div>
+        <FiList className="toggle-materials-view" />
       </HeaderOptions>
     );
   };

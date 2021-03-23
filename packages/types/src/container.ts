@@ -1,6 +1,9 @@
+import { ComponentType } from 'react';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { MaterialsInfo } from './materials';
+import { ComponentProps } from './component';
+import { RouterProps } from './pages';
 
 export interface MaterialsContainerMeta {
   identityName: string;
@@ -13,3 +16,10 @@ export interface MaterialsContainerMeta {
   readonly emitEvents?: MaterialsCustomEvent[];
   readonly isBuildIn?: boolean;
 }
+
+export interface RenderEntryParams extends Pick<ComponentProps, 'data' | 'style' | 'meta'> {
+  render: Function;
+  implementRouterController: (CustomRouter: ComponentType<RouterProps>) => void;
+}
+
+export type ContainerRenderEntry = (params: RenderEntryParams) => void;

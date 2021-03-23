@@ -1,10 +1,12 @@
+import './index.scss';
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { PlusOutlined, UpOutlined } from '@ant-design/icons';
+import { FiPlus } from 'react-icons/fi';
 import { pagesStore } from 'states';
+import { Tooltip } from 'antd';
+import { i18n } from 'i18n';
 import { PageItem } from './PageItem';
 import { HeaderOptions, MaterialsViewType } from '../../HeaderOptions';
-import './index.scss';
 
 @observer
 export class PagesList extends React.Component {
@@ -15,10 +17,9 @@ export class PagesList extends React.Component {
   private renderHeader = () => {
     return (
       <HeaderOptions type={MaterialsViewType.INSTANCES}>
-        <div>
-          <PlusOutlined onClick={this.addPage} />
-          {/*<UpOutlined />*/}
-        </div>
+        <Tooltip title={i18n.t('new page')} placement="right">
+          <FiPlus className="add-page" onClick={this.addPage} />
+        </Tooltip>
       </HeaderOptions>
     );
   };

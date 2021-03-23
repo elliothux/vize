@@ -4,6 +4,7 @@ export enum DepsFromType {
   Component = 'component',
   Plugin = 'plugin',
   HotArea = 'hotarea',
+  Container = 'container',
 }
 
 export enum DepsTargetType {
@@ -13,7 +14,7 @@ export enum DepsTargetType {
 
 export interface DepFrom {
   depsFromType: DepsFromType;
-  parentKey: number;
+  parentKey?: number;
   index?: number;
   eventKey: number;
 }

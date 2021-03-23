@@ -1,11 +1,19 @@
 import * as React from 'react';
-import { ComponentUniversalEventTrigger, HotAreaUniversalEventTrigger, PluginUniversalEventTrigger } from 'types';
+import {
+  ComponentUniversalEventTrigger,
+  HotAreaUniversalEventTrigger,
+  PluginUniversalEventTrigger,
+  ContainerUniversalEventTrigger,
+} from 'types';
 import { MdBlurCircular, MdCallMade, MdCallReceived, MdPanTool } from 'react-icons/md';
 import { FiEye, FiEyeOff, FiMousePointer } from 'react-icons/fi';
 import { Trans } from 'react-i18next';
 
 export const triggerTextMap = new Map<
-  ComponentUniversalEventTrigger | PluginUniversalEventTrigger | HotAreaUniversalEventTrigger,
+  | ComponentUniversalEventTrigger
+  | PluginUniversalEventTrigger
+  | HotAreaUniversalEventTrigger
+  | ContainerUniversalEventTrigger,
   React.ReactNode
 >([
   [
@@ -125,6 +133,20 @@ export const triggerTextMap = new Map<
     <>
       <FiEyeOff />
       <Trans>disappear</Trans>
+    </>,
+  ],
+  [
+    ContainerUniversalEventTrigger.BEFORE_RENDER,
+    <>
+      <MdBlurCircular />
+      <Trans>before render</Trans>
+    </>,
+  ],
+  [
+    ContainerUniversalEventTrigger.AFTER_RENDER,
+    <>
+      <MdBlurCircular />
+      <Trans>after render</Trans>
     </>,
   ],
 ]);

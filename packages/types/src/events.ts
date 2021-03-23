@@ -25,6 +25,7 @@ export enum EventTriggerType {
   ComponentUniversalTrigger = 'component_universal_trigger',
   PluginUniversalTrigger = 'plugin_universal_trigger',
   HotAreaUniversalTrigger = 'hotarea_universal_trigger',
+  ContainerUniversalTrigger = 'container_universal_trigger',
   Custom = 'custom',
 }
 
@@ -32,6 +33,7 @@ export type EventTriggerName =
   | ComponentUniversalEventTrigger
   | PluginUniversalEventTrigger
   | HotAreaUniversalEventTrigger
+  | ContainerUniversalEventTrigger
   | string;
 
 export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
@@ -62,6 +64,11 @@ export enum PluginUniversalEventTrigger {
   AFTER_EXEC = '__vize_plugin_event_trigger_after_exec',
 }
 
+export enum ContainerUniversalEventTrigger {
+  BEFORE_RENDER = '__vize_container_event_trigger_before_render',
+  AFTER_RENDER = '__vize_container_event_trigger_after_render',
+}
+
 /**
  * @desc event target
  */
@@ -70,6 +77,7 @@ export enum EventTargetType {
   ACTION = 'action',
   COMPONENT = 'component',
   PLUGIN = 'plugin',
+  CONTAINER = 'container',
 }
 
 export interface ActionEventTarget {
@@ -90,4 +98,8 @@ export interface PluginEventTarget extends Omit<ComponentEventTarget, 'type'> {
   type: EventTargetType.PLUGIN;
 }
 
-export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget;
+export interface ContainerEventTarget extends Omit<ComponentEventTarget, 'key' | 'type'> {
+  type: EventTargetType.CONTAINER;
+}
+
+export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget | ContainerEventTarget;

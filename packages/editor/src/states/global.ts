@@ -1,6 +1,6 @@
 import { action, observable, toJS } from 'mobx';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
-import { GlobalMeta, Maybe } from 'types';
+import { EventInstance, GlobalMeta, Maybe } from 'types';
 import { StoreWithUtils } from './utils';
 
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
@@ -18,6 +18,18 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   @action
   public setGlobalStyle = (data: object) => {
     this.globalStyle = data;
+  };
+
+  @observable
+  public containerEvents: EventInstance[] = [];
+
+  @action
+  public setContainerEvents = (setter: (eventInstances: EventInstance[]) => EventInstance[] | void) => {
+    const events = setter(this.containerEvents);
+    if (events) {
+      this.containerEvents = events;
+    }
+    return events;
   };
 
   @observable

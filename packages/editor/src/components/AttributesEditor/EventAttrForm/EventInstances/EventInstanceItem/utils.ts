@@ -1,6 +1,7 @@
 import { ComponentType } from 'react';
 import {
   ComponentUniversalEventTrigger,
+  ContainerUniversalEventTrigger,
   EventTrigger,
   EventTriggerType,
   HotAreaUniversalEventTrigger,
@@ -27,6 +28,11 @@ const PluginUniversalEventTriggerDisplayMap: { [key: string]: [string, Component
   [PluginUniversalEventTrigger.AFTER_EXEC]: [i18n.t('after execute'), FiMousePointer],
 };
 
+const ContainerUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
+  [ContainerUniversalEventTrigger.BEFORE_RENDER]: [i18n.t('before render'), FiMousePointer],
+  [ContainerUniversalEventTrigger.AFTER_RENDER]: [i18n.t('after render'), FiMousePointer],
+};
+
 const HotAreaUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
   [HotAreaUniversalEventTrigger.CLICK]: [i18n.t('click'), FiMousePointer],
   [HotAreaUniversalEventTrigger.DOUBLE_CLICK]: [i18n.t('double click'), FiMousePointer],
@@ -50,6 +56,9 @@ export function getTriggerDisplayName(
     }
     case EventTriggerType.HotAreaUniversalTrigger: {
       return HotAreaUniversalEventTriggerDisplayMap[triggerName];
+    }
+    case EventTriggerType.ContainerUniversalTrigger: {
+      return ContainerUniversalEventTriggerDisplayMap[triggerName];
     }
     case EventTriggerType.Custom: {
       const { displayName } = customEvents!.find(i => i.eventName === triggerName)!;
