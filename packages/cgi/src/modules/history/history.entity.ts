@@ -40,6 +40,9 @@ export class HistoryEntity {
   @Column({ type: 'text', nullable: false })
   globalStyle: string;
 
+  @Column({ type: 'text', nullable: false })
+  containerEvents: string;
+
   @Column({ type: 'mediumtext', nullable: false })
   pageInstances: string;
 

@@ -16,6 +16,7 @@ export function generateDSL({
     expiredJump,
     globalProps,
     globalStyle,
+    containerEvents,
     pageInstances,
     pluginInstances,
     sharedComponentInstances,
@@ -23,6 +24,7 @@ export function generateDSL({
   },
 }: PageEntity): DSL {
   const { lib, name } = JSON.parse(container);
+  const longTerm = !(startTime && endTime);
   return {
     pageKey: key,
     container: {
@@ -33,10 +35,9 @@ export function generateDSL({
       metaInfo: {
         title,
         desc,
-        duration:
-          startTime && endTime
-            ? [new Date(startTime).getTime(), new Date(endTime).getTime()]
-            : null,
+        duration: longTerm
+          ? null
+          : [getDateTimeString(startTime), getDateTimeString(endTime)],
         expiredJump,
         id,
         key,
@@ -45,6 +46,7 @@ export function generateDSL({
       },
       globalProps: JSON.parse(globalProps),
       globalStyle: JSON.parse(globalStyle),
+      containerEvents: JSON.parse(containerEvents),
     },
     editInfo: {
       layoutMode: layoutMode as LayoutMode,
@@ -60,4 +62,8 @@ export function generateDSL({
         ? JSON.parse(pluginInstances || '[]')
         : undefined,
   };
+}
+
+function getDateTimeString(date: Date) {
+  return date.toISOString().split('T')[0];
 }
