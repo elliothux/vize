@@ -25,7 +25,7 @@
     "@rax-types/rax": "^1.0.6",
     "@uform/antd": "0.4.4",
     "@vize/runtime-web": "^0.0.3",
-    "@vize/types": "^0.1.9",
+    "@vize/types": "^0.1.11",
     "antd": "^4.11.2",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
