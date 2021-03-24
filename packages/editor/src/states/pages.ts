@@ -3,11 +3,12 @@ import { message } from 'antd';
 import { PageInstance, PageRouter } from 'types';
 import { i18n } from 'i18n';
 import { createPageInstance } from '../utils';
+import { StoreWithUtils } from './utils';
 import { componentsStore } from './components';
 import { selectStore } from './select';
 import { pluginsStore } from './plugins';
 import { editStore } from './edit';
-import { StoreWithUtils } from './utils';
+import { containerStore } from './container';
 
 export class PagesStore extends StoreWithUtils<PagesStore> {
   public init = () => {
@@ -35,6 +36,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     componentsStore.addComponentInstancesMap(page.key);
     if (!editStore.isSinglePageMode) {
       pluginsStore.addPluginInstancesMap(page.key);
+      containerStore.addContainerEventInstancesMap(page.key);
     }
 
     selectStore.selectPage(this.pages.length - 1);
@@ -51,6 +53,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     componentsStore.deleteComponentInstancesMap(key);
     if (!editStore.isSinglePageMode) {
       pluginsStore.deletePluginInstancesMap(key);
+      containerStore.deleteContainerEventInstancesMap(key);
     }
 
     this.pages.splice(pageIndex, 1);

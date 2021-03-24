@@ -27,6 +27,7 @@ export function parseDSLFromCGIRecord({
     expiredJump,
     globalProps,
     globalStyle,
+    containerEvents,
     pageInstances,
     pluginInstances,
     sharedComponentInstances,
@@ -51,6 +52,7 @@ export function parseDSLFromCGIRecord({
         },
         globalProps: JSON.parse(globalProps),
         globalStyle: JSON.parse(globalStyle),
+        containerEvents: JSON.parse(containerEvents),
       },
       editInfo: {
         layoutMode: layoutMode as LayoutMode,

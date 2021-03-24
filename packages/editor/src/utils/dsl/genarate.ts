@@ -11,13 +11,14 @@ import {
   HotArea,
   HotAreaDSL,
 } from 'types';
-import { componentsStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
+import { componentsStore, containerStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
 import { toJS } from 'mobx';
 import { getMaxKey } from '../key';
 
 export function generateDSL(): DSL {
   const { mainLib, containerName: container, layoutMode, pageMode, pageKey } = editStore;
   const { globalProps, globalStyle, metaInfo } = globalStore;
+  const { containerEvents } = containerStore;
   const { sharedComponentInstances } = sharedStore;
 
   const dsl: DSL = {
@@ -30,10 +31,11 @@ export function generateDSL(): DSL {
       globalProps,
       globalStyle,
       metaInfo,
+      containerEvents,
     },
     pageInstances: generatePageInstancesDSL(pageMode),
     pluginInstances:
-      pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstancesMap(-1)) : undefined,
+      pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstances(-1)) : undefined,
     sharedComponentInstances: sharedComponentInstances.length
       ? generateComponentInstancesDSL(sharedComponentInstances)
       : undefined,
@@ -58,9 +60,8 @@ function generatePageInstancesDSL(pageMode: PageMode): PageDSL[] {
   const { pages } = pagesStore;
   return pages.map(page => {
     const pageInstance = R.omit(['isNameEditing'], page);
-    const componentInstances = componentsStore.getComponentInstancesMap(pageInstance.key);
-    const pluginInstances =
-      pageMode === PageMode.MULTI ? pluginsStore.getPluginInstancesMap(pageInstance.key) : undefined;
+    const componentInstances = componentsStore.getComponentInstances(pageInstance.key);
+    const pluginInstances = pageMode === PageMode.MULTI ? pluginsStore.getPluginInstances(pageInstance.key) : undefined;
     return {
       ...pageInstance,
       componentInstances: generateComponentInstancesDSL(componentInstances),

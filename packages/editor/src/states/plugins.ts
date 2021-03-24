@@ -32,7 +32,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
 
   @computed
   public get pluginInstances(): PluginInstance[] {
-    return this.getPluginInstancesMap(pagesStore.currentPage.key);
+    return this.getPluginInstances(pagesStore.currentPage.key);
   }
 
   @action
@@ -47,7 +47,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
     deletePagePluginInstanceIndexMap(pageKey);
   };
 
-  public getPluginInstancesMap = (pageKey: number) => {
+  public getPluginInstances = (pageKey: number) => {
     if (editStore.isSinglePageMode) {
       return this.singlePagePluginsInstances;
     }

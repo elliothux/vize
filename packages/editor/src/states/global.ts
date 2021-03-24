@@ -1,9 +1,13 @@
 import { action, observable, toJS } from 'mobx';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
-import { EventInstance, GlobalMeta, Maybe } from 'types';
+import { GlobalMeta, Maybe } from 'types';
 import { StoreWithUtils } from './utils';
 
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
+  /**
+   * @desc GlobalProps & GlobalStyle
+   * @struct object
+   */
   @observable
   public globalProps: object = {};
 
@@ -20,18 +24,9 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     this.globalStyle = data;
   };
 
-  @observable
-  public containerEvents: EventInstance[] = [];
-
-  @action
-  public setContainerEvents = (setter: (eventInstances: EventInstance[]) => EventInstance[] | void) => {
-    const events = setter(this.containerEvents);
-    if (events) {
-      this.containerEvents = events;
-    }
-    return events;
-  };
-
+  /**
+   * @desc GlobalMeta
+   */
   @observable
   public metaInfo: GlobalMeta = {
     title: 'vize page',

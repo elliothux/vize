@@ -3,6 +3,7 @@ import { PageInstance, PageMode } from './pages';
 import { ComponentInstance, HotArea } from './component';
 import { PluginInstance } from './plugins';
 import { InstanceKeyType } from './materials';
+import { EventInstance } from './events';
 
 export type HotAreaDSL = Omit<HotArea, 'parent'>;
 
@@ -29,6 +30,7 @@ export interface GlobalDSL {
   metaInfo: GlobalMeta;
   globalProps: object;
   globalStyle: object;
+  containerEvents: EventInstance[];
 }
 
 export interface PageDSL extends Omit<PageInstance, 'isNameEditing'> {

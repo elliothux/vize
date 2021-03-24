@@ -12,6 +12,7 @@ export async function initStore() {
 }
 
 export * from './components';
+export * from './container';
 export * from './edit';
 export * from './events';
 export * from './global';

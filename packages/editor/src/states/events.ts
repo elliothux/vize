@@ -32,6 +32,7 @@ import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
 import { hotAreaStore } from './hotAreas';
 import { globalStore } from './global';
+import { containerStore } from './container';
 
 export class EventStore {
   @action
@@ -126,7 +127,7 @@ export class EventStore {
 
   @action
   private addEventInstanceToContainer = (instance: EventInstance) => {
-    return globalStore.setContainerEvents(events => {
+    return containerStore.setCurrentPageContainerEvents(events => {
       events.push(instance);
     });
   };
@@ -203,7 +204,7 @@ export class EventStore {
   @action
   private deleteEventInstanceFromContainer = (index: number): EventInstance => {
     let eventInstance: Maybe<EventInstance>;
-    globalStore.setContainerEvents(events => {
+    containerStore.setCurrentPageContainerEvents(events => {
       [eventInstance] = events.splice(index, 1);
     });
     return eventInstance!;
@@ -263,7 +264,7 @@ export class EventStore {
           break;
         }
         case DepsFromType.Container: {
-          globalStore.setContainerEvents(deleteEventItem);
+          containerStore.setCurrentPageContainerEvents(deleteEventItem);
         }
       }
     });
@@ -292,7 +293,7 @@ export class EventStore {
 
   @action
   public setEventInstanceDataOfContainer = (data: object, index: number) => {
-    return globalStore.setContainerEvents(events => {
+    return containerStore.setCurrentPageContainerEvents(events => {
       events[index]!.data = data;
     });
   };
@@ -339,7 +340,7 @@ export class EventStore {
       return;
     }
 
-    return globalStore.setContainerEvents(events => {
+    return containerStore.setCurrentPageContainerEvents(events => {
       const [instance] = events.splice(oldIndex, 1);
       events.splice(newIndex, 0, instance);
     });

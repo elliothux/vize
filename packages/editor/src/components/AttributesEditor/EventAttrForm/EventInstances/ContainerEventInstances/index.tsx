@@ -2,13 +2,13 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { SortEnd } from 'react-sortable-hoc';
-import { eventStore, globalStore } from 'states';
+import { containerStore, eventStore } from 'states';
 import { getMaterialsContainerMeta } from 'utils';
 import { SortableContainerEventInstances } from './SortableContainerEventInstances';
 import { Title } from '../Title';
 
 function IContainerEventInstances() {
-  const { containerEvents } = globalStore;
+  const { containerEvents } = containerStore;
   const container = getMaterialsContainerMeta()!;
 
   const onSortEnd = useCallback(

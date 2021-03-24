@@ -1,8 +1,7 @@
 /* eslint-disable max-lines */
-import { action, computed, observable, toJS } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
 import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
-import { pagesStore } from './pages';
 import {
   addPageComponentInstanceIndexMap,
   batchUpdateCurrentPageComponentIndex,
@@ -17,7 +16,8 @@ import {
   getCurrentPageComponentIndex,
   isNumber,
   setCurrentPageComponentIndex,
-} from '../utils';
+} from 'utils';
+import { pagesStore } from './pages';
 import { selectStore, SelectType } from './select';
 import { eventStore } from './events';
 import { StoreWithUtils } from './utils';
@@ -34,7 +34,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
 
   @computed
   public get componentInstances(): ComponentInstance[] {
-    return this.getComponentInstancesMap(pagesStore.currentPage.key);
+    return this.getComponentInstances(pagesStore.currentPage.key);
   }
 
   @action
@@ -50,7 +50,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   };
 
   @action
-  public getComponentInstancesMap = (pageKey: number) => {
+  public getComponentInstances = (pageKey: number) => {
     return this.pagesComponentInstancesMap[pageKey];
   };
 

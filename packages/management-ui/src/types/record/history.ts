@@ -11,6 +11,7 @@ export interface HistoryRecord {
   expiredJump?: string;
   globalProps: string;
   globalStyle: string;
+  containerEvents: string;
   pageInstances: string;
   pluginInstances?: string;
   sharedComponentInstances?: string;
