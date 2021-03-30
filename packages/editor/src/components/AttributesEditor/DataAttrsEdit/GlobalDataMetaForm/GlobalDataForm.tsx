@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { EventEmitTypes, events, getMaterialsContainerMeta } from 'utils';
 import { globalStore } from 'states';
 import { SchemaForm } from 'widgets/Form';
-import { NotAvailable } from '../NotAvailable';
+import { NotAvailable } from '../../NotAvailable';
 
 function IGlobalDataForm() {
   const { globalDataForm } = getMaterialsContainerMeta()!;
@@ -19,15 +19,7 @@ function IGlobalDataForm() {
     return <NotAvailable />;
   }
 
-  return (
-    <SchemaForm
-      instanceKey={Number.MAX_SAFE_INTEGER - 1}
-      form={globalDataForm}
-      data={globalData}
-      onChange={onChange}
-      submitProps
-    />
-  );
+  return <SchemaForm form={globalDataForm} data={globalData} onChange={onChange} submitProps />;
 }
 
 export const GlobalDataForm = observer(IGlobalDataForm);

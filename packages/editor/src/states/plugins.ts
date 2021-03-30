@@ -22,11 +22,13 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
 
   @action
   public setCurrentPagePluginInstances = (setter: (pluginInstances: PluginInstance[]) => PluginInstance[] | void) => {
-    const page = pagesStore.pages[selectStore.pageIndex];
-    const newInstances = setter(page.pluginInstances);
-    if (newInstances) {
-      page.pluginInstances = newInstances;
-    }
+    let newInstances: PluginInstance[] | undefined;
+    pagesStore.setCurrentPage(page => {
+      newInstances = setter(page.pluginInstances) || undefined;
+      if (newInstances) {
+        page.pluginInstances = newInstances;
+      }
+    });
     return newInstances;
   };
 

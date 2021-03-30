@@ -4,15 +4,23 @@ const info = {
   author: 'Copyes@github',
 };
 
-const dataForm = {
+const globalDataForm = {
   shareTitle: {
-    title: '分享文字',
+    title: '全局分享文字',
     default: '',
     type: 'string',
   },
 };
 
-const styleForm = {
+const pageDataForm = {
+  shareTitle: {
+    title: '页面分享文字',
+    default: '',
+    type: 'string',
+  },
+};
+
+const globalStyleForm = {
   backgroundColor: {
     title: '全局背景色',
     default: 'rgba(255, 255, 255, 0)',
@@ -20,10 +28,20 @@ const styleForm = {
   },
 };
 
+const pageStyleForm = {
+  backgroundColor: {
+    title: '页面背景色',
+    default: 'rgba(255, 255, 255, 0)',
+    type: 'color',
+  },
+};
+
 export default {
   info,
-  dataForm,
-  styleForm,
+  globalDataForm,
+  pageDataForm,
+  globalStyleForm,
+  pageStyleForm,
   emitEvents: [{ displayName: 'emit测试', eventName: 'test' }],
   onEvents: [{ displayName: 'on测试', eventName: 'test' }],
 };

@@ -1,7 +1,9 @@
 @import 'styles/helper';
 
 .editor-prop-edit-style {
-  padding: 0 !important;
+  &.component {
+    padding: 0 !important;
+  }
 }
 
 .common-style-form-panel > .ant-collapse-content > .ant-collapse-content-box {

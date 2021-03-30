@@ -1,116 +1,46 @@
-import { action, computed, observable, toJS } from 'mobx';
-import { getQueryParams, injectGlobalReadonlyGetter, isDev } from 'utils';
-import { EventInstance, GlobalMeta } from 'types';
+import { action, observable } from 'mobx';
+import { getQueryParams } from 'utils';
+import { GlobalMeta } from 'types';
 import { StoreWithUtils } from './utils';
-import { editStore } from './edit';
-import { pagesStore } from './pages';
-
-interface GlobalState {
-  metaInfo: GlobalMeta;
-  globalProps: object;
-  globalStyle: object;
-  containerEvents: EventInstance[];
-}
 
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
   constructor() {
     super();
     const { id, key } = getQueryParams();
-    this.setMetaInfo({ id, key });
+    this.metaInfo.id = id;
+    this.metaInfo.key = key;
   }
-  /**
-   * @desc PageContainerEventsMap
-   * @struct Map<Page, GlobalState>
-   */
-  @observable
-  private pagesGlobalStateMap: { [key: number]: GlobalState } = {};
-
-  @observable
-  private singlePageGlobalState: GlobalState = {
-    metaInfo: {
-      title: 'vize page',
-      desc: '',
-      id: null,
-      key: '',
-      isTemplate: false,
-      isEditor: true,
-    },
-    globalProps: {},
-    globalStyle: {},
-    containerEvents: [],
-  };
-
-  @computed
-  public get globalState(): GlobalState {
-    if (editStore.isSinglePageMode) {
-      return this.singlePageGlobalState;
-    }
-    return this.pagesGlobalStateMap[pagesStore.currentPage.key];
-  }
-
-  @action
-  private setCurrentPageGlobalState = (setter: (globalState: GlobalState) => GlobalState | void) => {
-    if (editStore.isSinglePageMode) {
-      const newState = setter(this.singlePageGlobalState);
-      if (newState) {
-        this.singlePageGlobalState = newState;
-      }
-      return;
-    }
-
-    const state = this.pagesGlobalStateMap[pagesStore.currentPage.key];
-    const newState = setter(state);
-    if (newState) {
-      this.pagesGlobalStateMap[pagesStore.currentPage.key] = newState;
-    }
-  };
 
   /**
    * @desc GlobalData & GlobalStyle
    * @struct object
    */
-  @computed
-  public get globalData(): object {
-    return this.globalState.globalProps!;
-  }
+  @observable
+  public globalData: object = {};
 
-  public setGlobalData = (data: object) => {
-    return this.setCurrentPageGlobalState(state => {
-      state.globalProps = data;
-    });
-  };
+  @action
+  public setGlobalData = (data: object) => (this.globalData = data);
 
-  @computed
-  public get globalStyle(): object {
-    return this.globalState.globalStyle;
-  }
+  @observable
+  public globalStyle: object = {};
 
-  public setGlobalStyle = (data: object) => {
-    return this.setCurrentPageGlobalState(state => {
-      state.globalStyle = data;
-    });
-  };
+  @action
+  public setGlobalStyle = (data: object) => (this.globalStyle = data);
 
   /**
    * @desc GlobalMeta
    */
-  @computed
-  public get metaInfo(): GlobalMeta {
-    return this.globalState.metaInfo;
-  }
-
-  public setMetaInfo = (data: Partial<GlobalMeta>) => {
-    return this.setCurrentPageGlobalState(state => {
-      state.metaInfo = {
-        ...state.metaInfo,
-        ...data,
-      };
-    });
+  @observable
+  public metaInfo: GlobalMeta = {
+    title: 'vize page',
+    desc: '',
+    id: null,
+    key: '',
+    isTemplate: false,
+    isEditor: true,
   };
+
+  public setMetaInfo = (data: Partial<GlobalMeta>) => (this.metaInfo = { ...this.metaInfo, ...data });
 }
 
 export const globalStore = new GlobalStore();
-
-if (isDev()) {
-  setTimeout(() => injectGlobalReadonlyGetter('vize_global_store', () => toJS(globalStore)), 1000);
-}

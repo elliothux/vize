@@ -10,9 +10,7 @@ import {
   deletePagePluginInstanceIndexMap,
 } from 'utils';
 import { StoreWithUtils } from './utils';
-import { componentsStore } from './components';
 import { selectStore } from './select';
-import { pluginsStore } from './plugins';
 import { editStore } from './edit';
 import { containerStore } from './container';
 
@@ -24,14 +22,20 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   @observable
   public pages: PageInstance[] = [];
 
-  public getPageByKey = (key: number) => {
-    return this.pages.find(p => p.key === key);
-  };
-
   @computed
   public get currentPage(): PageInstance {
     return this.pages[selectStore.pageIndex];
   }
+
+  @action
+  public setCurrentPage = (setter: (page: PageInstance) => PageInstance | void) => {
+    const page = this.pages[selectStore.pageIndex];
+    const newPage = setter(page);
+    if (newPage) {
+      this.pages[selectStore.pageIndex] = newPage;
+    }
+    return newPage;
+  };
 
   @action
   public addPage = (isHome?: boolean, name?: string): void => {
@@ -82,6 +86,20 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   @action
   public setPageName = (pageIndex: number, name: string): void => {
     this.pages[pageIndex].name = name;
+  };
+
+  @action
+  public setCurrentPageData = (data: object) => {
+    return this.setCurrentPage(page => {
+      page.data = { ...page.data, ...data };
+    });
+  };
+
+  @action
+  public setCurrentPageStyle = (style: object) => {
+    return this.setCurrentPage(page => {
+      page.style = { ...page.style, ...style };
+    });
   };
 
   @computed

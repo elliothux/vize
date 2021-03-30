@@ -32,11 +32,13 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   public setCurrentPageComponentInstances = (
     setter: (componentInstances: ComponentInstance[]) => ComponentInstance[] | void,
   ) => {
-    const page = pagesStore.pages[selectStore.pageIndex];
-    const newInstances = setter(page.componentInstances);
-    if (newInstances) {
-      page.componentInstances = newInstances;
-    }
+    let newInstances: ComponentInstance[] | undefined;
+    pagesStore.setCurrentPage(page => {
+      newInstances = setter(page.componentInstances) || undefined;
+      if (newInstances) {
+        page.componentInstances = newInstances;
+      }
+    });
     return newInstances;
   };
 

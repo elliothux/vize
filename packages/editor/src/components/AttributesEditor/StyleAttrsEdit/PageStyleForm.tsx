@@ -2,28 +2,31 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { EventEmitTypes, events, getMaterialsContainerMeta } from 'utils';
-import { globalStore } from 'states';
+import { pagesStore } from 'states';
 import { SchemaForm } from 'widgets/Form';
 import { NotAvailable } from '../NotAvailable';
 
-function IGlobalDataForm() {
-  const { globalStyleForm } = getMaterialsContainerMeta()!;
-  const { globalStyle, setGlobalStyle } = globalStore;
+function IPageStyleForm() {
+  const { pageStyleForm } = getMaterialsContainerMeta()!;
+  const {
+    currentPage: { style },
+    setCurrentPageStyle,
+  } = pagesStore;
 
   const onChange = useCallback((v: object) => {
-    setGlobalStyle(v);
+    setCurrentPageStyle(v);
     events.emit(EventEmitTypes.RELOAD_RENDERER);
   }, []);
 
-  if (!globalStyleForm) {
+  if (!pageStyleForm) {
     return <NotAvailable />;
   }
 
   return (
     <div className="editor-prop-item editor-prop-edit-style">
-      <SchemaForm form={globalStyleForm} data={globalStyle} onChange={onChange} submitProps />
+      <SchemaForm form={pageStyleForm} data={style} onChange={onChange} submitProps />
     </div>
   );
 }
 
-export const GlobalStyleForm = observer(IGlobalDataForm);
+export const PageStyleForm = observer(IPageStyleForm);

@@ -15,6 +15,10 @@ export class SelectStore {
   @observable
   public selectType: SelectType = SelectType.GLOBAL;
 
+  @action
+  public selectGlobal = () => {
+    this.selectType = SelectType.GLOBAL;
+  };
   /**
    * @desc select page
    */
