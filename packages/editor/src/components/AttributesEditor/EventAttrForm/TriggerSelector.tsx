@@ -41,7 +41,8 @@ export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }
         [SelectType.COMPONENT]: ComponentUniversalEventTrigger,
         [SelectType.PLUGIN]: PluginUniversalEventTrigger,
         [SelectType.HOTAREA]: HotAreaUniversalEventTrigger,
-        [SelectType.GLOBAL]: ContainerUniversalEventTrigger,
+        [SelectType.PAGE]: ContainerUniversalEventTrigger,
+        [SelectType.GLOBAL]: {},
       }[type]),
     [type],
   );

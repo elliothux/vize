@@ -31,7 +31,6 @@ import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
 import { hotAreaStore } from './hotAreas';
-import { globalStore } from './global';
 import { containerStore } from './container';
 
 export class EventStore {

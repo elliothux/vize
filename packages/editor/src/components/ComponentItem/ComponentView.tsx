@@ -20,7 +20,7 @@ interface Props {
 function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   const { key, component, data, style, commonStyle, wrapperStyle } = instance;
   const { previewMode } = editStore;
-  const { metaInfo, globalProps } = globalStore;
+  const { metaInfo, globalData } = globalStore;
   const { router } = pagesStore;
 
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
@@ -37,7 +37,7 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
     [key],
   );
 
-  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalProps, router), [
+  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalData, router), [
     key,
   ]);
 
@@ -51,7 +51,7 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
       childrenType="component"
       instance={instance}
       style={iWrapperStyle}
-      global={globalProps}
+      global={globalData}
       meta={metaInfo}
       router={router}
       previewMode={previewMode}
@@ -62,7 +62,7 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
         style={style}
         commonStyle={iCommonStyle}
         instance={instance}
-        global={globalProps}
+        global={globalData}
         meta={metaInfo}
         on={on}
         cancel={cancel}

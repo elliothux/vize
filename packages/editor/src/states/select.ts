@@ -5,6 +5,7 @@ import { injectGlobalReadonlyGetter, isDev } from '../utils';
 
 export enum SelectType {
   GLOBAL = 'global',
+  PAGE = 'page',
   COMPONENT = 'component',
   PLUGIN = 'plugin',
   HOTAREA = 'hotarea',
@@ -22,7 +23,7 @@ export class SelectStore {
 
   @action
   public selectPage = (index: number) => {
-    this.selectType = SelectType.GLOBAL;
+    this.selectType = SelectType.PAGE;
     this.pageIndex = index;
   };
 

@@ -1,5 +1,5 @@
 import { action, computed, observable } from 'mobx';
-import { EventInstance, PluginInstance } from 'types';
+import { EventInstance } from 'types';
 import { StoreWithUtils } from './utils';
 import { pagesStore } from './pages';
 import { editStore } from './edit';
@@ -30,7 +30,6 @@ export class ContainerStore extends StoreWithUtils<ContainerStore> {
     delete this.pagesContainerEventInstancesMap[pageKey];
   };
 
-  @action
   public getContainerEventInstances = (pageKey: number) => {
     if (editStore.isSinglePageMode) {
       return this.singlePageContainerEventInstances;

@@ -24,7 +24,6 @@ export function generateDSL({
   },
 }: PageEntity): DSL {
   const { lib, name } = JSON.parse(container);
-  const longTerm = !(startTime && endTime);
   return {
     pageKey: key,
     container: {

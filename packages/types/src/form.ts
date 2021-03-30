@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ComponentType } from 'react';
 import { JsonSchemaProperties } from './helper';
 
 export interface SchemaFormProps<T extends object = object> {
@@ -9,18 +9,18 @@ export interface SchemaFormProps<T extends object = object> {
   submitProps?: any;
 }
 
-export type OverrideFormComponent<T extends object = object> = React.ComponentType<{
+export type OverrideFormComponent<T extends object = object> = ComponentType<{
   value: T;
   onChange: (value: T) => void;
   Formily: any;
-  JSONSchemaForm: React.ComponentType<SchemaFormProps<T>>;
+  JSONSchemaForm: ComponentType<SchemaFormProps<T>>;
 }>;
 
 export interface OverrideFormProps<T extends object = object> {
   value: T;
   onChange: (value: T) => void;
   children: OverrideFormComponent<T>;
-  instanceKey: number;
+  instanceKey?: number;
 }
 
 export type MaterialsForm = JsonSchemaProperties | OverrideFormComponent;

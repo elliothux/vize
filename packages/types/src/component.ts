@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ReactElement, ComponentType } from 'react';
 import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
@@ -93,7 +93,7 @@ export interface ComponentProps<
   global: G;
   meta: GlobalMeta;
   instance: ComponentInstance;
-  hotAreas?: React.ReactElement;
+  hotAreas?: ReactElement;
   on: (eventName: string, callback: Function) => void;
   cancel: (eventName: string, callback: Function) => void;
   emit: (eventName: string) => void;
@@ -102,4 +102,4 @@ export interface ComponentProps<
   children?: any;
 }
 
-export type MaterialsComponent = React.ComponentType<ComponentProps>;
+export type MaterialsComponent = ComponentType<ComponentProps>;

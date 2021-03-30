@@ -12,7 +12,7 @@ import {
   PageInstance,
   PluginInstance,
   InstanceKeyType,
-} from '../types';
+} from 'types';
 import { generateKey } from './key';
 import { getSchemaDefault } from './common';
 import { getDefaultCommonStyle } from './style';
@@ -32,7 +32,11 @@ export function createPageInstance(name: string, isHome = false): PageInstance {
     name,
     path: key.toString(),
     isHome,
-    isNameEditing: false,
+    data: {},
+    style: {},
+    events: [],
+    componentInstances: [],
+    pluginInstances: [],
   };
 }
 

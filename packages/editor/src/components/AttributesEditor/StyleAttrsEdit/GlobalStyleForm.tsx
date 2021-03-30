@@ -13,7 +13,7 @@ const { Panel } = Collapse;
 
 function IGlobalDataForm() {
   const { t } = useTranslation();
-  const { styleForm } = getMaterialsContainerMeta()!;
+  const { globalStyleForm } = getMaterialsContainerMeta()!;
   const { globalStyle, setGlobalStyle } = globalStore;
 
   const onChange = useCallback((v: object) => {
@@ -21,7 +21,7 @@ function IGlobalDataForm() {
     events.emit(EventEmitTypes.RELOAD_RENDERER);
   }, []);
 
-  if (!styleForm) {
+  if (!globalStyleForm) {
     return <NotAvailable />;
   }
 
@@ -32,13 +32,7 @@ function IGlobalDataForm() {
       className="editor-prop-item editor-prop-edit-style with-collapsed"
     >
       <Panel header={t('Global style of page')} key="global">
-        <SchemaForm
-          instanceKey={Number.MAX_SAFE_INTEGER - 2}
-          form={styleForm}
-          data={toJS(globalStyle)}
-          onChange={onChange}
-          submitProps
-        />
+        <SchemaForm form={globalStyleForm} data={toJS(globalStyle)} onChange={onChange} submitProps />
       </Panel>
     </Collapse>
   );

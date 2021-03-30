@@ -22,8 +22,8 @@ export class Renderer extends React.Component {
   constructor(props: {}) {
     super(props);
     const { containerHTML } = materialsStore;
-    const { globalProps, globalStyle, metaInfo } = globalStore;
-    const params = { data: globalProps, style: globalStyle, meta: metaInfo, mainStyle: '', mainScript: '' };
+    const { globalData, globalStyle, metaInfo } = globalStore;
+    const params = { data: globalData, style: globalStyle, meta: metaInfo, mainStyle: '', mainScript: '' };
     this.containerHTML = tpl(containerHTML)(params);
   }
 
@@ -45,7 +45,7 @@ export class Renderer extends React.Component {
       throw new Error('No renderEntry');
     }
 
-    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalProps, pagesStore.router, win);
+    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalData, pagesStore.router, win);
     this.callContainerRenderEntry(renderEntry);
   };
 
@@ -98,7 +98,7 @@ export class Renderer extends React.Component {
   };
 
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
-    const { globalProps: global, globalStyle, metaInfo: meta } = globalStore;
+    const { globalData: global, globalStyle, metaInfo: meta } = globalStore;
     // TODO: implementRouterController
     renderEntry({
       data: global,

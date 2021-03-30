@@ -8,9 +8,6 @@ export enum LayoutMode {
 export interface GlobalMeta {
   title?: string;
   desc?: string;
-  longTerm?: boolean;
-  duration?: Maybe<[string, string]>;
-  expiredJump?: string;
   id: Maybe<number>;
   key: string;
   isTemplate: boolean;

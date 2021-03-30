@@ -42,6 +42,8 @@ function IAttributesEditor({ loading }: Props) {
     switch (selectType) {
       case SelectType.GLOBAL:
         return i18n.t('Global Attributes');
+      case SelectType.PAGE:
+        return i18n.t('Page Attributes');
       case SelectType.COMPONENT:
         return i18n.t('Component Configuration');
       case SelectType.PLUGIN:

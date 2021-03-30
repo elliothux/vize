@@ -22,7 +22,6 @@ import {
   isDebugMode,
   parseDSLFromLocalStorage,
   parseDSLFromCGIRecord,
-  restoreState,
 } from 'utils';
 import classNames from 'classnames';
 import LOGO from 'static/images/logo.svg';
@@ -116,7 +115,7 @@ async function restore() {
     }
 
     const dsl = parseDSLFromLocalStorage(JSON.parse(dslString));
-    return restoreState(dsl);
+    // return restoreState(dsl);
   }
 
   const [success, result] = await getPage(editStore.pageKey);
@@ -127,5 +126,5 @@ async function restore() {
   }
 
   const [dsl, owner] = parseDSLFromCGIRecord(result!);
-  return restoreState(dsl, { owner });
+  // return restoreState(dsl, { owner });
 }

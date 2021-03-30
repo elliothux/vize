@@ -1,19 +1,18 @@
-import * as React from 'react';
+import { ComponentType } from 'react';
 import { ComponentInstance, ComponentProps } from './component';
 import { PluginInstance } from './plugins';
+import { EventInstance } from './events';
 
 export interface PageInstance {
   key: Readonly<number>;
   name: string;
   path: string;
   isHome: boolean;
-  isNameEditing: boolean;
-}
-
-export interface PageData {
+  data: object;
+  style: object;
+  events: EventInstance[];
   componentInstances: ComponentInstance[];
   pluginInstances: PluginInstance[];
-  // events: EventInstance[];
 }
 
 export enum PageMode {
@@ -22,13 +21,13 @@ export enum PageMode {
 }
 
 export interface PageRouter {
-  pages: Omit<PageInstance, 'isNameEditing'>[];
+  pages: PageInstance[];
   currentPage: number;
   setCurrentPage: (pageKey: number) => void;
 }
 
 export interface RouterProps extends Pick<ComponentProps, 'global' | 'meta'> {
   pages: PageRouter['pages'];
-  dynamicImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<object> }> };
-  SharedComponentInstances: React.ComponentType<{ router: PageRouter }>;
+  dynamicImports: { [key: number]: () => Promise<{ PageRender: ComponentType<object> }> };
+  SharedComponentInstances: ComponentType<{ router: PageRouter }>;
 }

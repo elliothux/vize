@@ -26,18 +26,9 @@ export interface EditInfoDSL {
   };
 }
 
-export interface GlobalDSL {
-  metaInfo: GlobalMeta;
-  globalProps: object;
-  globalStyle: object;
-  containerEvents: EventInstance[];
-}
+export type PageDSL = PageInstance;
 
-export interface PageDSL extends Omit<PageInstance, 'isNameEditing'> {
-  componentInstances: ComponentInstanceDSL[];
-  pluginInstances?: PluginInstanceDSL[];
-  global?: GlobalDSL;
-}
+export type EventInstanceDSL = EventInstance;
 
 export type DSL = Readonly<{
   pageKey: string;
@@ -45,9 +36,12 @@ export type DSL = Readonly<{
     lib: string;
     name: string;
   };
-  global?: GlobalDSL;
-  pageInstances: PageDSL[];
-  pluginInstances?: PluginInstanceDSL[];
-  sharedComponentInstances?: ComponentInstanceDSL[];
   editInfo: EditInfoDSL;
+  meta: GlobalMeta;
+  data: object;
+  style: object;
+  events: EventInstanceDSL[];
+  pageInstances: PageDSL[];
+  sharedComponentInstances?: ComponentInstanceDSL[];
+  sharedPluginInstances?: ComponentInstanceDSL[];
 }>;

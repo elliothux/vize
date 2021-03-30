@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import { Tag } from 'antd';
-import { pagesStore, selectStore } from 'states';
+import { editStore, pagesStore, selectStore } from 'states';
 import { PageInstance } from 'types';
 import { PageContextMenu, showPageContextMenu } from 'components/ContextMenu';
 import { useCallback } from 'react';
@@ -16,8 +16,9 @@ interface Props {
   index: number;
 }
 
-function IPageItem({ instance, index }: Props) {
-  const { name, key, isHome, isNameEditing } = instance;
+function IPageItem({ instance: { name, key, isHome }, index }: Props) {
+  const { editingPageIndex, setEditingPage } = editStore;
+  const isNameEditing = editingPageIndex === index;
 
   const [focus, setFocus] = useState(false);
 
@@ -40,12 +41,7 @@ function IPageItem({ instance, index }: Props) {
     [index],
   );
 
-  const onChangeEditing = useCallback(
-    (editing: boolean) => {
-      pagesStore.setPageEditing(index, editing);
-    },
-    [index],
-  );
+  const onChangeEditing = useCallback((editing: boolean) => setEditingPage(editing ? index : null), [index]);
 
   return (
     <React.Fragment key={key.toString()}>

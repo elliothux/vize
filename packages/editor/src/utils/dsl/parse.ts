@@ -3,7 +3,6 @@ import {
   ComponentInstanceDSL,
   DSL,
   LayoutMode,
-  PageData,
   PageDSL,
   PageInstance,
   PageMode,
@@ -11,7 +10,6 @@ import {
   PluginInstanceDSL,
 } from 'types';
 import { PageRecordWithHistory, UserRecord } from 'sharedTypes';
-import { getDateTimeString } from '../time';
 
 export function parseDSLFromCGIRecord({
   id,
@@ -22,9 +20,6 @@ export function parseDSLFromCGIRecord({
   latestHistory: {
     title,
     desc,
-    startTime,
-    endTime,
-    expiredJump,
     globalProps,
     globalStyle,
     containerEvents,
@@ -35,72 +30,65 @@ export function parseDSLFromCGIRecord({
   },
   owner,
 }: PageRecordWithHistory): [ReturnType<typeof parseDSLFromLocalStorage>, UserRecord] {
-  const longTerm = !(startTime && endTime);
-  return [
-    {
-      global: {
-        metaInfo: {
-          title,
-          desc,
-          longTerm,
-          duration: longTerm ? null : [getDateTimeString(startTime), getDateTimeString(endTime)],
-          expiredJump,
-          id,
-          key,
-          isEditor: true,
-          isTemplate: !!isTemplate,
-        },
-        globalProps: JSON.parse(globalProps),
-        globalStyle: JSON.parse(globalStyle),
-        containerEvents: JSON.parse(containerEvents),
-      },
-      editInfo: {
-        layoutMode: layoutMode as LayoutMode,
-        pageMode: pageMode as PageMode,
-        maxKeys: maxKeys ? JSON.parse(maxKeys) : null,
-      },
-      sharedComponentInstances: sharedComponentInstances
-        ? parseComponentInstancesDSL(JSON.parse(sharedComponentInstances))
-        : undefined,
-      pageInstances: parsePageInstancesDSL(JSON.parse(pageInstances), pageMode as PageMode),
-      pluginInstances:
-        pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(JSON.parse(pluginInstances || '[]')) : undefined,
-    },
-    owner,
-  ];
+  return [{}, owner];
+  // return [
+  //   {
+  //     global: {
+  //       globalProps: JSON.parse(globalProps),
+  //       globalStyle: JSON.parse(globalStyle),
+  //       containerEvents: JSON.parse(containerEvents),
+  //     },
+  //     meta: {
+  //       title,
+  //       desc,
+  //       id,
+  //       key,
+  //       isEditor: true,
+  //       isTemplate: !!isTemplate,
+  //     },
+  //     editInfo: {
+  //       layoutMode: layoutMode as LayoutMode,
+  //       pageMode: pageMode as PageMode,
+  //       maxKeys: maxKeys ? JSON.parse(maxKeys) : null,
+  //     },
+  //     sharedComponentInstances: sharedComponentInstances
+  //       ? parseComponentInstancesDSL(JSON.parse(sharedComponentInstances))
+  //       : undefined,
+  //     pageInstances: parsePageInstancesDSL(JSON.parse(pageInstances), pageMode as PageMode),
+  //     pluginInstances:
+  //       pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(JSON.parse(pluginInstances || '[]')) : undefined,
+  //   },
+  //   owner,
+  // ];
 }
 
-export function parseDSLFromLocalStorage({
-  global,
-  pageInstances,
-  pluginInstances,
-  sharedComponentInstances,
-  editInfo,
-}: DSL) {
-  return {
-    global,
-    editInfo,
-    sharedComponentInstances: sharedComponentInstances
-      ? parseComponentInstancesDSL(sharedComponentInstances)
-      : undefined,
-    pageInstances: parsePageInstancesDSL(pageInstances, editInfo.pageMode),
-    pluginInstances: editInfo.pageMode === PageMode.SINGLE ? parsePluginInstancesDSL(pluginInstances!) : undefined,
-  };
+export function parseDSLFromLocalStorage({ data, pageInstances, sharedComponentInstances, editInfo }: DSL) {
+  return {};
+  // TODO
+  // return {
+  //   global,
+  //   editInfo,
+  //   sharedComponentInstances: sharedComponentInstances
+  //     ? parseComponentInstancesDSL(sharedComponentInstances)
+  //     : undefined,
+  //   pageInstances: parsePageInstancesDSL(pageInstances, editInfo.pageMode),
+  // };
 }
 
-function parsePageInstancesDSL(pages: PageDSL[], pageMode: PageMode): [PageInstance, PageData][] {
-  return pages.map(page => {
-    return [
-      {
-        ...page,
-        isNameEditing: false,
-      },
-      {
-        componentInstances: parseComponentInstancesDSL(page.componentInstances),
-        pluginInstances: pageMode === PageMode.MULTI ? parsePluginInstancesDSL(page.pluginInstances!) : [],
-      },
-    ];
-  });
+function parsePageInstancesDSL(pages: PageDSL[], pageMode: PageMode): [PageInstance][] {
+  return [];
+  // return pages.map(page => {
+  //   return [
+  //     {
+  //       ...page,
+  //       isNameEditing: false,
+  //     },
+  //     {
+  //       componentInstances: parseComponentInstancesDSL(page.componentInstances),
+  //       pluginInstances: pageMode === PageMode.MULTI ? parsePluginInstancesDSL(page.pluginInstances!) : [],
+  //     },
+  //   ];
+  // });
 }
 
 function parseComponentInstancesDSL(componentInstances: ComponentInstanceDSL[]): ComponentInstance[] {

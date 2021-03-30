@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FiDelete, FiHome, FiCopy, FiEdit } from 'react-icons/fi';
 import { Menu, Item, theme, Separator } from 'react-contexify';
 import { useCallback } from 'react';
-import { pagesStore } from 'states';
+import { editStore, pagesStore } from 'states';
 import { noop, preventSyntheticEvent, showContextMenu } from 'utils';
 import { Trans } from 'react-i18next';
 
@@ -15,7 +15,7 @@ export function PageContextMenu({ index, pageKey }: Props) {
   const deps = [index];
   const onDelete = useCallback(() => pagesStore.deletePage(index), deps);
   const onSetHome = useCallback(() => pagesStore.setPageHome(index), deps);
-  const onRename = useCallback(() => pagesStore.setPageEditing(index, true), deps);
+  const onRename = useCallback(() => editStore.setEditingPage(index), deps);
 
   return (
     <Menu id={getID(pageKey)} theme={theme.dark}>

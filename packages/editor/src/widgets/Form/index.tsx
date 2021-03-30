@@ -7,7 +7,7 @@ import { OverrideForm } from './OverrideForm';
 import { SchemaForm as ISchemaForm } from './SchemaForm';
 
 interface Props {
-  instanceKey: number;
+  instanceKey?: number;
   form: MaterialsForm;
   data: object;
   onChange: (v: object) => void;

@@ -7,23 +7,23 @@ import { SchemaForm } from 'widgets/Form';
 import { NotAvailable } from '../NotAvailable';
 
 function IGlobalDataForm() {
-  const { dataForm } = getMaterialsContainerMeta()!;
-  const { globalProps, setGlobalProps } = globalStore;
+  const { globalDataForm } = getMaterialsContainerMeta()!;
+  const { globalData, setGlobalData } = globalStore;
 
   const onChange = useCallback((v: object) => {
-    setGlobalProps(v);
+    setGlobalData(v);
     events.emit(EventEmitTypes.RELOAD_RENDERER);
   }, []);
 
-  if (!dataForm) {
+  if (!globalDataForm) {
     return <NotAvailable />;
   }
 
   return (
     <SchemaForm
       instanceKey={Number.MAX_SAFE_INTEGER - 1}
-      form={dataForm}
-      data={globalProps}
+      form={globalDataForm}
+      data={globalData}
       onChange={onChange}
       submitProps
     />

@@ -1,16 +1,14 @@
 /* eslint-disable max-lines */
-import { action, computed, observable } from 'mobx';
+import { action, computed } from 'mobx';
 import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
 import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
 import {
-  addPageComponentInstanceIndexMap,
   batchUpdateCurrentPageComponentIndex,
   compareComponentIndex,
   componentEventDepsMap,
   ComponentIndex,
   createComponentInstance,
   deleteCurrentPageComponentIndex,
-  deletePageComponentInstanceIndexMap,
   DepsTargetType,
   findComponentInstanceByIndex,
   getCurrentPageComponentIndex,
@@ -25,76 +23,61 @@ import { editStore } from './edit';
 import { sharedStore } from './shared';
 
 export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
-  /**
-   * @desc PageComponentsMap
-   * @struct Map<Page, ComponentInstance[]>
-   */
-  @observable
-  public pagesComponentInstancesMap: { [key: number]: ComponentInstance[] } = {};
-
   @computed
   public get componentInstances(): ComponentInstance[] {
-    return this.getComponentInstances(pagesStore.currentPage.key);
+    return pagesStore.currentPage.componentInstances;
   }
 
   @action
-  public addComponentInstancesMap = (pageKey: number) => {
-    this.pagesComponentInstancesMap[pageKey] = [];
-    addPageComponentInstanceIndexMap(pageKey);
+  public setCurrentPageComponentInstances = (
+    setter: (componentInstances: ComponentInstance[]) => ComponentInstance[] | void,
+  ) => {
+    const page = pagesStore.pages[selectStore.pageIndex];
+    const newInstances = setter(page.componentInstances);
+    if (newInstances) {
+      page.componentInstances = newInstances;
+    }
+    return newInstances;
   };
 
-  @action
-  public deleteComponentInstancesMap = (pageKey: number) => {
-    delete this.pagesComponentInstancesMap[pageKey];
-    deletePageComponentInstanceIndexMap(pageKey);
-  };
-
-  @action
-  public getComponentInstances = (pageKey: number) => {
-    return this.pagesComponentInstancesMap[pageKey];
-  };
-
-  /**
-   * @desc ComponentInstances
-   * @struct ComponentInstance[]
-   */
   @action
   public addComponentInstance = (componentID: string) => {
-    const component = getMaterialsComponentMeta(componentID)!;
-    const instance =
-      editStore.layoutMode === LayoutMode.FREE
-        ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
-        : createComponentInstance(component, false);
+    return this.setCurrentPageComponentInstances(instances => {
+      const component = getMaterialsComponentMeta(componentID)!;
+      const instance =
+        editStore.layoutMode === LayoutMode.FREE
+          ? createComponentInstance(component, true, getMaxNodeBottomOffset(this.componentInstances))
+          : createComponentInstance(component, false);
 
-    componentEventDepsMap.createEventDepsMap(instance.key);
+      componentEventDepsMap.createEventDepsMap(instance.key);
 
-    if (selectStore.containerComponentKey > -1) {
-      return this.addComponentInstanceAsChildren(instance);
-    }
+      if (selectStore.containerComponentKey > -1) {
+        return this.addComponentInstanceAsChildren(instance);
+      }
 
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    instances.push(instance);
-
-    setCurrentPageComponentIndex(instance.key, { index: instances.length - 1 });
-    selectStore.selectComponent(false, instance.key);
+      instances.push(instance);
+      setCurrentPageComponentIndex(instance.key, { index: instances.length - 1 });
+      selectStore.selectComponent(false, instance.key);
+    });
   };
 
   @action
   private addComponentInstanceAsChildren = (instance: ComponentInstance) => {
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    const { index: parentIndex } = getCurrentPageComponentIndex(selectStore.containerComponentKey)!;
+    return this.setCurrentPageComponentInstances(instances => {
+      const { index: parentIndex } = getCurrentPageComponentIndex(selectStore.containerComponentKey)!;
 
-    const parent = instances[parentIndex!];
-    instance.parent = parent;
+      const parent = instances[parentIndex!];
+      instance.parent = parent;
 
-    const containerChildren = parent.children!;
-    containerChildren.push(instance);
+      const containerChildren = parent.children!;
+      containerChildren.push(instance);
 
-    setCurrentPageComponentIndex(instance.key, {
-      index: containerChildren.length - 1,
-      parentIndex,
+      setCurrentPageComponentIndex(instance.key, {
+        index: containerChildren.length - 1,
+        parentIndex,
+      });
+      selectStore.selectComponent(false, instance.key, parent.key);
     });
-    selectStore.selectComponent(false, instance.key, parent.key);
   };
 
   @action
@@ -103,18 +86,21 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
       return sharedStore.deleteSharedComponentInstance(key);
     }
 
-    let instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    const { index, parentIndex } = deleteCurrentPageComponentIndex(key, instances);
+    let deletedInstance: ComponentInstance;
+    this.setCurrentPageComponentInstances(instances => {
+      const { index, parentIndex } = deleteCurrentPageComponentIndex(key, instances);
 
-    if (isNumber(parentIndex)) {
-      instances = instances[parentIndex!].children!;
-    }
+      if (isNumber(parentIndex)) {
+        instances = instances[parentIndex!].children!;
+      }
 
-    const [instance] = instances.splice(index, 1);
-    selectStore.selectPage(selectStore.pageIndex);
-    eventStore.deleteDepsEventInstances(DepsTargetType.Component, key);
-    componentEventDepsMap.deleteEventDepsMap(key);
-    return instance;
+      const [instance] = instances.splice(index, 1);
+      selectStore.selectPage(selectStore.pageIndex);
+      eventStore.deleteDepsEventInstances(DepsTargetType.Component, key);
+      componentEventDepsMap.deleteEventDepsMap(key);
+      deletedInstance = instance;
+    });
+    return deletedInstance!;
   };
 
   @action
@@ -123,19 +109,19 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
       return;
     }
 
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+    return this.setCurrentPageComponentInstances(instances => {
+      const { parentIndex } = getCurrentPageComponentIndex(key)!;
+      if (isNumber(parentIndex)) {
+        const childrenInstances = instances[parentIndex!]!.children!;
+        const [childInstance] = childrenInstances.splice(oldIndex, 1);
+        childrenInstances.splice(newIndex, 0, childInstance);
+        return batchUpdateCurrentPageComponentIndex(childrenInstances, oldIndex, newIndex);
+      }
 
-    const { parentIndex } = getCurrentPageComponentIndex(key)!;
-    if (isNumber(parentIndex)) {
-      const childrenInstances = instances[parentIndex!]!.children!;
-      const [childInstance] = childrenInstances.splice(oldIndex, 1);
-      childrenInstances.splice(newIndex, 0, childInstance);
-      return batchUpdateCurrentPageComponentIndex(childrenInstances, oldIndex, newIndex);
-    }
-
-    const [instance] = instances.splice(oldIndex, 1);
-    instances.splice(newIndex, 0, instance);
-    return batchUpdateCurrentPageComponentIndex(instances, oldIndex, newIndex);
+      const [instance] = instances.splice(oldIndex, 1);
+      instances.splice(newIndex, 0, instance);
+      batchUpdateCurrentPageComponentIndex(instances, oldIndex, newIndex);
+    });
   };
 
   @action
@@ -144,46 +130,45 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
       return;
     }
 
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
-    let instance: ComponentInstance;
-    if (isNumber(oldIndex.parentIndex)) {
-      const childrenInstances = instances[oldIndex.parentIndex!]!.children!;
-      [instance] = childrenInstances.splice(oldIndex.index, 1);
-    } else {
-      [instance] = instances.splice(oldIndex.index, 1)!;
-    }
-    deleteCurrentPageComponentIndex(instance.key, instances);
-    setCurrentPageComponentIndex(instance.key, newIndex);
+    return this.setCurrentPageComponentInstances(instances => {
+      let instance: ComponentInstance;
+      if (isNumber(oldIndex.parentIndex)) {
+        const childrenInstances = instances[oldIndex.parentIndex!]!.children!;
+        [instance] = childrenInstances.splice(oldIndex.index, 1);
+      } else {
+        [instance] = instances.splice(oldIndex.index, 1)!;
+      }
+      deleteCurrentPageComponentIndex(instance.key, instances);
+      setCurrentPageComponentIndex(instance.key, newIndex);
 
-    if (isNumber(newIndex.parentIndex)) {
-      const childrenInstances = instances[newIndex.parentIndex!]!.children!;
-      childrenInstances.splice(newIndex.index, 0, instance);
-      batchUpdateCurrentPageComponentIndex(childrenInstances, newIndex.index, childrenInstances.length - 1);
-    } else {
-      instances.splice(newIndex.index, 0, instance);
-      batchUpdateCurrentPageComponentIndex(instances, newIndex.index, instances.length - 1);
-    }
+      if (isNumber(newIndex.parentIndex)) {
+        const childrenInstances = instances[newIndex.parentIndex!]!.children!;
+        childrenInstances.splice(newIndex.index, 0, instance);
+        batchUpdateCurrentPageComponentIndex(childrenInstances, newIndex.index, childrenInstances.length - 1);
+      } else {
+        instances.splice(newIndex.index, 0, instance);
+        batchUpdateCurrentPageComponentIndex(instances, newIndex.index, instances.length - 1);
+      }
+    });
   };
 
   @action
   public dragMoveComponentInstance = (key: number, position: ComponentPosition) => {
-    const instance = findComponentInstanceByIndex(
-      this.pagesComponentInstancesMap[pagesStore.currentPage.key],
-      getCurrentPageComponentIndex(key)!,
-    );
-    instance.layout!.position = position;
+    return this.setCurrentPageComponentInstances(instances => {
+      const instance = findComponentInstanceByIndex(instances, getCurrentPageComponentIndex(key)!);
+      instance.layout!.position = position;
+    });
   };
 
   @action
   public resizeComponentInstance = (key: number, position: ComponentPosition, size: ComponentSize) => {
-    const instance = findComponentInstanceByIndex(
-      this.pagesComponentInstancesMap[pagesStore.currentPage.key],
-      getCurrentPageComponentIndex(key)!,
-    );
-    instance.layout = {
-      position,
-      size,
-    };
+    return this.setCurrentPageComponentInstances(instances => {
+      const instance = findComponentInstanceByIndex(instances, getCurrentPageComponentIndex(key)!);
+      instance.layout = {
+        position,
+        size,
+      };
+    });
   };
 
   @action
@@ -197,12 +182,14 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     }
 
     const { index, parentIndex } = componentIndex;
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
 
-    const instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index];
-    setter(instance);
+    let instance: ComponentInstance;
+    this.setCurrentPageComponentInstances(instances => {
+      instance = isNumber(parentIndex) ? instances[parentIndex!].children![index] : instances[index];
+      setter(instance);
+    });
 
-    return instance;
+    return instance!;
   };
 
   public getCurrentPageComponentInstance = (componentKey: number): ComponentInstance => {
@@ -211,7 +198,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
       return sharedStore.getCurrentSharedComponentInstance(componentKey);
     }
 
-    const instances = this.pagesComponentInstancesMap[pagesStore.currentPage.key];
+    const { componentInstances: instances } = pagesStore.currentPage;
     const { index, parentIndex } = componentIndex;
 
     if (isNumber(parentIndex)) {

@@ -17,7 +17,7 @@ import { getMaxKey } from '../key';
 
 export function generateDSL(): DSL {
   const { mainLib, containerName: container, layoutMode, pageMode, pageKey } = editStore;
-  const { globalProps, globalStyle, metaInfo } = globalStore;
+  const { globalData, globalStyle, metaInfo } = globalStore;
   const { containerEvents } = containerStore;
   const { sharedComponentInstances } = sharedStore;
 
@@ -27,15 +27,11 @@ export function generateDSL(): DSL {
       lib: mainLib,
       name: container,
     },
-    global: {
-      globalProps,
-      globalStyle,
-      metaInfo,
-      containerEvents,
-    },
+    meta: metaInfo,
+    data: globalData,
+    style: globalStyle,
+    events: [],
     pageInstances: generatePageInstancesDSL(pageMode),
-    pluginInstances:
-      pageMode === PageMode.SINGLE ? generatePluginInstancesDSL(pluginsStore.getPluginInstances(-1)) : undefined,
     sharedComponentInstances: sharedComponentInstances.length
       ? generateComponentInstancesDSL(sharedComponentInstances)
       : undefined,
@@ -48,7 +44,6 @@ export function generateDSL(): DSL {
         [InstanceKeyType.HotArea]: getMaxKey(InstanceKeyType.HotArea),
         [InstanceKeyType.Plugin]: getMaxKey(InstanceKeyType.Plugin),
         [InstanceKeyType.Action]: getMaxKey(InstanceKeyType.Action),
-        [InstanceKeyType.Action]: getMaxKey(InstanceKeyType.Action),
       },
     },
   };
@@ -58,16 +53,18 @@ export function generateDSL(): DSL {
 
 function generatePageInstancesDSL(pageMode: PageMode): PageDSL[] {
   const { pages } = pagesStore;
-  return pages.map(page => {
-    const pageInstance = R.omit(['isNameEditing'], page);
-    const componentInstances = componentsStore.getComponentInstances(pageInstance.key);
-    const pluginInstances = pageMode === PageMode.MULTI ? pluginsStore.getPluginInstances(pageInstance.key) : undefined;
-    return {
-      ...pageInstance,
-      componentInstances: generateComponentInstancesDSL(componentInstances),
-      pluginInstances: pluginInstances ? generatePluginInstancesDSL(pluginInstances) : undefined,
-    };
-  });
+  return [];
+  // TODO
+  // return pages.map(page => {
+  //   const pageInstance = R.omit(['isNameEditing'], page);
+  //   const componentInstances = componentsStore.getComponentInstancesByPageKey(pageInstance.key);
+  //   const pluginInstances = pageMode === PageMode.MULTI ? pluginsStore.getPluginInstances(pageInstance.key) : undefined;
+  //   return {
+  //     ...pageInstance,
+  //     componentInstances: generateComponentInstancesDSL(componentInstances),
+  //     pluginInstances: pluginInstances ? generatePluginInstancesDSL(pluginInstances) : undefined,
+  //   };
+  // });
 }
 
 function generateComponentInstancesDSL(componentInstances: ComponentInstance[]): ComponentInstanceDSL[] {

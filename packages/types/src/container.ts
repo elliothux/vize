@@ -10,8 +10,10 @@ export interface MaterialsContainerMeta {
   lib: string;
   name: string;
   readonly info: MaterialsInfo;
-  readonly dataForm?: MaterialsForm;
-  readonly styleForm?: MaterialsForm;
+  readonly pageDataForm?: MaterialsForm;
+  readonly pageStyleForm?: MaterialsForm;
+  readonly globalDataForm?: MaterialsForm;
+  readonly globalStyleForm?: MaterialsForm;
   readonly onEvents?: MaterialsCustomEvent[];
   readonly emitEvents?: MaterialsCustomEvent[];
   readonly isBuildIn?: boolean;

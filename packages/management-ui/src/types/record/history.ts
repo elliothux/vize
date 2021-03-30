@@ -8,7 +8,6 @@ export interface HistoryRecord {
   desc: string;
   startTime?: string;
   endTime?: string;
-  expiredJump?: string;
   globalProps: string;
   globalStyle: string;
   containerEvents: string;
