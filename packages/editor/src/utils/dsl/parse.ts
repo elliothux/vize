@@ -2,8 +2,7 @@ import {
   ComponentInstance,
   ComponentInstanceDSL,
   DSL,
-  LayoutMode,
-  PageDSL,
+  PageInstanceDSL,
   PageInstance,
   PageMode,
   PluginInstance,
@@ -75,7 +74,7 @@ export function parseDSLFromLocalStorage({ data, pageInstances, sharedComponentI
   // };
 }
 
-function parsePageInstancesDSL(pages: PageDSL[], pageMode: PageMode): [PageInstance][] {
+function parsePageInstancesDSL(pages: PageInstanceDSL[], pageMode: PageMode): [PageInstance][] {
   return [];
   // return pages.map(page => {
   //   return [

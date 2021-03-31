@@ -3,22 +3,20 @@ import {
   ComponentInstance,
   ComponentInstanceDSL,
   DSL,
-  PageDSL,
-  PageMode,
   PluginInstance,
   PluginInstanceDSL,
   InstanceKeyType,
   HotArea,
   HotAreaDSL,
+  PageInstanceDSL,
 } from 'types';
-import { componentsStore, containerStore, editStore, globalStore, pagesStore, pluginsStore, sharedStore } from 'states';
+import { editStore, globalStore, pagesStore, sharedStore } from 'states';
 import { toJS } from 'mobx';
 import { getMaxKey } from '../key';
 
 export function generateDSL(): DSL {
-  const { mainLib, containerName: container, layoutMode, pageMode, pageKey } = editStore;
-  const { globalData, globalStyle, metaInfo } = globalStore;
-  const { containerEvents } = containerStore;
+  const { mainLib, containerName: container, pageKey } = editStore;
+  const { globalData, globalStyle, globalEvents, metaInfo } = globalStore;
   const { sharedComponentInstances } = sharedStore;
 
   const dsl: DSL = {
@@ -27,44 +25,45 @@ export function generateDSL(): DSL {
       lib: mainLib,
       name: container,
     },
+    editInfo: generateEditInfo(),
     meta: metaInfo,
     data: globalData,
     style: globalStyle,
-    events: [],
-    pageInstances: generatePageInstancesDSL(pageMode),
+    events: globalEvents,
+    pageInstances: generatePageInstancesDSL(),
     sharedComponentInstances: sharedComponentInstances.length
       ? generateComponentInstancesDSL(sharedComponentInstances)
       : undefined,
-    editInfo: {
-      layoutMode,
-      pageMode,
-      maxKeys: {
-        [InstanceKeyType.Page]: getMaxKey(InstanceKeyType.Page),
-        [InstanceKeyType.Component]: getMaxKey(InstanceKeyType.Component),
-        [InstanceKeyType.HotArea]: getMaxKey(InstanceKeyType.HotArea),
-        [InstanceKeyType.Plugin]: getMaxKey(InstanceKeyType.Plugin),
-        [InstanceKeyType.Action]: getMaxKey(InstanceKeyType.Action),
-      },
-    },
+    sharedPluginInstances: undefined,
   };
 
   return toJS(dsl, { recurseEverything: true });
 }
 
-function generatePageInstancesDSL(pageMode: PageMode): PageDSL[] {
+function generateEditInfo() {
+  const { layoutMode, pageMode } = editStore;
+  return {
+    layoutMode,
+    pageMode,
+    maxKeys: {
+      [InstanceKeyType.Page]: getMaxKey(InstanceKeyType.Page),
+      [InstanceKeyType.Component]: getMaxKey(InstanceKeyType.Component),
+      [InstanceKeyType.HotArea]: getMaxKey(InstanceKeyType.HotArea),
+      [InstanceKeyType.Plugin]: getMaxKey(InstanceKeyType.Plugin),
+      [InstanceKeyType.Action]: getMaxKey(InstanceKeyType.Action),
+    },
+  };
+}
+
+function generatePageInstancesDSL(): PageInstanceDSL[] {
   const { pages } = pagesStore;
-  return [];
-  // TODO
-  // return pages.map(page => {
-  //   const pageInstance = R.omit(['isNameEditing'], page);
-  //   const componentInstances = componentsStore.getComponentInstancesByPageKey(pageInstance.key);
-  //   const pluginInstances = pageMode === PageMode.MULTI ? pluginsStore.getPluginInstances(pageInstance.key) : undefined;
-  //   return {
-  //     ...pageInstance,
-  //     componentInstances: generateComponentInstancesDSL(componentInstances),
-  //     pluginInstances: pluginInstances ? generatePluginInstancesDSL(pluginInstances) : undefined,
-  //   };
-  // });
+  return pages.map(page => {
+    return {
+      ...page,
+      componentInstances: generateComponentInstancesDSL(page.componentInstances),
+      pluginInstances: generatePluginInstancesDSL(page.pluginInstances),
+    };
+  });
 }
 
 function generateComponentInstancesDSL(componentInstances: ComponentInstance[]): ComponentInstanceDSL[] {

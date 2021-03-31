@@ -14,9 +14,9 @@ import {
   InstanceKeyType,
 } from 'types';
 import { generateKey } from './key';
-import { getSchemaDefault } from './common';
+import { getFormDefaultValue } from './common';
 import { getDefaultCommonStyle } from './style';
-import { isFunction } from './is';
+import { getMaterialsContainerMeta } from './container';
 
 export function createSchema(schema: JsonSchemaProperties): JSONSchemaDefinition {
   return {
@@ -26,14 +26,15 @@ export function createSchema(schema: JsonSchemaProperties): JSONSchemaDefinition
 }
 
 export function createPageInstance(name: string, isHome = false): PageInstance {
+  const { pageDataForm, pageStyleForm } = getMaterialsContainerMeta()!;
   const key = generateKey(InstanceKeyType.Page);
   return {
     key,
     name,
     path: key.toString(),
     isHome,
-    data: {},
-    style: {},
+    data: getFormDefaultValue(pageDataForm),
+    style: getFormDefaultValue(pageStyleForm),
     events: [],
     componentInstances: [],
     pluginInstances: [],
@@ -54,16 +55,12 @@ export function createComponentInstance(
   freeLayout: boolean,
   initY = 0,
 ): ComponentInstance {
-  const key = generateKey(InstanceKeyType.Component);
-  const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
-  const style = isFunction(styleForm) ? {} : getSchemaDefault(styleForm as JsonSchemaProperties);
-
   return {
-    key,
+    key: generateKey(InstanceKeyType.Component),
     component: identityName,
     lib,
-    data,
-    style,
+    data: getFormDefaultValue(dataForm),
+    style: getFormDefaultValue(styleForm),
     commonStyle: getDefaultCommonStyle(enableStyleGroup),
     wrapperStyle: getDefaultCommonStyle(enableWrapperStyleGroup),
     events: [],
@@ -75,14 +72,11 @@ export function createComponentInstance(
 }
 
 export function createPluginInstance({ identityName, dataForm, lib }: MaterialsPluginMeta): PluginInstance {
-  const key = generateKey(InstanceKeyType.Plugin);
-  const data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
-
   return {
-    key,
+    key: generateKey(InstanceKeyType.Plugin),
     plugin: identityName,
     lib,
-    data,
+    data: getFormDefaultValue(dataForm),
     events: [],
   };
 }
@@ -92,17 +86,9 @@ export function createEventInstance(
   target: EventTarget,
   action?: MaterialsActionMeta,
 ): EventInstance {
-  const key = generateKey(InstanceKeyType.Action);
-
-  let data;
-  if (target.type === EventTargetType.ACTION) {
-    const { dataForm } = action!;
-    data = isFunction(dataForm) ? {} : getSchemaDefault(dataForm as JsonSchemaProperties);
-  }
-
   return {
-    key,
-    data,
+    key: generateKey(InstanceKeyType.Action),
+    data: target.type === EventTargetType.ACTION ? getFormDefaultValue(action!.dataForm) : undefined,
     trigger,
     target,
     events: [],

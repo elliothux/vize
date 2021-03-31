@@ -3,7 +3,7 @@ import { useCallback, useMemo, useEffect } from 'react';
 import { throttle } from 'throttle-debounce';
 import { SchemaForm as USchemaForm, Submit } from '@uform/antd';
 import { SchemaFormProps } from 'types';
-import { noop, createSchema, getSchemaDefault, isEmpty } from 'utils';
+import { noop, createSchema, getSchemaDefaultValue, isEmpty } from 'utils';
 import './index.scss';
 
 function ISchemaForm(props: SchemaFormProps) {
@@ -13,7 +13,7 @@ function ISchemaForm(props: SchemaFormProps) {
   const onChange = useCallback(throttle(200, iOnChange || noop), [iOnChange]);
 
   useEffect(() => {
-    const defaultValue = getSchemaDefault(iSchema);
+    const defaultValue = getSchemaDefaultValue(iSchema);
     if (isEmpty(value) && !isEmpty(defaultValue)) {
       if (onSubmit) {
         onSubmit(defaultValue);

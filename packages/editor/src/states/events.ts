@@ -31,7 +31,7 @@ import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
 import { hotAreaStore } from './hotAreas';
-import { containerStore } from './container';
+import { globalStore } from './global';
 
 export class EventStore {
   @action
@@ -95,10 +95,14 @@ export class EventStore {
         };
         const instance = createEventInstance(trigger, target, action);
         this.addEventDep(instance.target, {
-          depsFromType: DepsFromType.Container,
+          depsFromType: DepsFromType.Global,
           eventKey: instance.key,
         });
-        return this.addEventInstanceToContainer(instance);
+        return this.addEventInstanceToGlobal(instance);
+      }
+
+      case SelectType.PAGE: {
+        // TODO
       }
     }
   };
@@ -125,8 +129,8 @@ export class EventStore {
   };
 
   @action
-  private addEventInstanceToContainer = (instance: EventInstance) => {
-    return containerStore.setCurrentPageContainerEvents(events => {
+  private addEventInstanceToGlobal = (instance: EventInstance) => {
+    return globalStore.setGlobalEvents(events => {
       events.push(instance);
     });
   };
@@ -166,8 +170,11 @@ export class EventStore {
         break;
       }
       case SelectType.GLOBAL: {
-        eventInstance = this.deleteEventInstanceFromContainer(index);
+        eventInstance = this.deleteEventInstanceFromGlobal(index);
         break;
+      }
+      case SelectType.PAGE: {
+        // TODO
       }
     }
     return this.deleteEventDep(eventInstance!);
@@ -201,9 +208,9 @@ export class EventStore {
   };
 
   @action
-  private deleteEventInstanceFromContainer = (index: number): EventInstance => {
+  private deleteEventInstanceFromGlobal = (index: number): EventInstance => {
     let eventInstance: Maybe<EventInstance>;
-    containerStore.setCurrentPageContainerEvents(events => {
+    globalStore.setGlobalEvents(events => {
       [eventInstance] = events.splice(index, 1);
     });
     return eventInstance!;
@@ -262,8 +269,11 @@ export class EventStore {
           hotAreaStore.setHotAreaProps(parentKey!, index!, deleteEvent);
           break;
         }
-        case DepsFromType.Container: {
-          containerStore.setCurrentPageContainerEvents(deleteEventItem);
+        case DepsFromType.Global: {
+          globalStore.setGlobalEvents(deleteEventItem);
+        }
+        case DepsFromType.PAGE: {
+          // TODO
         }
       }
     });
@@ -291,8 +301,8 @@ export class EventStore {
   };
 
   @action
-  public setEventInstanceDataOfContainer = (data: object, index: number) => {
-    return containerStore.setCurrentPageContainerEvents(events => {
+  public setEventInstanceDataOfGlobal = (data: object, index: number) => {
+    return globalStore.setGlobalEvents(events => {
       events[index]!.data = data;
     });
   };
@@ -334,12 +344,12 @@ export class EventStore {
   };
 
   @action
-  public resortEventInstanceFromContainer = (oldIndex: number, newIndex: number) => {
+  public resortEventInstanceFromGlobal = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
     }
 
-    return containerStore.setCurrentPageContainerEvents(events => {
+    return globalStore.setGlobalEvents(events => {
       const [instance] = events.splice(oldIndex, 1);
       events.splice(newIndex, 0, instance);
     });

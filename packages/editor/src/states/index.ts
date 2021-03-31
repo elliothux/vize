@@ -1,18 +1,19 @@
 import { configure } from 'mobx';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
+import { globalStore } from './global';
 
 configure({
   enforceActions: 'always',
 });
 
 export async function initStore() {
-  pagesStore.init();
   await materialsStore.init();
+  pagesStore.init();
+  globalStore.init();
 }
 
 export * from './components';
-export * from './container';
 export * from './edit';
 export * from './events';
 export * from './global';

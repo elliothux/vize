@@ -5,7 +5,7 @@ import { selectStore, SelectType } from 'states';
 import { ComponentEventInstances } from './ComponentEventInstances';
 import { PluginEventInstances } from './PluginEventInstances';
 import { HotAreaEventInstances } from './HotAreaEventInstances';
-import { ContainerEventInstances } from './ContainerEventInstances';
+import { GlobalEventInstances } from './GlobalEventInstances';
 
 function IEventInstances() {
   const { selectType } = selectStore;
@@ -17,7 +17,9 @@ function IEventInstances() {
     case SelectType.HOTAREA:
       return <HotAreaEventInstances />;
     case SelectType.GLOBAL:
-      return <ContainerEventInstances />;
+      return <GlobalEventInstances />;
+    case SelectType.PAGE:
+      return null;
   }
   return null;
 }

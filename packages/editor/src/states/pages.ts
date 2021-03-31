@@ -11,8 +11,6 @@ import {
 } from 'utils';
 import { StoreWithUtils } from './utils';
 import { selectStore } from './select';
-import { editStore } from './edit';
-import { containerStore } from './container';
 
 export class PagesStore extends StoreWithUtils<PagesStore> {
   public init = () => {
@@ -45,9 +43,6 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     const { key } = page;
     addPageComponentInstanceIndexMap(key);
     addPagePluginInstanceIndexMap(key);
-    if (!editStore.isSinglePageMode) {
-      containerStore.addContainerEventInstancesMap(key);
-    }
 
     selectStore.selectPage(this.pages.length - 1);
   };
@@ -62,9 +57,6 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     const { key, isHome } = this.pages[pageIndex]!;
     deletePageComponentInstanceIndexMap(key);
     deletePagePluginInstanceIndexMap(key);
-    if (!editStore.isSinglePageMode) {
-      containerStore.deleteContainerEventInstancesMap(key);
-    }
 
     this.pages.splice(pageIndex, 1);
 

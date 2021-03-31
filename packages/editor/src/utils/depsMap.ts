@@ -4,7 +4,8 @@ export enum DepsFromType {
   Component = 'component',
   Plugin = 'plugin',
   HotArea = 'hotarea',
-  Container = 'container',
+  Global = 'global',
+  PAGE = 'page',
 }
 
 export enum DepsTargetType {

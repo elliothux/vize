@@ -19,7 +19,7 @@ interface MaterialsLibItem {
 
 export class MaterialsStore {
   @action
-  public readonly init = () => {
+  public init = () => {
     const { libNames, containerName, debugPorts } = editStore;
     return Promise.all(
       libNames.map((name, index) => {

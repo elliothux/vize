@@ -7,7 +7,7 @@ const info = {
 const globalDataForm = {
   shareTitle: {
     title: '全局分享文字',
-    default: '',
+    default: '22',
     type: 'string',
   },
 };
@@ -15,7 +15,7 @@ const globalDataForm = {
 const pageDataForm = {
   shareTitle: {
     title: '页面分享文字',
-    default: '',
+    default: '33',
     type: 'string',
   },
 };

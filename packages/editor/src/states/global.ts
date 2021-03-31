@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
-import { getQueryParams } from 'utils';
-import { GlobalMeta } from 'types';
+import { getFormDefaultValue, getMaterialsContainerMeta, getQueryParams } from 'utils';
+import { EventInstance, GlobalMeta } from 'types';
 import { StoreWithUtils } from './utils';
 
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
@@ -10,6 +10,13 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     this.metaInfo.id = id;
     this.metaInfo.key = key;
   }
+
+  @action
+  public init = () => {
+    const { globalDataForm, globalStyleForm } = getMaterialsContainerMeta()!;
+    this.globalData = getFormDefaultValue(globalDataForm);
+    this.globalStyle = getFormDefaultValue(globalStyleForm);
+  };
 
   /**
    * @desc GlobalData & GlobalStyle
@@ -26,6 +33,21 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
 
   @action
   public setGlobalStyle = (data: object) => (this.globalStyle = data);
+
+  /**
+   * @desc Global Events
+   */
+  @observable
+  public globalEvents: EventInstance[] = [];
+
+  @action
+  public setGlobalEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
+    const newEvents = setter(this.globalEvents);
+    if (newEvents) {
+      this.globalEvents = newEvents;
+    }
+    return newEvents;
+  };
 
   /**
    * @desc GlobalMeta

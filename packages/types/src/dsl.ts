@@ -14,6 +14,14 @@ export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent'> 
 
 export type PluginInstanceDSL = PluginInstance;
 
+export type EventInstanceDSL = EventInstance;
+
+export interface PageInstanceDSL extends PageInstance {
+  events: EventInstanceDSL[];
+  componentInstances: ComponentInstanceDSL[];
+  pluginInstances: PluginInstanceDSL[];
+}
+
 export interface EditInfoDSL {
   layoutMode: LayoutMode;
   pageMode: PageMode;
@@ -26,10 +34,6 @@ export interface EditInfoDSL {
   };
 }
 
-export type PageDSL = PageInstance;
-
-export type EventInstanceDSL = EventInstance;
-
 export type DSL = Readonly<{
   pageKey: string;
   container: {
@@ -41,7 +45,7 @@ export type DSL = Readonly<{
   data: object;
   style: object;
   events: EventInstanceDSL[];
-  pageInstances: PageDSL[];
+  pageInstances: PageInstanceDSL[];
   sharedComponentInstances?: ComponentInstanceDSL[];
   sharedPluginInstances?: ComponentInstanceDSL[];
 }>;

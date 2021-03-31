@@ -72,6 +72,7 @@ export async function save() {
   message.loading(`${i18n.t('saving')}...`);
 
   const dsl = generateDSL();
+  console.log(dsl);
   if (isDebugMode()) {
     return setTimeout(() => {
       localStorage.setItem('dsl', JSON.stringify(dsl));

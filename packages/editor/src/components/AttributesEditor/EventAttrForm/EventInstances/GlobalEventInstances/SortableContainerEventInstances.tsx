@@ -18,7 +18,7 @@ function ISortableContainerEventInstances({ events, container }: Props) {
           key={event.key}
           customEvents={container.emitEvents}
           eventInstance={event}
-          onChangeData={data => eventStore.setEventInstanceDataOfContainer(data, index)}
+          onChangeData={data => eventStore.setEventInstanceDataOfGlobal(data, index)}
         />
       ))}
     </>
