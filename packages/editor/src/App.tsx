@@ -11,21 +11,14 @@ import { MaterialsView } from 'components/MaterialsView';
 import { AttributesEditor } from 'components/AttributesEditor';
 import { HotAreaManager } from 'components/HotAreaManager';
 import { Login } from 'components/Login';
+import { ResourceManager } from 'components/ResourceManager';
 import { I18nextProvider } from 'react-i18next';
 import { i18n, initI18N } from 'i18n';
-import { getCurrentUser, getPage } from 'api';
+import { getCurrentUser } from 'api';
 import { BiLoaderAlt } from 'react-icons/bi';
-import {
-  EventEmitTypes,
-  events,
-  initMaterialsHotReload,
-  isDebugMode,
-  parseDSLFromLocalStorage,
-  parseDSLFromCGIRecord,
-} from 'utils';
+import { EventEmitTypes, events, initMaterialsHotReload, restoreState } from 'utils';
 import classNames from 'classnames';
 import LOGO from 'static/images/logo.svg';
-import { ResourceManager } from './components/ResourceManager';
 
 function IApp() {
   const { previewMode } = editStore;
@@ -89,7 +82,7 @@ export const App = observer(IApp);
 async function init() {
   await Promise.all([initStore(), getCurrentUser(), initI18N]);
   try {
-    await restore();
+    await restoreState();
   } catch (e) {
     console.error(e);
   }
@@ -105,26 +98,4 @@ async function init() {
   }, 1000);
 
   return;
-}
-
-async function restore() {
-  if (isDebugMode()) {
-    const dslString = localStorage.getItem('dsl');
-    if (!dslString) {
-      return;
-    }
-
-    const dsl = parseDSLFromLocalStorage(JSON.parse(dslString));
-    // return restoreState(dsl);
-  }
-
-  const [success, result] = await getPage(editStore.pageKey);
-  if (!success) {
-    console.error(result);
-    message.error(i18n.t('failed to get page data'));
-    return;
-  }
-
-  const [dsl, owner] = parseDSLFromCGIRecord(result!);
-  // return restoreState(dsl, { owner });
 }

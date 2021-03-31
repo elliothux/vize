@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindManyOptions, Repository, In } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PublisherResult } from '@vize/types';
+import { DSL, PublisherResult } from '@vize/types';
 import { PageEntity } from './page.entity';
 import {
   CreatePageDTO,
@@ -17,7 +17,7 @@ import {
 } from '../../types';
 import { UserEntity } from '../user/user.entity';
 import { HistoryEntity } from '../history/history.entity';
-import { generateDSL, getConfig } from '../../utils';
+import { getConfig } from '../../utils';
 import {
   PublishStatusResponse,
   getPublishStatus,
@@ -59,13 +59,12 @@ export class PageService {
     const {
       identifiers: [{ id: latestHistory }],
     } = await this.historyRepository.insert({
+      pageKey: key,
+      createdTime,
       title,
       desc,
-      createdTime,
+      dsl: '{}',
       creator: { id: owner },
-      globalProps: '{}',
-      globalStyle: '{}',
-      pageInstances: '[]',
     });
 
     return this.pageRepository.insert({
@@ -207,12 +206,16 @@ export class PageService {
     isPreview: boolean,
   ): Promise<GeneratorResult | { error: Error }> {
     setPublishStatus(key, PublishStatus.START);
-    const page = await this.getPageByKey(key);
-    const dsl = generateDSL(page!);
+
+    const {
+      generator: generatorName,
+      latestHistory: { dsl: dslString },
+    } = await this.getPageByKey(key);
+    const dsl = JSON.parse(dslString) as DSL;
     dslMap.set(key, dsl);
 
     const { generators, paths: workspacePaths } = getConfig();
-    const { generator, info } = generators[page.generator || 'web']!;
+    const { generator, info } = generators[generatorName || 'web']!;
     console.log(`Start generate page "${key}" with generator: "${info.name}"`);
 
     let result: Maybe<GeneratorResult> = null;

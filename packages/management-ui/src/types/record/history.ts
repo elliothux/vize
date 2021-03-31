@@ -6,14 +6,7 @@ export interface HistoryRecord {
   createdTime: Date;
   title: string;
   desc: string;
-  startTime?: string;
-  endTime?: string;
-  globalProps: string;
-  globalStyle: string;
-  containerEvents: string;
-  pageInstances: string;
-  pluginInstances?: string;
-  sharedComponentInstances?: string;
-  maxKeys?: string;
+  pageCount: number;
+  dsl: string;
   creator?: UserRecord;
 }

@@ -1,6 +1,7 @@
 export * from './dsl';
 export * from './indexMap';
 export * from './loader';
+export * from './restore';
 export * from './clipboard';
 export * from './color';
 export * from './common';

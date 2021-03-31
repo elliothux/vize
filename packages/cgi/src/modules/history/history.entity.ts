@@ -25,35 +25,11 @@ export class HistoryEntity {
   @Column({ type: 'varchar', length: 256, nullable: false })
   desc: string;
 
-  @Column({ type: 'datetime', nullable: true })
-  startTime?: Date;
+  @Column({ type: 'smallint', nullable: false, default: 0 })
+  pageCount: number;
 
-  @Column({ type: 'datetime', nullable: true })
-  endTime?: Date;
-
-  @Column({ type: 'varchar', length: 256, nullable: true })
-  expiredJump?: string;
-
-  @Column({ type: 'text', nullable: false })
-  globalProps: string;
-
-  @Column({ type: 'text', nullable: false })
-  globalStyle: string;
-
-  @Column({ type: 'text', nullable: false })
-  containerEvents: string;
-
-  @Column({ type: 'mediumtext', nullable: false })
-  pageInstances: string;
-
-  @Column({ type: 'text', nullable: true })
-  pluginInstances?: string;
-
-  @Column({ type: 'text', nullable: true })
-  sharedComponentInstances?: string;
-
-  @Column({ type: 'text', nullable: true })
-  maxKeys?: string;
+  @Column({ type: 'longtext', nullable: false })
+  dsl: string;
 
   @ManyToOne(
     () => UserEntity,
