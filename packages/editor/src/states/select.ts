@@ -1,7 +1,7 @@
 import { action, observable, toJS } from 'mobx';
 import { getComponentSelectedCallback } from 'runtime';
-import { Maybe } from '../types';
-import { injectGlobalReadonlyGetter, isDev } from '../utils';
+import { Maybe } from 'types';
+import { injectGlobalReadonlyGetter, isDev } from 'utils';
 
 export enum SelectType {
   GLOBAL = 'global',

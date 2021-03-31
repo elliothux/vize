@@ -2,13 +2,13 @@ import { action, computed, observable } from 'mobx';
 import { message } from 'antd';
 import { PageInstance, PageRouter } from 'types';
 import { i18n } from 'i18n';
+import { createPageInstance } from 'utils';
 import {
-  addPageComponentInstanceIndexMap,
   addPagePluginInstanceIndexMap,
-  createPageInstance,
+  addPageComponentInstanceIndexMap,
   deletePageComponentInstanceIndexMap,
   deletePagePluginInstanceIndexMap,
-} from 'utils';
+} from 'libs';
 import { StoreWithUtils } from './utils';
 import { selectStore } from './select';
 

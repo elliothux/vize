@@ -7,16 +7,16 @@ import { EventInstance } from './events';
 
 export type HotAreaDSL = Omit<HotArea, 'parent'>;
 
-export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent'> {
+export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent' | 'children' | 'hotAreas'> {
   children?: ComponentInstanceDSL[];
-  hotarea?: HotAreaDSL;
+  hotAreas?: HotAreaDSL[];
 }
 
 export type PluginInstanceDSL = PluginInstance;
 
 export type EventInstanceDSL = EventInstance;
 
-export interface PageInstanceDSL extends PageInstance {
+export interface PageInstanceDSL extends Omit<PageInstance, 'events' | 'componentInstances' | 'pluginInstances'> {
   events: EventInstanceDSL[];
   componentInstances: ComponentInstanceDSL[];
   pluginInstances: PluginInstanceDSL[];

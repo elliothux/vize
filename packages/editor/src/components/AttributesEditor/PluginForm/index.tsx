@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { pluginsStore, selectStore } from 'states';
 import { useMemo } from 'react';
-import { getCurrentPagePluginIndex } from 'utils';
+import { getCurrentPagePluginIndex } from 'libs';
 import { PluginInstance } from 'types';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';

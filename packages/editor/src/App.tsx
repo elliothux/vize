@@ -16,7 +16,8 @@ import { I18nextProvider } from 'react-i18next';
 import { i18n, initI18N } from 'i18n';
 import { getCurrentUser } from 'api';
 import { BiLoaderAlt } from 'react-icons/bi';
-import { EventEmitTypes, events, initMaterialsHotReload, restoreState } from 'utils';
+import { EventEmitTypes, events, initMaterialsHotReload } from 'utils';
+import { restore } from 'libs';
 import classNames from 'classnames';
 import LOGO from 'static/images/logo.svg';
 
@@ -82,7 +83,7 @@ export const App = observer(IApp);
 async function init() {
   await Promise.all([initStore(), getCurrentUser(), initI18N]);
   try {
-    await restoreState();
+    await restore();
   } catch (e) {
     console.error(e);
   }

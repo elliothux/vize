@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { componentsStore, selectStore, SelectType, sharedStore } from 'states';
 import { ComponentInstance, MaterialsComponentMeta, Maybe } from 'types';
 import { getMaterialsComponentMeta } from 'runtime';
-import { getCurrentPageComponentIndex, getSharedComponentIndex, isNumber } from '../utils';
+import { isNumber } from 'utils';
+import { getCurrentPageComponentIndex, getSharedComponentIndex } from 'libs';
 
 export function useSharedComponentInstance(key: number): Maybe<ComponentInstance> {
   const { sharedComponentInstances } = sharedStore;
