@@ -21,6 +21,7 @@ export interface DepFrom {
 }
 
 type TargetKey = number;
+
 /**
  * @desc Event Instances which deps on component
  * @struct Map<ComponentInstanceKey | PluginInstanceKey, DepFrom[]>

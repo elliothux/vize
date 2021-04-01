@@ -13,10 +13,10 @@ import {
   PluginInstance,
   InstanceKeyType,
 } from 'types';
+import { getMaterialsContainerMeta } from 'libs';
 import { generateKey } from './key';
 import { getFormDefaultValue } from './common';
 import { getDefaultCommonStyle } from './style';
-import { getMaterialsContainerMeta } from './container';
 
 export function createSchema(schema: JsonSchemaProperties): JSONSchemaDefinition {
   return {

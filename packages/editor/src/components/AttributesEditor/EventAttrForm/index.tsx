@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { SelectType } from 'states';
 import { ComponentUniversalEventTrigger, EventTargetType, EventTriggerName, Maybe } from 'types';
 import { useCurrentComponentMeta, useCurrentPluginMeta } from 'hooks';
-import { getMaterialsContainerMeta } from 'utils';
+import { getMaterialsContainerMeta } from 'libs';
 import { EventTriggerSelector } from './TriggerSelector';
 import { ActionTargetSelector, ComponentTargetSelector, PluginTargetSelector, TargetSelector } from './TargetSelector';
 import { EventInstances } from './EventInstances';

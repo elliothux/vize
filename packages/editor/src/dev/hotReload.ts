@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { debounce } from 'throttle-debounce';
 import { i18n } from 'i18n';
-import { EventEmitTypes, events } from './eventEmiter';
+import { EventEmitTypes, events } from 'utils';
 
 enum HotReloadCommand {
   CONNECTED = 'connected',

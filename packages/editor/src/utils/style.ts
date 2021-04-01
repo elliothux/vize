@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import * as R from 'ramda';
 import { CommonStyle, CommonStyleMeta, DistanceStyle, FixedOutset, PositionStyle } from 'types';
 import { Maybe } from 'types';

@@ -1,8 +1,14 @@
 import { action, computed } from 'mobx';
 import { EventInstance, Maybe, PluginInstance } from 'types';
 import { getMaterialsPluginMeta } from 'runtime';
-import { createPluginInstance, DepsTargetType, pluginEventDepsMap } from 'utils';
-import { getCurrentPagePluginIndex, regenerateCurrentPagePluginIndexMap, setCurrentPagePluginIndex } from 'libs';
+import { createPluginInstance } from 'utils';
+import {
+  getCurrentPagePluginIndex,
+  regenerateCurrentPagePluginIndexMap,
+  setCurrentPagePluginIndex,
+  DepsTargetType,
+  pluginEventDepsMap,
+} from 'libs';
 import { selectStore, SelectType } from './select';
 import { pagesStore } from './pages';
 import { eventStore } from './events';

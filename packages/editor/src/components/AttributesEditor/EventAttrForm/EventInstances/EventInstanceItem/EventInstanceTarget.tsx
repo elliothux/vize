@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { ActionEventTarget, ComponentEventTarget, EventTarget, EventTargetType } from 'types';
 import { useActionMetaById, useComponentMeta, usePluginMeta } from 'hooks';
 import { FiLayers } from 'react-icons/fi';
-import { getMaterialsContainerMeta } from 'utils';
+import { getMaterialsContainerMeta } from 'libs';
 
 interface TargetProps {
   target: EventTarget;

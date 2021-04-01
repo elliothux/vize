@@ -4,14 +4,14 @@ import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
 import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore, sharedStore } from 'states';
-import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
 import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
 import { initDocument, registerHotkey } from 'utils';
+import { loadUMDModuleFromString, injectStyle } from 'libs';
 import { setMaterialsMap, executePlugins } from 'runtime';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
-import { injectRuntime, setUserAgent } from './utils';
 import { InjectedStylesRender } from '../InjectedStylesRender';
+import { injectRuntime, setUserAgent } from './utils';
 
 import iframeStyle from './index.iframe.scss';
 

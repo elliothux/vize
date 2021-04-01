@@ -1,7 +1,8 @@
 import { Maybe } from 'types';
-import { getHotAreaId } from './common';
+import { getHotAreaId } from 'utils';
 
-export const hotAreaNodeMap = new Map<number, HTMLDivElement>();
+// TODO
+const hotAreaNodeMap = new Map<number, HTMLDivElement>();
 
 export function setHotAreaNode(key: number, node: HTMLDivElement) {
   return hotAreaNodeMap.set(key, node);

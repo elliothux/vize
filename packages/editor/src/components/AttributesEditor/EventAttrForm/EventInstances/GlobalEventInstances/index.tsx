@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { SortEnd } from 'react-sortable-hoc';
 import { eventStore, globalStore } from 'states';
-import { getMaterialsContainerMeta } from 'utils';
+import { getMaterialsContainerMeta } from 'libs';
 import { SortableContainerEventInstances } from './SortableContainerEventInstances';
 import { Title } from '../Title';
 

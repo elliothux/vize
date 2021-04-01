@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import { getMaterialsIdentityName } from 'runtime';
 import {
   MaterialsActionMeta,
   MaterialsComponentMeta,
@@ -7,6 +8,7 @@ import {
   MaterialsPluginMeta,
   Maybe,
 } from 'types';
+import { promiseWrapper } from 'utils';
 import {
   getMaterialsFileInfo,
   loadFileAsString,
@@ -15,10 +17,8 @@ import {
   MaterialsFileType,
   StringMaterialsFile,
 } from './utils';
-import { promiseWrapper } from '../common';
-import { getMaterialsIdentityName } from 'runtime';
 
-export async function loadMaterials(libName: string, containerName: string, debugPort?: number) {
+async function loadMaterials(libName: string, containerName: string, debugPort?: number) {
   const [[meta, forms], containerHTML, main, entry] = await Promise.all([
     new Promise<[MaterialsMeta, Maybe<MaterialsForms>]>(async resolve => {
       const meta = await loadMeta(libName, containerName, debugPort);
@@ -44,15 +44,15 @@ export async function loadMaterials(libName: string, containerName: string, debu
   };
 }
 
-export function loadMain(libName: string, containerName: string, debugPort?: number): Promise<StringMaterialsFile> {
+function loadMain(libName: string, containerName: string, debugPort?: number): Promise<StringMaterialsFile> {
   return loadFileAsString(MaterialsFileType.Main, libName, containerName, debugPort);
 }
 
-export function loadEntry(libName: string, containerName: string, debugPort?: number): Promise<StringMaterialsFile> {
+function loadEntry(libName: string, containerName: string, debugPort?: number): Promise<StringMaterialsFile> {
   return loadFileAsString(MaterialsFileType.Entry, libName, containerName, debugPort);
 }
 
-export async function loadForms(libName: string, containerName: string, debugPort?: number): Promise<MaterialsForms> {
+async function loadForms(libName: string, containerName: string, debugPort?: number): Promise<MaterialsForms> {
   const info = getMaterialsFileInfo(MaterialsFileType.Form, libName, containerName, debugPort);
   const [forms, [, err]] = await Promise.all([
     loadUMDModule<MaterialsForms>(info),
@@ -66,7 +66,7 @@ export async function loadForms(libName: string, containerName: string, debugPor
   return forms;
 }
 
-export async function loadMeta(libName: string, containerName: string, debugPort?: number): Promise<MaterialsMeta> {
+async function loadMeta(libName: string, containerName: string, debugPort?: number): Promise<MaterialsMeta> {
   const info = getMaterialsFileInfo(MaterialsFileType.Meta, libName, containerName, debugPort);
   const [meta, [, err]] = await Promise.all([
     loadUMDModule<MaterialsMeta>(info),
@@ -124,7 +124,7 @@ export async function loadMeta(libName: string, containerName: string, debugPort
   }
 }
 
-export function loadContainerHTML(libName: string, containerName: string, debugPort?: number) {
+function loadContainerHTML(libName: string, containerName: string, debugPort?: number) {
   const info = getMaterialsFileInfo(MaterialsFileType.HTML, libName, containerName, debugPort);
   return loadUMDModule<string>(info);
 }

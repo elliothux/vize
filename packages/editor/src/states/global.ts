@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx';
-import { getFormDefaultValue, getMaterialsContainerMeta, getQueryParams } from 'utils';
+import { getFormDefaultValue, getQueryParams } from 'utils';
+import { getMaterialsContainerMeta } from 'libs';
 import { EventInstance, GlobalMeta } from 'types';
 import { StoreWithUtils } from './utils';
 

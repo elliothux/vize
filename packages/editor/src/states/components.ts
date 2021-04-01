@@ -2,15 +2,17 @@
 import { action, computed } from 'mobx';
 import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
 import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
-import { componentEventDepsMap, createComponentInstance, DepsTargetType, isNumber } from 'utils';
+import { createComponentInstance, isNumber } from 'utils';
 import {
-  ComponentIndex,
   compareComponentIndex,
   getCurrentPageComponentIndex,
   setCurrentPageComponentIndex,
   deleteCurrentPageComponentIndex,
   batchUpdateCurrentPageComponentIndex,
   findComponentInstanceByIndex,
+  componentEventDepsMap,
+  DepsTargetType,
+  ComponentIndex,
 } from 'libs';
 import { pagesStore } from './pages';
 import { selectStore, SelectType } from './select';

@@ -1,5 +1,5 @@
+import { InstanceKeyType } from 'types';
 import { isNumber } from './is';
-import { InstanceKeyType } from '../types';
 
 const keyMap = new Map<InstanceKeyType, number>();
 

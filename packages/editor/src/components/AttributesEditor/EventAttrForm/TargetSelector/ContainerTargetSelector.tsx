@@ -4,7 +4,7 @@ import { ContainerEventTarget, EventTargetType, EventTriggerName, Maybe } from '
 import { Button, Select } from 'antd';
 import { Trans } from 'react-i18next';
 import { FiLayers, FiPlus } from 'react-icons/fi';
-import { getMaterialsContainerMeta } from 'utils';
+import { getMaterialsContainerMeta } from 'libs';
 import { eventStore } from 'states';
 import { DEFAULT_MAX_TIMEOUT } from './constant';
 

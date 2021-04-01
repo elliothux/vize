@@ -16,7 +16,7 @@ import { I18nextProvider } from 'react-i18next';
 import { i18n, initI18N } from 'i18n';
 import { getCurrentUser } from 'api';
 import { BiLoaderAlt } from 'react-icons/bi';
-import { EventEmitTypes, events, initMaterialsHotReload } from 'utils';
+import { EventEmitTypes, events, promiseWrapper } from 'utils';
 import { restore } from 'libs';
 import classNames from 'classnames';
 import LOGO from 'static/images/logo.svg';
@@ -88,15 +88,20 @@ async function init() {
     console.error(e);
   }
 
-  setTimeout(() => {
+  setTimeout(async () => {
     const {
       debugPorts: [port],
     } = editStore;
 
-    if (port) {
-      initMaterialsHotReload(port);
+    if (!port) {
+      return;
     }
-  }, 1000);
 
-  return;
+    const [err, module] = await promiseWrapper(import('dev/hotReload'));
+    if (err) {
+      console.error(err);
+      return message.error('HotReload bootstrap error');
+    }
+    module!.initMaterialsHotReload(port);
+  }, 1000);
 }

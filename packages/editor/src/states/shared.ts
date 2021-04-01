@@ -1,6 +1,12 @@
 import { action, observable } from 'mobx';
-import { componentEventDepsMap, DepsTargetType, isNumber } from 'utils';
-import { deleteSharedComponentIndex, getSharedComponentIndex, setSharedComponentIndex } from 'libs';
+import { isNumber } from 'utils';
+import {
+  deleteSharedComponentIndex,
+  getSharedComponentIndex,
+  setSharedComponentIndex,
+  componentEventDepsMap,
+  DepsTargetType,
+} from 'libs';
 import { ComponentInstance } from 'types';
 import { StoreWithUtils } from './utils';
 import { componentsStore } from './components';

@@ -1,7 +1,6 @@
 import * as R from 'ramda';
-import { Maybe } from '../../types';
-import { getFileString } from '../request';
-import { promiseWrapper } from '../common';
+import { Maybe } from 'types';
+import { getFileString, promiseWrapper } from 'utils';
 
 export enum MaterialsFileType {
   Main = 'main',

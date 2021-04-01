@@ -16,7 +16,7 @@ import {
   EditInfoDSL,
 } from 'types';
 import { UserRecord } from 'sharedTypes';
-import { isDebugMode, setMaxKey, componentEventDepsMap, generateEventDepFromItem, pluginEventDepsMap } from 'utils';
+import { isDebugMode, setMaxKey } from 'utils';
 import {
   addPagePluginInstanceIndexMap,
   addPageComponentInstanceIndexMap,
@@ -24,6 +24,7 @@ import {
   generatePluginsIndex,
   setSharedComponentIndexMap,
 } from '../../indexMap';
+import { generateEventDepFromItem, componentEventDepsMap, pluginEventDepsMap } from '../../depsMap';
 import { parseDSL } from './parse';
 import { filterComponent, filterPlugin } from './utils';
 
