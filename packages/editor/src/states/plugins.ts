@@ -1,8 +1,8 @@
 import { action, computed } from 'mobx';
 import { EventInstance, Maybe, PluginInstance } from 'types';
 import { getMaterialsPluginMeta } from 'runtime';
-import { createPluginInstance } from 'utils';
 import {
+  createPluginInstance,
   getCurrentPagePluginIndex,
   regenerateCurrentPagePluginIndexMap,
   setCurrentPagePluginIndex,

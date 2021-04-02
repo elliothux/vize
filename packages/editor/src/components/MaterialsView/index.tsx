@@ -1,9 +1,9 @@
+import './index.scss';
 import * as React from 'react';
+import { EventEmitTypes, events } from 'libs';
 import { InstancesView } from './InstancesView';
 import { ComponentsLibrary, PluginsLibrary } from './MaterialsLibrary';
-import { EventEmitTypes, events } from 'utils';
 import { MaterialsViewType } from './HeaderOptions';
-import './index.scss';
 
 interface Props {
   loading: boolean;

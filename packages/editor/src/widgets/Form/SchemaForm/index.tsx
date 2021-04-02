@@ -1,10 +1,11 @@
+import './index.scss';
 import * as React from 'react';
 import { useCallback, useMemo, useEffect } from 'react';
 import { throttle } from 'throttle-debounce';
 import { SchemaForm as USchemaForm, Submit } from '@uform/antd';
 import { SchemaFormProps } from 'types';
-import { noop, createSchema, getSchemaDefaultValue, isEmpty } from 'utils';
-import './index.scss';
+import { noop, getSchemaDefaultValue, isEmpty } from 'utils';
+import { createSchema } from 'libs';
 
 function ISchemaForm(props: SchemaFormProps) {
   const { schema: iSchema, value, onChange: iOnChange, onSubmit, submitProps } = props;

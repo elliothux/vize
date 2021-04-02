@@ -6,12 +6,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { Maybe, PublisherResult } from 'types';
 import { getPublishStatus, PublishStatus, startPublishPage } from 'api';
 import { message } from 'antd';
-import { hotkeyEvents, HotKeyEventTypes } from 'utils';
+import { hotkeyEvents, HotKeyEventTypes } from 'libs';
 import { FiSend } from 'react-icons/fi';
 import { OperationItem } from '../OperationItem';
 import { hotKeyPrefix } from '../utils';
 import { PreviewAndPublish } from './Result';
-import { toJS } from 'mobx';
 
 const PUBLISH_POLL_STATUS_TIME = 3000;
 const MAX_PUBLISH_RETRY_TIMES = 3;

@@ -5,10 +5,10 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Maybe, PublisherResult } from 'types';
 import { previewPage } from 'api';
 import { editStore } from 'states';
-import { hotkeyEvents, HotKeyEventTypes } from 'utils';
+import { hotkeyEvents, HotKeyEventTypes } from 'libs';
+import { FiPlay } from 'react-icons/fi';
 import { OperationItem } from '../OperationItem';
 import { hotKeyPrefix } from '../utils';
-import { FiPlay } from 'react-icons/fi';
 import { PreviewAndPublish } from './Result';
 
 export function Preview() {

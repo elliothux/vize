@@ -1,4 +1,3 @@
-import './states';
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { useMount } from 'react-use';
@@ -16,8 +15,8 @@ import { I18nextProvider } from 'react-i18next';
 import { i18n, initI18N } from 'i18n';
 import { getCurrentUser } from 'api';
 import { BiLoaderAlt } from 'react-icons/bi';
-import { EventEmitTypes, events, promiseWrapper } from 'utils';
-import { restore } from 'libs';
+import { promiseWrapper } from 'utils';
+import { restore, EventEmitTypes, events } from 'libs';
 import classNames from 'classnames';
 import LOGO from 'static/images/logo.svg';
 

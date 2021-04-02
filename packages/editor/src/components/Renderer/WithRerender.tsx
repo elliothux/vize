@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { memo, useEffect, useState } from 'react';
 import { WithReactChildren } from 'types';
-import { EventEmitTypes, events } from 'utils';
+import { EventEmitTypes, events } from 'libs';
 import { Spin } from 'antd';
 
 function IWithRerender({ children }: WithReactChildren): React.ReactElement {

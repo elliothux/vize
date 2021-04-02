@@ -6,7 +6,8 @@ import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { useCurrentComponentInstance, useCurrentComponentMeta } from 'hooks';
 import { Button } from 'antd';
-import { EventEmitTypes, events, getImageSrc } from 'utils';
+import { getImageSrc } from 'utils';
+import { EventEmitTypes, events } from 'libs';
 import { Empty } from 'widgets/Empty';
 import { useTranslation, Trans } from 'react-i18next';
 

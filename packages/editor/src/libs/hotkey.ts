@@ -1,6 +1,6 @@
 import hotkeys from 'hotkeys-js';
 import { EventProxy } from 'runtime/utils/eventProxy';
-import { preventSyntheticEvent } from './eventHelper';
+import { preventSyntheticEvent } from 'utils';
 
 export enum HotKeyEventTypes {
   SAVE = 'save',
@@ -14,10 +14,11 @@ export enum HotKeyEventTypes {
   TOGGLE_FULLSCREEN = 'TOGGLE_FULLSCREEN',
 }
 
-export const hotkeyEvents = new EventProxy<HotKeyEventTypes>();
+const hotkeyEvents = new EventProxy<HotKeyEventTypes>();
+
+const DEBOUNCE_TIMEOUT = 500;
 
 let lastPress = 0;
-const DEBOUNCE_TIMEOUT = 500;
 
 export function registerHotkey(element: Document) {
   const options = { scope: 'all', element: (element || window.document) as any };

@@ -18,8 +18,14 @@ import {
   PluginInstance,
   PluginUniversalEventTrigger,
 } from 'types';
-import { createEventInstance } from 'utils';
-import { DepFrom, DepsFromType, DepsTargetType, componentEventDepsMap, pluginEventDepsMap } from 'libs';
+import {
+  DepFrom,
+  DepsFromType,
+  DepsTargetType,
+  componentEventDepsMap,
+  pluginEventDepsMap,
+  createEventInstance,
+} from 'libs';
 import { getMaterialsActionMeta } from 'runtime';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';

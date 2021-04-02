@@ -1,6 +1,6 @@
-import { EventEmitTypes, events } from './eventEmiter';
-import { noop } from './common';
+import { noop } from 'utils';
 import { registerHotkey } from './hotkey';
+import { EventEmitTypes, events } from './events';
 
 export function initDocument(doc: Document, callback: Function = noop) {
   registerHotkey(document);

@@ -16,7 +16,8 @@ import {
   EditInfoDSL,
 } from 'types';
 import { UserRecord } from 'sharedTypes';
-import { isDebugMode, setMaxKey } from 'utils';
+import { isDebugMode } from 'utils';
+import { setMaxKey } from '../../key';
 import {
   addPagePluginInstanceIndexMap,
   addPageComponentInstanceIndexMap,

@@ -1,12 +1,12 @@
 import './index.scss';
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Modal, PageHeader, Radio, Spin } from 'antd';
 import { RadioChangeEvent } from 'antd/lib/radio/interface';
 import { ResourceType } from 'sharedTypes';
 import { useTranslation } from 'react-i18next';
 import { i18n } from 'i18n';
-import { camelize, EventEmitTypes, events } from 'utils';
+import { camelize } from 'utils';
 import { Maybe } from 'types';
 import { UploadResources } from './UploadResources';
 import { ResourceList } from './list';

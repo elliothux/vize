@@ -1,7 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { useCallback } from 'react';
-import { Radio, Select } from 'antd';
+import { Select } from 'antd';
 import { EventTargetType, MaterialsCustomEvent, Maybe } from 'types';
 import { Trans } from 'react-i18next';
 

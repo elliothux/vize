@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { observer } from 'mobx-react';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { selectStore, SelectType } from 'states';
-import { EventEmitTypes, events } from 'utils';
+import { EventEmitTypes, events } from 'libs';
 import { Tabs } from 'antd';
 import { FiDatabase, FiFeather, FiGrid } from 'react-icons/fi';
 import { i18n } from 'i18n';

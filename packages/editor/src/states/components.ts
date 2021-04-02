@@ -2,8 +2,9 @@
 import { action, computed } from 'mobx';
 import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
 import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
-import { createComponentInstance, isNumber } from 'utils';
+import { isNumber } from 'utils';
 import {
+  createComponentInstance,
   compareComponentIndex,
   getCurrentPageComponentIndex,
   setCurrentPageComponentIndex,

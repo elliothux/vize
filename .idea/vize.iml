@@ -18,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/materials-universal-rax/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/materials-universal/.temp" />
       <excludeFolder url="file://$MODULE_DIR$/packages/materials-universal/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/runtime-web-rax/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/types/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/workspace" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />

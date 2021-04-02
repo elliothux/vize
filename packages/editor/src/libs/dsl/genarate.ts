@@ -12,7 +12,7 @@ import {
 } from 'types';
 import { editStore, globalStore, pagesStore, sharedStore } from 'states';
 import { toJS } from 'mobx';
-import { getMaxKey } from 'utils';
+import { getMaxKey } from '../key';
 
 export function generateDSL(): DSL {
   const { mainLib, containerName: container, pageKey } = editStore;

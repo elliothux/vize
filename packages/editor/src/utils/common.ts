@@ -2,9 +2,9 @@ import * as React from 'react';
 import { message } from 'antd';
 import { parseUrl } from 'query-string';
 import { ComponentInstance, JsonSchemaProperties, MaterialsForm, Maybe } from 'types';
+import { createSchema } from 'libs';
 import { editStore } from 'states';
 import getDefaults from 'json-schema-defaults';
-import { createSchema } from './create';
 import { isFunction } from './is';
 
 message.config({

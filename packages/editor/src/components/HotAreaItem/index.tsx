@@ -5,7 +5,7 @@ import { editStore, globalStore, pagesStore, selectStore } from 'states';
 import classnames from 'classnames';
 import { FirstParameter, HotArea } from 'types';
 import { percent, preventSyntheticEvent } from 'utils';
-import { EventEmitTypes, events } from 'utils';
+import { EventEmitTypes, events } from 'libs';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime/components/NodeEventProxy';
 import { Trans } from 'react-i18next';

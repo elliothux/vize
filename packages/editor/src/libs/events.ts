@@ -7,7 +7,6 @@ export enum EventEmitTypes {
   SET_ATTRIBUTES_EDITOR_TYPE = 'set_attributes_editor_type',
   JUMP_ATTR_EDIT_TAB = 'jump_attr_edit_tab',
   CHANGE_ATTR_EDIT_TAB = 'change_attr_edit_tab',
-  NODE_INTERSECTING_CHANGE = 'node_intersecting_change',
   RELOAD_RENDERER = 'reload_renderer',
   RELOAD_MATERIALS = 'reload_materials',
   CHOOSE_RESOURCES = 'choose_resources',

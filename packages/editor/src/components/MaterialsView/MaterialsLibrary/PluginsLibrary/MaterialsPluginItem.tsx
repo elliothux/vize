@@ -6,8 +6,8 @@ import { FiPlus } from 'react-icons/fi';
 import { SVGRender } from 'widgets/SVGRender';
 import { pluginsStore } from 'states';
 import { useTranslation } from 'react-i18next';
-import { EventEmitTypes, events } from 'utils';
-import NO_THUMB from '../../../../static/images/no_thumb.svg';
+import { EventEmitTypes, events } from 'libs';
+import NO_THUMB from 'static/images/no_thumb.svg';
 
 interface Props {
   item: MaterialsPluginMeta;

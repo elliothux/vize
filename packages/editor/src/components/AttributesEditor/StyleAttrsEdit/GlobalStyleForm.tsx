@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useCallback } from 'react';
 import { observer } from 'mobx-react';
-import { EventEmitTypes, events } from 'utils';
-import { getMaterialsContainerMeta } from 'libs';
+import { getMaterialsContainerMeta, EventEmitTypes, events } from 'libs';
 import { globalStore } from 'states';
 import { SchemaForm } from 'widgets/Form';
 import { NotAvailable } from '../NotAvailable';
