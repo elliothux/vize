@@ -1,17 +1,47 @@
-import { noop } from 'utils';
+import * as R from 'ramda';
+import { promiseWrapper } from 'utils';
+import { editStore, initStore } from 'states';
+import { getCurrentUser } from 'api';
+import { initI18N } from 'i18n';
+import { message } from 'antd';
 import { registerHotkey } from './hotkey';
 import { EventEmitTypes, events } from './events';
+import { restore } from './dsl';
 
-export function initDocument(doc: Document, callback: Function = noop) {
+export async function init() {
+  await Promise.all([initStore(), getCurrentUser(), initI18N]);
+  try {
+    await restore();
+  } catch (e) {
+    console.error(e);
+    // TODO
+  }
+
+  initDocument(document);
+  initHotReload();
+}
+
+export function initDocument(doc: Document) {
   registerHotkey(document);
+  doc.addEventListener('contextmenu', e => e.preventDefault());
+  doc.addEventListener('click', R.partial(events.emit, [EventEmitTypes.GLOBAL_CLICK]));
+}
 
-  doc.addEventListener('contextmenu', e => {
-    e.preventDefault();
-  });
+function initHotReload() {
+  return setTimeout(async () => {
+    const {
+      debugPorts: [port],
+    } = editStore;
 
-  doc.addEventListener('click', e => {
-    events.emit(EventEmitTypes.GLOBAL_CLICK, e);
-  });
+    if (!port) {
+      return;
+    }
 
-  callback();
+    const [err, module] = await promiseWrapper(import('externals/dev/hotReload'));
+    if (err) {
+      console.error(err);
+      return message.error('HotReload bootstrap error');
+    }
+    module!.initMaterialsHotReload(port);
+  }, 1000);
 }

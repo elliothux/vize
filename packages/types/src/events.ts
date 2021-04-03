@@ -29,12 +29,13 @@ export enum EventTriggerType {
   Custom = 'custom',
 }
 
-export type EventTriggerName =
+export type UniversalEventTrigger =
   | ComponentUniversalEventTrigger
   | PluginUniversalEventTrigger
   | HotAreaUniversalEventTrigger
-  | ContainerUniversalEventTrigger
-  | string;
+  | ContainerUniversalEventTrigger;
+
+export type EventTriggerName = UniversalEventTrigger | string;
 
 export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
 

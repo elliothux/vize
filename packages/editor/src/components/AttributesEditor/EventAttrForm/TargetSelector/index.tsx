@@ -5,14 +5,14 @@ import { EventTargetType, MaterialsCustomEvent, Maybe } from 'types';
 import { Trans } from 'react-i18next';
 
 interface Props {
-  target: Maybe<EventTargetType>;
-  setTarget: (target: EventTargetType) => void;
+  targetType: Maybe<EventTargetType>;
+  setTargetType: (target: EventTargetType) => void;
   customEvents?: MaterialsCustomEvent[];
 }
 
 const { Option: SelectOption } = Select;
 
-export function TargetSelector({ target, setTarget }: Props) {
+export function TargetSelector({ targetType, setTargetType }: Props) {
   return (
     <div className="event-form-prop-item">
       <span>
@@ -21,8 +21,8 @@ export function TargetSelector({ target, setTarget }: Props) {
       <Select
         className="event-form-selector"
         dropdownClassName="event-form-selector-options"
-        value={target || undefined}
-        onChange={setTarget}
+        value={targetType || undefined}
+        onChange={setTargetType}
       >
         <SelectOption value={EventTargetType.ACTION}>
           <Trans>Action</Trans>
@@ -41,6 +41,4 @@ export function TargetSelector({ target, setTarget }: Props) {
   );
 }
 
-export * from './ActionTargetSelector';
-export * from './ComponentTargetSelector';
-export * from './PluginTargetSelector';
+export * from './TargetForm';

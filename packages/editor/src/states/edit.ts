@@ -39,11 +39,6 @@ export class EditStore extends StoreWithUtils<EditStore> {
 
   public user: UserRecord = { ...defaultUser, id: 0 };
 
-  @computed
-  public get isSinglePageMode() {
-    return this.pageMode === PageMode.SINGLE;
-  }
-
   @observable
   public previewMode = false;
 

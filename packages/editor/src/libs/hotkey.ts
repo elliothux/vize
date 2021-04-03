@@ -14,7 +14,7 @@ export enum HotKeyEventTypes {
   TOGGLE_FULLSCREEN = 'TOGGLE_FULLSCREEN',
 }
 
-const hotkeyEvents = new EventProxy<HotKeyEventTypes>();
+export const hotkeyEvents = new EventProxy<HotKeyEventTypes>();
 
 const DEBOUNCE_TIMEOUT = 500;
 

@@ -1,9 +1,10 @@
 import './index.scss';
 import React from 'react';
 import { SelectType } from 'states';
+import { i18n } from 'i18n';
+import { Empty } from 'widgets/Empty';
 import { ComponentDataForm } from './ComponentDataForm';
 import { PluginDataForm } from './PluginDataForm';
-import { NotAvailable } from '../NotAvailable';
 import { GlobalDataMetaForm } from './GlobalDataMetaForm';
 import { PageDataForm } from './PageDataForm';
 
@@ -28,7 +29,7 @@ function IDataAttrsEdit({ selectType }: Props) {
     return <GlobalDataMetaForm />;
   }
 
-  return <NotAvailable />;
+  return <Empty text={i18n.t('Not available')} />;
 }
 
 export const DataAttrsEdit = IDataAttrsEdit;

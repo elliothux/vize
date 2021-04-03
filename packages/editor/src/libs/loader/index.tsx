@@ -18,7 +18,7 @@ import {
   StringMaterialsFile,
 } from './utils';
 
-async function loadMaterials(libName: string, containerName: string, debugPort?: number) {
+export async function loadMaterials(libName: string, containerName: string, debugPort?: number) {
   const [[meta, forms], containerHTML, main, entry] = await Promise.all([
     new Promise<[MaterialsMeta, Maybe<MaterialsForms>]>(async resolve => {
       const meta = await loadMeta(libName, containerName, debugPort);

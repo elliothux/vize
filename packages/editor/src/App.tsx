@@ -2,7 +2,11 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { useMount } from 'react-use';
 import { message, Spin } from 'antd';
-import { editStore, initStore, materialsStore } from 'states';
+import { editStore, materialsStore } from 'states';
+import { I18nextProvider } from 'react-i18next';
+import { i18n } from 'i18n';
+import { BiLoaderAlt } from 'react-icons/bi';
+import { EventEmitTypes, events, init } from 'libs';
 import { Header } from 'components/Header';
 import { Simulator } from 'components/Simulator';
 import { Renderer, WithRerender } from 'components/Renderer';
@@ -11,14 +15,15 @@ import { AttributesEditor } from 'components/AttributesEditor';
 import { HotAreaManager } from 'components/HotAreaManager';
 import { Login } from 'components/Login';
 import { ResourceManager } from 'components/ResourceManager';
-import { I18nextProvider } from 'react-i18next';
-import { i18n, initI18N } from 'i18n';
-import { getCurrentUser } from 'api';
-import { BiLoaderAlt } from 'react-icons/bi';
-import { promiseWrapper } from 'utils';
-import { restore, EventEmitTypes, events } from 'libs';
 import classNames from 'classnames';
 import LOGO from 'static/images/logo.svg';
+
+const spinLoading = (
+  <>
+    <BiLoaderAlt className="icon-loading" />
+    <span>loading...</span>
+  </>
+);
 
 function IApp() {
   const { previewMode } = editStore;
@@ -44,14 +49,7 @@ function IApp() {
     <I18nextProvider i18n={i18n}>
       <Spin
         spinning={loading}
-        tip={
-          (
-            <>
-              <BiLoaderAlt className="icon-loading" />
-              <span>loading...</span>
-            </>
-          ) as any
-        }
+        tip={spinLoading as any}
         size="large"
         className="vize-editor-loading"
         wrapperClassName="vize-editor-loading-wrap"
@@ -78,29 +76,3 @@ function IApp() {
 }
 
 export const App = observer(IApp);
-
-async function init() {
-  await Promise.all([initStore(), getCurrentUser(), initI18N]);
-  try {
-    await restore();
-  } catch (e) {
-    console.error(e);
-  }
-
-  setTimeout(async () => {
-    const {
-      debugPorts: [port],
-    } = editStore;
-
-    if (!port) {
-      return;
-    }
-
-    const [err, module] = await promiseWrapper(import('dev/hotReload'));
-    if (err) {
-      console.error(err);
-      return message.error('HotReload bootstrap error');
-    }
-    module!.initMaterialsHotReload(port);
-  }, 1000);
-}

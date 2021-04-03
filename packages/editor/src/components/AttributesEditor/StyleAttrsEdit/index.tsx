@@ -2,7 +2,8 @@ import './index.scss';
 import * as React from 'react';
 import { SelectType } from 'states';
 import { observer } from 'mobx-react';
-import { NotAvailable } from '../NotAvailable';
+import { i18n } from 'i18n';
+import { Empty } from 'widgets/Empty';
 import { GlobalStyleForm } from './GlobalStyleForm';
 import { ComponentStyleForm } from './ComponentStyleForm';
 import { PageStyleForm } from './PageStyleForm';
@@ -24,7 +25,7 @@ function IStyleAttrsEdit({ selectType }: Props) {
     return <ComponentStyleForm />;
   }
 
-  return <NotAvailable />;
+  return <Empty text={i18n.t('Not available')} />;
 }
 
 export const StyleAttrsForm = observer(IStyleAttrsEdit);

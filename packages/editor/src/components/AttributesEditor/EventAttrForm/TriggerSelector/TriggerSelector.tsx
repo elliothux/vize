@@ -3,49 +3,26 @@ import { useMemo } from 'react';
 import * as R from 'ramda';
 import { Select } from 'antd';
 import { FiLayers } from 'react-icons/fi';
-import {
-  ComponentUniversalEventTrigger,
-  ContainerUniversalEventTrigger,
-  EventTriggerName,
-  HotAreaUniversalEventTrigger,
-  MaterialsCustomEvent,
-  Maybe,
-  PluginUniversalEventTrigger,
-} from 'types';
 import { SelectType } from 'states';
 import { Trans, useTranslation } from 'react-i18next';
 import { triggerTextMap } from './utils';
+import { TriggerSelectorProps } from './types';
 
 const { Option: SelectOption, OptGroup } = Select;
 
-interface Props {
-  type: SelectType;
-  trigger: Maybe<EventTriggerName>;
-  setTrigger: (trigger: EventTriggerName) => void;
-  customEvents?: MaterialsCustomEvent[];
-}
-
-export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }: Props) {
+export function EventTriggerSelector({
+  type,
+  trigger,
+  setTrigger,
+  customEvents,
+  universalEventTriggers,
+}: TriggerSelectorProps) {
   const { t } = useTranslation();
   const onChange = useMemo(() => R.unary(setTrigger), []);
-  const isComponent = type === SelectType.COMPONENT;
-  const universalEventTriggers = useMemo<{
-    [name: string]:
-      | ComponentUniversalEventTrigger
-      | PluginUniversalEventTrigger
-      | HotAreaUniversalEventTrigger
-      | ContainerUniversalEventTrigger;
-  }>(
-    () =>
-      ({
-        [SelectType.COMPONENT]: ComponentUniversalEventTrigger,
-        [SelectType.PLUGIN]: PluginUniversalEventTrigger,
-        [SelectType.HOTAREA]: HotAreaUniversalEventTrigger,
-        [SelectType.PAGE]: ContainerUniversalEventTrigger,
-        [SelectType.GLOBAL]: {},
-      }[type]),
-    [type],
-  );
+  const title = useMemo(() => {
+    const s = type === SelectType.COMPONENT ? 'Component' : type === SelectType.PLUGIN ? 'Plugin' : 'Container';
+    return `${t(s)}${t(' custom triggers')}`;
+  }, [type]);
 
   return (
     <div className="event-form-prop-item">
@@ -59,7 +36,7 @@ export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }
         dropdownClassName="event-form-selector-options"
       >
         {customEvents?.length ? (
-          <OptGroup label={`${t(isComponent ? 'Component' : 'Plugin')}${t(' custom triggers')}`}>
+          <OptGroup label={title}>
             {customEvents.map(({ eventName, displayName }) => (
               <SelectOption value={eventName} key={eventName}>
                 <FiLayers />
@@ -70,7 +47,7 @@ export function EventTriggerSelector({ type, trigger, setTrigger, customEvents }
         ) : null}
 
         <OptGroup label={t('Universal triggers')}>
-          {Object.entries(universalEventTriggers).map(([, trigger]) => (
+          {universalEventTriggers.map(trigger => (
             <SelectOption value={trigger} key={trigger}>
               {triggerTextMap.get(trigger)}
             </SelectOption>

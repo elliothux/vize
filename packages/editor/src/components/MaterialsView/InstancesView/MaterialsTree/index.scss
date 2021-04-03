@@ -105,6 +105,10 @@
   }
 }
 
+.global-props {
+  border-bottom: $main-border;
+}
+
 .global-props,
 .page-props {
   width: 100%;

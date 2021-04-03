@@ -3,8 +3,9 @@ import { useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { getMaterialsContainerMeta, EventEmitTypes, events } from 'libs';
 import { globalStore } from 'states';
+import { i18n } from 'i18n';
+import { Empty } from 'widgets/Empty';
 import { SchemaForm } from 'widgets/Form';
-import { NotAvailable } from '../../NotAvailable';
 
 function IGlobalDataForm() {
   const { globalDataForm } = getMaterialsContainerMeta()!;
@@ -16,7 +17,7 @@ function IGlobalDataForm() {
   }, []);
 
   if (!globalDataForm) {
-    return <NotAvailable />;
+    return <Empty text={i18n.t('Not available')} />;
   }
 
   return <SchemaForm form={globalDataForm} data={globalData} onChange={onChange} submitProps />;
