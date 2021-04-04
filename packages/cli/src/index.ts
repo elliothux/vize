@@ -28,6 +28,7 @@ program
   .command('dev')
   .description('开启调试服务')
   .option('-o, --open <open>', '自动打开编辑器')
+  .option('-l, --local', '使用本地编辑器')
   .option('-p, --port <port>', 'dev server 端口')
   .option('-r, --registry <registry>', 'NPM 软件源地址')
   .action(cmd => {

@@ -16,6 +16,7 @@ interface Options {
   open?: boolean;
   port?: number;
   registry?: string;
+  local?: boolean;
 }
 
 enum RecompileCallbackCommand {
@@ -25,13 +26,14 @@ enum RecompileCallbackCommand {
 }
 
 export class Builder {
-  constructor({ libConfig, libPaths, idProd, open, registry, port = 4568 }: Options) {
+  constructor({ libConfig, libPaths, idProd, open, registry, port = 4568, local = false }: Options) {
     this.libPaths = libPaths;
     this.libConfig = libConfig;
     this.isProd = idProd;
     this.open = open;
     this.registry = registry;
     this.port = port;
+    this.local = local;
   }
 
   private libPaths: LibPaths;
@@ -45,6 +47,8 @@ export class Builder {
   private readonly registry?: string;
 
   private readonly port: number;
+
+  private readonly local: boolean;
 
   private withForms: boolean;
 
@@ -103,7 +107,7 @@ export class Builder {
   };
 
   public dev = async () => {
-    const [editorStaticPath] = await Promise.all([prepareEditor(this.registry), this.prepareFiles()]);
+    const [editorStaticPath] = await Promise.all([prepareEditor(this.local, this.registry), this.prepareFiles()]);
     const config = this.generateWebpackConfig(false);
     const compiler = webpack(config);
 

@@ -348,5 +348,6 @@ export const zh = {
     'Long term': '长期在线',
     'Meta info of page': '页面基础信息',
     'Global info of container': '容器全局配置',
+    'Error occurred': '出错啦',
   },
 };

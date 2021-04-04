@@ -10,13 +10,7 @@ import { restore } from './dsl';
 
 export async function init() {
   await Promise.all([initStore(), getCurrentUser(), initI18N]);
-  try {
-    await restore();
-  } catch (e) {
-    console.error(e);
-    // TODO
-  }
-
+  await restore();
   initDocument(document);
   initHotReload();
 }

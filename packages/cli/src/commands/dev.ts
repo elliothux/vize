@@ -8,15 +8,15 @@ interface DevOptions {
   port?: string;
   open?: string;
   registry?: string;
+  local?: boolean;
 }
 
-export async function dev({ port, open, registry }: DevOptions) {
+export async function dev({ port, open, registry, local }: DevOptions) {
   const root = process.cwd();
   const containerName = await chooseContainer(root);
   const paths = getLibPaths(root, containerName);
   const config = getLibConfig(paths);
 
-  console.log({ registry });
   const builder = new Builder({
     libPaths: paths,
     libConfig: config,
@@ -24,6 +24,7 @@ export async function dev({ port, open, registry }: DevOptions) {
     open: open !== 'false',
     port: port ? parseInt(port, 10) : undefined,
     registry,
+    local,
   });
   return builder.dev();
 }

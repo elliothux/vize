@@ -15,6 +15,7 @@ import { AttributesEditor } from 'components/AttributesEditor';
 import { HotAreaManager } from 'components/HotAreaManager';
 import { Login } from 'components/Login';
 import { ResourceManager } from 'components/ResourceManager';
+import { promiseWrapper } from './utils';
 import classNames from 'classnames';
 import LOGO from 'static/images/logo.svg';
 
@@ -27,11 +28,16 @@ const spinLoading = (
 
 function IApp() {
   const { previewMode } = editStore;
-
-  const [loading, setLoading] = React.useState<boolean>(true);
+  const [loading, setLoading] = React.useState(true);
+  const [err, setErr] = React.useState(false);
 
   useMount(async () => {
-    await init();
+    const [err] = await promiseWrapper(init());
+    if (err) {
+      setErr(true);
+      return;
+    }
+
     setLoading(false);
 
     events.only(EventEmitTypes.RELOAD_MATERIALS, async () => {
@@ -49,7 +55,7 @@ function IApp() {
     <I18nextProvider i18n={i18n}>
       <Spin
         spinning={loading}
-        tip={spinLoading as any}
+        tip={(err ? i18n.t('Error occurred') : spinLoading) as any}
         size="large"
         className="vize-editor-loading"
         wrapperClassName="vize-editor-loading-wrap"
