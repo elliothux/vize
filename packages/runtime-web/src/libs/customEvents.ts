@@ -1,17 +1,36 @@
-import { ComponentInstance, EventTriggerType, GlobalMeta, Maybe, PageRouter, PluginInstance } from '@vize/types';
+import { EventInstance, EventTriggerType, GlobalMeta, Maybe, PageRouter } from '@vize/types';
 import { pipeEvents } from '../utils/eventHandlers';
 
-const componentCustomEventCallbackMap = new Map<number, Map<string, Function[]>>();
-const pluginCustomEventCallbackMap = new Map<number, Map<string, Function[]>>();
+type CallbackType = 'component' | 'plugin' | 'global' | 'page';
+type CallbacksMap = Map<string, Function[]>;
 
-export function onCustomEvent(type: 'component' | 'plugin', key: number, eventName: string, callback: Function) {
-  const customEventCallbackMap = type === 'component' ? componentCustomEventCallbackMap : pluginCustomEventCallbackMap;
-  let callbacksMap = customEventCallbackMap.get(key);
-  if (!callbacksMap) {
-    callbacksMap = new Map<string, Function[]>();
-    customEventCallbackMap.set(key, callbacksMap);
+const globalCustomEventCallbackMap: CallbacksMap = new Map();
+const pagesCustomEventCallbackMap = new Map<number, CallbacksMap>();
+const componentCustomEventCallbackMap = new Map<number, CallbacksMap>();
+const pluginCustomEventCallbackMap = new Map<number, CallbacksMap>();
+
+function getCallbacksMap(type: CallbackType, autoCreate: boolean, key?: number): Maybe<CallbacksMap> {
+  let callbacksMap: CallbacksMap;
+  if (type === 'global') {
+    callbacksMap = globalCustomEventCallbackMap;
+  } else {
+    const customEventCallbackMap =
+      type === 'component'
+        ? componentCustomEventCallbackMap
+        : type === 'plugin'
+        ? pluginCustomEventCallbackMap
+        : pagesCustomEventCallbackMap;
+    callbacksMap = customEventCallbackMap.get(key!);
+    if (!callbacksMap && autoCreate) {
+      callbacksMap = new Map<string, Function[]>();
+      customEventCallbackMap.set(key!, callbacksMap);
+    }
   }
+  return callbacksMap;
+}
 
+export function onCustomEvent(type: CallbackType, eventName: string, callback: Function, key?: number) {
+  const callbacksMap = getCallbacksMap(type, true, key);
   const callbacks = callbacksMap.get(eventName);
   if (!callbacks) {
     callbacksMap.set(eventName, [callback]);
@@ -22,8 +41,8 @@ export function onCustomEvent(type: 'component' | 'plugin', key: number, eventNa
   return callbacks;
 }
 
-export function cancelCustomEvent(type: 'component' | 'plugin', key: number, eventName: string, callback: Function) {
-  const callbacksMap = (type === 'component' ? componentCustomEventCallbackMap : pluginCustomEventCallbackMap).get(key);
+export function cancelCustomEvent(type: CallbackType, eventName: string, callback: Function, key?: number) {
+  const callbacksMap = getCallbacksMap(type, false, key);
   if (!callbacksMap) {
     return;
   }
@@ -39,12 +58,8 @@ export function cancelCustomEvent(type: 'component' | 'plugin', key: number, eve
   return callbacks;
 }
 
-export function getCustomEventCallbacks(
-  type: 'component' | 'plugin',
-  key: number,
-  eventName: string,
-): Maybe<Function[]> {
-  const callbacksMap = (type === 'component' ? componentCustomEventCallbackMap : pluginCustomEventCallbackMap).get(key);
+export function getCustomEventCallbacks(type: CallbackType, eventName: string, key?: number): Maybe<Function[]> {
+  const callbacksMap = getCallbacksMap(type, false, key);
   if (!callbacksMap) {
     return null;
   }
@@ -53,19 +68,19 @@ export function getCustomEventCallbacks(
 }
 
 export function emitCustomEvent(
-  instance: ComponentInstance | PluginInstance,
+  events: EventInstance[],
   eventName: string,
   meta: GlobalMeta,
   global: object,
   router: PageRouter,
 ) {
-  const events = instance.events.filter(
+  const iEvents = events.filter(
     ({ trigger }) => trigger.type === EventTriggerType.Custom && trigger.triggerName === eventName,
   );
   if (!events.length) {
     return;
   }
 
-  const handler = pipeEvents(events, instance, router);
+  const handler = pipeEvents(iEvents, router);
   return handler(undefined, { global, meta });
 }

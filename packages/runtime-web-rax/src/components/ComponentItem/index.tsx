@@ -25,12 +25,12 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
   }
 
   const on = useCallback(
-    (eventName: string, callback: Function) => onCustomEvent('component', key, eventName, callback),
+    (eventName: string, callback: Function) => onCustomEvent('component', eventName, callback, key),
     [key],
   );
 
   const cancel = useCallback(
-    (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
+    (eventName: string, callback: Function) => cancelCustomEvent('component', eventName, callback, key),
     [key],
   );
 

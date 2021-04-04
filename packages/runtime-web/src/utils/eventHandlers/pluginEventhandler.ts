@@ -10,7 +10,6 @@ export interface PluginEventHandlers {
 function generateHandler(
   events: EventInstance[],
   trigger: EventTriggerName,
-  instance: PluginInstance,
   router: PageRouter,
 ): EventHandler | undefined {
   const iEvents = events.filter(e => e.trigger.triggerName === trigger);
@@ -18,7 +17,7 @@ function generateHandler(
     return undefined;
   }
 
-  return pipeEvents(iEvents, instance, router);
+  return pipeEvents(iEvents, router);
 }
 
 export function generatePluginHandlers(
@@ -32,12 +31,12 @@ export function generatePluginHandlers(
 
   const handlers: PluginEventHandlers = {};
 
-  const beforeExec = generateHandler(events, PluginUniversalEventTrigger.BEFORE_EXEC, instance, router);
+  const beforeExec = generateHandler(events, PluginUniversalEventTrigger.BEFORE_EXEC, router);
   if (beforeExec) {
     handlers[PluginUniversalEventTrigger.BEFORE_EXEC] = beforeExec;
   }
 
-  const afterExec = generateHandler(events, PluginUniversalEventTrigger.AFTER_EXEC, instance, router);
+  const afterExec = generateHandler(events, PluginUniversalEventTrigger.AFTER_EXEC, router);
   if (afterExec) {
     handlers[PluginUniversalEventTrigger.AFTER_EXEC] = afterExec;
   }

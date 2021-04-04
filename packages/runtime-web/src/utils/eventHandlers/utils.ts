@@ -1,31 +1,30 @@
+import { SyntheticEvent } from 'react';
 import { timeout } from 'promise-timeout';
 import {
   ComponentEventTarget,
-  ComponentInstance,
   EventInstance,
   EventTargetType,
   FirstParameter,
-  HotArea,
   MaterialsAction,
   Maybe,
   PageRouter,
   PluginEventTarget,
-  PluginInstance,
 } from '@vize/types';
 import { EventHandler, HandlerParams } from './types';
-import * as React from 'react';
 import { getCustomEventCallbacks, getMaterialsAction } from '../../libs';
+
+declare global {
+  interface Window {
+    __iframeWindow: Window;
+  }
+}
 
 export function timeoutPromise<T>(p: Promise<T>, t: number): Promise<T> {
   return timeout(p, t);
 }
 
-export function pipeEvents(
-  events: EventInstance[],
-  instance: ComponentInstance | PluginInstance | HotArea,
-  router: PageRouter,
-): EventHandler {
-  return async (originalEvent: Maybe<React.SyntheticEvent>, { meta, global }: HandlerParams) => {
+export function pipeEvents(events: EventInstance[], router: PageRouter): EventHandler {
+  return async (originalEvent: Maybe<SyntheticEvent>, { meta, global }: HandlerParams) => {
     for (const event of events) {
       const { target, data } = event;
       switch (target.type) {
@@ -43,7 +42,7 @@ export function pipeEvents(
 
         case EventTargetType.COMPONENT: {
           const { key, eventName } = target as ComponentEventTarget;
-          const callbacks = getCustomEventCallbacks('component', key, eventName);
+          const callbacks = getCustomEventCallbacks('component', eventName, key);
           if (!callbacks) {
             break;
           }
@@ -63,7 +62,7 @@ export function pipeEvents(
 
         case EventTargetType.PLUGIN: {
           const { key, eventName } = target as PluginEventTarget;
-          const callbacks = getCustomEventCallbacks('plugin', key, eventName);
+          const callbacks = getCustomEventCallbacks('plugin', eventName, key);
           if (!callbacks) {
             break;
           }

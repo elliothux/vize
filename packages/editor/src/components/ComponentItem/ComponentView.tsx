@@ -28,18 +28,19 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
 
   const on = useCallback(
-    (eventName: string, callback: Function) => onCustomEvent('component', key, eventName, callback),
+    (eventName: string, callback: Function) => onCustomEvent('component', eventName, callback, key),
     [key],
   );
 
   const cancel = useCallback(
-    (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
+    (eventName: string, callback: Function) => cancelCustomEvent('component', eventName, callback, key),
     [key],
   );
 
-  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalData, router), [
-    key,
-  ]);
+  const emit = useCallback(
+    (eventName: string) => emitCustomEvent(instance.events, eventName, metaInfo, globalData, router),
+    [key],
+  );
 
   const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [
     key,

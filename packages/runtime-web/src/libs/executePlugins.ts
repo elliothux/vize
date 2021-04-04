@@ -33,13 +33,13 @@ export function executePlugins(
       meta,
       router,
       on: (eventName, callback) => {
-        onCustomEvent('plugin', key, eventName, callback);
+        onCustomEvent('plugin', eventName, callback, key);
       },
       cancel: (eventName, callback) => {
-        cancelCustomEvent('plugin', key, eventName, callback);
+        cancelCustomEvent('plugin', eventName, callback, key);
       },
       emit: eventName => {
-        emitCustomEvent(instance, eventName, meta, global, router);
+        emitCustomEvent(instance.events, eventName, meta, global, router);
       },
     };
 

@@ -35,7 +35,7 @@ export function executePlugins(
       meta,
       router,
       on: (eventName, callback) => {
-        onCustomEvent('plugin', key, eventName, callback);
+        onCustomEvent('plugin', eventName, callback, key);
       },
       cancel: (eventName, callback) => {
         cancelCustomEvent('plugin', key, eventName, callback);

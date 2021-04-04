@@ -24,7 +24,6 @@ export interface NodeEventHandlers {
 function generateHandler(
   events: EventInstance[],
   trigger: EventTriggerName,
-  instance: ComponentInstance | HotArea,
   router: PageRouter,
 ): EventHandler | undefined {
   const iEvents = events.filter(e => e.trigger.triggerName === trigger);
@@ -32,7 +31,7 @@ function generateHandler(
     return undefined;
   }
 
-  return pipeEvents(iEvents, instance, router);
+  return pipeEvents(iEvents, router);
 }
 
 export function generateNodeHandlers(
@@ -49,43 +48,43 @@ export function generateNodeHandlers(
   const TriggerMap = isHotArea ? HotAreaUniversalEventTrigger : ComponentUniversalEventTrigger;
 
   if (!isHotArea) {
-    const onInit = generateHandler(events, ComponentUniversalEventTrigger.INIT, instance, router);
+    const onInit = generateHandler(events, ComponentUniversalEventTrigger.INIT, router);
     if (onInit) {
       handlers.onInit = onInit;
     }
   }
 
-  const onClick = generateHandler(events, TriggerMap.CLICK, instance, router);
+  const onClick = generateHandler(events, TriggerMap.CLICK, router);
   if (onClick) {
     handlers.onClick = onClick;
   }
 
-  const onMouseEnter = generateHandler(events, TriggerMap.MOUSE_ENTER, instance, router);
+  const onMouseEnter = generateHandler(events, TriggerMap.MOUSE_ENTER, router);
   if (onMouseEnter) {
     handlers.onMouseEnter = onMouseEnter;
   }
 
-  const onMouseLeave = generateHandler(events, TriggerMap.MOUSE_LEAVE, instance, router);
+  const onMouseLeave = generateHandler(events, TriggerMap.MOUSE_LEAVE, router);
   if (onMouseLeave) {
     handlers.onMouseLeave = onMouseLeave;
   }
 
-  const onDoubleClick = generateHandler(events, TriggerMap.DOUBLE_CLICK, instance, router);
+  const onDoubleClick = generateHandler(events, TriggerMap.DOUBLE_CLICK, router);
   if (onDoubleClick) {
     handlers.onDoubleClick = onDoubleClick;
   }
 
-  const onLongPress = generateHandler(events, TriggerMap.LONG_PRESS, instance, router);
+  const onLongPress = generateHandler(events, TriggerMap.LONG_PRESS, router);
   if (onLongPress) {
     handlers.onLongPress = onLongPress;
   }
 
-  const onEnterView = generateHandler(events, TriggerMap.ENTER_VIEW, instance, router);
+  const onEnterView = generateHandler(events, TriggerMap.ENTER_VIEW, router);
   if (onEnterView) {
     handlers.onEnterView = onEnterView;
   }
 
-  const onLeaveView = generateHandler(events, TriggerMap.LEAVE_VIEW, instance, router);
+  const onLeaveView = generateHandler(events, TriggerMap.LEAVE_VIEW, router);
   if (onLeaveView) {
     handlers.onLeaveView = onLeaveView;
   }

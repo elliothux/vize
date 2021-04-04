@@ -3,8 +3,6 @@ import * as Antd from 'antd';
 import * as ReactDom from 'react-dom';
 import * as ReactDomServer from 'react-dom/server';
 import { injectReadonly } from 'utils';
-// import babelPolyfill from 'babel-polyfill';
-// import * as antd from 'antd';
 
 declare global {
   interface Window {

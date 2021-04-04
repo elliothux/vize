@@ -4,9 +4,9 @@ import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
 import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore, sharedStore } from 'states';
-import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
+import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance, GlobalMeta } from 'types';
 import { loadUMDModuleFromString, injectStyle, registerHotkey, initDocument } from 'libs';
-import { setMaterialsMap, executePlugins } from 'runtime';
+import { setMaterialsMap, executePlugins, onCustomEvent, cancelCustomEvent, emitCustomEvent } from 'runtime';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
 import { InjectedStylesRender } from '../InjectedStylesRender';
@@ -96,6 +96,20 @@ export class Renderer extends React.Component {
     ]);
   };
 
+  private onGlobalEvent = (eventName: string, callback: Function) => {
+    return onCustomEvent('global', eventName, callback);
+  };
+
+  private cancelGlobalEvent = (eventName: string, callback: Function) => {
+    return cancelCustomEvent('global', eventName, callback);
+  };
+
+  private emitGlobalEvent = (eventName: string, meta: GlobalMeta, global: object) => {
+    const { globalEvents } = globalStore;
+    const { router } = pagesStore;
+    return emitCustomEvent(globalEvents, eventName, meta, global, router);
+  };
+
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
     const { globalData: global, globalStyle, metaInfo: meta } = globalStore;
     // TODO: implementRouterController
@@ -105,6 +119,9 @@ export class Renderer extends React.Component {
       meta,
       implementRouterController: console.log,
       render: () => this.setState({ ready: true }),
+      on: this.onGlobalEvent,
+      cancel: this.cancelGlobalEvent,
+      emit: this.emitGlobalEvent,
     });
   };
 

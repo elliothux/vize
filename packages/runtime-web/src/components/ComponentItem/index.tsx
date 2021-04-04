@@ -25,16 +25,18 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
   }
 
   const on = useCallback(
-    (eventName: string, callback: Function) => onCustomEvent('component', key, eventName, callback),
+    (eventName: string, callback: Function) => onCustomEvent('component', eventName, callback, key),
     [key],
   );
 
   const cancel = useCallback(
-    (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
+    (eventName: string, callback: Function) => cancelCustomEvent('component', eventName, callback, key),
     [key],
   );
 
-  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, meta, global, router), [key]);
+  const emit = useCallback((eventName: string) => emitCustomEvent(instance.events, eventName, meta, global, router), [
+    key,
+  ]);
 
   const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [
     key,

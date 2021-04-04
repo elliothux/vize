@@ -90,7 +90,7 @@ export enum EventTargetType {
   Action = 'action',
   Component = 'component',
   Plugin = 'plugin',
-  Global = 'container',
+  Global = 'global',
 }
 
 export interface ActionEventTarget {
