@@ -1,12 +1,27 @@
 import './index.scss';
 import * as React from 'react';
+import { ComponentType } from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
 import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore, sharedStore } from 'states';
-import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance, GlobalMeta } from 'types';
+import {
+  MaterialsMain,
+  Maybe,
+  ContainerRenderEntry,
+  ComponentInstance,
+  RouterProps,
+  GlobalUniversalEventTrigger,
+} from 'types';
 import { loadUMDModuleFromString, injectStyle, registerHotkey, initDocument } from 'libs';
-import { setMaterialsMap, executePlugins, onCustomEvent, cancelCustomEvent, emitCustomEvent } from 'runtime';
+import {
+  setMaterialsMap,
+  executePlugins,
+  onCustomEvent,
+  cancelCustomEvent,
+  emitCustomEvent,
+  generateGlobalEventHandlers,
+} from 'runtime';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
 import { InjectedStylesRender } from '../InjectedStylesRender';
@@ -44,8 +59,18 @@ export class Renderer extends React.Component {
       throw new Error('No renderEntry');
     }
 
-    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalData, pagesStore.router, win);
     this.callContainerRenderEntry(renderEntry);
+    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalData, pagesStore.router, win);
+    await this.execGlobalInitCallbacks();
+  };
+
+  private execGlobalInitCallbacks = async () => {
+    const { globalEvents, globalData: global, metaInfo: meta } = globalStore;
+    const { router } = pagesStore;
+    const handlers = generateGlobalEventHandlers(globalEvents, router);
+    if (handlers[GlobalUniversalEventTrigger.INIT]) {
+      await handlers[GlobalUniversalEventTrigger.INIT]!(null, { global, meta });
+    }
   };
 
   private initIframeDocument = (doc: Document, win: Window) => {
@@ -104,20 +129,24 @@ export class Renderer extends React.Component {
     return cancelCustomEvent('global', eventName, callback);
   };
 
-  private emitGlobalEvent = (eventName: string, meta: GlobalMeta, global: object) => {
-    const { globalEvents } = globalStore;
+  private emitGlobalEvent = (eventName: string) => {
+    const { globalEvents, globalData: global, metaInfo: meta } = globalStore;
     const { router } = pagesStore;
     return emitCustomEvent(globalEvents, eventName, meta, global, router);
   };
 
+  // TODO: implementRouterController
+  private implementRouterController = (CustomRouter: ComponentType<RouterProps>) => {
+    console.warn('"implementRouterController" not supported in editor for now', CustomRouter);
+  };
+
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
     const { globalData: global, globalStyle, metaInfo: meta } = globalStore;
-    // TODO: implementRouterController
     renderEntry({
       data: global,
       style: globalStyle,
       meta,
-      implementRouterController: console.log,
+      implementRouterController: this.implementRouterController,
       render: () => this.setState({ ready: true }),
       on: this.onGlobalEvent,
       cancel: this.cancelGlobalEvent,

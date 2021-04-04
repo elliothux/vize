@@ -9,12 +9,15 @@ import {
   deletePagePluginInstanceIndexMap,
   createPageInstance,
 } from 'libs';
+import { onCustomEvent, cancelCustomEvent, emitCustomEvent, generatePageEventHandlers } from 'runtime';
 import { StoreWithUtils } from './utils';
 import { selectStore } from './select';
+import { globalStore } from './global';
+import { PageUniversalEventTrigger } from '@vize/types';
 
 export class PagesStore extends StoreWithUtils<PagesStore> {
   public init = () => {
-    this.addPage(true, 'default page');
+    this.addPage(false, true, 'default page');
   };
 
   @observable
@@ -36,7 +39,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   };
 
   @action
-  public addPage = (isHome?: boolean, name?: string): void => {
+  public addPage = (select: boolean, isHome?: boolean, name?: string): void => {
     const page = createPageInstance(name || 'new page', isHome);
     this.pages.push(page);
 
@@ -44,7 +47,9 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     addPageComponentInstanceIndexMap(key);
     addPagePluginInstanceIndexMap(key);
 
-    selectStore.selectPage(this.pages.length - 1);
+    if (select) {
+      selectStore.selectPage(this.pages.length - 1);
+    }
   };
 
   @action
@@ -94,10 +99,27 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     });
   };
 
+  public executePageEventCallbacks = async (index: number, type: PageUniversalEventTrigger) => {
+    const { globalData: global, metaInfo: meta } = globalStore;
+    const { events } = this.pages[index]!;
+    const { [type]: callback } = generatePageEventHandlers(events, this.router);
+    if (callback) {
+      await callback(null, { global, meta });
+    }
+  };
+
   @computed
   get router(): PageRouter {
     return {
-      pages: this.pages,
+      pages: this.pages.map(page => ({
+        ...page,
+        on: (eventName: string, callback: Function) => onCustomEvent('page', eventName, callback, page.key),
+        cancel: (eventName: string, callback: Function) => cancelCustomEvent('page', eventName, callback, page.key),
+        emit: (eventName: string) => {
+          const { metaInfo: meta, globalData: global } = globalStore;
+          return emitCustomEvent(page.events, eventName, meta, global, this.router);
+        },
+      })),
       currentPage: this.currentPage.key,
       setCurrentPage: (key: number) => {
         const index = this.pages.findIndex(i => i.key === key);

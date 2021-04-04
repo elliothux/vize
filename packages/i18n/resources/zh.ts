@@ -29,7 +29,6 @@ export const zh = {
     disappear: '消失',
     'before execute': '执行前',
     'after execute': '执行后',
-    'before close': '退出前',
     'after enter page': '进入页面后',
     'before leave page': '离开页面前',
     TriggerWhen: '当 <1>$t({{trigger}})</1> 时 {{action}}',

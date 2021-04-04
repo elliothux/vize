@@ -2,13 +2,12 @@ import {
   ComponentInstance,
   ComponentUniversalEventTrigger,
   EventInstance,
-  EventTriggerName,
   HotArea,
   HotAreaUniversalEventTrigger,
   PageRouter,
 } from '@vize/types';
 import { EventHandler } from './types';
-import { pipeEvents } from './utils';
+import { generateHandler } from './utils';
 
 export interface NodeEventHandlers {
   onInit?: EventHandler;
@@ -21,20 +20,7 @@ export interface NodeEventHandlers {
   onLeaveView?: EventHandler;
 }
 
-function generateHandler(
-  events: EventInstance[],
-  trigger: EventTriggerName,
-  router: PageRouter,
-): EventHandler | undefined {
-  const iEvents = events.filter(e => e.trigger.triggerName === trigger);
-  if (!iEvents.length) {
-    return undefined;
-  }
-
-  return pipeEvents(iEvents, router);
-}
-
-export function generateNodeHandlers(
+export function generateNodeEventHandlers(
   events: EventInstance[],
   instance: ComponentInstance | HotArea,
   router: PageRouter,

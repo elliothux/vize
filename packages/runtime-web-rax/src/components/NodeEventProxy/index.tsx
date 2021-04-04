@@ -17,7 +17,7 @@ import {
   withPersistReactEvent,
   EventHandler,
   NodeEventHandlers,
-  generateNodeHandlers,
+  generateNodeEventHandlers,
   HandlerParams,
 } from '../../utils';
 
@@ -183,7 +183,7 @@ export class NodeEventProxy<T extends InstanceType> extends Rax.Component<Props<
       onLongPress,
       onEnterView,
       onLeaveView,
-    } = generateNodeHandlers(events, this.props.instance, this.props.router);
+    } = generateNodeEventHandlers(events, this.props.instance, this.props.router);
 
     const { handlers, withExecNodeObserverCallbacks } = this;
     const isComponent = this.props.childrenType === 'component';

@@ -21,7 +21,7 @@ function generateHandler(
   return pipeEvents(iEvents, instance, router);
 }
 
-export function generatePluginHandlers(
+export function generatePluginEventHandlers(
   events: EventInstance[],
   instance: PluginInstance,
   router: PageRouter,

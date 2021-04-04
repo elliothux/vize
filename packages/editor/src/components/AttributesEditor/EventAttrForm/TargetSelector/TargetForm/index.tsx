@@ -3,7 +3,7 @@ import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { ActionTargetSelector } from './ActionTargetSelector';
 import { ComponentTargetSelector } from './ComponentTargetSelector';
 import { PluginTargetSelector } from './PluginTargetSelector';
-import { ContainerTargetSelector } from './ContainerTargetSelector';
+import { GlobalTargetSelector } from './GlobalTargetSelector';
 
 interface FormProps {
   targetType: Maybe<EventTargetType>;
@@ -20,7 +20,7 @@ export function TargetForm({ targetType, ...props }: FormProps) {
     case EventTargetType.Plugin:
       return React.createElement(PluginTargetSelector, props);
     case EventTargetType.Global:
-      return React.createElement(ContainerTargetSelector, props);
+      return React.createElement(GlobalTargetSelector, props);
     default:
       return null;
   }

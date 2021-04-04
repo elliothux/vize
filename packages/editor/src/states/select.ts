@@ -1,7 +1,9 @@
-import { action, observable, toJS } from 'mobx';
+import { action, observable, runInAction, toJS } from 'mobx';
 import { getComponentSelectedCallback } from 'runtime';
 import { Maybe } from 'types';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
+import { pagesStore } from './pages';
+import { PageUniversalEventTrigger } from '@vize/types';
 
 export enum SelectType {
   GLOBAL = 'global',
@@ -28,7 +30,14 @@ export class SelectStore {
   @action
   public selectPage = (index: number) => {
     this.selectType = SelectType.PAGE;
-    this.pageIndex = index;
+    if (index === this.pageIndex) {
+      return;
+    }
+
+    pagesStore.executePageEventCallbacks(this.pageIndex, PageUniversalEventTrigger.BEFORE_LEAVE_PAGE).then(() => {
+      runInAction(() => (this.pageIndex = index));
+      return pagesStore.executePageEventCallbacks(index, PageUniversalEventTrigger.AFTER_ENTER_PAGE);
+    });
   };
 
   public isCurrentPage = (index: number) => {

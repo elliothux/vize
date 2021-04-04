@@ -67,14 +67,8 @@ export enum PluginUniversalEventTrigger {
   AFTER_EXEC = '__vize_plugin_event_trigger_after_exec',
 }
 
-export enum ContainerUniversalEventTrigger {
-  BEFORE_RENDER = '__vize_container_event_trigger_before_render',
-  AFTER_RENDER = '__vize_container_event_trigger_after_render',
-}
-
 export enum GlobalUniversalEventTrigger {
   INIT = '__vize_global_event_trigger_init',
-  BEFORE_CLOSE = '__vize_global_event_trigger_before_close',
 }
 
 export enum PageUniversalEventTrigger {
@@ -111,8 +105,8 @@ export interface PluginEventTarget extends Omit<ComponentEventTarget, 'type'> {
   type: EventTargetType.Plugin;
 }
 
-export interface ContainerEventTarget extends Omit<ComponentEventTarget, 'key' | 'type'> {
+export interface GlobalEventTarget extends Omit<ComponentEventTarget, 'key' | 'type'> {
   type: EventTargetType.Global;
 }
 
-export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget | ContainerEventTarget;
+export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget | GlobalEventTarget;

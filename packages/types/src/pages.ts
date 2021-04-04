@@ -20,8 +20,14 @@ export enum PageMode {
   MULTI = 'multi',
 }
 
+export interface RouterPageItem extends PageInstance {
+  on: (eventName: string, callback: Function) => void;
+  cancel: (eventName: string, callback: Function) => void;
+  emit: (eventName: string) => void;
+}
+
 export interface PageRouter {
-  pages: PageInstance[];
+  pages: RouterPageItem[];
   currentPage: number;
   setCurrentPage: (pageKey: number) => void;
 }

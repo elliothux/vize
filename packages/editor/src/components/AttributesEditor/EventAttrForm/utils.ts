@@ -31,12 +31,11 @@ const PluginUniversalEventTriggerDisplayMap: { [key: string]: [string, Component
 
 const GlobalUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
   [GlobalUniversalEventTrigger.INIT]: [i18n.t('initialization'), MdBlurCircular],
-  [GlobalUniversalEventTrigger.BEFORE_CLOSE]: [i18n.t('before close'), FiMousePointer],
 };
 
 const PageUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
   [PageUniversalEventTrigger.AFTER_ENTER_PAGE]: [i18n.t('after enter page'), MdBlurCircular],
-  [PageUniversalEventTrigger.BEFORE_LEAVE_PAGE]: [i18n.t('before leave page'), FiMousePointer],
+  [PageUniversalEventTrigger.BEFORE_LEAVE_PAGE]: [i18n.t('before leave page'), MdBlurCircular],
 };
 
 const HotAreaUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {

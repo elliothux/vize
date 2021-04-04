@@ -8,7 +8,7 @@ import {
 } from '@vize/types';
 import { cancelCustomEvent, emitCustomEvent, onCustomEvent } from './customEvents';
 import { getMaterialsPlugin } from './materialsMap';
-import { generatePluginHandlers } from '../utils/eventHandlers';
+import { generatePluginEventHandlers } from '../utils/eventHandlers';
 
 export function executePlugins(
   pluginInstances: PluginInstanceDSL[],
@@ -19,7 +19,7 @@ export function executePlugins(
 ) {
   return pluginInstances.forEach(async instance => {
     const { key, plugin, data, events } = instance;
-    const handlers = generatePluginHandlers(events, instance, router);
+    const handlers = generatePluginEventHandlers(events, router);
 
     if (handlers[PluginUniversalEventTrigger.BEFORE_EXEC]) {
       await handlers[PluginUniversalEventTrigger.BEFORE_EXEC]!(null, { global, meta });

@@ -1,30 +1,13 @@
-import { EventInstance, EventTriggerName, PageRouter, PluginInstance, PluginUniversalEventTrigger } from '@vize/types';
+import { EventInstance, PageRouter, PluginUniversalEventTrigger } from '@vize/types';
 import { EventHandler } from './types';
-import { pipeEvents } from './utils';
+import { generateHandler } from './utils';
 
 export interface PluginEventHandlers {
   [PluginUniversalEventTrigger.BEFORE_EXEC]?: EventHandler;
   [PluginUniversalEventTrigger.AFTER_EXEC]?: EventHandler;
 }
 
-function generateHandler(
-  events: EventInstance[],
-  trigger: EventTriggerName,
-  router: PageRouter,
-): EventHandler | undefined {
-  const iEvents = events.filter(e => e.trigger.triggerName === trigger);
-  if (!iEvents.length) {
-    return undefined;
-  }
-
-  return pipeEvents(iEvents, router);
-}
-
-export function generatePluginHandlers(
-  events: EventInstance[],
-  instance: PluginInstance,
-  router: PageRouter,
-): PluginEventHandlers {
+export function generatePluginEventHandlers(events: EventInstance[], router: PageRouter): PluginEventHandlers {
   if (!events.length) {
     return {};
   }

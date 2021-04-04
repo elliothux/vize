@@ -10,7 +10,7 @@ const componentCustomEventCallbackMap = new Map<number, CallbacksMap>();
 const pluginCustomEventCallbackMap = new Map<number, CallbacksMap>();
 
 function getCallbacksMap(type: CallbackType, autoCreate: boolean, key?: number): Maybe<CallbacksMap> {
-  let callbacksMap: CallbacksMap;
+  let callbacksMap: Maybe<CallbacksMap>;
   if (type === 'global') {
     callbacksMap = globalCustomEventCallbackMap;
   } else {
@@ -31,9 +31,9 @@ function getCallbacksMap(type: CallbackType, autoCreate: boolean, key?: number):
 
 export function onCustomEvent(type: CallbackType, eventName: string, callback: Function, key?: number) {
   const callbacksMap = getCallbacksMap(type, true, key);
-  const callbacks = callbacksMap.get(eventName);
+  const callbacks = callbacksMap?.get(eventName);
   if (!callbacks) {
-    callbacksMap.set(eventName, [callback]);
+    callbacksMap?.set(eventName, [callback]);
   } else {
     callbacks.push(callback);
   }

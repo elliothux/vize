@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useState } from 'react';
-import { ContainerEventTarget, EventTargetType, EventTriggerName, Maybe } from 'types';
+import { GlobalEventTarget, EventTargetType, EventTriggerName, Maybe } from 'types';
 import { Button, Select } from 'antd';
 import { Trans } from 'react-i18next';
 import { FiLayers, FiPlus } from 'react-icons/fi';
@@ -15,7 +15,7 @@ interface Props {
 
 const { Option: SelectOption } = Select;
 
-export function ContainerTargetSelector({ trigger, setTrigger }: Props) {
+export function GlobalTargetSelector({ trigger, setTrigger }: Props) {
   const { globalOnEvents } = getMaterialsContainerMeta()!;
 
   const [targetEvent, setTargetEvent] = useState<Maybe<string>>(null);
@@ -26,7 +26,7 @@ export function ContainerTargetSelector({ trigger, setTrigger }: Props) {
       type: EventTargetType.Global,
       eventName,
       maxTimeout,
-    } as ContainerEventTarget);
+    } as GlobalEventTarget);
     setTargetEvent(null);
     setTrigger(null);
   }, [targetEvent, trigger]);

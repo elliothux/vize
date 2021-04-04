@@ -11,7 +11,7 @@ import { HeaderOptions, MaterialsViewType } from '../../HeaderOptions';
 @observer
 export class PagesList extends React.Component {
   private addPage = () => {
-    pagesStore.addPage(false);
+    pagesStore.addPage(true, false);
   };
 
   private renderHeader = () => {
