@@ -13,7 +13,8 @@ import { generatePluginEventHandlers } from '../utils/eventHandlers';
 export function executePlugins(
   pluginInstances: PluginInstanceDSL[],
   meta: GlobalMeta,
-  global: object,
+  globalData: object,
+  pageData: object,
   router: PageRouter,
   win: Window = window,
 ) {
@@ -22,14 +23,15 @@ export function executePlugins(
     const handlers = generatePluginEventHandlers(events, router);
 
     if (handlers[PluginUniversalEventTrigger.BEFORE_EXEC]) {
-      await handlers[PluginUniversalEventTrigger.BEFORE_EXEC]!(null, { global, meta });
+      await handlers[PluginUniversalEventTrigger.BEFORE_EXEC]!(null, { globalData, pageData, meta });
     }
 
     const pluginFunction: MaterialsPlugin = getMaterialsPlugin(plugin)!;
     const params: PluginParams = {
       pluginKey: key,
       data,
-      global,
+      globalData,
+      pageData,
       meta,
       router,
       on: (eventName, callback) => {
@@ -39,7 +41,7 @@ export function executePlugins(
         cancelCustomEvent('plugin', eventName, callback, key);
       },
       emit: eventName => {
-        emitCustomEvent(instance.events, eventName, meta, global, router);
+        emitCustomEvent(instance.events, eventName, meta, globalData, pageData, router);
       },
     };
 
@@ -50,7 +52,7 @@ export function executePlugins(
     }
 
     if (handlers[PluginUniversalEventTrigger.AFTER_EXEC]) {
-      await handlers[PluginUniversalEventTrigger.AFTER_EXEC]!(null, { global, meta });
+      await handlers[PluginUniversalEventTrigger.AFTER_EXEC]!(null, { globalData, pageData, meta });
     }
   });
 }

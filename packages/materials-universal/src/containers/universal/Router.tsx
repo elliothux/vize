@@ -11,8 +11,6 @@ export function Router({ pages, dynamicPageImports, SharedComponentInstances }: 
     ref.current?.slide?.(pages.findIndex(page => page.key === currentPage));
   }, [currentPage]);
 
-  // TODO: remove
-  (window as any).vize_router = router;
   return (
     <>
       <SharedComponentInstances router={router} />

@@ -1,9 +1,7 @@
 import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
-import { GlobalMeta } from './global';
-import { PageRouter } from './pages';
-import { ComponentInstance } from './component';
+import { ComponentInstance, ComponentProps } from './component';
 
 export interface MaterialsActionMeta {
   identityName: string;
@@ -17,12 +15,9 @@ export interface MaterialsActionMeta {
   readonly maxTimeout?: 'infinity' | number;
 }
 
-// TODO
-export interface ActionParams<D extends object = ComponentInstance['data'], G extends object = object> {
+export interface ActionParams<D extends object = ComponentInstance['data']>
+  extends Pick<ComponentProps, 'router' | 'meta' | 'globalData' | 'pageData'> {
   data: D;
-  global: G;
-  meta: GlobalMeta;
-  router: PageRouter;
 }
 
 export type MaterialsAction = (params: ActionParams) => void | Promise<void>;

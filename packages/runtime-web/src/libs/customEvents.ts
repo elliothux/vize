@@ -71,7 +71,8 @@ export function emitCustomEvent(
   events: EventInstance[],
   eventName: string,
   meta: GlobalMeta,
-  global: object,
+  globalData: object,
+  pageData: object,
   router: PageRouter,
 ) {
   const iEvents = events.filter(
@@ -82,5 +83,5 @@ export function emitCustomEvent(
   }
 
   const handler = pipeEvents(iEvents, router);
-  return handler(undefined, { global, meta });
+  return handler(undefined, { globalData, pageData, meta });
 }

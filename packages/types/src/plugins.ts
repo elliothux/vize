@@ -2,7 +2,6 @@ import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent, EventInstance } from './events';
 import { ComponentInstance, ComponentProps } from './component';
-import { PageRouter } from './pages';
 
 export interface MaterialsPluginMeta {
   identityName: string;
@@ -25,13 +24,10 @@ export interface PluginInstance {
   events: EventInstance[];
 }
 
-// TODO
-export interface PluginParams<D extends object = ComponentInstance['data'], G extends object = object>
-  extends Pick<ComponentProps, 'on' | 'cancel' | 'emit' | 'meta'> {
+export interface PluginParams<D extends object = ComponentInstance['data']>
+  extends Pick<ComponentProps, 'on' | 'cancel' | 'emit' | 'router' | 'meta' | 'globalData' | 'pageData'> {
   pluginKey: number;
   data: D;
-  global: G;
-  router: PageRouter;
 }
 
 export type MaterialsPlugin = (params: PluginParams) => void;

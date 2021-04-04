@@ -19,6 +19,7 @@ import {
   generateNodeEventHandlers,
   HandlerParams,
 } from '../../utils';
+import { pagesStore } from '../../../states';
 
 type InstanceType = ComponentInstance | HotArea;
 
@@ -60,7 +61,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
   constructor(props: Props<T>) {
     super(props);
-    this.handlerParams = { global: props.global!, meta: props.meta! };
+    this.handlerParams = { globalData: props.global!, pageData: pagesStore.currentPage.data, meta: props.meta! };
   }
 
   public componentDidMount(): void {

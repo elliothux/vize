@@ -21,7 +21,9 @@ export interface MaterialsContainerMeta {
   readonly isBuildIn?: boolean;
 }
 
-export interface RenderEntryParams extends Pick<ComponentProps, 'data' | 'style' | 'meta' | 'on' | 'cancel' | 'emit'> {
+export interface RenderEntryParams extends Pick<ComponentProps, 'meta' | 'on' | 'cancel' | 'emit'> {
+  globalData: object;
+  globalStyle: object;
   render: Function;
   implementRouterController: (CustomRouter: ComponentType<RouterProps>) => void;
 }

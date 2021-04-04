@@ -12,16 +12,24 @@ import { AppRenderProps } from '../AppRender/types';
 import { ComponentInstances } from '../ComponentInstances';
 import { HotAreas } from '../HotAreas';
 
-interface ItemProps extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
+interface ItemProps extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta' | 'router'> {
   instance: ComponentInstance;
 }
 
-export function ComponentItem({ instance, global, meta, router }: ItemProps) {
+export function ComponentItem({ instance, globalData, pageData, meta, router }: ItemProps) {
   const { key, component, data, style, commonStyle, children } = instance;
 
   let childrenNode;
   if (children?.length) {
-    childrenNode = <ComponentInstances global={global} meta={meta} componentInstances={children} router={router} />;
+    childrenNode = (
+      <ComponentInstances
+        globalData={globalData}
+        pageData={pageData}
+        meta={meta}
+        componentInstances={children}
+        router={router}
+      />
+    );
   }
 
   const on = useCallback(
@@ -34,9 +42,10 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
     [key],
   );
 
-  const emit = useCallback((eventName: string) => emitCustomEvent(instance.events, eventName, meta, global, router), [
-    key,
-  ]);
+  const emit = useCallback(
+    (eventName: string) => emitCustomEvent(instance.events, eventName, meta, globalData, pageData, router),
+    [key],
+  );
 
   const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [
     key,
@@ -56,9 +65,10 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
       onSelected={onSelected}
       instance={instance}
       meta={meta}
-      global={global}
+      globalData={globalData}
+      pageData={pageData}
       router={router}
-      hotAreas={<HotAreas instance={instance} global={global} meta={meta} router={router} />}
+      hotAreas={<HotAreas instance={instance} globalData={globalData} meta={meta} router={router} />}
     >
       {childrenNode}
     </ViewRender>

@@ -32,7 +32,7 @@ export interface PageRouter {
   setCurrentPage: (pageKey: number) => void;
 }
 
-export interface RouterProps extends Pick<ComponentProps, 'global' | 'meta'> {
+export interface RouterProps extends Pick<ComponentProps, 'globalData' | 'meta'> {
   pages: PageRouter['pages'];
   dynamicImports: { [key: number]: () => Promise<{ PageRender: ComponentType<object> }> };
   SharedComponentInstances: ComponentType<{ router: PageRouter }>;

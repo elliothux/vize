@@ -36,7 +36,7 @@ module.exports = {
       },
     ],
     'max-nested-callbacks': ['error', { max: 4 }],
-    'max-params': ['error', { max: 5 }],
+    'max-params': ['error', { max: 6 }],
     'max-depth': ['error', { max: 5 }],
     '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,

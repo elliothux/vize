@@ -21,7 +21,10 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   const { key, component, data, style, commonStyle, wrapperStyle } = instance;
   const { previewMode } = editStore;
   const { metaInfo, globalData } = globalStore;
-  const { router } = pagesStore;
+  const {
+    router,
+    currentPage: { data: pageData },
+  } = pagesStore;
 
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
   const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
@@ -38,7 +41,7 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   );
 
   const emit = useCallback(
-    (eventName: string) => emitCustomEvent(instance.events, eventName, metaInfo, globalData, router),
+    (eventName: string) => emitCustomEvent(instance.events, eventName, metaInfo, globalData, pageData, router),
     [key],
   );
 
@@ -63,7 +66,8 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
         style={style}
         commonStyle={iCommonStyle}
         instance={instance}
-        global={globalData}
+        globalData={globalData}
+        pageData={pageData}
         meta={metaInfo}
         on={on}
         cancel={cancel}

@@ -4,21 +4,34 @@ import { AppRenderProps } from './types';
 import { ComponentInstances } from '../ComponentInstances';
 
 export function AppRender({
-  global,
   meta,
+  globalData,
+  pageData,
   componentInstances,
   pluginInstances,
   sharedComponentInstances,
   router,
 }: AppRenderProps) {
-  React.useEffect(() => executePlugins(pluginInstances, meta, global, router), []);
+  React.useEffect(() => executePlugins(pluginInstances, meta, globalData, pageData, router), []);
 
   return (
     <>
       {sharedComponentInstances ? (
-        <ComponentInstances global={global} meta={meta} componentInstances={sharedComponentInstances} router={router} />
+        <ComponentInstances
+          meta={meta}
+          pageData={pageData}
+          globalData={globalData}
+          componentInstances={sharedComponentInstances}
+          router={router}
+        />
       ) : null}
-      <ComponentInstances global={global} meta={meta} router={router} componentInstances={componentInstances} />
+      <ComponentInstances
+        meta={meta}
+        pageData={pageData}
+        globalData={globalData}
+        router={router}
+        componentInstances={componentInstances}
+      />
     </>
   );
 }

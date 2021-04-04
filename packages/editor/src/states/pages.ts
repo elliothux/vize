@@ -100,11 +100,11 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   };
 
   public executePageEventCallbacks = async (index: number, type: PageUniversalEventTrigger) => {
-    const { globalData: global, metaInfo: meta } = globalStore;
-    const { events } = this.pages[index]!;
+    const { globalData, metaInfo: meta } = globalStore;
+    const { events, data: pageData } = this.pages[index]!;
     const { [type]: callback } = generatePageEventHandlers(events, this.router);
     if (callback) {
-      await callback(null, { global, meta });
+      await callback(null, { globalData, pageData, meta });
     }
   };
 
@@ -116,8 +116,9 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
         on: (eventName: string, callback: Function) => onCustomEvent('page', eventName, callback, page.key),
         cancel: (eventName: string, callback: Function) => cancelCustomEvent('page', eventName, callback, page.key),
         emit: (eventName: string) => {
-          const { metaInfo: meta, globalData: global } = globalStore;
-          return emitCustomEvent(page.events, eventName, meta, global, this.router);
+          const { metaInfo: meta, globalData } = globalStore;
+          const { data: pageData } = this.currentPage;
+          return emitCustomEvent(page.events, eventName, meta, globalData, pageData, this.router);
         },
       })),
       currentPage: this.currentPage.key,

@@ -4,21 +4,32 @@ import { ComponentInstance, Maybe, PageRouter } from '@vize/types';
 import { ComponentInstances } from '../../components/ComponentInstances';
 import { AppRenderProps } from '../AppRender/types';
 
-export interface RouterProps extends Pick<AppRenderProps, 'global' | 'meta'> {
+export interface RouterProps extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta'> {
   pages: PageRouter['pages'];
   dynamicPageImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<any> }> };
   sharedComponentInstances: ComponentInstance[];
 }
 
-export function Router({ pages, dynamicPageImports, sharedComponentInstances, global, meta }: RouterProps) {
+export function Router({
+  pages,
+  dynamicPageImports,
+  sharedComponentInstances,
+  globalData,
+  pageData,
+  meta,
+}: RouterProps) {
   const [currentPage, setCurrentPage] = useState(pages[0].key);
   const router = useMemo<PageRouter>(() => ({ pages, currentPage, setCurrentPage }), [currentPage]);
 
-  // TODO: remove
-  (window as any).vize_router = router;
   return (
     <>
-      <ComponentInstances global={global} meta={meta} componentInstances={sharedComponentInstances} router={router} />
+      <ComponentInstances
+        meta={meta}
+        pageData={pageData}
+        globalData={globalData}
+        componentInstances={sharedComponentInstances}
+        router={router}
+      />
       <PageLoader router={router} dynamicImports={dynamicPageImports} />
     </>
   );

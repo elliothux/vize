@@ -59,17 +59,24 @@ export class Renderer extends React.Component {
       throw new Error('No renderEntry');
     }
 
+    const { metaInfo, globalData } = globalStore;
+    const {
+      currentPage: { data: pageData },
+    } = pagesStore;
     this.callContainerRenderEntry(renderEntry);
-    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalData, pagesStore.router, win);
+    executePlugins(pluginsStore.pluginInstances, metaInfo, globalData, pageData, pagesStore.router, win);
     await this.execGlobalInitCallbacks();
   };
 
   private execGlobalInitCallbacks = async () => {
-    const { globalEvents, globalData: global, metaInfo: meta } = globalStore;
-    const { router } = pagesStore;
+    const { globalEvents, globalData, metaInfo: meta } = globalStore;
+    const {
+      router,
+      currentPage: { data: pageData },
+    } = pagesStore;
     const handlers = generateGlobalEventHandlers(globalEvents, router);
     if (handlers[GlobalUniversalEventTrigger.INIT]) {
-      await handlers[GlobalUniversalEventTrigger.INIT]!(null, { global, meta });
+      await handlers[GlobalUniversalEventTrigger.INIT]!(null, { globalData, pageData, meta });
     }
   };
 
@@ -130,9 +137,12 @@ export class Renderer extends React.Component {
   };
 
   private emitGlobalEvent = (eventName: string) => {
-    const { globalEvents, globalData: global, metaInfo: meta } = globalStore;
-    const { router } = pagesStore;
-    return emitCustomEvent(globalEvents, eventName, meta, global, router);
+    const { globalEvents, globalData, metaInfo: meta } = globalStore;
+    const {
+      router,
+      currentPage: { data: pageData },
+    } = pagesStore;
+    return emitCustomEvent(globalEvents, eventName, meta, globalData, pageData, router);
   };
 
   // TODO: implementRouterController
@@ -141,10 +151,10 @@ export class Renderer extends React.Component {
   };
 
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
-    const { globalData: global, globalStyle, metaInfo: meta } = globalStore;
+    const { globalData, globalStyle, metaInfo: meta } = globalStore;
     renderEntry({
-      data: global,
-      style: globalStyle,
+      globalData,
+      globalStyle,
       meta,
       implementRouterController: this.implementRouterController,
       render: () => this.setState({ ready: true }),

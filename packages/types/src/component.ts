@@ -84,14 +84,14 @@ export type ComponentSelectedCallback = (params: ComponentSelectedCallbackParams
 
 export interface ComponentProps<
   D extends object = ComponentInstance['data'],
-  S extends object = ComponentInstance['style'],
-  G extends object = object
+  S extends object = ComponentInstance['style']
 > extends Pick<ComponentInstance, 'commonStyle'> {
   componentKey: Readonly<number>;
   data: D;
   style: S;
-  global: G;
   meta: GlobalMeta;
+  globalData: object;
+  pageData: object;
   instance: ComponentInstance;
   hotAreas?: ReactElement;
   on: (eventName: string, callback: Function) => void;
