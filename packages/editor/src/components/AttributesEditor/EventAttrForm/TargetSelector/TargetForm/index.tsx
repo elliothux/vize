@@ -13,13 +13,13 @@ interface FormProps {
 
 export function TargetForm({ targetType, ...props }: FormProps) {
   switch (targetType) {
-    case EventTargetType.ACTION:
+    case EventTargetType.Action:
       return React.createElement(ActionTargetSelector, props);
-    case EventTargetType.COMPONENT:
+    case EventTargetType.Component:
       return React.createElement(ComponentTargetSelector, props);
-    case EventTargetType.PLUGIN:
+    case EventTargetType.Plugin:
       return React.createElement(PluginTargetSelector, props);
-    case EventTargetType.CONTAINER:
+    case EventTargetType.Global:
       return React.createElement(ContainerTargetSelector, props);
     default:
       return null;

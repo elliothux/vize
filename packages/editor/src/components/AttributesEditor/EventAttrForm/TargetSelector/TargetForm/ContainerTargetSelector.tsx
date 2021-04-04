@@ -16,14 +16,14 @@ interface Props {
 const { Option: SelectOption } = Select;
 
 export function ContainerTargetSelector({ trigger, setTrigger }: Props) {
-  const { onEvents } = getMaterialsContainerMeta()!;
+  const { globalOnEvents } = getMaterialsContainerMeta()!;
 
   const [targetEvent, setTargetEvent] = useState<Maybe<string>>(null);
 
   const onAddAction = useCallback(() => {
-    const { eventName, maxTimeout = DEFAULT_MAX_TIMEOUT } = onEvents!.find(i => i.eventName === targetEvent)!;
+    const { eventName, maxTimeout = DEFAULT_MAX_TIMEOUT } = globalOnEvents!.find(i => i.eventName === targetEvent)!;
     eventStore.addEventInstance(trigger!, {
-      type: EventTargetType.CONTAINER,
+      type: EventTargetType.Global,
       eventName,
       maxTimeout,
     } as ContainerEventTarget);
@@ -43,7 +43,7 @@ export function ContainerTargetSelector({ trigger, setTrigger }: Props) {
           className="event-form-selector"
           dropdownClassName="event-form-selector-options"
         >
-          {onEvents?.map(({ eventName, displayName }) => (
+          {globalOnEvents?.map(({ eventName, displayName }) => (
             <SelectOption value={eventName} key={eventName}>
               <FiLayers />
               {displayName}

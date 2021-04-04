@@ -27,10 +27,10 @@ export function EventInstanceTrigger({ trigger, target, customEvents }: Props) {
 
 function getTargetTypeDesc(type: EventTargetType) {
   const descMap = {
-    [EventTargetType.ACTION]: 'Execute action',
-    [EventTargetType.PLUGIN]: 'Trigger plugin',
-    [EventTargetType.COMPONENT]: 'Trigger component',
-    [EventTargetType.CONTAINER]: 'Trigger container',
+    [EventTargetType.Action]: 'Execute action',
+    [EventTargetType.Plugin]: 'Trigger plugin',
+    [EventTargetType.Component]: 'Trigger component',
+    [EventTargetType.Global]: 'Trigger container',
   };
   return descMap[type];
 }

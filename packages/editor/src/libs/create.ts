@@ -87,7 +87,7 @@ export function createEventInstance(
 ): EventInstance {
   return {
     key: generateKey(InstanceKeyType.Action),
-    data: target.type === EventTargetType.ACTION ? getFormDefaultValue(action!.dataForm) : undefined,
+    data: target.type === EventTargetType.Action ? getFormDefaultValue(action!.dataForm) : undefined,
     trigger,
     target,
     events: [],

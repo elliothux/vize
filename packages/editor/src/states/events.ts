@@ -38,7 +38,7 @@ import { pagesStore } from './pages';
 export class EventStore {
   @action
   public addEventInstance = (triggerName: EventTriggerName, target: EventTarget) => {
-    const action = target.type === EventTargetType.ACTION ? getMaterialsActionMeta(target.id)! : undefined;
+    const action = target.type === EventTargetType.Action ? getMaterialsActionMeta(target.id)! : undefined;
 
     switch (selectStore.selectType) {
       case SelectType.COMPONENT: {
@@ -157,10 +157,10 @@ export class EventStore {
 
   private addEventDep = (target: EventTarget, depFrom: DepFrom) => {
     switch (target.type) {
-      case EventTargetType.COMPONENT: {
+      case EventTargetType.Component: {
         return componentEventDepsMap.addEventDep((target as ComponentEventTarget).key, depFrom);
       }
-      case EventTargetType.PLUGIN: {
+      case EventTargetType.Plugin: {
         return pluginEventDepsMap.addEventDep((target as PluginEventTarget).key, depFrom);
       }
       /**
@@ -249,14 +249,14 @@ export class EventStore {
   @action
   private deleteEventDep = ({ target, key: eventInstanceKey }: EventInstance) => {
     switch (target.type) {
-      case EventTargetType.COMPONENT: {
+      case EventTargetType.Component: {
         return componentEventDepsMap.deleteEventDep(
           (target as ComponentEventTarget).key,
           DepsFromType.Component,
           eventInstanceKey,
         );
       }
-      case EventTargetType.PLUGIN: {
+      case EventTargetType.Plugin: {
         return pluginEventDepsMap.deleteEventDep(
           (target as PluginEventTarget).key,
           DepsFromType.Plugin,

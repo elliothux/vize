@@ -24,16 +24,16 @@ export function TargetSelector({ targetType, setTargetType }: Props) {
         value={targetType || undefined}
         onChange={setTargetType}
       >
-        <SelectOption value={EventTargetType.ACTION}>
+        <SelectOption value={EventTargetType.Action}>
           <Trans>Action</Trans>
         </SelectOption>
-        <SelectOption value={EventTargetType.COMPONENT}>
+        <SelectOption value={EventTargetType.Component}>
           <Trans>Component</Trans>
         </SelectOption>
-        <SelectOption value={EventTargetType.PLUGIN}>
+        <SelectOption value={EventTargetType.Plugin}>
           <Trans>Plugin</Trans>
         </SelectOption>
-        <SelectOption value={EventTargetType.CONTAINER}>
+        <SelectOption value={EventTargetType.Global}>
           <Trans>Container</Trans>
         </SelectOption>
       </Select>

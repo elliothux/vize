@@ -87,32 +87,32 @@ export enum PageUniversalEventTrigger {
  */
 
 export enum EventTargetType {
-  ACTION = 'action',
-  COMPONENT = 'component',
-  PLUGIN = 'plugin',
-  CONTAINER = 'container',
+  Action = 'action',
+  Component = 'component',
+  Plugin = 'plugin',
+  Global = 'container',
 }
 
 export interface ActionEventTarget {
-  type: EventTargetType.ACTION;
+  type: EventTargetType.Action;
   id: string;
   lib: string;
   maxTimeout: number | 'infinity';
 }
 
 export interface ComponentEventTarget {
-  type: EventTargetType.COMPONENT;
+  type: EventTargetType.Component;
   key: number;
   eventName: string;
   maxTimeout: number | 'infinity';
 }
 
 export interface PluginEventTarget extends Omit<ComponentEventTarget, 'type'> {
-  type: EventTargetType.PLUGIN;
+  type: EventTargetType.Plugin;
 }
 
 export interface ContainerEventTarget extends Omit<ComponentEventTarget, 'key' | 'type'> {
-  type: EventTargetType.CONTAINER;
+  type: EventTargetType.Global;
 }
 
 export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget | ContainerEventTarget;

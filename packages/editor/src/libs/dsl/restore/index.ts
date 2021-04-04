@@ -126,9 +126,9 @@ function restoreEventDep(
       ? generateEventDepFromItem(depsFromType, parentInstance, event, index)
       : generateEventDepFromItem(depsFromType, instance as ComponentInstance | PluginInstance, event);
 
-    if (target.type === EventTargetType.COMPONENT) {
+    if (target.type === EventTargetType.Component) {
       componentEventDepsMap.addEventDep((target as ComponentEventTarget).key, depForm);
-    } else if (target.type === EventTargetType.PLUGIN) {
+    } else if (target.type === EventTargetType.Plugin) {
       pluginEventDepsMap.addEventDep((target as PluginEventTarget).key, depForm);
     }
   });

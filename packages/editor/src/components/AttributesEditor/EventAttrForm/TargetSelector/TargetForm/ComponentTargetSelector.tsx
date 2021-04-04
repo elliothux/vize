@@ -34,7 +34,7 @@ function IComponentTargetSelector({ trigger, setTrigger }: Props) {
 
   const onAddAction = useCallback(() => {
     eventStore.addEventInstance(trigger!, {
-      type: EventTargetType.COMPONENT,
+      type: EventTargetType.Component,
       eventName: eventName!,
       key: key!,
       maxTimeout,

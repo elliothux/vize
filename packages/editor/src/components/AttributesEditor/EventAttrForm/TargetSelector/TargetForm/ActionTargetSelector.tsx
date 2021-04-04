@@ -30,7 +30,7 @@ export function ActionTargetSelector({ trigger, setTrigger }: Props) {
   const onAddAction = useCallback(() => {
     const { identityName, lib, maxTimeout = DEFAULT_MAX_TIMEOUT } = getMaterialsActionMeta(actionId!)!;
     eventStore.addEventInstance(trigger!, {
-      type: EventTargetType.ACTION,
+      type: EventTargetType.Action,
       id: identityName,
       lib,
       maxTimeout,

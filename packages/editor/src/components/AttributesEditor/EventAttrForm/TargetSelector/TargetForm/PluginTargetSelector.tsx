@@ -51,7 +51,7 @@ function IPluginTargetSelector({ trigger, setTrigger }: Props) {
   const onChangeEvent = useCallback((eventName: string) => setTarget({ key: pluginKey, eventName }), [pluginKey]);
   const onAddAction = useCallback(() => {
     eventStore.addEventInstance(trigger!, {
-      type: EventTargetType.PLUGIN,
+      type: EventTargetType.Plugin,
       eventName: eventName!,
       key: pluginKey!,
       maxTimeout,

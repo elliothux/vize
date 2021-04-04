@@ -16,7 +16,7 @@ interface Props {
 
 function IEventAttrForm({ selectType }: Props) {
   const [trigger, setTrigger] = useState<Maybe<EventTriggerName>>(null);
-  const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.ACTION);
+  const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.Action);
 
   useEffect(() => {
     setTrigger(null);

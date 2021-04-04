@@ -21,7 +21,7 @@ const ComponentUniversalEventTriggerDisplayMap: { [key: string]: [string, Compon
   [ComponentUniversalEventTrigger.LEAVE_VIEW]: [i18n.t('disappear'), FiEyeOff],
   [ComponentUniversalEventTrigger.INIT]: [i18n.t('initialization'), MdBlurCircular],
   [ComponentUniversalEventTrigger.MOUSE_ENTER]: [i18n.t('mouse in'), MdCallReceived],
-  [ComponentUniversalEventTrigger.MOUSE_LEAVE]: [i18n.t('mouse leave'), MdCallMade],
+  [ComponentUniversalEventTrigger.MOUSE_LEAVE]: [i18n.t('mouse out'), MdCallMade],
 };
 
 const PluginUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
@@ -46,7 +46,7 @@ const HotAreaUniversalEventTriggerDisplayMap: { [key: string]: [string, Componen
   [HotAreaUniversalEventTrigger.ENTER_VIEW]: [i18n.t('appear'), FiEye],
   [HotAreaUniversalEventTrigger.LEAVE_VIEW]: [i18n.t('disappear'), FiEyeOff],
   [HotAreaUniversalEventTrigger.MOUSE_ENTER]: [i18n.t('mouse in'), MdCallReceived],
-  [HotAreaUniversalEventTrigger.MOUSE_LEAVE]: [i18n.t('mouse leave'), MdCallMade],
+  [HotAreaUniversalEventTrigger.MOUSE_LEAVE]: [i18n.t('mouse out'), MdCallMade],
 };
 
 export function getTriggerDisplayName(

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { ActionEventTarget, ComponentEventTarget, EventTarget, EventTargetType } from 'types';
+import { ActionEventTarget, ComponentEventTarget, EventTarget, EventTargetType, MaterialsCustomEvent } from 'types';
 import { useActionMetaById, useComponentMeta, usePluginMeta } from 'hooks';
 import { FiLayers } from 'react-icons/fi';
 import { getMaterialsContainerMeta } from 'libs';
@@ -23,15 +23,19 @@ export function EventInstanceTarget({ target }: TargetProps) {
     if (action) {
       return null;
     }
-    return (target.type === EventTargetType.COMPONENT
-      ? component
-      : target.type === EventTargetType.CONTAINER
-      ? container
-      : plugin)!.onEvents!.find(i => i.eventName === eventName)!.displayName;
+    let events: MaterialsCustomEvent[];
+    if (target.type === EventTargetType.Component) {
+      events = component!.onEvents || [];
+    } else if (target.type === EventTargetType.Plugin) {
+      events = plugin!.onEvents || [];
+    } else {
+      events = container!.globalOnEvents || [];
+    }
+    return events.find(i => i.eventName === eventName)!.displayName;
   }, [action, component, plugin, eventName]);
 
   switch (target.type) {
-    case EventTargetType.CONTAINER: {
+    case EventTargetType.Global: {
       return (
         <p className="event_instance_target">
           <FiLayers />
@@ -41,7 +45,7 @@ export function EventInstanceTarget({ target }: TargetProps) {
         </p>
       );
     }
-    case EventTargetType.ACTION: {
+    case EventTargetType.Action: {
       return (
         <p className="event_instance_target">
           <FiLayers />
@@ -49,7 +53,7 @@ export function EventInstanceTarget({ target }: TargetProps) {
         </p>
       );
     }
-    case EventTargetType.PLUGIN: {
+    case EventTargetType.Plugin: {
       return (
         <p className="event_instance_target">
           <FiLayers />
@@ -59,7 +63,7 @@ export function EventInstanceTarget({ target }: TargetProps) {
         </p>
       );
     }
-    case EventTargetType.COMPONENT: {
+    case EventTargetType.Component: {
       return (
         <p className="event_instance_target">
           <FiLayers />
