@@ -1,17 +1,18 @@
 import * as React from 'react';
-import { useMemo } from 'react';
 import * as R from 'ramda';
+import { useMemo, Fragment } from 'react';
 import { Select } from 'antd';
 import { FiLayers } from 'react-icons/fi';
 import { SelectType } from 'states';
 import { Trans, useTranslation } from 'react-i18next';
-import { triggerTextMap } from './utils';
+import { getTriggerDisplayName } from '../utils';
 import { TriggerSelectorProps } from './types';
 
 const { Option: SelectOption, OptGroup } = Select;
 
 export function EventTriggerSelector({
   type,
+  triggerType,
   trigger,
   setTrigger,
   customEvents,
@@ -47,11 +48,15 @@ export function EventTriggerSelector({
         ) : null}
 
         <OptGroup label={t('Universal triggers')}>
-          {universalEventTriggers.map(trigger => (
-            <SelectOption value={trigger} key={trigger}>
-              {triggerTextMap.get(trigger)}
-            </SelectOption>
-          ))}
+          {universalEventTriggers.map(trigger => {
+            const [text, Icon] = getTriggerDisplayName({ type: triggerType, triggerName: trigger });
+            return (
+              <SelectOption value={trigger} key={trigger}>
+                <Icon />
+                {text}
+              </SelectOption>
+            );
+          })}
         </OptGroup>
       </Select>
     </div>

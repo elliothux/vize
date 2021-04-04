@@ -5,7 +5,7 @@ export enum DepsFromType {
   Plugin = 'plugin',
   HotArea = 'hotarea',
   Global = 'global',
-  PAGE = 'page',
+  Page = 'page',
 }
 
 export enum DepsTargetType {
@@ -62,17 +62,13 @@ class DepsMap<T = DepsTargetType> {
 }
 
 export function generateEventDepFromItem(
+  depsFromType: DepsFromType,
   parent: ComponentInstance | PluginInstance,
   { key: eventKey }: EventInstance,
   index?: number,
 ): DepFrom {
-  const isHotArea = typeof index === 'number';
   return {
-    depsFromType: isHotArea
-      ? DepsFromType.HotArea
-      : (parent as ComponentInstance).component
-      ? DepsFromType.Component
-      : DepsFromType.Plugin,
+    depsFromType,
     parentKey: parent.key,
     index,
     eventKey,

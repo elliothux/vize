@@ -2,13 +2,15 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { SortEnd } from 'react-sortable-hoc';
-import { eventStore, globalStore } from 'states';
+import { eventStore, pagesStore } from 'states';
 import { getMaterialsContainerMeta } from 'libs';
-import { SortableGlobalEventInstances } from './SortableGlobalEventInstances';
+import { SortablePageEventInstances } from './SortablePageEventInstances';
 import { Title } from '../Title';
 
-function IGlobalEventInstances() {
-  const { globalEvents } = globalStore;
+function IPageEventInstances() {
+  const {
+    currentPage: { events },
+  } = pagesStore;
   const container = getMaterialsContainerMeta()!;
 
   const onSortEnd = useCallback(
@@ -16,16 +18,16 @@ function IGlobalEventInstances() {
     [],
   );
 
-  if (!globalEvents.length) {
+  if (!events.length) {
     return null;
   }
 
   return (
     <div className="event_instances">
       <Title />
-      <SortableGlobalEventInstances
+      <SortablePageEventInstances
         helperClass="dragging-event-instance"
-        events={globalEvents}
+        events={events}
         container={container}
         lockAxis="y"
         onSortEnd={onSortEnd}
@@ -34,4 +36,4 @@ function IGlobalEventInstances() {
   );
 }
 
-export const GlobalEventInstances = observer(IGlobalEventInstances);
+export const PageEventInstances = observer(IPageEventInstances);

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import * as Rax from 'rax';
 import { createElement } from 'rax';
 import {

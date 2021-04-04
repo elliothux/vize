@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import * as React from 'react';
 import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';

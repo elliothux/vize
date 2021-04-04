@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import webpack, { Configuration } from 'webpack';
 import { MaterialsLibRuntime } from '@vize/types';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';

@@ -14,8 +14,10 @@ export interface MaterialsContainerMeta {
   readonly pageStyleForm?: MaterialsForm;
   readonly globalDataForm?: MaterialsForm;
   readonly globalStyleForm?: MaterialsForm;
-  readonly onEvents?: MaterialsCustomEvent[];
-  readonly emitEvents?: MaterialsCustomEvent[];
+  readonly globalOnEvents?: MaterialsCustomEvent[];
+  readonly globalEmitEvents?: MaterialsCustomEvent[];
+  readonly pageOnEvents?: MaterialsCustomEvent[];
+  readonly pageEmitEvents?: MaterialsCustomEvent[];
   readonly isBuildIn?: boolean;
 }
 

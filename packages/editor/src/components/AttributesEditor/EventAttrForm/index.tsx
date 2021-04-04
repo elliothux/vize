@@ -1,9 +1,9 @@
 import './index.scss';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { SelectType } from 'states';
-import { ComponentUniversalEventTrigger, EventTargetType, EventTriggerName, Maybe } from 'types';
+import { EventTargetType, EventTriggerName, Maybe } from 'types';
 import { Empty } from 'widgets/Empty';
 import { i18n } from 'i18n';
 import { TargetSelector, TargetForm } from './TargetSelector';
@@ -15,8 +15,12 @@ interface Props {
 }
 
 function IEventAttrForm({ selectType }: Props) {
-  const [trigger, setTrigger] = useState<Maybe<EventTriggerName>>(ComponentUniversalEventTrigger.CLICK);
+  const [trigger, setTrigger] = useState<Maybe<EventTriggerName>>(null);
   const [targetType, setTargetType] = useState<EventTargetType>(EventTargetType.ACTION);
+
+  useEffect(() => {
+    setTrigger(null);
+  }, [selectType]);
 
   if (selectType === SelectType.HOTAREA) {
     return <Empty text={i18n.t('Not available')} />;

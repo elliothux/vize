@@ -9,14 +9,14 @@ interface Props {
   container: MaterialsContainerMeta;
 }
 
-function ISortableContainerEventInstances({ events, container }: Props) {
+function ISortableGlobalEventInstances({ events, container }: Props) {
   return (
     <>
       {events.map((event, index) => (
         <EventInstanceItem
           index={index}
           key={event.key}
-          customEvents={container.emitEvents}
+          customEvents={container.globalEmitEvents}
           eventInstance={event}
           onChangeData={data => eventStore.setEventInstanceDataOfGlobal(data, index)}
         />
@@ -25,4 +25,4 @@ function ISortableContainerEventInstances({ events, container }: Props) {
   );
 }
 
-export const SortableContainerEventInstances = SortableContainer(ISortableContainerEventInstances);
+export const SortableGlobalEventInstances = SortableContainer(ISortableGlobalEventInstances);

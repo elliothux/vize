@@ -1,11 +1,12 @@
 import { ComponentType } from 'react';
 import {
   ComponentUniversalEventTrigger,
-  ContainerUniversalEventTrigger,
   EventTrigger,
   EventTriggerType,
+  GlobalUniversalEventTrigger,
   HotAreaUniversalEventTrigger,
   MaterialsCustomEvent,
+  PageUniversalEventTrigger,
   PluginUniversalEventTrigger,
 } from 'types';
 import { FiMousePointer, FiLayers, FiEye, FiEyeOff } from 'react-icons/fi';
@@ -28,9 +29,14 @@ const PluginUniversalEventTriggerDisplayMap: { [key: string]: [string, Component
   [PluginUniversalEventTrigger.AFTER_EXEC]: [i18n.t('after execute'), FiMousePointer],
 };
 
-const ContainerUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
-  [ContainerUniversalEventTrigger.BEFORE_RENDER]: [i18n.t('before render'), FiMousePointer],
-  [ContainerUniversalEventTrigger.AFTER_RENDER]: [i18n.t('after render'), FiMousePointer],
+const GlobalUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
+  [GlobalUniversalEventTrigger.INIT]: [i18n.t('initialization'), MdBlurCircular],
+  [GlobalUniversalEventTrigger.BEFORE_CLOSE]: [i18n.t('before close'), FiMousePointer],
+};
+
+const PageUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
+  [PageUniversalEventTrigger.AFTER_ENTER_PAGE]: [i18n.t('after enter page'), MdBlurCircular],
+  [PageUniversalEventTrigger.BEFORE_LEAVE_PAGE]: [i18n.t('before leave page'), FiMousePointer],
 };
 
 const HotAreaUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
@@ -57,8 +63,11 @@ export function getTriggerDisplayName(
     case EventTriggerType.HotAreaUniversalTrigger: {
       return HotAreaUniversalEventTriggerDisplayMap[triggerName];
     }
-    case EventTriggerType.ContainerUniversalTrigger: {
-      return ContainerUniversalEventTriggerDisplayMap[triggerName];
+    case EventTriggerType.GlobalUniversalTrigger: {
+      return GlobalUniversalEventTriggerDisplayMap[triggerName];
+    }
+    case EventTriggerType.PageUniversalTrigger: {
+      return PageUniversalEventTriggerDisplayMap[triggerName];
     }
     case EventTriggerType.Custom: {
       const { displayName } = customEvents!.find(i => i.eventName === triggerName)!;

@@ -6,26 +6,27 @@ import { i18n } from 'i18n';
 import {
   ComponentEventTarget,
   ComponentInstance,
+  DSL,
+  EditInfoDSL,
+  EventInstance,
   EventTargetType,
   HotArea,
   InstanceKeyType,
   PageInstance,
   PluginEventTarget,
   PluginInstance,
-  DSL,
-  EditInfoDSL,
 } from 'types';
 import { UserRecord } from 'sharedTypes';
 import { isDebugMode } from 'utils';
 import { setMaxKey } from '../../key';
 import {
-  addPagePluginInstanceIndexMap,
   addPageComponentInstanceIndexMap,
+  addPagePluginInstanceIndexMap,
   generateComponentsIndex,
   generatePluginsIndex,
   setSharedComponentIndexMap,
 } from '../../indexMap';
-import { generateEventDepFromItem, componentEventDepsMap, pluginEventDepsMap } from '../../depsMap';
+import { componentEventDepsMap, DepsFromType, generateEventDepFromItem, pluginEventDepsMap } from '../../depsMap';
 import { parseDSL } from './parse';
 import { filterComponent, filterPlugin } from './utils';
 
@@ -52,17 +53,10 @@ export async function restore() {
 }
 
 function restoreStateFromDSL(dsl: string) {
-  const { editInfo, pageInstances, sharedComponentInstances, data, style, events, meta } = parseDSL(
-    JSON.parse(dsl) as DSL,
-  );
+  const parsedDSL = parseDSL(JSON.parse(dsl) as DSL);
+  const { editInfo, pageInstances, sharedComponentInstances } = parsedDSL;
 
-  globalStore.setState(store => {
-    store.globalData = data;
-    store.globalStyle = style;
-    store.globalEvents = events;
-    store.metaInfo = meta;
-  });
-
+  restoreGlobal(parsedDSL);
   restoreEditInfo(editInfo);
   restorePageInstances(pageInstances);
   if (sharedComponentInstances) {
@@ -70,11 +64,23 @@ function restoreStateFromDSL(dsl: string) {
   }
 }
 
+function restoreGlobal({ data, style, events, meta }: ReturnType<typeof parseDSL>) {
+  restoreEventDep(DepsFromType.Global, { events });
+  return globalStore.setState(store => {
+    store.globalData = data;
+    store.globalStyle = style;
+    store.globalEvents = events;
+    store.metaInfo = meta;
+  });
+}
+
 function restorePageInstances(pages: PageInstance[]) {
   pagesStore.setState(store => (store.pages = pages));
-  return pages.forEach(({ key, componentInstances, pluginInstances }) => {
+  return pages.forEach(page => {
+    const { key, componentInstances, pluginInstances } = page;
     restoreComponentInstances(key, componentInstances);
     restorePluginInstances(key, pluginInstances!);
+    restoreEventDep(DepsFromType.Page, page);
   });
 }
 
@@ -82,14 +88,14 @@ function restoreComponentInstances(pageKey: number, iComponentInstances: Compone
   const componentInstances = iComponentInstances.filter(filterComponent);
   const indexMap = generateComponentsIndex(componentInstances);
   addPageComponentInstanceIndexMap(pageKey, indexMap);
-  componentInstances.forEach(R.unary(restoreEventDep));
+  componentInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
 }
 
 function restorePluginInstances(pageKey: number, iPluginInstances: PluginInstance[]) {
   const pluginInstances = iPluginInstances.filter(filterPlugin);
   const indexMap = generatePluginsIndex(pluginInstances);
   addPagePluginInstanceIndexMap(pageKey, indexMap);
-  pluginInstances.forEach(R.unary(restoreEventDep));
+  pluginInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Plugin])));
 }
 
 function restoreSharedComponentInstances(iComponentInstances: ComponentInstance[]) {
@@ -98,30 +104,27 @@ function restoreSharedComponentInstances(iComponentInstances: ComponentInstance[
 
   const indexMap = generateComponentsIndex(componentInstances);
   setSharedComponentIndexMap(indexMap);
-  componentInstances.forEach(R.unary(restoreEventDep));
+  componentInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
 }
 
 function restoreEventDep(
-  instance: ComponentInstance | PluginInstance | HotArea,
+  depsFromType: DepsFromType,
+  instance: PageInstance | ComponentInstance | PluginInstance | HotArea | { events: EventInstance[] },
   parentInstance?: ComponentInstance,
   index?: number,
 ) {
-  if ((instance as ComponentInstance).component) {
-    componentEventDepsMap.createEventDepsMap(instance.key);
-  } else {
-    pluginEventDepsMap.createEventDepsMap(instance.key);
+  if (depsFromType === DepsFromType.Component) {
+    (instance as ComponentInstance)?.children?.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
+    (instance as ComponentInstance)?.hotAreas?.forEach((hotArea, index) =>
+      restoreEventDep(DepsFromType.HotArea, hotArea, instance as ComponentInstance, index),
+    );
   }
-
-  (instance as ComponentInstance)?.children?.forEach(R.unary(restoreEventDep));
-  (instance as ComponentInstance)?.hotAreas?.forEach((hotArea, index) =>
-    restoreEventDep(hotArea, instance as ComponentInstance, index),
-  );
 
   return instance.events.forEach(event => {
     const { target } = event;
     const depForm = parentInstance
-      ? generateEventDepFromItem(parentInstance, event, index)
-      : generateEventDepFromItem(instance as ComponentInstance | PluginInstance, event);
+      ? generateEventDepFromItem(depsFromType, parentInstance, event, index)
+      : generateEventDepFromItem(depsFromType, instance as ComponentInstance | PluginInstance, event);
 
     if (target.type === EventTargetType.COMPONENT) {
       componentEventDepsMap.addEventDep((target as ComponentEventTarget).key, depForm);

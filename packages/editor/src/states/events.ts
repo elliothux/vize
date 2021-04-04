@@ -5,15 +5,16 @@ import {
   ComponentEventTarget,
   ComponentInstance,
   ComponentUniversalEventTrigger,
-  ContainerUniversalEventTrigger,
   EventInstance,
   EventTarget,
   EventTargetType,
   EventTrigger,
   EventTriggerName,
   EventTriggerType,
+  GlobalUniversalEventTrigger,
   HotArea,
   Maybe,
+  PageUniversalEventTrigger,
   PluginEventTarget,
   PluginInstance,
   PluginUniversalEventTrigger,
@@ -32,6 +33,7 @@ import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
 import { hotAreaStore } from './hotAreas';
 import { globalStore } from './global';
+import { pagesStore } from './pages';
 
 export class EventStore {
   @action
@@ -88,8 +90,8 @@ export class EventStore {
 
       case SelectType.GLOBAL: {
         const trigger: EventTrigger = {
-          type: R.values(ContainerUniversalEventTrigger).includes(triggerName as ContainerUniversalEventTrigger)
-            ? EventTriggerType.ContainerUniversalTrigger
+          type: R.values(GlobalUniversalEventTrigger).includes(triggerName as GlobalUniversalEventTrigger)
+            ? EventTriggerType.GlobalUniversalTrigger
             : EventTriggerType.Custom,
           triggerName,
         };
@@ -102,7 +104,18 @@ export class EventStore {
       }
 
       case SelectType.PAGE: {
-        // TODO
+        const trigger: EventTrigger = {
+          type: R.values(PageUniversalEventTrigger).includes(triggerName as PageUniversalEventTrigger)
+            ? EventTriggerType.PageUniversalTrigger
+            : EventTriggerType.Custom,
+          triggerName,
+        };
+        const instance = createEventInstance(trigger, target, action);
+        this.addEventDep(instance.target, {
+          depsFromType: DepsFromType.Page,
+          eventKey: instance.key,
+        });
+        return this.addEventInstanceToCurrentPage(instance);
       }
     }
   };
@@ -125,6 +138,13 @@ export class EventStore {
   private addEventInstanceToCurrentHotArea = (instance: EventInstance) => {
     return hotAreaStore.setCurrentHotAreaEvents(events => {
       events.push(instance);
+    });
+  };
+
+  @action
+  private addEventInstanceToCurrentPage = (instance: EventInstance) => {
+    return pagesStore.setCurrentPage(page => {
+      page.events.push(instance);
     });
   };
 
@@ -174,7 +194,8 @@ export class EventStore {
         break;
       }
       case SelectType.PAGE: {
-        // TODO
+        eventInstance = this.deleteEventInstanceFromCurrentPage(index);
+        break;
       }
     }
     return this.deleteEventDep(eventInstance!);
@@ -202,6 +223,15 @@ export class EventStore {
   private deleteEventInstanceFromCurrentHotArea = (index: number): EventInstance => {
     let eventInstance: Maybe<EventInstance>;
     hotAreaStore.setCurrentHotAreaEvents(events => {
+      [eventInstance] = events.splice(index, 1);
+    });
+    return eventInstance!;
+  };
+
+  @action
+  private deleteEventInstanceFromCurrentPage = (index: number): EventInstance => {
+    let eventInstance: Maybe<EventInstance>;
+    pagesStore.setCurrentPage(({ events }) => {
       [eventInstance] = events.splice(index, 1);
     });
     return eventInstance!;
@@ -247,6 +277,7 @@ export class EventStore {
         deps = pluginEventDepsMap.getEventDep(key);
         break;
     }
+    debugger;
 
     return deps!.forEach(({ depsFromType, parentKey, eventKey, index }) => {
       const deleteEventItem = (events: EventInstance[]) => {
@@ -269,11 +300,15 @@ export class EventStore {
           hotAreaStore.setHotAreaProps(parentKey!, index!, deleteEvent);
           break;
         }
+        case DepsFromType.Page: {
+          pagesStore.setCurrentPage(page => {
+            deleteEventItem(page.events);
+          });
+          break;
+        }
         case DepsFromType.Global: {
           globalStore.setGlobalEvents(deleteEventItem);
-        }
-        case DepsFromType.PAGE: {
-          // TODO
+          break;
         }
       }
     });
@@ -304,6 +339,13 @@ export class EventStore {
   public setEventInstanceDataOfGlobal = (data: object, index: number) => {
     return globalStore.setGlobalEvents(events => {
       events[index]!.data = data;
+    });
+  };
+
+  @action
+  public setEventInstanceDataOfCurrentPage = (data: object, index: number) => {
+    return pagesStore.setCurrentPage(page => {
+      page.events[index]!.data = data;
     });
   };
 

@@ -6,6 +6,7 @@ import { ComponentEventInstances } from './ComponentEventInstances';
 import { PluginEventInstances } from './PluginEventInstances';
 import { HotAreaEventInstances } from './HotAreaEventInstances';
 import { GlobalEventInstances } from './GlobalEventInstances';
+import { PageEventInstances } from './PageEventInstances';
 
 function IEventInstances() {
   const { selectType } = selectStore;
@@ -16,10 +17,10 @@ function IEventInstances() {
       return <PluginEventInstances />;
     case SelectType.HOTAREA:
       return <HotAreaEventInstances />;
+    case SelectType.PAGE:
+      return <PageEventInstances />;
     case SelectType.GLOBAL:
       return <GlobalEventInstances />;
-    case SelectType.PAGE:
-      return null;
   }
   return null;
 }

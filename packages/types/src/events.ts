@@ -25,7 +25,8 @@ export enum EventTriggerType {
   ComponentUniversalTrigger = 'component_universal_trigger',
   PluginUniversalTrigger = 'plugin_universal_trigger',
   HotAreaUniversalTrigger = 'hotarea_universal_trigger',
-  ContainerUniversalTrigger = 'container_universal_trigger',
+  GlobalUniversalTrigger = 'global_universal_trigger',
+  PageUniversalTrigger = 'page_universal_trigger',
   Custom = 'custom',
 }
 
@@ -33,7 +34,8 @@ export type UniversalEventTrigger =
   | ComponentUniversalEventTrigger
   | PluginUniversalEventTrigger
   | HotAreaUniversalEventTrigger
-  | ContainerUniversalEventTrigger;
+  | GlobalUniversalEventTrigger
+  | PageUniversalEventTrigger;
 
 export type EventTriggerName = UniversalEventTrigger | string;
 
@@ -68,6 +70,16 @@ export enum PluginUniversalEventTrigger {
 export enum ContainerUniversalEventTrigger {
   BEFORE_RENDER = '__vize_container_event_trigger_before_render',
   AFTER_RENDER = '__vize_container_event_trigger_after_render',
+}
+
+export enum GlobalUniversalEventTrigger {
+  INIT = '__vize_global_event_trigger_init',
+  BEFORE_CLOSE = '__vize_global_event_trigger_before_close',
+}
+
+export enum PageUniversalEventTrigger {
+  AFTER_ENTER_PAGE = '__vize_page_event_trigger_after_enter_page',
+  BEFORE_LEAVE_PAGE = '__vize_page_event_trigger_before_leave_page',
 }
 
 /**

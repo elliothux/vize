@@ -1,6 +1,4 @@
 /* eslint-disable max-lines */
-import { Trans } from 'react-i18next';
-
 export const zh = {
   translations: {
     undo: '撤销',
@@ -31,8 +29,9 @@ export const zh = {
     disappear: '消失',
     'before execute': '执行前',
     'after execute': '执行后',
-    'before render': '渲染前',
-    'after render': '渲染后',
+    'before close': '退出前',
+    'after enter page': '进入页面后',
+    'before leave page': '离开页面前',
     TriggerWhen: '当 <1>$t({{trigger}})</1> 时 {{action}}',
     'Trigger plugin': '触发插件',
     'Trigger component': '触发组件',
@@ -69,6 +68,7 @@ export const zh = {
     Component: '组件',
     Plugin: '插件',
     Hotarea: '热区',
+    Container: '页面容器',
     'Added events': '已添加的事件',
     'Added plugins': '已添加的插件',
     'Added components': '已添加的组件',

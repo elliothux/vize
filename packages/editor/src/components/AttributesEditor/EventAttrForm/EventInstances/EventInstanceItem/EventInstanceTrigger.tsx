@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { EventTargetType, EventTrigger, EventTarget, MaterialsCustomEvent } from 'types';
 import { Trans } from 'react-i18next';
 import { i18n } from 'i18n';
-import { getTriggerDisplayName } from './utils';
+import { getTriggerDisplayName } from '../../utils';
 
 interface Props {
   trigger: EventTrigger;
