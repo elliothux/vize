@@ -5,7 +5,7 @@ import { editStore, globalStore, pagesStore, selectStore } from 'states';
 import classnames from 'classnames';
 import { FirstParameter, HotArea } from 'types';
 import { percent, preventSyntheticEvent } from 'utils';
-import { EventEmitTypes, events } from 'utils';
+import { EventEmitTypes, events } from 'libs';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime/components/NodeEventProxy';
 import { Trans } from 'react-i18next';
@@ -20,9 +20,12 @@ interface Props {
 
 function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
   const { componentKey, hotAreaIndex } = selectStore;
-  const { globalProps, metaInfo } = globalStore;
+  const { globalData, metaInfo } = globalStore;
   const { previewMode } = editStore;
-  const { router } = pagesStore;
+  const {
+    router,
+    currentPage: { data: pageData },
+  } = pagesStore;
 
   const selected = componentKey === componentInstanceKey && index === hotAreaIndex;
 
@@ -32,7 +35,6 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
         return;
       }
       preventSyntheticEvent(e);
-      events.emit(EventEmitTypes.JUMP_ATTR_EDIT_TAB, AttrEditTab.EVENTS);
       selectStore.selectHotArea(index, componentInstanceKey);
     },
     [previewMode],
@@ -62,11 +64,12 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
         className="hotarea-event-proxy"
         childrenType="hotarea"
         instance={hotArea}
-        style={style}
-        global={globalProps}
         meta={metaInfo}
+        globalData={globalData}
+        pageData={pageData}
         router={router}
         previewMode={previewMode}
+        style={style}
       />
     );
   }

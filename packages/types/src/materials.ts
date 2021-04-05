@@ -1,8 +1,7 @@
 import { ComponentType } from 'react';
-import { ComponentProps, MaterialsComponent, MaterialsComponentMeta } from './component';
+import { MaterialsComponent, MaterialsComponentMeta } from './component';
 import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
-import { RouterProps } from './pages';
 import { JsonSchemaProperties } from './helper';
 import { MaterialsContainerMeta } from './container';
 
@@ -48,13 +47,6 @@ export interface MaterialsForms {
     component: ComponentType;
   }[];
 }
-
-export interface RenderEntryParams extends Pick<ComponentProps, 'data' | 'style' | 'meta'> {
-  render: Function;
-  implementRouterController: (CustomRouter: ComponentType<RouterProps>) => void;
-}
-
-export type ContainerRenderEntry = (params: RenderEntryParams) => void;
 
 export enum InstanceKeyType {
   Page = 'page',

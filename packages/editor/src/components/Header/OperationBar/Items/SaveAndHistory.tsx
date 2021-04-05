@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { FiCopy, FiFilePlus, FiGitMerge, FiSave } from 'react-icons/fi';
 import { OperationItem } from './OperationItem';
 import { editStore } from 'states';
-import { generateDSL, hotkeyEvents, HotKeyEventTypes, isDebugMode, promiseWrapper } from 'utils';
+import { isDebugMode, promiseWrapper } from 'utils';
+import { generateDSL, hotkeyEvents, HotKeyEventTypes } from 'libs';
 import { observer } from 'mobx-react';
 import { message } from 'antd';
 import { savePageHistory } from 'api';
@@ -72,6 +73,7 @@ export async function save() {
   message.loading(`${i18n.t('saving')}...`);
 
   const dsl = generateDSL();
+  console.log(dsl);
   if (isDebugMode()) {
     return setTimeout(() => {
       localStorage.setItem('dsl', JSON.stringify(dsl));

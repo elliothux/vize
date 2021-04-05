@@ -1,17 +1,26 @@
-import { GlobalMeta, GlobalStyle, LayoutMode } from './global';
+import { GlobalMeta, LayoutMode } from './global';
 import { PageInstance, PageMode } from './pages';
 import { ComponentInstance, HotArea } from './component';
 import { PluginInstance } from './plugins';
 import { InstanceKeyType } from './materials';
+import { EventInstance } from './events';
 
 export type HotAreaDSL = Omit<HotArea, 'parent'>;
 
-export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent'> {
+export interface ComponentInstanceDSL extends Omit<ComponentInstance, 'parent' | 'children' | 'hotAreas'> {
   children?: ComponentInstanceDSL[];
-  hotarea?: HotAreaDSL;
+  hotAreas?: HotAreaDSL[];
 }
 
 export type PluginInstanceDSL = PluginInstance;
+
+export type EventInstanceDSL = EventInstance;
+
+export interface PageInstanceDSL extends Omit<PageInstance, 'events' | 'componentInstances' | 'pluginInstances'> {
+  events: EventInstanceDSL[];
+  componentInstances: ComponentInstanceDSL[];
+  pluginInstances: PluginInstanceDSL[];
+}
 
 export interface EditInfoDSL {
   layoutMode: LayoutMode;
@@ -25,27 +34,18 @@ export interface EditInfoDSL {
   };
 }
 
-export interface GlobalDSL {
-  metaInfo: GlobalMeta;
-  globalProps: object;
-  globalStyle: GlobalStyle;
-}
-
-export interface PageDSL extends Omit<PageInstance, 'isNameEditing'> {
-  componentInstances: ComponentInstanceDSL[];
-  pluginInstances?: PluginInstanceDSL[];
-  global?: GlobalDSL;
-}
-
 export type DSL = Readonly<{
   pageKey: string;
   container: {
     lib: string;
     name: string;
   };
-  global?: GlobalDSL;
-  pageInstances: PageDSL[];
-  pluginInstances?: PluginInstanceDSL[];
-  sharedComponentInstances?: ComponentInstanceDSL[];
   editInfo: EditInfoDSL;
+  meta: GlobalMeta;
+  data: object;
+  style: object;
+  events: EventInstanceDSL[];
+  pageInstances: PageInstanceDSL[];
+  sharedComponentInstances?: ComponentInstanceDSL[];
+  sharedPluginInstances?: ComponentInstanceDSL[];
 }>;

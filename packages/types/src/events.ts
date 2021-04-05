@@ -25,14 +25,19 @@ export enum EventTriggerType {
   ComponentUniversalTrigger = 'component_universal_trigger',
   PluginUniversalTrigger = 'plugin_universal_trigger',
   HotAreaUniversalTrigger = 'hotarea_universal_trigger',
+  GlobalUniversalTrigger = 'global_universal_trigger',
+  PageUniversalTrigger = 'page_universal_trigger',
   Custom = 'custom',
 }
 
-export type EventTriggerName =
+export type UniversalEventTrigger =
   | ComponentUniversalEventTrigger
   | PluginUniversalEventTrigger
   | HotAreaUniversalEventTrigger
-  | string;
+  | GlobalUniversalEventTrigger
+  | PageUniversalEventTrigger;
+
+export type EventTriggerName = UniversalEventTrigger | string;
 
 export const EVENT_TRIGGER_PREFIX = '__vize_event_trigger_';
 
@@ -62,32 +67,46 @@ export enum PluginUniversalEventTrigger {
   AFTER_EXEC = '__vize_plugin_event_trigger_after_exec',
 }
 
+export enum GlobalUniversalEventTrigger {
+  INIT = '__vize_global_event_trigger_init',
+}
+
+export enum PageUniversalEventTrigger {
+  AFTER_ENTER_PAGE = '__vize_page_event_trigger_after_enter_page',
+  BEFORE_LEAVE_PAGE = '__vize_page_event_trigger_before_leave_page',
+}
+
 /**
  * @desc event target
  */
 
 export enum EventTargetType {
-  ACTION = 'action',
-  COMPONENT = 'component',
-  PLUGIN = 'plugin',
+  Action = 'action',
+  Component = 'component',
+  Plugin = 'plugin',
+  Global = 'global',
 }
 
 export interface ActionEventTarget {
-  type: EventTargetType.ACTION;
+  type: EventTargetType.Action;
   id: string;
   lib: string;
   maxTimeout: number | 'infinity';
 }
 
 export interface ComponentEventTarget {
-  type: EventTargetType.COMPONENT;
+  type: EventTargetType.Component;
   key: number;
   eventName: string;
   maxTimeout: number | 'infinity';
 }
 
 export interface PluginEventTarget extends Omit<ComponentEventTarget, 'type'> {
-  type: EventTargetType.PLUGIN;
+  type: EventTargetType.Plugin;
 }
 
-export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget;
+export interface GlobalEventTarget extends Omit<ComponentEventTarget, 'key' | 'type'> {
+  type: EventTargetType.Global;
+}
+
+export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget | GlobalEventTarget;

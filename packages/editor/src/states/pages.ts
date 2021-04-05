@@ -2,16 +2,22 @@ import { action, computed, observable } from 'mobx';
 import { message } from 'antd';
 import { PageInstance, PageRouter } from 'types';
 import { i18n } from 'i18n';
-import { createPageInstance } from '../utils';
-import { componentsStore } from './components';
-import { selectStore } from './select';
-import { pluginsStore } from './plugins';
-import { editStore } from './edit';
+import {
+  addPagePluginInstanceIndexMap,
+  addPageComponentInstanceIndexMap,
+  deletePageComponentInstanceIndexMap,
+  deletePagePluginInstanceIndexMap,
+  createPageInstance,
+} from 'libs';
+import { onCustomEvent, cancelCustomEvent, emitCustomEvent, generatePageEventHandlers } from 'runtime';
+import { PageUniversalEventTrigger } from '@vize/types';
 import { StoreWithUtils } from './utils';
+import { selectStore } from './select';
+import { globalStore } from './global';
 
 export class PagesStore extends StoreWithUtils<PagesStore> {
   public init = () => {
-    this.addPage(true, 'default page');
+    this.addPage(false, true, 'default page');
   };
 
   @observable
@@ -23,21 +29,27 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   }
 
   @action
-  public setPageEditing = (pageIndex: number, editing: boolean) => {
-    this.pages[pageIndex]!.isNameEditing = editing;
+  public setCurrentPage = (setter: (page: PageInstance) => PageInstance | void) => {
+    const page = this.pages[selectStore.pageIndex];
+    const newPage = setter(page);
+    if (newPage) {
+      this.pages[selectStore.pageIndex] = newPage;
+    }
+    return newPage;
   };
 
   @action
-  public addPage = (isHome?: boolean, name?: string): void => {
+  public addPage = (select: boolean, isHome?: boolean, name?: string): void => {
     const page = createPageInstance(name || 'new page', isHome);
     this.pages.push(page);
 
-    componentsStore.addComponentInstancesMap(page.key);
-    if (!editStore.isSinglePageMode) {
-      pluginsStore.addPluginInstancesMap(page.key);
-    }
+    const { key } = page;
+    addPageComponentInstanceIndexMap(key);
+    addPagePluginInstanceIndexMap(key);
 
-    selectStore.selectPage(this.pages.length - 1);
+    if (select) {
+      selectStore.selectPage(this.pages.length - 1);
+    }
   };
 
   @action
@@ -48,10 +60,8 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     }
 
     const { key, isHome } = this.pages[pageIndex]!;
-    componentsStore.deleteComponentInstancesMap(key);
-    if (!editStore.isSinglePageMode) {
-      pluginsStore.deletePluginInstancesMap(key);
-    }
+    deletePageComponentInstanceIndexMap(key);
+    deletePagePluginInstanceIndexMap(key);
 
     this.pages.splice(pageIndex, 1);
 
@@ -75,10 +85,42 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     this.pages[pageIndex].name = name;
   };
 
+  @action
+  public setCurrentPageData = (data: object) => {
+    return this.setCurrentPage(page => {
+      page.data = { ...page.data, ...data };
+    });
+  };
+
+  @action
+  public setCurrentPageStyle = (style: object) => {
+    return this.setCurrentPage(page => {
+      page.style = { ...page.style, ...style };
+    });
+  };
+
+  public executePageEventCallbacks = async (index: number, type: PageUniversalEventTrigger) => {
+    const { globalData, metaInfo: meta } = globalStore;
+    const { events, data: pageData } = this.pages[index]!;
+    const { [type]: callback } = generatePageEventHandlers(events, this.router);
+    if (callback) {
+      await callback(null, { globalData, pageData, meta });
+    }
+  };
+
   @computed
   get router(): PageRouter {
     return {
-      pages: this.pages.map(({ name, key, path, isHome }) => ({ name, key, path, isHome })),
+      pages: this.pages.map(page => ({
+        ...page,
+        on: (eventName: string, callback: Function) => onCustomEvent('page', eventName, callback, page.key),
+        cancel: (eventName: string, callback: Function) => cancelCustomEvent('page', eventName, callback, page.key),
+        emit: (eventName: string) => {
+          const { metaInfo: meta, globalData } = globalStore;
+          const { data: pageData } = this.currentPage;
+          return emitCustomEvent(page.events, eventName, meta, globalData, pageData, this.router);
+        },
+      })),
       currentPage: this.currentPage.key,
       setCurrentPage: (key: number) => {
         const index = this.pages.findIndex(i => i.key === key);

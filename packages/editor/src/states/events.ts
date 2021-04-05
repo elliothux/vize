@@ -11,30 +11,34 @@ import {
   EventTrigger,
   EventTriggerName,
   EventTriggerType,
+  GlobalUniversalEventTrigger,
   HotArea,
   Maybe,
+  PageUniversalEventTrigger,
   PluginEventTarget,
   PluginInstance,
   PluginUniversalEventTrigger,
 } from 'types';
 import {
-  componentEventDepsMap,
-  createEventInstance,
   DepFrom,
   DepsFromType,
   DepsTargetType,
+  componentEventDepsMap,
   pluginEventDepsMap,
-} from 'utils';
+  createEventInstance,
+} from 'libs';
 import { getMaterialsActionMeta } from 'runtime';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
 import { pluginsStore } from './plugins';
 import { hotAreaStore } from './hotAreas';
+import { globalStore } from './global';
+import { pagesStore } from './pages';
 
 export class EventStore {
   @action
   public addEventInstance = (triggerName: EventTriggerName, target: EventTarget) => {
-    const action = target.type === EventTargetType.ACTION ? getMaterialsActionMeta(target.id)! : undefined;
+    const action = target.type === EventTargetType.Action ? getMaterialsActionMeta(target.id)! : undefined;
 
     switch (selectStore.selectType) {
       case SelectType.COMPONENT: {
@@ -83,6 +87,36 @@ export class EventStore {
         });
         return this.addEventInstanceToCurrentHotArea(instance);
       }
+
+      case SelectType.GLOBAL: {
+        const trigger: EventTrigger = {
+          type: R.values(GlobalUniversalEventTrigger).includes(triggerName as GlobalUniversalEventTrigger)
+            ? EventTriggerType.GlobalUniversalTrigger
+            : EventTriggerType.Custom,
+          triggerName,
+        };
+        const instance = createEventInstance(trigger, target, action);
+        this.addEventDep(instance.target, {
+          depsFromType: DepsFromType.Global,
+          eventKey: instance.key,
+        });
+        return this.addEventInstanceToGlobal(instance);
+      }
+
+      case SelectType.PAGE: {
+        const trigger: EventTrigger = {
+          type: R.values(PageUniversalEventTrigger).includes(triggerName as PageUniversalEventTrigger)
+            ? EventTriggerType.PageUniversalTrigger
+            : EventTriggerType.Custom,
+          triggerName,
+        };
+        const instance = createEventInstance(trigger, target, action);
+        this.addEventDep(instance.target, {
+          depsFromType: DepsFromType.Page,
+          eventKey: instance.key,
+        });
+        return this.addEventInstanceToCurrentPage(instance);
+      }
     }
   };
 
@@ -107,17 +141,35 @@ export class EventStore {
     });
   };
 
+  @action
+  private addEventInstanceToCurrentPage = (instance: EventInstance) => {
+    return pagesStore.setCurrentPage(page => {
+      page.events.push(instance);
+    });
+  };
+
+  @action
+  private addEventInstanceToGlobal = (instance: EventInstance) => {
+    return globalStore.setGlobalEvents(events => {
+      events.push(instance);
+    });
+  };
+
   private addEventDep = (target: EventTarget, depFrom: DepFrom) => {
     switch (target.type) {
-      case EventTargetType.COMPONENT: {
+      case EventTargetType.Component: {
         return componentEventDepsMap.addEventDep((target as ComponentEventTarget).key, depFrom);
       }
-      case EventTargetType.PLUGIN: {
+      case EventTargetType.Plugin: {
         return pluginEventDepsMap.addEventDep((target as PluginEventTarget).key, depFrom);
       }
-      case EventTargetType.ACTION:
-        // TODO
-        break;
+      /**
+       * @desc
+       * Only components and plugins can deleted and registry onEvents
+       * So others event targets do not need save depsMap
+       */
+      default:
+        return;
     }
   };
 
@@ -135,6 +187,14 @@ export class EventStore {
       }
       case SelectType.HOTAREA: {
         eventInstance = this.deleteEventInstanceFromCurrentHotArea(index);
+        break;
+      }
+      case SelectType.GLOBAL: {
+        eventInstance = this.deleteEventInstanceFromGlobal(index);
+        break;
+      }
+      case SelectType.PAGE: {
+        eventInstance = this.deleteEventInstanceFromCurrentPage(index);
         break;
       }
     }
@@ -169,16 +229,34 @@ export class EventStore {
   };
 
   @action
+  private deleteEventInstanceFromCurrentPage = (index: number): EventInstance => {
+    let eventInstance: Maybe<EventInstance>;
+    pagesStore.setCurrentPage(({ events }) => {
+      [eventInstance] = events.splice(index, 1);
+    });
+    return eventInstance!;
+  };
+
+  @action
+  private deleteEventInstanceFromGlobal = (index: number): EventInstance => {
+    let eventInstance: Maybe<EventInstance>;
+    globalStore.setGlobalEvents(events => {
+      [eventInstance] = events.splice(index, 1);
+    });
+    return eventInstance!;
+  };
+
+  @action
   private deleteEventDep = ({ target, key: eventInstanceKey }: EventInstance) => {
     switch (target.type) {
-      case EventTargetType.COMPONENT: {
+      case EventTargetType.Component: {
         return componentEventDepsMap.deleteEventDep(
           (target as ComponentEventTarget).key,
           DepsFromType.Component,
           eventInstanceKey,
         );
       }
-      case EventTargetType.PLUGIN: {
+      case EventTargetType.Plugin: {
         return pluginEventDepsMap.deleteEventDep(
           (target as PluginEventTarget).key,
           DepsFromType.Plugin,
@@ -201,22 +279,34 @@ export class EventStore {
     }
 
     return deps!.forEach(({ depsFromType, parentKey, eventKey, index }) => {
-      const deleteEvent = (instance: ComponentInstance | PluginInstance | HotArea) => {
-        const index = instance.events.findIndex(i => i.key === eventKey);
-        instance.events.splice(index, 1);
+      const deleteEventItem = (events: EventInstance[]) => {
+        const index = events.findIndex(i => i.key === eventKey);
+        events.splice(index, 1);
       };
+
+      const deleteEvent = (instance: ComponentInstance | PluginInstance | HotArea) => deleteEventItem(instance.events);
 
       switch (depsFromType) {
         case DepsFromType.Component: {
-          componentsStore.setComponentInstancePropsByKey(parentKey, deleteEvent);
+          componentsStore.setComponentInstancePropsByKey(parentKey!, deleteEvent);
           break;
         }
         case DepsFromType.Plugin: {
-          pluginsStore.setPluginInstancePropsByKey(parentKey, deleteEvent);
+          pluginsStore.setPluginInstancePropsByKey(parentKey!, deleteEvent);
           break;
         }
         case DepsFromType.HotArea: {
-          hotAreaStore.setHotAreaProps(parentKey, index!, deleteEvent);
+          hotAreaStore.setHotAreaProps(parentKey!, index!, deleteEvent);
+          break;
+        }
+        case DepsFromType.Page: {
+          pagesStore.setCurrentPage(page => {
+            deleteEventItem(page.events);
+          });
+          break;
+        }
+        case DepsFromType.Global: {
+          globalStore.setGlobalEvents(deleteEventItem);
           break;
         }
       }
@@ -241,6 +331,20 @@ export class EventStore {
   public setEventInstanceDataOfCurrentHotArea = (data: object, index: number) => {
     return hotAreaStore.setCurrentHotAreaEvents(events => {
       events[index]!.data = data;
+    });
+  };
+
+  @action
+  public setEventInstanceDataOfGlobal = (data: object, index: number) => {
+    return globalStore.setGlobalEvents(events => {
+      events[index]!.data = data;
+    });
+  };
+
+  @action
+  public setEventInstanceDataOfCurrentPage = (data: object, index: number) => {
+    return pagesStore.setCurrentPage(page => {
+      page.events[index]!.data = data;
     });
   };
 
@@ -275,6 +379,18 @@ export class EventStore {
     }
 
     return hotAreaStore.setCurrentHotAreaEvents(events => {
+      const [instance] = events.splice(oldIndex, 1);
+      events.splice(newIndex, 0, instance);
+    });
+  };
+
+  @action
+  public resortEventInstanceFromGlobal = (oldIndex: number, newIndex: number) => {
+    if (oldIndex === newIndex) {
+      return;
+    }
+
+    return globalStore.setGlobalEvents(events => {
       const [instance] = events.splice(oldIndex, 1);
       events.splice(newIndex, 0, instance);
     });

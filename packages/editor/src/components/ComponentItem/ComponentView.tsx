@@ -20,26 +20,30 @@ interface Props {
 function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   const { key, component, data, style, commonStyle, wrapperStyle } = instance;
   const { previewMode } = editStore;
-  const { metaInfo, globalProps } = globalStore;
-  const { router } = pagesStore;
+  const { metaInfo, globalData } = globalStore;
+  const {
+    router,
+    currentPage: { data: pageData },
+  } = pagesStore;
 
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
   const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
   const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
 
   const on = useCallback(
-    (eventName: string, callback: Function) => onCustomEvent('component', key, eventName, callback),
+    (eventName: string, callback: Function) => onCustomEvent('component', eventName, callback, key),
     [key],
   );
 
   const cancel = useCallback(
-    (eventName: string, callback: Function) => cancelCustomEvent('component', key, eventName, callback),
+    (eventName: string, callback: Function) => cancelCustomEvent('component', eventName, callback, key),
     [key],
   );
 
-  const emit = useCallback((eventName: string) => emitCustomEvent(instance, eventName, metaInfo, globalProps, router), [
-    key,
-  ]);
+  const emit = useCallback(
+    (eventName: string) => emitCustomEvent(instance.events, eventName, metaInfo, globalData, pageData, router),
+    [key],
+  );
 
   const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [
     key,
@@ -50,11 +54,12 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
       className="component-event-proxy"
       childrenType="component"
       instance={instance}
-      style={iWrapperStyle}
-      global={globalProps}
       meta={metaInfo}
+      globalData={globalData}
+      pageData={pageData}
       router={router}
       previewMode={previewMode}
+      style={iWrapperStyle}
     >
       <ComponentRender
         componentKey={key}
@@ -62,7 +67,8 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
         style={style}
         commonStyle={iCommonStyle}
         instance={instance}
-        global={globalProps}
+        globalData={globalData}
+        pageData={pageData}
         meta={metaInfo}
         on={on}
         cancel={cancel}

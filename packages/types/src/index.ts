@@ -1,6 +1,7 @@
 export * from './action';
 export * from './biz';
 export * from './component';
+export * from './container';
 export * from './dsl';
 export * from './eventListeners';
 export * from './events';
@@ -13,4 +14,5 @@ export * from './pages';
 export * from './paths';
 export * from './plugins';
 export * from './publisher';
+export * from './schema';
 export * from './styles';

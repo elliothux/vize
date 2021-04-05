@@ -6,12 +6,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { Maybe, PublisherResult } from 'types';
 import { getPublishStatus, PublishStatus, startPublishPage } from 'api';
 import { message } from 'antd';
-import { hotkeyEvents, HotKeyEventTypes } from 'utils';
+import { hotkeyEvents, HotKeyEventTypes } from 'libs';
 import { FiSend } from 'react-icons/fi';
 import { OperationItem } from '../OperationItem';
 import { hotKeyPrefix } from '../utils';
 import { PreviewAndPublish } from './Result';
-import { toJS } from 'mobx';
 
 const PUBLISH_POLL_STATUS_TIME = 3000;
 const MAX_PUBLISH_RETRY_TIMES = 3;
@@ -22,14 +21,12 @@ let publishRetryTimes = 0;
 function IPublish() {
   const {
     debugPorts: [debugPort],
-    owner: { id: ownerId, name: ownerName },
-    user: { id: userId, isAdmin },
+    owner: { name: ownerName },
+    isUserValid,
   } = editStore;
   const {
     metaInfo: { isTemplate },
   } = globalStore;
-  const isUserValid = isAdmin || ownerId === userId;
-  console.log(toJS(editStore), { ownerId, userId });
 
   const { t } = useTranslation();
   const [publishResult, setPublishResult] = useState<Maybe<PublisherResult>>(null);
@@ -98,8 +95,8 @@ function IPublish() {
             </>
           ) : (
             <p>
-              {t("don't have permission to {{type}}", { type: 'publish' })}
-              <br />（{t('Create by {{owner}}', { owner: ownerName })}）
+              {t("Don't have permission to {{type}}", { type: 'publish' })}
+              <br />（{t('Created by {{owner}}', { owner: ownerName })}）
             </p>
           )
         }

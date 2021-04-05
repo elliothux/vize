@@ -1,10 +1,11 @@
+import * as React from 'react';
 import { message } from 'antd';
 import { parseUrl } from 'query-string';
-import { ComponentInstance, JsonSchemaProperties, Maybe } from 'types';
-import getDefaults from 'json-schema-defaults';
+import { ComponentInstance, JsonSchemaProperties, MaterialsForm, Maybe } from 'types';
+import { createSchema } from 'libs';
 import { editStore } from 'states';
-import { createSchema } from './create';
-import React from 'react';
+import getDefaults from 'json-schema-defaults';
+import { isFunction } from './is';
 
 message.config({
   top: 80,
@@ -108,7 +109,11 @@ export function downloadString(text: string, fileType: string, fileName: string)
   }, 1500);
 }
 
-export function getSchemaDefault(schema: JsonSchemaProperties) {
+export function getFormDefaultValue(form?: MaterialsForm) {
+  return !form || isFunction(form) ? {} : getSchemaDefaultValue(form as JsonSchemaProperties);
+}
+
+export function getSchemaDefaultValue(schema: JsonSchemaProperties) {
   return getDefaults(createSchema(schema));
 }
 

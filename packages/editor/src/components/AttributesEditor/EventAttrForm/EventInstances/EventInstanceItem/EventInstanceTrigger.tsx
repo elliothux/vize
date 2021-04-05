@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { EventTargetType, EventTrigger, EventTarget, MaterialsCustomEvent } from 'types';
 import { Trans } from 'react-i18next';
 import { i18n } from 'i18n';
-import { getTriggerDisplayName } from './utils';
+import { getTriggerDisplayName } from '../../utils';
 
 interface Props {
   trigger: EventTrigger;
@@ -27,9 +27,10 @@ export function EventInstanceTrigger({ trigger, target, customEvents }: Props) {
 
 function getTargetTypeDesc(type: EventTargetType) {
   const descMap = {
-    [EventTargetType.ACTION]: 'Execute action',
-    [EventTargetType.PLUGIN]: 'Trigger plugin',
-    [EventTargetType.COMPONENT]: 'Trigger component',
+    [EventTargetType.Action]: 'Execute action',
+    [EventTargetType.Plugin]: 'Trigger plugin',
+    [EventTargetType.Component]: 'Trigger component',
+    [EventTargetType.Global]: 'Trigger container',
   };
   return descMap[type];
 }

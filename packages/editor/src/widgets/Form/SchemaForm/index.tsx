@@ -1,10 +1,11 @@
+import './index.scss';
 import * as React from 'react';
 import { useCallback, useMemo, useEffect } from 'react';
 import { throttle } from 'throttle-debounce';
 import { SchemaForm as USchemaForm, Submit } from '@uform/antd';
 import { SchemaFormProps } from 'types';
-import { noop, createSchema, getSchemaDefault, isEmpty } from 'utils';
-import './index.scss';
+import { noop, getSchemaDefaultValue, isEmpty } from 'utils';
+import { createSchema } from 'libs';
 
 function ISchemaForm(props: SchemaFormProps) {
   const { schema: iSchema, value, onChange: iOnChange, onSubmit, submitProps } = props;
@@ -13,7 +14,7 @@ function ISchemaForm(props: SchemaFormProps) {
   const onChange = useCallback(throttle(200, iOnChange || noop), [iOnChange]);
 
   useEffect(() => {
-    const defaultValue = getSchemaDefault(iSchema);
+    const defaultValue = getSchemaDefaultValue(iSchema);
     if (isEmpty(value) && !isEmpty(defaultValue)) {
       if (onSubmit) {
         onSubmit(defaultValue);
@@ -26,7 +27,7 @@ function ISchemaForm(props: SchemaFormProps) {
   const v = { ...value };
 
   return (
-    <USchemaForm schema={schema} value={v} onChange={onChange} onSubmit={onSubmit}>
+    <USchemaForm schema={schema} initialValues={v} value={v} onChange={onChange} onSubmit={onSubmit}>
       {submitProps && (
         <Submit className="submit-btn" {...submitProps}>
           {submitProps.children}

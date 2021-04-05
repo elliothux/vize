@@ -2,9 +2,8 @@ import { action, computed, observable } from 'mobx';
 import { getQueryParams } from 'utils';
 import { LayoutMode, Maybe, PageMode } from 'types';
 import { UserRecord } from 'sharedTypes';
-import { StoreWithUtils } from './utils';
-import { globalStore } from './global';
 import { DeviceItem, phones } from 'components/Simulator/devices';
+import { StoreWithUtils } from './utils';
 
 const defaultUser = { id: -1, name: 'vize-user', createdTime: new Date(), bizs: [], isAdmin: 0 };
 
@@ -18,11 +17,6 @@ export class EditStore extends StoreWithUtils<EditStore> {
     this.containerName = container;
     this.debugPorts = debugPorts;
     this.mainLib = libs[0];
-
-    globalStore.setMetaInfo({
-      id,
-      key,
-    });
   }
 
   public readonly pageId: Maybe<number>;
@@ -41,13 +35,15 @@ export class EditStore extends StoreWithUtils<EditStore> {
 
   public pageMode: PageMode = PageMode.SINGLE;
 
+  @observable
   public owner: UserRecord = defaultUser;
 
+  @observable
   public user: UserRecord = { ...defaultUser, id: 0 };
 
   @computed
-  public get isSinglePageMode() {
-    return this.pageMode === PageMode.SINGLE;
+  public get isUserValid() {
+    return !!this.user.isAdmin || this.owner.id === this.user.id;
   }
 
   @observable
@@ -114,6 +110,12 @@ export class EditStore extends StoreWithUtils<EditStore> {
   public resetZoom = () => {
     this.zoom = 100;
   };
+
+  @observable
+  editingPageIndex: Maybe<number> = null;
+
+  @action
+  setEditingPage = (index: Maybe<number>) => (this.editingPageIndex = index);
 }
 
 export const editStore = new EditStore();

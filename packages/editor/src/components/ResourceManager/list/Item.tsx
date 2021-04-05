@@ -32,7 +32,7 @@ function IResourceItem({ item, type, selected, toggleSelect }: Props) {
 
 export const ResourceItem = memo(IResourceItem);
 
-interface PreviewProps extends Omit<Props, 'reload'> {
+interface PreviewProps extends Pick<Props, 'item' | 'type'> {
   onPreview?: () => void;
 }
 

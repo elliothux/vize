@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import path from 'path';
 import * as fs from 'fs-extra';
 import {

@@ -1,10 +1,15 @@
-import { action, observable, toJS } from 'mobx';
+import { action, observable, runInAction, toJS } from 'mobx';
 import { getComponentSelectedCallback } from 'runtime';
-import { Maybe } from '../types';
-import { injectGlobalReadonlyGetter, isDev } from '../utils';
+import { Maybe } from 'types';
+import { injectGlobalReadonlyGetter, isDev } from 'utils';
+import { pagesStore } from './pages';
+import { PageUniversalEventTrigger } from '@vize/types';
+import { EventEmitTypes, events } from '../libs';
+import { AttrEditTab } from '../components/AttributesEditor';
 
 export enum SelectType {
   GLOBAL = 'global',
+  PAGE = 'page',
   COMPONENT = 'component',
   PLUGIN = 'plugin',
   HOTAREA = 'hotarea',
@@ -14,6 +19,10 @@ export class SelectStore {
   @observable
   public selectType: SelectType = SelectType.GLOBAL;
 
+  @action
+  public selectGlobal = () => {
+    this.selectType = SelectType.GLOBAL;
+  };
   /**
    * @desc select page
    */
@@ -22,8 +31,15 @@ export class SelectStore {
 
   @action
   public selectPage = (index: number) => {
-    this.selectType = SelectType.GLOBAL;
-    this.pageIndex = index;
+    this.selectType = SelectType.PAGE;
+    if (index === this.pageIndex) {
+      return;
+    }
+
+    pagesStore.executePageEventCallbacks(this.pageIndex, PageUniversalEventTrigger.BEFORE_LEAVE_PAGE).then(() => {
+      runInAction(() => (this.pageIndex = index));
+      return pagesStore.executePageEventCallbacks(index, PageUniversalEventTrigger.AFTER_ENTER_PAGE);
+    });
   };
 
   public isCurrentPage = (index: number) => {
@@ -99,6 +115,7 @@ export class SelectStore {
     this.hotAreaIndex = index;
     this.setContainerComponentKey(-1);
     this.selectType = SelectType.HOTAREA;
+    events.emit(EventEmitTypes.JUMP_ATTR_EDIT_TAB, AttrEditTab.EVENTS);
   };
 
   /**

@@ -8,16 +8,15 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { GeneratorResult } from '@vize/types';
+import { GeneratorResult, Maybe } from '@vize/types';
+import { CGICodeMap, CGIResponse } from '../../utils';
+import { VizeUserName } from '../../decorators';
 import { PageService } from './page.service';
 import {
   CreatePageDTO,
   QueryPageParams,
   UpdatePageDTO,
 } from './page.interface';
-import { CGICodeMap, CGIResponse } from '../../utils';
-import { Maybe } from '../../types';
-import { VizeUserName } from '../../decorators';
 
 let cgiPageService: Maybe<PageService> = null;
 
@@ -47,13 +46,13 @@ export class PageController {
       total,
       data: pages.map(page => {
         const {
-          latestHistory: { id, title, desc, createdTime },
+          latestHistory: { id, title, desc, pageCount, createdTime },
           biz: { id: bizID },
           container,
         } = page;
         return {
           ...page,
-          latestHistory: { id, title, desc, createdTime },
+          latestHistory: { id, title, desc, pageCount, createdTime },
           biz: { id: bizID },
           container: JSON.parse(container),
         };
@@ -105,7 +104,7 @@ export class PageController {
     return result['error']
       ? CGIResponse.failed(
           CGICodeMap.BuildFailed,
-          JSON.stringify(result['error']),
+          JSON.stringify(result['error'].toString()),
         )
       : CGIResponse.success(result);
   }

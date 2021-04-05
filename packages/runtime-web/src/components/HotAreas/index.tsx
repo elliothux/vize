@@ -1,14 +1,14 @@
 import './index.scss';
 import * as React from 'react';
-import { ComponentInstance } from '@vize/types';
+import { ComponentInstance } from '../../../types';
 import { HotAreaItem } from './HotAreaItem';
 import { AppRenderProps } from '../AppRender/types';
 
-interface Props extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
+interface Props extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta' | 'router'> {
   instance: ComponentInstance;
 }
 
-export function HotAreas({ instance, global, meta, router }: Props) {
+export function HotAreas({ instance, globalData, pageData, meta, router }: Props) {
   if (!instance?.hotAreas?.length) {
     return null;
   }
@@ -20,8 +20,9 @@ export function HotAreas({ instance, global, meta, router }: Props) {
           key={hotArea.key}
           hotArea={hotArea}
           componentInstance={instance}
-          global={global}
           meta={meta}
+          globalData={globalData}
+          pageData={pageData}
           router={router}
         />
       ))}

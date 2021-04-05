@@ -1,17 +1,32 @@
 import './index.scss';
 import * as React from 'react';
+import { ComponentType } from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
 import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore, sharedStore } from 'states';
-import { injectStyle, loadUMDModuleFromString } from 'utils/loader';
-import { MaterialsMain, Maybe, ContainerRenderEntry, ComponentInstance } from 'types';
-import { initDocument, registerHotkey } from 'utils';
-import { setMaterialsMap, executePlugins } from 'runtime';
+import {
+  MaterialsMain,
+  Maybe,
+  ContainerRenderEntry,
+  ComponentInstance,
+  RouterProps,
+  GlobalUniversalEventTrigger,
+  RenderTemplateParams,
+} from 'types';
+import { loadUMDModuleFromString, injectStyle, registerHotkey, initDocument } from 'libs';
+import {
+  setMaterialsMap,
+  executePlugins,
+  onCustomEvent,
+  cancelCustomEvent,
+  emitCustomEvent,
+  generateGlobalEventHandlers,
+} from 'runtime';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
-import { injectRuntime, setUserAgent } from './utils';
 import { InjectedStylesRender } from '../InjectedStylesRender';
+import { injectRuntime, setUserAgent } from './utils';
 
 import iframeStyle from './index.iframe.scss';
 
@@ -22,7 +37,8 @@ export class Renderer extends React.Component {
   constructor(props: {}) {
     super(props);
     const { containerHTML } = materialsStore;
-    const params = { global: {}, meta: {}, mainStyle: '', mainScript: '' };
+    const { globalData, globalStyle, metaInfo } = globalStore;
+    const params: RenderTemplateParams = { globalData, globalStyle, meta: metaInfo };
     this.containerHTML = tpl(containerHTML)(params);
   }
 
@@ -44,8 +60,25 @@ export class Renderer extends React.Component {
       throw new Error('No renderEntry');
     }
 
-    executePlugins(pluginsStore.pluginInstances, globalStore.metaInfo, globalStore.globalProps, pagesStore.router, win);
+    const { metaInfo, globalData } = globalStore;
+    const {
+      currentPage: { data: pageData },
+    } = pagesStore;
     this.callContainerRenderEntry(renderEntry);
+    executePlugins(pluginsStore.pluginInstances, metaInfo, globalData, pageData, pagesStore.router, win);
+    await this.execGlobalInitCallbacks();
+  };
+
+  private execGlobalInitCallbacks = async () => {
+    const { globalEvents, globalData, metaInfo: meta } = globalStore;
+    const {
+      router,
+      currentPage: { data: pageData },
+    } = pagesStore;
+    const handlers = generateGlobalEventHandlers(globalEvents, router);
+    if (handlers[GlobalUniversalEventTrigger.INIT]) {
+      await handlers[GlobalUniversalEventTrigger.INIT]!(null, { globalData, pageData, meta });
+    }
   };
 
   private initIframeDocument = (doc: Document, win: Window) => {
@@ -96,15 +129,39 @@ export class Renderer extends React.Component {
     ]);
   };
 
+  private onGlobalEvent = (eventName: string, callback: Function) => {
+    return onCustomEvent('global', eventName, callback);
+  };
+
+  private cancelGlobalEvent = (eventName: string, callback: Function) => {
+    return cancelCustomEvent('global', eventName, callback);
+  };
+
+  private emitGlobalEvent = (eventName: string) => {
+    const { globalEvents, globalData, metaInfo: meta } = globalStore;
+    const {
+      router,
+      currentPage: { data: pageData },
+    } = pagesStore;
+    return emitCustomEvent(globalEvents, eventName, meta, globalData, pageData, router);
+  };
+
+  // TODO: implementRouterController
+  private implementRouterController = (CustomRouter: ComponentType<RouterProps>) => {
+    console.warn('"implementRouterController" not supported in editor for now', CustomRouter);
+  };
+
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {
-    const { globalProps: global, globalStyle, metaInfo: meta } = globalStore;
-    // TODO
+    const { globalData, globalStyle, metaInfo: meta } = globalStore;
     renderEntry({
-      implementRouterController: console.log,
-      render: () => this.setState({ ready: true }),
-      data: global,
-      style: globalStyle,
+      globalData,
+      globalStyle,
       meta,
+      implementRouterController: this.implementRouterController,
+      render: () => this.setState({ ready: true }),
+      on: this.onGlobalEvent,
+      cancel: this.cancelGlobalEvent,
+      emit: this.emitGlobalEvent,
     });
   };
 
@@ -124,7 +181,6 @@ export class Renderer extends React.Component {
         <InjectedStylesRender />
         <LayoutRender
           mountTarget={mountTarget}
-          // renderContext={win}
           componentInstances={componentInstances}
           sharedComponentInstances={sharedComponentInstances}
         />

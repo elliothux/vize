@@ -1,14 +1,14 @@
 import './index.scss';
 import * as React from 'react';
-import classnames from 'classnames';
-import { observer } from 'mobx-react';
 import { memo, useEffect, useMemo, useState } from 'react';
-import { selectStore, SelectType } from 'states';
-import { EventEmitTypes, events } from 'utils';
-import { Tabs } from 'antd';
+import { observer } from 'mobx-react';
+import { componentsStore, globalStore, hotAreaStore, pagesStore, pluginsStore, selectStore, SelectType } from 'states';
+import { EventEmitTypes, events } from 'libs';
+import { Tabs, Badge } from 'antd';
 import { FiDatabase, FiFeather, FiGrid } from 'react-icons/fi';
 import { i18n } from 'i18n';
 import { Trans } from 'react-i18next';
+import classnames from 'classnames';
 import { DataAttrsEdit } from './DataAttrsEdit';
 import { StyleAttrsForm } from './StyleAttrsEdit';
 import { EventAttrForm } from './EventAttrForm';
@@ -38,10 +38,18 @@ function IAttributesEditor({ loading }: Props) {
     events.on(EventEmitTypes.JUMP_ATTR_EDIT_TAB, handleSetActiveKey);
   }, []);
 
+  useEffect(() => {
+    if (selectType !== SelectType.HOTAREA) {
+      setActiveKey(AttrEditTab.DATA);
+    }
+  }, [selectType]);
+
   const title = useMemo(() => {
     switch (selectType) {
       case SelectType.GLOBAL:
         return i18n.t('Global Attributes');
+      case SelectType.PAGE:
+        return i18n.t('Page Attributes');
       case SelectType.COMPONENT:
         return i18n.t('Component Configuration');
       case SelectType.PLUGIN:
@@ -90,12 +98,15 @@ function IAttributesEditor({ loading }: Props) {
         <TabPane
           key={AttrEditTab.EVENTS}
           tab={
-            <div className="editor-prop-tab-item">
-              <FiGrid />
-              <span>
-                &nbsp;<Trans>Event</Trans>
-              </span>
-            </div>
+            <>
+              <div className="editor-prop-tab-item">
+                <FiGrid />
+                <span>
+                  &nbsp;<Trans>Event</Trans>
+                </span>
+              </div>
+              <Badge count={getEventCount()} size="small" />
+            </>
           }
         >
           <EventAttrForm selectType={selectType} />
@@ -103,6 +114,22 @@ function IAttributesEditor({ loading }: Props) {
       </Tabs>
     </div>
   );
+}
+
+function getEventCount(): number {
+  const { selectType } = selectStore;
+  switch (selectType) {
+    case SelectType.COMPONENT:
+      return componentsStore.getCurrentComponentInstance()!.events.length;
+    case SelectType.PLUGIN:
+      return pluginsStore.getCurrentPluginInstance()!.events.length;
+    case SelectType.HOTAREA:
+      return hotAreaStore.getCurrentHotArea()!.events.length;
+    case SelectType.GLOBAL:
+      return globalStore.globalEvents.length;
+    case SelectType.PAGE:
+      return pagesStore.currentPage.events.length;
+  }
 }
 
 export const AttributesEditor = memo(observer(IAttributesEditor));

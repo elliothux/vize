@@ -1,68 +1,69 @@
-import { action, observable, toJS } from 'mobx';
-import { defaultPageStyle, injectGlobalReadonlyGetter, isDev } from 'utils';
-import { GlobalMeta, GlobalStyle, Maybe } from 'types';
+import { action, observable } from 'mobx';
+import { getFormDefaultValue, getQueryParams } from 'utils';
+import { getMaterialsContainerMeta } from 'libs';
+import { EventInstance, GlobalMeta } from 'types';
 import { StoreWithUtils } from './utils';
 
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
-  @observable
-  public globalProps: object = {};
+  constructor() {
+    super();
+    const { id, key } = getQueryParams();
+    this.metaInfo.id = id;
+    this.metaInfo.key = key;
+  }
 
   @action
-  public setGlobalProps = (data: object) => {
-    this.globalProps = data;
+  public init = () => {
+    const { globalDataForm, globalStyleForm } = getMaterialsContainerMeta()!;
+    this.globalData = getFormDefaultValue(globalDataForm);
+    this.globalStyle = getFormDefaultValue(globalStyleForm);
   };
 
+  /**
+   * @desc GlobalData & GlobalStyle
+   * @struct object
+   */
   @observable
-  public globalStyle: GlobalStyle = defaultPageStyle;
+  public globalData: object = {};
 
   @action
-  public setGlobalStyle = (data: GlobalStyle) => {
-    this.globalStyle = data;
+  public setGlobalData = (data: object) => (this.globalData = data);
+
+  @observable
+  public globalStyle: object = {};
+
+  @action
+  public setGlobalStyle = (data: object) => (this.globalStyle = data);
+
+  /**
+   * @desc Global Events
+   */
+  @observable
+  public globalEvents: EventInstance[] = [];
+
+  @action
+  public setGlobalEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
+    const newEvents = setter(this.globalEvents);
+    if (newEvents) {
+      this.globalEvents = newEvents;
+    }
+    return newEvents;
   };
 
+  /**
+   * @desc GlobalMeta
+   */
   @observable
   public metaInfo: GlobalMeta = {
     title: 'vize page',
     desc: '',
-    duration: null,
-    expiredJump: '',
     id: null,
     key: '',
     isTemplate: false,
     isEditor: true,
   };
 
-  @action
-  public setMetaInfo = (data: Partial<GlobalMeta>) => {
-    this.metaInfo = {
-      ...this.metaInfo,
-      ...data,
-    };
-  };
-
-  @action
-  public setPageTitle = (title: string) => {
-    this.metaInfo.title = title;
-  };
-
-  @action
-  public setPageDesc = (desc: string) => {
-    this.metaInfo.desc = desc;
-  };
-
-  @action
-  public setPageDuration = (duration: Maybe<[number, number]>) => {
-    this.metaInfo.duration = duration;
-  };
-
-  @action
-  public setPageExpiredJumpURL = (url: string) => {
-    this.metaInfo.expiredJump = url;
-  };
+  public setMetaInfo = (data: Partial<GlobalMeta>) => (this.metaInfo = { ...this.metaInfo, ...data });
 }
 
 export const globalStore = new GlobalStore();
-
-if (isDev()) {
-  setTimeout(() => injectGlobalReadonlyGetter('vize_global_store', () => toJS(globalStore)), 1000);
-}

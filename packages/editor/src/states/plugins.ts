@@ -1,78 +1,35 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed } from 'mobx';
 import { EventInstance, Maybe, PluginInstance } from 'types';
 import { getMaterialsPluginMeta } from 'runtime';
 import {
-  addPagePluginInstanceIndexMap,
   createPluginInstance,
-  deletePagePluginInstanceIndexMap,
-  DepsTargetType,
   getCurrentPagePluginIndex,
-  pluginEventDepsMap,
   regenerateCurrentPagePluginIndexMap,
   setCurrentPagePluginIndex,
-} from '../utils';
+  DepsTargetType,
+  pluginEventDepsMap,
+} from 'libs';
 import { selectStore, SelectType } from './select';
 import { pagesStore } from './pages';
 import { eventStore } from './events';
-import { editStore } from './edit';
 import { StoreWithUtils } from './utils';
 
 export class PluginsStore extends StoreWithUtils<PluginsStore> {
-  /**
-   * @desc PagePluginsMap
-   * @struct Map<Page, PluginInstance[]>
-   */
-  @observable
-  public pagesPluginInstancesMap: {
-    [key: number]: PluginInstance[];
-  } = {};
-
-  @observable
-  public singlePagePluginsInstances: PluginInstance[] = [];
-
   @computed
   public get pluginInstances(): PluginInstance[] {
-    return this.getPluginInstancesMap(pagesStore.currentPage.key);
+    return pagesStore.currentPage.pluginInstances;
   }
 
   @action
-  public addPluginInstancesMap = (pageKey: number) => {
-    this.pagesPluginInstancesMap[pageKey] = [];
-    addPagePluginInstanceIndexMap(pageKey);
-  };
-
-  @action
-  public deletePluginInstancesMap = (pageKey: number) => {
-    delete this.pagesPluginInstancesMap[pageKey];
-    deletePagePluginInstanceIndexMap(pageKey);
-  };
-
-  public getPluginInstancesMap = (pageKey: number) => {
-    if (editStore.isSinglePageMode) {
-      return this.singlePagePluginsInstances;
-    }
-    return this.pagesPluginInstancesMap[pageKey];
-  };
-
-  /**
-   * @desc PluginInstances
-   * @struct PluginInstance[]
-   */
-  @action
-  private changePluginInstance = (setter: (pluginInstances: PluginInstance[]) => PluginInstance[] | void) => {
-    if (editStore.isSinglePageMode) {
-      const newInstances = setter(this.singlePagePluginsInstances);
+  public setCurrentPagePluginInstances = (setter: (pluginInstances: PluginInstance[]) => PluginInstance[] | void) => {
+    let newInstances: PluginInstance[] | undefined;
+    pagesStore.setCurrentPage(page => {
+      newInstances = setter(page.pluginInstances) || undefined;
       if (newInstances) {
-        this.singlePagePluginsInstances = newInstances;
+        page.pluginInstances = newInstances;
       }
-      return;
-    }
-
-    const instance = this.pagesPluginInstancesMap[pagesStore.currentPage.key];
-    const newInstances = setter(instance);
-    if (newInstances) {
-      this.pagesPluginInstancesMap[pagesStore.currentPage.key] = newInstances;
-    }
+    });
+    return newInstances;
   };
 
   @action
@@ -80,7 +37,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
     const plugin = getMaterialsPluginMeta(pluginID)!;
     const instance = createPluginInstance(plugin);
 
-    this.changePluginInstance(pluginInstances => {
+    this.setCurrentPagePluginInstances(pluginInstances => {
       pluginInstances.push(instance);
       setCurrentPagePluginIndex(instance.key, pluginInstances.length - 1);
     });
@@ -93,7 +50,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
   public deletePluginInstance = (key: number) => {
     const index = getCurrentPagePluginIndex(key)!;
 
-    this.changePluginInstance(pluginInstances => {
+    this.setCurrentPagePluginInstances(pluginInstances => {
       pluginInstances.splice(index, 1);
       regenerateCurrentPagePluginIndexMap(pluginInstances);
     });

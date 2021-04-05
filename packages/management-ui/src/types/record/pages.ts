@@ -18,7 +18,6 @@ export interface PageRecord {
   status: number;
   owner: UserRecord;
   biz: Pick<BizRecord, 'id'>;
-  latestHistory: Pick<HistoryRecord, 'id' | 'title' | 'desc' | 'createdTime'>;
 }
 
 export interface PageRecordWithHistory extends PageRecord {

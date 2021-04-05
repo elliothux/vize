@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LayoutMode, PageMode, PageRecord } from 'types';
+import { LayoutMode, PageMode, PageRecordWithHistory } from 'types';
 import { Card, Tooltip } from 'antd';
 import { EditOutlined, CopyOutlined, LineChartOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons';
 import { memo, useMemo } from 'react';
@@ -9,7 +9,7 @@ import { PreviewWithEmpty } from '../PreviewWithEmpty';
 import { goToEditor } from './utils';
 
 interface Props {
-  item: PageRecord;
+  item: PageRecordWithHistory;
   isTemplate: boolean;
 }
 

@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import { useCurrentComponentInstance, useCurrentComponentMeta } from 'hooks';
 import { observer } from 'mobx-react';
-import { useCallback, useRef } from 'react';
-import { SortableComponentEventInstances } from './SortableComponentEventInstances';
-import { Title } from '../Title';
 import { SortEnd } from 'react-sortable-hoc';
 import { eventStore } from 'states';
+import { SortableComponentEventInstances } from './SortableComponentEventInstances';
+import { Title } from '../Title';
 
 function IComponentEventInstances() {
   const { events } = useCurrentComponentInstance()!;

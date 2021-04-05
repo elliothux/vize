@@ -1,10 +1,12 @@
 import './index.scss';
 import React from 'react';
 import { SelectType } from 'states';
+import { i18n } from 'i18n';
+import { Empty } from 'widgets/Empty';
 import { ComponentDataForm } from './ComponentDataForm';
 import { PluginDataForm } from './PluginDataForm';
-import { GlobalDataForm } from './GlobalDataForm';
-import { NotAvailable } from '../NotAvailable';
+import { GlobalDataMetaForm } from './GlobalDataMetaForm';
+import { PageDataForm } from './PageDataForm';
 
 interface Props {
   selectType: SelectType;
@@ -13,15 +15,21 @@ interface Props {
 function IDataAttrsEdit({ selectType }: Props) {
   if (selectType === SelectType.COMPONENT) {
     return <ComponentDataForm />;
-  } else if (selectType === SelectType.PLUGIN) {
+  }
+
+  if (selectType === SelectType.PLUGIN) {
     return <PluginDataForm />;
   }
-  if (selectType === SelectType.GLOBAL) {
-    return <GlobalDataForm />;
-  }
-  return <NotAvailable />;
-}
 
-// export default DataAttrsEdit;
+  if (selectType === SelectType.PAGE) {
+    return <PageDataForm />;
+  }
+
+  if (selectType === SelectType.GLOBAL) {
+    return <GlobalDataMetaForm />;
+  }
+
+  return <Empty text={i18n.t('Not available')} />;
+}
 
 export const DataAttrsEdit = IDataAttrsEdit;

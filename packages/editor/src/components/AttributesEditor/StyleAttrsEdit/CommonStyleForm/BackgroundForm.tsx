@@ -3,6 +3,7 @@ import { BackgroundStyle } from 'types';
 import { Radio, Select } from 'antd';
 import { isEmpty, ColorFormat } from 'utils';
 import { Color } from 'widgets/Form/Fields/Color';
+import { Image } from 'widgets/Form/Fields/Image';
 import { Trans } from 'react-i18next';
 import { StyleFormProps } from './types';
 
@@ -19,7 +20,7 @@ export function BackgroundForm({ style, onChange }: StyleFormProps<BackgroundSty
           <Trans>Color</Trans>:
         </span>
         <Color
-          // disabled={colorDisabled}
+          disabled={!!image}
           value={color}
           onChange={color => onChange({ ...style, color })}
           format={ColorFormat.RGBA}
@@ -29,7 +30,7 @@ export function BackgroundForm({ style, onChange }: StyleFormProps<BackgroundSty
         <span>
           <Trans>Picture</Trans>:
         </span>
-        {/* <Image value={image} onChange={image => onChange({ ...style, image })} /> */}
+        <Image value={image} onChange={image => onChange({ ...style, image })} />
       </div>
       {isEmpty(image) ? null : (
         <>

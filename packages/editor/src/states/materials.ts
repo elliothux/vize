@@ -2,7 +2,8 @@ import { action, observable, computed, toJS, runInAction } from 'mobx';
 import { Maybe } from 'types';
 import { setMaterialsMetaMap } from 'runtime';
 import { initMaterialsForms } from 'widgets/Form/utils';
-import { loadMaterials, injectGlobalReadonlyGetter, isDev } from '../utils';
+import { injectGlobalReadonlyGetter, isDev } from 'utils';
+import { loadMaterials, setMaterialsContainerMeta } from 'libs';
 import { editStore } from './edit';
 
 interface MaterialsLibItem {
@@ -19,7 +20,7 @@ interface MaterialsLibItem {
 
 export class MaterialsStore {
   @action
-  public readonly init = () => {
+  public init = () => {
     const { libNames, containerName, debugPorts } = editStore;
     return Promise.all(
       libNames.map((name, index) => {
@@ -56,6 +57,7 @@ export class MaterialsStore {
       forms,
     } = await loadMaterials(libName, containerName, debugPort || undefined);
 
+    setMaterialsContainerMeta(meta.containers[`${libName}_${containerName}`]);
     setMaterialsMetaMap(libName, meta, true);
     initMaterialsForms(forms);
 

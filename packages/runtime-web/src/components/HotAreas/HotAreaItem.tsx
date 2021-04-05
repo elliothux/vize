@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { ComponentInstance, HotArea } from '@vize/types';
+import { ComponentInstance, HotArea } from '../../../types';
 import { NodeEventProxy } from '../NodeEventProxy';
 import { AppRenderProps } from '../AppRender/types';
 
-interface Props extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
+interface Props extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta' | 'router'> {
   componentInstance: ComponentInstance;
   hotArea: HotArea;
 }
 
-export function HotAreaItem({ hotArea, global, meta, router }: Props) {
+export function HotAreaItem({ hotArea, globalData, pageData, meta, router }: Props) {
   const { size, position } = hotArea;
   const style = useMemo(
     () => ({
@@ -26,11 +26,12 @@ export function HotAreaItem({ hotArea, global, meta, router }: Props) {
       className="hotarea-event-proxy"
       childrenType="hotarea"
       instance={hotArea}
-      style={style}
-      global={global}
       meta={meta}
+      globalData={globalData}
+      pageData={pageData}
       router={router}
       previewMode={false}
+      style={style}
     />
   );
 }

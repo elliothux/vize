@@ -48,6 +48,12 @@ $prop-edit-width: 326px;
     .ant-tabs-tab {
       width: 33.3333%;
       border-top: none !important;
+
+      .ant-badge {
+        position: absolute;
+        right: 10px;
+        top: 6px;
+      }
     }
 
     .ant-tabs-nav-list {
@@ -66,6 +72,13 @@ $prop-edit-width: 326px;
     overflow-y: scroll;
     padding: 30px 16px;
     max-width: 100%;
+    background-color: #ffffff;
+
+    &.with-collapsed > .ant-collapse-item > .ant-collapse-header {
+      color: rgba(0, 0, 0, 0.6) !important;
+      font-weight: bolder;
+      font-size: 13px;
+    }
 
     .ant-form-item {
       display: flex;

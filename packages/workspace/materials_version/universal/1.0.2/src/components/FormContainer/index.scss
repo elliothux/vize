@@ -1,0 +1,20 @@
+.vize-form-container {
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: hidden;
+
+  & .vize-form-item {
+    margin-bottom: 36px;
+  }
+
+  .vize-form-submit {
+    border: none;
+    width: 100%;
+    height: 56px;
+    border-radius: 56px;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    outline: none;
+  }
+}

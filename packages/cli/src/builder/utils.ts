@@ -12,7 +12,15 @@ import {
   MaterialsContainerManifestItem,
   MaterialsLibConfig,
 } from '@vize/types';
-import { downloadPackage, error, getCLITempPath, LibPaths, logWithSpinner, stopSpinner } from '../utils';
+import {
+  downloadPackage,
+  error,
+  getCLITempPath,
+  getPackageLocalPath,
+  LibPaths,
+  logWithSpinner,
+  stopSpinner,
+} from '../utils';
 
 export function findThumb(entry: string) {
   const svg = path.join(entry, './thumb.svg');
@@ -92,7 +100,15 @@ export async function clearTemp(libPaths: LibPaths) {
 
 const EDITOR_PKG_NAME = '@vize/editor';
 
-export async function prepareEditor(registry?: string): Promise<string> {
+export async function prepareEditor(local: boolean, registry?: string): Promise<string> {
+  if (local) {
+    const localPath = getPackageLocalPath(EDITOR_PKG_NAME);
+    if (localPath) {
+      return localPath;
+    }
+    throw 'Cannot find a local version of editor';
+  }
+
   const packagePath = await downloadPackage(EDITOR_PKG_NAME, registry);
   const filesPath = path.resolve(packagePath, 'build');
   const tempPath = await getCLITempPath();

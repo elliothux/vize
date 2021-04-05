@@ -2,7 +2,7 @@ import './index.scss';
 import * as React from 'react';
 import { BizSelector } from 'components/BizSelector';
 import { useCallback, useState } from 'react';
-import { BizRecord, PageRecord, Maybe } from 'types';
+import { BizRecord, Maybe, PageRecordWithHistory } from 'types';
 import { Spin, message, Pagination, Button, Empty } from 'antd';
 import { useAsyncEffect } from 'hooks';
 import { queryPages } from 'api';
@@ -24,7 +24,7 @@ export function PageList({ isTemplate = false }: Props) {
   const [loading, setLoading] = useState(true);
   const [keywords, setKeywords] = useState('');
   const [biz, setBiz] = useState<Maybe<BizRecord['id']>>(null);
-  const [pages, setPages] = useState<Maybe<PageRecord[]>>(null);
+  const [pages, setPages] = useState<Maybe<PageRecordWithHistory[]>>(null);
   const [[current, total], setPagination] = useState([0, 1]);
   const [createVisible, setCreateVisible] = useState(false);
 

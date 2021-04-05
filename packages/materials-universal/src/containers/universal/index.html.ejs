@@ -12,10 +12,11 @@
     <desc><%= meta.desc %></desc>
 </head>
 
-<body>
+<body style="background-color: <%= globalStyle.backgroundColor %>">
+    <h1><%= globalData.shareTitle %></h1>
     <div id="vize-main-entry"><!-- DO NOT MODIFY! HTML_PLACEHOLDER --></div>
     <script>
-        console.log('global', <%= JSON.stringify(global) %>);
+        <!--console.log('globalData: ', <%= JSON.stringify(globalData) %>);-->
     </script>
 </body>
 </html>

@@ -1,6 +1,4 @@
 /* eslint-disable max-lines */
-import { Trans } from 'react-i18next';
-
 export const zh = {
   translations: {
     undo: '撤销',
@@ -31,9 +29,12 @@ export const zh = {
     disappear: '消失',
     'before execute': '执行前',
     'after execute': '执行后',
+    'after enter page': '进入页面后',
+    'before leave page': '离开页面前',
     TriggerWhen: '当 <1>$t({{trigger}})</1> 时 {{action}}',
     'Trigger plugin': '触发插件',
     'Trigger component': '触发组件',
+    'Trigger container': '触发页面容器',
     'Component Configuration': '组件编辑',
     'Plugin Configuration': '插件编辑',
     'Attributes Configuration': '属性配置',
@@ -49,7 +50,7 @@ export const zh = {
     'Publish not allowed with {{type}}': '$t({{type}}) 不支持发布',
     'Debug Mode': 'Debug 模式 ',
     'template page': '模板页面 ',
-    "Don't have permission to {{type}}": '没有$({{type}})的权限',
+    "Don't have permission to {{type}}": '没有$t({{type}})的权限',
     'Created by {{owner}}': '由 "{{owner}}" 创建',
     'show link': '查看链接',
     'Generate preview success': '生成预览成功',
@@ -66,6 +67,7 @@ export const zh = {
     Component: '组件',
     Plugin: '插件',
     Hotarea: '热区',
+    Container: '页面容器',
     'Added events': '已添加的事件',
     'Added plugins': '已添加的插件',
     'Added components': '已添加的组件',
@@ -161,7 +163,6 @@ export const zh = {
     dashed: '虚线',
     Title: '标题',
     Description: '描述',
-    Duration: '起止时间',
     Opacity: '透明',
     Rotate: '旋转',
     Scale: '缩放',
@@ -184,6 +185,7 @@ export const zh = {
     'Font size': '字体大小',
     'Line height': '行高',
     'Global Attributes': '全局属性',
+    'Page Attributes': '页面属性',
     Trigger: '触发条件',
     ' custom triggers': '自定义触发',
     'Universal triggers': '通用触发',
@@ -342,5 +344,9 @@ export const zh = {
     'No bizs data': '暂无业务',
     'Select {{type}}': '选择$t({{type}})',
     Select: '选择',
+    'Long term': '长期在线',
+    'Meta info of page': '页面基础信息',
+    'Global info of container': '容器全局配置',
+    'Error occurred': '出错啦',
   },
 };

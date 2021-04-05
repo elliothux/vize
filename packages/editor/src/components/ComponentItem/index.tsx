@@ -1,18 +1,23 @@
-/* eslint-disable max-lines */
 import * as React from 'react';
 import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildren } from 'types';
 import { ComponentView } from './ComponentView';
 import { editStore, SelectStore, selectStore, SelectType } from 'states';
-import { events, EventEmitTypes, withPreventEvent } from 'utils';
-import { calcPosition, getMaterialsComponentMeta } from 'runtime';
-import classNames from 'classnames';
-import { deleteComponentNode, setComponentNode, deleteComponentSelectedCallback } from 'runtime';
+import { withPreventEvent } from 'utils';
+import { events, EventEmitTypes } from 'libs';
+import {
+  deleteComponentNode,
+  setComponentNode,
+  deleteComponentSelectedCallback,
+  calcPosition,
+  getMaterialsComponentMeta,
+} from 'runtime';
 import { ComponentContextMenu, showComponentContextMenu } from 'components/ContextMenu';
+import classNames from 'classnames';
 import { ComponentMask } from './ComponentMask';
 import { LayoutRender } from '../LayoutRender';
 import { ComponentSelectModeMask } from './ComponentSelectModeMask';
-import iframeStyle from './index.iframe.scss';
 import { ComponentHotAreas } from './ComponentHotAreas';
+import iframeStyle from './index.iframe.scss';
 
 editStore.setIframeStyle('ComponentItem', iframeStyle);
 

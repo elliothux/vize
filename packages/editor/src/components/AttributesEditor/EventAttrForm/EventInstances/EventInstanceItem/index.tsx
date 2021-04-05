@@ -27,10 +27,10 @@ function IEventInstanceItem({
   return (
     <Card
       key={key}
-      className={classNames('vize-event-instance', { empty_form: target.type !== EventTargetType.ACTION })}
+      className={classNames('vize-event-instance', { empty_form: target.type !== EventTargetType.Action })}
       title={<EventHeader eventInstance={eventInstance} onDelete={onDelete} customEvents={customEvents} />}
     >
-      {target.type === EventTargetType.ACTION ? (
+      {target.type === EventTargetType.Action ? (
         <EventInstanceDataForm instance={eventInstance} onChange={onChangeData!} />
       ) : null}
     </Card>

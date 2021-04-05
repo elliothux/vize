@@ -5,7 +5,8 @@ import * as R from 'ramda';
 import { ComponentInstance, Maybe } from 'types';
 import { IHotArea, IHotAreaPosition, IHotAreaSize, MoveHotAreaDirection } from './types';
 import { Modal, Spin } from 'antd';
-import { getImageSrc, getOffsetToViewport, events, EventEmitTypes } from 'utils';
+import { getImageSrc, getOffsetToViewport } from 'utils';
+import { events, EventEmitTypes } from 'libs';
 import { i18n } from 'i18n';
 import {
   createHotArea,

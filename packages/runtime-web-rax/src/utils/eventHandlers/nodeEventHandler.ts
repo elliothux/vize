@@ -35,7 +35,7 @@ function generateHandler(
   return pipeEvents(iEvents, instance, router);
 }
 
-export function generateNodeHandlers(
+export function generateNodeEventHandlers(
   events: EventInstance[],
   instance: ComponentInstance | HotArea,
   router: PageRouter,

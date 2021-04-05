@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import * as React from 'react';
 import {
   ComponentEventListenerTypes,
@@ -10,14 +9,14 @@ import {
   Maybe,
   PageRouter,
   WithReactChildren,
-} from '@vize/types';
+} from '../../../types';
 import {
   events,
   RuntimeEventEmitTypes,
   withPersistReactEvent,
   EventHandler,
   NodeEventHandlers,
-  generateNodeHandlers,
+  generateNodeEventHandlers,
   HandlerParams,
 } from '../../utils';
 
@@ -27,11 +26,12 @@ interface Props<T extends InstanceType> extends WithReactChildren {
   className: string;
   childrenType: 'component' | 'hotarea';
   instance: T;
-  style: object;
-  global: object;
   meta: GlobalMeta;
+  globalData: object;
+  pageData: object;
   router: PageRouter;
   previewMode: boolean;
+  style: object;
 }
 
 const nodeIntersectionObserver = new IntersectionObserver(entries => {
@@ -61,7 +61,8 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
   constructor(props: Props<T>) {
     super(props);
-    this.handlerParams = { global: props.global!, meta: props.meta! };
+    const { globalData, pageData, meta } = props;
+    this.handlerParams = { globalData, pageData, meta };
   }
 
   public componentDidMount(): void {
@@ -180,7 +181,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
       onLongPress,
       onEnterView,
       onLeaveView,
-    } = generateNodeHandlers(events, this.props.instance, this.props.router);
+    } = generateNodeEventHandlers(events, this.props.instance, this.props.router);
 
     const { handlers, withExecNodeObserverCallbacks } = this;
     const isComponent = this.props.childrenType === 'component';

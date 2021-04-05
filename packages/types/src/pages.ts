@@ -1,19 +1,18 @@
-import * as React from 'react';
+import { ComponentType } from 'react';
 import { ComponentInstance, ComponentProps } from './component';
 import { PluginInstance } from './plugins';
+import { EventInstance } from './events';
 
 export interface PageInstance {
   key: Readonly<number>;
   name: string;
   path: string;
   isHome: boolean;
-  isNameEditing: boolean;
-}
-
-export interface PageData {
+  data: object;
+  style: object;
+  events: EventInstance[];
   componentInstances: ComponentInstance[];
   pluginInstances: PluginInstance[];
-  // events: EventInstance[];
 }
 
 export enum PageMode {
@@ -21,14 +20,20 @@ export enum PageMode {
   MULTI = 'multi',
 }
 
+export interface RouterPageItem extends PageInstance {
+  on: (eventName: string, callback: Function) => void;
+  cancel: (eventName: string, callback: Function) => void;
+  emit: (eventName: string) => void;
+}
+
 export interface PageRouter {
-  pages: Omit<PageInstance, 'isNameEditing'>[];
+  pages: RouterPageItem[];
   currentPage: number;
   setCurrentPage: (pageKey: number) => void;
 }
 
-export interface RouterProps extends Pick<ComponentProps, 'global' | 'meta'> {
+export interface RouterProps extends Pick<ComponentProps, 'globalData' | 'meta'> {
   pages: PageRouter['pages'];
-  dynamicImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<object> }> };
-  SharedComponentInstances: React.ComponentType<{ router: PageRouter }>;
+  dynamicImports: { [key: number]: () => Promise<{ PageRender: ComponentType<object> }> };
+  SharedComponentInstances: ComponentType<{ router: PageRouter }>;
 }

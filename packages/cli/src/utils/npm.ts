@@ -77,3 +77,8 @@ export async function downloadPackage(pkgName: string, registry = 'https://regis
 
   return path.join(saveDir, 'package');
 }
+
+export async function getPackageLocalPath(pkgName: string): Promise<Maybe<string>> {
+  const packagePath = path.join(await getCLITempPath(), 'packages', pkgName);
+  return (await fs.pathExists(packagePath)) ? packagePath : null;
+}

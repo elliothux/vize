@@ -1,10 +1,11 @@
-import { ComponentInstanceDSL, GlobalMeta, PageRouter, PluginInstanceDSL } from '@vize/types';
+import { ComponentInstance, GlobalMeta, PageRouter, PluginInstance } from '../../../types';
 
 export interface AppRenderProps {
-  global: object;
   meta: GlobalMeta;
-  componentInstances: ComponentInstanceDSL[];
-  sharedComponentInstances?: ComponentInstanceDSL[];
-  pluginInstances: PluginInstanceDSL[];
+  globalData: object;
+  pageData: object;
+  componentInstances: ComponentInstance[];
+  sharedComponentInstances?: ComponentInstance[];
+  pluginInstances: PluginInstance[];
   router: PageRouter;
 }

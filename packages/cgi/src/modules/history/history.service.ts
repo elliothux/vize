@@ -15,39 +15,23 @@ export class HistoryService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  public async createHistory(
-    username: string,
-    {
-      global: {
-        metaInfo: { title, desc, duration, expiredJump },
-        globalProps,
-        globalStyle,
-      },
-      sharedComponentInstances,
-      pageInstances,
-      pluginInstances,
-      editInfo,
+  public async createHistory(username: string, dsl: CreateHistoryDTO) {
+    const {
       pageKey,
-    }: CreateHistoryDTO,
-  ) {
+      meta: { title, desc },
+      pageInstances,
+    } = dsl;
     const { id: creator } = await this.userRepository.findOne({
       name: username,
     });
     return this.historyRepository.insert({
+      pageKey,
       createdTime: new Date(),
       title,
       desc,
-      startTime: duration ? new Date(duration?.[0]) : undefined,
-      endTime: duration ? new Date(duration?.[1]) : undefined,
-      expiredJump,
-      globalProps: JSON.stringify(globalProps),
-      globalStyle: JSON.stringify(globalStyle),
-      pageInstances: JSON.stringify(pageInstances),
-      pluginInstances: JSON.stringify(pluginInstances),
-      sharedComponentInstances: JSON.stringify(sharedComponentInstances),
-      maxKeys: JSON.stringify(editInfo.maxKeys),
+      pageCount: pageInstances.length,
+      dsl: JSON.stringify(dsl),
       creator: { id: creator },
-      pageKey,
     });
   }
 

@@ -1,9 +1,22 @@
 import { action } from 'mobx';
-import { EventInstance, HotArea } from 'types';
+import { EventInstance, HotArea, Maybe } from 'types';
 import { componentsStore } from './components';
 import { selectStore } from './select';
 
 export class HotAreasStore {
+  public getCurrentHotArea = (): Maybe<HotArea> => {
+    const component = componentsStore.getCurrentComponentInstance();
+    if (!component) {
+      return null;
+    }
+
+    const { hotAreaIndex } = selectStore;
+    if (hotAreaIndex < 0) {
+      return null;
+    }
+    return component.hotAreas?.[hotAreaIndex];
+  };
+
   @action
   public setCurrentComponentHotAreas = (hotAreas: HotArea[]) => {
     return componentsStore.setCurrentComponentInstanceHotAreas(() => hotAreas);

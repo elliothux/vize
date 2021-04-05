@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ReactElement, ComponentType } from 'react';
 import { MaterialsInfo } from './materials';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
@@ -84,16 +84,16 @@ export type ComponentSelectedCallback = (params: ComponentSelectedCallbackParams
 
 export interface ComponentProps<
   D extends object = ComponentInstance['data'],
-  S extends object = ComponentInstance['style'],
-  G extends object = object
+  S extends object = ComponentInstance['style']
 > extends Pick<ComponentInstance, 'commonStyle'> {
   componentKey: Readonly<number>;
   data: D;
   style: S;
-  global: G;
   meta: GlobalMeta;
+  globalData: object;
+  pageData: object;
   instance: ComponentInstance;
-  hotAreas?: React.ReactElement;
+  hotAreas?: ReactElement;
   on: (eventName: string, callback: Function) => void;
   cancel: (eventName: string, callback: Function) => void;
   emit: (eventName: string) => void;
@@ -102,4 +102,4 @@ export interface ComponentProps<
   children?: any;
 }
 
-export type MaterialsComponent = React.ComponentType<ComponentProps>;
+export type MaterialsComponent = ComponentType<ComponentProps>;
