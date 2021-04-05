@@ -1,4 +1,4 @@
-import { ComponentInstance, Maybe } from '@vize/types';
+import { ComponentInstance, Maybe } from '../../types';
 
 const componentNodes = new Map<number, HTMLDivElement>();
 

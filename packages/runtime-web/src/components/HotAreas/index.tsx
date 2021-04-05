@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { ComponentInstance } from '@vize/types';
+import { ComponentInstance } from '../../../types';
 import { HotAreaItem } from './HotAreaItem';
 import { AppRenderProps } from '../AppRender/types';
 

@@ -1,4 +1,4 @@
-import { ComponentInstance, GlobalMeta, PageRouter, PluginInstance } from '@vize/types';
+import { ComponentInstance, GlobalMeta, PageRouter, PluginInstance } from '../../../types';
 
 export interface AppRenderProps {
   meta: GlobalMeta;

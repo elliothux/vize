@@ -11,7 +11,7 @@ import {
   PluginEventTarget,
   GlobalEventTarget,
   EventTriggerName,
-} from '@vize/types';
+} from '../../../types';
 import { EventHandler, HandlerParams } from './types';
 import { getCustomEventCallbacks, getMaterialsAction } from '../../libs';
 
