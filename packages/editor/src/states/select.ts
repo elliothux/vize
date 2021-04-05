@@ -4,6 +4,8 @@ import { Maybe } from 'types';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
 import { pagesStore } from './pages';
 import { PageUniversalEventTrigger } from '@vize/types';
+import { EventEmitTypes, events } from '../libs';
+import { AttrEditTab } from '../components/AttributesEditor';
 
 export enum SelectType {
   GLOBAL = 'global',
@@ -113,6 +115,7 @@ export class SelectStore {
     this.hotAreaIndex = index;
     this.setContainerComponentKey(-1);
     this.selectType = SelectType.HOTAREA;
+    events.emit(EventEmitTypes.JUMP_ATTR_EDIT_TAB, AttrEditTab.EVENTS);
   };
 
   /**

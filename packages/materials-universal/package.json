@@ -1,9 +1,10 @@
 {
   "name": "@vize/materials-universal",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
-    "dev:local": "/Users/huqingyang/Desktop/Proj/vize/packages/cli/bin/vize.js dev -l -r https://registry.npm.taobao.org"
+    "dev:local": "/Users/huqingyang/Desktop/Proj/vize/packages/cli/bin/vize.js dev -l -r https://registry.npm.taobao.org",
+    "dist:local": "/Users/huqingyang/Desktop/Proj/vize/packages/cli/bin/vize.js release"
   },
   "author": "",
   "license": "ISC",

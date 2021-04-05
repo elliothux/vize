@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as R from 'ramda';
-import { useMemo, Fragment } from 'react';
+import { useMemo } from 'react';
 import { Select } from 'antd';
 import { FiLayers } from 'react-icons/fi';
 import { SelectType } from 'states';

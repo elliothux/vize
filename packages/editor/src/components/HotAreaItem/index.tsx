@@ -35,7 +35,6 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
         return;
       }
       preventSyntheticEvent(e);
-      events.emit(EventEmitTypes.JUMP_ATTR_EDIT_TAB, AttrEditTab.EVENTS);
       selectStore.selectHotArea(index, componentInstanceKey);
     },
     [previewMode],

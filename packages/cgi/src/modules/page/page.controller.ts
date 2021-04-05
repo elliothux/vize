@@ -47,13 +47,13 @@ export class PageController {
       total,
       data: pages.map(page => {
         const {
-          latestHistory: { id, title, desc, createdTime },
+          latestHistory: { id, title, desc, pageCount, createdTime },
           biz: { id: bizID },
           container,
         } = page;
         return {
           ...page,
-          latestHistory: { id, title, desc, createdTime },
+          latestHistory: { id, title, desc, pageCount, createdTime },
           biz: { id: bizID },
           container: JSON.parse(container),
         };

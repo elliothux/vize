@@ -7,6 +7,7 @@ import { ComponentTriggerSelector } from './ComponentTriggerSelector';
 import { PluginTriggerSelector } from './PluginTriggerSelector';
 import { GlobalTriggerSelector } from './GlobalTriggerSelector';
 import { PageTriggerSelector } from './PageTriggerSelector';
+import { HotAreaTriggerSelector } from './HotAreaTriggerSelector';
 
 export function TriggerSelector(props: Props) {
   switch (props.type) {
@@ -14,6 +15,8 @@ export function TriggerSelector(props: Props) {
       return React.createElement(ComponentTriggerSelector, props);
     case SelectType.PLUGIN:
       return React.createElement(PluginTriggerSelector, props);
+    case SelectType.HOTAREA:
+      return React.createElement(HotAreaTriggerSelector, props);
     case SelectType.PAGE:
       return React.createElement(PageTriggerSelector, props);
     case SelectType.GLOBAL:

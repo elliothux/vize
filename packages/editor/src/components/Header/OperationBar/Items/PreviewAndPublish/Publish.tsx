@@ -21,13 +21,12 @@ let publishRetryTimes = 0;
 function IPublish() {
   const {
     debugPorts: [debugPort],
-    owner: { id: ownerId, name: ownerName },
-    user: { id: userId, isAdmin },
+    owner: { name: ownerName },
+    isUserValid,
   } = editStore;
   const {
     metaInfo: { isTemplate },
   } = globalStore;
-  const isUserValid = isAdmin || ownerId === userId;
 
   const { t } = useTranslation();
   const [publishResult, setPublishResult] = useState<Maybe<PublisherResult>>(null);
@@ -96,8 +95,8 @@ function IPublish() {
             </>
           ) : (
             <p>
-              {t("don't have permission to {{type}}", { type: 'publish' })}
-              <br />（{t('Create by {{owner}}', { owner: ownerName })}）
+              {t("Don't have permission to {{type}}", { type: 'publish' })}
+              <br />（{t('Created by {{owner}}', { owner: ownerName })}）
             </p>
           )
         }

@@ -50,7 +50,7 @@ export const zh = {
     'Publish not allowed with {{type}}': '$t({{type}}) 不支持发布',
     'Debug Mode': 'Debug 模式 ',
     'template page': '模板页面 ',
-    "Don't have permission to {{type}}": '没有$({{type}})的权限',
+    "Don't have permission to {{type}}": '没有$t({{type}})的权限',
     'Created by {{owner}}': '由 "{{owner}}" 创建',
     'show link': '查看链接',
     'Generate preview success': '生成预览成功',

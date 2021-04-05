@@ -277,7 +277,6 @@ export class EventStore {
         deps = pluginEventDepsMap.getEventDep(key);
         break;
     }
-    debugger;
 
     return deps!.forEach(({ depsFromType, parentKey, eventKey, index }) => {
       const deleteEventItem = (events: EventInstance[]) => {

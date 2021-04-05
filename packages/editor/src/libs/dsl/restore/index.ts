@@ -53,7 +53,12 @@ export async function restore() {
 }
 
 function restoreStateFromDSL(dsl: string) {
-  const parsedDSL = parseDSL(JSON.parse(dsl) as DSL);
+  const d = JSON.parse(dsl);
+  if (Object.keys(d).length === 0) {
+    return;
+  }
+  const parsedDSL = parseDSL(d as DSL);
+
   const { editInfo, pageInstances, sharedComponentInstances } = parsedDSL;
 
   restoreGlobal(parsedDSL);
@@ -75,13 +80,13 @@ function restoreGlobal({ data, style, events, meta }: ReturnType<typeof parseDSL
 }
 
 function restorePageInstances(pages: PageInstance[]) {
-  pagesStore.setState(store => (store.pages = pages));
-  return pages.forEach(page => {
+  pages.forEach(page => {
     const { key, componentInstances, pluginInstances } = page;
     restoreComponentInstances(key, componentInstances);
     restorePluginInstances(key, pluginInstances!);
     restoreEventDep(DepsFromType.Page, page);
   });
+  return pagesStore.setState(store => (store.pages = pages));
 }
 
 function restoreComponentInstances(pageKey: number, iComponentInstances: ComponentInstance[]) {

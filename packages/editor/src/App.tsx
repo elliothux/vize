@@ -35,6 +35,7 @@ function IApp() {
     const [err] = await promiseWrapper(init());
     if (err) {
       setErr(true);
+      console.error('Init error:', err);
       return;
     }
 

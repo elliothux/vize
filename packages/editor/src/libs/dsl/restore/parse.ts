@@ -1,4 +1,4 @@
-import { ComponentInstance, ComponentInstanceDSL, DSL, PageInstanceDSL, PageInstance } from 'types';
+import { ComponentInstance, ComponentInstanceDSL, DSL, PageInstanceDSL, PageInstance, HotArea } from 'types';
 
 export function parseDSL(dsl: DSL) {
   const { pageInstances, sharedComponentInstances } = dsl;
@@ -30,11 +30,23 @@ function parseComponentInstancesDSL(
     };
 
     if (parent) {
-      componentInstance.parent = parent;
+      Object.defineProperty(componentInstance, 'parent', {
+        get() {
+          return parent;
+        },
+      });
     }
 
     if (hotAreas) {
-      componentInstance.hotAreas = hotAreas.map(i => ({ ...i, parent: componentInstance }));
+      componentInstance.hotAreas = hotAreas.map(i => {
+        const hotArea = { ...i } as HotArea;
+        Object.defineProperty(hotArea, 'parent', {
+          get() {
+            return componentInstance;
+          },
+        });
+        return hotArea;
+      });
     }
 
     if (children) {

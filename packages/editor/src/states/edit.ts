@@ -35,9 +35,16 @@ export class EditStore extends StoreWithUtils<EditStore> {
 
   public pageMode: PageMode = PageMode.SINGLE;
 
+  @observable
   public owner: UserRecord = defaultUser;
 
+  @observable
   public user: UserRecord = { ...defaultUser, id: 0 };
+
+  @computed
+  public get isUserValid() {
+    return !!this.user.isAdmin || this.owner.id === this.user.id;
+  }
 
   @observable
   public previewMode = false;

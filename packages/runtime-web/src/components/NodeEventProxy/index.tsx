@@ -202,7 +202,6 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     type: ComponentEventListenerTypes | HotAreaEventListenerTypes,
   ) => {
     // TODO: exec callbacks from plugin's observer
-    console.log(e, type);
   };
 
   private withExecNodeObserverCallbacks = (

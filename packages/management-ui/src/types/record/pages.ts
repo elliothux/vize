@@ -21,5 +21,5 @@ export interface PageRecord {
 }
 
 export interface PageRecordWithHistory extends PageRecord {
-  latestHistory?: HistoryRecord;
+  latestHistory: HistoryRecord;
 }

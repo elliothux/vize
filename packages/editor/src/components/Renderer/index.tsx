@@ -37,7 +37,7 @@ export class Renderer extends React.Component {
     super(props);
     const { containerHTML } = materialsStore;
     const { globalData, globalStyle, metaInfo } = globalStore;
-    const params = { data: globalData, style: globalStyle, meta: metaInfo, mainStyle: '', mainScript: '' };
+    const params = { globalData, globalStyle, meta: metaInfo };
     this.containerHTML = tpl(containerHTML)(params);
   }
 

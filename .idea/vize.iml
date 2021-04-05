@@ -9,6 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/cgi/public" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cgi/workspace" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cli/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/deploy-boilerplate/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/editor/build" />
       <excludeFolder url="file://$MODULE_DIR$/packages/generator-pegasus/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/generator-web/dist" />
