@@ -68,7 +68,9 @@ export function ComponentItem({ instance, globalData, pageData, meta, router }: 
       globalData={globalData}
       pageData={pageData}
       router={router}
-      hotAreas={<HotAreas instance={instance} globalData={globalData} meta={meta} router={router} />}
+      hotAreas={
+        <HotAreas instance={instance} globalData={globalData} pageData={pageData} meta={meta} router={router} />
+      }
     >
       {childrenNode}
     </ViewRender>

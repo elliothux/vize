@@ -1,5 +1,5 @@
+import { SyntheticEvent } from 'react';
 import { GlobalMeta, Maybe } from '@vize/types';
-import * as React from 'react';
 
 export interface HandlerParams {
   meta: GlobalMeta;
@@ -7,4 +7,4 @@ export interface HandlerParams {
   pageData: object;
 }
 
-export type EventHandler = (originalEvent: Maybe<React.SyntheticEvent>, params: HandlerParams) => Promise<void>;
+export type EventHandler = (originalEvent: Maybe<SyntheticEvent>, params: HandlerParams) => Promise<void>;

@@ -22,7 +22,10 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
   const { componentKey, hotAreaIndex } = selectStore;
   const { globalData, metaInfo } = globalStore;
   const { previewMode } = editStore;
-  const { router } = pagesStore;
+  const {
+    router,
+    currentPage: { data: pageData },
+  } = pagesStore;
 
   const selected = componentKey === componentInstanceKey && index === hotAreaIndex;
 
@@ -62,11 +65,12 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
         className="hotarea-event-proxy"
         childrenType="hotarea"
         instance={hotArea}
-        style={style}
-        global={globalData}
         meta={metaInfo}
+        globalData={globalData}
+        pageData={pageData}
         router={router}
         previewMode={previewMode}
+        style={style}
       />
     );
   }

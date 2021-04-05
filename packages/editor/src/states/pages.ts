@@ -10,10 +10,10 @@ import {
   createPageInstance,
 } from 'libs';
 import { onCustomEvent, cancelCustomEvent, emitCustomEvent, generatePageEventHandlers } from 'runtime';
+import { PageUniversalEventTrigger } from '@vize/types';
 import { StoreWithUtils } from './utils';
 import { selectStore } from './select';
 import { globalStore } from './global';
-import { PageUniversalEventTrigger } from '@vize/types';
 
 export class PagesStore extends StoreWithUtils<PagesStore> {
   public init = () => {

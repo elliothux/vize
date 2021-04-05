@@ -4,11 +4,11 @@ import { ComponentInstance } from '@vize/types';
 import { HotAreaItem } from './HotAreaItem';
 import { AppRenderProps } from '../AppRender/types';
 
-interface Props extends Pick<AppRenderProps, 'globalData' | 'meta' | 'router'> {
+interface Props extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta' | 'router'> {
   instance: ComponentInstance;
 }
 
-export function HotAreas({ instance, globalData, meta, router }: Props) {
+export function HotAreas({ instance, globalData, pageData, meta, router }: Props) {
   if (!instance?.hotAreas?.length) {
     return null;
   }
@@ -20,8 +20,9 @@ export function HotAreas({ instance, globalData, meta, router }: Props) {
           key={hotArea.key}
           hotArea={hotArea}
           componentInstance={instance}
-          globalData={globalData}
           meta={meta}
+          globalData={globalData}
+          pageData={pageData}
           router={router}
         />
       ))}

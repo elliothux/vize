@@ -48,6 +48,12 @@ $prop-edit-width: 326px;
     .ant-tabs-tab {
       width: 33.3333%;
       border-top: none !important;
+
+      .ant-badge {
+        position: absolute;
+        right: 10px;
+        top: 6px;
+      }
     }
 
     .ant-tabs-nav-list {

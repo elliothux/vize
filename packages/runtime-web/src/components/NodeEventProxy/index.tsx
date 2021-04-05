@@ -19,7 +19,6 @@ import {
   generateNodeEventHandlers,
   HandlerParams,
 } from '../../utils';
-import { pagesStore } from '../../../states';
 
 type InstanceType = ComponentInstance | HotArea;
 
@@ -27,11 +26,12 @@ interface Props<T extends InstanceType> extends WithReactChildren {
   className: string;
   childrenType: 'component' | 'hotarea';
   instance: T;
-  style: object;
-  global: object;
   meta: GlobalMeta;
+  globalData: object;
+  pageData: object;
   router: PageRouter;
   previewMode: boolean;
+  style: object;
 }
 
 const nodeIntersectionObserver = new IntersectionObserver(entries => {
@@ -61,7 +61,8 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
   constructor(props: Props<T>) {
     super(props);
-    this.handlerParams = { globalData: props.global!, pageData: pagesStore.currentPage.data, meta: props.meta! };
+    const { globalData, pageData, meta } = props;
+    this.handlerParams = { globalData, pageData, meta };
   }
 
   public componentDidMount(): void {
@@ -201,6 +202,7 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
     type: ComponentEventListenerTypes | HotAreaEventListenerTypes,
   ) => {
     // TODO: exec callbacks from plugin's observer
+    console.log(e, type);
   };
 
   private withExecNodeObserverCallbacks = (

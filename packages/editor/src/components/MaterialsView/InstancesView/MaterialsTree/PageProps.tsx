@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FiSidebar } from 'react-icons/fi';
+import { FiColumns } from 'react-icons/fi';
 import { observer } from 'mobx-react';
 import { selectStore, SelectType } from 'states';
 import { Trans } from 'react-i18next';
@@ -15,7 +15,7 @@ function IPageProps() {
       })}
       onClick={() => selectPage(pageIndex)}
     >
-      <FiSidebar />
+      <FiColumns />
       <span>
         <Trans>Page Attributes</Trans>
       </span>

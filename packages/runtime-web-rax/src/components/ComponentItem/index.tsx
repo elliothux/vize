@@ -12,11 +12,11 @@ import { ComponentInstances } from '../ComponentInstances';
 import { HotAreas } from '../HotAreas';
 import { getData } from '../../utils';
 
-interface ItemProps extends Pick<AppRenderProps, 'global' | 'meta' | 'router'> {
+interface ItemProps extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta' | 'router'> {
   instance: ComponentInstance;
 }
 
-export function ComponentItem({ instance, global, meta, router }: ItemProps) {
+export function ComponentItem({ instance, globalData, pageData, meta, router }: ItemProps) {
   const { key, component, data, style, commonStyle, children } = instance;
 
   let childrenNode;
@@ -56,7 +56,7 @@ export function ComponentItem({ instance, global, meta, router }: ItemProps) {
       onSelected={onSelected}
       instance={instance}
       meta={meta}
-      global={global}
+      globalData={global}
       router={router}
       hotAreas={<HotAreas instance={instance} global={global} meta={meta} router={router} />}
     >

@@ -54,11 +54,12 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
       className="component-event-proxy"
       childrenType="component"
       instance={instance}
-      style={iWrapperStyle}
-      global={globalData}
       meta={metaInfo}
+      globalData={globalData}
+      pageData={pageData}
       router={router}
       previewMode={previewMode}
+      style={iWrapperStyle}
     >
       <ComponentRender
         componentKey={key}
