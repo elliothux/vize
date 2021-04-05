@@ -1,0 +1,337 @@
+{
+  "dsl": {
+    "pageKey": "qy-test-01",
+    "container": {
+      "lib": "universal",
+      "name": "universal"
+    },
+    "editInfo": {
+      "layoutMode": "stream",
+      "pageMode": "single",
+      "maxKeys": {
+        "page": 1,
+        "component": 9,
+        "hot-area": 3,
+        "plugin": 1,
+        "action": 3
+      }
+    },
+    "meta": {
+      "title": "vize page",
+      "desc": "",
+      "key": "qy-test-01",
+      "isTemplate": false,
+      "isEditor": true
+    },
+    "data": {
+      "shareTitle": "22"
+    },
+    "style": {
+      "backgroundColor": "rgba(255, 255, 255, 0)"
+    },
+    "events": [],
+    "pageInstances": [
+      {
+        "key": 1,
+        "name": "default page",
+        "path": "1",
+        "isHome": true,
+        "data": {
+          "shareTitle": "33"
+        },
+        "style": {
+          "backgroundColor": "rgba(255, 255, 255, 0)"
+        },
+        "events": [],
+        "componentInstances": [
+          {
+            "key": 2,
+            "component": "universal_Dialog",
+            "lib": "universal",
+            "data": {},
+            "style": {},
+            "commonStyle": {},
+            "wrapperStyle": {},
+            "events": [],
+            "shared": false,
+            "children": [
+              {
+                "key": 8,
+                "component": "universal_Button",
+                "lib": "universal",
+                "data": {
+                  "text": "按钮"
+                },
+                "style": {},
+                "commonStyle": {
+                  "size": {
+                    "autoWidth": true,
+                    "width": 200,
+                    "autoHeight": true,
+                    "height": 80
+                  },
+                  "transform": {
+                    "rotate": 0,
+                    "opacity": 1,
+                    "scale": 1,
+                    "radius": 0
+                  },
+                  "text": {
+                    "color": "#161616",
+                    "fontSize": 14,
+                    "lineHeight": 20,
+                    "textAlign": "center",
+                    "weight": "normal"
+                  },
+                  "border": {
+                    "type": "none",
+                    "color": "#161616",
+                    "width": 1
+                  },
+                  "background": {
+                    "color": "transparent",
+                    "image": "",
+                    "size": "auto",
+                    "position": "center top",
+                    "repeat": "repeat-y"
+                  },
+                  "margin": {
+                    "top": 12,
+                    "left": 0,
+                    "bottom": 12,
+                    "right": 0
+                  },
+                  "padding": {
+                    "top": 0,
+                    "left": 8,
+                    "bottom": 0,
+                    "right": 8
+                  },
+                  "zIndex": true,
+                  "position": true
+                },
+                "wrapperStyle": {
+                  "background": {
+                    "color": "transparent",
+                    "image": "",
+                    "size": "auto",
+                    "position": "center top",
+                    "repeat": "repeat-y"
+                  }
+                },
+                "events": [],
+                "shared": false
+              },
+              {
+                "key": 9,
+                "component": "universal_Text",
+                "lib": "universal",
+                "data": {
+                  "text": "输入文本内容..."
+                },
+                "style": {},
+                "commonStyle": {
+                  "size": {
+                    "autoWidth": true,
+                    "width": 200,
+                    "autoHeight": true,
+                    "height": 80
+                  },
+                  "transform": {
+                    "rotate": 0,
+                    "opacity": 1,
+                    "scale": 1,
+                    "radius": 0
+                  },
+                  "text": {
+                    "color": "#161616",
+                    "fontSize": 14,
+                    "lineHeight": 20,
+                    "textAlign": "center",
+                    "weight": "normal"
+                  },
+                  "border": {
+                    "type": "none",
+                    "color": "#161616",
+                    "width": 1
+                  },
+                  "background": {
+                    "color": "transparent",
+                    "image": "",
+                    "size": "auto",
+                    "position": "center top",
+                    "repeat": "repeat-y"
+                  },
+                  "margin": {
+                    "top": 12,
+                    "left": 0,
+                    "bottom": 12,
+                    "right": 0
+                  },
+                  "padding": {
+                    "top": 0,
+                    "left": 8,
+                    "bottom": 0,
+                    "right": 8
+                  },
+                  "zIndex": true,
+                  "position": true
+                },
+                "wrapperStyle": {},
+                "events": [],
+                "shared": false
+              }
+            ]
+          },
+          {
+            "key": 3,
+            "component": "universal_Button",
+            "lib": "universal",
+            "data": {
+              "text": "按钮"
+            },
+            "style": {},
+            "commonStyle": {
+              "size": {
+                "autoWidth": true,
+                "width": 200,
+                "autoHeight": true,
+                "height": 80
+              },
+              "transform": {
+                "rotate": 0,
+                "opacity": 1,
+                "scale": 1,
+                "radius": 0
+              },
+              "text": {
+                "color": "#161616",
+                "fontSize": 14,
+                "lineHeight": 20,
+                "textAlign": "center",
+                "weight": "normal"
+              },
+              "border": {
+                "type": "none",
+                "color": "#161616",
+                "width": 1
+              },
+              "background": {
+                "color": "transparent",
+                "image": "",
+                "size": "auto",
+                "position": "center top",
+                "repeat": "repeat-y"
+              },
+              "margin": {
+                "top": 12,
+                "left": 0,
+                "bottom": 12,
+                "right": 0
+              },
+              "padding": {
+                "top": 0,
+                "left": 8,
+                "bottom": 0,
+                "right": 8
+              },
+              "zIndex": true,
+              "position": true
+            },
+            "wrapperStyle": {
+              "background": {
+                "color": "transparent",
+                "image": "",
+                "size": "auto",
+                "position": "center top",
+                "repeat": "repeat-y"
+              }
+            },
+            "events": [],
+            "shared": false
+          },
+          {
+            "key": 4,
+            "component": "universal_Image",
+            "lib": "universal",
+            "data": {
+              "src": "https://img.alicdn.com/tfs/TB1PibhR4D1gK0jSZFsXXbldVXa-512-416.png"
+            },
+            "style": {},
+            "commonStyle": {
+              "size": {
+                "autoWidth": true,
+                "width": 200,
+                "autoHeight": true,
+                "height": 80
+              },
+              "transform": {
+                "rotate": 0,
+                "opacity": 1,
+                "scale": 1,
+                "radius": 0
+              },
+              "border": {
+                "type": "none",
+                "color": "#161616",
+                "width": 1
+              },
+              "margin": {
+                "top": 0,
+                "left": "auto",
+                "bottom": 0,
+                "right": "auto"
+              },
+              "padding": {
+                "top": 0,
+                "left": 0,
+                "bottom": 0,
+                "right": 0
+              },
+              "zIndex": true,
+              "position": true
+            },
+            "wrapperStyle": {
+              "background": {
+                "color": "transparent",
+                "image": "",
+                "size": "auto",
+                "position": "center top",
+                "repeat": "repeat-y"
+              }
+            },
+            "events": [],
+            "shared": false,
+            "hotAreas": [
+              {
+                "key": 3,
+                "position": {
+                  "x": 20.5078125,
+                  "y": 36.53846153846153
+                },
+                "size": {
+                  "width": 17.578125,
+                  "height": 18.028846153846153
+                },
+                "events": []
+              }
+            ]
+          }
+        ],
+        "pluginInstances": []
+      }
+    ]
+  },
+  "workspacePaths": {
+    "root": "/Users/huqingyang/Desktop/Proj/vize/packages/workspace",
+    "buildPath": "/Users/huqingyang/Desktop/Proj/vize/packages/workspace/build",
+    "previewPath": "/Users/huqingyang/Desktop/Proj/vize/packages/workspace/preview",
+    "publishPath": "/Users/huqingyang/Desktop/Proj/vize/packages/workspace/publish",
+    "materialsPath": "/Users/huqingyang/Desktop/Proj/vize/packages/workspace/materials",
+    "materialsVersionsPath": "/Users/huqingyang/Desktop/Proj/vize/packages/workspace/materials_version",
+    "uploadFilesPath": "/Users/huqingyang/Desktop/Proj/vize/packages/workspace/upload",
+    "editorPath": "/Users/huqingyang/Desktop/Proj/vize/packages/editor/build",
+    "managementUIPath": "/Users/huqingyang/Desktop/Proj/vize/packages/management-ui/build"
+  },
+  "isPreview": true
+}

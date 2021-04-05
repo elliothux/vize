@@ -214,18 +214,39 @@ export class PageService {
     dslMap.set(key, dsl);
 
     const { generators, paths: workspacePaths } = getConfig();
-    const { generator, info } = generators[generatorName || 'web']!;
-    console.log(`Start generate page "${key}" with generator: "${info.name}"`);
+    const generator = generators[generatorName || 'web'];
+    if (!generator) {
+      return {
+        error: new Error(
+          `Generator "${generatorName || 'web'}" does not exists`,
+        ),
+      };
+    }
 
+    console.log(
+      `Start generate page "${key}" with generator: "${generator.info.name}"`,
+    );
     let result: Maybe<GeneratorResult> = null;
     try {
-      result = await generator({
+      // console.log(
+      //   JSON.stringify(
+      //     {
+      //       dsl,
+      //       workspacePaths,
+      //       isPreview,
+      //     },
+      //     null,
+      //     2,
+      //   ),
+      // );
+      result = await generator.generator({
         dsl,
         workspacePaths,
         isPreview,
       });
     } catch (e) {
-      const error = e || `Unknown generate error with generator: ${info.name}`;
+      const error =
+        e || `Unknown generate error with generator "${generator.info.name}"`;
       console.error(`Generate page "${key}" with error: `, error);
       setPublishStatus(key, PublishStatus.FAILED, error);
       return { error };

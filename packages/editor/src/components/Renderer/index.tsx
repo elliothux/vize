@@ -12,6 +12,7 @@ import {
   ComponentInstance,
   RouterProps,
   GlobalUniversalEventTrigger,
+  RenderTemplateParams,
 } from 'types';
 import { loadUMDModuleFromString, injectStyle, registerHotkey, initDocument } from 'libs';
 import {
@@ -37,7 +38,7 @@ export class Renderer extends React.Component {
     super(props);
     const { containerHTML } = materialsStore;
     const { globalData, globalStyle, metaInfo } = globalStore;
-    const params = { globalData, globalStyle, meta: metaInfo };
+    const params: RenderTemplateParams = { globalData, globalStyle, meta: metaInfo };
     this.containerHTML = tpl(containerHTML)(params);
   }
 

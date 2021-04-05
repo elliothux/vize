@@ -29,3 +29,5 @@ export interface RenderEntryParams extends Pick<ComponentProps, 'meta' | 'on' | 
 }
 
 export type ContainerRenderEntry = (params: RenderEntryParams) => void;
+
+export type RenderTemplateParams = Pick<RenderEntryParams, 'meta' | 'globalData' | 'globalStyle'>;

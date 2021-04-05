@@ -26,8 +26,7 @@ export class CGIResponse {
     return {
       t: Date.now(),
       status: 'failed',
-      message:
-        reason || CGIReasonMap[codeOrReason] || `ErrorCode: ${codeOrReason}`,
+      message: reason || CGIReasonMap[codeOrReason] || 'Unknown error',
       code: codeOrReason,
     };
   }
