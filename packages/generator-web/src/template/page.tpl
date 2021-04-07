@@ -1,22 +1,19 @@
-// Import Libs and Runtime
 import * as React from "react";
 import { AppRender, injectReadonly, injectStyle, setMaterialsMap } from "@vize/runtime-web";
-import { global, meta, pluginInstances } from '<%= globalFilePath %>';
+import { meta, globalData } from "global";
+<%= imports %>
 
-// Import Components
-<%= componentImports %>
+const page = <%= page %>;
 
-// Import Actions
-<%= actionImports %>
+const data = <%= data %>;
 
-// Init materials map
-setMaterialsMap('', {
-  components: { <%= componentVars %> },
-  actions: { <%= actionVars %> },
-} as any, false);
+const style = <%= style %>;
 
-// Components
-const componentInstances = <%= componentInstances %> as React.ComponentProps<typeof AppRender>['componentInstances'];
+const componentInstances = <%= componentInstances %>;
+
+const pluginInstances = <%= pluginInstances %>;
+
+const events = <%= events %>;
 
 export function PageRender({ router, sharedComponentInstances }) {
   return (
@@ -30,3 +27,9 @@ export function PageRender({ router, sharedComponentInstances }) {
     />
   );
 }
+
+setMaterialsMap('', {
+  components: <%= componentsVars %>,
+  plugins: <%= pluginVars %>,
+  actions: <%= actionVars %>,
+}, false);

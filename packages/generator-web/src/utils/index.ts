@@ -2,50 +2,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import tpl from 'lodash.template';
 import { mergeCommonStyle } from '@vize/runtime-web/src/libs/style';
-import { ComponentInstanceDSL, MaterialsPathMap } from '../types';
-
-export async function prepareTargetFolder(distWorkspacePath: string, pageKey: string): Promise<[string, string]> {
-  if (!fs.existsSync(distWorkspacePath)) {
-    await fs.mkdir(distWorkspacePath);
-  }
-
-  const p = path.resolve(distWorkspacePath, pageKey);
-  if (fs.existsSync(p)) {
-    await Promise.all(
-      fs
-        .readdirSync(p)
-        .filter(i => !/preview/.test(i))
-        .map(i => fs.rmdirSync(path.resolve(p, i), { recursive: true })),
-    );
-  }
-  await fs.mkdirp(p);
-
-  const src = path.resolve(p, './src');
-  await fs.mkdirp(src);
-
-  return [p, src];
-}
-
-const copyIgnoreFiles = ['config.ts', 'config.js', 'config.json', 'index.html.ejs'];
-export async function copyContainerTemplate(containerPath: string, targetPath: string) {
-  const files = await fs.readdir(containerPath);
-  await Promise.all(
-    files.map(fileName => {
-      if (copyIgnoreFiles.includes(fileName)) {
-        return Promise.resolve();
-      }
-      const fromFilePath = path.resolve(containerPath, fileName);
-      const targetFilePath = path.resolve(targetPath, fileName);
-      console.log(`Copying ${fromFilePath}  to ${targetFilePath}`);
-      return fs.copy(fromFilePath, targetFilePath);
-    }),
-  );
-}
-
-export async function getTpl(name: 'page' | 'multi-index' | 'single-index' | 'global') {
-  const tplFile = await fs.readFile(path.resolve(__dirname, `../template/${name}.tpl`), 'utf-8');
-  return tpl(tplFile);
-}
+import { MaterialsPathMap } from '../types';
 
 export async function getContainerHTMLTpl(containerPath: string) {
   const tplFile = await fs.readFile(path.resolve(containerPath, './index.html.ejs'), 'utf-8');

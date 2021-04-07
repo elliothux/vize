@@ -1,15 +1,11 @@
-import { GeneratorParams, PageMode } from '../types';
-import { BaseGenerator } from './base';
-import { MultiPageGenerator } from './multi';
-import { SinglePageGenerator } from './single';
+import { GeneratorParams, GeneratorResult } from '@vize/types';
+import { prepareFiles } from './prepareFiles';
+import { generateGlobalFile } from './generateGlobalFile';
+import { generatePageFiles } from './generatePageFiles';
 
-export function generate({ dsl, workspacePaths: { materialsPath, buildPath }, isPreview }: GeneratorParams) {
-  const params: ConstructorParameters<typeof BaseGenerator>[0] = {
-    dsl,
-    libsPath: materialsPath,
-    distPath: buildPath,
-  };
-  const generator =
-    dsl.editInfo.pageMode === PageMode.SINGLE ? new SinglePageGenerator(params) : new MultiPageGenerator(params);
-  return generator.run(isPreview);
+export async function generate({ dsl, workspacePaths, isPreview }: GeneratorParams) {
+  const paths = await prepareFiles(dsl, workspacePaths);
+  await generateGlobalFile(dsl, workspacePaths, paths);
+  await generatePageFiles(dsl, workspacePaths, paths);
+  return <GeneratorResult>{ type: 'file', path: paths.pagePath };
 }

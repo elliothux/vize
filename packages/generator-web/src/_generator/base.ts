@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 import * as fs from 'fs-extra';
 import {
   formatGlobalStyle,
@@ -75,11 +75,11 @@ export class BaseGenerator {
   }
 
   public generateContainerParams(pageIndex: number) {
-    const { global, pageInstances } = this.dsl;
-    const { globalProps, metaInfo } = this.isMultiPage ? pageInstances[pageIndex].global : global;
+    const { data: globalData, style: globalStyle, pageInstances, meta } = this.dsl;
     this.containerParams[this.isMultiPage ? pageInstances[pageIndex].key.toString() : 'single'] = {
-      global: globalProps,
-      meta: metaInfo,
+      globalData,
+      globalStyle,
+      meta,
     };
     return this;
   }
