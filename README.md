@@ -22,18 +22,19 @@ This is an **experimental** project and is still in development. BUGs may exist.
 
 | Package                   | Description            |
 | ------------------------- | ---------------------- |
-| [vize]                    | 主项目                 |
 | [cgi]                     | 系统后端接口           |
 | [cli]                     | CLI                    |
 | [doc]                     | 文档                   |
 | [editor]                  | 编辑器                 |
-| [types]                   | 类型声明               |
 | [generator-web]           | DSL 到 Web 页面生成器  |
+| [i18n]                    | 国际化支持             |
 | [management-ui]           | 管理端 UI              |
 | [materials-universal]     | 通用物料库（React）    |
 | [materials-universal-rax] | 通用物料库（Rax）      |
+| [publisher-web]           | 基础 Web 发布器        |
 | [runtime-web]             | Web 公用运行时         |
 | [runtime-web-rax]         | Web 公用运行时 for Rax |
+| [types]                   | 类型声明               |
 
 ## 📦 NPM Packages
 
@@ -65,13 +66,15 @@ This is an **experimental** project and is still in development. BUGs may exist.
 [cli]: https://github.com/vize-team/vize/tree/master/packages/cli
 [doc]: https://github.com/vize-team/vize/tree/master/packages/doc
 [editor]: https://github.com/vize-team/vize/tree/master/packages/editor
-[types]: https://github.com/vize-team/vize/tree/master/packages/types
 [generator-web]: https://github.com/vize-team/vize/tree/master/packages/generator-web
+[i18n]: https://github.com/vize-team/vize/tree/master/packages/i18n
 [management-ui]: https://github.com/vize-team/vize/tree/master/packages/management-ui
 [materials-universal]: https://github.com/vize-team/vize/tree/master/packages/materials-universal
 [materials-universal-rax]: https://github.com/vize-team/vize/tree/master/packages/materials-universal-rax
+[publisher-web]: https://github.com/vize-team/vize/tree/master/packages/publisher-web
 [runtime-web]: https://github.com/vize-team/vize/tree/master/packages/runtime-web
 [runtime-web-rax]: https://github.com/vize-team/vize/tree/master/packages/runtime-web-rax
+[types]: https://github.com/vize-team/vize/tree/master/packages/types
 [@vize/editor]: https://www.npmjs.com/package/@vize/editor
 [editor-version]: https://img.shields.io/npm/v/@vize/editor
 [editor-download]: https://img.shields.io/npm/dw/@vize/editor
