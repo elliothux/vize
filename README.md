@@ -1,4 +1,4 @@
-# Vize: 代化的 Web 可视化搭建引擎
+# Vize: 现代化的 Web 可视化搭建引擎
 
 文档: [https://vize-team.github.io/](https://vize-team.github.io/)
 
