@@ -16,7 +16,7 @@ export interface MaterialsActionMeta {
 }
 
 export interface ActionParams<D extends object = ComponentInstance['data']>
-  extends Pick<ComponentProps, 'router' | 'meta' | 'globalData' | 'pageData'> {
+  extends Pick<ComponentProps, 'router' | 'meta' | 'globalData' | 'globalStyle' | 'pageData' | 'pageStyle'> {
   data: D;
 }
 

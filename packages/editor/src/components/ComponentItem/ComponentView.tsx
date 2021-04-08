@@ -20,10 +20,10 @@ interface Props {
 function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   const { key, component, data, style, commonStyle, wrapperStyle } = instance;
   const { previewMode } = editStore;
-  const { metaInfo, globalData } = globalStore;
+  const { metaInfo, globalData, globalStyle } = globalStore;
   const {
     router,
-    currentPage: { data: pageData },
+    currentPage: { data: pageData, style: pageStyle },
   } = pagesStore;
 
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
@@ -56,7 +56,9 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
       instance={instance}
       meta={metaInfo}
       globalData={globalData}
+      globalStyle={globalStyle}
       pageData={pageData}
+      pageStyle={pageStyle}
       router={router}
       previewMode={previewMode}
       style={iWrapperStyle}
@@ -68,13 +70,15 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
         commonStyle={iCommonStyle}
         instance={instance}
         globalData={globalData}
+        globalStyle={globalStyle}
         pageData={pageData}
+        pageStyle={pageStyle}
         meta={metaInfo}
+        router={router}
         on={on}
         cancel={cancel}
         emit={emit}
         onSelected={onSelected}
-        router={router}
       >
         {children}
       </ComponentRender>

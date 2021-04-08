@@ -28,7 +28,9 @@ interface Props<T extends InstanceType> extends WithReactChildren {
   instance: T;
   meta: GlobalMeta;
   globalData: object;
+  globalStyle: object;
   pageData: object;
+  pageStyle: object;
   router: PageRouter;
   previewMode: boolean;
   style: object;

@@ -2,9 +2,10 @@ import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { ComponentInstance, Maybe, PageRouter } from '../../../types';
 import { ComponentInstances } from '../../components/ComponentInstances';
-import { AppRenderProps } from '../AppRender/types';
+import { PageRenderProps } from '../PageRender/types';
 
-export interface RouterProps extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta'> {
+export interface RouterProps
+  extends Pick<PageRenderProps, 'globalData' | 'globalStyle' | 'pageData' | 'pageStyle' | 'meta'> {
   pages: PageRouter['pages'];
   dynamicPageImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<any> }> };
   sharedComponentInstances: ComponentInstance[];
@@ -15,7 +16,9 @@ export function Router({
   dynamicPageImports,
   sharedComponentInstances,
   globalData,
+  globalStyle,
   pageData,
+  pageStyle,
   meta,
 }: RouterProps) {
   const [currentPage, setCurrentPage] = useState(pages[0].key);
@@ -25,8 +28,10 @@ export function Router({
     <>
       <ComponentInstances
         meta={meta}
-        pageData={pageData}
         globalData={globalData}
+        globalStyle={globalStyle}
+        pageData={pageData}
+        pageStyle={pageStyle}
         componentInstances={sharedComponentInstances}
         router={router}
       />

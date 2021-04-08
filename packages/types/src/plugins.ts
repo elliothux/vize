@@ -25,7 +25,10 @@ export interface PluginInstance {
 }
 
 export interface PluginParams<D extends object = ComponentInstance['data']>
-  extends Pick<ComponentProps, 'on' | 'cancel' | 'emit' | 'router' | 'meta' | 'globalData' | 'pageData'> {
+  extends Pick<
+    ComponentProps,
+    'on' | 'cancel' | 'emit' | 'router' | 'meta' | 'globalData' | 'globalStyle' | 'pageData' | 'pageStyle'
+  > {
   pluginKey: number;
   data: D;
 }

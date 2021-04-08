@@ -59,14 +59,29 @@ export class Renderer extends React.Component {
     if (!renderEntry) {
       throw new Error('No renderEntry');
     }
-
-    const { metaInfo, globalData } = globalStore;
-    const {
-      currentPage: { data: pageData },
-    } = pagesStore;
     this.callContainerRenderEntry(renderEntry);
-    executePlugins(pluginsStore.pluginInstances, metaInfo, globalData, pageData, pagesStore.router, win);
+
+    await this.execPlugins();
+
     await this.execGlobalInitCallbacks();
+  };
+
+  private execPlugins = () => {
+    const { metaInfo: meta, globalData, globalStyle } = globalStore;
+    const {
+      router,
+      currentPage: { data: pageData, style: pageStyle, pluginInstances },
+    } = pagesStore;
+
+    return executePlugins({
+      pluginInstances,
+      meta,
+      globalData,
+      globalStyle,
+      pageData,
+      pageStyle,
+      router,
+    });
   };
 
   private execGlobalInitCallbacks = async () => {

@@ -91,7 +91,9 @@ export interface ComponentProps<
   style: S;
   meta: GlobalMeta;
   globalData: object;
+  globalStyle: object;
   pageData: object;
+  pageStyle: object;
   instance: ComponentInstance;
   hotAreas?: ReactElement;
   on: (eventName: string, callback: Function) => void;

@@ -10,14 +10,27 @@ import { cancelCustomEvent, emitCustomEvent, onCustomEvent } from './customEvent
 import { getMaterialsPlugin } from './materialsMap';
 import { generatePluginEventHandlers } from '../utils/eventHandlers';
 
-export function executePlugins(
-  pluginInstances: PluginInstanceDSL[],
-  meta: GlobalMeta,
-  globalData: object,
-  pageData: object,
-  router: PageRouter,
-  win: Window = window,
-) {
+export interface ExecutePluginsParams {
+  pluginInstances: PluginInstanceDSL[];
+  meta: GlobalMeta;
+  globalData: object;
+  globalStyle: object;
+  pageData: object;
+  pageStyle: object;
+  router: PageRouter;
+  win?: Window;
+}
+
+export function executePlugins({
+  pluginInstances,
+  meta,
+  globalData,
+  globalStyle,
+  pageData,
+  pageStyle,
+  router,
+  win = window,
+}: ExecutePluginsParams) {
   return pluginInstances.forEach(async instance => {
     const { key, plugin, data, events } = instance;
     const handlers = generatePluginEventHandlers(events, router);
@@ -31,7 +44,9 @@ export function executePlugins(
       pluginKey: key,
       data,
       globalData,
+      globalStyle,
       pageData,
+      pageStyle,
       meta,
       router,
       on: (eventName, callback) => {
