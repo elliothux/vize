@@ -21,7 +21,7 @@ interface ItemProps
 }
 
 export function ComponentItem({ instance, globalData, globalStyle, pageData, pageStyle, meta, router }: ItemProps) {
-  const { key, component, data, style, commonStyle, hotAreas, children } = instance;
+  const { key, component, data, style, commonStyle, hotAreas, children, events } = instance;
 
   const childrenNode = children?.length ? (
     <ComponentInstances
@@ -58,8 +58,18 @@ export function ComponentItem({ instance, globalData, globalStyle, pageData, pag
   );
 
   const emit = useCallback(
-    (eventName: string) => emitCustomEvent(instance.events, eventName, meta, globalData, pageData, router),
-    [key],
+    (eventName: string) =>
+      emitCustomEvent({
+        events,
+        eventName,
+        meta,
+        globalData,
+        globalStyle,
+        pageData,
+        pageStyle,
+        router,
+      }),
+    [key, events],
   );
 
   const onSelected = useCallback((callback: ComponentSelectedCallback) => setComponentSelectedCallback(key, callback), [

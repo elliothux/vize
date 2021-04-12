@@ -18,7 +18,7 @@ interface Props {
 }
 
 function IComponentView({ instance, children }: PropsWithChildren<Props>) {
-  const { key, component, data, style, commonStyle, wrapperStyle } = instance;
+  const { key, component, data, style, commonStyle, wrapperStyle, events } = instance;
   const { previewMode } = editStore;
   const { metaInfo, globalData, globalStyle } = globalStore;
   const {
@@ -41,7 +41,17 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   );
 
   const emit = useCallback(
-    (eventName: string) => emitCustomEvent(instance.events, eventName, metaInfo, globalData, pageData, router),
+    (eventName: string) =>
+      emitCustomEvent({
+        events,
+        eventName,
+        router,
+        meta: metaInfo,
+        globalData,
+        globalStyle,
+        pageData,
+        pageStyle,
+      }),
     [key],
   );
 

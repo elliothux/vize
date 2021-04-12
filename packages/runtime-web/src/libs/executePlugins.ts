@@ -36,19 +36,21 @@ export function executePlugins({
     const handlers = generatePluginEventHandlers(events, router);
 
     if (handlers[PluginUniversalEventTrigger.BEFORE_EXEC]) {
-      await handlers[PluginUniversalEventTrigger.BEFORE_EXEC]!(null, { globalData, pageData, meta });
+      await handlers[PluginUniversalEventTrigger.BEFORE_EXEC]!(null, {
+        globalData,
+        globalStyle,
+        pageData,
+        pageStyle,
+        meta,
+      });
     }
 
+    const dataParams = { globalData, globalStyle, pageData, pageStyle, meta, router };
     const pluginFunction: MaterialsPlugin = getMaterialsPlugin(plugin)!;
     const params: PluginParams = {
       pluginKey: key,
       data,
-      globalData,
-      globalStyle,
-      pageData,
-      pageStyle,
-      meta,
-      router,
+      ...dataParams,
       on: (eventName, callback) => {
         onCustomEvent('plugin', eventName, callback, key);
       },
@@ -56,7 +58,11 @@ export function executePlugins({
         cancelCustomEvent('plugin', eventName, callback, key);
       },
       emit: eventName => {
-        emitCustomEvent(instance.events, eventName, meta, globalData, pageData, router);
+        emitCustomEvent({
+          events,
+          eventName,
+          ...dataParams,
+        });
       },
     };
 
@@ -67,7 +73,7 @@ export function executePlugins({
     }
 
     if (handlers[PluginUniversalEventTrigger.AFTER_EXEC]) {
-      await handlers[PluginUniversalEventTrigger.AFTER_EXEC]!(null, { globalData, pageData, meta });
+      await handlers[PluginUniversalEventTrigger.AFTER_EXEC]!(null, dataParams);
     }
   });
 }

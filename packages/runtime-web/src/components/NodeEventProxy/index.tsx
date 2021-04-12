@@ -63,8 +63,8 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
   constructor(props: Props<T>) {
     super(props);
-    const { globalData, pageData, meta } = props;
-    this.handlerParams = { globalData, pageData, meta };
+    const { globalData, globalStyle, pageData, pageStyle, meta } = props;
+    this.handlerParams = { globalData, globalStyle, pageData, pageStyle, meta };
   }
 
   public componentDidMount(): void {

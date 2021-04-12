@@ -26,13 +26,24 @@ export function timeoutPromise<T>(p: Promise<T>, t: number): Promise<T> {
 }
 
 export function pipeEvents(events: EventInstance[], router: PageRouter): EventHandler {
-  return async (originalEvent: Maybe<SyntheticEvent>, { meta, globalData, pageData }: HandlerParams) => {
+  return async (
+    originalEvent: Maybe<SyntheticEvent>,
+    { meta, globalData, globalStyle, pageData, pageStyle }: HandlerParams,
+  ) => {
     for (const event of events) {
       const { target, data } = event;
       switch (target.type) {
         case EventTargetType.Action: {
           const action = getMaterialsAction(target.id)!;
-          const params: FirstParameter<MaterialsAction> = { data: data!, globalData, pageData, meta, router };
+          const params: FirstParameter<MaterialsAction> = {
+            data: data!,
+            globalData,
+            globalStyle,
+            pageData,
+            pageStyle,
+            meta,
+            router,
+          };
 
           try {
             await execAsyncFunctionWithTimeout(action.bind(window.__iframeWindow), target.maxTimeout, params);
