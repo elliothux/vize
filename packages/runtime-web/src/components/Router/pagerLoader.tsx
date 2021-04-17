@@ -23,9 +23,14 @@ export function PageLoader({
   const [[loading, error], setStatus] = useState([false, false]);
 
   useEffect(() => {
-    setCurrentPageInstance(null);
     setStatus([true, false]);
-    pageImports[currentPage]()
+    const pageImport = pageImports[currentPage];
+    if (!pageImport) {
+      window.location.href = `/${currentPage}`;
+      return;
+    }
+
+    pageImport()
       .then(({ pageInstance }) => {
         setCurrentPageInstance(pageInstance);
         setStatus([false, false]);

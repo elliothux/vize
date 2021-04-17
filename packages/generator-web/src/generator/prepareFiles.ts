@@ -54,7 +54,7 @@ async function prepareTargetFolder(buildPath: string, pageKey: string) {
   };
 }
 
-const copyIgnoreFiles = ['config.ts', 'config.js', 'config.json', 'index.html.ejs'];
+const copyIgnoreFiles = ['config.ts', 'config.js', 'config.json'];
 
 async function copyContainerTemplate(containerPath: string, targetPath: string) {
   const files = await fs.readdir(containerPath);

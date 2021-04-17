@@ -9,8 +9,9 @@ import {
   RenderEntryProps,
 } from '@vize/runtime-web/src/components/RenderEntry';
 import { onCustomEvent, cancelCustomEvent, emitCustomEvent } from '@vize/runtime-web/src/libs/customEvents';
-import { meta, globalData, globalStyle, globalEvents, sharedComponentInstances, sharedPluginInstances } from './global';
-import init from './container';
+import { meta, globalData, globalStyle, globalEvents, sharedComponentInstances, sharedPluginInstances } from 'global';
+import init from 'container';
+<%= imports %>
 
 const pages = <%= pages %>;
 
@@ -43,7 +44,7 @@ init({
   },
   emit: (eventName: string) => {
     const { data: pageData, style: pageStyle } = getCurrentPageInstance()!;
-    const { router } = getRouter()!;
+    const router = getRouter()!;
     return emitCustomEvent({
       events: globalEvents,
       eventName,

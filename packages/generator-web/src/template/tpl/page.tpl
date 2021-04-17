@@ -1,6 +1,6 @@
-import * as React from "react";
-import { AppRender, injectReadonly, injectStyle, setMaterialsMap, transformComponentDSL2Instance } from "@vize/runtime-web";
-import { meta, globalData } from "global";
+import * as React from 'react';
+import { setMaterialsMap, transformComponentDSL2Instance } from '@vize/runtime-web';
+import { meta, globalData } from '../../global';
 <%= imports %>
 
 const pageInfo = <%= pageInfo %>;

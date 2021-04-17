@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import { Maybe, PageInstance, PageRouter } from '../../../types';
 import { Router as DefaultRouter } from '../Router';
 import { RenderEntryProps } from './types';
-import { useCallback } from 'react';
 
 let Router = DefaultRouter;
 
@@ -18,7 +18,7 @@ export function getCurrentPageInstance(): Maybe<PageInstance> {
 
 let router: Maybe<PageRouter> = null;
 
-export function getRouter(): Maybe<PageInstance> {
+export function getRouter(): Maybe<PageRouter> {
   return router;
 }
 
@@ -36,9 +36,11 @@ export function RenderEntry({
   const setCurrentPageInstance = useCallback((p: PageInstance) => {
     currentPageInstance = p;
   }, []);
+
   const setRouter = useCallback((r: PageRouter) => {
     router = r;
   }, []);
+
   return (
     <Router
       globalData={globalData}
