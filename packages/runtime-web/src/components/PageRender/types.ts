@@ -5,8 +5,6 @@ export interface PageRenderProps {
   meta: GlobalMeta;
   globalData: object;
   globalStyle: object;
-  sharedComponentInstances: ComponentInstance[];
-  sharedPluginInstances: PluginInstance[];
   pageData: object;
   pageStyle: object;
   componentInstances: ComponentInstance[];

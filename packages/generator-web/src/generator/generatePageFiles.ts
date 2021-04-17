@@ -39,7 +39,7 @@ interface PageTplParams {
   componentsVars: string;
   pluginVars: string;
   actionVars: string;
-  page: string;
+  pageInfo: string;
   data: string;
   style: string;
   componentInstances: string;
@@ -59,7 +59,7 @@ function generatePageTplParams(
     componentsVars,
     pluginVars,
     actionVars,
-    page: stringify(page),
+    pageInfo: stringify(page),
     data: stringify(data),
     style: stringify(style),
     componentInstances: stringify(componentInstances),

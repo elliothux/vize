@@ -9,49 +9,32 @@ export function PageRender({
   meta,
   globalData,
   globalStyle,
-  sharedComponentInstances,
-  sharedPluginInstances,
   pageData,
   pageStyle,
   componentInstances,
   pluginInstances,
 }: PageRenderProps) {
   useEffect(() => {
-    [sharedPluginInstances, pluginInstances].forEach(pluginInstances =>
-      executePlugins({
-        pluginInstances,
-        meta,
-        globalData,
-        globalStyle,
-        pageData,
-        pageStyle,
-        router,
-      }),
-    );
+    executePlugins({
+      pluginInstances,
+      meta,
+      globalData,
+      globalStyle,
+      pageData,
+      pageStyle,
+      router,
+    });
   }, []);
 
   return (
-    <>
-      {sharedComponentInstances ? (
-        <ComponentInstances
-          meta={meta}
-          globalData={globalData}
-          globalStyle={globalStyle}
-          pageData={pageData}
-          pageStyle={pageStyle}
-          componentInstances={sharedComponentInstances}
-          router={router}
-        />
-      ) : null}
-      <ComponentInstances
-        meta={meta}
-        globalData={globalData}
-        globalStyle={globalStyle}
-        pageData={pageData}
-        pageStyle={pageStyle}
-        router={router}
-        componentInstances={componentInstances}
-      />
-    </>
+    <ComponentInstances
+      meta={meta}
+      globalData={globalData}
+      globalStyle={globalStyle}
+      pageData={pageData}
+      pageStyle={pageStyle}
+      router={router}
+      componentInstances={componentInstances}
+    />
   );
 }
