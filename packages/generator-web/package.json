@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/src/index.js",
   "scripts": {
-    "copyFiles": "cp -rf ./src/template ./dist/src",
+    "copyFiles": "cp -rf ./src/template/tpl ./dist/src/template",
     "dev": "./node_modules/typescript/bin/tsc -w",
     "dist": "rm -rf ./dist; ./node_modules/typescript/bin/tsc; npm run copyFiles"
   },

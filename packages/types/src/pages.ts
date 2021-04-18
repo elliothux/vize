@@ -20,7 +20,7 @@ export enum PageMode {
   MULTI = 'multi',
 }
 
-export interface RouterPageItem extends PageInstance {
+export interface RouterPageItem extends Pick<PageInstance, 'key' | 'name' | 'path' | 'isHome'> {
   on: (eventName: string, callback: Function) => void;
   cancel: (eventName: string, callback: Function) => void;
   emit: (eventName: string) => void;

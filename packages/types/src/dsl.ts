@@ -47,5 +47,5 @@ export type DSL = Readonly<{
   events: EventInstanceDSL[];
   pageInstances: PageInstanceDSL[];
   sharedComponentInstances?: ComponentInstanceDSL[];
-  sharedPluginInstances?: ComponentInstanceDSL[];
+  sharedPluginInstances?: PluginInstanceDSL[];
 }>;

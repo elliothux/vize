@@ -67,14 +67,18 @@ export function getCustomEventCallbacks(type: CallbackType, eventName: string, k
   return callbacksMap.get(eventName);
 }
 
-export function emitCustomEvent(
-  events: EventInstance[],
-  eventName: string,
-  meta: GlobalMeta,
-  globalData: object,
-  pageData: object,
-  router: PageRouter,
-) {
+interface EmitParams {
+  events: EventInstance[];
+  eventName: string;
+  router: PageRouter;
+  meta: GlobalMeta;
+  globalData: object;
+  globalStyle: object;
+  pageData: object;
+  pageStyle: object;
+}
+
+export function emitCustomEvent({ events, eventName, router, ...params }: EmitParams) {
   const iEvents = events.filter(
     ({ trigger }) => trigger.type === EventTriggerType.Custom && trigger.triggerName === eventName,
   );
@@ -83,5 +87,5 @@ export function emitCustomEvent(
   }
 
   const handler = pipeEvents(iEvents, router);
-  return handler(undefined, { globalData, pageData, meta });
+  return handler(undefined, params);
 }

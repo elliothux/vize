@@ -59,25 +59,40 @@ export class Renderer extends React.Component {
     if (!renderEntry) {
       throw new Error('No renderEntry');
     }
-
-    const { metaInfo, globalData } = globalStore;
-    const {
-      currentPage: { data: pageData },
-    } = pagesStore;
     this.callContainerRenderEntry(renderEntry);
-    executePlugins(pluginsStore.pluginInstances, metaInfo, globalData, pageData, pagesStore.router, win);
+
+    await this.execPlugins();
+
     await this.execGlobalInitCallbacks();
   };
 
-  private execGlobalInitCallbacks = async () => {
-    const { globalEvents, globalData, metaInfo: meta } = globalStore;
+  private execPlugins = () => {
+    const { metaInfo: meta, globalData, globalStyle } = globalStore;
     const {
       router,
-      currentPage: { data: pageData },
+      currentPage: { data: pageData, style: pageStyle, pluginInstances },
+    } = pagesStore;
+
+    return executePlugins({
+      pluginInstances,
+      meta,
+      globalData,
+      globalStyle,
+      pageData,
+      pageStyle,
+      router,
+    });
+  };
+
+  private execGlobalInitCallbacks = async () => {
+    const { globalEvents, globalData, globalStyle, metaInfo: meta } = globalStore;
+    const {
+      router,
+      currentPage: { data: pageData, style: pageStyle },
     } = pagesStore;
     const handlers = generateGlobalEventHandlers(globalEvents, router);
     if (handlers[GlobalUniversalEventTrigger.INIT]) {
-      await handlers[GlobalUniversalEventTrigger.INIT]!(null, { globalData, pageData, meta });
+      await handlers[GlobalUniversalEventTrigger.INIT]!(null, { globalData, globalStyle, pageData, pageStyle, meta });
     }
   };
 
@@ -138,12 +153,21 @@ export class Renderer extends React.Component {
   };
 
   private emitGlobalEvent = (eventName: string) => {
-    const { globalEvents, globalData, metaInfo: meta } = globalStore;
+    const { globalEvents, globalData, globalStyle, metaInfo: meta } = globalStore;
     const {
       router,
-      currentPage: { data: pageData },
+      currentPage: { data: pageData, style: pageStyle },
     } = pagesStore;
-    return emitCustomEvent(globalEvents, eventName, meta, globalData, pageData, router);
+    return emitCustomEvent({
+      events: globalEvents,
+      eventName,
+      router,
+      meta,
+      globalData,
+      globalStyle,
+      pageData,
+      pageStyle,
+    });
   };
 
   // TODO: implementRouterController

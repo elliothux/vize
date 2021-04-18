@@ -64,36 +64,40 @@ function IStreamLayoutRender({
 
   const getContainer = useMemo(() => (mountTarget ? () => mountTarget : undefined), [mountTarget]);
 
-  const sharedChildren = sharedComponentInstances?.map(instance => (
-    <ComponentItem
-      key={instance.key}
-      instance={instance}
-      currentSelectedKey={componentKey}
-      currentSelectedType={selectType}
-      currentSelectedContainerKey={containerComponentKey}
-      selectMode={selectMode}
-      selectModeSelectedComponent={selectModeSelectedComponent}
-      isCurrentSelectedContainerShared
-      pages={pages}
-      currentPageIndex={pageIndex}
-    />
-  ));
+  const sharedChildren = sharedComponentInstances?.length
+    ? sharedComponentInstances.map(instance => (
+        <ComponentItem
+          key={instance.key}
+          instance={instance}
+          currentSelectedKey={componentKey}
+          currentSelectedType={selectType}
+          currentSelectedContainerKey={containerComponentKey}
+          selectMode={selectMode}
+          selectModeSelectedComponent={selectModeSelectedComponent}
+          isCurrentSelectedContainerShared
+          pages={pages}
+          currentPageIndex={pageIndex}
+        />
+      ))
+    : null;
 
-  const children = componentInstances.map((instance, index) => (
-    <SortableComponentItem
-      key={instance.key}
-      index={index}
-      instance={instance}
-      currentSelectedKey={componentKey}
-      currentSelectedType={selectType}
-      currentSelectedContainerKey={containerComponentKey}
-      selectMode={selectMode}
-      selectModeSelectedComponent={selectModeSelectedComponent}
-      isCurrentSelectedContainerShared={false}
-      pages={pages}
-      currentPageIndex={pageIndex}
-    />
-  ));
+  const children = componentInstances?.length
+    ? componentInstances.map((instance, index) => (
+        <SortableComponentItem
+          key={instance.key}
+          index={index}
+          instance={instance}
+          currentSelectedKey={componentKey}
+          currentSelectedType={selectType}
+          currentSelectedContainerKey={containerComponentKey}
+          selectMode={selectMode}
+          selectModeSelectedComponent={selectModeSelectedComponent}
+          isCurrentSelectedContainerShared={false}
+          pages={pages}
+          currentPageIndex={pageIndex}
+        />
+      ))
+    : null;
 
   const content = containerComponentInstance ? (
     <ComponentItem

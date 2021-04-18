@@ -10,30 +10,47 @@ import { cancelCustomEvent, emitCustomEvent, onCustomEvent } from './customEvent
 import { getMaterialsPlugin } from './materialsMap';
 import { generatePluginEventHandlers } from '../utils/eventHandlers';
 
-export function executePlugins(
-  pluginInstances: PluginInstanceDSL[],
-  meta: GlobalMeta,
-  globalData: object,
-  pageData: object,
-  router: PageRouter,
-  win: Window = window,
-) {
+export interface ExecutePluginsParams {
+  pluginInstances: PluginInstanceDSL[];
+  meta: GlobalMeta;
+  globalData: object;
+  globalStyle: object;
+  pageData: object;
+  pageStyle: object;
+  router: PageRouter;
+  win?: Window;
+}
+
+export function executePlugins({
+  pluginInstances,
+  meta,
+  globalData,
+  globalStyle,
+  pageData,
+  pageStyle,
+  router,
+  win = window,
+}: ExecutePluginsParams) {
   return pluginInstances.forEach(async instance => {
     const { key, plugin, data, events } = instance;
     const handlers = generatePluginEventHandlers(events, router);
 
     if (handlers[PluginUniversalEventTrigger.BEFORE_EXEC]) {
-      await handlers[PluginUniversalEventTrigger.BEFORE_EXEC]!(null, { globalData, pageData, meta });
+      await handlers[PluginUniversalEventTrigger.BEFORE_EXEC]!(null, {
+        globalData,
+        globalStyle,
+        pageData,
+        pageStyle,
+        meta,
+      });
     }
 
+    const dataParams = { globalData, globalStyle, pageData, pageStyle, meta, router };
     const pluginFunction: MaterialsPlugin = getMaterialsPlugin(plugin)!;
     const params: PluginParams = {
       pluginKey: key,
       data,
-      globalData,
-      pageData,
-      meta,
-      router,
+      ...dataParams,
       on: (eventName, callback) => {
         onCustomEvent('plugin', eventName, callback, key);
       },
@@ -41,7 +58,11 @@ export function executePlugins(
         cancelCustomEvent('plugin', eventName, callback, key);
       },
       emit: eventName => {
-        emitCustomEvent(instance.events, eventName, meta, globalData, pageData, router);
+        emitCustomEvent({
+          events,
+          eventName,
+          ...dataParams,
+        });
       },
     };
 
@@ -52,7 +73,7 @@ export function executePlugins(
     }
 
     if (handlers[PluginUniversalEventTrigger.AFTER_EXEC]) {
-      await handlers[PluginUniversalEventTrigger.AFTER_EXEC]!(null, { globalData, pageData, meta });
+      await handlers[PluginUniversalEventTrigger.AFTER_EXEC]!(null, dataParams);
     }
   });
 }

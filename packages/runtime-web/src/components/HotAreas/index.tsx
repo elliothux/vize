@@ -1,28 +1,29 @@
 import './index.scss';
 import * as React from 'react';
-import { ComponentInstance } from '../../../types';
+import { HotArea } from '../../../types';
 import { HotAreaItem } from './HotAreaItem';
-import { AppRenderProps } from '../AppRender/types';
+import { PageRenderProps } from '../PageRender/types';
 
-interface Props extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta' | 'router'> {
-  instance: ComponentInstance;
+interface Props
+  extends Omit<
+    PageRenderProps,
+    'sharedComponentInstances' | 'sharedPluginInstances' | 'componentInstances' | 'pluginInstances' | ''
+  > {
+  hotAreas: HotArea[];
 }
 
-export function HotAreas({ instance, globalData, pageData, meta, router }: Props) {
-  if (!instance?.hotAreas?.length) {
-    return null;
-  }
-
+export function HotAreas({ hotAreas, globalData, globalStyle, pageData, pageStyle, meta, router }: Props) {
   return (
     <div className="vize-hotareas-container">
-      {instance.hotAreas.map(hotArea => (
+      {hotAreas.map(hotArea => (
         <HotAreaItem
           key={hotArea.key}
           hotArea={hotArea}
-          componentInstance={instance}
           meta={meta}
           globalData={globalData}
+          globalStyle={globalStyle}
           pageData={pageData}
+          pageStyle={pageStyle}
           router={router}
         />
       ))}

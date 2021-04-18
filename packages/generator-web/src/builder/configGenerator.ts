@@ -1,51 +1,50 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Configuration } from 'webpack';
+import { PageMode } from '@vize/types';
 import { getBabelConfig, getSWConfig } from './babel';
-import { BaseConfigParams, getBaseWebpackConfig } from './base';
-
-export interface BuildConfigParams extends Pick<BaseConfigParams, 'containerPath'> {
-  root: string;
-  isMultiPage: boolean;
-  entryPaths: { pageKey: number; entryPath?: string; pagePath: string }[];
-  useSWC?: boolean;
-  isProd?: boolean;
-  containerParams: { [key: string]: BaseConfigParams['containerParams'] };
-}
+import { getWebpackConfig } from './config';
+import { BuildConfigParams } from './types';
 
 export function generateWebpackConfig({
-  root,
-  useSWC,
-  entryPaths,
-  isMultiPage,
-  containerPath,
-  containerParams,
+  entries,
+  dsl: {
+    data: globalData,
+    style: globalStyle,
+    meta,
+    editInfo: { pageMode },
+  },
+  generatorPaths,
+  useSWC = false,
   isProd = false,
 }: BuildConfigParams): Configuration[] {
-  const libs = path.resolve(root, './libs');
-  const src = path.resolve(root, './src');
-  const dist = path.resolve(root, isProd ? `./dist` : './preview');
-
+  const { libsPath, srcPath, previewPath, distPath } = generatorPaths;
+  const dist = isProd ? distPath : previewPath;
   const libPaths = fs
-    .readdirSync(libs)
+    .readdirSync(libsPath)
     .filter(i => !/\.DS_Store/.test(i))
-    .map(name => path.resolve(libs, name));
+    .map(name => path.resolve(libsPath, name));
   const libsNodeModules = libPaths.map(i => path.resolve(i, 'node_modules'));
   const libsSrc = libPaths.map(i => path.resolve(i, 'src'));
-  const runPath = path.resolve(process.cwd(), './node_modules');
+  const runNodeModulesPath = path.resolve(process.cwd(), './node_modules');
+  const runtimePath = path.resolve(runNodeModulesPath, '@vize/runtime');
 
-  // const babelConfig = useSWC ? getSWConfig() : getBabelConfig();
-  const babelConfig = getBabelConfig();
-  const modules = [src, runPath, ...libsNodeModules, ...libsSrc];
+  const babelConfig = useSWC ? getSWConfig() : getBabelConfig();
+  const modules = [srcPath, runNodeModulesPath, runtimePath, ...libsNodeModules, ...libsSrc];
   console.log('modules: ', modules);
 
-  if (isMultiPage) {
-    return entryPaths.map(({ pageKey, entryPath }) => {
-      const config = getBaseWebpackConfig({ containerParams: containerParams[pageKey], containerPath, isProd });
-      const output = entryPaths.length > 1 ? path.resolve(dist, pageKey.toString()) : dist;
-      modules.push(entryPath!);
+  const containerParams = {
+    meta,
+    globalData,
+    globalStyle,
+  };
+  if (pageMode === PageMode.MULTI) {
+    return entries.map(entry => {
+      const config = getWebpackConfig({ isProd, generatorPaths, containerParams });
+      const output = entries.length > 1 ? path.resolve(dist, path.basename(entry)) : dist;
+      modules.push(entry);
 
-      config.entry = entryPath;
+      config.entry = entry;
       config.output = { path: output };
       config.resolve.modules = modules;
       config.module.rules.unshift(babelConfig);
@@ -53,17 +52,17 @@ export function generateWebpackConfig({
     });
   }
 
-  const config = getBaseWebpackConfig({ containerParams: containerParams['single'], containerPath, isProd });
-  const mainEntry = path.resolve(root, './index');
-  const entry = entryPaths.reduce<{ [key: string]: string }>(
-    (accu, { pageKey, pagePath }) => {
-      accu[`page-${pageKey}`] = pagePath!;
-      return accu;
-    },
-    { index: mainEntry },
-  );
+  const config = getWebpackConfig({ isProd, generatorPaths, containerParams });
+  // const mainEntry = path.resolve(root, './index');
+  // const entry = entryPaths.reduce<{ [key: string]: string }>(
+  //   (accu, { pageKey, pagePath }) => {
+  //     accu[`page-${pageKey}`] = pagePath!;
+  //     return accu;
+  //   },
+  //   { index: mainEntry },
+  // );
 
-  config.entry = entry;
+  config.entry = entries[0];
   config.output = { path: dist, filename: '[name].js' };
   config.resolve.modules = modules;
   config.module.rules.unshift(babelConfig);

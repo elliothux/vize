@@ -1,69 +1,72 @@
 import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { ComponentInstance, Maybe, PageRouter } from '../../../types';
-import { ComponentInstances } from '../../components/ComponentInstances';
-import { AppRenderProps } from '../AppRender/types';
-
-export interface RouterProps extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta'> {
-  pages: PageRouter['pages'];
-  dynamicPageImports: { [key: number]: () => Promise<{ PageRender: React.ComponentType<any> }> };
-  sharedComponentInstances: ComponentInstance[];
-}
+import { Maybe, PageInstance, PageRouter } from '../../../types';
+import { executePlugins } from '../../libs';
+import { ComponentInstances } from '../ComponentInstances';
+import { PageLoader } from './pagerLoader';
+import { RouterProps } from './types';
 
 export function Router({
-  pages,
-  dynamicPageImports,
-  sharedComponentInstances,
   globalData,
-  pageData,
+  globalStyle,
   meta,
+  sharedComponentInstances,
+  sharedPluginInstances,
+  pages,
+  pageImports,
+  setCurrentPageInstance,
+  setRouter,
 }: RouterProps) {
   const [currentPage, setCurrentPage] = useState(pages[0].key);
+  const [pageInstance, setPageInstance] = useState<Maybe<PageInstance>>(null);
+
   const router = useMemo<PageRouter>(() => ({ pages, currentPage, setCurrentPage }), [currentPage]);
+
+  useEffect(() => {
+    if (!pageInstance) {
+      return;
+    }
+    setRouter(router);
+    setCurrentPageInstance(pageInstance);
+  }, [pageInstance, router]);
+
+  useEffect(() => {
+    if (!pageInstance) {
+      return;
+    }
+    executePlugins({
+      pluginInstances: sharedPluginInstances,
+      meta,
+      globalData,
+      globalStyle,
+      pageData: pageInstance.data,
+      pageStyle: pageInstance.style,
+      router,
+    });
+  }, [pageInstance]);
 
   return (
     <>
-      <ComponentInstances
-        meta={meta}
-        pageData={pageData}
+      {pageInstance ? (
+        <ComponentInstances
+          meta={meta}
+          globalData={globalData}
+          globalStyle={globalStyle}
+          pageData={pageInstance.data}
+          pageStyle={pageInstance.style}
+          componentInstances={sharedComponentInstances}
+          router={router}
+        />
+      ) : null}
+      <PageLoader
         globalData={globalData}
-        componentInstances={sharedComponentInstances}
+        globalStyle={globalStyle}
+        meta={meta}
+        pageImports={pageImports}
         router={router}
+        currentPageInstance={pageInstance}
+        setCurrentPageInstance={setPageInstance}
       />
-      <PageLoader router={router} dynamicImports={dynamicPageImports} />
     </>
   );
-}
-
-function PageLoader({
-  router,
-  dynamicImports,
-}: {
-  router: PageRouter;
-  dynamicImports: RouterProps['dynamicPageImports'];
-}) {
-  const [Page, setPage] = useState<Maybe<React.ComponentType<any>>>(null);
-
-  const { currentPage } = router;
-  useEffect(() => {
-    const importPage = dynamicImports[currentPage];
-    importPage &&
-      importPage()
-        .then(result => {
-          setPage(() => result.PageRender);
-        })
-        .catch(e => {
-          console.error('Load page error:\n', e);
-        });
-  }, [currentPage]);
-
-  if (Page) {
-    return <Page router={router} />;
-  }
-
-  return <Loading />;
-}
-
-function Loading() {
-  return <div>loading...</div>;
 }

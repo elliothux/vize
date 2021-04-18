@@ -1,15 +1,18 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { ComponentInstance, HotArea } from '../../../types';
+import { HotArea } from '../../../types';
 import { NodeEventProxy } from '../NodeEventProxy';
-import { AppRenderProps } from '../AppRender/types';
+import { PageRenderProps } from '../PageRender/types';
 
-interface Props extends Pick<AppRenderProps, 'globalData' | 'pageData' | 'meta' | 'router'> {
-  componentInstance: ComponentInstance;
+interface Props
+  extends Omit<
+    PageRenderProps,
+    'sharedComponentInstances' | 'sharedPluginInstances' | 'componentInstances' | 'pluginInstances' | ''
+  > {
   hotArea: HotArea;
 }
 
-export function HotAreaItem({ hotArea, globalData, pageData, meta, router }: Props) {
+export function HotAreaItem({ hotArea, globalData, globalStyle, pageData, pageStyle, meta, router }: Props) {
   const { size, position } = hotArea;
   const style = useMemo(
     () => ({
@@ -28,7 +31,9 @@ export function HotAreaItem({ hotArea, globalData, pageData, meta, router }: Pro
       instance={hotArea}
       meta={meta}
       globalData={globalData}
+      globalStyle={globalStyle}
       pageData={pageData}
+      pageStyle={pageStyle}
       router={router}
       previewMode={false}
       style={style}

@@ -1,3 +1,3 @@
-export * from '@vize/types';
+export * from './helper';
 export * from './paths';
-export * from './template';
+export * from './seed';

@@ -20,11 +20,11 @@ interface Props {
 
 function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
   const { componentKey, hotAreaIndex } = selectStore;
-  const { globalData, metaInfo } = globalStore;
+  const { globalData, globalStyle, metaInfo } = globalStore;
   const { previewMode } = editStore;
   const {
     router,
-    currentPage: { data: pageData },
+    currentPage: { data: pageData, style: pageStyle },
   } = pagesStore;
 
   const selected = componentKey === componentInstanceKey && index === hotAreaIndex;
@@ -66,7 +66,9 @@ function IHotAreaItem({ index, componentInstanceKey, hotArea }: Props) {
         instance={hotArea}
         meta={metaInfo}
         globalData={globalData}
+        globalStyle={globalStyle}
         pageData={pageData}
+        pageStyle={pageStyle}
         router={router}
         previewMode={previewMode}
         style={style}

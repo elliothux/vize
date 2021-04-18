@@ -11,6 +11,7 @@ interface Props {
   componentInstances: ComponentInstance[];
 }
 
+// TODO: free layout
 function IFreeLayoutRender({ componentInstances }: Props) {
   return (
     <>
