@@ -1,18 +1,13 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { DSL, ValueOfPromise, WorkspacePaths } from '@vize/types';
-import { Seeds } from '../types';
+import { DSL, WorkspacePaths } from '@vize/types';
+import { Seeds, GeneratorPaths } from '../types';
 import { getTpl } from '../template';
-import { prepareFiles } from './prepareFiles';
 import { generateComponentsSeeds, generateEventsSeeds, generatePluginsSeeds } from './generateSeed';
 import { generateImportWithVars } from './generateImport';
 import { stringify } from './utils';
 
-export async function generateGlobalFile(
-  dsl: DSL,
-  workspacePaths: WorkspacePaths,
-  { globalPath }: ValueOfPromise<ReturnType<typeof prepareFiles>>,
-) {
+export async function generateGlobalFile(dsl: DSL, workspacePaths: WorkspacePaths, { globalPath }: GeneratorPaths) {
   const tpl = await getTpl('global');
   const seeds = generateGlobalSeeds(dsl);
   const params = generateGlobalTplParams(dsl, seeds);

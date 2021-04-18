@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { PageInstance, PageRouter } from '../../../types';
+import { PageInstance, PageRouter, Maybe } from '../../../types';
 import { PageRender } from '../PageRender';
 import { RouterProps } from './types';
 
 interface Props extends Pick<RouterProps, 'globalData' | 'globalStyle' | 'meta' | 'pageImports'> {
   router: PageRouter;
-  currentPageInstance: PageInstance;
+  currentPageInstance: Maybe<PageInstance>;
   setCurrentPageInstance: (p: PageInstance) => void;
 }
 
@@ -20,7 +20,7 @@ export function PageLoader({
   setCurrentPageInstance,
   router: { currentPage },
 }: Props) {
-  const [[loading, error], setStatus] = useState([false, false]);
+  const [[loading, error], setStatus] = useState([true, false]);
 
   useEffect(() => {
     setStatus([true, false]);
@@ -49,7 +49,7 @@ export function PageLoader({
     return <LoadError />;
   }
 
-  const { data: pageData, style: pageStyle, componentInstances, pluginInstances } = currentPageInstance;
+  const { data: pageData, style: pageStyle, componentInstances, pluginInstances } = currentPageInstance!;
   return (
     <PageRender
       router={router}

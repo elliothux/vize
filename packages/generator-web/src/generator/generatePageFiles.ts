@@ -1,26 +1,17 @@
-import { DSL, PageInstanceDSL, ValueOfPromise, WorkspacePaths } from '@vize/types';
-import { prepareFiles } from './prepareFiles';
+import * as path from 'path';
+import * as fs from 'fs-extra';
+import { DSL, PageInstanceDSL, WorkspacePaths } from '@vize/types';
 import { getTpl } from '../template';
-import { Seeds } from '../types';
+import { Seeds, GeneratorPaths } from '../types';
 import { generateComponentsSeeds, generateEventsSeeds, generatePluginsSeeds } from './generateSeed';
 import { generateImportWithVars } from './generateImport';
 import { stringify } from './utils';
-import path from 'path';
-import * as fs from 'fs-extra';
 
-export async function generatePageFiles(
-  dsl: DSL,
-  workspacePaths: WorkspacePaths,
-  paths: ValueOfPromise<ReturnType<typeof prepareFiles>>,
-) {
+export async function generatePageFiles(dsl: DSL, workspacePaths: WorkspacePaths, paths: GeneratorPaths) {
   return Promise.all(dsl.pageInstances.map(page => generatePage(page, workspacePaths, paths)));
 }
 
-async function generatePage(
-  page: PageInstanceDSL,
-  workspacePaths: WorkspacePaths,
-  { pagesPath }: ValueOfPromise<ReturnType<typeof prepareFiles>>,
-) {
+async function generatePage(page: PageInstanceDSL, workspacePaths: WorkspacePaths, { pagesPath }: GeneratorPaths) {
   const tpl = await getTpl('page');
   const seeds = generatePageSeeds(page);
   const params = generatePageTplParams(page, seeds);

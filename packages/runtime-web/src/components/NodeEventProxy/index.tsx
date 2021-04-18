@@ -3,11 +3,9 @@ import {
   ComponentEventListenerTypes,
   ComponentInstance,
   EventInstance,
-  GlobalMeta,
   HotArea,
   HotAreaEventListenerTypes,
   Maybe,
-  PageRouter,
   WithReactChildren,
 } from '../../../types';
 import {
@@ -19,19 +17,16 @@ import {
   generateNodeEventHandlers,
   HandlerParams,
 } from '../../utils';
+import { PageRenderProps } from '../PageRender/types';
 
 type InstanceType = ComponentInstance | HotArea;
 
-interface Props<T extends InstanceType> extends WithReactChildren {
+interface Props<T extends InstanceType>
+  extends WithReactChildren,
+    Omit<PageRenderProps, 'componentInstances' | 'pluginInstances'> {
   className: string;
   childrenType: 'component' | 'hotarea';
   instance: T;
-  meta: GlobalMeta;
-  globalData: object;
-  globalStyle: object;
-  pageData: object;
-  pageStyle: object;
-  router: PageRouter;
   previewMode: boolean;
   style: object;
 }
@@ -72,11 +67,9 @@ export class NodeEventProxy<T extends InstanceType> extends React.Component<Prop
 
     events.on(RuntimeEventEmitTypes.NODE_INTERSECTING_CHANGE, this.onNodeIntersectionChange);
 
-    this.handlers.onInit?.(undefined);
+    this.updateHandlersWithParams(this.props.instance.events);
 
-    if (this.props.childrenType === 'hotarea') {
-      this.updateHandlersWithParams(this.props.instance.events);
-    }
+    this.handlers.onInit?.(undefined);
   }
 
   public componentWillReceiveProps(nextProps: Readonly<Props<T>>) {

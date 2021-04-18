@@ -3,17 +3,23 @@ import webpack from 'webpack';
 import { Configuration } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { RenderTemplateParams } from 'types';
+import { GeneratorPaths } from '../types';
 
 export interface BaseConfigParams {
-  containerPath: string;
-  containerParams: RenderTemplateParams;
   isProd: boolean;
+  generatorPaths: GeneratorPaths;
+  containerParams: object;
 }
 
-export function getBaseWebpackConfig({ containerPath, containerParams, isProd }: BaseConfigParams): Configuration {
+export function getWebpackConfig({
+  isProd,
+  generatorPaths: { containerPath, srcPath },
+  containerParams,
+}: BaseConfigParams): Configuration {
   return {
+    context: srcPath,
     resolve: {
+      roots: [srcPath],
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss', '.css'],
       symlinks: false,
     },

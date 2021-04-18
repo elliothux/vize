@@ -19,13 +19,7 @@ export function getBabelConfig() {
         '@babel/preset-react',
       ],
       plugins: [
-        [
-          'transform-rename-import',
-          {
-            replacements: [{ original: 'rax', replacement: 'react' }],
-          },
-        ],
-        'react-require',
+        // 'react-require',
         '@babel/plugin-transform-async-to-generator',
         '@babel/plugin-proposal-class-properties',
         ['@babel/plugin-proposal-decorators', { legacy: true }],

@@ -1,15 +1,11 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { DSL, PageMode, ValueOfPromise, WorkspacePaths } from '@vize/types';
-import { prepareFiles } from './prepareFiles';
+import { DSL, PageMode, WorkspacePaths } from '@vize/types';
+import { GeneratorPaths } from '../types';
 import { getTpl } from '../template';
 import { stringify } from './utils';
 
-export async function generateEntryFile(
-  dsl: DSL,
-  workspacePaths: WorkspacePaths,
-  { srcPath }: ValueOfPromise<ReturnType<typeof prepareFiles>>,
-) {
+export async function generateEntryFile(dsl: DSL, workspacePaths: WorkspacePaths, { srcPath }: GeneratorPaths) {
   const tpl = await getTpl('entry');
 
   if (dsl.editInfo.pageMode === PageMode.SINGLE) {
@@ -48,12 +44,12 @@ function generateEntryTplParams({ pageInstances, editInfo: { pageMode } }: DSL, 
     imports = '';
     pageImports = stringify(
       pageInstances.reduce<{ [key: number]: string }>((imports, { key }) => {
-        imports[key] = `import('./pages/${key}')`;
+        imports[key] = `() => import('./pages/${key}')`;
         return imports;
       }, {}),
     );
     pageInstances.forEach(({ key }) => {
-      pageImports = pageImports.replace(`"import('./pages/${key}')"`, `import('./pages/${key}')`);
+      pageImports = pageImports.replace(`"() => import('./pages/${key}')"`, `() => import('./pages/${key}')`);
     });
   } else {
     const { key } = pageInstances[pageIndex!];
@@ -75,18 +71,4 @@ function generateEntryTplParams({ pageInstances, editInfo: { pageMode } }: DSL, 
     entry: '#vize-main-entry',
     pageMode: PageMode.SINGLE,
   };
-}
-
-async function generateEntryHTML(
-  dsl: DSL,
-  { srcPath, containerPath }: ValueOfPromise<ReturnType<typeof prepareFiles>>,
-) {
-  const htmlTpl = await getTpl('html', path.resolve(containerPath, 'index.html.ejs'));
-  const htmlParams = { meta: dsl.meta, globalData: dsl.data, globalStyle: dsl.style };
-  const html = htmlTpl(htmlParams);
-
-  const htmlTarget = path.resolve(srcPath, 'index.html');
-  await fs.writeFile(htmlTarget, html, { encoding: 'utf-8' });
-
-  return htmlTarget;
 }

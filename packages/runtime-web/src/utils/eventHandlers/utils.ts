@@ -109,6 +109,9 @@ export function pipeEvents(events: EventInstance[], router: PageRouter): EventHa
           }
           break;
         }
+        default: {
+          throw new Error(`Invalid event target type: "${event.target.type}"`);
+        }
       }
     }
   };

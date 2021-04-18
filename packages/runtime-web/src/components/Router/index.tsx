@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Maybe, PageInstance, PageRouter } from '../../../types';
 import { executePlugins } from '../../libs';
 import { ComponentInstances } from '../ComponentInstances';
-import { Loading, PageLoader } from './pagerLoader';
+import { PageLoader } from './pagerLoader';
 import { RouterProps } from './types';
 
 export function Router({
@@ -23,6 +23,9 @@ export function Router({
   const router = useMemo<PageRouter>(() => ({ pages, currentPage, setCurrentPage }), [currentPage]);
 
   useEffect(() => {
+    if (!pageInstance) {
+      return;
+    }
     setRouter(router);
     setCurrentPageInstance(pageInstance);
   }, [pageInstance, router]);
@@ -42,21 +45,19 @@ export function Router({
     });
   }, [pageInstance]);
 
-  if (!pageInstance) {
-    return <Loading />;
-  }
-
   return (
     <>
-      <ComponentInstances
-        meta={meta}
-        globalData={globalData}
-        globalStyle={globalStyle}
-        pageData={pageInstance.data}
-        pageStyle={pageInstance.style}
-        componentInstances={sharedComponentInstances}
-        router={router}
-      />
+      {pageInstance ? (
+        <ComponentInstances
+          meta={meta}
+          globalData={globalData}
+          globalStyle={globalStyle}
+          pageData={pageInstance.data}
+          pageStyle={pageInstance.style}
+          componentInstances={sharedComponentInstances}
+          router={router}
+        />
+      ) : null}
       <PageLoader
         globalData={globalData}
         globalStyle={globalStyle}

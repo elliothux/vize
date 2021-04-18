@@ -1,8 +1,9 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import { DSL, WorkspacePaths } from '@vize/types';
+import { GeneratorPaths } from '../types';
 
-export async function prepareFiles(dsl: DSL, workspacePaths: WorkspacePaths) {
+export async function prepareFiles(dsl: DSL, workspacePaths: WorkspacePaths): Promise<GeneratorPaths> {
   const {
     pageKey,
     container: { name, lib },
@@ -13,12 +14,15 @@ export async function prepareFiles(dsl: DSL, workspacePaths: WorkspacePaths) {
   const { containerPath, srcPath } = paths;
   const materialsContainerPath = path.resolve(workspacePaths.materialsPath, `./${lib}/src/containers/${name}`);
   await copyContainerTemplate(materialsContainerPath, containerPath);
-  await createDepsSoftLink(workspacePaths.materialsPath, srcPath);
+  const libsPath = await createDepsSoftLink(workspacePaths.materialsPath, srcPath);
 
-  return paths;
+  return {
+    libsPath,
+    ...paths,
+  };
 }
 
-async function prepareTargetFolder(buildPath: string, pageKey: string) {
+async function prepareTargetFolder(buildPath: string, pageKey: string): Promise<Omit<GeneratorPaths, 'libsPath'>> {
   if (!fs.existsSync(buildPath)) {
     await fs.mkdir(buildPath);
   }
@@ -34,8 +38,13 @@ async function prepareTargetFolder(buildPath: string, pageKey: string) {
   }
   await fs.mkdirp(pagePath);
 
-  const srcPath = path.resolve(pagePath, './src');
-  await fs.mkdirp(srcPath);
+  const [srcPath, distPath, previewPath] = await Promise.all(
+    ['src', 'dist', 'preview'].map(async i => {
+      const target = path.resolve(pagePath, i);
+      await fs.mkdirp(target);
+      return target;
+    }),
+  );
 
   const [containerPath, globalPath, pagesPath] = await Promise.all(
     ['container', 'global', 'pages'].map(async i => {
@@ -48,6 +57,8 @@ async function prepareTargetFolder(buildPath: string, pageKey: string) {
   return {
     pagePath,
     srcPath,
+    distPath,
+    previewPath,
     containerPath,
     globalPath,
     pagesPath,

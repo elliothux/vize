@@ -1,6 +1,7 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import tpl from 'lodash.template';
+import { ComponentInstanceDSL } from '@vize/types';
 import { mergeCommonStyle } from '@vize/runtime-web/src/libs/style';
 import { MaterialsPathMap } from '../types';
 

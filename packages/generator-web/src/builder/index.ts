@@ -1,9 +1,11 @@
 import webpack from 'webpack';
 import { MultiCompiler, Stats } from 'webpack';
-import { BuildConfigParams, generateWebpackConfig } from './configGenerator';
+import { GeneratorResult } from '@vize/types';
 import { SecondParameter } from '../types';
+import { generateWebpackConfig } from './configGenerator';
+import { BuildConfigParams } from './types';
 
-export function runBuild(params: BuildConfigParams) {
+export function runBuild(params: BuildConfigParams): Promise<GeneratorResult> {
   const config = generateWebpackConfig(params);
   return new Promise((resolve, reject) => webpack(config).run(webpackCallback(resolve, reject)));
 }
