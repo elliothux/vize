@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FiLink } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
-import { unImplemented } from '../utils';
+import { unImplemented } from 'utils';
 import { OperationItem } from '../OperationItem';
 import { Preview } from './Preview';
 import { Publish } from './Publish';

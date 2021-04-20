@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { FiCornerUpLeft, FiCornerUpRight, FiX } from 'react-icons/fi';
 import { Trans, useTranslation } from 'react-i18next';
+import { unImplemented } from 'utils';
 import { OperationItem } from './OperationItem';
-import { hotKeyPrefix, unImplemented } from './utils';
+import { hotKeyPrefix } from './utils';
 
 export function UndoAndClear() {
   const { t } = useTranslation();

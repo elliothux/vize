@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { getCurrentUser } from 'api';
 import { message } from 'antd';
 import { i18n } from 'i18n';
@@ -47,3 +48,27 @@ export function downloadFile(src: string, fileName: string) {
     URL.revokeObjectURL(a.href);
   }, 1500);
 }
+
+export function withMessage(
+  operation: (...args: any[]) => any,
+  msg: string | (() => string),
+  type: 'success' | 'warn' | 'error' | 'open' = 'open',
+) {
+  return () => {
+    const content = typeof msg === 'string' ? msg : msg();
+    message.destroy();
+    if (type === 'open') {
+      message.open({
+        content,
+        icon: React.createElement('span', {}),
+        duration: 2,
+        type: 'success',
+      });
+    } else {
+      message[type](content);
+    }
+    return operation();
+  };
+}
+
+export const unImplemented = withMessage(noop, i18n.t('This feature is still under development'), 'warn');

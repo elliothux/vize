@@ -5,6 +5,7 @@ import { ComponentInstance, JsonSchemaProperties, MaterialsForm, Maybe } from 't
 import { createSchema } from 'libs';
 import { editStore } from 'states';
 import getDefaults from 'json-schema-defaults';
+import { i18n } from 'i18n';
 import { isFunction } from './is';
 
 message.config({
@@ -188,3 +189,5 @@ export function downloadFile(src: string, fileName: string) {
     URL.revokeObjectURL(a.href);
   }, 1500);
 }
+
+export const unImplemented = withMessage(noop, i18n.t('This feature is still under development'), 'warn');

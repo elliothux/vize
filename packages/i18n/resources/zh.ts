@@ -350,5 +350,6 @@ export const zh = {
     'Meta info of page': '页面基础信息',
     'Global info of container': '容器全局配置',
     'Error occurred': '出错啦',
+    Retry: '重试',
   },
 };

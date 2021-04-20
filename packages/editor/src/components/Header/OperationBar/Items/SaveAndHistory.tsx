@@ -8,9 +8,10 @@ import { generateDSL, hotkeyEvents, HotKeyEventTypes } from 'libs';
 import { observer } from 'mobx-react';
 import { message } from 'antd';
 import { savePageHistory } from 'api';
-import { unImplemented, hotKeyPrefix } from './utils';
+import { unImplemented } from 'utils';
 import { useTranslation, Trans } from 'react-i18next';
 import { i18n } from 'i18n';
+import { hotKeyPrefix } from './utils';
 
 function ISaveAndHistory() {
   const { t } = useTranslation();

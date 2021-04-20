@@ -7,15 +7,11 @@ import { Login } from 'components/Login';
 import { RouterPaths } from 'types';
 import { Intro } from 'pages/intro';
 import { Pages } from 'pages/pages';
-import { Templates } from 'pages/templates';
-import { Materials, MaterialsDetail } from 'pages/materials';
-import { Bizs } from 'pages/bizs';
-import { Users } from 'pages/users';
-import { Resources } from 'pages/resources';
 import { i18n, initI18N } from 'i18n';
 import { Spin } from 'antd';
 import { I18nextProvider } from 'react-i18next';
 import { useMount } from 'react-use';
+import { withDynamicImport } from './components/WithDynamicImport';
 
 export function App() {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -38,12 +34,24 @@ export function App() {
         <Switch>
           <Route path={RouterPaths.INTRO} component={Intro} />
           <Route path={RouterPaths.PAGES} component={Pages} />
-          <Route path={RouterPaths.TEMPLATES} component={Templates} />
-          <Route path={RouterPaths.MATERIALS_LIB} component={Materials} />
-          <Route path={RouterPaths.MATERIALS_DETAIL} component={MaterialsDetail} />
-          <Route path={RouterPaths.BIZ} component={Bizs} />
-          <Route path={RouterPaths.USER} component={Users} />
-          <Route path={RouterPaths.RESOURCES} component={Resources} />
+          <Route
+            path={RouterPaths.TEMPLATES}
+            component={withDynamicImport(() => import('pages/templates'), 'Templates')}
+          />
+          <Route
+            path={RouterPaths.MATERIALS_LIB}
+            component={withDynamicImport(() => import('pages/materials'), 'Materials')}
+          />
+          <Route
+            path={RouterPaths.MATERIALS_DETAIL}
+            component={withDynamicImport(() => import('pages/materials'), 'MaterialsDetail')}
+          />
+          <Route path={RouterPaths.BIZ} component={withDynamicImport(() => import('pages/bizs'), 'Bizs')} />
+          <Route path={RouterPaths.USER} component={withDynamicImport(() => import('pages/users'), 'Users')} />
+          <Route
+            path={RouterPaths.RESOURCES}
+            component={withDynamicImport(() => import('pages/resources'), 'Resources')}
+          />
         </Switch>
       </div>
     </I18nextProvider>
