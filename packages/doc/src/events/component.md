@@ -142,7 +142,7 @@ export default {
 
 ### 注册 & 取消事件回调
 
-编辑组件 `index.tsx`，接收 `on` Props，通过 `on(<displayName>, <callback>)` 来注册事件回调；接收 `cancel` Props，通过 `cancel(<displayName>, <callback>)` 来取消注册事件回调：
+编辑组件 `index.tsx`，接收 `on` Props，通过 `on(<eventName>, callback)` 来注册事件回调；接收 `cancel` Props，通过 `cancel(<displayName>, <callback>)` 来取消注册事件回调：
 
 ```tsx {7,9}
 import * as React from 'react';
@@ -151,9 +151,9 @@ export default function({ on, cancel }) {
   // 也可以在其他时机注册或取消回调
   // 在事件被触发时，如果没有回调被注册，则会跳过该事件的回调执行
   React.useEffect(() => {
-    on("<displayName>", <callback>);
+    on('<eventName>', callback);
     // cancel 是可选的，vize 会在组件生命周期结束前自动销毁所有回调
-    return () => cancel("displayName", <callback>);
+    return () => cancel('<eventName>', callback);
   }, []);
 
   return <h1>Hello</h1>;

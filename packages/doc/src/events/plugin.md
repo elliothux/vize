@@ -107,17 +107,18 @@ export default {
 ### 注册 & 取消事件回调
 
 与组件类似，编辑插件 `index.ts`：
-* 接收 `on` 属性，通过 `on(<displayName>, <callback>)` 来注册事件回调
-* 接收 `cancel` 属性，通过 `cancel(<displayName>, <callback>)` 来取消注册事件回调
+
+- 接收 `on` 属性，通过 `on(<eventName>, callback)` 来注册事件回调
+- 接收 `cancel` 属性，通过 `cancel(<eventName>, callback)` 来取消注册事件回调
 
 ```ts {2,6}
 export default function({ on, cancel }) {
-    on("<displayName>", <callback>);
+  on('<eventName>', callback);
 
-    if (needCancel) {
-      // cancel 是可选的，vize 会在插件生命周期结束前自动销毁所有回调
-      cancel("displayName", <callback>)
-    }
+  if (needCancel) {
+    // cancel 是可选的，vize 会在插件生命周期结束前自动销毁所有回调
+    cancel('<eventName>', callback);
+  }
 }
 ```
 
@@ -127,7 +128,7 @@ export default function({ on, cancel }) {
 
 编辑 `config.ts`：
 
-```js {8}
+```ts {8}
 export default {
   info: { ... },
   onEvents: [

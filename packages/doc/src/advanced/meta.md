@@ -16,8 +16,6 @@ Meta 信息包含的如下字段：
 
 - **`title`**：页面标题 `string`
 - **`desc`**：页面描述 `string`
-- **`duration`**：页面起始时间（时间戳）`[number, number] | undefined`
-- **`expiredJump`**：下线跳转地址 `string | undefined`
 - **`id`**：页面 id `number | undefined`
 - **`key`**：页面 key `string`
 - **`isTemplate`**：是否为模板页面 `boolean`
