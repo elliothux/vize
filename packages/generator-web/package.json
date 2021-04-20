@@ -1,12 +1,13 @@
 {
   "name": "@vize/generator-web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/src/index.js",
   "scripts": {
     "copyFiles": "cp -rf ./src/template/tpl ./dist/src/template",
     "dev": "./node_modules/typescript/bin/tsc -w",
-    "dist": "rm -rf ./dist; ./node_modules/typescript/bin/tsc; npm run copyFiles"
+    "dist": "rm -rf ./dist; ./node_modules/typescript/bin/tsc; npm run copyFiles",
+    "publish": "npm publish --access public"
   },
   "author": "",
   "license": "ISC",
