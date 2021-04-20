@@ -10,6 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/cgi/workspace" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cli/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/deploy-boilerplate/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/doc/src/.vuepress/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/editor/build" />
       <excludeFolder url="file://$MODULE_DIR$/packages/generator-pegasus/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/generator-web/dist" />
@@ -22,6 +23,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/runtime-web-rax" />
       <excludeFolder url="file://$MODULE_DIR$/packages/runtime-web-rax/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/types/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/types/docs" />
       <excludeFolder url="file://$MODULE_DIR$/packages/workspace" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />

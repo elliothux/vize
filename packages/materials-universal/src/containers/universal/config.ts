@@ -42,8 +42,9 @@ export default {
   pageDataForm,
   globalStyleForm,
   pageStyleForm,
+  // globalOnEvents: [{ displayName: '切换 Loading 态', eventName: 'test' }],
   globalEmitEvents: [{ displayName: 'global emit测试', eventName: 'test' }],
-  globalOnEvents: [{ displayName: 'global on测试', eventName: 'test' }],
-  pageEmitEvents: [{ displayName: 'page emit测试', eventName: 'test' }],
-  pageOnEvents: [{ displayName: 'page on测试', eventName: 'test' }],
+  // globalOnEvents: [{ displayName: 'global on测试', eventName: 'test' }],
+  // pageEmitEvents: [{ displayName: 'page emit测试', eventName: 'test' }],
+  // pageOnEvents: [{ displayName: 'page on测试', eventName: 'test' }],
 };

@@ -293,3 +293,4 @@ lerna-debug.log*
 /packages/doc/src/.vuepress/dist/
 /packages/types/dist/
 /packages/cgi/deploy-boilerplate/
+/packages/types/docs/
