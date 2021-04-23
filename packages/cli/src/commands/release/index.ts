@@ -27,7 +27,18 @@ class Releaser {
   private checkVersionValid = async (): Promise<Maybe<string>> => {
     const currentVersion = getLibVersion(this.paths.root);
     const uri = this.getURI();
-    const { data } = await curl(uri, {});
+    let data;
+    try {
+      const result = await curl(uri, {
+        method: 'GET',
+        timeout: 10 * 1000,
+        contentType: 'application/json',
+      });
+      data = result.data;
+    } catch (e) {
+      console.error(e);
+      throw new Error('Get versions failed');
+    }
 
     const {
       code,
