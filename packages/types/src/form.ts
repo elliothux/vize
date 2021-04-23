@@ -12,7 +12,6 @@ export interface SchemaFormProps<T extends object = object> {
 export type OverrideFormComponent<T extends object = object> = ComponentType<{
   value: T;
   onChange: (value: T) => void;
-  Formily: any;
   JSONSchemaForm: ComponentType<SchemaFormProps<T>>;
 }>;
 

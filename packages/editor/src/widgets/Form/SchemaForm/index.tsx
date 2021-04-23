@@ -2,41 +2,42 @@ import './index.scss';
 import * as React from 'react';
 import { useCallback, useMemo, useEffect } from 'react';
 import { throttle } from 'throttle-debounce';
-import { SchemaForm as USchemaForm, Submit } from '@uform/antd';
+import { Button } from 'antd';
 import { SchemaFormProps } from 'types';
 import { noop, getSchemaDefaultValue, isEmpty } from 'utils';
 import { createSchema } from 'libs';
+import FormRender, { connectForm, ConnectedForm } from 'form-render';
 
-function ISchemaForm(props: SchemaFormProps) {
-  const { schema: iSchema, value, onChange: iOnChange, onSubmit, submitProps } = props;
-
-  const schema = useMemo(() => createSchema(iSchema), [iSchema]);
-  const onChange = useCallback(throttle(200, iOnChange || noop), [iOnChange]);
+function ISchemaForm({
+  schema: schemaProperties,
+  value,
+  onChange,
+  onSubmit,
+  submitProps,
+  form,
+}: ConnectedForm<SchemaFormProps>) {
+  const schema = useMemo(() => createSchema(schemaProperties), [schemaProperties]);
+  const onValueChange = useCallback(throttle(200, onChange || noop), [onChange]);
 
   useEffect(() => {
-    const defaultValue = getSchemaDefaultValue(iSchema);
-    if (isEmpty(value) && !isEmpty(defaultValue)) {
-      if (onSubmit) {
-        onSubmit(defaultValue);
-      } else {
-        onChange(defaultValue);
-      }
-    }
-  }, [iSchema, onChange]);
+    const initValue = isEmpty(value) ? getSchemaDefaultValue(schemaProperties) : value;
+    form.setValues(initValue);
+  }, [schemaProperties]);
 
-  const v = { ...value };
+  const watch = useMemo(() => (onSubmit ? undefined : { '#': onValueChange }), [onValueChange, onSubmit]);
 
   return (
-    <USchemaForm schema={schema} initialValues={v} value={v} onChange={onChange} onSubmit={onSubmit}>
+    <>
+      <FormRender form={form} schema={schema} watch={watch} onFinish={onSubmit || onValueChange} />
       {submitProps && (
-        <Submit className="submit-btn" {...submitProps}>
+        <Button type="primary" onClick={form.submit} {...submitProps}>
           {submitProps.children}
-        </Submit>
+        </Button>
       )}
-    </USchemaForm>
+    </>
   );
 }
 
-const SchemaForm = React.memo(ISchemaForm);
+const SchemaForm: React.ComponentType<SchemaFormProps> = React.memo(connectForm(ISchemaForm));
 
 export { SchemaForm };
