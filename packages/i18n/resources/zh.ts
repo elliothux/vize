@@ -192,6 +192,7 @@ export const zh = {
     ' custom triggers': '自定义触发',
     'Universal triggers': '通用触发',
     'Hotarea Manager': '热区管理',
+    Home: '主页',
     Intro: '总览',
     Pages: '页面',
     Templates: '模板',

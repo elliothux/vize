@@ -32,4 +32,8 @@ export const initI18N = i18n
     },
   });
 
+export function useCurrentLanguage() {
+  return i18n.language?.split('-')?.[0];
+}
+
 export { i18n };
