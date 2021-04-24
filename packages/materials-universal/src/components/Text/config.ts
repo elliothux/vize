@@ -7,7 +7,8 @@ const info = {
 const dataForm = {
   text: {
     title: '文本内容',
-    type: 'textarea',
+    type: 'string',
+    widget: 'textarea',
     default: '输入文本内容...',
   },
 };

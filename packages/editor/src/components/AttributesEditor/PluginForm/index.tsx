@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 import { getCurrentPagePluginIndex } from 'libs';
 import { PluginInstance } from 'types';
 import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
 import { SchemaForm } from 'widgets/Form';
 import { getMaterialsPluginMeta } from 'runtime';
 
@@ -26,7 +25,7 @@ function IPluginForm() {
         <SchemaForm
           instanceKey={key}
           form={dataForm}
-          data={toJS(data)}
+          data={data}
           onChange={pluginsStore.setCurrentPluginInstanceData}
           submitProps
         />

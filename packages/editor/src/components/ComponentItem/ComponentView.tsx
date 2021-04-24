@@ -9,6 +9,8 @@ interface Props {
   instance: ComponentInstance;
 }
 
+const ObservedComponentView = observer(RuntimeComponentView);
+
 function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   const { previewMode } = editStore;
   const { metaInfo, globalData, globalStyle } = globalStore;
@@ -18,7 +20,7 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   } = pagesStore;
 
   return (
-    <RuntimeComponentView
+    <ObservedComponentView
       instance={instance}
       previewMode={previewMode}
       router={router}
@@ -29,7 +31,7 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
       pageStyle={pageStyle}
     >
       {children}
-    </RuntimeComponentView>
+    </ObservedComponentView>
   );
 }
 

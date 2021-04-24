@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildren } from 'types';
-import { ComponentView } from './ComponentView';
 import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { withPreventEvent } from 'utils';
 import { events, EventEmitTypes } from 'libs';
@@ -17,6 +16,7 @@ import { ComponentMask } from './ComponentMask';
 import { LayoutRender } from '../LayoutRender';
 import { ComponentSelectModeMask } from './ComponentSelectModeMask';
 import { ComponentHotAreas } from './ComponentHotAreas';
+import { ComponentView } from './ComponentView';
 import iframeStyle from './index.iframe.scss';
 
 editStore.setIframeStyle('ComponentItem', iframeStyle);

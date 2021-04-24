@@ -1,34 +1,34 @@
 import './index.scss';
 import * as React from 'react';
-import { useCallback, useMemo, useEffect } from 'react';
+import { memo, useMemo } from 'react';
 import { throttle } from 'throttle-debounce';
 import { Button } from 'antd';
 import { SchemaFormProps } from 'types';
-import { noop, getSchemaDefaultValue, isEmpty } from 'utils';
 import { createSchema } from 'libs';
-import FormRender, { connectForm, ConnectedForm } from 'form-render';
+import FormRender, { useForm } from 'form-render';
+import { fieldWidgets } from '../Fields';
 
 function ISchemaForm({
   schema: schemaProperties,
-  value,
-  onChange,
+  value: formData,
+  onChange: onValueChange,
   onSubmit,
   submitProps,
-  form,
-}: ConnectedForm<SchemaFormProps>) {
+}: SchemaFormProps) {
   const schema = useMemo(() => createSchema(schemaProperties), [schemaProperties]);
-  const onValueChange = useCallback(throttle(200, onChange || noop), [onChange]);
+  const onChange = useMemo(() => (!onSubmit && onValueChange ? throttle(200, onValueChange) : undefined), [
+    onSubmit,
+    onValueChange,
+  ]);
 
-  useEffect(() => {
-    const initValue = isEmpty(value) ? getSchemaDefaultValue(schemaProperties) : value;
-    form.setValues(initValue);
-  }, [schemaProperties]);
-
-  const watch = useMemo(() => (onSubmit ? undefined : { '#': onValueChange }), [onValueChange, onSubmit]);
+  const form = useForm({
+    onChange,
+    formData,
+  });
 
   return (
     <>
-      <FormRender form={form} schema={schema} watch={watch} onFinish={onSubmit || onValueChange} />
+      <FormRender widgets={fieldWidgets} form={form} schema={schema} onFinish={onSubmit || onChange} />
       {submitProps && (
         <Button type="primary" onClick={form.submit} {...submitProps}>
           {submitProps.children}
@@ -38,6 +38,4 @@ function ISchemaForm({
   );
 }
 
-const SchemaForm: React.ComponentType<SchemaFormProps> = React.memo(connectForm(ISchemaForm));
-
-export { SchemaForm };
+export const SchemaForm = memo(ISchemaForm);
