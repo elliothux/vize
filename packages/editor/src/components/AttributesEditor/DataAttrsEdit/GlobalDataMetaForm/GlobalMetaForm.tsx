@@ -7,7 +7,7 @@ import { i18n } from 'i18n';
 
 const GlobalMetaSchema: JsonSchemaProperties = {
   title: { title: i18n.t('Title'), type: 'string', default: 'new', required: true },
-  desc: { title: i18n.t('Description'), type: 'textarea' },
+  desc: { title: i18n.t('Description'), type: 'string', widget: 'textarea' },
 };
 
 function IGlobalMetaForm() {

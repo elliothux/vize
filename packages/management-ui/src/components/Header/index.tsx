@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { PageHeader, Button, Input, Tooltip } from 'antd';
 import { useAsyncEffect, useUser } from 'hooks';
-import { i18n } from 'i18n';
+import { i18n, useCurrentLanguage } from 'i18n';
 import { Trans } from 'react-i18next';
 import { BreadcrumbNavigator } from './BreadcrumbNavigator';
 import AVATAR from 'static/avatar.png';
@@ -40,7 +40,7 @@ export function Header({
     await i18n.changeLanguage(language);
   }, [language]);
 
-  const isChinese = language === 'zh';
+  const isChinese = useCurrentLanguage() === 'zh';
   return (
     <PageHeader className="main-header">
       <div className="header-top">

@@ -17,7 +17,14 @@ const sidebar = [
   {
     title: '事件系统',
     collapsable: true,
-    children: ['/events/intro', '/events/component', '/events/plugin', '/events/container', 'events/async'],
+    children: [
+      '/events/intro',
+      '/events/component',
+      '/events/plugin',
+      '/events/page',
+      '/events/global',
+      'events/async',
+    ],
   },
   {
     title: '表单',

@@ -4,9 +4,9 @@ import { Card, Tooltip } from 'antd';
 import { EditOutlined, CopyOutlined, LineChartOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons';
 import { memo, useMemo } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import day from 'dayjs';
 import { PreviewWithEmpty } from '../PreviewWithEmpty';
-import { goToEditor } from './utils';
+import { goToEditor } from 'utils';
+import day from 'dayjs';
 
 interface Props {
   item: PageRecordWithHistory;

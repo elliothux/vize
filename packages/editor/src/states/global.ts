@@ -63,6 +63,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     isEditor: true,
   };
 
+  @action
   public setMetaInfo = (data: Partial<GlobalMeta>) => (this.metaInfo = { ...this.metaInfo, ...data });
 }
 

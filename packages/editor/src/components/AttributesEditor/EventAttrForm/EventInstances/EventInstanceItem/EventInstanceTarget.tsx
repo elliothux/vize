@@ -28,8 +28,10 @@ export function EventInstanceTarget({ target }: TargetProps) {
       events = component!.onEvents || [];
     } else if (target.type === EventTargetType.Plugin) {
       events = plugin!.onEvents || [];
-    } else {
+    } else if (target.type === EventTargetType.Global) {
       events = container!.globalOnEvents || [];
+    } else {
+      events = container!.pageOnEvents || [];
     }
     return events.find(i => i.eventName === eventName)!.displayName;
   }, [action, component, plugin, eventName]);

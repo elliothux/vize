@@ -48,3 +48,30 @@
     }
   }
 }
+
+.header-operations {
+  width: 209px;
+  margin-bottom: -2px;
+
+  & > a {
+    display: inline-block;
+  }
+
+  .header-operations-item {
+    width: 52px;
+    height: 50px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 4px;
+    color: white;
+
+    svg {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 2px;
+    }
+  }
+}

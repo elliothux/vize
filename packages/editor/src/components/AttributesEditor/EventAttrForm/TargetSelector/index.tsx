@@ -34,7 +34,10 @@ export function TargetSelector({ targetType, setTargetType }: Props) {
           <Trans>Plugin</Trans>
         </SelectOption>
         <SelectOption value={EventTargetType.Global}>
-          <Trans>Container</Trans>
+          <Trans>Global</Trans>
+        </SelectOption>
+        <SelectOption value={EventTargetType.Page}>
+          <Trans>Page</Trans>
         </SelectOption>
       </Select>
     </div>

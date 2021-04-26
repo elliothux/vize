@@ -22,13 +22,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.5",
-    "@uform/antd": "0.4.4",
     "@vize/runtime-web": "^0.1.2",
     "@vize/types": "^0.1.12",
     "antd": "^4.11.2",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "dayjs": "^1.10.3",
+    "form-render": "^1.1.3",
     "fs-extra": "^9.1.0",
     "hotkeys-js": "^3.8.2",
     "i18next": "^19.9.1",
@@ -44,7 +44,7 @@
     "qrcode.react": "^1.0.1",
     "query-string": "^6.11.1",
     "ramda": "^0.27.0",
-    "react": "^16.13.1",
+    "react": "^17.0.2",
     "react-color": "^2.18.1",
     "react-contexify": "^4.1.1",
     "react-dom": "^16.13.1",
@@ -99,6 +99,7 @@
     "raw-loader": "^4.0.1",
     "react-app-rewired": "^2.1.6",
     "sass-loader": "^8.0.2",
+    "typedoc": "^0.20.35",
     "typescript": "^3.8.3",
     "webpack": "4.42.0"
   }

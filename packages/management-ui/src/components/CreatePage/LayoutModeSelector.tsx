@@ -3,6 +3,7 @@ import { LayoutMode, Maybe } from 'types';
 import { Checkbox } from 'antd';
 import { BiWater, BiSelection } from 'react-icons/bi';
 import { Trans } from 'react-i18next';
+import { unImplemented } from 'utils';
 import { ItemProps } from './types';
 
 export function LayoutModeSelector({ current, setCurrent, showErr }: ItemProps<Maybe<LayoutMode>>) {
@@ -22,7 +23,7 @@ export function LayoutModeSelector({ current, setCurrent, showErr }: ItemProps<M
         </div>
 
         <div className="mode-item">
-          <Checkbox checked={current === LayoutMode.FREE} onClick={() => setCurrent(LayoutMode.FREE)}>
+          <Checkbox checked={current === LayoutMode.FREE} onClick={unImplemented}>
             <BiSelection />
             <h3>
               <Trans>Free Layout</Trans>

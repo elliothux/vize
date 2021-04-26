@@ -7,7 +7,6 @@ import { FreeLayoutRender } from './FreeLayoutRender';
 
 interface Props {
   mountTarget?: HTMLDivElement;
-  // renderContext: Window;
   componentInstances: ComponentInstance[];
   sharedComponentInstances?: ComponentInstance[];
   containerComponentInstance?: ComponentInstance;

@@ -85,6 +85,7 @@ export enum EventTargetType {
   Component = 'component',
   Plugin = 'plugin',
   Global = 'global',
+  Page = 'page',
 }
 
 export interface ActionEventTarget {
@@ -109,4 +110,13 @@ export interface GlobalEventTarget extends Omit<ComponentEventTarget, 'key' | 't
   type: EventTargetType.Global;
 }
 
-export type EventTarget = ActionEventTarget | ComponentEventTarget | PluginEventTarget | GlobalEventTarget;
+export interface PageEventTarget extends Omit<ComponentEventTarget, 'key' | 'type'> {
+  type: EventTargetType.Page;
+}
+
+export type EventTarget =
+  | ActionEventTarget
+  | ComponentEventTarget
+  | PluginEventTarget
+  | GlobalEventTarget
+  | PageEventTarget;

@@ -3,9 +3,10 @@ import { FiDelete, FiCopy, FiRefreshCw, FiCornerUpRight, FiPlus } from 'react-ic
 import { Menu, Item, theme, Separator, Submenu, animation } from 'react-contexify';
 import { useCallback } from 'react';
 import { componentsStore, selectStore, sharedStore } from 'states';
-import { noop, preventSyntheticEvent, showContextMenu } from 'utils';
+import { preventSyntheticEvent, showContextMenu } from 'utils';
 import { ComponentInstance, PageInstance } from 'types';
 import { Trans } from 'react-i18next';
+import { unImplemented } from 'utils';
 import { createMouseEventFromIframe } from '../utils';
 
 interface Props {
@@ -19,19 +20,9 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
   const onDelete = useCallback(() => componentsStore.deleteComponentInstance(instance.key), [key]);
   const onShared = useCallback(() => sharedStore.setComponentInstanceAsShared(key), [key]);
   const onEditChildren = useCallback(() => selectStore.selectContainerComponent(key), [key]);
-  // const onRename = useCallback(
-  //   () => pagesStore.setPageEditing(index, true),
-  //   deps
-  // );
 
   return (
     <Menu id={getID(instance.key)} theme={theme.dark} animation={animation.zoom}>
-      {/*<Item onClick={onRename}>*/}
-      {/*  <FiEdit />*/}
-      {/*  <span>*/}
-      {/*    <Trans>rename</Trans>*/}
-      {/*  </span>*/}
-      {/*</Item>`*/}
       <Item onClick={onDelete}>
         <FiDelete />
         <span>
@@ -39,7 +30,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         </span>
       </Item>
 
-      <Item onClick={noop}>
+      <Item onClick={unImplemented}>
         <FiCopy />
         <span>
           <Trans>copy</Trans>
@@ -48,9 +39,8 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
 
       <Separator />
 
-      {/* TODO */}
       {!shared ? (
-        <Item onClick={onShared}>
+        <Item onClick={unImplemented}>
           <FiRefreshCw />
           <span>
             <Trans>share between pages</Trans>
@@ -69,7 +59,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         }
         arrow={null}
       >
-        <Item onClick={noop}>
+        <Item onClick={unImplemented}>
           <FiPlus />
           <span>
             <Trans>new page</Trans>
@@ -77,7 +67,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         </Item>
         {pages.map(({ name, key }, index) =>
           shared || index !== currentPageIndex ? (
-            <Item key={key} onClick={noop}>
+            <Item key={key} onClick={unImplemented}>
               <span>{name}</span>
             </Item>
           ) : null,
@@ -95,7 +85,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         }
         arrow={null}
       >
-        <Item onClick={noop}>
+        <Item onClick={unImplemented}>
           <FiPlus />
           <span>
             <Trans>new page</Trans>
@@ -103,7 +93,7 @@ export function ComponentContextMenu({ instance, pages, currentPageIndex }: Prop
         </Item>
         {pages.map(({ name, key }, index) =>
           shared || index !== currentPageIndex ? (
-            <Item key={key} onClick={noop}>
+            <Item key={key} onClick={unImplemented}>
               <span>{name}</span>
             </Item>
           ) : null,

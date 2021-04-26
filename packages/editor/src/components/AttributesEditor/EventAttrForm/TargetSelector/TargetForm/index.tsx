@@ -4,6 +4,7 @@ import { ActionTargetSelector } from './ActionTargetSelector';
 import { ComponentTargetSelector } from './ComponentTargetSelector';
 import { PluginTargetSelector } from './PluginTargetSelector';
 import { GlobalTargetSelector } from './GlobalTargetSelector';
+import { PageTargetSelector } from './PageTargetSelector';
 
 interface FormProps {
   targetType: Maybe<EventTargetType>;
@@ -21,6 +22,8 @@ export function TargetForm({ targetType, ...props }: FormProps) {
       return React.createElement(PluginTargetSelector, props);
     case EventTargetType.Global:
       return React.createElement(GlobalTargetSelector, props);
+    case EventTargetType.Page:
+      return React.createElement(PageTargetSelector, props);
     default:
       return null;
   }

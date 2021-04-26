@@ -34,7 +34,7 @@ Component
 
 ### 组件基础信息
 
-info 字段：
+`info` 包含以下字段：
 
 - name: 组件名
 - desc: 组件描述提示

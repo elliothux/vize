@@ -29,17 +29,16 @@ const dataForm = {
   successText: {
     title: '成功提示文字',
     default: '提交成功',
-    type: 'textarea',
+    type: 'string',
+    widget: 'textarea',
     required: true,
   },
   messageType: {
     title: '提示方式',
-    type: 'radio',
+    type: 'string',
     default: 'toast',
-    enum: [
-      { value: 'toast', label: '消息(Toast)' },
-      { value: 'alert', label: '弹窗(Alert)' },
-    ],
+    enum: ['toast', 'alert'],
+    enumNames: ['消息(Toast)', '弹窗(Alert)'],
     required: true,
   },
   jumpURL: {
@@ -75,13 +74,15 @@ const enableStyleGroup = {
 const styleForm = {
   buttonTextColor: {
     title: '按钮文本颜色',
-    type: 'color',
+    type: 'string',
+    widget: 'color',
     default: '#fff',
     required: true,
   },
   buttonBackgroundColor: {
     title: '按钮背景颜色',
-    type: 'color',
+    type: 'string',
+    widget: 'color',
     default: '#08cb6a',
     required: true,
   },

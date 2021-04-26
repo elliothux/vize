@@ -12,4 +12,8 @@ Vize 的页面结构信息（包含页面、组件、插件等信息）遵循统
 
 通过对 DSL 的处理，可以实现如[自定义 generator](/deploy/generator.md) 等定制化需求。
 
-完整的 DSL 定义参考: [@vize/types/dsl](https://github.com/vize-team/vize/blob/master/packages/types/src/dsl.ts)
+完整的 DSL 定义参考:
+
+<li><a target="__blank" href="/types/modules/dsl.html">types-doc/dsl</a></li>
+
+- [@vize/types/dsl](https://github.com/vize-team/vize/blob/master/packages/types/src/dsl.ts)

@@ -2,3 +2,67 @@
 
 .materials {
 }
+
+.container-selector {
+  .container-selector-item {
+    background-color: white;
+    box-shadow: $default-box-shadow;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    padding: 0 24px;
+    position: relative;
+    transition: all ease 300ms;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+
+      h3,
+      svg {
+        color: $main-color;
+      }
+    }
+
+    h3 {
+      padding-top: 12px;
+    }
+
+    .desc {
+      margin-bottom: 6px;
+    }
+
+    .author {
+      margin-top: 0;
+      padding-bottom: 12px;
+      font-size: 12px;
+    }
+
+    svg {
+      position: absolute;
+      right: 18px;
+      top: 30px;
+      width: 46px;
+      height: auto;
+      color: rgba(0, 0, 0, 0.6);
+      transition: all ease 300ms;
+    }
+  }
+}
+
+.container-selector-modal {
+  .ant-modal-content {
+    background-color: #f3f5f9;
+  }
+
+  .ant-modal-confirm-title {
+    margin-bottom: 24px;
+  }
+
+  .ant-modal-confirm-content {
+    margin-left: 0 !important;
+  }
+
+  .ant-modal-confirm-btns {
+    margin-top: 12px;
+  }
+}

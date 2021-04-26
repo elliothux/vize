@@ -12,7 +12,7 @@ export async function bootstrap(
   setConfig(config);
   await init();
 
-  const app = await NestFactory.create(getApp());
+  const app = await NestFactory.create(getApp(), { logger: true });
   app.use(cookieParser());
   await app.listen(config.port);
 

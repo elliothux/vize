@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { observer } from 'mobx-react';
 import { useMount } from 'react-use';
 import { message, Spin } from 'antd';
 import { editStore, materialsStore } from 'states';
 import { I18nextProvider } from 'react-i18next';
-import { i18n } from 'i18n';
+import { i18n, useCurrentLanguage } from 'i18n';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { EventEmitTypes, events, init } from 'libs';
 import { Header } from 'components/Header';
@@ -28,8 +29,9 @@ const spinLoading = (
 
 function IApp() {
   const { previewMode } = editStore;
-  const [loading, setLoading] = React.useState(true);
-  const [err, setErr] = React.useState(false);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(false);
+  const language = useCurrentLanguage();
 
   useMount(async () => {
     const [err] = await promiseWrapper(init());
@@ -63,7 +65,7 @@ function IApp() {
         indicator={<img className="loading-logo" src={LOGO} alt="logo" />}
       >
         <Header />
-        <main className={classNames('vize-main', { 'preview-mode': previewMode })}>
+        <main className={classNames(`vize-main language-${language}`, { 'preview-mode': previewMode })}>
           <MaterialsView loading={loading} />
           <Simulator>
             {loading ? null : (

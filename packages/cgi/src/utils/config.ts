@@ -40,11 +40,18 @@ export function setConfig(c: VizeCGIConfig) {
       materialsPath,
       materialsVersionsPath,
       uploadFilesPath,
-      editorPath: c.editorPath || require.resolve('@vize/editor/build'),
+      editorPath: c.editorPath || resolvePackageBuildPath('editor'),
       managementUIPath:
-        c.managementUIPath || require.resolve('@vize/management-ui/build'),
+        c.managementUIPath || resolvePackageBuildPath('management-ui'),
     },
   };
+}
+
+function resolvePackageBuildPath(pageage: string) {
+  return path.resolve(
+    path.dirname(require.resolve(`@vize/${pageage}`)),
+    'build',
+  );
 }
 
 export function getConfig(): Maybe<VizeCGIConfigWithPaths> {

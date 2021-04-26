@@ -31,9 +31,11 @@ Container
 
 ## 2. 页面容器配置
 
+文件名为 `config.ts`。页面容器配置包括基础信息、容器表单等属性。
+
 ### 容器基础信息
 
-文件名为 `config.ts`。页面容器配置包括基础信息、容器表单等属性。
+`info` 包含以下字段：
 
 - name: 页面容器名
 - desc: 页面容器描述
@@ -41,9 +43,15 @@ Container
 
 ### 全局属性
 
-页面容器配置的 `dataForm` 生成的表单将显示在编辑器的 “全局属性” 配置项。
+页面容器配置的 `globalDataForm` 和 `globalStyleForm` 生成的表单将作为编辑器的 **“全局属性”** 配置项。
 
-表单的值将作为 `global` 属性传入组件、插件、动作、统一事件监听回调等。
+表单的值将作为 `globalData` 和 `globalStyle` 属性传入组件、插件、动作、统一事件监听回调等。
+
+### 页面属性
+
+页面容器配置的 `pageDataForm` 和 `pageStyleForm` 生成的表单将作为编辑器的 **“页面属性”** 配置项。
+
+表单的值将作为 `pageData` 和 `pageStyle` 属性传入组件、插件、动作、统一事件监听回调等。
 
 示例参考：[vize/materials-universal/containers/universal/config.ts](https://github.com/vize-team/vize/blob/master/packages/materials-universal/src/containers/universal/config.ts)
 
@@ -53,14 +61,15 @@ Container
 
 ### 模板变量注入
 
-模板中还支持变量注入。在模板中可以通过 `global` 访问[页面全局属性](/dev/container/#页面全局属性)，通过 `meta` 访问[页面元数据](/dev-meta/)。
+模板中还支持变量注入。在模板中可以通过 `globalData` 与 `globalStyle` 访问[页面全局属性](/dev/container/#全局属性)，通过 `meta` 访问[页面元数据](/dev-meta/)。
 
 如：
 
 ```ejs
-<meta name="keywords" content="<%= global.keywords %>">
+<meta name="keywords" content="<%= globalData.keywords %>">
 <meta name="description" content="<%= meta.desc %>">
 <title><%= meta.title %></title>
+<body style="background-color: <%= globalStyle.backgroundColor %>"></body>
 ```
 
 ## 4. 页面入口

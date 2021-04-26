@@ -17,9 +17,9 @@ meta:
 编辑 `src/containers/MyFirstContainer/config.ts`:
 
 ```ts
-// 数据配置表单
-// 将展示在编辑器属性编辑栏的【数据】Tab 中
-const dataForm = {
+// 全局数据配置表单
+// 将展示在编辑器全局属性编辑栏的【数据】Tab 中
+const globalDataForm = {
   text: {
     title: '内容',
     description: '请输入内容',
@@ -28,9 +28,9 @@ const dataForm = {
   },
 };
 
-// 样式配置表单
-// 将展示在编辑器属性编辑栏的【样式】Tab 中
-const styleForm = {
+// 全局样式配置表单
+// 将展示在编辑器全局属性编辑栏的【样式】Tab 中
+const globalStyleForm = {
   backgroundColor: {
     title: '全局背景色',
     type: 'color',
@@ -38,10 +38,34 @@ const styleForm = {
   },
 };
 
+// 页面数据配置表单
+// 将展示在编辑器页面属性编辑栏的【数据】Tab 中
+const pageDataForm = {
+  text: {
+    title: '内容',
+    description: '请输入内容',
+    type: 'string',
+    default: 'Hello Vize Page!',
+  },
+};
+
+// 页面样式配置表单
+// 将展示在编辑器页面属性编辑栏的【样式】Tab 中
+const pageStyleForm = {
+  backgroundColor: {
+    title: '页面背景色',
+    type: 'color',
+    default: '#fff',
+  },
+};
+
+
 export default {
   info: { ... },
-  dataForm,
-  styleForm
+  globalDataForm,
+  globalStyleForm,
+  pageDataForm,
+  pageStyleForm
 }
 ```
 
@@ -51,7 +75,7 @@ export default {
 
 ```ejs
 <!DOCTYPE html>
-<!--【数据】表单的内容在模板中通过 `global` 获取-->
+<!--【数据】表单的内容在模板中通过 `globalData` 获取-->
 <!--【样式】表单的内容在模板中通过 `globalStyle` 获取-->
 <!--在模板中通过 `meta` 获取页面元数据-->
 <html>
@@ -80,8 +104,8 @@ export default {
 编辑 `src/containers/MyFirstContainer/index.ts`:
 
 ```ts
-// 【数据】表单的内容作为 data 传入入口函数
-// 【样式】表单的内容作为 style 传入入口函数
+// 全局【数据】表单的内容作为 data 传入入口函数
+// 全局【样式】表单的内容作为 style 传入入口函数
 
 // 可以在这里执行初始化操作，如引入全局样式、执行上报等
 

@@ -1,26 +1,16 @@
 {
   "name": "@vize/cgi",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "author": "aedron@github",
   "main": "dist/main",
   "module": "dist/main",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "publish": "npm publish --access public",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "publish": "npm publish --access public"
   },
   "dependencies": {
     "antd": "^4.6.5",
-    "@formily/antd": "^1.3.3",
     "@swc/core": "^1.2.36",
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.10.4",

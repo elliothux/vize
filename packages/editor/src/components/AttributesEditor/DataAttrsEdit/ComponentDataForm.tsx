@@ -3,7 +3,6 @@ import { EditFilled } from '@ant-design/icons';
 import { componentsStore, selectStore } from 'states';
 import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
 import { useCurrentComponentInstance, useCurrentComponentMeta } from 'hooks';
 import { Button } from 'antd';
 import { getImageSrc } from 'utils';
@@ -48,7 +47,7 @@ function IComponentDataForm() {
         <SchemaForm
           instanceKey={key}
           form={dataForm}
-          data={toJS(data)}
+          data={data}
           onChange={componentsStore.setCurrentComponentInstanceData}
         />
       ) : null}

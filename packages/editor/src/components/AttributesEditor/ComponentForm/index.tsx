@@ -5,7 +5,6 @@ import { getCurrentPageComponentIndex } from 'libs';
 import { ComponentInstance } from 'types';
 import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
 import { getMaterialsComponentMeta } from 'runtime';
 
 function IComponentForm() {
@@ -29,7 +28,7 @@ function IComponentForm() {
         <SchemaForm
           instanceKey={key}
           form={dataForm}
-          data={toJS(data)}
+          data={data}
           onChange={componentsStore.setCurrentComponentInstanceData}
         />
       ) : null}
@@ -38,7 +37,7 @@ function IComponentForm() {
         <SchemaForm
           instanceKey={key}
           form={styleForm}
-          data={toJS(style)}
+          data={style}
           onChange={componentsStore.setCurrentComponentInstanceStyle}
         />
       ) : null}

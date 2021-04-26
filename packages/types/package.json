@@ -4,8 +4,15 @@
   "description": "",
   "main": "dist",
   "types": "dist",
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
-    "build": "rm -rf ./dist; tsc ./src/*.ts --outDir dist --declaration true",
+    "build": "rm -rf ./dist; tsc",
+    "build:doc": "../../node_modules/.bin/typedoc ./src",
+    "copy:doc": "cp -R ./docs ../doc/src/.vuepress/dist; mv ../doc/src/.vuepress/dist/docs ../doc/src/.vuepress/dist/types",
+    "release": "npm run build:doc; npm run copy:doc",
     "publish": "npm publish --access public;"
   }
 }

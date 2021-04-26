@@ -278,7 +278,7 @@ export class EventStore {
         break;
     }
 
-    return deps!.forEach(({ depsFromType, parentKey, eventKey, index }) => {
+    return deps?.forEach(({ depsFromType, parentKey, eventKey, index }) => {
       const deleteEventItem = (events: EventInstance[]) => {
         const index = events.findIndex(i => i.key === eventKey);
         events.splice(index, 1);

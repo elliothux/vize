@@ -1,42 +1,41 @@
 import './index.scss';
 import * as React from 'react';
-import { useCallback, useMemo, useEffect } from 'react';
+import { memo, useMemo } from 'react';
 import { throttle } from 'throttle-debounce';
-import { SchemaForm as USchemaForm, Submit } from '@uform/antd';
+import { Button } from 'antd';
 import { SchemaFormProps } from 'types';
-import { noop, getSchemaDefaultValue, isEmpty } from 'utils';
 import { createSchema } from 'libs';
+import FormRender, { useForm } from 'form-render';
+import { fieldWidgets } from '../Fields';
 
-function ISchemaForm(props: SchemaFormProps) {
-  const { schema: iSchema, value, onChange: iOnChange, onSubmit, submitProps } = props;
+function ISchemaForm({
+  schema: schemaProperties,
+  value: formData,
+  onChange: onValueChange,
+  onSubmit,
+  submitProps,
+}: SchemaFormProps) {
+  const schema = useMemo(() => createSchema(schemaProperties), [schemaProperties]);
+  const onChange = useMemo(() => (!onSubmit && onValueChange ? throttle(200, onValueChange) : undefined), [
+    onSubmit,
+    onValueChange,
+  ]);
 
-  const schema = useMemo(() => createSchema(iSchema), [iSchema]);
-  const onChange = useCallback(throttle(200, iOnChange || noop), [iOnChange]);
-
-  useEffect(() => {
-    const defaultValue = getSchemaDefaultValue(iSchema);
-    if (isEmpty(value) && !isEmpty(defaultValue)) {
-      if (onSubmit) {
-        onSubmit(defaultValue);
-      } else {
-        onChange(defaultValue);
-      }
-    }
-  }, [iSchema, onChange]);
-
-  const v = { ...value };
+  const form = useForm({
+    onChange,
+    formData,
+  });
 
   return (
-    <USchemaForm schema={schema} initialValues={v} value={v} onChange={onChange} onSubmit={onSubmit}>
+    <>
+      <FormRender widgets={fieldWidgets} form={form} schema={schema} onFinish={onSubmit || onChange} />
       {submitProps && (
-        <Submit className="submit-btn" {...submitProps}>
+        <Button type="primary" onClick={form.submit} {...submitProps}>
           {submitProps.children}
-        </Submit>
+        </Button>
       )}
-    </USchemaForm>
+    </>
   );
 }
 
-const SchemaForm = React.memo(ISchemaForm);
-
-export { SchemaForm };
+export const SchemaForm = memo(ISchemaForm);

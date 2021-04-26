@@ -45,7 +45,8 @@ const dataForm = {
   },
   icon: {
     title: '分享封面',
-    type: 'image',
+    type: 'string',
+    widget: 'image',
   },
 };
 

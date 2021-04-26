@@ -4,6 +4,7 @@ import { parseUrl } from 'query-string';
 import { ComponentInstance, JsonSchemaProperties, MaterialsForm, Maybe } from 'types';
 import { createSchema } from 'libs';
 import { editStore } from 'states';
+import { i18n } from 'i18n';
 import getDefaults from 'json-schema-defaults';
 import { isFunction } from './is';
 
@@ -37,13 +38,18 @@ interface QueryParams {
   libs: string[];
   debugPorts: number[];
   container: string;
+  playground?: string;
 }
 
 export function getQueryParams(): QueryParams {
   const { query } = parseUrl(window.location.href);
-  const { id, key, libs, debugPorts, container } = query;
+  const { id, key, libs, debugPorts, container, playground } = query;
 
-  for (const k of ['key', 'libs', 'container']) {
+  const requiredParams = ['libs', 'container'];
+  if (!playground) {
+    requiredParams.push('key');
+  }
+  for (const k of requiredParams) {
     if (!query[k]) {
       throw new Error(`Missing require params: "${k}"`);
     }
@@ -51,7 +57,7 @@ export function getQueryParams(): QueryParams {
 
   return {
     id: id ? parseInt(id as string, 10) : undefined,
-    key: key!.toString(),
+    key: playground ? 'playground' : key!.toString(),
     libs: libs!
       .toString()
       .split(',')
@@ -63,6 +69,7 @@ export function getQueryParams(): QueryParams {
           .map(i => parseInt(i.trim(), 10))
       : [],
     container: container!.toString(),
+    playground: playground as string,
   };
 }
 
@@ -188,3 +195,5 @@ export function downloadFile(src: string, fileName: string) {
     URL.revokeObjectURL(a.href);
   }, 1500);
 }
+
+export const unImplemented = withMessage(noop, i18n.t('This feature is still under development'), 'warn');
