@@ -8,9 +8,10 @@ import { Trans } from 'react-i18next';
 interface Props {
   dynamicImport: () => Promise<{ [key: string]: any }>;
   name: string;
+  [key: string]: any;
 }
 
-export function WithDynamicImport({ dynamicImport, name }: Props) {
+export function WithDynamicImport({ dynamicImport, name, ...props }: Props) {
   const [Component, setComponent] = useState<ComponentType>(() => Loading);
   const [retryCursor, setRetryCursor] = useState(0);
 
@@ -26,12 +27,12 @@ export function WithDynamicImport({ dynamicImport, name }: Props) {
     }
   }, [dynamicImport, name, retryCursor]);
 
-  return React.createElement(Component, {});
+  return React.createElement(Component, props);
 }
 
 export function withDynamicImport(dynamicImport: Props['dynamicImport'], name: string) {
-  return function DynamicImport() {
-    return <WithDynamicImport dynamicImport={dynamicImport} name={name} />;
+  return function DynamicImport(props: {}) {
+    return <WithDynamicImport dynamicImport={dynamicImport} name={name} {...props} />;
   };
 }
 

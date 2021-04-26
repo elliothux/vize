@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { MaterialsRecord } from 'types';
 import { Card, Tooltip } from 'antd';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { BiShow, BiRocket, BiAnalyse, BiTransfer } from 'react-icons/bi';
-import { Link } from 'wouter';
-import { withAdminValidation, noop } from 'utils';
+import { Link, useLocation } from 'wouter';
+import { withAdminValidation, noop, withPreventEvent, preventSyntheticEvent } from 'utils';
 import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
+import { goToPlaygroundWithContainers } from './utils';
 
 interface Props {
   item: MaterialsRecord;
@@ -23,41 +24,46 @@ export function MaterialsItem({
     displayName,
     desc,
     version,
-    manifest: { components, plugins, actions, containers },
+    manifest: { containers },
   },
 }: Props) {
   const { t } = useTranslation();
+  const [, setLocation] = useLocation();
+
   const created = useMemo(() => day(createdTime).format(`${t('MM-DD')} HH:mm`), [createdTime]);
   const modified = useMemo(() => day(modifiedTime).format(`${t('MM-DD')} HH:mm`), [modifiedTime]);
-  const editorPath = useMemo(() => `/lib/${id}`, [id]);
-  const playgroundPath = useMemo(() => `/playground?lib=${libName}`, [id]);
+  const libPath = useMemo(() => `/lib/${id}`, [id]);
+
+  const goToLib = useCallback(() => setLocation(libPath), [libPath]);
+  const goToPlayground = useMemo(() => withPreventEvent(() => goToPlaygroundWithContainers(libName, containers)), [
+    libName,
+  ]);
 
   return (
     <Card
       className="materials-item card-item"
-      cover={<img src={thumb} />}
+      cover={<img src={thumb} alt="cover" />}
       actions={[
         <Tooltip title={t('view details')} key="detail">
-          <div>
-            <Link href={editorPath}>
+          <div onClick={preventSyntheticEvent}>
+            <Link href={libPath}>
               <BiShow />
             </Link>
           </div>
         </Tooltip>,
         <Tooltip title={t('Try with Playground')} key="playground">
-          <div>
-            <Link href={playgroundPath}>
-              <BiRocket />
-            </Link>
+          <div onClick={goToPlayground}>
+            <BiRocket />
           </div>
         </Tooltip>,
         <Tooltip title={t('sync manifest')} key="sync">
-          <BiAnalyse onClick={withAdminValidation(noop)} />
+          <BiAnalyse onClick={withPreventEvent(withAdminValidation(noop))} />
         </Tooltip>,
         <Tooltip title={t('switch version')} key="versions">
-          <BiTransfer onClick={withAdminValidation(noop)} />
+          <BiTransfer onClick={withPreventEvent(withAdminValidation(noop))} />
         </Tooltip>,
       ]}
+      onClick={goToLib}
     >
       <h3>
         {displayName}

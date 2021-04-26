@@ -352,5 +352,7 @@ export const zh = {
     'Global info of container': '容器全局配置',
     'Error occurred': '出错啦',
     Retry: '重试',
+    'no containers': '无页面容器',
+    'Choose container': '选择页面容器',
   },
 };

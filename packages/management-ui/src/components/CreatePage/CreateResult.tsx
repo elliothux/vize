@@ -3,7 +3,7 @@ import { Result, Button } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Maybe, PageRecord } from 'types';
 import { useTranslation, Trans } from 'react-i18next';
-import { goToEditor } from '../PageList/utils';
+import { goToEditor } from 'utils';
 
 interface Props {
   pageRecord: Maybe<PageRecord>;

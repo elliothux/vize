@@ -14,3 +14,8 @@ export function goToEditor({ key, biz: { id: bizId }, container: { name } }: Pag
   const url = `/editor?key=${key}&libs=${libs}&container=${name}`;
   return window.open(url, '_blank');
 }
+
+export function goToPlayground(lib: string, container: string) {
+  const url = `/editor?playground=${lib}&container=${container}`;
+  return window.open(url, '_blank');
+}

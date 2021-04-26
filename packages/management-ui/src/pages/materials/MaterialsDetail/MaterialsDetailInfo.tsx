@@ -3,10 +3,10 @@ import { MaterialsRecord } from 'types';
 import { useCallback, useMemo } from 'react';
 import { Button } from 'antd';
 import { BiRocket, BiAnalyse, BiListPlus } from 'react-icons/bi';
-import { useLocation } from 'wouter';
 import { withAdminValidation, noop } from 'utils';
 import { useTranslation, Trans } from 'react-i18next';
 import day from 'dayjs';
+import { goToPlaygroundWithContainers } from '../utils';
 
 interface Props {
   lib: MaterialsRecord;
@@ -14,16 +14,9 @@ interface Props {
 
 export function MaterialsDetailInfo({ lib }: Props) {
   const { t } = useTranslation();
-  const [, setLocation] = useLocation();
   const created = useMemo(() => day(lib.createdTime).format(`${t('YYYY-MM-DD')} HH:mm`), [lib]);
   const modified = useMemo(() => day(lib.modifiedTime).format(`${t('YYYY-MM-DD')} HH:mm`), [lib]);
-
-  const goPlayground = useCallback(() => {
-    if (!lib) {
-      return;
-    }
-    setLocation(`/playground?lib=${lib.libName}`);
-  }, [lib]);
+  const goPlayground = useCallback(() => goToPlaygroundWithContainers(lib.libName, lib.manifest.containers), [lib]);
 
   return (
     <div className="materials-lib-info">
