@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { memo, useCallback } from 'react';
 import { EventInstance, EventTargetType, MaterialsCustomEvent } from 'types';
 import { Card } from 'antd';
 import { EventInstanceDataForm } from './EventInstanceDataForm';
 import { EventHeader } from './EventHeader';
 import { SortableElement } from 'react-sortable-hoc';
-import { useCallback } from 'react';
 import { eventStore } from 'states';
 import classNames from 'classnames';
 
@@ -37,4 +37,4 @@ function IEventInstanceItem({
   );
 }
 
-export const EventInstanceItem = SortableElement(IEventInstanceItem);
+export const EventInstanceItem = memo(SortableElement(IEventInstanceItem));
