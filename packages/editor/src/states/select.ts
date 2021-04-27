@@ -36,10 +36,11 @@ export class SelectStore {
       return;
     }
 
-    pagesStore.executePageEventCallbacks(this.pageIndex, PageUniversalEventTrigger.BEFORE_LEAVE_PAGE).then(() => {
-      runInAction(() => (this.pageIndex = index));
+    setTimeout(async () => {
+      await pagesStore.executePageEventCallbacks(this.pageIndex, PageUniversalEventTrigger.BEFORE_LEAVE_PAGE);
       return pagesStore.executePageEventCallbacks(index, PageUniversalEventTrigger.AFTER_ENTER_PAGE);
-    });
+    }, 0);
+    this.pageIndex = index;
   };
 
   public isCurrentPage = (index: number) => {
