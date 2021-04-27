@@ -1,5 +1,6 @@
 import './index.scss';
 import * as React from 'react';
+import { useEffect } from 'react';
 
 interface Props {
   data: {
@@ -11,6 +12,8 @@ interface Props {
 
 export default function Image({ data, hotAreas, commonStyle }: Props) {
   const { src } = data;
+
+  throw new Error('xxx');
 
   return (
     <div className="vize-materials-universal image" style={commonStyle}>

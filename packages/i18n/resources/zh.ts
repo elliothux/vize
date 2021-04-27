@@ -354,5 +354,7 @@ export const zh = {
     Retry: '重试',
     'no containers': '无页面容器',
     'Choose container': '选择页面容器',
+    'Error occurred in materials lib': '物料库发生错误',
+    "Please contact the material's developer": '请联系物料库开发者',
   },
 };

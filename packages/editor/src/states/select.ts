@@ -1,4 +1,4 @@
-import { action, observable, runInAction, toJS } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import { getComponentSelectedCallback } from 'runtime';
 import { Maybe } from 'types';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
