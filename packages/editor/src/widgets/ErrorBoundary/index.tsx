@@ -16,7 +16,6 @@ export class ErrorBoundary extends PureComponent<WithReactChildren<ErrorBoundary
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({ error, errorInfo });
-    // debugger;
   }
 
   render() {

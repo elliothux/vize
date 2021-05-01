@@ -7,8 +7,13 @@ import { isText } from 'istextorbinary';
 import * as inquirer from 'inquirer';
 
 export function checkRuntime(runtime: Maybe<string>): string | void {
+  if (!runtime) {
+    log('Using default runtime: "react"');
+    return 'react';
+  }
+
   if (!['react', 'rax'.includes(runtime)]) {
-    return error(`Invalid runtime "${runtime}"`);
+    return error(`Invalid runtime: "${runtime}"`);
   }
 
   return runtime;
@@ -79,6 +84,7 @@ async function askTemplateQuestions<T = object>(templateDir: string): Promise<T>
       name: key,
       message: question.desc,
       default: question.default,
+      required: typeof question.required === 'boolean' ? question.required : true,
     })),
   );
 }

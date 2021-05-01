@@ -1,6 +1,6 @@
 {
   "name": "@vize/cli",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "",
   "main": "src/index.ts",
   "bin": {
@@ -22,6 +22,7 @@
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
     "@swc/core": "^1.2.36",
+    "@vize/types": "^0.1.12",
     "babel-loader": "^8.1.0",
     "base64-inline-loader": "^1.1.1",
     "chalk": "^3.0.0",

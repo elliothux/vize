@@ -59,7 +59,7 @@ export class Builder {
       libPaths: this.libPaths,
       libConfig: this.libConfig,
       isProd,
-      useSWC: true,
+      useSWC: false,
       withForms: this.withForms,
     });
   };
