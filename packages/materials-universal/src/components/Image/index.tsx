@@ -13,9 +13,9 @@ export default function Image({ data, hotAreas, commonStyle }: Props) {
   const { src } = data;
 
   return (
-    <div className="vize-materials-universal image" style={commonStyle}>
+    <div className="vize-materials-universal-image" style={commonStyle}>
       {hotAreas}
-      <img className="vize-material-image" src={src} alt="[图片]" />
+      <img className="inner-image" src={src} alt="[图片]" />
     </div>
   );
 }
