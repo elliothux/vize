@@ -1,24 +1,17 @@
 import * as React from 'react';
+import { ComponentProps } from '@vize/types';
+import { default as ButtonComponent } from 'antd-mobile/es/button';
+import 'antd-mobile/es/button/style/index.css';
 import './index.scss';
 
-interface Props {
-  data: {
-    text: string;
-  };
-  commonStyle: object;
-  router: any;
+interface Data {
+  text: string;
 }
 
-export default function Button({ data: { text }, commonStyle, router }: Props) {
+export default function Button({ data: { text }, commonStyle }: ComponentProps<Data>) {
   return (
-    <button
-      className="vize-materials-universal button"
-      style={commonStyle}
-      onClick={() => {
-        router.setCurrentPage(router.pages[0].key);
-      }}
-    >
+    <ButtonComponent className="vize-materials-universal-button" style={commonStyle}>
       {text}
-    </button>
+    </ButtonComponent>
   );
 }

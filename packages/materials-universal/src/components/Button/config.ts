@@ -1,5 +1,5 @@
 const info = {
-  name: '按钮3',
+  name: '按钮',
   desc: '基础按钮',
   author: 'aedron@github',
 };
@@ -9,29 +9,29 @@ const dataForm = {
     title: '按钮文字',
     default: '按钮',
     type: 'string',
-  },
-};
-
-const enableWrapperStyleGroup = {
-  background: {
-    color: 'transparent',
+    required: true,
   },
 };
 
 const enableStyleGroup = {
   size: true,
-  transform: true,
-  text: true,
+  transform: {
+    radius: 32,
+  },
+  text: {
+    color: '#fff',
+  },
   border: true,
-  background: true,
+  background: {
+    color: '#fb9f34',
+  },
   margin: {
     top: 12,
     bottom: 12,
+    left: 32,
+    right: 32,
   },
-  padding: {
-    left: 8,
-    right: 8,
-  },
+  padding: true,
   zIndex: true,
   position: true,
 };
@@ -39,8 +39,5 @@ const enableStyleGroup = {
 export default {
   info,
   dataForm,
-  emitEvents: [{ displayName: 'emit测试', eventName: 'test' }],
-  onEvents: [{ displayName: 'on测试', eventName: 'test' }],
-  enableWrapperStyleGroup,
   enableStyleGroup,
 };
