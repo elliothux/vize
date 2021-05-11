@@ -6,6 +6,7 @@ import { globalStore } from 'states';
 import { i18n } from 'i18n';
 import { Empty } from 'widgets/Empty';
 import { SchemaForm } from 'widgets/Form';
+import { MaterialsErrorBoundary } from 'components/MaterialsErrorBoundary';
 
 function IGlobalDataForm() {
   const { globalDataForm } = getMaterialsContainerMeta()!;
@@ -20,7 +21,11 @@ function IGlobalDataForm() {
     return <Empty text={i18n.t('Not available')} />;
   }
 
-  return <SchemaForm form={globalDataForm} data={globalData} onChange={onChange} submitProps />;
+  return (
+    <MaterialsErrorBoundary type="container" isForm>
+      <SchemaForm form={globalDataForm} data={globalData} onChange={onChange} submitProps />
+    </MaterialsErrorBoundary>
+  );
 }
 
 export const GlobalDataForm = observer(IGlobalDataForm);

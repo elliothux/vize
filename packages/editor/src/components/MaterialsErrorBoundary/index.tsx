@@ -1,20 +1,22 @@
+import './index.scss';
 import * as React from 'react';
 import { ErrorInfo, useCallback } from 'react';
 import { WithReactChildren } from 'types';
 import { ErrorBoundary } from 'widgets/ErrorBoundary';
-import { getMaterialsContainerMeta } from 'libs';
-import { getMaterialsComponentMeta } from 'runtime';
+import { events, EventEmitTypes, getMaterialsContainerMeta } from 'libs';
+import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
 import { BiError } from 'react-icons/bi';
 import { useTranslation } from 'react-i18next';
 import { editStore } from 'states';
 import iframeStyle from './index.iframe.scss';
 
 interface Props {
-  type: 'component' | 'container';
+  type: 'container' | 'component' | 'plugin';
   identityName?: string;
+  isForm?: boolean;
 }
 
-editStore.setIframeStyle('MaterialsErrorBoundary', iframeStyle);
+events.on(EventEmitTypes.STORE_INITIALED, () => editStore.setIframeStyle('MaterialsErrorBoundary', iframeStyle));
 
 export function MaterialsErrorBoundary(props: WithReactChildren<Props>) {
   const renderError = useCallback(
@@ -29,24 +31,28 @@ interface ErrorProps extends Props {
   errorInfo: ErrorInfo;
 }
 
-function MaterialsError({ error, errorInfo, type, identityName }: ErrorProps) {
+function MaterialsError({ error, errorInfo, type, identityName, isForm }: ErrorProps) {
   const { t } = useTranslation();
   const {
     name: materialsName,
     info: { name, author },
-  } = type === 'container' ? getMaterialsContainerMeta()! : getMaterialsComponentMeta(identityName!)!;
+  } =
+    type === 'container'
+      ? getMaterialsContainerMeta()!
+      : type === 'plugin'
+      ? getMaterialsPluginMeta(identityName!)!
+      : getMaterialsComponentMeta(identityName!)!;
 
   const onDebug = useCallback(() => {
     console.error(errorInfo.componentStack);
     console.error(error);
   }, [error]);
-  // const stack = componentStack ? componentStack.split('\n').map((i, index) => <p key={index}>{i}</p>) : null;
 
   return (
     <div className="materials-error-boundary">
       <p className="title">
         <BiError />
-        <span>{t(`Error occurred in materials lib`)}</span>
+        <span>{t(isForm ? `Error occurred in materials lib's form` : `Error occurred in materials lib`)}</span>
       </p>
 
       <p className="name">

@@ -6,6 +6,7 @@ import { pagesStore } from 'states';
 import { i18n } from 'i18n';
 import { Empty } from 'widgets/Empty';
 import { SchemaForm } from 'widgets/Form';
+import { MaterialsErrorBoundary } from 'components/MaterialsErrorBoundary';
 
 function IPageStyleForm() {
   const { pageStyleForm } = getMaterialsContainerMeta()!;
@@ -25,7 +26,9 @@ function IPageStyleForm() {
 
   return (
     <div className="editor-prop-item editor-prop-edit-style">
-      <SchemaForm form={pageStyleForm} data={style} onChange={onChange} submitProps />
+      <MaterialsErrorBoundary type="container" isForm>
+        <SchemaForm form={pageStyleForm} data={style} onChange={onChange} submitProps />
+      </MaterialsErrorBoundary>
     </div>
   );
 }

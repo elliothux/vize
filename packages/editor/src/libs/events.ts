@@ -9,6 +9,7 @@ export enum EventEmitTypes {
   RELOAD_RENDERER = 'reload_renderer',
   RELOAD_MATERIALS = 'reload_materials',
   CHOOSE_RESOURCES = 'choose_resources',
+  STORE_INITIALED = 'store_initialed',
 }
 
 export const events = new EventProxy<EventEmitTypes>();

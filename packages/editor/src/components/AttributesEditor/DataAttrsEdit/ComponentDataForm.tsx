@@ -5,18 +5,22 @@ import { SchemaForm } from 'widgets/Form';
 import { observer } from 'mobx-react';
 import { useCurrentComponentInstance, useCurrentComponentMeta } from 'hooks';
 import { Button } from 'antd';
-import { getImageSrc } from 'utils';
+import { getImageSrc, isEmpty } from 'utils';
 import { EventEmitTypes, events } from 'libs';
 import { Empty } from 'widgets/Empty';
+import { MaterialsErrorBoundary } from 'components/MaterialsErrorBoundary';
 import { useTranslation, Trans } from 'react-i18next';
 
 function IComponentDataForm() {
   const { t } = useTranslation();
   const instance = useCurrentComponentInstance()!;
   const { dataForm } = useCurrentComponentMeta()!;
-  const { data, key, children, hotAreas } = instance;
 
-  if (!instance) return <Empty text={t('Not available')} />;
+  if (!instance) {
+    return <Empty text={t('Not available')} />;
+  }
+
+  const { component, data, key, children, hotAreas } = instance;
 
   const container = children ? (
     <Button
@@ -43,14 +47,16 @@ function IComponentDataForm() {
 
   return (
     <div className="editor-prop-item editor-prop-edit-data">
-      {dataForm ? (
-        <SchemaForm
-          instanceKey={key}
-          form={dataForm}
-          data={data}
-          onChange={componentsStore.setCurrentComponentInstanceData}
-        />
-      ) : null}
+      {isEmpty(dataForm) ? null : (
+        <MaterialsErrorBoundary type="component" identityName={component} isForm>
+          <SchemaForm
+            instanceKey={key}
+            form={dataForm!}
+            data={data}
+            onChange={componentsStore.setCurrentComponentInstanceData}
+          />
+        </MaterialsErrorBoundary>
+      )}
       {container}
       {hotArea}
     </div>
