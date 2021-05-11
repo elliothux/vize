@@ -1,7 +1,7 @@
 const info = {
   name: '按钮',
   desc: '基础按钮',
-  author: 'aedron@github',
+  author: 'Aedron@github',
 };
 
 const dataForm = {
