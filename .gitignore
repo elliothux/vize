@@ -294,3 +294,4 @@ lerna-debug.log*
 /packages/types/dist/
 /packages/cgi/deploy-boilerplate/
 /packages/types/docs/
+/packages/editor/src/api/utils.ts

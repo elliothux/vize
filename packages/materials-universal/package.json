@@ -11,7 +11,8 @@
   "dependencies": {
     "@vize/types": "^0.1.12",
     "antd-mobile": "^2.3.1",
-    "react-responsive-carousel": "^3.2.18"
+    "react-responsive-carousel": "^3.2.18",
+    "video-react": "^0.14.1"
   },
   "devDependencies": {}
 }
