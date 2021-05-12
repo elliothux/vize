@@ -1,1 +1,0 @@
-/Users/qingyang/Desktop/vize/packages/management-ui/src/api/utils.ts

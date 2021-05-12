@@ -5,8 +5,26 @@ const info = {
 };
 
 const dataForm = {
+  autoplay: {
+    title: '自动切换',
+    type: 'boolean',
+    default: true,
+  },
+  vertical: {
+    title: '垂直切换',
+    type: 'boolean',
+    default: false,
+  },
+  interval: {
+    title: '切换时间间隔',
+    type: 'number',
+    widget: 'slider',
+    default: 2,
+    min: 1,
+    max: 60,
+  },
   images: {
-    title: '图片',
+    title: '轮播图片',
     type: 'array',
     required: true,
     items: {
@@ -28,18 +46,16 @@ const dataForm = {
   },
 };
 
-const styleForm = {
-  color: {
-    title: 'Text Color',
-    type: 'color',
-    format: 'rgb',
-    default: 'rgb(255,83,25)',
-    required: true,
-  },
+const enableStyleGroup = {
+  transform: true,
+  border: true,
+  margin: true,
+  padding: true,
+  zIndex: true,
 };
 
 export default {
   info,
   dataForm,
-  styleForm,
+  enableStyleGroup,
 };

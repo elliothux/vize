@@ -1,44 +1,61 @@
 import './index.scss';
-import 'antd-mobile/es/carousel/style/index.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as React from 'react';
+import { useCallback } from 'react';
 import { ComponentProps } from '@vize/types';
-import { default as CarouselComponent } from 'antd-mobile/es/carousel';
+import { Carousel as CarouselComponent } from 'react-responsive-carousel';
+import { EmptyData } from '../../lib/components/EmptyData';
 
 interface Data {
+  autoplay: boolean;
+  vertical: boolean;
+  interval: number;
   images: { image: string; link: string }[];
 }
 
-export default function Carousel({ data: { images } }: ComponentProps<Data>) {
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+export default function Carousel({
+  commonStyle,
+  data: { images, autoplay, vertical, interval },
+}: ComponentProps<Data>) {
+  const onClickItem = useCallback(
+    index => {
+      if (images[index].link) {
+        return window.open(images[index].link, '_blank');
+      }
+    },
+    [images],
+  );
+
+  if (!images.length) {
+    return <EmptyData text="未配置图片" />;
+  }
 
   return (
-    <CarouselComponent className="vize-materials-universal-carousel" autoplay infinite>
-      {images.map(({ image, link }, index) => {
-        const content = (
+    <div className="vize-materials-universal-carousel" style={commonStyle}>
+      <CarouselComponent
+        onClickItem={onClickItem}
+        interval={interval * 1000}
+        autoPlay={autoplay}
+        axis={vertical ? 'vertical' : 'horizontal'}
+        verticalSwipe="natural"
+        showArrows={false}
+        showStatus={false}
+        showThumbs={false}
+        dynamicHeight
+        stopOnHover
+        infiniteLoop
+        emulateTouch
+      >
+        {images.map(({ image }, index) => (
           <img
+            key={`${index}-${image}`}
+            className="vize-materials-universal-carousel-image"
             src={image}
-            alt="image"
-            key={index}
-            style={{ width: '100%', verticalAlign: 'top' }}
-            onLoad={index === 0 ? forceUpdate : undefined}
+            alt="[Image]"
+            // mode="widthFix"
           />
-        );
-        if (!link) {
-          return content;
-        }
-        return (
-          <a
-            key={index}
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: 'inline-block', width: '100%' }}
-          >
-            {content}
-          </a>
-        );
-      })}
-    </CarouselComponent>
+        ))}
+      </CarouselComponent>
+    </div>
   );
 }
