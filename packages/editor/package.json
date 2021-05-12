@@ -1,6 +1,6 @@
 {
   "name": "@vize/editor",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "main": "package.js",
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true PORT=3000 ../../node_modules/.bin/react-app-rewired start --max-old-space-size=12288",

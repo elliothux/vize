@@ -27,6 +27,6 @@ export async function createLib(name: Maybe<string>, { registry, runtime }: Crea
   const templateDir = await downloadPackage(r === 'rax' ? RAX_PKG_NAME : PKG_NAME, registry);
   stopSpinner();
 
-  await processFiles(targetPath, templateDir, { name });
+  await processFiles(targetPath, templateDir, { name, runtime });
   log('Done', '✨');
 }

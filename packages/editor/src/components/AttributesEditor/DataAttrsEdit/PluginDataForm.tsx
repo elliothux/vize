@@ -6,6 +6,7 @@ import { SchemaForm } from 'widgets/Form';
 import { useCurrentPluginInstance } from 'hooks';
 import { getMaterialsPluginMeta } from 'runtime';
 import { EventEmitTypes, events } from 'libs';
+import { MaterialsErrorBoundary } from 'components/MaterialsErrorBoundary';
 
 function IPluginForm() {
   const instance = useCurrentPluginInstance()!;
@@ -20,7 +21,11 @@ function IPluginForm() {
 
   return (
     <div className="editor-prop-item editor-prop-edit-data">
-      {dataForm ? <SchemaForm instanceKey={key} form={dataForm} data={data} onChange={onChange} submitProps /> : null}
+      {dataForm ? (
+        <MaterialsErrorBoundary type="plugin" identityName={plugin} isForm>
+          <SchemaForm instanceKey={key} form={dataForm} data={data} onChange={onChange} submitProps />{' '}
+        </MaterialsErrorBoundary>
+      ) : null}
     </div>
   );
 }

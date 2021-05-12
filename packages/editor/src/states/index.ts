@@ -1,4 +1,5 @@
 import { configure } from 'mobx';
+import { EventEmitTypes, events } from 'libs';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import { globalStore } from './global';
@@ -11,6 +12,7 @@ export async function initStore() {
   await materialsStore.init();
   pagesStore.init();
   globalStore.init();
+  events.emit(EventEmitTypes.STORE_INITIALED);
 }
 
 export * from './components';

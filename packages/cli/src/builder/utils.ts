@@ -102,11 +102,12 @@ const EDITOR_PKG_NAME = '@vize/editor';
 
 export async function prepareEditor(local: boolean, registry?: string): Promise<string> {
   if (local) {
-    const localPath = getPackageLocalPath(EDITOR_PKG_NAME);
+    const localPath = await getPackageLocalPath(EDITOR_PKG_NAME);
     if (localPath) {
       return localPath;
     }
-    throw 'Cannot find a local version of editor';
+    error('Cannot find a local version of editor');
+    process.exit();
   }
 
   const packagePath = await downloadPackage(EDITOR_PKG_NAME, registry);
@@ -121,6 +122,7 @@ export async function prepareEditor(local: boolean, registry?: string): Promise<
   await fs.ensureDir(staticPath);
   await fs.symlink(filesPath, target);
 
+  console.log({ staticPath });
   return staticPath;
 }
 
@@ -204,11 +206,13 @@ function generateActionManifest(actions: MaterialsMeta['actions']) {
 
 function generateContainerManifest(containers: MaterialsMeta['containers']) {
   return Object.entries(containers).reduce<{ [name: string]: MaterialsContainerManifestItem }>(
-    (accu, [name, { info, dataForm, styleForm }]) => {
+    (accu, [name, { info, globalDataForm, globalStyleForm, pageDataForm, pageStyleForm }]) => {
       accu[name] = <MaterialsContainerManifestItem>{
         info,
-        dataForm: typeof dataForm === 'object' ? dataForm : undefined,
-        styleForm: typeof styleForm === 'object' ? styleForm : undefined,
+        globalDataForm: typeof globalDataForm === 'object' ? globalDataForm : undefined,
+        globalStyleForm: typeof globalStyleForm === 'object' ? globalStyleForm : undefined,
+        pageDataForm: typeof pageDataForm === 'object' ? pageDataForm : undefined,
+        pageStyleForm: typeof pageStyleForm === 'object' ? pageStyleForm : undefined,
       };
       return accu;
     },

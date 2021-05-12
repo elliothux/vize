@@ -1,8 +1,0 @@
-{
-  "libName": "universal-rax",
-  "displayName": "通用物料库（Rax）",
-  "author": "aedron@github",
-  "releaseTo": "http://127.0.0.1:4001",
-  "runtime": "rax",
-  "thumb": "https://gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png"
-}

@@ -1,21 +1,13 @@
-import './index.scss';
 import * as React from 'react';
+import { ComponentProps } from '@vize/types';
 
-interface Props {
-  data: {
-    text: string;
-  };
-  commonStyle: object;
-  emit: any;
+interface Data {
+  text: string;
 }
 
-export default function Text({ data: { text = 'test' }, commonStyle, emit }: Props) {
-  if (text.length > 10) {
-    emit('length');
-  }
-
+export default function Text({ data: { text }, commonStyle }: ComponentProps<Data>) {
   return (
-    <p className="vize-materials-universal text" style={commonStyle}>
+    <p className="vize-materials-universal-text" style={commonStyle}>
       {text}
     </p>
   );

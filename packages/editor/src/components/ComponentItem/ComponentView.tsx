@@ -4,6 +4,7 @@ import { PropsWithChildren } from 'react';
 import { observer } from 'mobx-react';
 import { ComponentView as RuntimeComponentView } from 'runtime';
 import { editStore, globalStore, pagesStore } from 'states';
+import { MaterialsErrorBoundary } from 'components/MaterialsErrorBoundary';
 
 interface Props {
   instance: ComponentInstance;
@@ -20,18 +21,20 @@ function IComponentView({ instance, children }: PropsWithChildren<Props>) {
   } = pagesStore;
 
   return (
-    <ObservedComponentView
-      instance={instance}
-      previewMode={previewMode}
-      router={router}
-      meta={metaInfo}
-      globalData={globalData}
-      globalStyle={globalStyle}
-      pageData={pageData}
-      pageStyle={pageStyle}
-    >
-      {children}
-    </ObservedComponentView>
+    <MaterialsErrorBoundary type="component" identityName={instance.component}>
+      <ObservedComponentView
+        instance={instance}
+        previewMode={previewMode}
+        router={router}
+        meta={metaInfo}
+        globalData={globalData}
+        globalStyle={globalStyle}
+        pageData={pageData}
+        pageStyle={pageStyle}
+      >
+        {children}
+      </ObservedComponentView>
+    </MaterialsErrorBoundary>
   );
 }
 

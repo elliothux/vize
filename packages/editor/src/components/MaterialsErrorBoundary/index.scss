@@ -1,0 +1,44 @@
+.materials-error-boundary {
+  //background: rgb(180, 58, 115);
+  //background: linear-gradient(151deg, rgba(180, 58, 115, 1) 0%, rgba(253, 29, 29, 1) 49%, rgba(252, 176, 69, 1) 100%);
+  background-color: #d70000;
+  padding: 12px;
+  color: white;
+  text-align: center;
+
+  .title {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 32px;
+      height: auto;
+      margin-right: 12px;
+    }
+
+    span {
+      font-size: 16px;
+    }
+  }
+
+  .name,
+  .developer,
+  .tip {
+    font-size: 13px;
+    margin-bottom: 12px;
+
+    span {
+      font-weight: bold;
+      margin-right: 4px;
+    }
+  }
+
+  button {
+    font-size: 12px;
+    margin: 8px 0;
+    background-color: white;
+    color: #3a3a3a;
+  }
+}

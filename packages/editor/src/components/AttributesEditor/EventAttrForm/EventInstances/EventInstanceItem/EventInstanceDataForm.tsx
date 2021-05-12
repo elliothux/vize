@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import { ActionEventTarget, EventInstance } from 'types';
 import { useActionMetaById } from 'hooks';
 import { SchemaForm } from 'widgets/Form';
@@ -8,7 +9,9 @@ interface FromProps {
   onChange: (data: object) => void;
 }
 
-export function EventInstanceDataForm({ instance: { data, key, target }, onChange }: FromProps) {
+function IEventInstanceDataForm({ instance: { data, key, target }, onChange }: FromProps) {
   const { dataForm } = useActionMetaById((target as ActionEventTarget).id)!;
   return <SchemaForm instanceKey={key} form={dataForm!} data={data!} onChange={onChange} />;
 }
+
+export const EventInstanceDataForm = observer(IEventInstanceDataForm);

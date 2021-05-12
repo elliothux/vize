@@ -1,21 +1,19 @@
 const info = {
   name: '文本',
   desc: '纯文本组件',
-  author: 'aedron@github',
+  author: 'Aedron@github',
 };
 
 const dataForm = {
   text: {
-    title: '文本内容',
+    title: 'Text Content',
     type: 'string',
     widget: 'textarea',
-    default: '输入文本内容...',
+    default: '请输入文本',
+    required: true,
   },
 };
-/**
- * @desc component styleSchema
- * @type {StyleGroup | '*'}
- */
+
 const enableStyleGroup = {
   size: true,
   transform: true,
@@ -38,5 +36,4 @@ export default {
   info,
   dataForm,
   enableStyleGroup,
-  emitEvents: [{ eventName: 'length', displayName: '长度大于10' }],
 };

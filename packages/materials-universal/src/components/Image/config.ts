@@ -1,7 +1,7 @@
 const info = {
   name: '图片',
-  desc: '纯图片组件',
-  author: 'Copyes@github',
+  desc: '纯图片组件（支持热区）',
+  author: 'Adron@github',
 };
 
 const dataForm = {
@@ -11,12 +11,6 @@ const dataForm = {
     widget: 'image',
     required: true,
     default: 'https://img.alicdn.com/tfs/TB1PibhR4D1gK0jSZFsXXbldVXa-512-416.png',
-  },
-};
-
-const enableWrapperStyleGroup = {
-  background: {
-    color: 'transparent',
   },
 };
 
@@ -37,6 +31,5 @@ export default {
   info,
   dataForm,
   enableStyleGroup,
-  enableWrapperStyleGroup,
   hotArea: true,
 };

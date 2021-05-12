@@ -152,6 +152,7 @@ export const zh = {
     'Tile horizontally': '水平平铺',
     'Tile vertically': '垂直平铺',
     'Tile horizontally & vertically': '水平垂直平铺',
+    'Custom style of component': '组件自定义样式',
     'Wrapper style of component': '组件容器样式',
     'Common style of component': '组件通用样式',
     'Confirm delete?': '确认删除吗？',
@@ -354,5 +355,8 @@ export const zh = {
     Retry: '重试',
     'no containers': '无页面容器',
     'Choose container': '选择页面容器',
+    'Error occurred in materials lib': '物料库发生错误',
+    "Error occurred in materials lib's form": '物料库表单发生错误',
+    "Please contact the material's developer": '请联系物料库开发者',
   },
 };
