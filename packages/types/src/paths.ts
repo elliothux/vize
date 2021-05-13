@@ -6,6 +6,7 @@ export interface WorkspacePaths {
   materialsPath: string;
   materialsVersionsPath: string;
   uploadFilesPath: string;
+  logsPath: string;
   editorPath: string;
   managementUIPath: string;
 }
