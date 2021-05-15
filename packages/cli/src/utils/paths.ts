@@ -43,7 +43,7 @@ export function getLibPaths(rootPath?: string, containerName?: string): LibPaths
   ensureRunPathValid(root);
 
   const src = path.resolve(root, './src');
-  const temp = path.resolve(root, './.temp');
+  const temp = path.resolve(root, './.vize');
   const config = path.resolve(root, './.vizerc');
   const dist = path.resolve(root, './dist');
   const components = path.resolve(src, './components');

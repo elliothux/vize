@@ -16,7 +16,8 @@
     "noEmit": true,
     "jsx": "react",
     "baseUrl": "src",
-    "noImplicitThis": false
+    "noImplicitThis": false,
+    "downlevelIteration": true
   },
   "typeAcquisition": {},
   "include": ["src"]

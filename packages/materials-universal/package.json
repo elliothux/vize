@@ -13,8 +13,5 @@
     "antd-mobile": "^2.3.1",
     "react-responsive-carousel": "^3.2.18",
     "video-react": "^0.14.1"
-  },
-  "devDependencies": {
-    "react-draft-wysiwyg": "^1.14.6"
   }
 }
