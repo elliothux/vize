@@ -44,7 +44,7 @@ function MaterialsError({ error, errorInfo, type, identityName, isForm }: ErrorP
       : getMaterialsComponentMeta(identityName!)!;
 
   const onDebug = useCallback(() => {
-    console.error(errorInfo.componentStack);
+    console.error('Vize materials error:' + errorInfo.componentStack);
     console.error(error);
   }, [error]);
 

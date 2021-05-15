@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:////Users/huqingyang/Desktop/Proj/vize/packages/workspace/build/233/libs/universal/src/components/Text/index.scss","webpack:///index.scss"],"names":[],"mappings":"AAAA;EACI;ACCJ,C","file":"4.css","sourcesContent":[".vize-materials-universal.text {\n    padding: 12px;\n}\n",".vize-materials-universal.text {\n  padding: 12px;\n}"],"sourceRoot":""}
