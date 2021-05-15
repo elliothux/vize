@@ -5,7 +5,7 @@ import {
   PageInstance,
   PluginInstance,
   RouterPageItem,
-} from '../../../types';
+} from '@vize/types';
 
 export interface RenderEntryProps {
   meta: GlobalMeta;

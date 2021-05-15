@@ -1,4 +1,4 @@
-import { EventInstance, PageRouter, PluginUniversalEventTrigger } from '../../../types';
+import { EventInstance, PageRouter, PluginUniversalEventTrigger } from '@vize/types';
 import { EventHandler } from './types';
 import { generateHandler } from './utils';
 

@@ -9,5 +9,8 @@
     "publish": "npm publish --access public"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^10.0.0"
+  }
 }

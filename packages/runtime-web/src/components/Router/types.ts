@@ -1,4 +1,4 @@
-import { PageInstance, PageRouter } from '../../../types';
+import { PageInstance, PageRouter } from '@vize/types';
 import { RenderEntryProps } from '../RenderEntry/types';
 
 export interface RouterProps

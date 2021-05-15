@@ -7,7 +7,7 @@ import {
   HotAreaEventListenerTypes,
   Maybe,
   WithReactChildren,
-} from '../../../types';
+} from '@vize/types';
 import {
   events,
   RuntimeEventEmitTypes,

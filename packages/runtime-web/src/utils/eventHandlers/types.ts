@@ -1,5 +1,5 @@
 import { SyntheticEvent } from 'react';
-import { GlobalMeta, Maybe } from '../../../types';
+import { GlobalMeta, Maybe } from '@vize/types';
 
 export interface HandlerParams {
   meta: GlobalMeta;

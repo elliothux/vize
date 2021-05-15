@@ -1,4 +1,4 @@
-import { EventInstance, EventTriggerType, GlobalMeta, Maybe, PageRouter } from '../../types';
+import { EventInstance, EventTriggerType, GlobalMeta, Maybe, PageRouter } from '@vize/types';
 import { pipeEvents } from '../utils/eventHandlers';
 
 type CallbackType = 'component' | 'plugin' | 'global' | 'page';
