@@ -196,4 +196,26 @@ export function downloadFile(src: string, fileName: string) {
   }, 1500);
 }
 
+const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
+const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
+const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
+
+export function isUrl(str: any): boolean {
+  if (typeof str !== 'string') {
+    return false;
+  }
+
+  const match = str.match(protocolAndDomainRE);
+  if (!match) {
+    return false;
+  }
+
+  const everythingAfterProtocol = match[1];
+  if (!everythingAfterProtocol) {
+    return false;
+  }
+
+  return localhostDomainRE.test(everythingAfterProtocol) || nonLocalhostDomainRE.test(everythingAfterProtocol);
+}
+
 export const unImplemented = withMessage(noop, i18n.t('This feature is still under development'), 'warn');

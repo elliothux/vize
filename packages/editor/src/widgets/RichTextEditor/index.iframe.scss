@@ -10,3 +10,10 @@ blockquote {
   color: #aaa;
   font-style: italic;
 }
+
+:not(pre) > code {
+  font-family: monospace;
+  background-color: #eee;
+  padding: 3px 6px;
+  border-radius: 3px;
+}

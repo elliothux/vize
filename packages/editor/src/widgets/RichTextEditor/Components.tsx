@@ -1,38 +1,57 @@
 import * as React from 'react';
-import { ReactEditor } from 'slate-react';
+import { useCallback } from 'react';
+import { useSlate } from 'slate-react';
+import { Tooltip } from 'antd';
+import { isBoolean } from 'utils';
 import classnames from 'classnames';
 import { isBlockActive, isMarkActive, toggleBlock, toggleMark } from './utils';
 
 interface Props {
   format: string;
   icon: React.ComponentType;
-  editor: ReactEditor;
+  desc: string;
+  onClick?: (e: React.MouseEvent) => void;
+  activated?: boolean;
 }
 
-export function BlockButton({ editor, format, icon: Icon }: Props) {
+export function BlockButton({ format, icon: Icon, desc, activated }: Props) {
+  const editor = useSlate();
+
   return (
-    <div
-      className={classnames('vize-richtext-toolbar-item block-button', { activated: isBlockActive(editor, format) })}
-      onMouseDown={event => {
-        event.preventDefault();
-        toggleBlock(editor, format);
-      }}
-    >
-      <Icon />
-    </div>
+    <Tooltip title={desc}>
+      <div
+        className={classnames('vize-richtext-toolbar-item block-button', {
+          activated: isBoolean(activated) ? activated : isBlockActive(editor, format),
+        })}
+        onMouseDown={event => {
+          event.preventDefault();
+          toggleBlock(editor, format);
+        }}
+      >
+        <Icon />
+      </div>
+    </Tooltip>
   );
 }
 
-export function MarkButton({ editor, format, icon: Icon }: Props) {
+export function MarkButton({ format, icon: Icon, desc, onClick, activated }: Props) {
+  const editor = useSlate();
+
+  const onButtonClick = useCallback(event => {
+    event.preventDefault();
+    toggleMark(editor, format);
+  }, []);
+
   return (
-    <div
-      className={classnames('vize-richtext-toolbar-item mark-button', { activated: isMarkActive(editor, format) })}
-      onMouseDown={event => {
-        event.preventDefault();
-        toggleMark(editor, format);
-      }}
-    >
-      <Icon />
-    </div>
+    <Tooltip title={desc}>
+      <div
+        className={classnames('vize-richtext-toolbar-item mark-button', {
+          activated: isBoolean(activated) ? activated : isMarkActive(editor, format),
+        })}
+        onClick={onClick || onButtonClick}
+      >
+        <Icon />
+      </div>
+    </Tooltip>
   );
 }

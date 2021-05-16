@@ -1,11 +1,13 @@
-import { Descendant, Editor, Element as SlateElement, Transforms } from 'slate';
+import { Descendant, Editor, Element as SlateElement, Transforms, Range, BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
-import { ELEMENT_TAGS, INLINE_TAGS } from './types';
+import { isUrl } from 'utils';
+import { ELEMENT_TAGS, INLINE_TAGS, RichTextFormat } from './types';
+import { message } from 'antd';
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 
-export function toggleBlock(editor: ReactEditor, format: string) {
+export function toggleBlock(editor: ReactEditor | BaseEditor, format: string) {
   const isActive = isBlockActive(editor, format);
   const isList = LIST_TYPES.includes(format);
 
@@ -24,7 +26,7 @@ export function toggleBlock(editor: ReactEditor, format: string) {
   }
 }
 
-export function toggleMark(editor: ReactEditor, format: string) {
+export function toggleMark(editor: ReactEditor | BaseEditor, format: string) {
   const isActive = isMarkActive(editor, format);
 
   if (isActive) {
@@ -34,7 +36,7 @@ export function toggleMark(editor: ReactEditor, format: string) {
   }
 }
 
-export function isBlockActive(editor: ReactEditor, format: string) {
+export function isBlockActive(editor: ReactEditor | BaseEditor, format: string) {
   const [match] = Editor.nodes(editor, {
     match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && (n as any).type === format,
   });
@@ -42,7 +44,7 @@ export function isBlockActive(editor: ReactEditor, format: string) {
   return !!match;
 }
 
-export function isMarkActive(editor: ReactEditor, format: string) {
+export function isMarkActive(editor: ReactEditor | BaseEditor, format: string) {
   const marks = Editor.marks(editor);
   return marks ? (marks as any)[format] === true : false;
 }
@@ -78,7 +80,7 @@ export function deserialize(el: Node | Element): Descendant[] | string | null {
   const e = ELEMENT_TAGS[nodeName as keyof typeof ELEMENT_TAGS];
   if (e) {
     const attrs = e(el as any);
-    return jsx('element', attrs, children);
+    return jsx('element', attrs, children) as any;
   }
 
   const i = INLINE_TAGS[nodeName as keyof typeof INLINE_TAGS];
@@ -88,4 +90,77 @@ export function deserialize(el: Node | Element): Descendant[] | string | null {
   }
 
   return children as Descendant[];
+}
+
+export function withLinks(editor: ReactEditor) {
+  const { insertData, insertText, isInline } = editor;
+
+  editor.isInline = (element: any) => {
+    return element.type === RichTextFormat.link ? true : isInline(element);
+  };
+
+  editor.insertText = (text: any) => {
+    if (text && isUrl(text)) {
+      wrapLink(editor, text);
+    } else {
+      insertText(text);
+    }
+  };
+
+  editor.insertData = data => {
+    const text = data.getData('text/plain');
+
+    if (text && isUrl(text)) {
+      wrapLink(editor, text);
+    } else {
+      insertData(data);
+    }
+  };
+
+  return editor;
+}
+
+export function insertLink(editor: ReactEditor | BaseEditor, url: string) {
+  if (!editor.selection) {
+    return message.warn('未选中任何内容');
+  }
+  wrapLink(editor, url);
+}
+
+export function getLink(editor: ReactEditor | BaseEditor) {
+  const [link] = Editor.nodes(editor, {
+    match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && (n as any).type === RichTextFormat.link,
+  });
+  return link;
+}
+
+export function isLinkActive(editor: ReactEditor | BaseEditor) {
+  return !!getLink(editor);
+}
+
+export function unwrapLink(editor: ReactEditor | BaseEditor) {
+  Transforms.unwrapNodes(editor, {
+    match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && (n as any).type === RichTextFormat.link,
+  });
+}
+
+function wrapLink(editor: ReactEditor | BaseEditor, url: string) {
+  if (isLinkActive(editor)) {
+    return unwrapLink(editor);
+  }
+
+  const { selection } = editor;
+  const isCollapsed = selection && Range.isCollapsed(selection);
+  const link = {
+    type: RichTextFormat.link,
+    children: [{ text: url }],
+    url,
+  };
+
+  if (isCollapsed) {
+    Transforms.insertNodes(editor, link);
+  } else {
+    Transforms.wrapNodes(editor, link, { split: true });
+    Transforms.collapse(editor, { edge: 'end' });
+  }
 }

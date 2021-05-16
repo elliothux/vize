@@ -6,7 +6,7 @@ const info = {
 
 const dataForm = {
   content: {
-    title: '内容',
+    title: '',
     type: 'string',
     widget: 'richtext',
   },

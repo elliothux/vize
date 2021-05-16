@@ -12,6 +12,12 @@ export function Element({ attributes, children, element }: RenderElementProps) {
       return <ul {...attributes}>{children}</ul>;
     case RichTextFormat.list_item:
       return <li {...attributes}>{children}</li>;
+    case RichTextFormat.link:
+      return (
+        <a {...attributes} href={(element as any).url}>
+          {children}
+        </a>
+      );
 
     case RichTextFormat.h1:
       return <h1 {...attributes}>{children}</h1>;
