@@ -10,6 +10,8 @@ export function Element({ attributes, children, element }: RenderElementProps) {
       return <ol {...attributes}>{children}</ol>;
     case RichTextFormat.bulleted_list:
       return <ul {...attributes}>{children}</ul>;
+    case RichTextFormat.list_item:
+      return <li {...attributes}>{children}</li>;
 
     case RichTextFormat.h1:
       return <h1 {...attributes}>{children}</h1>;

@@ -1,5 +1,5 @@
 import './index.scss';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, MutableRefObject, useRef } from 'react';
 import { Editable, withReact, Slate, ReactEditor } from 'slate-react';
 import { createEditor, Descendant } from 'slate';
 import { withHistory } from 'slate-history';
@@ -21,44 +21,65 @@ import {
 import { renderElement, renderLeaf } from './Element';
 import { MarkButton, BlockButton } from './Components';
 import { WithFrame } from 'widgets/WithFrame';
+import { deserialize } from './utils';
 import style from './index.iframe.scss';
 
 interface Props {
-  frameRender?: boolean;
+  initValue: string;
+  editorRef: MutableRefObject<ReactEditor | undefined>;
+  getNodeRef: MutableRefObject<(() => HTMLDivElement) | undefined>;
 }
 
-export function RichTextEditor({ frameRender = true }: Props) {
-  const [value, setValue] = useState<Descendant[]>([
-    {
-      children: [
-        {
-          type: 'paragraph',
-          children: [{ text: '' }],
-        } as Descendant,
-      ],
-    } as Descendant,
-  ]);
+const defaultInitValue = [
+  {
+    children: [
+      {
+        type: 'paragraph',
+        children: [{ text: 'A line of text in a paragraph.' }],
+      } as Descendant,
+    ],
+  } as Descendant,
+];
+
+function getInitValue(initValue: string) {
+  if (!initValue) {
+    return defaultInitValue;
+  }
+
+  const { body } = new DOMParser().parseFromString(initValue, 'text/html');
+  const value = deserialize(body!);
+  return value as Descendant[];
+}
+
+export function RichTextEditor({ initValue, editorRef, getNodeRef }: Props) {
+  const getValue = useCallback(() => getInitValue(initValue), [initValue]);
+  const [value, setValue] = useState<Descendant[]>(getValue);
   const editor = useMemo<ReactEditor>(() => withHistory(withReact(createEditor() as ReactEditor)), []);
 
-  const content = (
-    <>
-      <style type="text/css">{style}</style>
-      <Editable
-        className="vize-richtext-editable"
-        renderElement={renderElement}
-        renderLeaf={renderLeaf}
-        placeholder="Enter some rich text…"
-        spellCheck
-        autoFocus
-      />
-    </>
-  );
+  const documentRef = useRef<Document>(null);
+  useEffect(() => {
+    getNodeRef.current = () => documentRef.current?.querySelector('.vize-richtext-editable') as HTMLDivElement;
+  }, [documentRef.current]);
+
+  useEffect(() => {
+    editorRef.current = editor;
+  }, []);
 
   return (
     <Slate editor={editor} value={value} onChange={setValue}>
       <ToolBar editor={editor} />
       <hr className="vize-richtext-hr" />
-      {frameRender ? <WithFrame>{content}</WithFrame> : content}
+      <WithFrame documentRef={documentRef}>
+        <style type="text/css">{style}</style>
+        <Editable
+          className="vize-richtext-editable"
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          placeholder="Input some text…"
+          spellCheck
+          autoFocus
+        />
+      </WithFrame>
     </Slate>
   );
 }

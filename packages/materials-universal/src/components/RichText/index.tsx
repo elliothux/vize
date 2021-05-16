@@ -2,10 +2,14 @@ import './index.scss';
 import * as React from 'react';
 import { ComponentProps } from '@vize/types';
 
-export default function Text({ data: { text }, style: { color } }: ComponentProps) {
+export default function RichText({ data: { content }, commonStyle }: ComponentProps) {
   return (
-    <p className="example-text" style={{ color }}>
-      {text}
-    </p>
+    <div
+      className="vize-materials-universal-richtext"
+      style={commonStyle}
+      dangerouslySetInnerHTML={{
+        __html: content,
+      }}
+    />
   );
 }
