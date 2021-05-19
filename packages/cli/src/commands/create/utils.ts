@@ -1,10 +1,10 @@
 import * as fs from 'fs-extra';
-import { error, log } from '../../utils';
-import path from 'path';
 import * as glob from 'glob';
-import chalk from 'chalk';
+import * as path from 'path';
+import * as chalk from 'chalk';
 import { isText } from 'istextorbinary';
 import * as inquirer from 'inquirer';
+import { error, log } from '../../utils';
 
 export function checkRuntime(runtime: Maybe<string>): string | void {
   if (!runtime) {

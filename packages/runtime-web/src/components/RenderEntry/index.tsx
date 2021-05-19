@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback } from 'react';
-import { Maybe, PageInstance, PageRouter } from '../../../types';
+import { Maybe, PageInstance, PageRouter } from '@vize/types';
 import { Router as DefaultRouter } from '../Router';
 import { RenderEntryProps } from './types';
 

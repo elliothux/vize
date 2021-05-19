@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { HotArea } from '../../../types';
+import { HotArea } from '@vize/types';
 import { HotAreaItem } from './HotAreaItem';
 import { PageRenderProps } from '../PageRender/types';
 

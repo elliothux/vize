@@ -40,6 +40,22 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
       rules: [
         useSWC && runtime === 'react' ? getSWConfig() : getBabelConfig(),
         {
+          test: /\.iframe\.(scss|sass|css)$/,
+          use: [
+            { loader: 'css-to-string-loader' },
+            { loader: 'css-loader' },
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require('sass'),
+                sassOptions: {
+                  outputStyle: 'expanded',
+                },
+              },
+            },
+          ],
+        },
+        {
           test: /\.(css|scss|sass)$/,
           use: [
             MiniCssExtractPlugin.loader,
@@ -54,7 +70,7 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
             {
               loader: 'sass-loader',
               options: {
-                implementation: require('dart-sass'),
+                implementation: require('sass'),
                 sassOptions: {
                   outputStyle: 'expanded',
                 },

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PropsWithChildren, ReactElement, useCallback, useMemo } from 'react';
-import { ComponentInstance, ComponentSelectedCallback } from '../../../types';
+import { ComponentInstance, ComponentSelectedCallback } from '@vize/types';
 import {
   onCustomEvent,
   cancelCustomEvent,

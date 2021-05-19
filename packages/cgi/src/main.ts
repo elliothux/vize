@@ -2,7 +2,8 @@ import * as fs from 'fs-extra';
 import * as cookieParser from 'cookie-parser';
 import { NestFactory } from '@nestjs/core';
 import { INestApplication } from '@nestjs/common';
-import { setConfig, getConfig } from './utils';
+import { WinstonModule } from 'nest-winston';
+import { setConfig, getConfig, getLoggerConfig, info } from './utils';
 import { VizeCGIConfig } from './types';
 import { getApp } from './app.module';
 
@@ -12,9 +13,13 @@ export async function bootstrap(
   setConfig(config);
   await init();
 
-  const app = await NestFactory.create(getApp(), { logger: true });
+  const app = await NestFactory.create(getApp(), {
+    logger: WinstonModule.createLogger(getLoggerConfig()),
+  });
   app.use(cookieParser());
+
   await app.listen(config.port);
+  info('Vize Main', `Vize cgi running on port: ${config.port}`);
 
   return app;
 }
@@ -29,6 +34,7 @@ async function init() {
       uploadFilesPath,
       previewPath,
       publishPath,
+      logsPath,
     },
   } = getConfig()!;
 
@@ -41,6 +47,7 @@ async function init() {
       uploadFilesPath,
       previewPath,
       publishPath,
+      logsPath,
     ].map(i => fs.ensureDir(i)),
   );
 }

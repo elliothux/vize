@@ -1,6 +1,6 @@
 {
   "name": "@vize/materials-universal",
-  "version": "1.0.2",
+  "version": "0.1.0",
   "description": "",
   "scripts": {
     "dev:local": "../cli/bin/vize.js dev -r https://registry.npm.taobao.org",
@@ -11,7 +11,7 @@
   "dependencies": {
     "@vize/types": "^0.1.12",
     "antd-mobile": "^2.3.1",
-    "react-responsive-carousel": "^3.2.18"
-  },
-  "devDependencies": {}
+    "react-responsive-carousel": "^3.2.18",
+    "video-react": "^0.14.1"
+  }
 }

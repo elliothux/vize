@@ -1,4 +1,4 @@
-import { Maybe, ComponentSelectedCallback } from '../../types';
+import { Maybe, ComponentSelectedCallback } from '@vize/types';
 
 const componentSelectedCallbackMap = new Map<number, ComponentSelectedCallback>();
 

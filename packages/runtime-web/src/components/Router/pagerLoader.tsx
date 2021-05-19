@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { PageInstance, PageRouter, Maybe } from '../../../types';
+import { PageInstance, PageRouter, Maybe } from '@vize/types';
 import { PageRender } from '../PageRender';
 import { RouterProps } from './types';
 

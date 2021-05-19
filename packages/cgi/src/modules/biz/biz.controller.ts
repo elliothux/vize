@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Query,
+  Logger,
+  LoggerService,
+  Inject,
+  Get,
+  Post,
+} from '@nestjs/common';
 import { CGICodeMap, CGIResponse } from '../../utils';
 import { BizService } from './biz.service';
 import { CreateBizParams, UpdateBizParams } from './biz.interface';
@@ -8,12 +18,16 @@ let cgiBizServices: Maybe<BizService> = null;
 
 @Controller('/cgi/biz')
 export class BizController {
-  constructor(private readonly bizService: BizService) {
+  constructor(
+    private readonly bizService: BizService,
+    @Inject(Logger) private readonly logger: LoggerService,
+  ) {
     cgiBizServices = bizService;
   }
 
   @Get()
   async queryBiz(@Query() { keywords }: WithKeywords) {
+    this.logger.log('queryBiz');
     const result = await this.bizService.queryBizEntities({ keywords });
     return CGIResponse.success(result);
   }

@@ -66,6 +66,15 @@ module.exports = {
         searchMaxSuggestions: 10,
       },
     ],
+    [
+      'code-switcher',
+      {
+        groups: {
+          default: { config: 'config.ts', index: 'index.ts', style: 'index.scss' },
+        },
+      },
+    ],
+    ['vuepress-plugin-code-copy', true],
   ],
   markdown: {
     lineNumbers: true,

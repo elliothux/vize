@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -41,6 +41,7 @@ export function getApp(): App {
       UserModule,
       ResourceModule,
     ],
+    providers: [Logger],
   })
   class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {

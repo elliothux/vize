@@ -22,6 +22,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.5",
+    "@udecode/slate-plugins": "^1.0.0-alpha.25",
+    "@vize/richtext-editor": "^0.1.5",
     "@vize/runtime-web": "^0.1.2",
     "@vize/types": "^0.1.12",
     "antd": "^4.11.2",
@@ -54,6 +56,10 @@
     "react-scripts": "3.4.1",
     "react-sortable-hoc": "^1.11.0",
     "react-use": "^13.27.1",
+    "slate": "^0.63.0",
+    "slate-history": "^0.62.0",
+    "slate-hyperscript": "^0.62.0",
+    "slate-react": "^0.63.0",
     "styled-components": "^5.1.1",
     "throttle-debounce": "^2.1.0",
     "tinycolor2": "^1.4.1",
@@ -101,6 +107,8 @@
     "sass-loader": "^8.0.2",
     "typedoc": "^0.20.35",
     "typescript": "^3.8.3",
+    "vuepress-plugin-code-copy": "^1.0.6",
+    "vuepress-plugin-code-switcher": "^1.1.0",
     "webpack": "4.42.0"
   }
 }

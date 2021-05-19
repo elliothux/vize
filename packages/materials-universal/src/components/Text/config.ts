@@ -6,7 +6,7 @@ const info = {
 
 const dataForm = {
   text: {
-    title: 'Text Content',
+    title: '内容',
     type: 'string',
     widget: 'textarea',
     default: '请输入文本',

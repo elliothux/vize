@@ -8,6 +8,7 @@
   - Carousel
   - Video
   - Text
+  - Title
   - NavBar
   - HR
   - IFrame

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { Maybe, PageInstance, PageRouter } from '../../../types';
+import { Maybe, PageInstance, PageRouter } from '@vize/types';
 import { executePlugins } from '../../libs';
 import { ComponentInstances } from '../ComponentInstances';
 import { PageLoader } from './pagerLoader';

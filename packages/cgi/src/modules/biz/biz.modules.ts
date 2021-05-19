@@ -1,4 +1,4 @@
-import { Module, Global } from '@nestjs/common';
+import { Module, Global, Logger } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BizEntity } from './biz.entity';
 import { BizService } from './biz.service';
@@ -9,7 +9,7 @@ import { PageModule } from '../page/page.modules';
 @Module({
   imports: [PageModule, TypeOrmModule.forFeature([BizEntity])],
   controllers: [BizController],
-  providers: [PageModule, BizService],
+  providers: [PageModule, BizService, Logger],
   exports: [BizService],
 })
 export class BizModule {}

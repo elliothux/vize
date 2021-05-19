@@ -5,7 +5,7 @@ import {
   HotArea,
   HotAreaUniversalEventTrigger,
   PageRouter,
-} from '../../../types';
+} from '@vize/types';
 import { EventHandler } from './types';
 import { generateHandler } from './utils';
 

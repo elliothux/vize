@@ -1,4 +1,4 @@
-import { ComponentInstanceDSL, ComponentInstance } from '../../types';
+import { ComponentInstanceDSL, ComponentInstance } from '@vize/types';
 
 export function transformComponentDSL2Instance(dsl: ComponentInstanceDSL[]): ComponentInstance[] {
   return dsl.map(component => {
