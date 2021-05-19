@@ -1,17 +1,3 @@
-.vize-materials-universal-richtext {
-  blockquote {
-    border-left: 2px solid #ddd;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 10px;
-    color: #aaa;
-    font-style: italic;
-  }
-
-  :not(pre) > code {
-    font-family: monospace;
-    background-color: #eee;
-    padding: 3px 6px;
-    border-radius: 3px;
-  }
+.vize-materials-universal-richtext-wrap {
+  width: 100%;
 }

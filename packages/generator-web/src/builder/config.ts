@@ -11,6 +11,7 @@ export interface BaseConfigParams {
   containerParams: object;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function getWebpackConfig({
   isProd,
   generatorPaths: { containerPath, srcPath },
@@ -25,6 +26,19 @@ export function getWebpackConfig({
     },
     module: {
       rules: [
+        {
+          test: /\.iframe\.(scss|sass|css)$/,
+          use: [
+            { loader: 'css-to-string-loader' },
+            { loader: 'css-loader' },
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require('sass'),
+              },
+            },
+          ],
+        },
         {
           test: /\.(css|scss|sass)$/,
           use: [

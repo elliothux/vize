@@ -1,23 +1,25 @@
 import './index.scss';
 import * as React from 'react';
-import { useCallback, useRef } from 'react';
+import { useCallback, ComponentProps } from 'react';
 import { useBoolean } from 'react-use';
 import { Button, Modal } from 'antd';
-import { RichTextEditor } from 'widgets/RichTextEditor';
-import { ReactEditor } from 'slate-react';
+import { Editor, getRawValue, getHTML } from '@vize/richtext-editor';
 import { FormProps } from '../../types';
 
-type Props = FormProps<string>;
+type Props = FormProps<{
+  raw?: ComponentProps<typeof Editor>['initRawValue'];
+  html?: string;
+}>;
 
-export function RichText({ value: initValue, onChange }: Props) {
-  const editor = useRef<ReactEditor>();
-  const getNodeRef = useRef<() => HTMLDivElement>();
-  const [visible, setVisible] = useBoolean(true);
+export function RichText({ value: { raw, html }, onChange }: Props) {
+  const [visible, setVisible] = useBoolean(false);
 
   const onOk = useCallback(() => {
+    onChange({
+      raw: getRawValue(),
+      html: getHTML(),
+    });
     setVisible(false);
-    const node = getNodeRef.current?.()?.innerHTML;
-    onChange(node!);
   }, []);
 
   const onCancel = useCallback(() => setVisible(false), []);
@@ -36,7 +38,7 @@ export function RichText({ value: initValue, onChange }: Props) {
         onCancel={onCancel}
         onOk={onOk}
       >
-        <RichTextEditor initValue={initValue} editorRef={editor} getNodeRef={getNodeRef} />
+        <Editor initValue={html} initRawValue={raw} />
       </Modal>
     </>
   );

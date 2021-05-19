@@ -22,6 +22,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.5",
+    "@udecode/slate-plugins": "^1.0.0-alpha.25",
+    "@vize/richtext-editor": "^0.1.5",
     "@vize/runtime-web": "^0.1.2",
     "@vize/types": "^0.1.12",
     "antd": "^4.11.2",

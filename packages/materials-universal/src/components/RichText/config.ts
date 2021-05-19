@@ -7,7 +7,7 @@ const info = {
 const dataForm = {
   content: {
     title: '',
-    type: 'string',
+    type: 'object',
     widget: 'richtext',
   },
 };
