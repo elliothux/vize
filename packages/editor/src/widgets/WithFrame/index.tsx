@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { PropsWithChildren, useEffect, useRef, useState, createElement, MutableRefObject } from 'react';
+import { PropsWithChildren, useEffect, useRef, useState, createElement, MutableRefObject, CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 
 interface Props {
   documentRef?: MutableRefObject<Document | null>;
   didMount?: (doc: Document) => void;
+  className?: string;
+  style?: CSSProperties;
 }
 
-export function WithFrame({ children, documentRef, didMount }: PropsWithChildren<Props>) {
+export function WithFrame({ className, children, documentRef, didMount, style }: PropsWithChildren<Props>) {
   const ref = useRef<HTMLIFrameElement>(null);
   const entryNode = useRef<HTMLDivElement>(null);
   const [render, setRender] = useState(false);
@@ -34,7 +36,7 @@ export function WithFrame({ children, documentRef, didMount }: PropsWithChildren
 
   return (
     <>
-      <iframe ref={ref} />
+      <iframe className={className} ref={ref} style={style} />
       {render ? createPortal(children, entryNode.current!) : null}
     </>
   );
