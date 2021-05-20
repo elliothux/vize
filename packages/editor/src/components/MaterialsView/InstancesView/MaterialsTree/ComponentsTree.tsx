@@ -24,10 +24,13 @@ interface Props {
 function IComponentsTree({ shared }: Props) {
   const { componentInstances } = componentsStore;
   const { sharedComponentInstances } = sharedStore;
-  const { selectType, componentKey, hotAreaIndex, selectMode } = selectStore;
+  const { selectType, componentKey, hotAreaIndex, selectMode, selectModeSelectedComponent } = selectStore;
 
-  // const treeData = useMemo<TreeData>(() => getTreeData(componentInstances), [componentInstances]);
-  const treeData = getTreeData(shared ? sharedComponentInstances : componentInstances, !!shared);
+  const treeData = getTreeData(
+    shared ? sharedComponentInstances : componentInstances,
+    !!shared,
+    selectModeSelectedComponent?.key,
+  );
   const selectedKeys = useMemo<(number | string)[]>(() => {
     if (selectType === SelectType.COMPONENT) {
       return [componentKey];
@@ -177,7 +180,11 @@ function parseTreeNodeIndex(i: string): Maybe<ComponentIndex> {
   return { index: indexes[1], parentIndex: indexes[0] };
 }
 
-function getTreeData(componentInstances: ComponentInstance[], shared: boolean): TreeData {
+function getTreeData(
+  componentInstances: ComponentInstance[],
+  shared: boolean,
+  selectModeSelectedComponent?: number,
+): TreeData {
   return [
     {
       title: i18n.t(shared ? 'Shared components' : 'Added components'),
@@ -186,7 +193,7 @@ function getTreeData(componentInstances: ComponentInstance[], shared: boolean): 
       icon: <FiFolder />,
       selectable: false,
       className: 'tree-root-node components-tree-root-node',
-      children: generateComponentTreeData(componentInstances),
+      children: generateComponentTreeData(componentInstances, false, selectModeSelectedComponent),
     },
   ];
 }

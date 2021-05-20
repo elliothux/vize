@@ -14,10 +14,9 @@
   - IFrame
 - Container
   - FormContainer
-  - Modal
-  - Alert
+  - Dialog
   - Accordion
-- Form
+- Form（TODO）
   - Input
   - TextArea
   - Select
@@ -31,7 +30,8 @@
 
 - Alert
 - Toast
-- Jump
+- OpenURL
+- Actions
 
 ## Plugins
 

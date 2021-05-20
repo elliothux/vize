@@ -5,12 +5,17 @@ import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
 import { FiArchive, FiLayers, FiPackage, FiSquare } from 'react-icons/fi';
 import { Tree } from 'antd';
 import { i18n } from 'i18n';
+import classnames from 'classnames';
 
 const { DirectoryTree } = Tree;
 
 export type TreeData = ComponentProps<typeof DirectoryTree>['treeData'];
 
-export function generateComponentTreeData(componentInstances: ComponentInstance[], isChildren = false): TreeData {
+export function generateComponentTreeData(
+  componentInstances: ComponentInstance[],
+  isChildren: boolean,
+  selectModeSelectedComponent?: number,
+): TreeData {
   return componentInstances.reduce<TreeData>((accu, { key, children, component, hotAreas }) => {
     const {
       info: { name },
@@ -24,11 +29,13 @@ export function generateComponentTreeData(componentInstances: ComponentInstance[
       isLeaf: !(isContainer || hasHotArea),
       icon: isContainer || hasHotArea ? <FiArchive /> : <FiLayers />,
       children: isContainer
-        ? generateComponentTreeData(children!, true)
+        ? generateComponentTreeData(children!, true, selectModeSelectedComponent)
         : hasHotArea
         ? generateHotAreaTreeData(key, hotAreas!)
         : undefined,
-      className: isChildren ? 'child-component-tree-node' : 'component-tree-node',
+      className: classnames(isChildren ? 'child-component-tree-node' : 'component-tree-node', {
+        'selected-mode-selected': selectModeSelectedComponent === key,
+      }),
     });
 
     return accu;
