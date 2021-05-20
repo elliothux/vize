@@ -78,6 +78,7 @@ export interface ComponentSelectedCallbackParams {
   selected: boolean;
   asContainer?: boolean;
   asHotAreaContainer?: boolean;
+  asHotAreaParentContainer?: boolean;
 }
 
 export type ComponentSelectedCallback = (params: ComponentSelectedCallbackParams) => unknown;

@@ -1,0 +1,31 @@
+.vize-materials-universal-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2147483647;
+
+  .vize-materials-universal-dialog-content {
+    width: 86%;
+    max-height: calc(90vh - 22px - 36px);
+    background-color: white;
+    overflow: scroll;
+  }
+
+  .vize-materials-universal-dialog-close {
+    margin-top: 22px;
+
+    svg {
+      width: 36px;
+      height: auto;
+      color: white;
+      fill: white;
+    }
+  }
+}

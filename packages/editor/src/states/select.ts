@@ -1,11 +1,12 @@
 import { action, observable, toJS } from 'mobx';
 import { getComponentSelectedCallback } from 'runtime';
+import { PageUniversalEventTrigger } from '@vize/types';
 import { Maybe } from 'types';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
-import { pagesStore } from './pages';
-import { PageUniversalEventTrigger } from '@vize/types';
 import { EventEmitTypes, events } from '../libs';
 import { AttrEditTab } from '../components/AttributesEditor';
+import { pagesStore } from './pages';
+import { componentsStore } from './components';
 
 export enum SelectType {
   GLOBAL = 'global',
@@ -57,13 +58,15 @@ export class SelectStore {
   public sharedComponentSelected = false;
 
   @action
-  private setComponentKey = (key: number, asHotAreaContainer?: boolean) => {
+  private setComponentKey = (key: number, asHotAreaContainer?: boolean, ignorePrevCallback?: boolean) => {
     if (key === this.componentKey) {
       getComponentSelectedCallback(key)?.({ selected: true, asHotAreaContainer });
       return;
     }
 
-    getComponentSelectedCallback(this.componentKey)?.({ selected: false });
+    if (!ignorePrevCallback) {
+      getComponentSelectedCallback(this.componentKey)?.({ selected: false });
+    }
     getComponentSelectedCallback(key)?.({ selected: true, asHotAreaContainer });
 
     this.componentKey = key;
@@ -73,8 +76,9 @@ export class SelectStore {
   public selectComponent = (shared: boolean, key: number, parentKey?: number) => {
     this.sharedComponentSelected = shared;
     this.selectType = SelectType.COMPONENT;
-    this.setComponentKey(key);
+
     this.setContainerComponentKey(parentKey || -1);
+    this.setComponentKey(key, false, this.componentKey === parentKey);
     this.hotAreaIndex = -1;
   };
 
@@ -82,14 +86,14 @@ export class SelectStore {
   public containerComponentKey = -1;
 
   @action
-  private setContainerComponentKey = (key: number) => {
+  private setContainerComponentKey = (key: number, asHotAreaParentContainer?: boolean) => {
     if (key === this.containerComponentKey) {
-      getComponentSelectedCallback(key)?.({ selected: true, asContainer: true });
+      getComponentSelectedCallback(key)?.({ selected: true, asContainer: true, asHotAreaParentContainer });
       return;
     }
 
     getComponentSelectedCallback(this.containerComponentKey)?.({ selected: false });
-    getComponentSelectedCallback(key)?.({ selected: true, asContainer: true });
+    getComponentSelectedCallback(key)?.({ selected: true, asContainer: true, asHotAreaParentContainer });
 
     this.containerComponentKey = key;
   };
@@ -112,10 +116,15 @@ export class SelectStore {
 
   @action
   public selectHotArea = (index: number, componentKey: number) => {
+    const { parent } = componentsStore.getCurrentPageComponentInstance(componentKey);
+    const parentKey = parent ? parent.key : -1;
+
+    this.setContainerComponentKey(parentKey);
     this.setComponentKey(componentKey, true);
+
     this.hotAreaIndex = index;
-    this.setContainerComponentKey(-1);
     this.selectType = SelectType.HOTAREA;
+
     events.emit(EventEmitTypes.JUMP_ATTR_EDIT_TAB, AttrEditTab.EVENTS);
   };
 

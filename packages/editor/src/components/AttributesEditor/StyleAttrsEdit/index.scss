@@ -9,3 +9,7 @@
 .common-style-form-panel > .ant-collapse-content > .ant-collapse-content-box {
   padding: 0 12px;
 }
+
+.common-style-form-panel .form-image-picker {
+  width: calc(100% - 40px);
+}

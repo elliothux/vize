@@ -28,6 +28,7 @@ interface Props extends FormProps<string> {
 
 function Color({ disabled: fieldDisabled, format: fieldFormat, value, onChange }: Props) {
   const disabled = useMemo(() => (typeof fieldDisabled === 'boolean' ? fieldDisabled : false), [fieldDisabled]);
+  // TODO
   const [format, supportAlpha] = useMemo(() => {
     const format = fieldFormat ? (fieldFormat.toLowerCase() as ColorFormat) : ColorFormat.HEX;
     return [format, isAlphaSupported(format)];
@@ -41,9 +42,7 @@ function Color({ disabled: fieldDisabled, format: fieldFormat, value, onChange }
       <Popover
         title={i18n.t('Choose color')}
         trigger="click"
-        content={
-          <SketchPicker disableAlpha={!supportAlpha} color={color} onChangeComplete={onChangeComplete} width="256px" />
-        }
+        content={<SketchPicker disableAlpha={false} color={color} onChangeComplete={onChangeComplete} width="256px" />}
         overlayClassName="form-color-picker-popover"
         arrowPointAtCenter
       >

@@ -3,7 +3,7 @@ declare module '*.scss' {
   export = value;
 }
 
-declare module '*.raw.svg' {
+declare module '*.svg' {
   const value: string;
   export = value;
 }

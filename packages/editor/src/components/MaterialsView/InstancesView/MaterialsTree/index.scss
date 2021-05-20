@@ -6,7 +6,8 @@
   .components-tree.select-mode {
     .component-tree-node,
     .child-component-tree-node {
-      &:hover {
+      &:hover,
+      &.selected-mode-selected {
         span {
           color: #fa8c16 !important;
         }
