@@ -8,24 +8,11 @@ export function isChildrenEmpty(children: React.ReactElement[]) {
   return false;
 }
 
-const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
-const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
-const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
-
-export function isUrl(str: any): boolean {
-  if (typeof str !== 'string') {
-    return false;
+export function createEmptyNode(className?: string): [HTMLDivElement, () => void] {
+  const node = document.createElement('div');
+  if (className) {
+    node.setAttribute('class', className);
   }
-
-  const match = str.match(protocolAndDomainRE);
-  if (!match) {
-    return false;
-  }
-
-  const everythingAfterProtocol = match[1];
-  if (!everythingAfterProtocol) {
-    return false;
-  }
-
-  return localhostDomainRE.test(everythingAfterProtocol) || nonLocalhostDomainRE.test(everythingAfterProtocol);
+  document.body.appendChild(node);
+  return [node, () => document.body.removeChild(node)];
 }
