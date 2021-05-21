@@ -1,7 +1,7 @@
 const info = {
   name: '弹窗提示（Alert）',
   desc: '通用弹窗提示',
-  author: 'aedron@github',
+  author: 'Aedron@github',
 };
 
 const dataForm = {
@@ -38,4 +38,5 @@ const dataForm = {
 export default {
   info,
   dataForm,
+  maxTimeout: 'infinity',
 };
