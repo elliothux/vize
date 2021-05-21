@@ -127,7 +127,7 @@ function IStreamLayoutRender({
       onSortStart={onSortStart}
       onSortEnd={onSortEnd}
       getContainer={getContainer}
-      pressDelay={100}
+      pressDelay={200}
       helperClass="dragging-component-item"
     >
       {content}

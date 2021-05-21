@@ -1,0 +1,16 @@
+@import 'styles/helper';
+
+.editor-prop-edit-children {
+  & > p {
+    text-align: center;
+    font-size: 13px;
+
+    svg {
+      transform: scale(1.3) translateX(-4px);
+      animation: button-icon-animation alternate-reverse 400ms infinite ease-in-out;
+      position: relative;
+      left: -3px;
+      top: 1px;
+    }
+  }
+}

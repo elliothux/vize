@@ -100,7 +100,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
   };
 
   private onClickMaskWithSelectMode = () => {
-    selectStore.setSelectModeSelectComponent({ key: selectStore.selectModeSelectedComponent?.key });
+    selectStore.setSelectModeSelectComponent(null);
   };
 
   public render() {
@@ -121,10 +121,39 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
       (currentSelectedType === SelectType.COMPONENT || currentSelectedType === SelectType.HOTAREA) &&
       key === currentSelectedKey;
     const selectedWithSelectMode = selectModeSelectedComponent?.key === key;
-    const selectedAsContainer = key === currentSelectedContainerKey || key === selectModeSelectedComponent?.parentKey;
+    const selectedAsContainer =
+      (!selectMode && key === currentSelectedContainerKey) ||
+      (selectMode && key === selectModeSelectedComponent?.parentKey);
 
     if (!children && instance.children) {
       return <LayoutRender componentInstances={instance.children} containerComponentInstance={instance} />;
+    }
+
+    let mask = null;
+    if (!this.hideEditMask) {
+      if (selectMode) {
+        console.log(key, selectedAsContainer);
+        mask = selectedAsContainer ? null : (
+          <ComponentSelectModeMask
+            instance={instance}
+            selected={selectedWithSelectMode}
+            onClick={this.onSelectWithSelectMode}
+            onDoubleClick={this.onDoubleClickWithSelectMode}
+          />
+        );
+      } else {
+        mask = (
+          <ComponentMask
+            instance={instance}
+            selected={selected}
+            onClick={this.onSelect}
+            onDoubleClick={this.onDoubleClick}
+            onContextMenu={this.onContextMenu}
+          >
+            <ComponentHotAreas instance={instance} />
+          </ComponentMask>
+        );
+      }
     }
 
     const position = commonStyle.position as PositionStyle;
@@ -141,30 +170,9 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
           data-key={key}
           style={position ? calcPosition(position) : undefined}
         >
-          <ComponentView instance={instance}>{children}</ComponentView>
-
-          {this.hideEditMask ? null : selectMode ? (
-            selectedAsContainer ? null : (
-              <ComponentSelectModeMask
-                instance={instance}
-                selected={selectedWithSelectMode}
-                onClick={this.onSelectWithSelectMode}
-                onDoubleClick={this.onDoubleClickWithSelectMode}
-              />
-            )
-          ) : (
-            <ComponentMask
-              instance={instance}
-              selected={selected}
-              onClick={this.onSelect}
-              onDoubleClick={this.onDoubleClick}
-              onContextMenu={this.onContextMenu}
-            >
-              <ComponentHotAreas instance={instance} />
-            </ComponentMask>
-          )}
-
           <ComponentContextMenu instance={instance} pages={pages} currentPageIndex={currentPageIndex} />
+          <ComponentView instance={instance}>{children}</ComponentView>
+          {mask}
         </div>
 
         {selectedAsContainer && !this.hideEditMask ? (

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FiDelete, FiHome, FiCopy, FiEdit } from 'react-icons/fi';
 import { Menu, Item, theme, Separator } from 'react-contexify';
 import { useCallback } from 'react';
-import { editStore, pagesStore } from 'states';
+import { editStore, pagesStore, selectStore } from 'states';
 import { noop, preventSyntheticEvent, showContextMenu } from 'utils';
 import { Trans } from 'react-i18next';
 
@@ -50,6 +50,9 @@ export function PageContextMenu({ index, pageKey }: Props) {
 
 export function showPageContextMenu(e: React.MouseEvent, pageKey: number) {
   preventSyntheticEvent(e);
+  if (selectStore.selectMode) {
+    return;
+  }
   return showContextMenu(e, getID(pageKey));
 }
 

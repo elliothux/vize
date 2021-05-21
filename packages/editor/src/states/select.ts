@@ -120,7 +120,7 @@ export class SelectStore {
     const parentKey = parent ? parent.key : -1;
 
     this.setContainerComponentKey(parentKey);
-    this.setComponentKey(componentKey, true);
+    this.setComponentKey(componentKey, true, this.componentKey === parentKey);
 
     this.hotAreaIndex = index;
     this.selectType = SelectType.HOTAREA;
@@ -154,8 +154,9 @@ export class SelectStore {
 
   @action
   public setSelectMode = (mode: boolean) => {
+    const { containerComponentKey } = this;
     this.selectMode = mode;
-    this.selectModeSelectedComponent = null;
+    this.selectModeSelectedComponent = containerComponentKey > -1 ? { parentKey: containerComponentKey } : null;
   };
 
   @observable

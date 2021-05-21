@@ -1,5 +1,6 @@
 import './index.scss';
 import * as React from 'react';
+import { memo, useEffect, useState } from 'react';
 import { EventEmitTypes, events } from 'libs';
 import { InstancesView } from './InstancesView';
 import { ComponentsLibrary, PluginsLibrary } from './MaterialsLibrary';
@@ -9,41 +10,29 @@ interface Props {
   loading: boolean;
 }
 
-export class MaterialsView extends React.Component<Props> {
-  public state = {
-    view: MaterialsViewType.INSTANCES,
-  };
+function IMaterialsView({ loading }: Props) {
+  const [view, setView] = useState<MaterialsViewType>(MaterialsViewType.INSTANCES);
 
-  private onSetView = (view: MaterialsViewType) => {
-    this.setState({ view });
-  };
+  useEffect(() => {
+    events.on(EventEmitTypes.SET_MATERIALS_VIEW_TYPE, setView);
+  }, []);
 
-  public componentDidMount(): void {
-    events.on(EventEmitTypes.SET_MATERIALS_VIEW_TYPE, this.onSetView);
-  }
-
-  public componentWillUnmount(): void {
-    events.cancel(EventEmitTypes.SET_MATERIALS_VIEW_TYPE, this.onSetView);
-  }
-
-  public render() {
-    const { view } = this.state;
-
-    let content: React.ReactNode = null;
-    if (!this.props.loading) {
-      switch (view) {
-        case MaterialsViewType.COMPONENTS:
-          content = <ComponentsLibrary />;
-          break;
-        case MaterialsViewType.PLUGINS:
-          content = <PluginsLibrary />;
-          break;
-        case MaterialsViewType.INSTANCES:
-          content = <InstancesView />;
-          break;
-      }
+  let content: React.ReactNode = null;
+  if (!loading) {
+    switch (view) {
+      case MaterialsViewType.COMPONENTS:
+        content = <ComponentsLibrary />;
+        break;
+      case MaterialsViewType.PLUGINS:
+        content = <PluginsLibrary />;
+        break;
+      case MaterialsViewType.INSTANCES:
+        content = <InstancesView />;
+        break;
     }
-
-    return <div className="vize-materials-view">{content}</div>;
   }
+
+  return <div className="vize-materials-view">{content}</div>;
 }
+
+export const MaterialsView = memo(IMaterialsView);
