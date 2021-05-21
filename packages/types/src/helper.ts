@@ -28,13 +28,3 @@ export enum RequestStatus {
   SUCCESS = 'success',
   FAILED = 'failed',
 }
-
-/**
- * @desc JSONSchema
- */
-
-export type JSONSchemaDefinition = ISchema;
-
-export interface JsonSchemaProperties {
-  [key: string]: ISchema;
-}

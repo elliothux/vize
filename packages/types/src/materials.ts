@@ -2,7 +2,7 @@ import { ComponentType } from 'react';
 import { MaterialsComponent, MaterialsComponentMeta } from './component';
 import { MaterialsPlugin, MaterialsPluginMeta } from './plugins';
 import { MaterialsActionMeta, MaterialsAction } from './action';
-import { JsonSchemaProperties } from './helper';
+import { JsonSchemaProperties } from './schema';
 import { MaterialsContainerMeta } from './container';
 
 export interface MaterialsInfo {

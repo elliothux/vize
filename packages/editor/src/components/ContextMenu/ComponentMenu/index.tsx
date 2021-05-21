@@ -122,6 +122,9 @@ export function showComponentContextMenu(
   parentKey?: number,
 ) {
   preventSyntheticEvent(e);
+  if (selectStore.selectMode) {
+    return;
+  }
   selectStore.selectComponent(isShared, componentKey, parentKey);
   return showContextMenu(fromIFrame ? createMouseEventFromIframe(e) : e, getID(componentKey));
 }

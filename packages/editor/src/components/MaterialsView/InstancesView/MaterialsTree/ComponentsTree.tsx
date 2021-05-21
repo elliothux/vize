@@ -193,7 +193,7 @@ function getTreeData(
       icon: <FiFolder />,
       selectable: false,
       className: 'tree-root-node components-tree-root-node',
-      children: generateComponentTreeData(componentInstances, false, selectModeSelectedComponent),
+      children: generateComponentTreeData(0, componentInstances, false, selectModeSelectedComponent),
     },
   ];
 }

@@ -12,6 +12,7 @@ const { DirectoryTree } = Tree;
 export type TreeData = ComponentProps<typeof DirectoryTree>['treeData'];
 
 export function generateComponentTreeData(
+  deep: number,
   componentInstances: ComponentInstance[],
   isChildren: boolean,
   selectModeSelectedComponent?: number,
@@ -29,11 +30,11 @@ export function generateComponentTreeData(
       isLeaf: !(isContainer || hasHotArea),
       icon: isContainer || hasHotArea ? <FiArchive /> : <FiLayers />,
       children: isContainer
-        ? generateComponentTreeData(children!, true, selectModeSelectedComponent)
+        ? generateComponentTreeData(deep + 1, children!, true, selectModeSelectedComponent)
         : hasHotArea
-        ? generateHotAreaTreeData(key, hotAreas!)
+        ? generateHotAreaTreeData(deep + 1, key, hotAreas!)
         : undefined,
-      className: classnames(isChildren ? 'child-component-tree-node' : 'component-tree-node', {
+      className: classnames(`${isChildren ? 'child-component-tree-node' : 'component-tree-node'} deep-${deep}`, {
         'selected-mode-selected': selectModeSelectedComponent === key,
       }),
     });
@@ -42,14 +43,14 @@ export function generateComponentTreeData(
   }, []);
 }
 
-function generateHotAreaTreeData(componentKey: number, hotAreas: HotArea[]): TreeData {
+function generateHotAreaTreeData(deep: number, componentKey: number, hotAreas: HotArea[]): TreeData {
   return hotAreas.map(({ key }, index) => {
     return {
       key: `hotarea-${componentKey}-${index}`,
       title: `${i18n.t('Hotarea')}（key=${key}）`,
       isLeaf: true,
       icon: <FiSquare />,
-      className: 'child-hotarea-tree-node',
+      className: `child-hotarea-tree-node deep-${deep}`,
     };
   });
 }

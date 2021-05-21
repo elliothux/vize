@@ -30,6 +30,9 @@ export function HotAreaContextMenu({ index, instance: { parent } }: Props) {
 
 export function showHotAreaContextMenu(e: React.MouseEvent, index: number, componentKey: number, fromIFrame = false) {
   preventSyntheticEvent(e);
+  if (selectStore.selectMode) {
+    return;
+  }
   selectStore.selectHotArea(index, componentKey);
   return showContextMenu(fromIFrame ? createMouseEventFromIframe(e) : e, getID(componentKey, index));
 }

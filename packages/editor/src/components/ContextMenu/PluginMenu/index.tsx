@@ -29,6 +29,9 @@ export function PluginContextMenu({ instance }: Props) {
 
 export function showPluginContextMenu(e: React.MouseEvent, pluginKey: number) {
   preventSyntheticEvent(e);
+  if (selectStore.selectMode) {
+    return;
+  }
   selectStore.selectPlugin(pluginKey);
   return showContextMenu(e, getID(pluginKey));
 }

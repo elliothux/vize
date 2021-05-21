@@ -1,8 +1,8 @@
+import './index.scss';
+import 'antd-mobile/es/button/style/index';
 import * as React from 'react';
 import { ComponentProps } from '@vize/types';
 import { default as ButtonComponent } from 'antd-mobile/es/button';
-import 'antd-mobile/es/button/style/index.css';
-import './index.scss';
 
 interface Data {
   text: string;

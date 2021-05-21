@@ -8,13 +8,13 @@ const dataForm = {
   title: {
     title: '标题',
     type: 'string',
-    widget: 'textarea',
+    default: '标题描述',
     required: true,
   },
   defaultExpand: {
     title: '默认展开',
     type: 'boolean',
-    default: false,
+    default: true,
   },
 };
 
@@ -40,5 +40,10 @@ export default {
   info,
   dataForm,
   enableStyleGroup,
+  onEvents: [
+    { displayName: '切换展开/折叠', eventName: 'toggle' },
+    { displayName: '展开', eventName: 'open' },
+    { displayName: '折叠', eventName: 'close' },
+  ],
   isContainer: true,
 };

@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { JsonSchemaProperties } from './helper';
+import { JsonSchemaProperties } from './schema';
 
 export interface SchemaFormProps<T extends object = object> {
   schema: JsonSchemaProperties;

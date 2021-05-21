@@ -3,7 +3,7 @@ export function isChildrenEmpty(children: React.ReactElement[]) {
     return true;
   }
   if (Array.isArray(children)) {
-    return children.length <= 0;
+    return children.filter(i => !!i).length <= 0;
   }
   return false;
 }

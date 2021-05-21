@@ -1,9 +1,7 @@
-import 'antd-mobile/es/modal/style/index.css';
-import * as React from 'react';
-import { createPortal } from 'react-dom';
-import { ActionParams, Maybe } from '@vize/types';
+import 'antd-mobile/es/modal/style/index';
+import { ActionParams } from '@vize/types';
 import { default as Modal } from 'antd-mobile/es/modal';
-import { createEmptyNode, isUrl, open } from '../../lib/utils';
+import { isUrl, open } from '../../lib/utils';
 
 interface Data {
   title: string;
@@ -15,18 +13,27 @@ interface Data {
 
 export default function({ data: { title, desc, okText, cancelText, jumpUrl } }: ActionParams<Data>) {
   return new Promise(resolve => {
-    const onPress = () => {
-      return isUrl(jumpUrl) && open(jumpUrl, true);
-    };
-    Modal.alert(title, desc, [
-      { text: cancelText },
+    const actions = [
       {
         text: okText,
+        style: 'primary',
         onPress: () => {
-          onPress();
-          return resolve();
+          isUrl(jumpUrl) && open(jumpUrl, true);
+          return resolve(undefined);
         },
       },
-    ]);
+    ];
+
+    if (cancelText) {
+      actions.unshift({
+        text: cancelText,
+        style: 'destructive',
+        onPress: () => {
+          return resolve(undefined);
+        },
+      });
+    }
+
+    Modal.alert(title, desc, actions);
   });
 }

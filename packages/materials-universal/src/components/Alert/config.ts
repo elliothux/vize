@@ -1,6 +1,6 @@
 const info = {
-  name: '弹窗提示（Alert）',
-  desc: '通用弹窗提示',
+  name: '弹窗提示',
+  desc: '通用弹窗提示组件（Alert）',
   author: 'Aedron@github',
 };
 
@@ -38,5 +38,14 @@ const dataForm = {
 export default {
   info,
   dataForm,
-  maxTimeout: 'infinity',
+  onEvents: [
+    { displayName: '切换弹窗', eventName: 'toggle' },
+    { displayName: '打开弹窗', eventName: 'open' },
+    { displayName: '关闭弹窗', eventName: 'close' },
+  ],
+  emitEvents: [
+    { displayName: '打开弹窗', eventName: 'open' },
+    { displayName: '关闭弹窗', eventName: 'close' },
+  ],
+  hideEditMask: true,
 };

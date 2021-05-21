@@ -1,3 +1,13 @@
+/**
+ * @desc JSONSchema
+ */
+
+export type JSONSchemaDefinition = ISchema;
+
+export interface JsonSchemaProperties {
+  [key: string]: ISchema;
+}
+
 export type SchemaTypes = 'string' | 'object' | 'array' | 'number' | 'boolean' | 'void' | 'date' | 'datetime';
 
 type BaseSchemaValueTypes = string | number | boolean | Date;
@@ -30,4 +40,5 @@ export interface ISchema<T = SchemaTypes, V = SchemaValueTypes> {
   max?: number;
   rules?: SchemaRule[];
   props?: { [key: string]: any };
+  properties?: JsonSchemaProperties;
 }
