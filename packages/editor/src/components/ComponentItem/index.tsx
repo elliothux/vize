@@ -3,6 +3,7 @@ import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildre
 import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { withPreventEvent } from 'utils';
 import { events, EventEmitTypes } from 'libs';
+import { contextMenu } from 'react-contexify';
 import {
   deleteComponentNode,
   setComponentNode,
@@ -56,8 +57,8 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
     const {
       instance: { key, shared, parent },
     } = this.props;
-
     selectStore.selectComponent(shared, key, parent?.key);
+    setTimeout(() => contextMenu.hideAll(), 0);
   });
 
   private onSelectWithSelectMode = withPreventEvent(() => {
