@@ -3,7 +3,8 @@ import * as React from 'react';
 import { useState, useCallback, useEffect } from 'react';
 import { ComponentProps } from '@vize/types';
 import { SVGRender } from '../../lib/components/SVGRender';
-import { preventSyntheticEvent } from '../../lib/utils';
+import { isChildrenEmpty, preventSyntheticEvent } from '../../lib/utils';
+import { EmptyData } from '../../lib/components/EmptyData';
 import CLOSE from './close.svg';
 
 interface Data {
@@ -19,6 +20,7 @@ export default function Dialog({
   data: { closeButton, maskClose },
   style: { maskBackground },
   on,
+  emit,
   commonStyle,
   onSelected,
   children,
@@ -30,14 +32,25 @@ export default function Dialog({
   }, []);
 
   useEffect(() => {
-    onSelected(({ selected }) => {
-      // debugger;
-      setVisible(selected);
-    });
+    onSelected(({ selected }) => setVisible(selected));
     on('open', () => setVisible(true));
     on('close', () => setVisible(false));
     on('toggle', () => setVisible(i => !i));
   }, []);
+
+  useEffect(() => {
+    emit(visible ? 'open' : 'close');
+  }, [visible]);
+
+  const onClickMask = useCallback(
+    (e: React.MouseEvent) => {
+      if (maskClose) {
+        preventSyntheticEvent(e);
+        setVisible(false);
+      }
+    },
+    [maskClose],
+  );
 
   if (!visible) {
     return null;
@@ -46,14 +59,13 @@ export default function Dialog({
   return (
     <div
       className="vize-materials-universal-dialog"
-      // onClick={maskClose ? onClose : undefined}
-      onClick={onClose}
+      onClick={onClickMask}
       style={{
         backgroundColor: maskBackground,
       }}
     >
       <div className="vize-materials-universal-dialog-content" style={commonStyle} onClick={preventSyntheticEvent}>
-        {children}
+        {isChildrenEmpty(children) ? <EmptyData text="未添加子组件" /> : children}
       </div>
       {closeButton && <SVGRender className="vize-materials-universal-dialog-close" onClick={onClose} content={CLOSE} />}
     </div>

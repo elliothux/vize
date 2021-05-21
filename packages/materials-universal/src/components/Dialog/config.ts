@@ -27,7 +27,9 @@ const styleForm = {
 };
 
 const enableStyleGroup = {
-  transform: true,
+  transform: {
+    borderRadius: 6,
+  },
   border: true,
   background: {
     color: '#fff',
@@ -41,6 +43,10 @@ export default {
   enableStyleGroup,
   onEvents: [
     { displayName: '切换弹窗', eventName: 'toggle' },
+    { displayName: '打开弹窗', eventName: 'open' },
+    { displayName: '关闭弹窗', eventName: 'close' },
+  ],
+  emitEvents: [
     { displayName: '打开弹窗', eventName: 'open' },
     { displayName: '关闭弹窗', eventName: 'close' },
   ],
