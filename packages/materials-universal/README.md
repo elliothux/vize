@@ -8,11 +8,12 @@
   - Carousel
   - Video
   - Text
-  - Title
+  - RichText
   - NavBar
   - HR
   - IFrame
 - Container
+  - Common
   - FormContainer
   - Dialog
   - Accordion
