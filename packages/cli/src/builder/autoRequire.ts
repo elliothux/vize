@@ -26,7 +26,6 @@ export async function generateMaterialsEntryFile(
     withForms,
   };
   await Promise.all([
-    // isProd ? Promise.resolve() : generateEntry({ type: 'main', targetPath: mainEntryTemp, ...params }),
     generateEntry({ type: 'main', targetPath: mainEntryTemp, ...params }),
     generateEntry({ type: 'meta', targetPath: metaEntryTemp, ...params }),
   ]);
