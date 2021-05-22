@@ -20,6 +20,7 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
     identityName,
     info: { name, desc },
     thumb,
+    singleInstance,
   } = item;
 
   const { t } = useTranslation();
@@ -33,7 +34,7 @@ export function MaterialsPluginItem({ item, currentItem, onSelect }: Props) {
     events.emit(EventEmitTypes.RELOAD_RENDERER);
   }, [identityName]);
 
-  const disabled = pluginsStore.pluginInstances.findIndex(i => i.plugin === identityName) > -1;
+  const disabled = singleInstance && pluginsStore.pluginInstances.findIndex(i => i.plugin === identityName) > -1;
 
   return (
     <div
