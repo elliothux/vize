@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as R from 'ramda';
 import { MaterialsComponentMeta, MaterialsPluginMeta } from 'types';
 import { FiList } from 'react-icons/fi';
+import { Empty } from 'widgets/Empty';
 import { TagItem } from './TagItem';
 import { generateTagsMap, MaterialsTagsList } from './utils';
 import { HeaderOptions, MaterialsViewType } from '../../HeaderOptions';
@@ -42,7 +43,11 @@ export class WithTagsList<T extends MaterialsComponentMeta & MaterialsPluginMeta
   };
 
   private renderContent = () => {
-    return this.tagsList[this.state.currentTagIndex].items.map(i => this.props.children(i as T));
+    const { items } = this.tagsList[this.state.currentTagIndex];
+    if (!items.length) {
+      return <Empty style={{ marginTop: '32px' }} />;
+    }
+    return items.map(i => this.props.children(i as T));
   };
 
   public render() {

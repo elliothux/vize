@@ -7,10 +7,13 @@ import { createSchema } from 'libs';
 import { createForm, onFormValuesChange, onFormSubmit } from '@formily/core';
 import { Submit } from '@formily/antd';
 import { FormProvider, ISchema } from '@formily/react';
-import { SchemaField } from './fields';
+import { getSchemaField } from './fields';
 
 function ISchemaForm({ schema: schemaProperties, value, onChange, onSubmit, submitProps }: SchemaFormProps) {
+  const SchemaField = getSchemaField();
+
   const schema = useMemo(() => createSchema(schemaProperties) as ISchema, [schemaProperties]);
+
   const form = useMemo(() => {
     return createForm({
       initialValues: value,
