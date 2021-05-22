@@ -25,7 +25,7 @@ const globalStyleForm = {
     title: '全局背景色',
     default: 'rgba(255, 255, 255, 0)',
     type: 'string',
-    widget: 'color',
+    'x-component': 'Color',
   },
 };
 
@@ -34,7 +34,7 @@ const pageStyleForm = {
     title: '页面背景色',
     default: 'rgba(255, 255, 255, 0)',
     type: 'string',
-    widget: 'color',
+    'x-component': 'Color',
   },
 };
 
