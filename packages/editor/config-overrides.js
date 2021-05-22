@@ -9,9 +9,11 @@ const {
   adjustStyleLoaders,
 } = require('customize-cra');
 
+require('../../scripts/watcher');
+
 module.exports = {
   webpack: override(
-    addWebpackResolve({ symlinks: false }),
+    // addWebpackResolve({ symlinks: false }),
     adjustStyleLoaders(({ use: [, css, postcss, resolve, processor] }) => {
       css.options.sourceMap = true;
       postcss.options.sourceMap = true;

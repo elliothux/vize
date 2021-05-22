@@ -22,6 +22,9 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.5",
+    "@formily/antd": "*",
+    "@formily/core": "*",
+    "@formily/react": "*",
     "@udecode/slate-plugins": "^1.0.0-alpha.25",
     "@vize/richtext-editor": "^0.1.5",
     "@vize/runtime-web": "^0.1.2",
@@ -100,6 +103,7 @@
     "less": "4.1.0",
     "less-loader": "5.0.0",
     "lint-staged": "^10.2.11",
+    "node-watch": "^0.7.1",
     "prettier": "^1.19.1",
     "raw-loader": "^4.0.1",
     "react-app-rewired": "^2.1.6",

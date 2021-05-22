@@ -1,40 +1,42 @@
 import './index.scss';
 import * as React from 'react';
-import { memo, useMemo } from 'react';
+import { memo, ReactChild, useCallback, useMemo } from 'react';
 import { throttle } from 'throttle-debounce';
 import { Button } from 'antd';
 import { SchemaFormProps } from 'types';
 import { createSchema } from 'libs';
-import FormRender, { useForm } from 'form-render';
-import { fieldWidgets } from '../Fields';
+import { createForm, onFormValuesChange } from '@formily/core';
+import { Form, Submit } from '@formily/antd';
+import { FormProvider, FormConsumer } from '@formily/react';
+import { SchemaField } from './fields';
 
-function ISchemaForm({
-  schema: schemaProperties,
-  value: formData,
-  onChange: onValueChange,
-  onSubmit,
-  submitProps,
-}: SchemaFormProps) {
+type FormCore = ReturnType<typeof createForm>;
+
+function ISchemaForm({ schema: schemaProperties, value, onChange, onSubmit, submitProps }: SchemaFormProps) {
   const schema = useMemo(() => createSchema(schemaProperties), [schemaProperties]);
-  const onChange = useMemo(() => (!onSubmit && onValueChange ? throttle(200, onValueChange) : undefined), [
-    onSubmit,
-    onValueChange,
-  ]);
-
-  const form = useForm({
-    onChange,
-    formData,
-  });
+  const form = useMemo(() => {
+    const onValueChange = !onSubmit && onChange ? throttle(200, onChange) : null;
+    return createForm({
+      initialValues: value,
+      effects: onValueChange
+        ? () => {
+            onFormValuesChange(form => {
+              onValueChange(form.values);
+            });
+          }
+        : undefined,
+    });
+  }, [schemaProperties]);
 
   return (
-    <>
-      <FormRender widgets={fieldWidgets} form={form} schema={schema} onFinish={onSubmit || onChange} />
+    <FormProvider form={form}>
+      <SchemaField schema={schema as any} />
       {submitProps && (
-        <Button type="primary" onClick={form.submit} {...submitProps}>
+        <Submit type="primary" onClick={form.submit} {...submitProps}>
           {submitProps.children}
-        </Button>
+        </Submit>
       )}
-    </>
+    </FormProvider>
   );
 }
 
