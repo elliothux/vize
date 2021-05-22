@@ -44,6 +44,6 @@ function TxtReader({ value, onChange }: Props) {
 }
 
 export default {
-  field: 'txt',
+  name: 'TxtReader',
   component: TxtReader,
 };

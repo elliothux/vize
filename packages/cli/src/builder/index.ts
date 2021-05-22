@@ -4,7 +4,7 @@ import watch from 'node-watch';
 import webpack, { Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { MaterialsLibConfig } from '@vize/types';
-import { getLibPaths, LibPaths, log, logWithSpinner, stopSpinner } from '../utils';
+import { LibPaths, log, logWithSpinner, stopSpinner, updateLibPaths } from '../utils';
 import { getLibWebpackConfig } from '../webpackCompiler';
 import { generateFormEntryFile, generateMaterialsEntryFile } from './autoRequire';
 import { clearTemp, generateMaterialsManifest, openEditor, prepareEditor, webpackCallback } from './utils';
@@ -99,7 +99,7 @@ export class Builder {
 
   private afterUpdate = async () => {
     const { root, containerName } = this.libPaths;
-    this.libPaths = getLibPaths(root, containerName);
+    this.libPaths = updateLibPaths(root, containerName);
 
     logWithSpinner('🔥', '重新执行前置脚本');
     await this.prepareFiles();

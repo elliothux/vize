@@ -21,8 +21,11 @@ const styleForm = {
   maskBackground: {
     title: '蒙层背景色',
     type: 'string',
-    widget: 'color',
     default: 'rgba(0, 0, 0, 0.7)',
+    'x-component': 'Color',
+    'x-props': {
+      format: 'rgba',
+    },
   },
 };
 

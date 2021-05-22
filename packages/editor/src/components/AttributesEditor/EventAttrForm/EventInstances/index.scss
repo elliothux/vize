@@ -5,9 +5,9 @@
 }
 
 .vize-event-instance {
-  margin-bottom: 16px;
+  margin-bottom: 16px !important;
+  border-radius: 4px !important;
   box-shadow: $default-box-shadow-light;
-  border-radius: 4px;
   overflow: hidden;
 
   &.empty_form {

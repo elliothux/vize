@@ -8,7 +8,7 @@ const dataForm = {
   src: {
     title: '图片',
     type: 'string',
-    widget: 'image',
+    'x-component': 'Image',
     required: true,
     default: 'https://img.alicdn.com/tfs/TB1PibhR4D1gK0jSZFsXXbldVXa-512-416.png',
   },

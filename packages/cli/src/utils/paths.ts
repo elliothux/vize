@@ -34,6 +34,11 @@ export interface LibPaths {
 
 let paths: Maybe<LibPaths> = null;
 
+export function updateLibPaths(rootPath?: string, containerName?: string): LibPaths {
+  paths = null;
+  return getLibPaths(rootPath, containerName);
+}
+
 export function getLibPaths(rootPath?: string, containerName?: string): LibPaths {
   if (paths) {
     return paths;

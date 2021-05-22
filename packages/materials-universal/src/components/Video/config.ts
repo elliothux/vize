@@ -14,7 +14,7 @@ const dataForm = {
   poster: {
     title: '封面图',
     type: 'string',
-    widget: 'image',
+    'x-component': 'Image',
   },
   autoPlay: {
     title: '自动播放',

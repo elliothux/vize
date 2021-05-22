@@ -8,7 +8,7 @@ const dataForm = {
   content: {
     title: '',
     type: 'object',
-    widget: 'richtext',
+    'x-component': 'RichText',
   },
 };
 

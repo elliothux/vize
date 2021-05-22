@@ -6,8 +6,8 @@ import { FormProps } from './types';
 export function initMaterialsForms(forms: Maybe<MaterialsForms>) {
   if (forms?.fields) {
     registerFormFieldWidgets(
-      forms.fields.reduce<FirstParameter<typeof registerFormFieldWidgets>>((accu, { field, component }) => {
-        accu[field] = component as ComponentType<FormProps<object>>;
+      forms.fields.reduce<FirstParameter<typeof registerFormFieldWidgets>>((accu, { name, component }) => {
+        accu[name] = component as ComponentType<FormProps<object>>;
         return accu;
       }, {}),
     );

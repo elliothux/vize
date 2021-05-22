@@ -18,10 +18,11 @@ const dataForm = {
   interval: {
     title: '切换时间间隔',
     type: 'number',
-    widget: 'slider',
     default: 2,
-    min: 1,
-    max: 60,
+    'x-props': {
+      min: 1,
+      max: 60,
+    },
   },
   images: {
     title: '轮播图片',
@@ -33,7 +34,7 @@ const dataForm = {
         image: {
           title: '图片',
           type: 'string',
-          widget: 'image',
+          'x-component': 'Image',
           required: true,
           default: 'https://img.alicdn.com/tfs/TB1PibhR4D1gK0jSZFsXXbldVXa-512-416.png',
         },
