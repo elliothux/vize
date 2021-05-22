@@ -14,7 +14,7 @@ const dataForm = {
   desc: {
     title: '描述内容',
     type: 'string',
-    widget: 'textarea',
+    'x-component': 'TextArea',
     default: '',
   },
   actions: {

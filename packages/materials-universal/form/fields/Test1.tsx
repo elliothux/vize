@@ -15,6 +15,6 @@ function Test({ value, onChange }: Props) {
 }
 
 export default {
-  field: 'example1',
+  name: 'Example1',
   component: Test,
 };
