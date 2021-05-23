@@ -18,6 +18,7 @@ import { LayoutRender } from '../LayoutRender';
 import { ComponentSelectModeMask } from './ComponentSelectModeMask';
 import { ComponentHotAreas } from './ComponentHotAreas';
 import { ComponentView } from './ComponentView';
+import { ComponentInjectedStyle } from './ComponentInjectedStyle';
 import iframeStyle from './index.iframe.scss';
 
 editStore.setIframeStyle('ComponentItem', iframeStyle);
@@ -173,6 +174,7 @@ export class ComponentItem extends React.Component<WithReactChildren<Props>> {
         >
           <ComponentContextMenu instance={instance} pages={pages} currentPageIndex={currentPageIndex} />
           <ComponentView instance={instance}>{children}</ComponentView>
+          <ComponentInjectedStyle instance={instance} />
           {mask}
         </div>
 

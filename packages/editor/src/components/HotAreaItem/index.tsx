@@ -4,12 +4,11 @@ import { useCallback, useMemo } from 'react';
 import { editStore, globalStore, pagesStore, selectStore } from 'states';
 import classnames from 'classnames';
 import { FirstParameter, HotArea } from 'types';
-import { percent, preventSyntheticEvent } from 'utils';
-import { EventEmitTypes, events } from 'libs';
+import { preventSyntheticEvent } from 'utils';
 import { observer } from 'mobx-react';
 import { NodeEventProxy } from 'runtime/components/NodeEventProxy';
+import { percent } from 'runtime/libs/style';
 import { Trans } from 'react-i18next';
-import { AttrEditTab } from '../AttributesEditor';
 import { showHotAreaContextMenu } from '../ContextMenu/HotAreaContextMenu';
 
 interface Props {

@@ -6,3 +6,4 @@ export * from './executePlugins';
 export * from './materialsMap';
 export * from './materialsMetaMap';
 export * from './style';
+export * from './styleInject';

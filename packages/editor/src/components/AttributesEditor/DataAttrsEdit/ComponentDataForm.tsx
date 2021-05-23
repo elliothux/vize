@@ -16,7 +16,7 @@ function IComponentDataForm() {
   const instance = useCurrentComponentInstance()!;
   const { dataForm } = useCurrentComponentMeta()!;
 
-  if (!instance) {
+  if (!instance || !dataForm) {
     return <Empty text={t('Not available')} />;
   }
 

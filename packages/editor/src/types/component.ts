@@ -25,6 +25,7 @@ export interface MaterialsComponentMeta {
   readonly emitEvents?: MaterialsCustomEvent[];
   readonly hideEditMask?: boolean;
   readonly isBuildIn?: boolean;
+  readonly enableStyleInject?: boolean;
 }
 
 export interface ComponentPosition {
