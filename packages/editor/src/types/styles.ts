@@ -120,3 +120,9 @@ export interface MergedCommonStyles {
   backgroundPosition?: string;
   backgroundRepeat?: string;
 }
+
+export interface StyleInjectSchema<T = any> {
+  selector: string | string[];
+  attr?: string | string[];
+  formatter?: 'px' | 'percent' | ((value: T) => string | number);
+}

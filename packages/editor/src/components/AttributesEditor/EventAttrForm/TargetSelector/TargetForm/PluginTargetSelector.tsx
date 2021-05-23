@@ -12,7 +12,7 @@ import { observer } from 'mobx-react';
 import { eventStore, pluginsStore } from 'states';
 import { Button, Select } from 'antd';
 import { FiLayers, FiPlus } from 'react-icons/fi';
-import { useUnmount } from 'react-use';
+import { default as useUnmount } from 'react-use/esm/useUnmount';
 import { getMaterialsPluginMeta } from 'runtime';
 import { Trans } from 'react-i18next';
 import { DEFAULT_MAX_TIMEOUT } from './constant';

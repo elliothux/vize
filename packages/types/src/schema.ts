@@ -1,6 +1,7 @@
 /**
  * @desc JSONSchema
  */
+import { StyleInjectSchema } from './styles';
 
 export type JSONSchemaDefinition = ISchema;
 
@@ -41,4 +42,5 @@ export interface ISchema<T = SchemaTypes, V = SchemaValueTypes> {
   rules?: SchemaRule[];
   props?: { [key: string]: any };
   properties?: JsonSchemaProperties;
+  inject?: StyleInjectSchema | StyleInjectSchema[];
 }

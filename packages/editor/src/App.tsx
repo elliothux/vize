@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { observer } from 'mobx-react';
-import { useMount } from 'react-use';
+import { default as useMount } from 'react-use/esm/useMount';
 import { message, Spin } from 'antd';
 import { editStore, materialsStore } from 'states';
 import { I18nextProvider } from 'react-i18next';
@@ -40,7 +40,6 @@ function IApp() {
       console.error('Init error:', err);
       return;
     }
-
     setLoading(false);
 
     events.only(EventEmitTypes.RELOAD_MATERIALS, async () => {

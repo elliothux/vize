@@ -1,7 +1,8 @@
 import './index.scss';
 import * as React from 'react';
-import { useCallback, ComponentProps } from 'react';
-import { useBoolean } from 'react-use';
+import { useCallback, ComponentProps, useMemo } from 'react';
+import { default as useBoolean } from 'react-use/esm/useBoolean';
+import { toJS } from 'mobx';
 import { Button, Modal } from 'antd';
 import { Editor, getRawValue, getHTML } from '@vize/richtext-editor';
 import { FormProps } from '../../types';
@@ -24,6 +25,8 @@ export function RichText({ value: { raw, html }, onChange }: Props) {
 
   const onCancel = useCallback(() => setVisible(false), []);
 
+  const initRawValue = useMemo(() => toJS(raw, { recurseEverything: true }), [raw]);
+
   return (
     <>
       <Button type="primary" block onClick={() => setVisible(true)}>
@@ -38,7 +41,7 @@ export function RichText({ value: { raw, html }, onChange }: Props) {
         onCancel={onCancel}
         onOk={onOk}
       >
-        <Editor initValue={html} initRawValue={raw} />
+        <Editor initValue={html} initRawValue={initRawValue} />
       </Modal>
     </>
   );

@@ -109,12 +109,16 @@ export function mergeCommonStyle(commonStyle: CommonStyle): MergedCommonStyles {
   return style;
 }
 
-function px(px: number): string {
+export function px(px: number): string {
   return `${px}px`;
 }
 
-function pxWithAuto(px: number | 'auto'): string {
+export function pxWithAuto(px: number | 'auto'): string {
   return px === 'auto' ? 'auto' : `${px}px`;
+}
+
+export function percent(percent: number): string {
+  return `${percent}%`;
 }
 
 function isEmpty(i: any): boolean {

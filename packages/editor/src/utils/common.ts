@@ -128,18 +128,6 @@ export function getHotAreaId(key: number): string {
   return `__vize-hotarea-wrapper-${key}`;
 }
 
-export function px(px: number): string {
-  return `${px}px`;
-}
-
-export function percent(percent: number): string {
-  return `${percent}%`;
-}
-
-export function pxWithAuto(px: number | 'auto'): string {
-  return px === 'auto' ? 'auto' : `${px}px`;
-}
-
 export function toggleFullScreen() {
   if (!!document.fullscreenElement) {
     return document.exitFullscreen();

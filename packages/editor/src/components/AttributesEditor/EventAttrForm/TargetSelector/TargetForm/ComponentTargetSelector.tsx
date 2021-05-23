@@ -6,7 +6,7 @@ import { eventStore, selectStore } from 'states';
 import { Button, Select } from 'antd';
 import { FiChevronsLeft, FiLayers, FiMousePointer, FiPlus, FiX } from 'react-icons/fi';
 import { useComponentMeta } from 'hooks';
-import { useUnmount } from 'react-use';
+import { default as useUnmount } from 'react-use/esm/useUnmount';
 import { Trans, useTranslation } from 'react-i18next';
 import { DEFAULT_MAX_TIMEOUT } from './constant';
 
