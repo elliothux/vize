@@ -40,7 +40,6 @@ function IApp() {
       console.error('Init error:', err);
       return;
     }
-
     setLoading(false);
 
     events.only(EventEmitTypes.RELOAD_MATERIALS, async () => {

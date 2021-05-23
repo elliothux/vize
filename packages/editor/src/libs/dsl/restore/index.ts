@@ -82,8 +82,8 @@ function restoreGlobal({ data, style, events, meta }: ReturnType<typeof parseDSL
 function restorePageInstances(pages: PageInstance[]) {
   pages.forEach(page => {
     const { key, componentInstances, pluginInstances } = page;
-    restoreComponentInstances(key, componentInstances);
-    restorePluginInstances(key, pluginInstances!);
+    page.componentInstances = restoreComponentInstances(key, componentInstances);
+    page.pluginInstances = restorePluginInstances(key, pluginInstances!);
     restoreEventDep(DepsFromType.Page, page);
   });
   return pagesStore.setState(store => (store.pages = pages));
@@ -94,6 +94,7 @@ function restoreComponentInstances(pageKey: number, iComponentInstances: Compone
   const indexMap = generateComponentsIndex(componentInstances);
   addPageComponentInstanceIndexMap(pageKey, indexMap);
   componentInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
+  return componentInstances;
 }
 
 function restorePluginInstances(pageKey: number, iPluginInstances: PluginInstance[]) {
@@ -101,6 +102,7 @@ function restorePluginInstances(pageKey: number, iPluginInstances: PluginInstanc
   const indexMap = generatePluginsIndex(pluginInstances);
   addPagePluginInstanceIndexMap(pageKey, indexMap);
   pluginInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Plugin])));
+  return pluginInstances;
 }
 
 function restoreSharedComponentInstances(iComponentInstances: ComponentInstance[]) {
@@ -110,6 +112,7 @@ function restoreSharedComponentInstances(iComponentInstances: ComponentInstance[
   const indexMap = generateComponentsIndex(componentInstances);
   setSharedComponentIndexMap(indexMap);
   componentInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
+  return componentInstances;
 }
 
 function restoreEventDep(

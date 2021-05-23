@@ -4,7 +4,7 @@ import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
 export function filterComponent(i: ComponentInstance) {
   const meta = getMaterialsComponentMeta(i.component);
   if (!meta) {
-    console.error(`Component "${i.component}" not found`);
+    console.warn(`[Vize] Component "${i.component}" not found`);
   }
   return !!meta;
 }
@@ -12,7 +12,7 @@ export function filterComponent(i: ComponentInstance) {
 export function filterPlugin(i: PluginInstance) {
   const meta = getMaterialsPluginMeta(i.plugin);
   if (!meta) {
-    console.error(`Plugin "${i.plugin}" not found`);
+    console.warn(`[Vize] Plugin "${i.plugin}" not found`);
   }
   return !!meta;
 }
