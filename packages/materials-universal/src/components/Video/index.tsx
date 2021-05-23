@@ -1,7 +1,7 @@
 import './index.scss';
 import 'video-react/styles/scss/video-react';
 import * as React from 'react';
-import { Player } from 'video-react';
+import { Player } from 'video-react/dist/video-react.min';
 import { ComponentProps } from '@vize/types';
 import { isUrl } from '../../lib/utils';
 import { EmptyData } from '../../lib/components/EmptyData';

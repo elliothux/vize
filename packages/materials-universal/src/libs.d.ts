@@ -1,1 +1,1 @@
-declare module 'video-react';
+declare module 'video-react/dist/video-react.min';

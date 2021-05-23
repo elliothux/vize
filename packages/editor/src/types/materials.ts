@@ -43,7 +43,7 @@ export interface MaterialsMain {
 
 export interface MaterialsForms {
   fields?: {
-    name: string;
+    field: string;
     component: ComponentType;
   }[];
 }

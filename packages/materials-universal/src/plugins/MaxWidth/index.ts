@@ -4,7 +4,7 @@ interface Data {
   maxWidth: number;
 }
 
-export function maxWidth({ data: { maxWidth } }: ComponentProps<Data>) {
+export default function maxWidth({ data: { maxWidth } }: ComponentProps<Data>) {
   const style = document.createElement('style');
   style.innerHTML = `\n
   body {
