@@ -88,7 +88,8 @@ function Form({ value, onChange, JSONSchemaForm }) {
         schema={{
           password: {
             title: '密码',
-            type: visible ? 'string' : 'password',
+            type: 'string',
+            'x-component': visible ? 'Input' : 'Password',
             required: true,
           },
         }}

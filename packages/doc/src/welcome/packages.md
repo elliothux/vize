@@ -8,104 +8,40 @@ meta:
 
 # Packages
 
-Vize 的所有核心功能（如编辑器、后端服务等）均提供独立的 Package 方便部署和拓展使用。
+Vize 的所有核心功能（如编辑器、后端服务等）及相关周边均提供独立的 Package 方便部署和拓展使用。
 
-## 📦 Code Packages
+## 📦 核心包
 
-| Package                   | Description            |
-| ------------------------- | ---------------------- |
-| [cgi]                     | 后端服务               |
-| [cli]                     | CLI                    |
-| [doc]                     | 文档                   |
-| [editor]                  | 编辑器                 |
-| [generator-web]           | Web 页面生成器         |
-| [i18n]                    | 国际化支持             |
-| [management-ui]           | 管理端 UI              |
-| [materials-universal]     | 通用物料库（React）    |
-| [materials-universal-rax] | 通用物料库（Rax）      |
-| [publisher-web]           | Web 页面发布器         |
-| [runtime-web]             | Web 公用运行时         |
-| [runtime-web-rax]         | Web 公用运行时 for Rax |
-| [types]                   | 类型声明               |
-| [deploy-boilerplate]      | 部署模板项目           |
+| Description    | Package                                                                                           | NPM Package                                                              | Status                                                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 后端服务       | [cgi](https://github.com/vize-team/vize/tree/master/packages/cgi)                                 | [@vize/cgi](https://www.npmjs.com/package/@vize/cgi)                     | ![version](https://img.shields.io/npm/v/@vize/cgi) ![download](https://img.shields.io/npm/dw/@vize/cgi)                     |
+| CLI            | [cli](https://github.com/vize-team/vize/tree/master/packages/cli)                                 | [@vize/cli](https://www.npmjs.com/package/@vize/cli)                     | ![version](https://img.shields.io/npm/v/@vize/cli) ![download](https://img.shields.io/npm/dw/@vize/cli)                     |
+| 文档           | [doc](https://github.com/vize-team/vize/tree/master/packages/doc)                                 | -                                                                        | -                                                                                                                           |
+| 编辑器         | [editor](https://github.com/vize-team/vize/tree/master/packages/editor)                           | [@vize/editor](https://www.npmjs.com/package/@vize/editor)               | ![version](https://img.shields.io/npm/v/@vize/editor) ![download](https://img.shields.io/npm/dw/@vize/editor)               |
+| Web 页面生成器 | [generator-web](https://github.com/vize-team/vize/tree/master/packages/generator-web)             | [@vize/generator-web](https://www.npmjs.com/package/@vize/generator-web) | ![version](https://img.shields.io/npm/v/@vize/generator-web) ![download](https://img.shields.io/npm/dw/@vize/generator-web) |
+| 国际化支持     | [i18n](https://github.com/vize-team/vize/tree/master/packages/i18n)                               | -                                                                        | -                                                                                                                           |
+| 管理端 UI      | [management-ui](https://github.com/vize-team/vize/tree/master/packages/management-ui)             | [@vize/management-ui](https://www.npmjs.com/package/@vize/management-ui) | ![version](https://img.shields.io/npm/v/@vize/management-ui) ![download](https://img.shields.io/npm/dw/@vize/management-ui) |
+| 通用物料库     | [materials-universal](https://github.com/vize-team/vize/tree/master/packages/materials-universal) | -                                                                        | -                                                                                                                           |
+| Web 页面发布器 | [publisher-web](https://github.com/vize-team/vize/tree/master/packages/publisher-web)             | [@vize/publisher-web](https://www.npmjs.com/package/@vize/publisher-web) | ![version](https://img.shields.io/npm/v/@vize/publisher-web) ![download](https://img.shields.io/npm/dw/@vize/publisher-web) |
+| Web 公用运行时 | [runtime-web](https://github.com/vize-team/vize/tree/master/packages/runtime-web)                 | [@vize/runtime-web](https://www.npmjs.com/package/@vize/runtime-web)     | ![version](https://img.shields.io/npm/v/@vize/runtime-ui) ![download](https://img.shields.io/npm/dw/@vize/runtime-ui)       |
+| 类型声明       | [types](https://github.com/vize-team/vize/tree/master/packages/types)                             | [@vize/types](https://www.npmjs.com/package/@vize/types)                 | ![version](https://img.shields.io/npm/v/@vize/types) ![download](https://img.shields.io/npm/dw/@vize/types)                 |
 
-## 📦 NPM Packages
+## 📦 周边生态
 
-| NPM Package                           | Status                                                                             | Description                             |
-| ------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------- |
-| [@vize/cli]                           | ![cli-version] ![cli-download]                                                     | CLI                                     |
-| [@vize/editor]                        | ![editor-version] ![editor-download]                                               | Core editor                             |
-| [@vize/types]                         | ![types-version] ![types-download]                                                 | Type Definition                         |
-| [@vize/cgi]                           | ![cgi-version] ![cgi-download]                                                     | Core CGI                                |
-| [@vize/management-ui]                 | ![management-ui-version] ![management-ui-download]                                 | Web Management UI                       |
-| [@vize/runtime-web]                   | ![runtime-web-version] ![runtime-web-download]                                     | Web Runtime for React                   |
-| [@vize/runtime-web-rax]               | ![runtime-web-rax-version] ![runtime-web-rax-download]                             | Web Runtime for Rax                     |
-| [@vize/boilerplate-action]            | ![boilerplate-action-version] ![boilerplate-action-download]                       | Boilerplate of action                   |
-| [@vize/boilerplate-component]         | ![boilerplate-component-version] ![boilerplate-component-download]                 | Boilerplate of React component          |
-| [@vize/boilerplate-component-rax]     | ![boilerplate-component-rax-version] ![boilerplate-component-rax-download]         | Boilerplate of Rax component            |
-| [@vize/boilerplate-container]         | ![boilerplate-container-version] ![boilerplate-container-download]                 | Boilerplate of container                |
-| [@vize/boilerplate-plugin]            | ![boilerplate-plugin-version] ![boilerplate-plugin-download]                       | Boilerplate of plugin                   |
-| [@vize/boilerplate-form-field]        | ![boilerplate-form-field-version] ![boilerplate-form-field-download]               | Boilerplate of customization form field |
-| [@vize/boilerplate-materials-lib]     | ![boilerplate-materials-lib-version] ![boilerplate-materials-lib-download]         | Boilerplate of materials lib for React  |
-| [@vize/boilerplate-materials-lib-rax] | ![boilerplate-materials-lib-rax-version] ![boilerplate-materials-lib-rax-download] | Boilerplate of materials lib for Rax    |
+| Description  | Package                                                                                       | NPM Package                                                                  | Status                                                                                                                          |
+| ------------ | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| 富文本编辑器 | [richtext-editor](https://github.com/vize-team/components/tree/main/packages/richtext-editor) | [@vize/richtext-editor](https://www.npmjs.com/package/@vize/richtext-editor) | ![version](https://img.shields.io/npm/v/@vize/richtext-editor) ![download](https://img.shields.io/npm/dw/@vize/richtext-editor) |
+| 富文本渲染器 | [richtext-render](https://github.com/vize-team/components/tree/main/packages/richtext-render) | [@vize/richtext-render](https://www.npmjs.com/package/@vize/richtext-render) | ![version](https://img.shields.io/npm/v/@vize/richtext-render) ![download](https://img.shields.io/npm/dw/@vize/richtext-render) |
 
+## 📦 模板
 
-[cgi]: https://github.com/vize-team/vize/tree/master/packages/cgi
-[cli]: https://github.com/vize-team/vize/tree/master/packages/cli
-[doc]: https://github.com/vize-team/vize/tree/master/packages/doc
-[editor]: https://github.com/vize-team/vize/tree/master/packages/editor
-[types]: https://github.com/vize-team/vize/tree/master/packages/types
-[generator-web]: https://github.com/vize-team/vize/tree/master/packages/generator-web
-[i18n]: https://github.com/vize-team/vize/tree/master/packages/i18n
-[publisher-web]: https://github.com/vize-team/vize/tree/master/packages/publisher-web
-[management-ui]: https://github.com/vize-team/vize/tree/master/packages/management-ui
-[materials-universal]: https://github.com/vize-team/vize/tree/master/packages/materials-universal
-[materials-universal-rax]: https://github.com/vize-team/vize/tree/master/packages/materials-universal-rax
-[runtime-web]: https://github.com/vize-team/vize/tree/master/packages/runtime-web
-[runtime-web-rax]: https://github.com/vize-team/vize/tree/master/packages/runtime-web-rax
-[deploy-boilerplate]: https://github.com/vize-team/vize/vize-deploy-boilerplate
-[@vize/editor]: https://www.npmjs.com/package/@vize/editor
-[editor-version]: https://img.shields.io/npm/v/@vize/editor
-[editor-download]: https://img.shields.io/npm/dw/@vize/editor
-[@vize/cli]: https://www.npmjs.com/package/@vize/cli
-[cli-version]: https://img.shields.io/npm/v/@vize/cli
-[cli-download]: https://img.shields.io/npm/dw/@vize/cli
-[@vize/types]: https://www.npmjs.com/package/@vize/types
-[types-version]: https://img.shields.io/npm/v/@vize/types
-[types-download]: https://img.shields.io/npm/dw/@vize/types
-[@vize/cgi]: https://www.npmjs.com/package/@vize/cgi
-[cgi-version]: https://img.shields.io/npm/v/@vize/cgi
-[cgi-download]: https://img.shields.io/npm/dw/@vize/cgi
-[@vize/management-ui]: https://www.npmjs.com/package/@vize/management-ui
-[management-ui-version]: https://img.shields.io/npm/v/@vize/management-ui
-[management-ui-download]: https://img.shields.io/npm/dw/@vize/management-ui
-[@vize/runtime-web]: https://www.npmjs.com/package/@vize/runtime-web
-[runtime-web-version]: https://img.shields.io/npm/v/@vize/runtime-web
-[runtime-web-download]: https://img.shields.io/npm/dw/@vize/runtime-web
-[@vize/runtime-web-rax]: https://www.npmjs.com/package/@vize/runtime-web-rax
-[runtime-web-rax-version]: https://img.shields.io/npm/v/@vize/runtime-web-rax
-[runtime-web-rax-download]: https://img.shields.io/npm/dw/@vize/runtime-web-rax
-[@vize/boilerplate-action]: https://www.npmjs.com/package/@vize/boilerplate-action
-[boilerplate-action-version]: https://img.shields.io/npm/v/@vize/boilerplate-action
-[boilerplate-action-download]: https://img.shields.io/npm/dw/@vize/boilerplate-action
-[@vize/boilerplate-component]: https://www.npmjs.com/package/@vize/boilerplate-component
-[boilerplate-component-version]: https://img.shields.io/npm/v/@vize/boilerplate-component
-[boilerplate-component-download]: https://img.shields.io/npm/dw/@vize/boilerplate-component
-[@vize/boilerplate-component-rax]: https://www.npmjs.com/package/@vize/boilerplate-component-rax
-[boilerplate-component-rax-version]: https://img.shields.io/npm/v/@vize/boilerplate-component-rax
-[boilerplate-component-rax-download]: https://img.shields.io/npm/dw/@vize/boilerplate-component-rax
-[@vize/boilerplate-container]: https://www.npmjs.com/package/@vize/boilerplate-container
-[boilerplate-container-version]: https://img.shields.io/npm/v/@vize/boilerplate-container
-[boilerplate-container-download]: https://img.shields.io/npm/dw/@vize/boilerplate-container
-[@vize/boilerplate-plugin]: https://www.npmjs.com/package/@vize/boilerplate-plugin
-[boilerplate-plugin-version]: https://img.shields.io/npm/v/@vize/boilerplate-plugin
-[boilerplate-plugin-download]: https://img.shields.io/npm/dw/@vize/boilerplate-plugin
-[@vize/boilerplate-form-field]: https://www.npmjs.com/package/@vize/boilerplate-form-field
-[boilerplate-form-field-version]: https://img.shields.io/npm/v/@vize/boilerplate-form-field
-[boilerplate-form-field-download]: https://img.shields.io/npm/dw/@vize/boilerplate-form-field
-[@vize/boilerplate-materials-lib]: https://www.npmjs.com/package/@vize/boilerplate-materials-lib
-[boilerplate-materials-lib-version]: https://img.shields.io/npm/v/@vize/boilerplate-materials-lib
-[boilerplate-materials-lib-download]: https://img.shields.io/npm/dw/@vize/boilerplate-materials-lib
-[@vize/boilerplate-materials-lib-rax]: https://www.npmjs.com/package/@vize/boilerplate-materials-lib-rax
-[boilerplate-materials-lib-rax-version]: https://img.shields.io/npm/v/@vize/boilerplate-materials-lib-rax
-[boilerplate-materials-lib-rax-download]: https://img.shields.io/npm/dw/@vize/boilerplate-materials-lib-rax
+| Description           | Package                                                                                                      | NPM Package                                                                                           | Status                                                                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 部署模板项目          | [deploy-boilerplate](https://github.com/vize-team/vize-deploy-boilerplate)                                   | -                                                                                                     | -                                                                                                                                                   |
+| 动作模板              | [boilerplate-action](https://github.com/vize-team/boilerplates/tree/main/packages/boilerplate-action)        | [@vize/boilerplate-action](https://www.npmjs.com/package/@vize/boilerplate-action)                    | ![version](https://img.shields.io/npm/v/@vize/boilerplate-action) ![download](https://img.shields.io/npm/dw/@vize/boilerplate-action)               |
+| 组件模板              | [boilerplate-action](https://github.com/vize-team/boilerplates/tree/main/packages/boilerplate-component)     | [@vize/boilerplate-component](https://www.npmjs.com/package/@vize/boilerplate-component)              | ![version](https://img.shields.io/npm/v/@vize/boilerplate-component) ![download](https://img.shields.io/npm/dw/@vize/boilerplate-component)         |
+| 页面容器模板          | [boilerplate-action](https://github.com/vize-team/boilerplates/tree/main/packages/boilerplate-container)     | [@vize/boilerplate-container](https://www.npmjs.com/package/@vize/boilerplate-container)              | ![version](https://img.shields.io/npm/v/@vize/boilerplate-container) ![download](https://img.shields.io/npm/dw/@vize/boilerplate-container)         |
+| 自定义表单 field 模板 | [boilerplate-action](https://github.com/vize-team/boilerplates/tree/main/packages/boilerplate-form-field)    | [@vize/boilerplate-form-field](https://www.npmjs.com/package/@vize/boilerplate-form-field)            | ![version](https://img.shields.io/npm/v/@vize/boilerplate-form-field) ![download](https://img.shields.io/npm/dw/@vize/boilerplate-form-field)       |
+| 自定义表单校验模板    | [boilerplate-action](https://github.com/vize-team/boilerplates/tree/main/packages/boilerplate-form-rule)     | [@vize/boilerplate-form-rule](https://www.npmjs.com/package/@vize/boilerplate-form-rule)              | ![version](https://img.shields.io/npm/v/@vize/boilerplate-form-rule) ![download](https://img.shields.io/npm/dw/@vize/boilerplate-form-rule)         |
+| 物料库模板            | [boilerplate-action](https://github.com/vize-team/boilerplates/tree/main/packages/boilerplate-materials-lib) | [@vize/boilerplate-form-materials-lib](https://www.npmjs.com/package/@vize/boilerplate-materials-lib) | ![version](https://img.shields.io/npm/v/@vize/boilerplate-materials-lib) ![download](https://img.shields.io/npm/dw/@vize/boilerplate-materials-lib) |
+| 插件模板              | [boilerplate-action](https://github.com/vize-team/boilerplates/tree/main/packages/boilerplate-plugin)        | [@vize/boilerplate-plugin](https://www.npmjs.com/package/@vize/boilerplate-plugin)                    | ![version](https://img.shields.io/npm/v/@vize/boilerplate-plugin) ![download](https://img.shields.io/npm/dw/@vize/boilerplate-plugin)               |

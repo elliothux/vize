@@ -68,7 +68,8 @@ export default function({ emit }) {
 
 实现一个表单组件，当表单提交成功后触发 “提交成功” 事件。
 
-编辑 `config.ts`：
+<CodeSwitcher>
+<template v-slot:config>
 
 ```ts {4}
 export default {
@@ -79,44 +80,49 @@ export default {
 };
 ```
 
-编辑 `index.ts`：
+</template>
+
+<template v-slot:index>
 
 ```tsx {19}
 import * as React from 'react';
 
 export default class Example extends React.Component {
-  public state = {
-    name: '',
-  };
+    public state = {
+        name: '',
+    };
 
-  private fakeAsyncSubmit = () => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        console.log('submitSuccess', this.state.name);
-        resolve();
-      }, 2000);
-    });
-  };
+    private fakeAsyncSubmit = () => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                console.log('submitSuccess', this.state.name);
+                resolve();
+            }, 2000);
+        });
+    };
 
-  private onSubmit = async () => {
-    await this.fakeAsyncSubmit();
-    this.props.emit('submitSuccess');
-  };
+    private onSubmit = async () => {
+        await this.fakeAsyncSubmit();
+        this.props.emit('submitSuccess');
+    };
 
-  private onNameChange = ({ target: { value: name } }: React.KeyboardEvent<HTMLDivElement>) => {
-    this.setState({ name });
-  };
+    private onNameChange = ({ target: { value: name } }: React.KeyboardEvent<HTMLDivElement>) => {
+        this.setState({ name });
+    };
 
-  public render() {
-    return (
-      <div>
-        <input type="text" placeholder="请输入姓名" value={this.state.name} onChange={this.onNameChange} />
-        <button onClick={this.onSubmit}>提交</button>
-      </div>
-    );
-  }
+    public render() {
+        return (
+            <div>
+                <input type="text" placeholder="请输入姓名" value={this.state.name} onChange={this.onNameChange} />
+                <button onClick={this.onSubmit}>提交</button>
+            </div>
+        );
+    }
 }
 ```
+
+</template>
+</CodeSwitcher>
 
 <br></br>
 然后就能在编辑器中的 **"事件"** Tab，为该组件的 “提交成功” 事件绑定动作：
@@ -168,7 +174,8 @@ export default function({ on, cancel }) {
 
 实现一个表单组件，可以由外部触发 “提交表单” 动作。
 
-编辑 `config.ts`：
+<CodeSwitcher>
+<template v-slot:config>
 
 ```js {8}
 export default {
@@ -179,7 +186,9 @@ export default {
 };
 ```
 
-编辑 `index.tsx`：
+</template>
+
+<template v-slot:index>
 
 ```tsx {9}
 import * as React from 'react';
@@ -221,6 +230,9 @@ export default class Example extends React.Component {
   }
 }
 ```
+
+</template>
+</CodeSwitcher>
 
 <br></br>
 然后就能在编辑器中的 **"事件"** Tab，**"执行类型"** 选择 **"组件"**，**目标组件**选择该组件，即可选择触发该组件的 “提交表单” 动作：

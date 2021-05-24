@@ -42,6 +42,10 @@ module.exports = {
     '@vuepress/back-to-top',
     '@vuepress/plugin-nprogress',
     '@vuepress/last-updated',
+    '@vuepress/plugin-back-to-top',
+    'vuepress-plugin-smooth-scroll',
+    'vuepress-plugin-table-of-contents',
+    'vuepress-plugin-nprogress',
     [
       '@vuepress/plugin-pwa',
       {
@@ -58,8 +62,6 @@ module.exports = {
         },
       },
     ],
-    'vuepress-plugin-smooth-scroll',
-    'vuepress-plugin-table-of-contents',
     [
       '@vuepress/search',
       {
@@ -70,7 +72,7 @@ module.exports = {
       'code-switcher',
       {
         groups: {
-          default: { config: 'config.ts', index: 'index.ts', style: 'index.scss' },
+          default: { config: 'config.ts', index: 'index.ts' },
         },
       },
     ],

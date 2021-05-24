@@ -33,7 +33,8 @@ const dataForm = {
 const styleForm = {
   color: {
     title: '文字颜色',
-    type: 'color',
+    type: 'string',
+    'x-component': 'Color',
     default: '#000',
   },
 };

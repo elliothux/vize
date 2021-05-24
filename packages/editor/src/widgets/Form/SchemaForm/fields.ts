@@ -37,7 +37,6 @@ Schema.registerTypeDefaultComponents({
 });
 
 const defaultFieldsComponents = {
-  ObjectField,
   ArrayCards,
   ArrayItems,
   ArrayTable,
@@ -58,6 +57,7 @@ const defaultFieldsComponents = {
   Input,
   TextArea: Input.TextArea!,
   NumberPicker,
+  ObjectField,
   Password,
   Radio,
   RadioGroup: Radio.Group!,
