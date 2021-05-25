@@ -1,7 +1,6 @@
 {
   "name": "@vize/types",
   "version": "0.1.13",
-  "description": "",
   "main": "dist",
   "types": "dist",
   "files": [

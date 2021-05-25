@@ -18,13 +18,17 @@ Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 - 开箱即用的接入方式
 - ...
 
+## 📖 文档
+
+[Vize Docs](https://vize-team.github.io/)
+
 ## 🤟 体验
 
 体验站点：[vize.cool](https://vize.cool)
 
 ## 🛠 部署
 
-参考：[部署服务](/deploy/intro.html)
+参考：[部署服务](https://vize-team.github.io/deploy/intro.html)
 
 ## 👨‍💻 开发者
 
@@ -51,7 +55,7 @@ Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 | 管理端 UI      | [management-ui](https://github.com/vize-team/vize/tree/master/packages/management-ui)             | [@vize/management-ui](https://www.npmjs.com/package/@vize/management-ui) | ![version](https://img.shields.io/npm/v/@vize/management-ui) ![download](https://img.shields.io/npm/dw/@vize/management-ui) |
 | 通用物料库     | [materials-universal](https://github.com/vize-team/vize/tree/master/packages/materials-universal) | -                                                                        | -                                                                                                                           |
 | Web 页面发布器 | [publisher-web](https://github.com/vize-team/vize/tree/master/packages/publisher-web)             | [@vize/publisher-web](https://www.npmjs.com/package/@vize/publisher-web) | ![version](https://img.shields.io/npm/v/@vize/publisher-web) ![download](https://img.shields.io/npm/dw/@vize/publisher-web) |
-| Web 公用运行时 | [runtime-web](https://github.com/vize-team/vize/tree/master/packages/runtime-web)                 | [@vize/runtime-web](https://www.npmjs.com/package/@vize/runtime-web)     | ![version](https://img.shields.io/npm/v/@vize/runtime-ui) ![download](https://img.shields.io/npm/dw/@vize/runtime-ui)       |
+| Web 运行时     | [runtime-web](https://github.com/vize-team/vize/tree/master/packages/runtime-web)                 | [@vize/runtime-web](https://www.npmjs.com/package/@vize/runtime-web)     | ![version](https://img.shields.io/npm/v/@vize/runtime-ui) ![download](https://img.shields.io/npm/dw/@vize/runtime-ui)       |
 | 类型声明       | [types](https://github.com/vize-team/vize/tree/master/packages/types)                             | [@vize/types](https://www.npmjs.com/package/@vize/types)                 | ![version](https://img.shields.io/npm/v/@vize/types) ![download](https://img.shields.io/npm/dw/@vize/types)                 |
 
 ## 📦 周边生态

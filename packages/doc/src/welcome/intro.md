@@ -28,13 +28,17 @@ Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 - 开箱即用的接入方式
 - ...
 
+## 📖 文档
+
+[Vize Docs](https://vize-team.github.io/)
+
 ## 🤟 体验
 
 体验站点：[vize.cool](https://vize.cool)
 
 ## 🛠 部署
 
-参考：[部署服务](/deploy/intro.html)
+参考：[部署服务](https://vize-team.github.io/deploy/intro.html)
 
 ## 👨‍💻 开发者
 
