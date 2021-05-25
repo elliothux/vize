@@ -1,6 +1,6 @@
 {
   "name": "@vize/types",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "main": "dist",
   "types": "dist",
   "files": [
@@ -9,9 +9,9 @@
   ],
   "scripts": {
     "build": "rm -rf ./dist; ../../node_modules/.bin/tsc",
-    "build:doc": "../../node_modules/.bin/typedoc ./src",
-    "copy:doc": "cp -R ./docs ../doc/src/.vuepress/dist; mv ../doc/src/.vuepress/dist/docs ../doc/src/.vuepress/dist/types",
-    "release": "npm run build:doc; npm run copy:doc",
-    "publish": "npm publish --access public;"
+    "publish": "npm publish --access public;",
+    "doc:build": "../../node_modules/.bin/typedoc ./src",
+    "doc:copy": "cp -R ./docs ../doc/src/.vuepress/dist; mv ../doc/src/.vuepress/dist/docs ../doc/src/.vuepress/dist/types",
+    "doc:release": "npm run build:doc; npm run copy:doc"
   }
 }

@@ -73,7 +73,7 @@ export type MaterialsPluginManifestItem = MaterialsManifestItem;
 
 export type MaterialsActionManifestItem = MaterialsManifestItem;
 
-export interface MaterialsContainerManifestItem extends Pick<MaterialsManifestItem, 'info'> {
+export interface MaterialsContainerManifestItem extends Pick<MaterialsManifestItem, 'info' | 'thumb'> {
   globalDataForm?: JsonSchemaProperties;
   globalStyleForm?: JsonSchemaProperties;
   pageDataForm?: JsonSchemaProperties;

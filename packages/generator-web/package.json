@@ -1,13 +1,14 @@
 {
   "name": "@vize/generator-web",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
-  "main": "dist/src/index.js",
+  "main": "dist",
+  "module": "dist",
   "scripts": {
-    "copyFiles": "cp -rf ./src/template/tpl ./dist/src/template",
-    "dev": "./node_modules/typescript/bin/tsc -w",
-    "dist": "rm -rf ./dist; ./node_modules/typescript/bin/tsc; npm run copyFiles",
-    "publish": "npm publish --access public"
+    "dev": "../../node_modules/typescript/bin/tsc -w",
+    "dist": "rm -rf ./dist; ../../node_modules/typescript/bin/tsc; npm run copyFiles",
+    "publish": "npm publish --access public",
+    "copyFiles": "cp -rf ./src/template/tpl ./dist/template"
   },
   "author": "",
   "license": "ISC",
@@ -15,11 +16,5 @@
     "@vize/runtime-web": "^0.1.4",
     "fs-extra": "^9.0.1",
     "lodash.template": "^4.5.0"
-  },
-  "devDependencies": {
-    "@types/fs-extra": "^9.0.2",
-    "@types/lodash.template": "^4.5.0",
-    "@types/webpack": "^4.41.22",
-    "typescript": "^4.2.4"
   }
 }
