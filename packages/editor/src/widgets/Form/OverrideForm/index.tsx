@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { SchemaForm } from '../SchemaForm';
 import { OverrideFormProps, SchemaFormProps } from 'types';
+import { SchemaForm, Formily } from '../SchemaForm';
 
 function IOverrideForm({ onChange, children: Form, value, instanceKey }: OverrideFormProps) {
   const JSONSchemaForm = useMemo(
@@ -12,7 +12,7 @@ function IOverrideForm({ onChange, children: Form, value, instanceKey }: Overrid
     [instanceKey],
   );
 
-  return <Form key={instanceKey} value={value} onChange={onChange} JSONSchemaForm={JSONSchemaForm} />;
+  return <Form key={instanceKey} value={value} onChange={onChange} JSONSchemaForm={JSONSchemaForm} Formily={Formily} />;
 }
 
 export const OverrideForm = React.memo(IOverrideForm);

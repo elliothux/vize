@@ -1,38 +1,23 @@
 import * as React from 'react';
-import * as Antd from 'antd';
 import * as ReactDom from 'react-dom';
 import * as ReactDomServer from 'react-dom/server';
+import * as Antd from 'antd';
+import * as FormilyCore from '@formily/core';
+import * as FormilyReact from '@formily/react';
+import * as FormilyAntd from '@formily/antd';
 import { injectReadonly } from 'utils';
 
-declare global {
-  interface Window {
-    React: typeof React;
-    ReactDom: typeof ReactDom;
-    ReactDomServer: typeof ReactDomServer;
-    __iframeWindow: Window;
-  }
-}
-
 export function injectRuntime(target: Window) {
-  // const VIZE = {};
-
-  // injectReadonlyGetter(VIZE, 'global', function() {
-  //     return state.getState().globalData;
-  // });
-  //
-  // injectReadonlyGetter(VIZE, 'meta', function() {
-  //     return generatePageMeta(state.getState());
-  // });
-
-  const runtimes: [string, object][] = [
-    // ["babelPolyfill", babelPolyfill],
-    ['Antd', Antd],
-    ['React', React],
-    ['ReactDom', ReactDom],
-    ['ReactDomServer', ReactDomServer],
-  ];
-
-  runtimes.forEach(([key, value]) => injectReadonly(target, key, value));
+  const runtimes = {
+    React,
+    ReactDom,
+    ReactDomServer,
+    Antd,
+    FormilyCore,
+    FormilyReact,
+    FormilyAntd,
+  };
+  Object.entries(runtimes).map(([key, value]) => injectReadonly(target, key, value));
 }
 
 const defaultUA =

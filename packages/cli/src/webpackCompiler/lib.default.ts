@@ -127,11 +127,13 @@ export function getLibDefaultWebpackConfig({ libConfig, libPaths, isProd, withFo
       // })
     ],
     externals: {
-      antd: 'Antd',
       react: 'React',
       'react-dom': 'ReactDom',
       'react-dom/server': 'ReactDomServer',
-      '@formily/antd': 'Formily',
+      antd: 'Antd',
+      '@formily/core': 'FormilyCore',
+      '@formily/react': 'FormilyReact',
+      '@formily/antd': 'FormilyAntd',
     },
     mode: isProd ? 'production' : 'development',
     devtool: 'source-map',

@@ -13,13 +13,7 @@ import {
   EventTriggerName,
 } from '@vize/types';
 import { EventHandler, HandlerParams } from './types';
-import { getCustomEventCallbacks, getMaterialsAction } from '../../libs';
-
-declare global {
-  interface Window {
-    __iframeWindow: Window;
-  }
-}
+import { getCustomEventCallbacks, getMaterialsAction, getIframeWindow } from '../../libs';
 
 export function timeoutPromise<T>(p: Promise<T>, t: number): Promise<T> {
   return timeout(p, t);
@@ -46,7 +40,7 @@ export function pipeEvents(events: EventInstance[], router: PageRouter): EventHa
           };
 
           try {
-            await execAsyncFunctionWithTimeout(action.bind(window.__iframeWindow), target.maxTimeout, params);
+            await execAsyncFunctionWithTimeout(action.bind(getIframeWindow(window)), target.maxTimeout, params);
           } catch (e) {
             console.error('Action throw error: ', e);
           }
@@ -62,7 +56,7 @@ export function pipeEvents(events: EventInstance[], router: PageRouter): EventHa
 
           for (const callback of callbacks) {
             try {
-              await execAsyncFunctionWithTimeout(callback.bind(window.__iframeWindow), target.maxTimeout);
+              await execAsyncFunctionWithTimeout(callback.bind(getIframeWindow(window)), target.maxTimeout);
             } catch (e) {
               console.error(
                 `Custom event callback on Component(key = ${key}) with EventName(${eventName}) throw error: `,
@@ -82,7 +76,7 @@ export function pipeEvents(events: EventInstance[], router: PageRouter): EventHa
 
           for (const callback of callbacks) {
             try {
-              await execAsyncFunctionWithTimeout(callback.bind(window.__iframeWindow), target.maxTimeout);
+              await execAsyncFunctionWithTimeout(callback.bind(getIframeWindow(window)), target.maxTimeout);
             } catch (e) {
               console.error(
                 `Custom event callback on Plugin(key = ${key}) with EventName(${eventName}) throw error: `,
@@ -102,7 +96,7 @@ export function pipeEvents(events: EventInstance[], router: PageRouter): EventHa
 
           for (const callback of callbacks) {
             try {
-              await execAsyncFunctionWithTimeout(callback.bind(window.__iframeWindow), target.maxTimeout);
+              await execAsyncFunctionWithTimeout(callback.bind(getIframeWindow(window)), target.maxTimeout);
             } catch (e) {
               console.error(`Custom event callback on Global with EventName(${eventName}) throw error: `, e);
             }

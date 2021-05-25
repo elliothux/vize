@@ -37,3 +37,5 @@ function ISchemaForm({ schema: schemaProperties, value, onChange, onSubmit, subm
 }
 
 export const SchemaForm = memo(ISchemaForm);
+
+export const Formily = { getSchemaField };

@@ -289,10 +289,8 @@ lerna-debug.log*
 !/packages/cgi-new/dist/
 /packages/generator-web/test/dist
 /packages/cgi/workspace
-/packages/generator-pegasus
 /packages/doc/src/.vuepress/dist/
 /packages/types/dist/
 /packages/cgi/deploy-boilerplate/
 /packages/types/docs/
-/packages/editor/src/api/utils.ts
 /packages/materials-universal/.vize/
