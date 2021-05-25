@@ -2,7 +2,7 @@ const { sidebar } = require('./sidebar');
 
 module.exports = {
   title: 'Vize',
-  description: 'Vize: 现代化的可视化搭建引擎',
+  description: 'Vize: 现代化的可视化编排引擎',
   repo: 'https://github.com/vize-team/vize',
   serviceWorker: true,
   displayAllHeaders: true,
@@ -29,8 +29,16 @@ module.exports = {
         link: '/welcome/intro',
       },
       {
+        text: 'Types',
+        link: 'https://vize-team.github.io/types/modules.html',
+      },
+      {
         text: 'Github',
         link: 'https://github.com/vize-team/vize',
+      },
+      {
+        text: 'Discussions',
+        link: 'https://github.com/vize-team/vize/discussions',
       },
     ],
     sidebarDepth: 2,
@@ -42,6 +50,10 @@ module.exports = {
     '@vuepress/back-to-top',
     '@vuepress/plugin-nprogress',
     '@vuepress/last-updated',
+    '@vuepress/plugin-back-to-top',
+    'vuepress-plugin-smooth-scroll',
+    'vuepress-plugin-table-of-contents',
+    'vuepress-plugin-nprogress',
     [
       '@vuepress/plugin-pwa',
       {
@@ -58,8 +70,6 @@ module.exports = {
         },
       },
     ],
-    'vuepress-plugin-smooth-scroll',
-    'vuepress-plugin-table-of-contents',
     [
       '@vuepress/search',
       {
@@ -70,7 +80,7 @@ module.exports = {
       'code-switcher',
       {
         groups: {
-          default: { config: 'config.ts', index: 'index.ts', style: 'index.scss' },
+          default: { config: 'config.ts', index: 'index.ts' },
         },
       },
     ],

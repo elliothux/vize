@@ -1,16 +1,15 @@
 import './index.scss';
 import * as React from 'react';
-import { ComponentType } from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
-import { componentsStore, editStore, globalStore, materialsStore, pagesStore, pluginsStore, sharedStore } from 'states';
+import { componentsStore, editStore, globalStore, materialsStore, pagesStore, sharedStore } from 'states';
 import {
   MaterialsMain,
   Maybe,
   ContainerRenderEntry,
   ComponentInstance,
-  RouterProps,
+  Router,
   GlobalUniversalEventTrigger,
   RenderTemplateParams,
 } from 'types';
@@ -22,6 +21,7 @@ import {
   cancelCustomEvent,
   emitCustomEvent,
   generateGlobalEventHandlers,
+  setIframeWindow,
 } from 'runtime';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
@@ -49,11 +49,7 @@ export class Renderer extends React.Component {
   };
 
   private iframeDidMount = async (doc: Document, win: Window) => {
-    injectRuntime(win);
-    registerHotkey(doc);
-    setUserAgent(win);
     this.initIframeDocument(doc, win);
-    window.__iframeWindow = win;
 
     const renderEntry = await this.initMaterials(doc, win);
     if (!renderEntry) {
@@ -97,8 +93,12 @@ export class Renderer extends React.Component {
   };
 
   private initIframeDocument = (doc: Document, win: Window) => {
-    win.addEventListener('click', contextMenu.hideAll);
+    injectRuntime(win);
+    setUserAgent(win);
+    setIframeWindow(win);
     initDocument(doc);
+    registerHotkey(doc);
+    win.addEventListener('click', contextMenu.hideAll);
   };
 
   private initMaterials = async (doc: Document, win: Window): Promise<Maybe<ContainerRenderEntry>> => {
@@ -171,8 +171,8 @@ export class Renderer extends React.Component {
   };
 
   // TODO: implementRouterController
-  private implementRouterController = (CustomRouter: ComponentType<RouterProps>) => {
-    console.warn('"implementRouterController" not supported in editor for now', CustomRouter);
+  private implementRouterController = (CustomRouter: Router) => {
+    console.warn('"implementRouterController" not supported in editor for now...', CustomRouter);
   };
 
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {

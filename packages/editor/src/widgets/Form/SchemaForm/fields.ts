@@ -23,7 +23,7 @@ import {
   Transfer,
   TreeSelect,
 } from '@formily/antd';
-import { Maybe } from 'types';
+import { Maybe, FormilySchemaField } from 'types';
 import { FormItem } from './WithLayout';
 import { fieldWidgets } from '../Fields';
 
@@ -37,7 +37,6 @@ Schema.registerTypeDefaultComponents({
 });
 
 const defaultFieldsComponents = {
-  ObjectField,
   ArrayCards,
   ArrayItems,
   ArrayTable,
@@ -47,6 +46,7 @@ const defaultFieldsComponents = {
   DatePicker,
   DateRangePicker: DatePicker.RangePicker!,
   Editable,
+  EditablePopover: Editable.Popover!,
   FormCollapse,
   FormGrid,
   FormItem,
@@ -58,6 +58,7 @@ const defaultFieldsComponents = {
   Input,
   TextArea: Input.TextArea!,
   NumberPicker,
+  ObjectField,
   Password,
   Radio,
   RadioGroup: Radio.Group!,
@@ -70,11 +71,9 @@ const defaultFieldsComponents = {
   TreeSelect,
 };
 
-type SchemaField = ReturnType<typeof createSchemaField>;
+let schemaField: Maybe<FormilySchemaField> = null;
 
-let schemaField: Maybe<SchemaField> = null;
-
-export function getSchemaField(): SchemaField {
+export function getSchemaField(): FormilySchemaField {
   if (!schemaField) {
     schemaField = createSchemaField<{}>({
       components: { ...defaultFieldsComponents, ...fieldWidgets },
@@ -84,7 +83,7 @@ export function getSchemaField(): SchemaField {
   return schemaField!;
 }
 
-export function updateSchemaField(): SchemaField {
+export function updateSchemaField(): FormilySchemaField {
   schemaField = null;
   return getSchemaField();
 }

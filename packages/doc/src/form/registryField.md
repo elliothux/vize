@@ -27,7 +27,7 @@ Field
 
 编辑 `index.ts`。
 
-**`field`** 是字段类型名，作为 JSON Schema 的 `type` 字段使用。
+**`name`** 是字段类型名，作为 JSON Schema 的 `type` 字段使用。
 
 **`component`** 是表单组件，接收 `value` 和 `onChange` 字段，内部实现表单逻辑。
 
@@ -81,19 +81,20 @@ function TXTReader({ value, onChange }: Props) {
 }
 
 export default {
-  field: 'txt',
+  name: 'TXTReader',
   component: TXTReader,
 };
 ```
 
 然后就可以在物料 `config.ts` 的 JSON Schema 中使用该 Field：
 
-```ts {5}
+```ts {6}
 const dataForm = {
   text: {
     title: '文本内容',
     description: '请选择txt文件',
-    type: 'txt',
+    type: 'string',
+    'x-component': 'TXTReader',
   },
 };
 

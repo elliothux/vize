@@ -33,8 +33,9 @@ const globalDataForm = {
 const globalStyleForm = {
   backgroundColor: {
     title: '全局背景色',
-    type: 'color',
+    type: 'string',
     default: '#fff',
+    'x-component': 'Color',
   },
 };
 
@@ -54,7 +55,8 @@ const pageDataForm = {
 const pageStyleForm = {
   backgroundColor: {
     title: '页面背景色',
-    type: 'color',
+    type: 'string',
+    'x-component': 'Color',
     default: '#fff',
   },
 };

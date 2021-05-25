@@ -1,4 +1,5 @@
 import { ComponentType } from 'react';
+import { createSchemaField } from '@formily/react/esm/components/SchemaFieid';
 import { JsonSchemaProperties } from './schema';
 
 export interface SchemaFormProps<T extends object = object> {
@@ -9,10 +10,15 @@ export interface SchemaFormProps<T extends object = object> {
   submitProps?: any;
 }
 
+export type FormilySchemaField = ReturnType<typeof createSchemaField>;
+
 export type OverrideFormComponent<T extends object = object> = ComponentType<{
   value: T;
   onChange: (value: T) => void;
   JSONSchemaForm: ComponentType<SchemaFormProps<T>>;
+  Formily: {
+    getSchemaField: () => FormilySchemaField;
+  };
 }>;
 
 export interface OverrideFormProps<T extends object = object> {

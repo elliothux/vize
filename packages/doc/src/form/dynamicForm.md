@@ -56,7 +56,7 @@ export default {
 };
 ```
 
-::: warning 注意
+::: warning ⚠️ 注意
 `onChange` 传入的 value 参数将作为 props 传入 Component，请确保 value 是一个 **Object**。
 :::
 
@@ -68,11 +68,11 @@ export default {
 
 大多数时候我们不希望完全靠自己实现表单组件，但是又需要动态化特性，静态 JSON-Schema 无法满足需求。
 
-这时可以采用 Vize 提供的 JSONSchemaForm API，通过动态生成 Schema 来实现表单动态化。
+这时可以采用 Vize 提供的 DynamicJSONSchemaForm API，通过动态生成 Schema 来实现表单动态化。
 
-示例，实现一个可以切换显隐的密码输入框：
+示例，实现一个可以切换显隐，并且带提交按钮的密码输入框：
 
-```tsx {4,13,14,15,16,17,18,19}
+```tsx {4,17,21}
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 
@@ -88,12 +88,14 @@ function Form({ value, onChange, JSONSchemaForm }) {
         schema={{
           password: {
             title: '密码',
-            type: visible ? 'string' : 'password',
+            type: 'string',
+            'x-component': visible ? 'Input' : 'Password',
             required: true,
           },
         }}
+        submitPorps
       />
-      <button onClick={toggleVisible}>TOGGLE</button>
+      <button onClick={toggleVisible}>toggle</button>
     </>
   );
 }
@@ -108,24 +110,46 @@ export default {
 
 Vize 系统内部的表单统一采用开源解决方案 [Formily](https://github.com/alibaba/formily) 来实现。
 
-同时，Vize 将完整的 Formily API 暴露给 Dynamic Form，开发者可以借此来便捷地实现动态化、定制化校验等高级表单特性。
+因此，物料开发者可以根据借助 Formily 的能力，满足更加复杂的表单场景，如联动、动态数据源、异步校验等。
 
 ### 基础示例
 
-示例，实现一个具有重置功能的表单：
+示例，实现一个具有重置提交和功能的输入框：
 
-```tsx {4,10}
+```tsx
 import * as React from 'react';
+import { createForm } from '@formily/core'
+import { FormProvider, FormConsumer, Field } from '@formily/react'
+import {
+  FormItem,
+  FormLayout,
+  Input,
+  FormButtonGroup,
+  Submit,
+  Reset
+} from '@formily/antd'
 
-function Form({ value, onChange, Formily }) {
-  const { SchemaForm, Field, Reset } = Formily;
+const form = createForm();
 
+function Form({ value, onChange }) {
   return (
-    <SchemaForm value={value} onChange={onChange}>
-      <Field name="foo" title="Foo Title" type="string" />
-      <Field name="bar" title="Bar Title" type="string" />
-      <Reset />
-    </SchemaForm>
+    <FormProvider form={form}>
+        <FormLayout layout="vertical">
+          <Field
+            name="input"
+            title="输入框"
+            required
+            initialValue="Hello world"
+            decorator={[FormItem]}
+            component={[Input]}
+          />
+        </FormLayout>
+
+        <FormButtonGroup>
+          <Reset>重置</Reset>
+          <Submit onSubmit={form.submit}>提交</Submit>
+        </FormButtonGroup>
+    </FormProvider>
   );
 }
 
@@ -135,41 +159,39 @@ export default {
 };
 ```
 
-### JSX Schema 示例
+### 使用内置 Schema Field
 
-在一些场景下，静态的表单的表单无法满足需求，这时可以借助 [Formily](https://github.com/alibaba/formily) 的 JSX-Schema 的动态化特性来实现表单的联动等需求。
+Formily 的 SchemaField 需要显式注册需要的 Components（如 Select、TextArea 等）和 Rules。
 
-示例，实现通过一个可以控制显隐的输入框：
+Vize 将已经注册好所有 [Field Components](/form/jsonSchema.html#拓展组件-x-component) 和 Rules 的 SchemaField 实例暴露给开发者，可以便捷地使用。
 
-```tsx {10,11,12,13,14}
+示例，实现通过一个可以控制显隐的密码输入框：
+
+```tsx {6,10,18,19}
 import * as React from 'react';
+import { FormProvider } from '@formily/react';
 
-function Form({ value, onChange, Formily }) {
-  const { SchemaForm, Field } = Formily;
+const form = createForm();
+
+function Form({ value, onChange, Formily: { getSchemaField } }) {
+  const [visible, setVisible] = useState(false);
+  const toggleVisible = useCallback(() => setVisible(v => !v), []);
+
+  const SchemaField = getSchemaField();
 
   return (
-    <SchemaForm
-      value={value}
-      onChange={onChange}
-      effects={($, { setFieldState }) => {
-        $('onFieldChange', 'visible').subscribe(fieldState => {
-          setFieldState('text', state => (state.visible = fieldState.value));
-        });
-      }}
-    >
-      <Field
-        name="visible"
-        type="boolean"
-        x-component="radio"
-        default={true}
-        enum={[
-          { label: '是', value: true },
-          { label: '否', value: false },
-        ]}
-        title="展示输入框"
-      />
-      <Field name="text" type="string" title="输入" />
-    </SchemaForm>
+    <FormProvider form={form}>
+      <SchemaField>
+        <SchemaField.String
+          name="password"
+          title="密码"
+          {/* 直接使用已经注册的 Field Component */}
+          x-component={visible ? 'Password' : 'Password'}
+          required
+        />
+      </SchemaField>
+      <button onClick={toggleVisible}>toggle</button>
+    </FormProvider>
   );
 }
 

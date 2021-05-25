@@ -3,9 +3,9 @@ const path = require('path');
 const {
   override,
   addWebpackModuleRule,
-  addWebpackResolve,
   addLessLoader,
   babelInclude,
+  addWebpackExternals,
   adjustStyleLoaders,
 } = require('customize-cra');
 
@@ -50,6 +50,15 @@ module.exports = {
     }),
     // setWebpackPublicPath('/editor/'),
     setOutputPublicPath('/editor/'),
+    addWebpackExternals({
+      react: 'React',
+      'react-dom': 'ReactDom',
+      'react-dom/server': 'ReactDomServer',
+      antd: 'Antd',
+      '@formily/core': 'FormilyCore',
+      '@formily/react': 'FormilyReact',
+      '@formily/antd': 'FormilyAntd',
+    }),
   ),
 };
 

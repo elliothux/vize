@@ -25,15 +25,3 @@ export interface RouterPageItem extends Pick<PageInstance, 'key' | 'name' | 'pat
   cancel: (eventName: string, callback: Function) => void;
   emit: (eventName: string) => void;
 }
-
-export interface PageRouter {
-  pages: RouterPageItem[];
-  currentPage: number;
-  setCurrentPage: (pageKey: number) => void;
-}
-
-export interface RouterProps extends Pick<ComponentProps, 'globalData' | 'meta'> {
-  pages: PageRouter['pages'];
-  dynamicImports: { [key: number]: () => Promise<{ PageRender: ComponentType<object> }> };
-  SharedComponentInstances: ComponentType<{ router: PageRouter }>;
-}

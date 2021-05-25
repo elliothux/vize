@@ -116,7 +116,8 @@ const info = {
 
 const styleForm = {
   mainColor: {
-    type: 'color',
+    type: 'string',
+    'x-component': 'Color',
     title: '主题色',
     default: '#3fafff',
     inject: [
@@ -131,7 +132,8 @@ const styleForm = {
     ],
   },
   spacing: {
-    type: 'radio',
+    type: 'number',
+    'x-component': 'RadioGroup',
     title: '卡片内间距',
     enum: [
       { value: 32, label: '大' },
@@ -146,7 +148,8 @@ const styleForm = {
     },
   },
   border: {
-    type: 'radio',
+    type: 'string',
+    'x-component': 'RadioGroup',
     title: '边框',
     enum: ['Solid', 'Dashed', 'None'],
     default: 'Solid',
