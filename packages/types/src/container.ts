@@ -1,4 +1,3 @@
-import { ComponentType } from 'react';
 import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { MaterialsInfo } from './materials';
