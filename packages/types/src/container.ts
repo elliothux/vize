@@ -3,7 +3,7 @@ import { MaterialsForm } from './form';
 import { MaterialsCustomEvent } from './events';
 import { MaterialsInfo } from './materials';
 import { ComponentProps } from './component';
-import { RouterProps } from './pages';
+import { Router } from './router';
 
 export interface MaterialsContainerMeta {
   identityName: string;
@@ -25,7 +25,7 @@ export interface RenderEntryParams extends Pick<ComponentProps, 'meta' | 'on' | 
   globalData: object;
   globalStyle: object;
   render: Function;
-  implementRouterController: (CustomRouter: ComponentType<RouterProps>) => void;
+  implementRouterController: (CustomRouter: Router) => void;
 }
 
 export type ContainerRenderEntry = (params: RenderEntryParams) => void;

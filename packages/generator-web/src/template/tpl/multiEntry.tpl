@@ -1,6 +1,7 @@
 import 'regenerator-runtime/runtime';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { Router } from '@vize/types';
 import { Router as DefaultRouter } from '@vize/runtime-web/src/components/Router';
 import { ComponentInstances } from '@vize/runtime-web/src/components/ComponentInstances';
 import { sharedComponentInstances, global, meta } from '<%= globalFilePath %>';
@@ -11,7 +12,7 @@ const dynamicImports = <%= dynamicImports %>;
 
 let Router = DefaultRouter;
 
-function implementRouterController(CustomRouter: typeof DefaultRouter) {
+function implementRouterController(CustomRouter: Router) {
   Router = CustomRouter;
 }
 

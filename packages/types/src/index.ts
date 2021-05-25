@@ -14,5 +14,6 @@ export * from './pages';
 export * from './paths';
 export * from './plugins';
 export * from './publisher';
+export * from './router';
 export * from './schema';
 export * from './styles';

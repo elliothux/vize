@@ -1,6 +1,5 @@
 import './index.scss';
 import * as React from 'react';
-import { ComponentType } from 'react';
 import { RenderSandbox } from 'widgets/RenderSandbox';
 import { observer } from 'mobx-react';
 import { contextMenu } from 'react-contexify';
@@ -10,7 +9,7 @@ import {
   Maybe,
   ContainerRenderEntry,
   ComponentInstance,
-  RouterProps,
+  Router,
   GlobalUniversalEventTrigger,
   RenderTemplateParams,
 } from 'types';
@@ -172,8 +171,8 @@ export class Renderer extends React.Component {
   };
 
   // TODO: implementRouterController
-  private implementRouterController = (CustomRouter: ComponentType<RouterProps>) => {
-    console.warn('"implementRouterController" not supported in editor for now', CustomRouter);
+  private implementRouterController = (CustomRouter: Router) => {
+    console.warn('"implementRouterController" not supported in editor for now...', CustomRouter);
   };
 
   private callContainerRenderEntry = (renderEntry: ContainerRenderEntry) => {

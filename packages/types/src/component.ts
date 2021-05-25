@@ -5,7 +5,7 @@ import { MaterialsCustomEvent } from './events';
 import { EventInstance } from './events';
 import { CommonStyleMeta, Percent } from './styles';
 import { GlobalMeta } from './global';
-import { PageRouter } from './pages';
+import { PageRouter } from './router';
 
 export interface MaterialsComponentMeta {
   identityName: string;
