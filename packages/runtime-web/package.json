@@ -1,6 +1,6 @@
 {
   "name": "@vize/runtime-web",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "scripts": {
     "publish": "npm publish --access public"
   },
