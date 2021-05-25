@@ -1,24 +1,42 @@
-# Vize: 现代化的 Web 可视化搭建引擎
+# Vize：代化的 Web 可视化编排引擎
 
-文档: [https://vize-team.github.io/](https://vize-team.github.io/)
+Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 
 ![stars] ![forks] ![issues] ![pr] ![closed-pr]
 
-## ⚠️ 警告 Warning
+## ✨ 特性
 
-此项目仍处于开发状态，某些功能可能不稳定，部分 API 也可能会有变动。
-
-This is an **experimental** project and is still in development. BUGs may exist. APIs and features may change.
-
-## ✨ 特性 Features
-
-- 友好、便捷的可视化编辑体验
-- 完全所见即所得
 - 丰富的物料抽象粒度
-- 支持物料间联动，强大的可配置事件系统
+- 强大的可配置事件系统
+- 友好、便捷的可视化编辑体验
+- 支持物料间联动
+- 友好、一致的物料 API
+- 完全所见即所得
+- 丰富的拓展接口
 - 物料与系统完全解耦
 - 完备的开发工具链支持
-- 便捷的接入方式
+- 开箱即用的接入方式
+- ...
+
+## 🤟 体验
+
+体验站点：[vize.cool](https://vize.cool)
+
+## 🛠 部署
+
+参考：[部署服务](/deploy/intro.html)
+
+## 👨‍💻 开发者
+
+核心架构 & 开发：**[Aedron@github](https://github.com/Aedron)**
+
+贡献者：
+
+- [Copyes@github](https://github.com/Copyes)
+
+## 🙌 帮助和交流
+
+<img src="./packages/doc/src/welcome/wechat.jpg" class="zoom" alt="Preview" style="width:128px;height:auto;border-radius:3px;margin-top:14px;"/>
 
 ## 📦 核心包 Core Packages
 
@@ -61,3 +79,9 @@ This is an **experimental** project and is still in development. BUGs may exist.
 [issues]: https://img.shields.io/github/issues/vize-team/vize?style=social&label=Issues&style=plastic
 [pr]: https://img.shields.io/github/issues-pr/vize-team/vize?style=social&label=PullRequests&style=plastic
 [closed-pr]: https://img.shields.io/github/issues-pr-closed/vize-team/vize?style=social&label=PullRequests&style=plastic
+
+## ⚠️ 警告 Warning
+
+此项目仍处于开发状态，某些功能可能不稳定，部分 API 也可能会有变动。
+
+This is an **experimental** project and is still in development. BUGs may exist. APIs and features may change.

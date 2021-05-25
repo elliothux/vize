@@ -56,7 +56,7 @@ export default {
 };
 ```
 
-::: warning 注意
+::: warning ⚠️ 注意
 `onChange` 传入的 value 参数将作为 props 传入 Component，请确保 value 是一个 **Object**。
 :::
 

@@ -2,7 +2,7 @@ const { sidebar } = require('./sidebar');
 
 module.exports = {
   title: 'Vize',
-  description: 'Vize: 现代化的可视化搭建引擎',
+  description: 'Vize: 现代化的可视化编排引擎',
   repo: 'https://github.com/vize-team/vize',
   serviceWorker: true,
   displayAllHeaders: true,
@@ -29,8 +29,16 @@ module.exports = {
         link: '/welcome/intro',
       },
       {
+        text: 'Types',
+        link: 'https://vize-team.github.io/types/modules.html',
+      },
+      {
         text: 'Github',
         link: 'https://github.com/vize-team/vize',
+      },
+      {
+        text: 'Discussions',
+        link: 'https://github.com/vize-team/vize/discussions',
       },
     ],
     sidebarDepth: 2,

@@ -106,6 +106,7 @@ export interface MaterialsLibConfig {
   displayName: string;
   desc?: string;
   thumb?: string;
+  registry?: string;
   author: string;
   runtime: MaterialsLibRuntime;
   releaseTo: string;

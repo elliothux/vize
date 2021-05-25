@@ -46,7 +46,7 @@ export function PageLoader({
   return <PageRender pageInstance={currentPageInstance} />;
 }
 
-export function Loading() {
+function Loading() {
   return <div>loading...</div>;
 }
 
