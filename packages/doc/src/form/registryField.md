@@ -81,20 +81,20 @@ function TXTReader({ value, onChange }: Props) {
 }
 
 export default {
-  name: 'Txt',
+  name: 'TXTReader',
   component: TXTReader,
 };
 ```
 
 然后就可以在物料 `config.ts` 的 JSON Schema 中使用该 Field：
 
-```ts {5}
+```ts {6}
 const dataForm = {
   text: {
     title: '文本内容',
     description: '请选择txt文件',
     type: 'string',
-    'x-component': 'Txt',
+    'x-component': 'TXTReader',
   },
 };
 

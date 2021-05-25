@@ -68,7 +68,7 @@ export default {
 
 大多数时候我们不希望完全靠自己实现表单组件，但是又需要动态化特性，静态 JSON-Schema 无法满足需求。
 
-这时可以采用 Vize 提供的 JSONSchemaForm API，通过动态生成 Schema 来实现表单动态化。
+这时可以采用 Vize 提供的 DynamicJSONSchemaForm API，通过动态生成 Schema 来实现表单动态化。
 
 示例，实现一个可以切换显隐的密码输入框：
 
@@ -109,7 +109,7 @@ export default {
 
 Vize 系统内部的表单统一采用开源解决方案 [Formily](https://github.com/alibaba/formily) 来实现。
 
-同时，Vize 将完整的 Formily API 暴露给 Dynamic Form，开发者可以借此来便捷地实现动态化、定制化校验等高级表单特性。
+因此，物料开发者可以根据借助 Formily 的能力，满足更加复杂的表单场景，如联动、动态数据源、异步校验等。
 
 ### 基础示例
 
