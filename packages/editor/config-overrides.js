@@ -5,9 +5,10 @@ const {
   addWebpackModuleRule,
   addLessLoader,
   babelInclude,
-  addWebpackExternals,
   adjustStyleLoaders,
+  addWebpackPlugin,
 } = require('customize-cra');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 require('../../scripts/watcher');
 
@@ -50,15 +51,7 @@ module.exports = {
     }),
     // setWebpackPublicPath('/editor/'),
     setOutputPublicPath('/editor/'),
-    addWebpackExternals({
-      react: 'React',
-      'react-dom': 'ReactDom',
-      'react-dom/server': 'ReactDomServer',
-      antd: 'Antd',
-      '@formily/core': 'FormilyCore',
-      '@formily/react': 'FormilyReact',
-      '@formily/antd': 'FormilyAntd',
-    }),
+    addWebpackPlugin(new BundleAnalyzerPlugin()),
   ),
 };
 

@@ -16,6 +16,19 @@ module.exports = {
         href: 'https://gw.alicdn.com/imgextra/i2/O1CN01UvNTMG1TWfGYzk7xX_!!6000000002390-73-tps-32-32.ico',
       },
     ],
+    [
+      'script',
+      {},
+      `
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d98bd71ca744f31e5ddc273f6e77f04f";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    `,
+    ],
   ],
   themeConfig: {
     logo: '/logo.svg',
