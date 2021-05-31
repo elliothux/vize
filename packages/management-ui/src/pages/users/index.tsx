@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { withAdminValidation } from 'utils';
 import { UserList } from './UserList';
 import { EditUser } from './EditUser';
+import { GenerateAccessToken } from './GenerateAccessToken';
 
 const PAGE_SIZE = 10;
 
@@ -23,6 +24,7 @@ export function Users() {
 
   const [editUser, setEditUser] = useState<Maybe<UserRecord>>(null);
   const [createVisible, setCreateVisible] = useState(false);
+  const [genTokenVisible, setGenTokenVisibleVisible] = useState(true);
 
   const setTotal = useCallback((total: number) => {
     setPagination(([current]) => [current, total]);
@@ -97,12 +99,17 @@ export function Users() {
             setEditUser(user);
             setCreateVisible(true);
           })}
+          onGenerateToken={withAdminValidation((user: UserRecord) => {
+            setEditUser(user);
+            setGenTokenVisibleVisible(true);
+          })}
         />
 
         <Pagination pageSize={PAGE_SIZE} current={current + 1} total={total} onChange={i => setCurrentPage(i - 1)} />
       </div>
 
       <EditUser user={editUser} visible={createVisible} setVisible={setCreateVisible} onComplete={onCreate} />
+      <GenerateAccessToken user={editUser} visible={genTokenVisible} setVisible={setGenTokenVisibleVisible} />
     </Spin>
   );
 }

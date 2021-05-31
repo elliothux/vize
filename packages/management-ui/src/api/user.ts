@@ -9,7 +9,7 @@ export function queryUser(
   return getCGIJSON<WithPagination<UserRecord[]>>(prefix('user', { startPage, pageSize, keywords }));
 }
 
-export type CreateUserParams = Pick<UserRecord, 'bizs' | 'name' | 'extInfo' | 'isAdmin'>;
+export type CreateUserParams = Pick<UserRecord, 'bizs' | 'name' | 'extInfo' | 'isAdmin' | 'isDeveloper'>;
 
 export function createUser(user: CreateUserParams) {
   return postCGIJSON(prefix('user'), user);
@@ -36,4 +36,8 @@ export async function getCurrentUser() {
   getUserPromise = getCGIJSON<UserRecord>('/user-info');
   user = await getUserPromise;
   return user;
+}
+
+export async function generateDeveloperAccessToken(id: number) {
+  return postCGIJSON<{ token: string }>(prefix(`user/access_token/${id}`), {});
 }

@@ -39,7 +39,7 @@ export class MaterialsController {
   async queryLibs(@RequestId() requestId, @Query() { keywords }: WithKeywords) {
     infoRequest(requestId, 'materials.controller.queryLibs', { keywords });
     const result = await this.materialsService.queryLibEntities({ keywords });
-    infoResponse(requestId, 'materials.controller.queryLibs', { result });
+    infoResponse(requestId, 'materials.controller.queryLibs');
     return CGIResponse.success(requestId, parseLibs(result));
   }
 

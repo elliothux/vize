@@ -83,7 +83,10 @@ export class UserController {
     }
 
     const result = await this.userService.generateAccessToken(parseInt(id));
-    infoResponse(requestId, 'user.controller.generateAccessToken', { result });
+    infoResponse(requestId, 'user.controller.generateAccessToken', {
+      ...result,
+      token: '*',
+    });
     return CGIResponse.success(requestId, result);
   }
 }

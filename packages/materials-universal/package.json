@@ -1,6 +1,6 @@
 {
   "name": "@vize/materials-universal",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "scripts": {
     "dev:local": "../cli/bin/vize.js dev -r https://registry.npm.taobao.org",

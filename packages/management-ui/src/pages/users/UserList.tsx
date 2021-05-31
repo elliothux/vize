@@ -13,24 +13,30 @@ const { Column } = Table;
 interface Props {
   users: UserRecord[];
   onEdit: (user: UserRecord) => void;
+  onGenerateToken: (user: UserRecord) => void;
 }
 
-function IUserList({ users, onEdit }: Props) {
+function IUserList({ users, onEdit, onGenerateToken }: Props) {
   const { t } = useTranslation();
   return (
     <Table dataSource={users} pagination={false} bordered>
       <Column
         title={t('User')}
         key="name"
-        render={(t, { avatar, name, id, isAdmin }: UserRecord) => (
+        render={(t, { avatar, name, id, isAdmin, isDeveloper }: UserRecord) => (
           <div className="user-name">
             <div className="user-avatar" style={{ backgroundImage: `url("${avatar || AVATAR}")` }} />
             <Tooltip title={`id: ${id}`}>
-              <span>{name}</span>
+              <span className="user-name-text">{name}</span>
             </Tooltip>
             {isAdmin ? (
               <Tag color="red">
                 <Trans>Administrator</Trans>
+              </Tag>
+            ) : null}
+            {isDeveloper ? (
+              <Tag color="blue">
+                <Trans>Developer</Trans>
               </Tag>
             ) : null}
           </div>
@@ -62,6 +68,11 @@ function IUserList({ users, onEdit }: Props) {
             <Button type="link" size="small" onClick={() => onEdit(user)}>
               <Trans>edit</Trans>
             </Button>
+            {!!user.isDeveloper && (
+              <Button type="link" size="small" onClick={() => onGenerateToken(user)}>
+                <Trans>generate access token</Trans>
+              </Button>
+            )}
           </>
         )}
       />

@@ -361,5 +361,16 @@ export const zh = {
     "Error occurred in materials lib's form": '物料库表单发生错误',
     "Please contact the material's developer": '请联系物料库开发者',
     'Choose a child component to edit': '选择子组件以编辑',
+    'generate access token': '生成 Access Token',
+    'Generate Developer Access Token': '生成开发者 Access Token',
+    "Once generated, this user's old Access Token will be discarded, continue?":
+      '一旦生成，此用户的旧的 Access Token 将被丢弃，要继续吗？',
+    Generate: '生成',
+    Warning: '警告',
+    Success: '成功',
+    Copy: '复制',
+    'Failed to generate access token': '生成 Access Token 失败',
+    "Make sure to copy this access token now. You won't be able to see it again!":
+      '请立即复制此 Access Token，一旦关闭对话，你将无法再次浏览此 Token',
   },
 };

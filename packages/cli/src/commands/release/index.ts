@@ -64,7 +64,7 @@ class Releaser {
         file: targetPath,
         preservePaths: false,
       },
-      ['src', 'dist', './.vizerc', './package.json'],
+      ['src', 'dist', './.vizerc', './package.json', './package-lock.json'],
     );
     return targetPath;
   };
