@@ -1,4 +1,4 @@
-# Vize：代化的 Web 可视化编排引擎
+# Vize：现代化的 Web 可视化编排引擎
 
 Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 
