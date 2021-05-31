@@ -33,11 +33,11 @@ interface RouterComponentsRenderProps {
   componentInstances: ComponentInstance[];
 }
 
-// TODO: handle globalEvents
 export function RenderEntry({
   meta,
   globalData,
   globalStyle,
+  // TODO: handle globalEvents
   globalEvents,
   sharedComponentInstances,
   sharedPluginInstances,
@@ -45,7 +45,7 @@ export function RenderEntry({
   pageImports,
 }: RenderEntryProps) {
   const setCurrentPageInstance = useCallback((pageInstance: PageInstance) => {
-    if (!pageInstance || pageInstance.key === currentPageInstance.key) {
+    if (!pageInstance || pageInstance.key === currentPageInstance?.key) {
       return;
     }
     currentPageInstance = pageInstance;
@@ -56,7 +56,7 @@ export function RenderEntry({
       globalStyle,
       pageData: pageInstance.data,
       pageStyle: pageInstance.style,
-      router,
+      router: router!,
     });
   }, []);
 
@@ -71,7 +71,7 @@ export function RenderEntry({
       }: RouterPageRenderProps) {
         return (
           <PageRender
-            router={router}
+            router={router!}
             meta={meta}
             globalData={globalData}
             globalStyle={globalStyle}
@@ -90,12 +90,12 @@ export function RenderEntry({
       function EntryRouterComponentsRender({ componentInstances }: RouterComponentsRenderProps) {
         return (
           <ComponentInstances
-            router={router}
+            router={router!}
             meta={meta}
             globalData={globalData}
             globalStyle={globalStyle}
-            pageData={getCurrentPageInstance().data}
-            pageStyle={getCurrentPageInstance().style}
+            pageData={getCurrentPageInstance()!.data}
+            pageStyle={getCurrentPageInstance()!.style}
             componentInstances={componentInstances}
           />
         );

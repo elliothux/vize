@@ -18,6 +18,9 @@ export function Router({
   const router = useMemo<PageRouter>(() => ({ pages, currentPage, setCurrentPage }), [currentPage]);
 
   useEffect(() => {
+    if (!pageInstance) {
+      return;
+    }
     setRouter(router);
     setCurrentPageInstance(pageInstance);
   }, [pageInstance, router]);
