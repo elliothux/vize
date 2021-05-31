@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Like, Repository } from 'typeorm';
+import { v4 } from 'uuid';
 import { QueryParams, WithKeywords } from '../../types';
 import { CreateUserParams, UpdateUserParams } from './user.interface';
 import { UserEntity } from './user.entity';
@@ -49,22 +50,34 @@ export class UserService {
   public async createUserEntity({
     name,
     extInfo,
-    avatar,
     bizs,
     isAdmin,
+    isDeveloper,
   }: CreateUserParams) {
     return this.userRepository.insert({
       name,
       extInfo,
-      avatar,
       bizs,
       isAdmin,
+      isDeveloper,
       createdTime: new Date(),
     });
   }
 
   public async updateUserEntity(id: number, user: UpdateUserParams) {
     return this.userRepository.update({ id }, user);
+  }
+
+  public async generateAccessToken(id: number) {
+    const token = v4();
+    const result = await this.userRepository.update(
+      { id },
+      { __developerAccessToken: token },
+    );
+    return {
+      ...result,
+      token,
+    };
   }
 
   public async checkUserExistsById(id: number) {

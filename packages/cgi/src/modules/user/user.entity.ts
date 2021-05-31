@@ -14,8 +14,11 @@ export class UserEntity {
   @Column({ type: 'tinyint', nullable: false })
   isAdmin: number;
 
-  @Column({ type: 'varchar', length: 512, nullable: true })
-  avatar?: string;
+  @Column({ type: 'tinyint', nullable: false })
+  isDeveloper: number;
+
+  @Column({ type: 'varchar', length: 32, nullable: true })
+  __developerAccessToken?: string;
 
   @Column({ type: 'text', nullable: true })
   extInfo?: string;

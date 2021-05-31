@@ -7,7 +7,7 @@ import {
   warn,
 } from '../../utils';
 import { QueryParams, Maybe, WithKeywords } from '../../types';
-import { RequestId } from '../../decorators';
+import { RequestId, UserName } from '../../decorators';
 import { UserService } from './user.service';
 import { CreateUserParams, UpdateUserParams } from './user.interface';
 
@@ -61,6 +61,29 @@ export class UserController {
 
     const result = await this.userService.updateUserEntity(parseInt(id), user);
     infoResponse(requestId, 'user.controller.updateUser', { result });
+    return CGIResponse.success(requestId, result);
+  }
+
+  @Post('/access_token/:id')
+  async generateAccessToken(
+    @RequestId() requestId,
+    @UserName() username,
+    @Param('id') id: string,
+  ) {
+    infoRequest(requestId, 'user.controller.generateAccessToken', {
+      username,
+      id,
+    });
+
+    if (!(await this.userService.checkUserExistsById(parseInt(id, 10)))) {
+      warn('user.controller.generateAccessToken', `UserId "${id}" not exists`, {
+        requestId,
+      });
+      return CGIResponse.failed(requestId, CGICodeMap.UserNotExists);
+    }
+
+    const result = await this.userService.generateAccessToken(parseInt(id));
+    infoResponse(requestId, 'user.controller.generateAccessToken', { result });
     return CGIResponse.success(requestId, result);
   }
 }
