@@ -22,7 +22,7 @@ function webpackCallback(resolve: Function, reject: Function) {
 
     const info = (stats as Stats).toJson();
     if ((stats as Stats).hasErrors()) {
-      info.errors.forEach((e: string) => {
+      info.errors.forEach(e => {
         if (e.trim()) {
           console.error('\n\nWebpack compilation errors:', e.trim());
         }

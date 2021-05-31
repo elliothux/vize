@@ -9,7 +9,7 @@ import { MaterialsModule } from './modules/materials/materials.modules';
 import { UserModule } from './modules/user/user.modules';
 import { ResourceModule } from './modules/resource/resource.modules';
 import { Maybe, FirstParameter } from './types';
-import { getConfig, getStaticModules } from './utils';
+import { getConfig, getStaticModules, info } from './utils';
 
 type App = FirstParameter<typeof NestFactory.create>;
 
@@ -51,7 +51,10 @@ export function getApp(): App {
             ? middeleware
             : [middeleware];
           middlewares.forEach(({ apply, forRoutes = [], exclude = [] }) => {
-            console.log(`[Vize] Apply middle "${name}" for routes:`, forRoutes);
+            info(
+              'Middlewares',
+              `Apply middle "${name}" for routes: "${forRoutes}"`,
+            );
             consumer
               .apply(apply)
               .exclude(...exclude)

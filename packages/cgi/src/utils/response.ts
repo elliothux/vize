@@ -1,17 +1,23 @@
 import { Response } from '../types';
 
 export class CGIResponse {
-  static success<T = any>(data?: T, msg?: string): Response<T> {
+  static success<T = any>(
+    requestId: string,
+    data?: T,
+    msg?: string,
+  ): Response<T> {
     return {
       t: Date.now(),
       status: 'success',
       message: msg,
       code: 0,
       data,
+      requestId,
     };
   }
 
   static failed<T = any>(
+    requestId: string,
     codeOrReason: CGICodeMap | string,
     reason?: string,
   ): Response<T> {
@@ -21,6 +27,7 @@ export class CGIResponse {
         status: 'failed',
         message: codeOrReason,
         code: -1,
+        requestId,
       };
     }
     return {
@@ -28,6 +35,7 @@ export class CGIResponse {
       status: 'failed',
       message: reason || CGIReasonMap[codeOrReason] || 'Unknown error',
       code: codeOrReason,
+      requestId,
     };
   }
 }
@@ -44,6 +52,7 @@ export enum CGICodeMap {
   UserNotExists = 700002,
   UploadResourceCallbackError = 80001,
   DeleteResourceCallbackError = 80002,
+  InvalidAccessToken = 80003,
 }
 
 const CGIReasonMap: { [key in CGICodeMap]: string } = {
@@ -60,6 +69,7 @@ const CGIReasonMap: { [key in CGICodeMap]: string } = {
     'upload resource callback occurred error',
   [CGICodeMap.DeleteResourceCallbackError]:
     'delete resource callback occurred error',
+  [CGICodeMap.InvalidAccessToken]: 'invalid access-token',
 };
 
 export type PromiseResult<T> = Promise<[null, T] | [Error, null]>;

@@ -42,21 +42,47 @@ const bare = require('cli-color');
 function log(
   level: 'info' | 'error' | 'warn' | 'debug' | 'verbose',
   context: string,
-  message: string,
+  message: string | object,
   meta?: object,
 ) {
   if (!logger) {
     logger = winston.createLogger(getLoggerConfig());
   }
 
-  const result = `${bare.yellow(`[${context}]`)} ${message}`;
+  const result = `${bare.yellow(`[${context}]`)} ${
+    typeof message === 'string' ? message : JSON.stringify(message, null, 2)
+  }`;
   return logger[level](result, meta);
 }
 
-export function info(appName: string, message: string, meta?: object) {
+export function info(appName: string, message: string | object, meta?: object) {
   return log('info', appName, message, meta);
 }
 
-export function error(appName: string, message: string, meta?: object) {
+export function infoRequest(
+  requestId: string,
+  appName: string,
+  params?: object,
+) {
+  return log('info', appName, `CGI Request with id: "${requestId}"`, params);
+}
+
+export function infoResponse(
+  requestId: string,
+  appName: string,
+  response?: object,
+) {
+  return log('info', appName, `CGI Response with id: "${requestId}"`, response);
+}
+
+export function error(
+  appName: string,
+  message: string | object,
+  meta?: object,
+) {
   return log('error', appName, message, meta);
+}
+
+export function warn(appName: string, message: string | object, meta?: object) {
+  return log('warn', appName, message, meta);
 }

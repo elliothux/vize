@@ -4,6 +4,7 @@ export interface UserRecord {
   createdTime: Date;
   bizs: string[];
   isAdmin: number;
+  isDeveloper: number;
   extInfo?: string;
   avatar?: string;
 }

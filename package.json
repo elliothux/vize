@@ -22,13 +22,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.5",
-    "@formily/antd": "*",
-    "@formily/core": "*",
-    "@formily/react": "*",
+    "@formily/antd": "^2.0.0-beta.56",
+    "@formily/core": "^2.0.0-beta.56",
+    "@formily/react": "^2.0.0-beta.56",
     "@udecode/slate-plugins": "^1.0.0-alpha.25",
     "@vize/richtext-editor": "^0.1.5",
     "@vize/runtime-web": "^0.1.2",
-    "@vize/types": "^0.1.12",
+    "@vize/types": "^0.1.14",
     "antd": "^4.11.2",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
@@ -82,6 +82,7 @@
     "@types/react-dom": "^16.9.5",
     "@types/throttle-debounce": "^2.1.0",
     "@types/tinycolor2": "^1.4.2",
+    "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
     "@vuepress/plugin-active-header-links": "^1.8.0",
@@ -120,6 +121,7 @@
     "vuepress-plugin-code-copy": "^1.0.6",
     "vuepress-plugin-code-switcher": "^1.1.0",
     "vuepress-plugin-nprogress": "^1.1.8",
-    "webpack": "4.42.0"
+    "webpack": "4.42.0",
+    "webpack-bundle-analyzer": "^4.4.2"
   }
 }

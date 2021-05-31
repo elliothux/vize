@@ -1,10 +1,10 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { Maybe } from '../../types';
-import { CGIResponse } from '../../utils';
+import { CGIResponse, infoRequest, infoResponse } from '../../utils';
+import { RequestId, UserName } from '../../decorators';
+import { PageService } from '../page/page.service';
 import { HistoryService } from './history.service';
 import { CreateHistoryDTO } from './history.interface';
-import { PageService } from '../page/page.service';
-import { VizeUserName } from '../../decorators';
 
 let cgiHistoryServices: Maybe<HistoryService> = null;
 
@@ -18,7 +18,14 @@ export class HistoryController {
   }
 
   @Post()
-  async createHistory(@VizeUserName() username, @Body() dsl: CreateHistoryDTO) {
+  async createHistory(
+    @UserName() username,
+    @RequestId() requestId,
+    @Body() dsl: CreateHistoryDTO,
+  ) {
+    infoRequest(requestId, 'history.controller.createHistory', {
+      username,
+    });
     const {
       identifiers: [{ id: historyId }],
     } = await this.historyService.createHistory(username, dsl);
@@ -26,7 +33,8 @@ export class HistoryController {
       dsl.pageKey,
       historyId,
     );
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'history.controller.createHistory', { result });
+    return CGIResponse.success(requestId, result);
   }
 }
 

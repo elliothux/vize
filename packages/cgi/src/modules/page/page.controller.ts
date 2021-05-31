@@ -9,8 +9,15 @@ import {
   Query,
 } from '@nestjs/common';
 import { GeneratorResult, Maybe } from '@vize/types';
-import { CGICodeMap, CGIResponse } from '../../utils';
-import { VizeUserName } from '../../decorators';
+import {
+  CGICodeMap,
+  CGIResponse,
+  error,
+  infoRequest,
+  infoResponse,
+  warn,
+} from '../../utils';
+import { UserName, RequestId } from '../../decorators';
 import { PageService } from './page.service';
 import {
   CreatePageDTO,
@@ -27,22 +34,33 @@ export class PageController {
   }
 
   @Post()
-  async createPage(@VizeUserName() username, @Body() page: CreatePageDTO) {
+  async createPage(
+    @RequestId() requestId,
+    @UserName() username,
+    @Body() page: CreatePageDTO,
+  ) {
+    infoRequest(requestId, 'page.controller.createPage', { username, page });
     if (await this.pageService.checkPageExists(page.key)) {
-      return CGIResponse.failed(CGICodeMap.PageExists);
+      warn('page.controller.createPage', `Page already exists`, {
+        requestId,
+        key: page.key,
+      });
+      return CGIResponse.failed(requestId, CGICodeMap.PageExists);
     }
 
     const {
       identifiers: [{ id: pageId }],
     } = await this.pageService.createPageEntity(username, page);
     const result = await this.pageService.getPageById(pageId);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'page.controller.createPage', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Get()
-  async getPages(@Query() query: QueryPageParams) {
+  async getPages(@RequestId() requestId, @Query() query: QueryPageParams) {
+    infoRequest(requestId, 'page.controller.getPages', { query });
     const { pages, total } = await this.pageService.queryPageEntity(query);
-    return CGIResponse.success({
+    const result = {
       total,
       data: pages.map(page => {
         const {
@@ -57,60 +75,94 @@ export class PageController {
           container: JSON.parse(container),
         };
       }),
-    });
+    };
+    infoResponse(requestId, 'page.controller.getPages', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Get(':key')
-  async getPage(@Param('key') key: string) {
+  async getPage(@RequestId() requestId, @Param('key') key: string) {
+    infoRequest(requestId, 'page.controller.getPage', { key });
     if (!key) {
-      return CGIResponse.failed(CGICodeMap.PageNotExists);
+      warn('page.controller.getPage', `Page not exists`, {
+        requestId,
+        key,
+      });
+      return CGIResponse.failed(requestId, CGICodeMap.PageNotExists);
     }
 
     const result = await this.pageService.getPageByKey(key);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'page.controller.getPage', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Put(':id')
   async updatePageInfo(
+    @RequestId() requestId,
     @Param('id') id: number,
     @Body() updatePageDto: UpdatePageDTO,
   ) {
-    const res = await this.pageService.updatePage(id, updatePageDto);
-    if (!res) {
+    infoRequest(requestId, 'page.controller.updatePageInfo', {
+      id,
+    });
+    const result = await this.pageService.updatePage(id, updatePageDto);
+    if (!result) {
+      error('page.controller.updatePageInfo', 'page update failed', {
+        requestId,
+        id,
+      });
       return CGIResponse.failed(
+        requestId,
         CGICodeMap.PageUpdateFailed,
         'the page update failed!',
       );
     }
-    return CGIResponse.success();
+    infoResponse(requestId, 'page.controller.updatePageInfo', { result });
+    return CGIResponse.success(requestId);
   }
 
   @Delete(':id')
-  async deletePage(@Param('id') id) {
-    const res = await this.pageService.deletePage(id);
-
-    if (!res) {
+  async deletePage(@RequestId() requestId, @Param('id') id) {
+    infoRequest(requestId, 'page.controller.deletePage', {
+      id,
+    });
+    const result = await this.pageService.deletePage(id);
+    if (!result) {
+      error('page.controller.updatePageInfo', 'page update failed', {
+        requestId,
+        id,
+      });
       return CGIResponse.failed(
+        requestId,
         CGICodeMap.PageUpdateFailed,
         'the page update failed!',
       );
     }
-    return CGIResponse.success();
+    infoResponse(requestId, 'page.controller.deletePage', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Get('/preview/:key')
-  async previewPage(@Param('key') key) {
+  async previewPage(@RequestId() requestId, @Param('key') key) {
+    infoRequest(requestId, 'page.controller.previewPage', {
+      key,
+    });
     const result = await this.pageService.generatePage(key, true);
+    infoResponse(requestId, 'page.controller.previewPage', { result });
     return result['error']
       ? CGIResponse.failed(
+          requestId,
           CGICodeMap.BuildFailed,
           JSON.stringify(result['error'].toString()),
         )
-      : CGIResponse.success(result);
+      : CGIResponse.success(requestId, result);
   }
 
   @Post('/publish/:key')
-  async publishPage(@Param('key') key) {
+  async publishPage(@RequestId() requestId, @Param('key') key) {
+    infoRequest(requestId, 'page.controller.publishPage', {
+      key,
+    });
     setTimeout(async () => {
       const result = await this.pageService.generatePage(key, false);
       if (result['error']) {
@@ -118,12 +170,18 @@ export class PageController {
       }
       return this.pageService.publishPage(key, result as GeneratorResult);
     }, 0);
-    return CGIResponse.success();
+    infoRequest(requestId, 'page.controller.publishPage');
+    return CGIResponse.success(requestId);
   }
 
   @Get('/publish/:key')
-  async getPublishStatus(@Param('key') id) {
-    return CGIResponse.success(this.pageService.getPublishStatus(id));
+  async getPublishStatus(@RequestId() requestId, @Param('key') id) {
+    infoRequest(requestId, 'page.controller.getPublishStatus', {
+      key: id,
+    });
+    const result = this.pageService.getPublishStatus(id);
+    infoRequest(requestId, 'page.controller.getPublishStatus', { result });
+    return CGIResponse.success(requestId, result);
   }
 }
 

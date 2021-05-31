@@ -16,7 +16,7 @@ import {
 } from '../../types';
 import { UserEntity } from '../user/user.entity';
 import { HistoryEntity } from '../history/history.entity';
-import { getConfig } from '../../utils';
+import { getConfig, info as logInfo, error as logError } from '../../utils';
 import {
   PublishStatusResponse,
   getPublishStatus,
@@ -170,7 +170,10 @@ export class PageService {
     const { publishers, paths: workspacePaths } = getConfig();
     // TODO: support custom publisher
     const { publisher, info } = publishers['web']!;
-    console.log(`Start publish page "${key}" with publisher: "${info.name}"`);
+    logInfo(
+      'page.service.publishPage',
+      `Start publish page "${key}" with publisher: "${info.name}"`,
+    );
 
     const dsl = dslMap.get(key)!;
     dslMap.delete(key);
@@ -183,12 +186,14 @@ export class PageService {
       });
     } catch (e) {
       const error = e || `Unknown publish error with publisher: "${info.name}"`;
-      console.error(`Publish page "${key}" with error: `, error);
+      logError('page.service.publishPage', `Publish page "${key}" error`, {
+        error,
+      });
       setPublishStatus(key, PublishStatus.FAILED, error);
       return { error };
     }
 
-    console.log(`Publish page "${key}" success`);
+    logInfo('page.service.publishPage', `Publish page "${key}" success`);
     const publisherResult = {
       ...result,
       url: `/p/${key}`,
@@ -216,29 +221,19 @@ export class PageService {
     const { generators, paths: workspacePaths } = getConfig();
     const generator = generators[generatorName || 'web'];
     if (!generator) {
+      const error = `Generator "${generatorName || 'web'}" does not exists`;
+      logError('page.service.generatePage', error);
       return {
-        error: new Error(
-          `Generator "${generatorName || 'web'}" does not exists`,
-        ),
+        error: new Error(error),
       };
     }
 
-    console.log(
+    logInfo(
+      'page.service.generatePage',
       `Start generate page "${key}" with generator: "${generator.info.name}"`,
     );
     let result: Maybe<GeneratorResult> = null;
     try {
-      // console.log(
-      //   JSON.stringify(
-      //     {
-      //       dsl,
-      //       workspacePaths,
-      //       isPreview,
-      //     },
-      //     null,
-      //     2,
-      //   ),
-      // );
       result = await generator.generator({
         dsl,
         workspacePaths,
@@ -247,12 +242,16 @@ export class PageService {
     } catch (e) {
       const error =
         e || `Unknown generate error with generator "${generator.info.name}"`;
-      console.error(`Generate page "${key}" with error: `, error);
+      logError(
+        'page.service.generatePage',
+        `Generate page "${key}" with error: `,
+        { error },
+      );
       setPublishStatus(key, PublishStatus.FAILED, error);
       return { error };
     }
 
-    console.log(`Generate page "${key}" success`);
+    logInfo('page.service.generatePage', `Generate page "${key}" success`);
     if (isPreview && result.type === 'file') {
       await createPreviewSoftlink(key, result.path);
       result['url'] = `/preview/${key}`;

@@ -27,10 +27,12 @@ function IEditUser({ user, onComplete, visible, setVisible }: Props) {
   const onBack = useCallback(() => setVisible(false), []);
 
   const onFinish = useCallback(
-    async ({ extInfo, name, bizs, isAdmin }: UserRecord) => {
+    async ({ extInfo, name, bizs, isAdmin, isDeveloper }: UserRecord) => {
       setLoading(true);
 
-      const [err] = await promiseWrapper(onComplete({ name, extInfo, bizs, isAdmin: isAdmin ? 1 : 0 }));
+      const [err] = await promiseWrapper(
+        onComplete({ name, extInfo, bizs, isAdmin: isAdmin ? 1 : 0, isDeveloper: isDeveloper ? 1 : 0 }),
+      );
       if (err) {
         message.error(t('failed to save'));
         return setLoading(false);
@@ -91,6 +93,10 @@ function IEditUser({ user, onComplete, visible, setVisible }: Props) {
           </Form.Item>
 
           <Form.Item name="isAdmin" label={t('Admin')} valuePropName="checked">
+            <Switch />
+          </Form.Item>
+
+          <Form.Item name="isDeveloper" label={t('Developer')} valuePropName="checked">
             <Switch />
           </Form.Item>
 

@@ -2,7 +2,7 @@ import { Maybe } from './index';
 import { ResourceEntity } from '../modules/resource/resource.entity';
 
 export interface FileInterceptorUploadedFile {
-  fieldname: string;
+  filename: string;
   originalname: string;
   encoding: string;
   mimetype: string;

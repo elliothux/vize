@@ -1,24 +1,18 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { PageInstance, PageRouter, Maybe } from '@vize/types';
-import { PageRender } from '../PageRender';
-import { RouterProps } from './types';
+import { PageInstance, Maybe, RouterProps } from '@vize/types';
 
-interface Props extends Pick<RouterProps, 'globalData' | 'globalStyle' | 'meta' | 'pageImports'> {
-  router: PageRouter;
+interface Props extends Pick<RouterProps, 'PageRender' | 'pageImports' | 'setCurrentPageInstance'> {
+  currentPage: number;
   currentPageInstance: Maybe<PageInstance>;
-  setCurrentPageInstance: (p: PageInstance) => void;
 }
 
 export function PageLoader({
-  globalData,
-  globalStyle,
-  meta,
+  currentPage,
   pageImports,
-  router,
   currentPageInstance,
   setCurrentPageInstance,
-  router: { currentPage },
+  PageRender,
 }: Props) {
   const [[loading, error], setStatus] = useState([true, false]);
 
@@ -41,7 +35,7 @@ export function PageLoader({
       });
   }, [currentPage]);
 
-  if (loading) {
+  if (loading || !currentPageInstance) {
     return <Loading />;
   }
 
@@ -49,22 +43,10 @@ export function PageLoader({
     return <LoadError />;
   }
 
-  const { data: pageData, style: pageStyle, componentInstances, pluginInstances } = currentPageInstance!;
-  return (
-    <PageRender
-      router={router}
-      meta={meta}
-      globalData={globalData}
-      globalStyle={globalStyle}
-      pageData={pageData}
-      pageStyle={pageStyle}
-      componentInstances={componentInstances}
-      pluginInstances={pluginInstances}
-    />
-  );
+  return <PageRender pageInstance={currentPageInstance} />;
 }
 
-export function Loading() {
+function Loading() {
   return <div>loading...</div>;
 }
 

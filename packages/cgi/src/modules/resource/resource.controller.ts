@@ -9,11 +9,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { VizeUserName } from '../../decorators';
+import { UserName, RequestId } from '../../decorators';
 import {
   CGICodeMap,
   CGIResponse,
+  error,
   getConfig,
+  infoRequest,
+  infoResponse,
   promiseWrapper,
 } from '../../utils';
 import { FileInterceptorUploadedFile, Maybe } from '../../types';
@@ -30,17 +33,27 @@ export class ResourceController {
   }
 
   @Get()
-  async queryResource(@Query() query: QueryResourceParams) {
+  async queryResource(
+    @RequestId() requestId,
+    @Query() query: QueryResourceParams,
+  ) {
+    infoRequest(requestId, 'resource.controller.queryResource', query);
     const result = await this.resourceService.queryResourceEntities(query);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'resource.controller.queryResource', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadResource(
-    @VizeUserName() username,
+    @RequestId() requestId,
+    @UserName() username,
     @UploadedFile() file: FileInterceptorUploadedFile,
   ) {
+    infoRequest(requestId, 'resource.controller.uploadResource', {
+      username,
+      filename: file.filename,
+    });
     const {
       resources: { onUpload },
     } = getConfig();
@@ -49,7 +62,13 @@ export class ResourceController {
 
     const [err, { url } = { url: null }] = await promiseWrapper(onUpload(file));
     if (err) {
+      error(
+        'resource.controller.uploadResource',
+        'Error with "onUpload" callback',
+        { error: err },
+      );
       return CGIResponse.failed(
+        requestId,
         CGICodeMap.UploadResourceCallbackError,
         err?.toString(),
       );
@@ -59,11 +78,13 @@ export class ResourceController {
       username,
       getCreateResourceParams(file, url),
     );
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'resource.controller.uploadResource', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Delete('/:id')
-  async deleteResource(@Param('id') id: string) {
+  async deleteResource(@RequestId() requestId, @Param('id') id: string) {
+    infoRequest(requestId, 'resource.controller.deleteResource', { id });
     const item = await this.resourceService.getResourceEntityById(
       parseInt(id, 10),
     );
@@ -72,7 +93,13 @@ export class ResourceController {
     } = getConfig();
     const [err] = await promiseWrapper(onDelete(item));
     if (err) {
+      error(
+        'resource.controller.deleteResource',
+        'Error with "onDelete" callback',
+        { error: err },
+      );
       return CGIResponse.failed(
+        requestId,
         CGICodeMap.DeleteResourceCallbackError,
         err?.toString(),
       );
@@ -81,7 +108,8 @@ export class ResourceController {
     const result = await this.resourceService.deleteResourceEntity(
       parseInt(id, 10),
     );
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'resource.controller.deleteResource', { result });
+    return CGIResponse.success(requestId, result);
   }
 }
 

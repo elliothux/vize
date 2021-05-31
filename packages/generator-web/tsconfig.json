@@ -10,6 +10,7 @@
     "baseUrl": "src",
     "allowJs": false,
     "skipLibCheck": true,
+    "declaration": true,
     "lib": ["ES2015"]
   },
   "compileOnSave": true,

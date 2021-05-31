@@ -2,8 +2,8 @@ import * as fs from 'fs-extra';
 import * as glob from 'glob';
 import * as path from 'path';
 import * as chalk from 'chalk';
-import { isText } from 'istextorbinary';
 import * as inquirer from 'inquirer';
+import { isText } from 'istextorbinary';
 import { error, log } from '../../utils';
 
 export function checkRuntime(runtime: Maybe<string>): string | void {

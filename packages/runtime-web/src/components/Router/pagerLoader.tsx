@@ -35,7 +35,7 @@ export function PageLoader({
       });
   }, [currentPage]);
 
-  if (loading) {
+  if (loading || !currentPageInstance) {
     return <Loading />;
   }
 

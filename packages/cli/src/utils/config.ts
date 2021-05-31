@@ -13,7 +13,7 @@ export function getLibConfig({ config: configPath }: LibPaths): MaterialsLibConf
     throw `no config file "${configPath}"`;
   }
 
-  const { libName, displayName, desc, thumb, author, runtime, releaseTo, __isBuildIn } = JSON.parse(
+  const { libName, displayName, desc, thumb, author, runtime, server, __isBuildIn } = JSON.parse(
     fs.readFileSync(configPath, 'utf-8'),
   ) as Partial<MaterialsLibConfig>;
 
@@ -21,15 +21,15 @@ export function getLibConfig({ config: configPath }: LibPaths): MaterialsLibConf
     throw `invalid field "libName": ${libName} in "${configPath}"`;
   }
 
-  if (typeof releaseTo !== 'string') {
-    throw `invalid field "releaseTo": ${releaseTo} in "${configPath}"`;
+  if (typeof server !== 'string') {
+    throw `invalid field "server": ${server} in "${configPath}"`;
   }
 
   if (!Object.values(MaterialsLibRuntime).includes(runtime)) {
     throw `invalid field "runtime": ${runtime} in "${configPath}"`;
   }
 
-  libConfig = { libName, displayName: displayName || libName, desc, thumb, runtime, releaseTo, author, __isBuildIn };
+  libConfig = { libName, displayName: displayName || libName, desc, thumb, runtime, server, author, __isBuildIn };
 
   return libConfig;
 }
