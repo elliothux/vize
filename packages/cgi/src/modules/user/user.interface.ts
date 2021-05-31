@@ -6,3 +6,8 @@ export type CreateUserParams = Pick<
 >;
 
 export type UpdateUserParams = CreateUserParams;
+
+export interface CheckTokenParams {
+  username: string;
+  token: string;
+}

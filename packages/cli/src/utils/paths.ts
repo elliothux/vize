@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import { ActionsList, ComponentsList, ContainerList, MaterialsList, PluginsList } from '../types';
 import { ensureRunPathValid } from './common';
+import os from 'os';
 
 export interface LibPaths {
   root: string;
@@ -151,4 +152,12 @@ function getContainerList(folderPath: string): ContainerList {
 
 function isItemPathNameValid(i: string) {
   return !i.startsWith('.') && !i.startsWith('_');
+}
+
+export async function getGlobalTempPath() {
+  const TEMP_PATH = path.resolve(os.homedir(), '.vize');
+  if (!(await fs.pathExists(TEMP_PATH))) {
+    await fs.mkdir(TEMP_PATH);
+  }
+  return TEMP_PATH;
 }

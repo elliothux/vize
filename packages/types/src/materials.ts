@@ -109,6 +109,6 @@ export interface MaterialsLibConfig {
   registry?: string;
   author: string;
   runtime: MaterialsLibRuntime;
-  releaseTo: string;
+  server: string;
   __isBuildIn?: boolean;
 }

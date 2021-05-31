@@ -12,6 +12,8 @@ import {
   createContainer,
   createFormField,
   release,
+  login,
+  logout,
 } from './commands';
 
 // eslint-disable-next-line
@@ -100,6 +102,16 @@ program
     const options = cleanArgs(cmd);
     return createLib(name, options);
   });
+
+program
+  .command('login')
+  .description('登录')
+  .action(login);
+
+program
+  .command('logout')
+  .description('登出')
+  .action(logout);
 
 program.arguments('<command>').action((cmd: string) => {
   program.outputHelp();

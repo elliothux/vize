@@ -1,8 +1,8 @@
-import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import assert from 'assert';
 import compressing from 'compressing';
+import { getGlobalTempPath } from './paths';
 import { log } from './logger';
 import { curl } from './request';
 
@@ -20,18 +20,9 @@ export interface PackageInfo {
   config: { [key: string]: { name: string; from: PackageInfo } };
 }
 
-export async function getCLITempPath() {
-  const TEMP_PATH = path.resolve(os.homedir(), '.vize-cli-temp');
-  if (!(await fs.pathExists(TEMP_PATH))) {
-    await fs.mkdir(TEMP_PATH);
-  }
-  return TEMP_PATH;
-}
-
 export async function getPackageInfo(pkgName: string, registry: string): Promise<PackageInfo> {
   log(`fetching npm info of ${pkgName}`);
   const result = await curl(`${registry}/${pkgName}`, {
-    dataType: 'json',
     followRedirect: true,
   });
   log(`Download result: ${result.status}`);
@@ -60,7 +51,7 @@ export async function downloadPackage(pkgName: string, registry = 'https://regis
     dist: { tarball: tgzUrl },
     version,
   } = await getPackageInfo(pkgName, registry);
-  const saveDir = path.join(await getCLITempPath(), 'packages', pkgName);
+  const saveDir = path.join(await getGlobalTempPath(), 'packages', pkgName);
   const existed = await checkExistence(saveDir, version);
 
   if (!existed) {
@@ -79,6 +70,6 @@ export async function downloadPackage(pkgName: string, registry = 'https://regis
 }
 
 export async function getPackageLocalPath(pkgName: string): Promise<Maybe<string>> {
-  const packagePath = path.join(await getCLITempPath(), 'packages', pkgName);
+  const packagePath = path.join(await getGlobalTempPath(), 'packages', pkgName);
   return (await fs.pathExists(packagePath)) ? packagePath : null;
 }

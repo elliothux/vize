@@ -14,11 +14,15 @@ export class UserService {
   ) {}
 
   public async getUserEntityById(id: number) {
-    return this.userRepository.findOne(id);
+    const result = await this.userRepository.findOne(id);
+    result && delete result.__developerAccessToken;
+    return result;
   }
 
   public async getUserEntityByName(name: string) {
-    return this.userRepository.findOne({ name });
+    const result = await this.userRepository.findOne({ name });
+    result && delete result.__developerAccessToken;
+    return result;
   }
 
   public async queryUserEntities({
@@ -41,8 +45,11 @@ export class UserService {
       where,
     };
 
+    const result = await this.userRepository.find(options);
+    result?.forEach(i => delete i.__developerAccessToken);
+
     return {
-      data: await this.userRepository.find(options),
+      data: result,
       total: await this.userRepository.count({ where }),
     };
   }
@@ -88,5 +95,10 @@ export class UserService {
   public async checkUserExists(name: string) {
     const count = await this.userRepository.count({ name });
     return count > 0;
+  }
+
+  public async getAccessToken(name: string) {
+    const result = await this.userRepository.findOne({ name });
+    return result?.__developerAccessToken;
   }
 }

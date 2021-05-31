@@ -1,14 +1,15 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
   Param,
-  UseInterceptors,
-  UploadedFile,
+  Post,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Maybe, FileInterceptorUploadedFile, WithKeywords } from '../../types';
+import { FileInterceptorUploadedFile, Maybe, WithKeywords } from '../../types';
 import {
   CGICodeMap,
   CGIResponse,
@@ -18,6 +19,7 @@ import {
   warn,
 } from '../../utils';
 import { RequestId } from '../../decorators';
+import { UserService } from '../user/user.service';
 import { MaterialsService } from './materials.service';
 import {
   createLibPackageSoftLink,
@@ -26,12 +28,16 @@ import {
   parseLibs,
   saveMaterialsPackage,
 } from './materials.utils';
+import { UploadLibParams } from './materials.interface';
 
 let cgiMaterialsService: Maybe<MaterialsService> = null;
 
 @Controller('/cgi/materials')
 export class MaterialsController {
-  constructor(private readonly materialsService: MaterialsService) {
+  constructor(
+    private readonly materialsService: MaterialsService,
+    private readonly userServices: UserService,
+  ) {
     cgiMaterialsService = materialsService;
   }
 
@@ -75,6 +81,7 @@ export class MaterialsController {
   async uploadLibPackage(
     @RequestId() requestId,
     @UploadedFile() file: FileInterceptorUploadedFile,
+    @Body() { username, accessToken }: UploadLibParams,
     @Param('libName') libName: string,
     @Param('version') version: string,
   ) {
@@ -82,7 +89,18 @@ export class MaterialsController {
       libName,
       version,
       filename: file.filename,
+      body: { username, accessToken: '*' },
     });
+
+    const token = await this.userServices.getAccessToken(username);
+    if (token !== accessToken) {
+      warn('materials.controller.uploadLibPackage', 'invalid access-token', {
+        username,
+        token,
+      });
+      return CGIResponse.failed(requestId, CGICodeMap.InvalidAccessToken);
+    }
+
     const packagePath = await saveMaterialsPackage(
       libName,
       version,

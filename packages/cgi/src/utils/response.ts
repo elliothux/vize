@@ -52,6 +52,7 @@ export enum CGICodeMap {
   UserNotExists = 700002,
   UploadResourceCallbackError = 80001,
   DeleteResourceCallbackError = 80002,
+  InvalidAccessToken = 80003,
 }
 
 const CGIReasonMap: { [key in CGICodeMap]: string } = {
@@ -68,6 +69,7 @@ const CGIReasonMap: { [key in CGICodeMap]: string } = {
     'upload resource callback occurred error',
   [CGICodeMap.DeleteResourceCallbackError]:
     'delete resource callback occurred error',
+  [CGICodeMap.InvalidAccessToken]: 'invalid access-token',
 };
 
 export type PromiseResult<T> = Promise<[null, T] | [Error, null]>;

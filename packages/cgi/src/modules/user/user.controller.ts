@@ -9,7 +9,11 @@ import {
 import { QueryParams, Maybe, WithKeywords } from '../../types';
 import { RequestId, UserName } from '../../decorators';
 import { UserService } from './user.service';
-import { CreateUserParams, UpdateUserParams } from './user.interface';
+import {
+  CheckTokenParams,
+  CreateUserParams,
+  UpdateUserParams,
+} from './user.interface';
 
 let cgiUserService: Maybe<UserService> = null;
 
@@ -61,6 +65,33 @@ export class UserController {
 
     const result = await this.userService.updateUserEntity(parseInt(id), user);
     infoResponse(requestId, 'user.controller.updateUser', { result });
+    return CGIResponse.success(requestId, result);
+  }
+
+  @Get('/access_token')
+  async checkAccessToken(
+    @RequestId() requestId,
+    @Query() { token, username }: CheckTokenParams,
+  ) {
+    infoRequest(requestId, 'user.controller.checkAccessToken', {
+      token,
+      username,
+    });
+
+    if (!(await this.userService.checkUserExists(username))) {
+      warn(
+        'user.controller.checkAccessToken',
+        `User "${username}" not exists`,
+        {
+          requestId,
+        },
+      );
+      return CGIResponse.failed(requestId, CGICodeMap.UserNotExists);
+    }
+
+    const accessToken = await this.userService.getAccessToken(username);
+    const result = { tokenValid: token === accessToken };
+    infoResponse(requestId, 'user.controller.checkAccessToken', { result });
     return CGIResponse.success(requestId, result);
   }
 
