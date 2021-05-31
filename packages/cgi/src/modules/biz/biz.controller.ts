@@ -1,55 +1,63 @@
+import { Body, Controller, Param, Query, Get, Post } from '@nestjs/common';
 import {
-  Body,
-  Controller,
-  Param,
-  Query,
-  Logger,
-  LoggerService,
-  Inject,
-  Get,
-  Post,
-} from '@nestjs/common';
-import { CGICodeMap, CGIResponse } from '../../utils';
+  CGICodeMap,
+  CGIResponse,
+  infoRequest,
+  infoResponse,
+  warn,
+} from '../../utils';
+import { Maybe, WithKeywords } from '../../types';
+import { RequestId } from '../../decorators';
 import { BizService } from './biz.service';
 import { CreateBizParams, UpdateBizParams } from './biz.interface';
-import { Maybe, WithKeywords } from '../../types';
 
 let cgiBizServices: Maybe<BizService> = null;
 
 @Controller('/cgi/biz')
 export class BizController {
-  constructor(
-    private readonly bizService: BizService,
-    @Inject(Logger) private readonly logger: LoggerService,
-  ) {
+  constructor(private readonly bizService: BizService) {
     cgiBizServices = bizService;
   }
 
   @Get()
-  async queryBiz(@Query() { keywords }: WithKeywords) {
-    this.logger.log('queryBiz');
+  async queryBiz(@RequestId() requestId, @Query() { keywords }: WithKeywords) {
+    infoRequest(requestId, 'biz.controller.queryBiz', { keywords });
     const result = await this.bizService.queryBizEntities({ keywords });
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'biz.controller.queryBiz', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Post()
-  async createBiz(@Body() biz: CreateBizParams) {
+  async createBiz(@RequestId() requestId, @Body() biz: CreateBizParams) {
+    infoRequest(requestId, 'biz.controller.createBiz', biz);
     if (await this.bizService.checkBizExists(biz.key)) {
-      return CGIResponse.failed(CGICodeMap.BizExists);
+      warn('biz.controller.createBiz', 'Biz already exists', {
+        requestId,
+        biz,
+      });
+      return CGIResponse.failed(requestId, CGICodeMap.BizExists);
     }
 
     const result = await this.bizService.createBizEntity(biz);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'biz.controller.createBiz', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Post('/:id')
-  async updateBiz(@Body() biz: UpdateBizParams, @Param('id') id: string) {
+  async updateBiz(
+    @RequestId() requestId,
+    @Body() biz: UpdateBizParams,
+    @Param('id') id: string,
+  ) {
+    infoRequest(requestId, 'biz.controller.updateBiz', { id, biz });
     if (!(await this.bizService.checkBizExistsById(parseInt(id)))) {
-      return CGIResponse.failed(CGICodeMap.BizNotExists);
+      warn('biz.controller.updateBiz', 'Biz not exists', { requestId, id });
+      return CGIResponse.failed(requestId, CGICodeMap.BizNotExists);
     }
 
     const result = await this.bizService.updateBizEntity(parseInt(id), biz);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'biz.controller.updateBiz', { result });
+    return CGIResponse.success(requestId, result);
   }
 }
 

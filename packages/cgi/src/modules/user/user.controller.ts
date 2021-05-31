@@ -1,6 +1,13 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { CGICodeMap, CGIResponse } from '../../utils';
+import {
+  CGICodeMap,
+  CGIResponse,
+  infoRequest,
+  infoResponse,
+  warn,
+} from '../../utils';
 import { QueryParams, Maybe, WithKeywords } from '../../types';
+import { RequestId } from '../../decorators';
 import { UserService } from './user.service';
 import { CreateUserParams, UpdateUserParams } from './user.interface';
 
@@ -13,29 +20,48 @@ export class UserController {
   }
 
   @Get()
-  async queryUser(@Query() query: WithKeywords<QueryParams>) {
+  async queryUser(
+    @RequestId() requestId,
+    @Query() query: WithKeywords<QueryParams>,
+  ) {
+    infoRequest(requestId, 'user.controller.queryUser', query);
     const result = await this.userService.queryUserEntities(query);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'user.controller.queryUser', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Post()
-  async createUser(@Body() user: CreateUserParams) {
+  async createUser(@RequestId() requestId, @Body() user: CreateUserParams) {
+    infoRequest(requestId, 'user.controller.queryUser', { user });
     if (await this.userService.checkUserExists(user.name)) {
-      return CGIResponse.failed(CGICodeMap.UserExists);
+      warn('user.controller.queryUser', `User "${user.name}" already exists`, {
+        requestId,
+      });
+      return CGIResponse.failed(requestId, CGICodeMap.UserExists);
     }
 
     const result = await this.userService.createUserEntity(user);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'user.controller.createUser', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Post('/:id')
-  async updateUser(@Body() user: UpdateUserParams, @Param('id') id: string) {
+  async updateUser(
+    @RequestId() requestId,
+    @Body() user: UpdateUserParams,
+    @Param('id') id: string,
+  ) {
+    infoRequest(requestId, 'user.controller.updateUser', { user, id });
     if (!(await this.userService.checkUserExists(user.name))) {
-      return CGIResponse.failed(CGICodeMap.UserNotExists);
+      warn('user.controller.updateUser', `User "${user.name}" not exists`, {
+        requestId,
+      });
+      return CGIResponse.failed(requestId, CGICodeMap.UserNotExists);
     }
 
     const result = await this.userService.updateUserEntity(parseInt(id), user);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'user.controller.updateUser', { result });
+    return CGIResponse.success(requestId, result);
   }
 }
 

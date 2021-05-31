@@ -7,9 +7,17 @@ import {
   UploadedFile,
   Query,
 } from '@nestjs/common';
-import { Maybe, FileInterceptorUploadedFile, WithKeywords } from '../../types';
-import { CGICodeMap, CGIResponse, getConfig } from '../../utils';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Maybe, FileInterceptorUploadedFile, WithKeywords } from '../../types';
+import {
+  CGICodeMap,
+  CGIResponse,
+  getConfig,
+  infoRequest,
+  infoResponse,
+  warn,
+} from '../../utils';
+import { RequestId } from '../../decorators';
 import { MaterialsService } from './materials.service';
 import {
   createLibPackageSoftLink,
@@ -28,34 +36,53 @@ export class MaterialsController {
   }
 
   @Get()
-  async queryLibs(@Query() { keywords }: WithKeywords) {
+  async queryLibs(@RequestId() requestId, @Query() { keywords }: WithKeywords) {
+    infoRequest(requestId, 'materials.controller.queryLibs', { keywords });
     const result = await this.materialsService.queryLibEntities({ keywords });
-    return CGIResponse.success(parseLibs(result));
+    infoResponse(requestId, 'materials.controller.queryLibs', { result });
+    return CGIResponse.success(requestId, parseLibs(result));
   }
 
   @Get('/:id')
-  async queryLib(@Param('id') id: string) {
+  async queryLib(@RequestId() requestId, @Param('id') id: string) {
+    infoRequest(requestId, 'materials.controller.queryLib', { id });
     const result = await this.materialsService.getLibEntity(parseInt(id));
-    return CGIResponse.success(parseLibs([result])[0]);
+    infoResponse(requestId, 'materials.controller.queryLib', { result });
+    return CGIResponse.success(requestId, parseLibs([result])[0]);
   }
 
   @Get('/versions/:libName')
-  async listVersions(@Param('libName') libName: string) {
+  async listVersions(
+    @RequestId() requestId,
+    @Param('libName') libName: string,
+  ) {
+    infoRequest(requestId, 'materials.controller.listVersions', { libName });
     if (!libName) {
-      return CGIResponse.failed(CGICodeMap.MaterialsNotExists);
+      warn('materials.controller.listVersions', `Materials not exists`, {
+        requestId,
+        libName,
+      });
+      return CGIResponse.failed(requestId, CGICodeMap.MaterialsNotExists);
     }
 
     const result = await this.materialsService.listVersions(libName);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'materials.controller.listVersions', { result });
+    return CGIResponse.success(requestId, result);
   }
 
   @Post('/versions/:libName/:version')
   @UseInterceptors(FileInterceptor('file'))
   async uploadLibPackage(
+    @RequestId() requestId,
     @UploadedFile() file: FileInterceptorUploadedFile,
     @Param('libName') libName: string,
     @Param('version') version: string,
   ) {
+    infoRequest(requestId, 'materials.controller.uploadLibPackage', {
+      libName,
+      version,
+      filename: file.filename,
+    });
     const packagePath = await saveMaterialsPackage(
       libName,
       version,
@@ -68,24 +95,38 @@ export class MaterialsController {
     await createLibPackageSoftLink(libName, extractedPackagePath);
     await installLibNPMPackages(extractedPackagePath);
     await this.materialsService.syncLib(libName);
-    return CGIResponse.success();
+    infoResponse(requestId, 'materials.controller.uploadLibPackage');
+    return CGIResponse.success(requestId);
   }
 
   @Post('/sync/:libName')
-  async syncLibManifest(@Param('libName') libName: string) {
+  async syncLibManifest(
+    @RequestId() requestId,
+    @Param('libName') libName: string,
+  ) {
+    infoRequest(requestId, 'materials.controller.syncLibManifest', {
+      libName,
+    });
     const result =
       libName === '*'
         ? await this.materialsService.syncAllLibs()
         : await this.materialsService.syncLib(libName);
-    return CGIResponse.success(result);
+    infoResponse(requestId, 'materials.controller.syncLibManifest', {
+      result,
+    });
+    return CGIResponse.success(requestId, result);
   }
 
   @Get('/generators/all')
-  async queryGenerators() {
+  async queryGenerators(@RequestId() requestId) {
+    infoRequest(requestId, 'materials.controller.queryGenerators');
     const { generators } = getConfig();
-    return CGIResponse.success(
-      Object.entries(generators).map(([key, { info }]) => ({ ...info, key })),
-    );
+    const result = Object.entries(generators).map(([key, { info }]) => ({
+      ...info,
+      key,
+    }));
+    infoResponse(requestId, 'materials.controller.queryGenerators', { result });
+    return CGIResponse.success(requestId, result);
   }
 }
 
