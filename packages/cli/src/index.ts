@@ -15,6 +15,9 @@ import {
   login,
   logout,
 } from './commands';
+import { initSentryReport } from './utils/report';
+
+initSentryReport();
 
 // eslint-disable-next-line
 const packageJson = require('../package.json');
