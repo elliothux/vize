@@ -4,7 +4,7 @@
   "main": "package.js",
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true PORT=3001 ../../node_modules/.bin/react-app-rewired start",
-    "build": "SKIP_PREFLIGHT_CHECK=true ../../node_modules/.bin/react-app-rewired build",
+    "build": "SKIP_PREFLIGHT_CHECK=true NODE_ENV=production ../../node_modules/.bin/react-app-rewired build",
     "publish": "npm publish --access public"
   },
   "browserslist": {

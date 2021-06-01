@@ -5,7 +5,9 @@ const {
   addWebpackResolve,
   addLessLoader,
   adjustStyleLoaders,
+  addWebpackPlugin,
 } = require('customize-cra');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 module.exports = override(
   addWebpackResolve({ symlinks: false }),
@@ -29,4 +31,16 @@ module.exports = override(
     noIeCompat: true,
     javascriptEnabled: true,
   }),
+  process.env.NODE_ENV === 'production'
+    ? addWebpackPlugin(
+        new SentryWebpackPlugin({
+          authToken: '315829bc1e4e47be9cdcf01cf4af6cd90a87b3f67d664d7991dd0ef935d664c0',
+          org: 'vize',
+          project: 'management-ui',
+          release: '0.1',
+          include: 'src',
+          ignore: ['node_modules', 'webpack.config.js'],
+        }),
+      )
+    : undefined,
 );

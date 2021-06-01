@@ -72,6 +72,7 @@
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
+    "@sentry/webpack-plugin": "^1.15.1",
     "@types/classnames": "^2.2.10",
     "@types/fs-extra": "^8.1.1",
     "@types/lodash.template": "^4.5.0",

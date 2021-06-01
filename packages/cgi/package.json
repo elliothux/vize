@@ -6,9 +6,10 @@
   "module": "dist/main",
   "scripts": {
     "dev": "nest start --watch",
-    "prebuild": "rimraf dist",
-    "build": "nest build",
-    "publish": "npm publish --access public"
+    "dist": "rimraf dist; nest build;",
+    "publish": "npm publish --access public",
+    "release": "npm run dist; npm run upload:sourcemap; npm run publish;",
+    "upload:sourcemap": "../../node_modules/@sentry/cli/bin/sentry-cli --auth-token 315829bc1e4e47be9cdcf01cf4af6cd90a87b3f67d664d7991dd0ef935d664c0 releases --org vize --project cgi files 0.1 upload-sourcemaps --ext map ./dist"
   },
   "dependencies": {
     "@nestjs/cli": "^7.0.0",
