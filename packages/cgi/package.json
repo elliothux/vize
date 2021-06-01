@@ -33,7 +33,8 @@
     "typeorm": "^0.2.26",
     "typeorm-text-search": "^1.1.2",
     "uuid": "^8.3.2",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",

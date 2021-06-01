@@ -52,6 +52,7 @@ export function App() {
             path={RouterPaths.RESOURCES}
             component={withDynamicImport(() => import('pages/resources'), 'Resources')}
           />
+          <Route path={RouterPaths.LOG} component={withDynamicImport(() => import('pages/logs'), 'Logs')} />
         </Switch>
       </div>
     </I18nextProvider>

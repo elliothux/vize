@@ -294,3 +294,4 @@ lerna-debug.log*
 /packages/cgi/deploy-boilerplate/
 /packages/types/docs/
 /packages/materials-universal/.vize/
+!/packages/management-ui/src/pages/logs/

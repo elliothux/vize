@@ -1,6 +1,10 @@
+import * as path from 'path';
 import * as winston from 'winston';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston/dist/winston.utilities';
 import { getConfig } from './config';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const DailyRotateFile = require('winston-daily-rotate-file');
 
 let loggerConfig;
 
@@ -14,19 +18,41 @@ export function getLoggerConfig() {
       transports: [
         new winston.transports.Console({
           format: winston.format.combine(
-            winston.format.timestamp(),
+            winston.format.timestamp({
+              format: 'YYYY-MM-DD HH:mm:ss',
+            }),
             winston.format.ms(),
             nestWinstonModuleUtilities.format.nestLike('@vize/cgi'),
           ),
         }),
-        new winston.transports.File({
-          dirname: logsPath,
-          filename: 'error.log',
-          level: 'error',
+        new DailyRotateFile({
+          format: winston.format.combine(
+            winston.format.timestamp({
+              format: 'YYYY-MM-DD HH:mm:ss',
+            }),
+            winston.format.json(),
+          ),
+          dirname: path.resolve(logsPath, 'all'),
+          filename: '%DATE%.log',
+          datePattern: 'YYYY-MM-DD',
+          maxSize: '50m',
+          maxFiles: '15d',
+          timestamp: true,
         }),
-        new winston.transports.File({
-          dirname: logsPath,
-          filename: 'combined.log',
+        new DailyRotateFile({
+          format: winston.format.combine(
+            winston.format.timestamp({
+              format: 'YYYY-MM-DD HH:mm:ss',
+            }),
+            winston.format.json(),
+          ),
+          level: 'error',
+          dirname: path.resolve(logsPath, 'error'),
+          filename: '%DATE%.log',
+          datePattern: 'YYYY-MM-DD',
+          maxSize: '50m',
+          maxFiles: '15d',
+          timestamp: true,
         }),
       ],
     };

@@ -1,0 +1,27 @@
+@import 'styles/helper';
+
+.select-log {
+  position: absolute;
+  right: 24px;
+  bottom: 0;
+  width: 148px;
+  color: $main-color;
+  border-bottom: 2px solid $main-color;
+
+  .ant-select-selector {
+    height: 48px !important;
+
+    .ant-select-selection-search-input {
+      height: 48px !important;
+      line-height: 48px;
+    }
+
+    .ant-select-selection-placeholder {
+      line-height: 48px;
+    }
+
+    .ant-select-selection-item {
+      line-height: 48px;
+    }
+  }
+}

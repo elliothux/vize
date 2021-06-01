@@ -372,5 +372,9 @@ export const zh = {
     'Failed to generate access token': '生成 Access Token 失败',
     "Make sure to copy this access token now. You won't be able to see it again!":
       '请立即复制此 Access Token，一旦关闭对话，你将无法再次浏览此 Token',
+    'System Logs': '系统日志',
+    'Search logs': '搜索日志',
+    'Failed to get logs': '获取日志列表失败',
+    'Select log': '选择日志',
   },
 };
