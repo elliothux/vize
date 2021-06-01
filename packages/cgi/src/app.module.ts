@@ -1,15 +1,17 @@
-import { MiddlewareConsumer, Module, NestModule, Logger } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { SentryModule } from '@ntegral/nestjs-sentry';
+import { LogLevel } from '@sentry/types';
 import { BizModule } from './modules/biz/biz.modules';
 import { PageModule } from './modules/page/page.modules';
 import { HistoryModule } from './modules/history/history.modules';
 import { MaterialsModule } from './modules/materials/materials.modules';
 import { UserModule } from './modules/user/user.modules';
 import { ResourceModule } from './modules/resource/resource.modules';
-import { Maybe, FirstParameter } from './types';
-import { getConfig, getStaticModules, info } from './utils';
+import { FirstParameter, Maybe } from './types';
+import { getConfig, getEnv, getStaticModules, info, isDev } from './utils';
 
 type App = FirstParameter<typeof NestFactory.create>;
 
@@ -25,6 +27,14 @@ export function getApp(): App {
   @Module({
     imports: [
       ...getStaticModules(paths),
+      SentryModule.forRoot({
+        dsn:
+          'https://a646c5c66c4c48338b13aeab1aeec384@o767302.ingest.sentry.io/5794415',
+        debug: isDev(),
+        environment: getEnv(),
+        release: '0.1.0',
+        logLevel: isDev() ? LogLevel.Debug : LogLevel.Error,
+      }),
       ConfigModule.forRoot({
         load: [getConfig],
         isGlobal: true,

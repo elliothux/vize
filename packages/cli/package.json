@@ -21,6 +21,8 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
+    "@sentry/node": "^6.5.0",
+    "@sentry/tracing": "^6.5.0",
     "@swc/core": "^1.2.36",
     "@vize/richtext-editor": "^0.1.6",
     "@vize/types": "^0.1.15",
