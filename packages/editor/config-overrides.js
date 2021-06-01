@@ -14,7 +14,6 @@ require('../../scripts/watcher');
 
 module.exports = {
   webpack: override(
-    // addWebpackResolve({ symlinks: false }),
     adjustStyleLoaders(({ use: [, css, postcss, resolve, processor] }) => {
       css.options.sourceMap = true;
       postcss.options.sourceMap = true;
@@ -49,7 +48,6 @@ module.exports = {
       noIeCompat: true,
       javascriptEnabled: true,
     }),
-    // setWebpackPublicPath('/editor/'),
     setOutputPublicPath('/editor/'),
     addWebpackPlugin(new BundleAnalyzerPlugin()),
   ),

@@ -15,7 +15,7 @@ import {
 import {
   downloadPackage,
   error,
-  getCLITempPath,
+  getGlobalTempPath,
   getPackageLocalPath,
   LibPaths,
   logWithSpinner,
@@ -112,7 +112,7 @@ export async function prepareEditor(local: boolean, registry?: string): Promise<
 
   const packagePath = await downloadPackage(EDITOR_PKG_NAME, registry);
   const filesPath = path.resolve(packagePath, 'build');
-  const tempPath = await getCLITempPath();
+  const tempPath = await getGlobalTempPath();
 
   const staticPath = path.resolve(tempPath, 'static');
   const target = path.resolve(staticPath, 'editor');
