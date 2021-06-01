@@ -20,7 +20,6 @@
     "@nestjs/serve-static": "^2.1.4",
     "@nestjs/testing": "^7.0.0",
     "@nestjs/typeorm": "^7.1.4",
-    "@vize/cli": "^0.1.11",
     "cli-color": "^2.0.0",
     "cookie-parser": "^1.4.5",
     "fs-extra": "^9.1.0",
