@@ -23,7 +23,7 @@ export function Logs() {
   const [keywords, setKeywords] = useState('');
   const [type, setType] = useState<LogType>('all');
   const [files, setFiles] = useState<Maybe<string[]>>();
-  const [file, setFile] = useState<string>('');
+  const [file, setFile] = useState<string>();
   const [content, setContent] = useState<LogItem[][]>([]);
 
   useAsyncEffect(async () => {
@@ -43,12 +43,17 @@ export function Logs() {
 
   useAsyncEffect(
     async (startLine?: number) => {
+      if (!file) {
+        return;
+      }
+
       setLoading(true);
       const [success, data, response] = await getLog(type, file, startLine);
       setLoading(false);
 
       if (success) {
         const logs = parseLogs(data!);
+        debugger;
         setContent(i => [...i, logs]);
       } else {
         message.error(`${t('Failed to get logs')}：${response.message}`);

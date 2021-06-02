@@ -34,7 +34,7 @@ export class LogController {
     infoRequest(requestId, 'log.controller.getLogs');
     const result = await this.logService.getLogs(
       type,
-      `${name}.log`,
+      name,
       startLine ? parseInt(startLine, 10) : undefined,
     );
     infoResponse(requestId, 'log.controller.getLogs');
