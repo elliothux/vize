@@ -28,24 +28,24 @@ export class UserController {
     @RequestId() requestId,
     @Query() query: WithKeywords<QueryParams>,
   ) {
-    infoRequest(requestId, 'user.controller.queryUser', query);
+    infoRequest(requestId, 'User.controller.queryUser', query);
     const result = await this.userService.queryUserEntities(query);
-    infoResponse(requestId, 'user.controller.queryUser', { result });
+    infoResponse(requestId, 'User.controller.queryUser', { result });
     return CGIResponse.success(requestId, result);
   }
 
   @Post()
   async createUser(@RequestId() requestId, @Body() user: CreateUserParams) {
-    infoRequest(requestId, 'user.controller.queryUser', { user });
+    infoRequest(requestId, 'User.controller.queryUser', { user });
     if (await this.userService.checkUserExists(user.name)) {
-      warn('user.controller.queryUser', `User "${user.name}" already exists`, {
+      warn('User.controller.queryUser', `User "${user.name}" already exists`, {
         requestId,
       });
       return CGIResponse.failed(requestId, CGICodeMap.UserExists);
     }
 
     const result = await this.userService.createUserEntity(user);
-    infoResponse(requestId, 'user.controller.createUser', { result });
+    infoResponse(requestId, 'User.controller.createUser', { result });
     return CGIResponse.success(requestId, result);
   }
 
@@ -55,16 +55,16 @@ export class UserController {
     @Body() user: UpdateUserParams,
     @Param('id') id: string,
   ) {
-    infoRequest(requestId, 'user.controller.updateUser', { user, id });
+    infoRequest(requestId, 'User.controller.updateUser', { user, id });
     if (!(await this.userService.checkUserExists(user.name))) {
-      warn('user.controller.updateUser', `User "${user.name}" not exists`, {
+      warn('User.controller.updateUser', `User "${user.name}" not exists`, {
         requestId,
       });
       return CGIResponse.failed(requestId, CGICodeMap.UserNotExists);
     }
 
     const result = await this.userService.updateUserEntity(parseInt(id), user);
-    infoResponse(requestId, 'user.controller.updateUser', { result });
+    infoResponse(requestId, 'User.controller.updateUser', { result });
     return CGIResponse.success(requestId, result);
   }
 
@@ -73,14 +73,14 @@ export class UserController {
     @RequestId() requestId,
     @Query() { token, username }: CheckTokenParams,
   ) {
-    infoRequest(requestId, 'user.controller.checkAccessToken', {
+    infoRequest(requestId, 'User.controller.checkAccessToken', {
       token,
       username,
     });
 
     if (!(await this.userService.checkUserExists(username))) {
       warn(
-        'user.controller.checkAccessToken',
+        'User.controller.checkAccessToken',
         `User "${username}" not exists`,
         {
           requestId,
@@ -91,7 +91,7 @@ export class UserController {
 
     const accessToken = await this.userService.getAccessToken(username);
     const result = { tokenValid: token === accessToken };
-    infoResponse(requestId, 'user.controller.checkAccessToken', { result });
+    infoResponse(requestId, 'User.controller.checkAccessToken', { result });
     return CGIResponse.success(requestId, result);
   }
 
@@ -101,20 +101,20 @@ export class UserController {
     @UserName() username,
     @Param('id') id: string,
   ) {
-    infoRequest(requestId, 'user.controller.generateAccessToken', {
+    infoRequest(requestId, 'User.controller.generateAccessToken', {
       username,
       id,
     });
 
     if (!(await this.userService.checkUserExistsById(parseInt(id, 10)))) {
-      warn('user.controller.generateAccessToken', `UserId "${id}" not exists`, {
+      warn('User.controller.generateAccessToken', `UserId "${id}" not exists`, {
         requestId,
       });
       return CGIResponse.failed(requestId, CGICodeMap.UserNotExists);
     }
 
     const result = await this.userService.generateAccessToken(parseInt(id));
-    infoResponse(requestId, 'user.controller.generateAccessToken', {
+    infoResponse(requestId, 'User.controller.generateAccessToken', {
       ...result,
       token: '*',
     });

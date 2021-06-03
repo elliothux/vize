@@ -376,5 +376,6 @@ export const zh = {
     'Search logs': '搜索日志',
     'Failed to get logs': '获取日志列表失败',
     'Select log': '选择日志',
+    'No logs': '暂无日志',
   },
 };

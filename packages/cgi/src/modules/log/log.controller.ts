@@ -18,9 +18,9 @@ export class LogController {
     @RequestId() requestId,
     @Param('type') type: 'all' | 'error',
   ) {
-    infoRequest(requestId, 'log.controller.queryLogs');
+    infoRequest(requestId, 'Log.controller.queryLogs');
     const result = await this.logService.listLogs(type);
-    infoResponse(requestId, 'log.controller.queryLogs', { result });
+    infoResponse(requestId, 'Log.controller.queryLogs', { result });
     return CGIResponse.success(requestId, result);
   }
 
@@ -31,13 +31,13 @@ export class LogController {
     @Param('name') name: string,
     @Query() { startLine }: QueryLogParams,
   ) {
-    infoRequest(requestId, 'log.controller.getLogs');
+    infoRequest(requestId, 'Log.controller.getLogs');
     const result = await this.logService.getLogs(
       type,
       name,
       startLine ? parseInt(startLine, 10) : undefined,
     );
-    infoResponse(requestId, 'log.controller.getLogs');
+    infoResponse(requestId, 'Log.controller.getLogs');
     return CGIResponse.success(requestId, result);
   }
 }

@@ -171,7 +171,7 @@ export class PageService {
     // TODO: support custom publisher
     const { publisher, info } = publishers['web']!;
     logInfo(
-      'page.service.publishPage',
+      'Page.service.publishPage',
       `Start publish page "${key}" with publisher: "${info.name}"`,
     );
 
@@ -186,14 +186,14 @@ export class PageService {
       });
     } catch (e) {
       const error = e || `Unknown publish error with publisher: "${info.name}"`;
-      logError('page.service.publishPage', `Publish page "${key}" error`, {
+      logError('Page.service.publishPage', `Publish page "${key}" error`, {
         error,
       });
       setPublishStatus(key, PublishStatus.FAILED, error);
       return { error };
     }
 
-    logInfo('page.service.publishPage', `Publish page "${key}" success`);
+    logInfo('Page.service.publishPage', `Publish page "${key}" success`);
     const publisherResult = {
       ...result,
       url: `/p/${key}`,
@@ -222,14 +222,14 @@ export class PageService {
     const generator = generators[generatorName || 'web'];
     if (!generator) {
       const error = `Generator "${generatorName || 'web'}" does not exists`;
-      logError('page.service.generatePage', error);
+      logError('Page.service.generatePage', error);
       return {
         error: new Error(error),
       };
     }
 
     logInfo(
-      'page.service.generatePage',
+      'Page.service.generatePage',
       `Start generate page "${key}" with generator: "${generator.info.name}"`,
     );
     let result: Maybe<GeneratorResult> = null;
@@ -243,7 +243,7 @@ export class PageService {
       const error =
         e || `Unknown generate error with generator "${generator.info.name}"`;
       logError(
-        'page.service.generatePage',
+        'Page.service.generatePage',
         `Generate page "${key}" with error: `,
         { error },
       );
@@ -251,7 +251,7 @@ export class PageService {
       return { error };
     }
 
-    logInfo('page.service.generatePage', `Generate page "${key}" success`);
+    logInfo('Page.service.generatePage', `Generate page "${key}" success`);
     if (isPreview && result.type === 'file') {
       await createPreviewSoftlink(key, result.path);
       result['url'] = `/preview/${key}`;

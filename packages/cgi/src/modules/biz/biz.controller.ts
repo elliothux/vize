@@ -21,17 +21,17 @@ export class BizController {
 
   @Get()
   async queryBiz(@RequestId() requestId, @Query() { keywords }: WithKeywords) {
-    infoRequest(requestId, 'biz.controller.queryBiz', { keywords });
+    infoRequest(requestId, 'Biz.controller.queryBiz', { keywords });
     const result = await this.bizService.queryBizEntities({ keywords });
-    infoResponse(requestId, 'biz.controller.queryBiz', { result });
+    infoResponse(requestId, 'Biz.controller.queryBiz', { result });
     return CGIResponse.success(requestId, result);
   }
 
   @Post()
   async createBiz(@RequestId() requestId, @Body() biz: CreateBizParams) {
-    infoRequest(requestId, 'biz.controller.createBiz', biz);
+    infoRequest(requestId, 'Biz.controller.createBiz', biz);
     if (await this.bizService.checkBizExists(biz.key)) {
-      warn('biz.controller.createBiz', 'Biz already exists', {
+      warn('Biz.controller.createBiz', 'Biz already exists', {
         requestId,
         biz,
       });
@@ -39,7 +39,7 @@ export class BizController {
     }
 
     const result = await this.bizService.createBizEntity(biz);
-    infoResponse(requestId, 'biz.controller.createBiz', { result });
+    infoResponse(requestId, 'Biz.controller.createBiz', { result });
     return CGIResponse.success(requestId, result);
   }
 
@@ -49,14 +49,14 @@ export class BizController {
     @Body() biz: UpdateBizParams,
     @Param('id') id: string,
   ) {
-    infoRequest(requestId, 'biz.controller.updateBiz', { id, biz });
+    infoRequest(requestId, 'Biz.controller.updateBiz', { id, biz });
     if (!(await this.bizService.checkBizExistsById(parseInt(id)))) {
-      warn('biz.controller.updateBiz', 'Biz not exists', { requestId, id });
+      warn('Biz.controller.updateBiz', 'Biz not exists', { requestId, id });
       return CGIResponse.failed(requestId, CGICodeMap.BizNotExists);
     }
 
     const result = await this.bizService.updateBizEntity(parseInt(id), biz);
-    infoResponse(requestId, 'biz.controller.updateBiz', { result });
+    infoResponse(requestId, 'Biz.controller.updateBiz', { result });
     return CGIResponse.success(requestId, result);
   }
 }
