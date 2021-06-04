@@ -1,17 +1,16 @@
 import './index.scss';
 import * as React from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { RouteComponentProps, useLocation } from 'wouter';
 import { DefaultParams } from 'wouter/matcher';
 import { Trans, useTranslation } from 'react-i18next';
-import { Menu, message, Spin, Select, Empty } from 'antd';
+import { Menu, message, Spin, Select, Tooltip, Button, Empty } from 'antd';
+import { BiRefresh } from 'react-icons/bi';
 import { Header } from 'components/Header';
 import { useAsyncEffect } from 'hooks';
-import { getLog, queryLogFiles } from 'api';
-import { parseLogs, LogItem } from './utils';
-import { LogsContent } from './LogsContent';
-
-type LogType = 'all' | 'error';
+import { queryLogFiles } from 'api';
+import { LogType } from './types';
+import { LogContent } from './LogContent';
 
 interface RouterParams extends DefaultParams {
   type: LogType;
@@ -26,50 +25,44 @@ export function Logs({ params: { type } }: RouteComponentProps<RouterParams>) {
   const [keywords, setKeywords] = useState('');
   const [files, setFiles] = useState<string[]>();
   const [file, setFile] = useState<string>();
-  const [content, setContent] = useState<LogItem[][]>([]);
 
   useAsyncEffect(async () => {
+    setFilesLoading(true);
     setFiles(undefined);
     setFile(undefined);
-    setContent([]);
-    setFilesLoading(true);
     const [success, data, response] = await queryLogFiles(type);
     setFilesLoading(false);
 
     if (success) {
       setFiles(data!);
     } else {
-      setFiles(undefined);
       message.error(`${t('Failed to get logs')}：${response.message}`);
     }
   }, [type]);
 
-  useAsyncEffect(
-    async (startLine?: number) => {
-      if (!file) {
-        return;
-      }
-
-      setLoading(true);
-      const [success, data, response] = await getLog(type, file, startLine);
-      setLoading(false);
-
-      if (success) {
-        const logs = parseLogs(data!);
-        if (!logs.length) {
-          return;
-        }
-        setContent(i => [...i, logs]);
-      } else {
-        message.error(`${t('Failed to get logs')}：${response.message}`);
-      }
-    },
-    [file, type],
-  );
+  const onRefresh = useCallback(() => {
+    if (!file) {
+      return;
+    }
+    setLoading(true);
+    setFile(file => {
+      setTimeout(() => setFile(file), 100);
+      return undefined;
+    });
+  }, [file, type]);
 
   return (
     <Spin spinning={loading}>
-      <Header title={t('System Logs')} searchText={t('Search logs')} onSearch={setKeywords}>
+      <Header
+        title={t('System Logs')}
+        searchText={t('Search logs')}
+        onSearch={setKeywords}
+        appendAfterSearch={
+          <Tooltip title={t('refresh')} placement="bottom">
+            <Button type="primary" size="large" icon={<BiRefresh />} onClick={onRefresh} />
+          </Tooltip>
+        }
+      >
         <Menu
           mode="horizontal"
           className="header-menu"
@@ -101,8 +94,8 @@ export function Logs({ params: { type } }: RouteComponentProps<RouterParams>) {
       </Header>
 
       <div className="log-content">
-        {content?.length ? (
-          content.map(i => <LogsContent key={i[0].message} logs={i} />)
+        {file ? (
+          <LogContent keywords={keywords} setLoading={setLoading} type={type} file={file} />
         ) : (
           <Empty className="empty-content" description={t('No logs')} />
         )}

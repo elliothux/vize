@@ -1,25 +1,25 @@
 import * as React from 'react';
-import { LogItem } from './utils';
+import { LogItem as Item } from './types';
 
 interface Props {
-  logs: LogItem[];
+  logs: Item[];
 }
 
-export function LogsContent({ logs }: Props) {
+export function LogContentItem({ logs }: Props) {
   return (
     <>
-      {logs.map(i => (
-        <LogContentItem key={i.message} item={i} />
+      {logs.map((i, index) => (
+        <LogItem key={index} item={i} />
       ))}
     </>
   );
 }
 
 interface ItemProps {
-  item: LogItem;
+  item: Item;
 }
 
-function LogContentItem({ item }: ItemProps) {
+function LogItem({ item }: ItemProps) {
   return (
     <div className="log-content-item">
       <div className="log-item-meta">

@@ -1,19 +1,10 @@
-export enum LogLevel {
-  info = 'info',
-  error = 'error',
-}
-
-export interface LogItem {
-  context: string;
-  level: LogLevel;
-  message: string;
-  timestamp: string;
-  result?: object;
-  [key: string]: any;
-}
+import { LogItem } from './types';
 
 export function parseLogs(logs: string): LogItem[] {
   return logs.split('\n').reduce<LogItem[]>((accu, line) => {
+    if (!line) {
+      return accu;
+    }
     try {
       const log = JSON.parse(line) as LogItem;
       accu.push(log);
