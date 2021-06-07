@@ -56,6 +56,7 @@
     "react-dom": "^16.13.1",
     "react-i18next": "^11.8.8",
     "react-icons": "^3.9.0",
+    "react-json-view": "^1.21.3",
     "react-rnd": "^10.1.10",
     "react-scripts": "3.4.1",
     "react-sortable-hoc": "^1.11.0",

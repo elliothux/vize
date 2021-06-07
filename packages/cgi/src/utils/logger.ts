@@ -97,7 +97,10 @@ export function infoRequest(
   appName: string,
   params?: object,
 ) {
-  return log('info', appName, `CGI Request with id: "${requestId}"`, params);
+  return log('info', appName, `CGI Request with id: "${requestId}"`, {
+    params,
+    requestId,
+  });
 }
 
 export function infoResponse(
@@ -105,7 +108,10 @@ export function infoResponse(
   appName: string,
   response?: object,
 ) {
-  return log('info', appName, `CGI Response with id: "${requestId}"`, response);
+  return log('info', appName, `CGI Response with id: "${requestId}"`, {
+    response,
+    requestId,
+  });
 }
 
 export function error(

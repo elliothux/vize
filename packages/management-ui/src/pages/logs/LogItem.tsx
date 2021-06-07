@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Popover } from 'antd';
+import { message, Popover } from 'antd';
 import { BiInfoCircle } from 'react-icons/bi';
+import JsonView from 'react-json-view';
 import { LogItem as Item } from './types';
 
 interface Props {
@@ -25,11 +26,11 @@ function LogItem({ item }: ItemProps) {
   return (
     <div className="log-content-item">
       <Popover
-        title={JSON.stringify(item, null, 4)
-          .split('\n')
-          .map((i, index) => (
-            <p key={index}>{i}</p>
-          ))}
+        title="Log Detail"
+        placement="topLeft"
+        content={
+          <JsonView src={item} name="log" displayDataTypes={false} enableClipboard={() => message.success('copied')} />
+        }
       >
         <BiInfoCircle />
       </Popover>
