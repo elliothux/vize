@@ -1,6 +1,6 @@
 {
   "name": "@vize/cgi",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "aedron@github",
   "main": "dist/main",
   "module": "dist/main",

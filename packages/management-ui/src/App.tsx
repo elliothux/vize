@@ -5,7 +5,6 @@ import { Route, Switch } from 'wouter';
 import { LeftBar } from 'components/LeftBar';
 import { Login } from 'components/Login';
 import { RouterPaths } from 'types';
-import { Intro } from 'pages/intro';
 import { Pages } from 'pages/pages';
 import { i18n, initI18N } from 'i18n';
 import { Spin } from 'antd';
@@ -32,7 +31,7 @@ export function App() {
 
       <div className="vize-main">
         <Switch>
-          <Route path={RouterPaths.INTRO} component={Intro} />
+          {/*<Route path={RouterPaths.INTRO} component={withDynamicImport(() => import('./pages/intro'), 'Intro')} />*/}
           <Route path={RouterPaths.PAGES} component={Pages} />
           <Route
             path={RouterPaths.TEMPLATES}

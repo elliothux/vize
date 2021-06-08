@@ -98,7 +98,6 @@ export function BreadcrumbNavigator() {
         <BiHomeAlt />
         <span>Home</span>
       </Breadcrumb.Item>
-
       {content}
     </Breadcrumb>
   );

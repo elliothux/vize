@@ -196,7 +196,6 @@ export const zh = {
     'Universal triggers': '通用触发',
     'Hotarea Manager': '热区管理',
     Home: '主页',
-    Intro: '总览',
     Pages: '页面',
     Templates: '模板',
     Materials: '物料',

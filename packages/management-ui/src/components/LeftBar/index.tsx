@@ -2,7 +2,6 @@ import './index.scss';
 import * as React from 'react';
 import { Menu } from 'antd';
 import {
-  BiTachometer,
   BiNews,
   BiHive,
   BiBookContent,
@@ -37,16 +36,16 @@ export function LeftBar() {
     return [location];
   }, [location]);
 
+  if (location === RouterPaths.INTRO) {
+    return null;
+  }
+
   return (
     <Menu id="vize-left-bar" theme="dark" mode="inline" defaultOpenKeys={['manage']} selectedKeys={selectedKeys}>
       <div className="name">
         <img src={LOGO} alt="logo" className="logo" />
         <p>Vize</p>
       </div>
-
-      <Menu.Item key={RouterPaths.INTRO} icon={<BiTachometer />}>
-        <Link href={RouterPaths.INTRO}>{t('Intro')}</Link>
-      </Menu.Item>
 
       <Menu.Item key={RouterPaths.PAGES} icon={<BiNews />}>
         <Link href={RouterPaths.PAGES}>{t('Pages')}</Link>
