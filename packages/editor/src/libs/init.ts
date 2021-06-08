@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 import { promiseWrapper } from 'utils';
-import { editStore, initStore } from 'states';
+import { editStore, initHistory, initStore } from 'states';
 import { getCurrentUser } from 'api';
 import { initI18N } from 'i18n';
 import { message } from 'antd';
@@ -13,6 +13,7 @@ export async function init() {
   await restore();
   initDocument(document);
   initHotReload();
+  initHistory();
 }
 
 export function initDocument(doc: Document) {

@@ -13,6 +13,7 @@ const DEBUG_USER = {
   createdTime: new Date(),
   bizs: [],
   isAdmin: 1,
+  isDeveloper: 0,
 };
 
 export async function getCurrentUser() {

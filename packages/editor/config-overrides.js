@@ -52,7 +52,7 @@ module.exports = {
       javascriptEnabled: true,
     }),
     setOutputPublicPath('/editor/'),
-    addWebpackPlugin(new BundleAnalyzerPlugin()),
+    // addWebpackPlugin(new BundleAnalyzerPlugin()),
     process.env.NODE_ENV === 'production'
       ? addWebpackPlugin(
           new SentryWebpackPlugin({

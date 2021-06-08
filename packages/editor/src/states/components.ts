@@ -1,5 +1,4 @@
 import { action, computed } from 'mobx';
-import { Store } from 'mmlpx';
 import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
 import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
 import { isNumber } from 'utils';
@@ -21,8 +20,8 @@ import { eventStore } from './events';
 import { StoreWithUtils } from './utils';
 import { editStore } from './edit';
 import { sharedStore } from './shared';
+import { recordHistory, withHistory } from '../libs/history';
 
-@Store('ComponentsStore')
 export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   @computed
   public get componentInstances(): ComponentInstance[] {
@@ -84,6 +83,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   };
 
   @action
+  @withHistory
   public deleteComponentInstance = (key: number) => {
     if (!getCurrentPageComponentIndex(key)) {
       return sharedStore.deleteSharedComponentInstance(key);
