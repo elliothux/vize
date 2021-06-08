@@ -1,4 +1,5 @@
 import { action, computed } from 'mobx';
+import { Store } from 'mmlpx';
 import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
 import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
 import { isNumber } from 'utils';
@@ -21,6 +22,7 @@ import { StoreWithUtils } from './utils';
 import { editStore } from './edit';
 import { sharedStore } from './shared';
 
+@Store('ComponentsStore')
 export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   @computed
   public get componentInstances(): ComponentInstance[] {

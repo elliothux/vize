@@ -1,12 +1,14 @@
 import { action, computed, observable } from 'mobx';
+import { Store } from 'mmlpx';
 import { getQueryParams } from 'utils';
 import { LayoutMode, Maybe, PageMode } from 'types';
 import { UserRecord } from 'sharedTypes';
 import { DeviceItem, phones } from 'components/Simulator/devices';
 import { StoreWithUtils } from './utils';
 
-const defaultUser = { id: -1, name: 'vize-user', createdTime: new Date(), bizs: [], isAdmin: 0 };
+const defaultUser = { id: -1, name: 'vize-user', createdTime: new Date(), bizs: [], isAdmin: 0, isDeveloper: 0 };
 
+@Store('EditStore')
 export class EditStore extends StoreWithUtils<EditStore> {
   constructor() {
     super();
