@@ -47,15 +47,16 @@ export const withSnapshot = (payload?: Record<string, any>) => (
   };
 };
 
-export function actionWithSnapshot(target: object, propertyKey: string, descriptor?: PropertyDescriptor): void;
-export function actionWithSnapshot(
-  payload: Record<string, any>,
-): (target: object, propertyKey: string, descriptor?: PropertyDescriptor) => void;
-export function actionWithSnapshot(
+interface ActionWithSnapshot {
+  (target: object, propertyKey: string, descriptor?: PropertyDescriptor): void;
+  (payload: Record<string, any>): (target: object, propertyKey: string, descriptor?: PropertyDescriptor) => void;
+}
+
+export const actionWithSnapshot: ActionWithSnapshot = (
   payloadOrTarget: Record<string, any> | object,
   propertyKey?: string,
   descriptor?: PropertyDescriptor,
-) {
+) => {
   if (!propertyKey) {
     const payload = payloadOrTarget as Record<string, any>;
     return (target: object, propertyKey: string, descriptor?: PropertyDescriptor) => {
@@ -66,5 +67,5 @@ export function actionWithSnapshot(
 
   const target = payloadOrTarget as object;
   withSnapshot(undefined)(target, propertyKey, descriptor);
-  return action(target, propertyKey, descriptor);
-}
+  return action(target, propertyKey, descriptor) as any;
+};

@@ -1,6 +1,7 @@
 import { action, observable } from 'mobx';
 import { getFormDefaultValue, getQueryParams } from 'utils';
 import { getMaterialsContainerMeta } from 'libs';
+import { actionWithSnapshot } from 'libs/history';
 import { EventInstance, GlobalMeta } from 'types';
 import { StoreWithUtils } from './utils';
 
@@ -26,13 +27,13 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   @observable
   public globalData: object = {};
 
-  @action
+  @actionWithSnapshot
   public setGlobalData = (data: object) => (this.globalData = data);
 
   @observable
   public globalStyle: object = {};
 
-  @action
+  @actionWithSnapshot
   public setGlobalStyle = (data: object) => (this.globalStyle = data);
 
   /**
@@ -41,7 +42,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   @observable
   public globalEvents: EventInstance[] = [];
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public setGlobalEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
     const newEvents = setter(this.globalEvents);
     if (newEvents) {
@@ -63,7 +64,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     isEditor: true,
   };
 
-  @action
+  @actionWithSnapshot
   public setMetaInfo = (data: Partial<GlobalMeta>) => (this.metaInfo = { ...this.metaInfo, ...data });
 }
 

@@ -1,14 +1,14 @@
 import { isArray, isMap, isObject, isFunction } from './utils';
 
-export function dehydrate(model: any) {
-  if (isArray(model)) {
-    return model.length ? model.map(dehydrate) : [];
+export function dehydrate(state: any) {
+  if (isArray(state)) {
+    return state.length ? state.map(dehydrate) : [];
   }
 
-  if (isMap(model)) {
-    if (model.size) {
+  if (isMap(state)) {
+    if (state.size) {
       const map: { [key: string]: any } = {};
-      model.forEach((value: any, key: string) => {
+      state.forEach((value: any, key: string) => {
         map[key] = dehydrate(value);
       });
       return map;
@@ -16,9 +16,9 @@ export function dehydrate(model: any) {
     return {};
   }
 
-  if (isObject(model)) {
-    return Object.keys(model).reduce<Record<string, any>>((acc, stateName) => {
-      const value = dehydrate(model[stateName]);
+  if (isObject(state)) {
+    return Object.keys(state).reduce<Record<string, any>>((acc, stateName) => {
+      const value = dehydrate(state[stateName]);
       if (value !== undefined) {
         acc[stateName] = value;
       }
@@ -26,9 +26,9 @@ export function dehydrate(model: any) {
     }, {});
   }
 
-  if (isFunction(model)) {
+  if (isFunction(state)) {
     return undefined;
   }
 
-  return model;
+  return state;
 }

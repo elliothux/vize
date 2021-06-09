@@ -1,5 +1,5 @@
-import { action } from 'mobx';
 import { EventInstance, HotArea, Maybe } from 'types';
+import { actionWithSnapshot } from 'libs/history';
 import { componentsStore } from './components';
 import { selectStore } from './select';
 
@@ -17,12 +17,12 @@ export class HotAreasStore {
     return component.hotAreas?.[hotAreaIndex];
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentComponentHotAreas = (hotAreas: HotArea[]) => {
     return componentsStore.setCurrentComponentInstanceHotAreas(() => hotAreas);
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentComponentHotArea = (setter: (hotArea: HotArea) => HotArea) => {
     const { hotAreaIndex } = selectStore;
     return componentsStore.setCurrentComponentInstanceHotAreas(hotAreas => {
@@ -32,7 +32,7 @@ export class HotAreasStore {
     });
   };
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public setCurrentHotAreaEvents = (setter: (eventInstances: EventInstance[]) => EventInstance[] | void) => {
     return this.setCurrentComponentHotArea(hotarea => {
       const events = setter(hotarea.events);
@@ -43,7 +43,7 @@ export class HotAreasStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setHotAreaProps = (
     componentKey: number,
     hotAreaIndex: number,
@@ -58,7 +58,7 @@ export class HotAreasStore {
     });
   };
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public deleteHotArea = (componentKey: number, hotAreaIndex: number) => {
     return componentsStore.setComponentInstancePropsByKey(componentKey, ({ hotAreas }) => {
       hotAreas!.splice(hotAreaIndex, 1);

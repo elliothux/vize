@@ -27,7 +27,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   constructor() {
     super();
     timeTraveler.onRestore((type, nextSnapshots, currentSnapshots) => {
-      if (nextSnapshots?.payload?.needReloadIndex || currentSnapshots?.payload?.needReloadIndex) {
+      if (nextSnapshots?.payload?.needReloadComponentsIndex || currentSnapshots?.payload?.needReloadComponentsIndex) {
         regenerateAllPagesComponentsIndex();
       }
     });
@@ -52,7 +52,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     return newInstances;
   };
 
-  @actionWithSnapshot({ needReloadIndex: true })
+  @actionWithSnapshot({ needReloadComponentsIndex: true })
   public addComponentInstance = (componentID: string) => {
     return this.setCurrentPageComponentInstances(instances => {
       const component = getMaterialsComponentMeta(componentID)!;
@@ -73,7 +73,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @actionWithSnapshot({ needReloadIndex: true })
+  @actionWithSnapshot({ needReloadComponentsIndex: true })
   private addComponentInstanceAsChildren = (instance: ComponentInstance) => {
     return this.setCurrentPageComponentInstances(instances => {
       const { index: parentIndex } = getCurrentPageComponentIndex(selectStore.containerComponentKey)!;
@@ -92,7 +92,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @actionWithSnapshot({ needReloadIndex: true, needReloadDeps: true })
+  @actionWithSnapshot({ needReloadComponentsIndex: true, needReloadDeps: true })
   public deleteComponentInstance = (key: number) => {
     if (!getCurrentPageComponentIndex(key)) {
       return sharedStore.deleteSharedComponentInstance(key);
@@ -115,7 +115,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     return deletedInstance!;
   };
 
-  @actionWithSnapshot({ needReloadIndex: true })
+  @actionWithSnapshot({ needReloadComponentsIndex: true })
   public resortComponentInstance = (key: number, oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
@@ -136,7 +136,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @actionWithSnapshot({ needReloadIndex: true })
+  @actionWithSnapshot({ needReloadComponentsIndex: true })
   public moveComponentInstance = (oldIndex: ComponentIndex, newIndex: ComponentIndex) => {
     if (compareComponentIndex(oldIndex, newIndex)) {
       return;

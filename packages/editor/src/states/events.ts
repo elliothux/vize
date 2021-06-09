@@ -28,7 +28,7 @@ import {
   createEventInstance,
   regenerateAllEventDeps,
 } from 'libs';
-import { timeTraveler } from 'libs/history';
+import { timeTraveler, actionWithSnapshot } from 'libs/history';
 import { getMaterialsActionMeta } from 'runtime';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
@@ -40,13 +40,13 @@ import { pagesStore } from './pages';
 export class EventStore {
   constructor() {
     timeTraveler.onRestore((type, nextSnapshots, currentSnapshots) => {
-      if (nextSnapshots.payload.needReloadDeps || currentSnapshots.payload.needReloadDeps) {
+      if (nextSnapshots?.payload?.needReloadDeps || currentSnapshots?.payload?.needReloadDeps) {
         regenerateAllEventDeps();
       }
     });
   }
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public addEventInstance = (triggerName: EventTriggerName, target: EventTarget) => {
     const action = target.type === EventTargetType.Action ? getMaterialsActionMeta(target.id)! : undefined;
 
@@ -183,7 +183,7 @@ export class EventStore {
     }
   };
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public deleteEventInstance = (index: number) => {
     let eventInstance: EventInstance;
     switch (selectStore.selectType) {
@@ -276,7 +276,7 @@ export class EventStore {
     }
   };
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public deleteDepsEventInstances = (type: DepsTargetType, key: number) => {
     let deps: Maybe<DepFrom[]>;
     switch (type) {
@@ -323,42 +323,42 @@ export class EventStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfCurrentComponentInstance = (data: object, index: number) => {
     return componentsStore.setCurrentComponentInstanceEvents(events => {
       events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfCurrentPluginInstance = (data: object, index: number) => {
     return pluginsStore.setCurrentPluginInstanceEvents(events => {
       events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfCurrentHotArea = (data: object, index: number) => {
     return hotAreaStore.setCurrentHotAreaEvents(events => {
       events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfGlobal = (data: object, index: number) => {
     return globalStore.setGlobalEvents(events => {
       events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfCurrentPage = (data: object, index: number) => {
     return pagesStore.setCurrentPage(page => {
       page.events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resortEventInstanceFromCurrentComponentInstance = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
@@ -370,7 +370,7 @@ export class EventStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resortEventInstanceFromCurrentPluginInstance = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
@@ -382,7 +382,7 @@ export class EventStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resortEventInstanceFromCurrentHotArea = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
@@ -394,7 +394,7 @@ export class EventStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resortEventInstanceFromGlobal = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
