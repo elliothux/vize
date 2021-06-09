@@ -5,7 +5,7 @@ export enum RouterPaths {
   BIZ = '/biz',
   MATERIALS_LIB = '/libs',
   MATERIALS_DETAIL = '/lib/:id',
-  LOG = '/log',
+  LOG = '/log/:type',
   USER = '/user',
   RESOURCES = '/resources',
 }

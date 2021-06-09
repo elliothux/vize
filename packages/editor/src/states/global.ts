@@ -1,9 +1,11 @@
 import { action, observable } from 'mobx';
 import { getFormDefaultValue, getQueryParams } from 'utils';
+import { actionWithSnapshot, withTimeTravel } from 'mobx-time-traveler';
 import { getMaterialsContainerMeta } from 'libs';
 import { EventInstance, GlobalMeta } from 'types';
 import { StoreWithUtils } from './utils';
 
+@withTimeTravel
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
   constructor() {
     super();
@@ -12,7 +14,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     this.metaInfo.key = key;
   }
 
-  @action
+  @action.bound
   public init = () => {
     const { globalDataForm, globalStyleForm } = getMaterialsContainerMeta()!;
     this.globalData = getFormDefaultValue(globalDataForm);
@@ -26,13 +28,13 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   @observable
   public globalData: object = {};
 
-  @action
+  @actionWithSnapshot
   public setGlobalData = (data: object) => (this.globalData = data);
 
   @observable
   public globalStyle: object = {};
 
-  @action
+  @actionWithSnapshot
   public setGlobalStyle = (data: object) => (this.globalStyle = data);
 
   /**
@@ -41,7 +43,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
   @observable
   public globalEvents: EventInstance[] = [];
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public setGlobalEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
     const newEvents = setter(this.globalEvents);
     if (newEvents) {
@@ -63,7 +65,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     isEditor: true,
   };
 
-  @action
+  @actionWithSnapshot
   public setMetaInfo = (data: Partial<GlobalMeta>) => (this.metaInfo = { ...this.metaInfo, ...data });
 }
 

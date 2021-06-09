@@ -3,6 +3,7 @@ import { getComponentSelectedCallback } from 'runtime';
 import { PageUniversalEventTrigger } from '@vize/types';
 import { Maybe } from 'types';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
+import { withTimeTravel } from 'mobx-time-traveler';
 import { EventEmitTypes, events } from '../libs';
 import { AttrEditTab } from '../components/AttributesEditor';
 import { pagesStore } from './pages';
@@ -16,11 +17,12 @@ export enum SelectType {
   HOTAREA = 'hotarea',
 }
 
+@withTimeTravel
 export class SelectStore {
   @observable
   public selectType: SelectType = SelectType.GLOBAL;
 
-  @action
+  @action.bound
   public selectGlobal = () => {
     this.selectType = SelectType.GLOBAL;
   };
@@ -30,7 +32,7 @@ export class SelectStore {
   @observable
   public pageIndex = 0;
 
-  @action
+  @action.bound
   public selectPage = (index: number) => {
     this.selectType = SelectType.PAGE;
     if (index === this.pageIndex) {
@@ -57,7 +59,7 @@ export class SelectStore {
   @observable
   public sharedComponentSelected = false;
 
-  @action
+  @action.bound
   private setComponentKey = (key: number, asHotAreaContainer?: boolean, ignorePrevCallback?: boolean) => {
     if (key === this.componentKey) {
       getComponentSelectedCallback(key)?.({ selected: true, asHotAreaContainer });
@@ -72,7 +74,7 @@ export class SelectStore {
     this.componentKey = key;
   };
 
-  @action
+  @action.bound
   public selectComponent = (shared: boolean, key: number, parentKey?: number) => {
     this.sharedComponentSelected = shared;
     this.selectType = SelectType.COMPONENT;
@@ -85,7 +87,7 @@ export class SelectStore {
   @observable
   public containerComponentKey = -1;
 
-  @action
+  @action.bound
   private setContainerComponentKey = (key: number, asHotAreaParentContainer?: boolean) => {
     if (key === this.containerComponentKey) {
       getComponentSelectedCallback(key)?.({ selected: true, asContainer: true, asHotAreaParentContainer });
@@ -98,7 +100,7 @@ export class SelectStore {
     this.containerComponentKey = key;
   };
 
-  @action
+  @action.bound
   public selectContainerComponent = (key: number) => {
     this.selectType = SelectType.COMPONENT;
     this.setContainerComponentKey(key);
@@ -114,7 +116,7 @@ export class SelectStore {
   @observable
   public hotAreaIndex = -1;
 
-  @action
+  @action.bound
   public selectHotArea = (index: number, componentKey: number) => {
     const { parent } = componentsStore.getCurrentPageComponentInstance(componentKey);
     const parentKey = parent ? parent.key : -1;
@@ -134,14 +136,14 @@ export class SelectStore {
   @observable
   public pluginKey = -1;
 
-  @action
+  @action.bound
   public selectPlugin = (key: number) => {
     this.selectType = SelectType.PLUGIN;
     this.pluginKey = key;
     this.setContainerComponentKey(-1);
   };
 
-  @action
+  @action.bound
   public isCurrentPlugin = (key: number) => {
     return this.selectType === SelectType.PLUGIN && this.pluginKey === key;
   };
@@ -152,7 +154,7 @@ export class SelectStore {
   @observable
   public selectMode = false;
 
-  @action
+  @action.bound
   public setSelectMode = (mode: boolean) => {
     const { containerComponentKey } = this;
     this.selectMode = mode;
@@ -162,7 +164,7 @@ export class SelectStore {
   @observable
   public selectModeSelectedComponent: Maybe<{ parentKey?: number; key?: number }> = null;
 
-  @action
+  @action.bound
   public setSelectModeSelectComponent = (selectedComponent: SelectStore['selectModeSelectedComponent']) => {
     this.selectModeSelectedComponent = selectedComponent;
   };

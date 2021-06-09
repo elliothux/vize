@@ -26,7 +26,9 @@ import {
   componentEventDepsMap,
   pluginEventDepsMap,
   createEventInstance,
+  regenerateAllEventDeps,
 } from 'libs';
+import { timeTraveler, actionWithSnapshot } from 'mobx-time-traveler';
 import { getMaterialsActionMeta } from 'runtime';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
@@ -36,7 +38,15 @@ import { globalStore } from './global';
 import { pagesStore } from './pages';
 
 export class EventStore {
-  @action
+  constructor() {
+    timeTraveler.onRestore((type, nextSnapshots, currentSnapshots) => {
+      if (nextSnapshots?.payload?.needReloadDeps || currentSnapshots?.payload?.needReloadDeps) {
+        regenerateAllEventDeps();
+      }
+    });
+  }
+
+  @actionWithSnapshot({ needReloadDeps: true })
   public addEventInstance = (triggerName: EventTriggerName, target: EventTarget) => {
     const action = target.type === EventTargetType.Action ? getMaterialsActionMeta(target.id)! : undefined;
 
@@ -120,35 +130,35 @@ export class EventStore {
     }
   };
 
-  @action
+  @action.bound
   private addEventInstanceToCurrentComponentInstance = (instance: EventInstance) => {
     return componentsStore.setCurrentComponentInstanceEvents(events => {
       events.push(instance);
     });
   };
 
-  @action
+  @action.bound
   private addEventInstanceToCurrentPluginInstance = (instance: EventInstance) => {
     return pluginsStore.setCurrentPluginInstanceEvents(events => {
       events.push(instance);
     });
   };
 
-  @action
+  @action.bound
   private addEventInstanceToCurrentHotArea = (instance: EventInstance) => {
     return hotAreaStore.setCurrentHotAreaEvents(events => {
       events.push(instance);
     });
   };
 
-  @action
+  @action.bound
   private addEventInstanceToCurrentPage = (instance: EventInstance) => {
     return pagesStore.setCurrentPage(page => {
       page.events.push(instance);
     });
   };
 
-  @action
+  @action.bound
   private addEventInstanceToGlobal = (instance: EventInstance) => {
     return globalStore.setGlobalEvents(events => {
       events.push(instance);
@@ -173,7 +183,7 @@ export class EventStore {
     }
   };
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public deleteEventInstance = (index: number) => {
     let eventInstance: EventInstance;
     switch (selectStore.selectType) {
@@ -201,7 +211,7 @@ export class EventStore {
     return this.deleteEventDep(eventInstance!);
   };
 
-  @action
+  @action.bound
   private deleteEventInstanceFromCurrentComponentInstance = (index: number): EventInstance => {
     let eventInstance: Maybe<EventInstance>;
     componentsStore.setCurrentComponentInstanceEvents(events => {
@@ -210,7 +220,7 @@ export class EventStore {
     return eventInstance!;
   };
 
-  @action
+  @action.bound
   private deleteEventInstanceFromCurrentPluginInstance = (index: number): EventInstance => {
     let eventInstance: Maybe<EventInstance>;
     pluginsStore.setCurrentPluginInstanceEvents(events => {
@@ -219,7 +229,7 @@ export class EventStore {
     return eventInstance!;
   };
 
-  @action
+  @action.bound
   private deleteEventInstanceFromCurrentHotArea = (index: number): EventInstance => {
     let eventInstance: Maybe<EventInstance>;
     hotAreaStore.setCurrentHotAreaEvents(events => {
@@ -228,7 +238,7 @@ export class EventStore {
     return eventInstance!;
   };
 
-  @action
+  @action.bound
   private deleteEventInstanceFromCurrentPage = (index: number): EventInstance => {
     let eventInstance: Maybe<EventInstance>;
     pagesStore.setCurrentPage(({ events }) => {
@@ -237,7 +247,7 @@ export class EventStore {
     return eventInstance!;
   };
 
-  @action
+  @action.bound
   private deleteEventInstanceFromGlobal = (index: number): EventInstance => {
     let eventInstance: Maybe<EventInstance>;
     globalStore.setGlobalEvents(events => {
@@ -246,7 +256,7 @@ export class EventStore {
     return eventInstance!;
   };
 
-  @action
+  @action.bound
   private deleteEventDep = ({ target, key: eventInstanceKey }: EventInstance) => {
     switch (target.type) {
       case EventTargetType.Component: {
@@ -266,7 +276,7 @@ export class EventStore {
     }
   };
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public deleteDepsEventInstances = (type: DepsTargetType, key: number) => {
     let deps: Maybe<DepFrom[]>;
     switch (type) {
@@ -313,42 +323,42 @@ export class EventStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfCurrentComponentInstance = (data: object, index: number) => {
     return componentsStore.setCurrentComponentInstanceEvents(events => {
       events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfCurrentPluginInstance = (data: object, index: number) => {
     return pluginsStore.setCurrentPluginInstanceEvents(events => {
       events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfCurrentHotArea = (data: object, index: number) => {
     return hotAreaStore.setCurrentHotAreaEvents(events => {
       events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfGlobal = (data: object, index: number) => {
     return globalStore.setGlobalEvents(events => {
       events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setEventInstanceDataOfCurrentPage = (data: object, index: number) => {
     return pagesStore.setCurrentPage(page => {
       page.events[index]!.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resortEventInstanceFromCurrentComponentInstance = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
@@ -360,7 +370,7 @@ export class EventStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resortEventInstanceFromCurrentPluginInstance = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
@@ -372,7 +382,7 @@ export class EventStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resortEventInstanceFromCurrentHotArea = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
@@ -384,7 +394,7 @@ export class EventStore {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resortEventInstanceFromGlobal = (oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;

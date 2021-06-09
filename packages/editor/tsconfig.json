@@ -17,7 +17,8 @@
     "jsx": "react",
     "baseUrl": "src",
     "noImplicitThis": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true
   },
   "typeAcquisition": {},
   "include": ["src"]

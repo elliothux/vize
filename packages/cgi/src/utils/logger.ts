@@ -1,8 +1,29 @@
+import * as path from 'path';
 import * as winston from 'winston';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston/dist/winston.utilities';
 import { getConfig } from './config';
+import { TransformFunction } from 'logform';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const DailyRotateFile = require('winston-daily-rotate-file');
 
 let loggerConfig;
+
+const format = winston.format.combine(
+  winston.format.timestamp({
+    format: 'YYYY-MM-DD HH:mm:ss',
+  }),
+  winston.format.json(),
+);
+
+class CGIFormat {
+  public transform: TransformFunction = info => {
+    const { message } = info;
+    info.message =
+      typeof message === 'string' ? message : JSON.stringify(message, null, 2);
+    return info;
+  };
+}
 
 export function getLoggerConfig() {
   if (!loggerConfig) {
@@ -12,21 +33,34 @@ export function getLoggerConfig() {
 
     loggerConfig = {
       transports: [
+        new DailyRotateFile({
+          format,
+          dirname: path.resolve(logsPath, 'all'),
+          filename: '%DATE%.log',
+          datePattern: 'YYYY-MM-DD',
+          maxSize: '50m',
+          maxFiles: '15d',
+          timestamp: true,
+        }),
+        new DailyRotateFile({
+          format,
+          level: 'error',
+          dirname: path.resolve(logsPath, 'error'),
+          filename: '%DATE%.log',
+          datePattern: 'YYYY-MM-DD',
+          maxSize: '50m',
+          maxFiles: '15d',
+          timestamp: true,
+        }),
         new winston.transports.Console({
           format: winston.format.combine(
-            winston.format.timestamp(),
+            winston.format.timestamp({
+              format: 'YYYY-MM-DD HH:mm:ss',
+            }),
             winston.format.ms(),
+            new CGIFormat(),
             nestWinstonModuleUtilities.format.nestLike('@vize/cgi'),
           ),
-        }),
-        new winston.transports.File({
-          dirname: logsPath,
-          filename: 'error.log',
-          level: 'error',
-        }),
-        new winston.transports.File({
-          dirname: logsPath,
-          filename: 'combined.log',
         }),
       ],
     };
@@ -35,9 +69,6 @@ export function getLoggerConfig() {
 }
 
 let logger;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const bare = require('cli-color');
 
 function log(
   level: 'info' | 'error' | 'warn' | 'debug' | 'verbose',
@@ -49,10 +80,12 @@ function log(
     logger = winston.createLogger(getLoggerConfig());
   }
 
-  const result = `${bare.yellow(`[${context}]`)} ${
-    typeof message === 'string' ? message : JSON.stringify(message, null, 2)
-  }`;
-  return logger[level](result, meta);
+  return logger[level]({
+    level,
+    context,
+    message,
+    meta,
+  });
 }
 
 export function info(appName: string, message: string | object, meta?: object) {
@@ -64,7 +97,10 @@ export function infoRequest(
   appName: string,
   params?: object,
 ) {
-  return log('info', appName, `CGI Request with id: "${requestId}"`, params);
+  return log('info', appName, `CGI Request with id: "${requestId}"`, {
+    params,
+    requestId,
+  });
 }
 
 export function infoResponse(
@@ -72,7 +108,10 @@ export function infoResponse(
   appName: string,
   response?: object,
 ) {
-  return log('info', appName, `CGI Response with id: "${requestId}"`, response);
+  return log('info', appName, `CGI Response with id: "${requestId}"`, {
+    response,
+    requestId,
+  });
 }
 
 export function error(

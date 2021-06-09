@@ -16,4 +16,4 @@
 /packages/cgi/workspace
 /packages/*/dist
 /packages/*/build
-!/deploy-boilerplate/
+/packages/management-ui/src/pages/intro

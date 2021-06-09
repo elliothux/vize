@@ -1,6 +1,6 @@
 {
   "name": "@vize/cli",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "",
   "module": "dist",
   "bin": {
@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "./node_modules/.bin/tsc -w",
     "dist": "rm -r ./dist; ./node_modules/.bin/tsc",
-    "publish": "npm publish --access public"
+    "publish": "npm publish --access public",
+    "release": "npm run dist; npm run upload:sourcemap; npm run publish;",
+    "upload:sourcemap": "../../node_modules/@sentry/cli/bin/sentry-cli --auth-token 315829bc1e4e47be9cdcf01cf4af6cd90a87b3f67d664d7991dd0ef935d664c0 releases --org vize --project cli files 0.1 upload-sourcemaps --ext map ./dist"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",

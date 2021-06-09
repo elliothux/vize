@@ -9,6 +9,7 @@ import {
   DepsTargetType,
   pluginEventDepsMap,
 } from 'libs';
+import { actionWithSnapshot } from 'mobx-time-traveler';
 import { selectStore, SelectType } from './select';
 import { pagesStore } from './pages';
 import { eventStore } from './events';
@@ -20,7 +21,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
     return pagesStore.currentPage.pluginInstances;
   }
 
-  @action
+  @actionWithSnapshot
   public setCurrentPagePluginInstances = (setter: (pluginInstances: PluginInstance[]) => PluginInstance[] | void) => {
     let newInstances: PluginInstance[] | undefined;
     pagesStore.setCurrentPage(page => {
@@ -32,7 +33,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
     return newInstances;
   };
 
-  @action
+  @actionWithSnapshot({ needReloadPluginsIndex: true })
   public addPluginInstance = (pluginID: string) => {
     const plugin = getMaterialsPluginMeta(pluginID)!;
     const instance = createPluginInstance(plugin);
@@ -46,7 +47,7 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
     pluginEventDepsMap.createEventDepsMap(instance.key);
   };
 
-  @action
+  @actionWithSnapshot({ needReloadPluginsIndex: true, needReloadDeps: true })
   public deletePluginInstance = (key: number) => {
     const index = getCurrentPagePluginIndex(key)!;
 
@@ -70,28 +71,28 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
     return selectType === SelectType.PLUGIN ? this.getCurrentPagePluginInstance(pluginKey) : null;
   };
 
-  @action
+  @action.bound
   public setPluginInstancePropsByKey = (key: number, setter: (instance: PluginInstance) => void) => {
     const instance = this.getCurrentPagePluginInstance(key);
     setter(instance);
     return instance;
   };
 
-  @action
+  @action.bound
   private setCurrentPluginInstanceProps = (setter: (instance: PluginInstance) => void) => {
     const instance = this.getCurrentPagePluginInstance(selectStore.pluginKey);
     setter(instance);
     return instance;
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentPluginInstanceData = (data: object) => {
     return this.setCurrentPluginInstanceProps(instance => {
       instance.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot({ needReloadDeps: true })
   public setCurrentPluginInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
     return this.setCurrentPluginInstanceProps(instance => {
       const newEvents = setter(instance.events);

@@ -57,6 +57,7 @@ export * from './utils';
 
 export { getBizService } from './modules/biz/biz.controller';
 export { getHistoryService } from './modules/history/history.controller';
+export { getLogService } from './modules/log/log.controller';
 export { getMaterialsService } from './modules/materials/materials.controller';
 export { getPageService } from './modules/page/page.controller';
 export { getUserService } from './modules/user/user.controller';

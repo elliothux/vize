@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { editStore } from 'states';
 import { observer } from 'mobx-react';
+import { ComponentInstance } from 'types';
 import { DraggableComponentItem } from './DraggableComponentItem';
-import { ComponentInstance } from '../../../types';
 import iframeStyle from './index.iframe.scss';
 
 editStore.setIframeStyle('FreeLayoutRender', iframeStyle);

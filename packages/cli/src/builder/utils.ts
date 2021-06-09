@@ -15,7 +15,7 @@ import {
 import {
   downloadPackage,
   error,
-  getCLITempPath,
+  getGlobalTempPath,
   getPackageLocalPath,
   LibPaths,
   logWithSpinner,
@@ -112,17 +112,16 @@ export async function prepareEditor(local: boolean, registry?: string): Promise<
 
   const packagePath = await downloadPackage(EDITOR_PKG_NAME, registry);
   const filesPath = path.resolve(packagePath, 'build');
-  const tempPath = await getCLITempPath();
+  const tempPath = await getGlobalTempPath();
 
   const staticPath = path.resolve(tempPath, 'static');
   const target = path.resolve(staticPath, 'editor');
-  if (fs.existsSync(target)) {
-    await fs.unlink(target);
+  const { isDirectory, isSymbolicLink } = fs.lstatSync(target);
+  if (isDirectory || isSymbolicLink) {
+    fs.unlinkSync(target);
   }
   await fs.ensureDir(staticPath);
   await fs.symlink(filesPath, target);
-
-  console.log({ staticPath });
   return staticPath;
 }
 

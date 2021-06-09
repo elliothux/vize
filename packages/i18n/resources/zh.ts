@@ -83,7 +83,7 @@ export const zh = {
     save: '保存',
     'save as template': '存为模板',
     'history manager': '历史管理',
-    '{{type}} not allowed with DebugMode': 'Debug 模式下不支持 $t({{type}})',
+    '{{type}} not allowed with debug-mode': 'Debug 模式下不支持 $t({{type}})',
     saving: '保存中',
     saved: '保存成功',
     'failed to save': '保存失败',
@@ -196,7 +196,6 @@ export const zh = {
     'Universal triggers': '通用触发',
     'Hotarea Manager': '热区管理',
     Home: '主页',
-    Intro: '总览',
     Pages: '页面',
     Templates: '模板',
     Materials: '物料',
@@ -372,5 +371,10 @@ export const zh = {
     'Failed to generate access token': '生成 Access Token 失败',
     "Make sure to copy this access token now. You won't be able to see it again!":
       '请立即复制此 Access Token，一旦关闭对话，你将无法再次浏览此 Token',
+    'System Logs': '系统日志',
+    'Search logs': '搜索日志',
+    'Failed to get logs': '获取日志列表失败',
+    'Select log': '选择日志',
+    'No logs': '暂无日志',
   },
 };

@@ -6,6 +6,7 @@ export * from './dom';
 export * from './eventHelper';
 export * from './inject';
 export * from './is';
+export * from './report';
 export * from './request';
 export * from './resource';
 export * from './style';

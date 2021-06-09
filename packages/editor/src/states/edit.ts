@@ -5,7 +5,7 @@ import { UserRecord } from 'sharedTypes';
 import { DeviceItem, phones } from 'components/Simulator/devices';
 import { StoreWithUtils } from './utils';
 
-const defaultUser = { id: -1, name: 'vize-user', createdTime: new Date(), bizs: [], isAdmin: 0 };
+const defaultUser = { id: -1, name: 'vize-user', createdTime: new Date(), bizs: [], isAdmin: 0, isDeveloper: 0 };
 
 export class EditStore extends StoreWithUtils<EditStore> {
   constructor() {
@@ -49,7 +49,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
   @observable
   public previewMode = false;
 
-  @action
+  @action.bound
   public togglePreviewMode = () => {
     this.previewMode = !this.previewMode;
   };
@@ -57,7 +57,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
   @observable
   public iframeStyleMap: { [name: string]: string } = {};
 
-  @action
+  @action.bound
   public setIframeStyle = (name: string, style: string) => {
     this.iframeStyleMap[name] = style;
   };
@@ -65,7 +65,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
   @observable
   public device: DeviceItem = phones[0];
 
-  @action
+  @action.bound
   public setDevice = (device: DeviceItem) => {
     if (device[0] === this.device[0]) {
       return this.resetZoom();
@@ -90,7 +90,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
   @observable
   public zoom = 100;
 
-  @action
+  @action.bound
   public plusZoom = () => {
     if (this.zoom + 10 > 100) {
       return;
@@ -98,7 +98,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
     this.zoom += 10;
   };
 
-  @action
+  @action.bound
   public minZoom = () => {
     if (this.zoom <= 20) {
       return;
@@ -106,7 +106,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
     this.zoom -= 10;
   };
 
-  @action
+  @action.bound
   public resetZoom = () => {
     this.zoom = 100;
   };
@@ -114,7 +114,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
   @observable
   editingPageIndex: Maybe<number> = null;
 
-  @action
+  @action.bound
   setEditingPage = (index: Maybe<number>) => (this.editingPageIndex = index);
 }
 

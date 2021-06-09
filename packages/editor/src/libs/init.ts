@@ -4,6 +4,7 @@ import { editStore, initStore } from 'states';
 import { getCurrentUser } from 'api';
 import { initI18N } from 'i18n';
 import { message } from 'antd';
+import { timeTraveler } from 'mobx-time-traveler';
 import { registerHotkey } from './hotkey';
 import { EventEmitTypes, events } from './events';
 import { restore } from './dsl';
@@ -13,6 +14,7 @@ export async function init() {
   await restore();
   initDocument(document);
   initHotReload();
+  timeTraveler.initSnapshots();
 }
 
 export function initDocument(doc: Document) {

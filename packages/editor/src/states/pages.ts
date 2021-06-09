@@ -8,27 +8,50 @@ import {
   deletePageComponentInstanceIndexMap,
   deletePagePluginInstanceIndexMap,
   createPageInstance,
+  pagesComponentIndexMap,
+  pagesPluginIndexMap,
 } from 'libs';
+import { actionWithSnapshot, timeTraveler, withTimeTravel } from 'mobx-time-traveler';
 import { onCustomEvent, cancelCustomEvent, emitCustomEvent, generatePageEventHandlers } from 'runtime';
 import { PageUniversalEventTrigger } from '@vize/types';
 import { StoreWithUtils } from './utils';
 import { selectStore } from './select';
 import { globalStore } from './global';
 
+@withTimeTravel
 export class PagesStore extends StoreWithUtils<PagesStore> {
+  constructor() {
+    super();
+    timeTraveler.onRestore((type, nextSnapshots, currentSnapshots) => {
+      if (nextSnapshots?.payload?.needReloadPagesIndex || currentSnapshots?.payload?.needReloadPagesIndex) {
+        this.pages.forEach(({ key }) => {
+          if (!pagesComponentIndexMap.get(key)) {
+            addPageComponentInstanceIndexMap(key);
+          }
+          if (!pagesPluginIndexMap.get(key)) {
+            addPagePluginInstanceIndexMap(key);
+          }
+        });
+      }
+    });
+  }
+
   public init = () => {
-    this.addPage(false, true, 'default page');
+    this.pages.forEach(({ key }) => {
+      addPageComponentInstanceIndexMap(key);
+      addPagePluginInstanceIndexMap(key);
+    });
   };
 
   @observable
-  public pages: PageInstance[] = [];
+  public pages: PageInstance[] = [createPageInstance('default page', true)];
 
   @computed
   public get currentPage(): PageInstance {
     return this.pages[selectStore.pageIndex];
   }
 
-  @action
+  @action.bound
   public setCurrentPage = (setter: (page: PageInstance) => PageInstance | void) => {
     const page = this.pages[selectStore.pageIndex];
     const newPage = setter(page);
@@ -38,7 +61,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     return newPage;
   };
 
-  @action
+  @actionWithSnapshot({ needReloadPagesIndex: true })
   public addPage = (select: boolean, isHome?: boolean, name?: string): void => {
     const page = createPageInstance(name || 'new page', isHome);
     this.pages.push(page);
@@ -52,7 +75,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     }
   };
 
-  @action
+  @actionWithSnapshot({ needReloadComponentsIndex: true, needReloadDeps: true, needReloadPagesIndex: true })
   public deletePage = (pageIndex: number): void => {
     if (this.pages.length === 1) {
       message.warn(i18n.t('must keep at least one page'));
@@ -74,25 +97,25 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     }
   };
 
-  @action
+  @actionWithSnapshot
   public setPageHome = (pageIndex: number): void => {
     this.pages.find(i => i.isHome)!.isHome = false;
     this.pages[pageIndex].isHome = true;
   };
 
-  @action
+  @actionWithSnapshot
   public setPageName = (pageIndex: number, name: string): void => {
     this.pages[pageIndex].name = name;
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentPageData = (data: object) => {
     return this.setCurrentPage(page => {
       page.data = { ...page.data, ...data };
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentPageStyle = (style: object) => {
     return this.setCurrentPage(page => {
       page.style = { ...page.style, ...style };

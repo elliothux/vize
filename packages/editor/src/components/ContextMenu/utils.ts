@@ -5,7 +5,6 @@ export function createMouseEventFromIframe(e: React.MouseEvent): MouseEvent {
   e.persist();
 
   const [deltaX, deltaY] = getSimulatorNodeOffset();
-  console.log(deltaX, deltaY);
   const event = document.createEvent('MouseEvent');
   event.initMouseEvent(
     e.type,

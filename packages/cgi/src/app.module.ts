@@ -12,6 +12,7 @@ import { UserModule } from './modules/user/user.modules';
 import { ResourceModule } from './modules/resource/resource.modules';
 import { FirstParameter, Maybe } from './types';
 import { getConfig, getEnv, getStaticModules, info, isDev } from './utils';
+import { LogModule } from './modules/log/log.modules';
 
 type App = FirstParameter<typeof NestFactory.create>;
 
@@ -46,6 +47,7 @@ export function getApp(): App {
       }),
       BizModule,
       HistoryModule,
+      LogModule,
       PageModule,
       MaterialsModule,
       UserModule,
@@ -63,7 +65,9 @@ export function getApp(): App {
           middlewares.forEach(({ apply, forRoutes = [], exclude = [] }) => {
             info(
               'Middlewares',
-              `Apply middle "${name}" for routes: "${forRoutes}"`,
+              `Apply middle "${name}" for routes: "${JSON.stringify(
+                forRoutes,
+              )}"`,
             );
             consumer
               .apply(apply)

@@ -19,7 +19,7 @@ interface MaterialsLibItem {
 }
 
 export class MaterialsStore {
-  @action
+  @action.bound
   public init = () => {
     const { libNames, containerName, debugPorts } = editStore;
     return Promise.all(
@@ -43,7 +43,7 @@ export class MaterialsStore {
     return containerHTML!;
   }
 
-  @action
+  @action.bound
   private readonly loadMaterials = async (
     libName: string,
     containerName: string,

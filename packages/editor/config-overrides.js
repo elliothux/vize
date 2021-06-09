@@ -9,12 +9,14 @@ const {
   addWebpackPlugin,
 } = require('customize-cra');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
-require('../../scripts/watcher');
+if (process.env.NODE_ENV !== 'production') {
+  require('../../scripts/watcher');
+}
 
 module.exports = {
   webpack: override(
-    // addWebpackResolve({ symlinks: false }),
     adjustStyleLoaders(({ use: [, css, postcss, resolve, processor] }) => {
       css.options.sourceMap = true;
       postcss.options.sourceMap = true;
@@ -49,9 +51,20 @@ module.exports = {
       noIeCompat: true,
       javascriptEnabled: true,
     }),
-    // setWebpackPublicPath('/editor/'),
     setOutputPublicPath('/editor/'),
-    addWebpackPlugin(new BundleAnalyzerPlugin()),
+    // addWebpackPlugin(new BundleAnalyzerPlugin()),
+    process.env.NODE_ENV === 'production'
+      ? addWebpackPlugin(
+          new SentryWebpackPlugin({
+            authToken: '315829bc1e4e47be9cdcf01cf4af6cd90a87b3f67d664d7991dd0ef935d664c0',
+            org: 'vize',
+            project: 'editor',
+            release: '0.1',
+            include: 'src',
+            ignore: ['node_modules', 'webpack.config.js'],
+          }),
+        )
+      : undefined,
   ),
 };
 

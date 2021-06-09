@@ -51,6 +51,8 @@
 }
 
 .vize-editor-operation-item-tooltip {
+  max-width: 400px !important;
+
   .ant-tooltip-inner {
     & > p {
       margin: 0;
@@ -107,5 +109,21 @@
         top: 2px;
       }
     }
+  }
+}
+
+.undo-message,
+.redo-message {
+  .ant-message-notice-content {
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+  }
+
+  .ant-message-info > svg {
+    width: 16px;
+    height: auto;
+    margin-right: 4px;
+    position: relative;
+    top: 2px;
   }
 }

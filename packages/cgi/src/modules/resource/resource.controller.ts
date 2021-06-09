@@ -37,9 +37,9 @@ export class ResourceController {
     @RequestId() requestId,
     @Query() query: QueryResourceParams,
   ) {
-    infoRequest(requestId, 'resource.controller.queryResource', query);
+    infoRequest(requestId, 'Resource.controller.queryResource', query);
     const result = await this.resourceService.queryResourceEntities(query);
-    infoResponse(requestId, 'resource.controller.queryResource', { result });
+    infoResponse(requestId, 'Resource.controller.queryResource', { result });
     return CGIResponse.success(requestId, result);
   }
 
@@ -50,7 +50,7 @@ export class ResourceController {
     @UserName() username,
     @UploadedFile() file: FileInterceptorUploadedFile,
   ) {
-    infoRequest(requestId, 'resource.controller.uploadResource', {
+    infoRequest(requestId, 'Resource.controller.uploadResource', {
       username,
       filename: file.filename,
     });
@@ -63,7 +63,7 @@ export class ResourceController {
     const [err, { url } = { url: null }] = await promiseWrapper(onUpload(file));
     if (err) {
       error(
-        'resource.controller.uploadResource',
+        'Resource.controller.uploadResource',
         'Error with "onUpload" callback',
         { error: err },
       );
@@ -78,13 +78,13 @@ export class ResourceController {
       username,
       getCreateResourceParams(file, url),
     );
-    infoResponse(requestId, 'resource.controller.uploadResource', { result });
+    infoResponse(requestId, 'Resource.controller.uploadResource', { result });
     return CGIResponse.success(requestId, result);
   }
 
   @Delete('/:id')
   async deleteResource(@RequestId() requestId, @Param('id') id: string) {
-    infoRequest(requestId, 'resource.controller.deleteResource', { id });
+    infoRequest(requestId, 'Resource.controller.deleteResource', { id });
     const item = await this.resourceService.getResourceEntityById(
       parseInt(id, 10),
     );
@@ -94,7 +94,7 @@ export class ResourceController {
     const [err] = await promiseWrapper(onDelete(item));
     if (err) {
       error(
-        'resource.controller.deleteResource',
+        'Resource.controller.deleteResource',
         'Error with "onDelete" callback',
         { error: err },
       );
@@ -108,7 +108,7 @@ export class ResourceController {
     const result = await this.resourceService.deleteResourceEntity(
       parseInt(id, 10),
     );
-    infoResponse(requestId, 'resource.controller.deleteResource', { result });
+    infoResponse(requestId, 'Resource.controller.deleteResource', { result });
     return CGIResponse.success(requestId, result);
   }
 }

@@ -23,7 +23,7 @@ export class HistoryController {
     @RequestId() requestId,
     @Body() dsl: CreateHistoryDTO,
   ) {
-    infoRequest(requestId, 'history.controller.createHistory', {
+    infoRequest(requestId, 'History.controller.createHistory', {
       username,
     });
     const {
@@ -33,7 +33,7 @@ export class HistoryController {
       dsl.pageKey,
       historyId,
     );
-    infoResponse(requestId, 'history.controller.createHistory', { result });
+    infoResponse(requestId, 'History.controller.createHistory', { result });
     return CGIResponse.success(requestId, result);
   }
 }

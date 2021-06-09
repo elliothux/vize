@@ -1,14 +1,15 @@
 {
   "name": "@vize/cgi",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "author": "aedron@github",
   "main": "dist/main",
   "module": "dist/main",
   "scripts": {
     "dev": "nest start --watch",
-    "prebuild": "rimraf dist",
-    "build": "nest build",
-    "publish": "npm publish --access public"
+    "dist": "rimraf dist; nest build;",
+    "publish": "npm publish --access public",
+    "release": "npm run dist; npm run upload:sourcemap; npm run publish;",
+    "upload:sourcemap": "../../node_modules/@sentry/cli/bin/sentry-cli --auth-token 315829bc1e4e47be9cdcf01cf4af6cd90a87b3f67d664d7991dd0ef935d664c0 releases --org vize --project cgi files 0.1 upload-sourcemaps --ext map ./dist"
   },
   "dependencies": {
     "@nestjs/cli": "^7.0.0",
@@ -32,7 +33,8 @@
     "typeorm": "^0.2.26",
     "typeorm-text-search": "^1.1.2",
     "uuid": "^8.3.2",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",

@@ -39,9 +39,9 @@ export class PageController {
     @UserName() username,
     @Body() page: CreatePageDTO,
   ) {
-    infoRequest(requestId, 'page.controller.createPage', { username, page });
+    infoRequest(requestId, 'Page.controller.createPage', { username, page });
     if (await this.pageService.checkPageExists(page.key)) {
-      warn('page.controller.createPage', `Page already exists`, {
+      warn('Page.controller.createPage', `Page already exists`, {
         requestId,
         key: page.key,
       });
@@ -52,13 +52,13 @@ export class PageController {
       identifiers: [{ id: pageId }],
     } = await this.pageService.createPageEntity(username, page);
     const result = await this.pageService.getPageById(pageId);
-    infoResponse(requestId, 'page.controller.createPage', { result });
+    infoResponse(requestId, 'Page.controller.createPage', { result });
     return CGIResponse.success(requestId, result);
   }
 
   @Get()
   async getPages(@RequestId() requestId, @Query() query: QueryPageParams) {
-    infoRequest(requestId, 'page.controller.getPages', { query });
+    infoRequest(requestId, 'Page.controller.getPages', { query });
     const { pages, total } = await this.pageService.queryPageEntity(query);
     const result = {
       total,
@@ -76,15 +76,15 @@ export class PageController {
         };
       }),
     };
-    infoResponse(requestId, 'page.controller.getPages', { result });
+    infoResponse(requestId, 'Page.controller.getPages', { result });
     return CGIResponse.success(requestId, result);
   }
 
   @Get(':key')
   async getPage(@RequestId() requestId, @Param('key') key: string) {
-    infoRequest(requestId, 'page.controller.getPage', { key });
+    infoRequest(requestId, 'Page.controller.getPage', { key });
     if (!key) {
-      warn('page.controller.getPage', `Page not exists`, {
+      warn('Page.controller.getPage', `Page not exists`, {
         requestId,
         key,
       });
@@ -92,7 +92,7 @@ export class PageController {
     }
 
     const result = await this.pageService.getPageByKey(key);
-    infoResponse(requestId, 'page.controller.getPage', { result });
+    infoResponse(requestId, 'Page.controller.getPage', { result });
     return CGIResponse.success(requestId, result);
   }
 
@@ -102,12 +102,12 @@ export class PageController {
     @Param('id') id: number,
     @Body() updatePageDto: UpdatePageDTO,
   ) {
-    infoRequest(requestId, 'page.controller.updatePageInfo', {
+    infoRequest(requestId, 'Page.controller.updatePageInfo', {
       id,
     });
     const result = await this.pageService.updatePage(id, updatePageDto);
     if (!result) {
-      error('page.controller.updatePageInfo', 'page update failed', {
+      error('Page.controller.updatePageInfo', 'page update failed', {
         requestId,
         id,
       });
@@ -117,18 +117,18 @@ export class PageController {
         'the page update failed!',
       );
     }
-    infoResponse(requestId, 'page.controller.updatePageInfo', { result });
+    infoResponse(requestId, 'Page.controller.updatePageInfo', { result });
     return CGIResponse.success(requestId);
   }
 
   @Delete(':id')
   async deletePage(@RequestId() requestId, @Param('id') id) {
-    infoRequest(requestId, 'page.controller.deletePage', {
+    infoRequest(requestId, 'Page.controller.deletePage', {
       id,
     });
     const result = await this.pageService.deletePage(id);
     if (!result) {
-      error('page.controller.updatePageInfo', 'page update failed', {
+      error('Page.controller.updatePageInfo', 'page update failed', {
         requestId,
         id,
       });
@@ -138,17 +138,17 @@ export class PageController {
         'the page update failed!',
       );
     }
-    infoResponse(requestId, 'page.controller.deletePage', { result });
+    infoResponse(requestId, 'Page.controller.deletePage', { result });
     return CGIResponse.success(requestId, result);
   }
 
   @Get('/preview/:key')
   async previewPage(@RequestId() requestId, @Param('key') key) {
-    infoRequest(requestId, 'page.controller.previewPage', {
+    infoRequest(requestId, 'Page.controller.previewPage', {
       key,
     });
     const result = await this.pageService.generatePage(key, true);
-    infoResponse(requestId, 'page.controller.previewPage', { result });
+    infoResponse(requestId, 'Page.controller.previewPage', { result });
     return result['error']
       ? CGIResponse.failed(
           requestId,
@@ -160,7 +160,7 @@ export class PageController {
 
   @Post('/publish/:key')
   async publishPage(@RequestId() requestId, @Param('key') key) {
-    infoRequest(requestId, 'page.controller.publishPage', {
+    infoRequest(requestId, 'Page.controller.publishPage', {
       key,
     });
     setTimeout(async () => {
@@ -170,17 +170,17 @@ export class PageController {
       }
       return this.pageService.publishPage(key, result as GeneratorResult);
     }, 0);
-    infoRequest(requestId, 'page.controller.publishPage');
+    infoRequest(requestId, 'Page.controller.publishPage');
     return CGIResponse.success(requestId);
   }
 
   @Get('/publish/:key')
   async getPublishStatus(@RequestId() requestId, @Param('key') id) {
-    infoRequest(requestId, 'page.controller.getPublishStatus', {
+    infoRequest(requestId, 'Page.controller.getPublishStatus', {
       key: id,
     });
     const result = this.pageService.getPublishStatus(id);
-    infoRequest(requestId, 'page.controller.getPublishStatus', { result });
+    infoRequest(requestId, 'Page.controller.getPublishStatus', { result });
     return CGIResponse.success(requestId, result);
   }
 }
