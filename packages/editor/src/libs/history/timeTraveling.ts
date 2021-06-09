@@ -112,5 +112,3 @@ export class TimeTraveler {
 }
 
 export const timeTraveler = new TimeTraveler();
-
-(window as any).timeTraveler = timeTraveler;
