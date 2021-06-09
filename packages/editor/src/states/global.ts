@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 import { getFormDefaultValue, getQueryParams } from 'utils';
+import { actionWithSnapshot, withTimeTravel } from 'mobx-time-traveler';
 import { getMaterialsContainerMeta } from 'libs';
-import { actionWithSnapshot, withTimeTravel } from 'libs/history';
 import { EventInstance, GlobalMeta } from 'types';
 import { StoreWithUtils } from './utils';
 

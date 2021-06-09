@@ -28,7 +28,7 @@ import {
   createEventInstance,
   regenerateAllEventDeps,
 } from 'libs';
-import { timeTraveler, actionWithSnapshot } from 'libs/history';
+import { timeTraveler, actionWithSnapshot } from 'mobx-time-traveler';
 import { getMaterialsActionMeta } from 'runtime';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';

@@ -15,7 +15,7 @@ import {
   ComponentIndex,
   regenerateAllPagesComponentsIndex,
 } from 'libs';
-import { actionWithSnapshot, timeTraveler } from 'libs/history';
+import { actionWithSnapshot, timeTraveler } from 'mobx-time-traveler';
 import { pagesStore } from './pages';
 import { selectStore, SelectType } from './select';
 import { eventStore } from './events';

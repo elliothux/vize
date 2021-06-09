@@ -1,5 +1,5 @@
 import { EventInstance, HotArea, Maybe } from 'types';
-import { actionWithSnapshot } from 'libs/history';
+import { actionWithSnapshot } from 'mobx-time-traveler';
 import { componentsStore } from './components';
 import { selectStore } from './select';
 

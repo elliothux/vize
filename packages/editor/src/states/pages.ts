@@ -11,7 +11,7 @@ import {
   pagesComponentIndexMap,
   pagesPluginIndexMap,
 } from 'libs';
-import { actionWithSnapshot, timeTraveler, withTimeTravel } from 'libs/history';
+import { actionWithSnapshot, timeTraveler, withTimeTravel } from 'mobx-time-traveler';
 import { onCustomEvent, cancelCustomEvent, emitCustomEvent, generatePageEventHandlers } from 'runtime';
 import { PageUniversalEventTrigger } from '@vize/types';
 import { StoreWithUtils } from './utils';

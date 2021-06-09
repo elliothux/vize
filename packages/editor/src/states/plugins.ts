@@ -9,7 +9,7 @@ import {
   DepsTargetType,
   pluginEventDepsMap,
 } from 'libs';
-import { actionWithSnapshot } from 'libs/history';
+import { actionWithSnapshot } from 'mobx-time-traveler';
 import { selectStore, SelectType } from './select';
 import { pagesStore } from './pages';
 import { eventStore } from './events';

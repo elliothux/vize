@@ -2,11 +2,11 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { useCallback, useEffect } from 'react';
 import { message } from 'antd';
+import { timeTraveler } from 'mobx-time-traveler';
 import { FiCornerUpLeft, FiCornerUpRight, FiX } from 'react-icons/fi';
 import { Trans, useTranslation } from 'react-i18next';
 import { unImplemented } from 'utils';
 import { hotkeyEvents, HotKeyEventTypes } from 'libs';
-import { timeTraveler } from 'libs/history';
 import { OperationItem } from './OperationItem';
 import { hotKeyPrefix } from './utils';
 

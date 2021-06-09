@@ -3,7 +3,7 @@ import { getComponentSelectedCallback } from 'runtime';
 import { PageUniversalEventTrigger } from '@vize/types';
 import { Maybe } from 'types';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
-import { withTimeTravel } from 'libs/history';
+import { withTimeTravel } from 'mobx-time-traveler';
 import { EventEmitTypes, events } from '../libs';
 import { AttrEditTab } from '../components/AttributesEditor';
 import { pagesStore } from './pages';
