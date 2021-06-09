@@ -1,7 +1,7 @@
 import { TimeTravelerConfig } from './types';
 
 export const config: TimeTravelerConfig = {
-  maxStacks: 20,
+  maxStacks: 50,
   debounceTime: 2000,
 };
 

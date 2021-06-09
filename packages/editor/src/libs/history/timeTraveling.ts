@@ -50,6 +50,10 @@ export class TimeTraveler {
       stacks.push(boxedItem);
     }
 
+    if (stacks.length > config.maxStacks) {
+      stacks.splice(0, config.maxStacks - stacks.length - 1);
+    }
+
     this.cursor = stacks.length - 1;
     this.lastUpdate = Date.now();
   };
