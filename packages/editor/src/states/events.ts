@@ -26,7 +26,9 @@ import {
   componentEventDepsMap,
   pluginEventDepsMap,
   createEventInstance,
+  regenerateAllEventDeps,
 } from 'libs';
+import { timeTraveler } from 'libs/history';
 import { getMaterialsActionMeta } from 'runtime';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
@@ -36,6 +38,14 @@ import { globalStore } from './global';
 import { pagesStore } from './pages';
 
 export class EventStore {
+  constructor() {
+    timeTraveler.onRestore((type, nextSnapshots, currentSnapshots) => {
+      if (nextSnapshots.payload.needReloadDeps || currentSnapshots.payload.needReloadDeps) {
+        regenerateAllEventDeps();
+      }
+    });
+  }
+
   @action
   public addEventInstance = (triggerName: EventTriggerName, target: EventTarget) => {
     const action = target.type === EventTargetType.Action ? getMaterialsActionMeta(target.id)! : undefined;

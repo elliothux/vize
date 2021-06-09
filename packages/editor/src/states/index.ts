@@ -3,9 +3,6 @@ import { EventEmitTypes, events } from 'libs';
 import { pagesStore } from './pages';
 import { materialsStore } from './materials';
 import { globalStore } from './global';
-import { recordHistory } from '../libs/history';
-import { selectStore } from './select';
-import { sharedStore } from './shared';
 
 configure({
   enforceActions: 'always',
@@ -16,10 +13,6 @@ export async function initStore() {
   pagesStore.init();
   globalStore.init();
   events.emit(EventEmitTypes.STORE_INITIALED);
-}
-
-export function initHistory() {
-  recordHistory({ pagesStore, selectStore, sharedStore });
 }
 
 export * from './components';

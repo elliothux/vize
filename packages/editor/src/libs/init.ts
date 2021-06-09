@@ -1,19 +1,20 @@
 import * as R from 'ramda';
 import { promiseWrapper } from 'utils';
-import { editStore, initHistory, initStore } from 'states';
+import { editStore, initStore } from 'states';
 import { getCurrentUser } from 'api';
 import { initI18N } from 'i18n';
 import { message } from 'antd';
 import { registerHotkey } from './hotkey';
 import { EventEmitTypes, events } from './events';
 import { restore } from './dsl';
+import { timeTraveler } from './history';
 
 export async function init() {
   await Promise.all([initStore(), getCurrentUser(), initI18N]);
   await restore();
   initDocument(document);
   initHotReload();
-  initHistory();
+  timeTraveler.initSnapshots();
 }
 
 export function initDocument(doc: Document) {

@@ -67,10 +67,11 @@ function restoreStateFromDSL(dsl: string) {
   if (sharedComponentInstances) {
     restoreSharedComponentInstances(sharedComponentInstances);
   }
+
+  regenerateAllEventDeps();
 }
 
 function restoreGlobal({ data, style, events, meta }: ReturnType<typeof parseDSL>) {
-  restoreEventDep(DepsFromType.Global, { events });
   return globalStore.setState(store => {
     store.globalData = data;
     store.globalStyle = style;
@@ -84,7 +85,6 @@ function restorePageInstances(pages: PageInstance[]) {
     const { key, componentInstances, pluginInstances } = page;
     page.componentInstances = restoreComponentInstances(key, componentInstances);
     page.pluginInstances = restorePluginInstances(key, pluginInstances!);
-    restoreEventDep(DepsFromType.Page, page);
   });
   return pagesStore.setState(store => (store.pages = pages));
 }
@@ -93,7 +93,6 @@ function restoreComponentInstances(pageKey: number, iComponentInstances: Compone
   const componentInstances = iComponentInstances.filter(filterComponent);
   const indexMap = generateComponentsIndex(componentInstances);
   addPageComponentInstanceIndexMap(pageKey, indexMap);
-  componentInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
   return componentInstances;
 }
 
@@ -101,7 +100,6 @@ function restorePluginInstances(pageKey: number, iPluginInstances: PluginInstanc
   const pluginInstances = iPluginInstances.filter(filterPlugin);
   const indexMap = generatePluginsIndex(pluginInstances);
   addPagePluginInstanceIndexMap(pageKey, indexMap);
-  pluginInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Plugin])));
   return pluginInstances;
 }
 
@@ -111,8 +109,42 @@ function restoreSharedComponentInstances(iComponentInstances: ComponentInstance[
 
   const indexMap = generateComponentsIndex(componentInstances);
   setSharedComponentIndexMap(indexMap);
-  componentInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
   return componentInstances;
+}
+
+function restoreEditInfo({ maxKeys, layoutMode, pageMode }: EditInfoDSL) {
+  editStore.setState(editStore => {
+    editStore.layoutMode = layoutMode;
+    editStore.pageMode = pageMode;
+  });
+
+  if (maxKeys) {
+    setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
+    setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
+    setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);
+    setMaxKey(InstanceKeyType.Plugin, maxKeys[InstanceKeyType.Plugin]);
+    setMaxKey(InstanceKeyType.Action, maxKeys[InstanceKeyType.Action]);
+  }
+}
+
+interface ExtraInfo {
+  owner: UserRecord;
+}
+
+function restoreExtraInfo({ owner }: ExtraInfo) {
+  return editStore.setState(store => {
+    store.owner = owner;
+  }, true);
+}
+
+export function regenerateAllEventDeps() {
+  restoreEventDep(DepsFromType.Global, { events: globalStore.globalEvents });
+  pagesStore.pages.forEach(page => {
+    restoreEventDep(DepsFromType.Page, page);
+    page.componentInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
+    page.pluginInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Plugin])));
+  });
+  sharedStore.sharedComponentInstances.forEach(R.unary(R.partial(restoreEventDep, [DepsFromType.Component])));
 }
 
 function restoreEventDep(
@@ -140,29 +172,4 @@ function restoreEventDep(
       pluginEventDepsMap.addEventDep((target as PluginEventTarget).key, depForm);
     }
   });
-}
-
-function restoreEditInfo({ maxKeys, layoutMode, pageMode }: EditInfoDSL) {
-  editStore.setState(editStore => {
-    editStore.layoutMode = layoutMode;
-    editStore.pageMode = pageMode;
-  });
-
-  if (maxKeys) {
-    setMaxKey(InstanceKeyType.Page, maxKeys[InstanceKeyType.Page]);
-    setMaxKey(InstanceKeyType.Component, maxKeys[InstanceKeyType.Component]);
-    setMaxKey(InstanceKeyType.HotArea, maxKeys[InstanceKeyType.HotArea]);
-    setMaxKey(InstanceKeyType.Plugin, maxKeys[InstanceKeyType.Plugin]);
-    setMaxKey(InstanceKeyType.Action, maxKeys[InstanceKeyType.Action]);
-  }
-}
-
-interface ExtraInfo {
-  owner: UserRecord;
-}
-
-function restoreExtraInfo({ owner }: ExtraInfo) {
-  return editStore.setState(store => {
-    store.owner = owner;
-  }, true);
 }

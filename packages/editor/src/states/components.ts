@@ -13,23 +13,33 @@ import {
   componentEventDepsMap,
   DepsTargetType,
   ComponentIndex,
+  regenerateAllPagesComponentsIndex,
 } from 'libs';
+import { actionWithSnapshot, timeTraveler } from 'libs/history';
 import { pagesStore } from './pages';
 import { selectStore, SelectType } from './select';
 import { eventStore } from './events';
 import { StoreWithUtils } from './utils';
 import { editStore } from './edit';
 import { sharedStore } from './shared';
-import { recordHistory, withHistory } from '../libs/history';
 
 export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
+  constructor() {
+    super();
+    timeTraveler.onRestore((type, nextSnapshots, currentSnapshots) => {
+      if (nextSnapshots?.payload?.needReloadIndex || currentSnapshots?.payload?.needReloadIndex) {
+        regenerateAllPagesComponentsIndex();
+      }
+    });
+  }
+
   @computed
   public get componentInstances(): ComponentInstance[] {
     return pagesStore.currentPage.componentInstances;
   }
 
   @action
-  public setCurrentPageComponentInstances = (
+  private setCurrentPageComponentInstances = (
     setter: (componentInstances: ComponentInstance[]) => ComponentInstance[] | void,
   ) => {
     let newInstances: ComponentInstance[] | undefined;
@@ -42,7 +52,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     return newInstances;
   };
 
-  @action
+  @actionWithSnapshot({ needReloadIndex: true })
   public addComponentInstance = (componentID: string) => {
     return this.setCurrentPageComponentInstances(instances => {
       const component = getMaterialsComponentMeta(componentID)!;
@@ -63,7 +73,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @action
+  @actionWithSnapshot({ needReloadIndex: true })
   private addComponentInstanceAsChildren = (instance: ComponentInstance) => {
     return this.setCurrentPageComponentInstances(instances => {
       const { index: parentIndex } = getCurrentPageComponentIndex(selectStore.containerComponentKey)!;
@@ -82,8 +92,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @action
-  @withHistory
+  @actionWithSnapshot({ needReloadIndex: true, needReloadDeps: true })
   public deleteComponentInstance = (key: number) => {
     if (!getCurrentPageComponentIndex(key)) {
       return sharedStore.deleteSharedComponentInstance(key);
@@ -106,7 +115,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     return deletedInstance!;
   };
 
-  @action
+  @actionWithSnapshot({ needReloadIndex: true })
   public resortComponentInstance = (key: number, oldIndex: number, newIndex: number) => {
     if (oldIndex === newIndex) {
       return;
@@ -127,7 +136,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @action
+  @actionWithSnapshot({ needReloadIndex: true })
   public moveComponentInstance = (oldIndex: ComponentIndex, newIndex: ComponentIndex) => {
     if (compareComponentIndex(oldIndex, newIndex)) {
       return;
@@ -155,7 +164,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public dragMoveComponentInstance = (key: number, position: ComponentPosition) => {
     return this.setCurrentPageComponentInstances(instances => {
       const instance = findComponentInstanceByIndex(instances, getCurrentPageComponentIndex(key)!);
@@ -163,7 +172,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public resizeComponentInstance = (key: number, position: ComponentPosition, size: ComponentSize) => {
     return this.setCurrentPageComponentInstances(instances => {
       const instance = findComponentInstanceByIndex(instances, getCurrentPageComponentIndex(key)!);
@@ -174,7 +183,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setComponentInstancePropsByKey = (
     key: number,
     setter: (instance: ComponentInstance) => void,
@@ -221,33 +230,33 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
   /**
    * @desc Change Current Component Instance Props
    */
-  @action
+  @actionWithSnapshot
   private setCurrentComponentInstanceProps = (setter: (instance: ComponentInstance) => void) => {
     return this.setComponentInstancePropsByKey(selectStore.componentKey, setter);
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentComponentInstanceData = (data: object) => {
     return this.setCurrentComponentInstanceProps(instance => {
       instance.data = data;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentComponentInstanceStyle = (style: object) => {
     return this.setCurrentComponentInstanceProps(instance => {
       instance.style = style;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentComponentInstanceCommonStyle = (commonStyle: object) => {
     return this.setCurrentComponentInstanceProps(instance => {
       instance.commonStyle = commonStyle;
     });
   };
 
-  @action
+  @actionWithSnapshot
   public setCurrentComponentInstanceWrapperStyle = (wrapperStyle: object) => {
     return this.setCurrentComponentInstanceProps(instance => {
       instance.wrapperStyle = wrapperStyle;

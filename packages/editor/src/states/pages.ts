@@ -14,7 +14,9 @@ import { PageUniversalEventTrigger } from '@vize/types';
 import { StoreWithUtils } from './utils';
 import { selectStore } from './select';
 import { globalStore } from './global';
+import { withTimeTravel } from '../libs/history';
 
+@withTimeTravel
 export class PagesStore extends StoreWithUtils<PagesStore> {
   public init = () => {
     this.addPage(false, true, 'default page');

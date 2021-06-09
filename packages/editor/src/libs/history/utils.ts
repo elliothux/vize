@@ -1,51 +1,18 @@
-import { isFunction } from '../../utils';
-
-export type Snapshot = {
-  [propName: string]: any;
-};
-
-function isObject(obj: any) {
-  return Object.prototype.toString.call(obj) === '[object Object]';
+export function isObject(i: any) {
+  return Object.prototype.toString.call(i) === '[object Object]';
 }
-function isMap(obj: any) {
+
+export function isMap(i: any) {
   return (
-    Object.prototype.toString.call(obj) === '[object Map]' ||
-    (obj && isFunction(obj.delete) && isFunction(obj.get) && isFunction(obj.set))
+    Object.prototype.toString.call(i) === '[object Map]' ||
+    (i && isFunction(i.delete) && isFunction(i.get) && isFunction(i.set))
   );
 }
-function isArray(obj: any) {
-  return obj && Array.isArray(obj);
+
+export function isFunction(i: any): boolean {
+  return typeof i === 'function';
 }
 
-export function walkAndSerialize(model: any) {
-  if (isArray(model)) {
-    return model.length ? model.map(walkAndSerialize) : [];
-  }
-
-  if (isMap(model)) {
-    if (model.size) {
-      const map: { [key: string]: any } = {};
-      model.forEach((value: any, key: string) => {
-        map[key] = walkAndSerialize(value);
-      });
-      return map;
-    }
-    return {};
-  }
-
-  if (isObject(model)) {
-    return Object.keys(model).reduce((acc, stateName) => {
-      const value = walkAndSerialize(model[stateName]);
-      if (value !== undefined) {
-        acc[stateName] = value;
-      }
-      return acc;
-    }, {} as Snapshot);
-  }
-
-  if (isFunction(model)) {
-    return undefined;
-  }
-
-  return model;
+export function isArray(i: any) {
+  return i && Array.isArray(i);
 }

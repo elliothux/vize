@@ -97,10 +97,14 @@ export function generateComponentsIndex(componentInstances: ComponentInstance[])
   }, []);
 }
 
-export function regenerateCurrentPageComponentsIndex(currentPageComponentInstances: ComponentInstance[]) {
-  deletePageComponentInstanceIndexMap(pagesStore.currentPage.key);
-  const entries = generateComponentsIndex(currentPageComponentInstances);
-  addPageComponentInstanceIndexMap(pagesStore.currentPage.key, entries);
+export function regenerateAllPagesComponentsIndex() {
+  pagesStore.pages.forEach(page => regeneratePageComponentsIndex(page.key, page.componentInstances));
+}
+
+export function regeneratePageComponentsIndex(pageKey: number, pageComponentInstances: ComponentInstance[]) {
+  deletePageComponentInstanceIndexMap(pageKey);
+  const entries = generateComponentsIndex(pageComponentInstances);
+  addPageComponentInstanceIndexMap(pageKey, entries);
 }
 
 export function compareComponentIndex(a: ComponentIndex, b: ComponentIndex) {
