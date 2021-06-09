@@ -60,10 +60,11 @@ Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 
 ## 📦 周边生态
 
-| Description  | Package                                                                                       | NPM Package                                                                  | Status                                                                                                                          |
-| ------------ | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 富文本编辑器 | [richtext-editor](https://github.com/vize-team/components/tree/main/packages/richtext-editor) | [@vize/richtext-editor](https://www.npmjs.com/package/@vize/richtext-editor) | ![version](https://img.shields.io/npm/v/@vize/richtext-editor) ![download](https://img.shields.io/npm/dw/@vize/richtext-editor) |
-| 富文本渲染器 | [richtext-render](https://github.com/vize-team/components/tree/main/packages/richtext-render) | [@vize/richtext-render](https://www.npmjs.com/package/@vize/richtext-render) | ![version](https://img.shields.io/npm/v/@vize/richtext-render) ![download](https://img.shields.io/npm/dw/@vize/richtext-render) |
+| Description       | Package                                                                                       | NPM Package                                                                  | Status                                                                                                                          |
+| ----------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Mobx 状态时间旅行 | [mobx-time-traveler](https://github.com/Aedron/mobx-time-traveler)                            | [mobx-time-traveler](https://www.npmjs.com/package/mobx-time-traveler)       | ![version](https://img.shields.io/npm/v/mobx-time-traveler) ![download](https://img.shields.io/npm/dw/mobx-time-traveler)       |
+| 富文本编辑器      | [richtext-editor](https://github.com/vize-team/components/tree/main/packages/richtext-editor) | [@vize/richtext-editor](https://www.npmjs.com/package/@vize/richtext-editor) | ![version](https://img.shields.io/npm/v/@vize/richtext-editor) ![download](https://img.shields.io/npm/dw/@vize/richtext-editor) |
+| 富文本渲染器      | [richtext-render](https://github.com/vize-team/components/tree/main/packages/richtext-render) | [@vize/richtext-render](https://www.npmjs.com/package/@vize/richtext-render) | ![version](https://img.shields.io/npm/v/@vize/richtext-render) ![download](https://img.shields.io/npm/dw/@vize/richtext-render) |
 
 ## 📦 模板
 
