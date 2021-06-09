@@ -37,18 +37,21 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   }
 
   public init = () => {
-    this.addPage(false, true, 'default page');
+    this.pages.forEach(({ key }) => {
+      addPageComponentInstanceIndexMap(key);
+      addPagePluginInstanceIndexMap(key);
+    });
   };
 
   @observable
-  public pages: PageInstance[] = [];
+  public pages: PageInstance[] = [createPageInstance('default page', true)];
 
   @computed
   public get currentPage(): PageInstance {
     return this.pages[selectStore.pageIndex];
   }
 
-  @action
+  @action.bound
   public setCurrentPage = (setter: (page: PageInstance) => PageInstance | void) => {
     const page = this.pages[selectStore.pageIndex];
     const newPage = setter(page);

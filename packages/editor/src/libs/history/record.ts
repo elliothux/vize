@@ -1,5 +1,5 @@
 import { Snapshots } from './types';
-import { runInAction } from 'mobx';
+import { observable, runInAction } from 'mobx';
 
 export const recordedStores: Snapshots = {};
 

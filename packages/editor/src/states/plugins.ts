@@ -71,14 +71,14 @@ export class PluginsStore extends StoreWithUtils<PluginsStore> {
     return selectType === SelectType.PLUGIN ? this.getCurrentPagePluginInstance(pluginKey) : null;
   };
 
-  @action
+  @action.bound
   public setPluginInstancePropsByKey = (key: number, setter: (instance: PluginInstance) => void) => {
     const instance = this.getCurrentPagePluginInstance(key);
     setter(instance);
     return instance;
   };
 
-  @action
+  @action.bound
   private setCurrentPluginInstanceProps = (setter: (instance: PluginInstance) => void) => {
     const instance = this.getCurrentPagePluginInstance(selectStore.pluginKey);
     setter(instance);

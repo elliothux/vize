@@ -38,7 +38,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     return pagesStore.currentPage.componentInstances;
   }
 
-  @action
+  @action.bound
   private setCurrentPageComponentInstances = (
     setter: (componentInstances: ComponentInstance[]) => ComponentInstance[] | void,
   ) => {
@@ -263,7 +263,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @action
+  @action.bound
   public setCurrentComponentInstanceEvents = (setter: (events: EventInstance[]) => EventInstance[] | void) => {
     return this.setCurrentComponentInstanceProps(instance => {
       const newEvents = setter(instance.events);
@@ -273,7 +273,7 @@ export class ComponentsStore extends StoreWithUtils<ComponentsStore> {
     });
   };
 
-  @action
+  @action.bound
   public setCurrentComponentInstanceHotAreas = (setter: (hotAreas: HotArea[]) => HotArea[] | void) => {
     return this.setCurrentComponentInstanceProps(instance => {
       const newHotAreas = setter(instance.hotAreas!);

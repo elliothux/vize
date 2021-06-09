@@ -98,7 +98,9 @@ export function generateComponentsIndex(componentInstances: ComponentInstance[])
 }
 
 export function regenerateAllPagesComponentsIndex() {
-  pagesStore.pages.forEach(page => regeneratePageComponentsIndex(page.key, page.componentInstances));
+  return pagesStore.pages.forEach(({ key, componentInstances }) => {
+    return regeneratePageComponentsIndex(key, componentInstances);
+  });
 }
 
 export function regeneratePageComponentsIndex(pageKey: number, pageComponentInstances: ComponentInstance[]) {

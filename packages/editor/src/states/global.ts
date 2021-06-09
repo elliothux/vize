@@ -1,10 +1,11 @@
 import { action, observable } from 'mobx';
 import { getFormDefaultValue, getQueryParams } from 'utils';
 import { getMaterialsContainerMeta } from 'libs';
-import { actionWithSnapshot } from 'libs/history';
+import { actionWithSnapshot, withTimeTravel } from 'libs/history';
 import { EventInstance, GlobalMeta } from 'types';
 import { StoreWithUtils } from './utils';
 
+@withTimeTravel
 export class GlobalStore extends StoreWithUtils<GlobalStore> {
   constructor() {
     super();
@@ -13,7 +14,7 @@ export class GlobalStore extends StoreWithUtils<GlobalStore> {
     this.metaInfo.key = key;
   }
 
-  @action
+  @action.bound
   public init = () => {
     const { globalDataForm, globalStyleForm } = getMaterialsContainerMeta()!;
     this.globalData = getFormDefaultValue(globalDataForm);

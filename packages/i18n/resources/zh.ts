@@ -83,7 +83,7 @@ export const zh = {
     save: '保存',
     'save as template': '存为模板',
     'history manager': '历史管理',
-    '{{type}} not allowed with DebugMode': 'Debug 模式下不支持 $t({{type}})',
+    '{{type}} not allowed with debug-mode': 'Debug 模式下不支持 $t({{type}})',
     saving: '保存中',
     saved: '保存成功',
     'failed to save': '保存失败',

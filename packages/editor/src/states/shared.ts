@@ -21,7 +21,7 @@ export class SharedStore extends StoreWithUtils<SharedStore> {
   @observable
   public sharedComponentInstances: ComponentInstance[] = [];
 
-  @action
+  @action.bound
   public setComponentInstanceAsShared = (componentKey: number) => {
     const instance = componentsStore.deleteComponentInstance(componentKey);
     instance.shared = true;
@@ -38,7 +38,7 @@ export class SharedStore extends StoreWithUtils<SharedStore> {
     });
   };
 
-  @action
+  @action.bound
   public setSharedComponentInstancePropsByKey = (
     key: number,
     setter: (instance: ComponentInstance) => void,
@@ -53,7 +53,7 @@ export class SharedStore extends StoreWithUtils<SharedStore> {
     return instance;
   };
 
-  @action
+  @action.bound
   public deleteSharedComponentInstance = (key: number) => {
     let { sharedComponentInstances } = this;
     const { index, parentIndex } = deleteSharedComponentIndex(key, this.sharedComponentInstances);

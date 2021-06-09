@@ -5,6 +5,7 @@ export interface Snapshots {
 
 export interface TimeTravelerConfig {
   maxStacks: number;
+  debounceTime: number;
 }
 
 export type RestoreCallback = (

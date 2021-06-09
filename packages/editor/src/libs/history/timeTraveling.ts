@@ -1,14 +1,17 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, IObservableValue } from 'mobx';
 import { RestoreCallback, Snapshots } from './types';
 import { recordedStores, restoreSnapshot } from './record';
 import { dehydrate } from './hydrate';
+import { config } from './configure';
 
 export class TimeTraveler {
   @observable
-  private stacks: Snapshots[] = [];
+  private stacks: IObservableValue<Snapshots>[] = [];
 
   @observable
   private cursor = 0;
+
+  private lastUpdate = 0;
 
   public getSnapshots = (): Snapshots => {
     return Object.entries(recordedStores).reduce<Snapshots>((accu, [k, v]) => {
@@ -23,19 +26,32 @@ export class TimeTraveler {
     if (payload) {
       item.payload = payload;
     }
-    this.stacks = [item];
+    this.stacks = [observable.box(item, { deep: false })];
     this.cursor = 0;
   };
 
   @action
   public updateSnapshots = (payload?: Record<string, any>, snapshots?: Snapshots) => {
-    const { stacks } = this;
+    const { stacks, cursor } = this;
     const item = snapshots || this.getSnapshots();
     if (payload) {
       item.payload = payload;
     }
-    stacks.push(item);
+
+    if (cursor < stacks.length - 1) {
+      stacks.splice(cursor + 1, stacks.length - cursor);
+    }
+
+    const boxedItem = observable.box(item, { deep: false });
+    const debounce = Date.now() - this.lastUpdate < config.debounceTime;
+    if (debounce) {
+      stacks[stacks.length - 1] = boxedItem;
+    } else {
+      stacks.push(boxedItem);
+    }
+
     this.cursor = stacks.length - 1;
+    this.lastUpdate = Date.now();
   };
 
   @computed
@@ -56,8 +72,8 @@ export class TimeTraveler {
     if (!this.canUndo) {
       return;
     }
-    const currentSnapshots = stacks[cursor];
-    const snapshots = stacks[cursor - 1];
+    const currentSnapshots = stacks[cursor].get();
+    const snapshots = stacks[cursor - 1].get();
     this.cursor -= 1;
     return restoreSnapshot(snapshots, () => {
       this.restoreCallbacks.forEach(callback => callback('undo', snapshots, currentSnapshots));
@@ -70,8 +86,8 @@ export class TimeTraveler {
     if (!this.canRedo) {
       return;
     }
-    const currentSnapshots = stacks[cursor];
-    const snapshots = stacks[cursor + 1];
+    const currentSnapshots = stacks[cursor].get();
+    const snapshots = stacks[cursor + 1].get();
     this.cursor += 1;
     return restoreSnapshot(snapshots, () => {
       this.restoreCallbacks.forEach(callback => callback('redo', snapshots, currentSnapshots));
@@ -92,3 +108,5 @@ export class TimeTraveler {
 }
 
 export const timeTraveler = new TimeTraveler();
+
+(window as any).timeTraveler = timeTraveler;

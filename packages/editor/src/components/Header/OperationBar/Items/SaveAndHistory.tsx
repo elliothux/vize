@@ -51,14 +51,16 @@ function ISaveAndHistory() {
       <OperationItem title={t('copy')} icon={FiCopy} action={unImplemented} />
       <OperationItem
         title={
-          debugPort ? t('{{type}} not allowed with DebugMode', { type: 'save as template' }) : t('save as template')
+          debugPort ? t('{{type}} not allowed with debug-mode', { type: 'save as template' }) : t('save as template')
         }
         icon={FiFilePlus}
         action={unImplemented}
         disabled={!!debugPort}
       />
       <OperationItem
-        title={debugPort ? t('{{type}} not allowed with DebugMode', { type: 'history manager' }) : t('history manager')}
+        title={
+          debugPort ? t('{{type}} not allowed with debug-mode', { type: 'history manager' }) : t('history manager')
+        }
         icon={FiGitMerge}
         action={unImplemented}
         disabled={!!debugPort}

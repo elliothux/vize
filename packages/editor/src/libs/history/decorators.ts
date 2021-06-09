@@ -33,7 +33,7 @@ export const withSnapshot = (payload?: Record<string, any>) => (
     if (!inUpdating) {
       updating = true;
     }
-    const result = initializer.apply(this).apply(this, args);
+    const result = initializer.call(target).apply(target, args);
     if (!inUpdating) {
       setTimeout(async () => {
         if (result instanceof Promise) {
@@ -45,6 +45,7 @@ export const withSnapshot = (payload?: Record<string, any>) => (
     }
     return result;
   };
+  return descriptor as any;
 };
 
 interface ActionWithSnapshot {
@@ -60,12 +61,12 @@ export const actionWithSnapshot: ActionWithSnapshot = (
   if (!propertyKey) {
     const payload = payloadOrTarget as Record<string, any>;
     return (target: object, propertyKey: string, descriptor?: PropertyDescriptor) => {
-      withSnapshot(payload)(target, propertyKey, descriptor);
-      return action(target, propertyKey, descriptor);
+      withSnapshot.call(target, payload)(target, propertyKey, descriptor);
+      return action.call(target, target, propertyKey, descriptor);
     };
   }
 
   const target = payloadOrTarget as object;
-  withSnapshot(undefined)(target, propertyKey, descriptor);
-  return action(target, propertyKey, descriptor) as any;
+  withSnapshot.call(target)(target, propertyKey, descriptor);
+  return action.call(target, target, propertyKey, descriptor) as any;
 };

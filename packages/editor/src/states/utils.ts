@@ -1,7 +1,7 @@
 import { action, runInAction as withRunInAction } from 'mobx';
 
 export class StoreWithUtils<T extends Object> {
-  @action
+  @action.bound
   public setState = (setter: (store: T) => void, runInAction = false) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
