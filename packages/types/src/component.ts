@@ -56,6 +56,11 @@ export interface HotArea {
   parent: ComponentInstance;
 }
 
+export interface ComponentLayout {
+  position: ComponentPosition;
+  size?: ComponentSize;
+}
+
 export interface ComponentInstance {
   key: Readonly<number>;
   component: Readonly<string>;
@@ -67,10 +72,7 @@ export interface ComponentInstance {
   events: EventInstance[];
   children?: ComponentInstance[];
   parent?: ComponentInstance;
-  layout?: {
-    position: ComponentPosition;
-    size?: ComponentSize;
-  };
+  layout?: ComponentLayout;
   hotAreas?: HotArea[];
   shared: boolean;
 }

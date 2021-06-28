@@ -4,6 +4,7 @@ import { LayoutMode, Maybe, PageMode } from 'types';
 import { UserRecord } from 'sharedTypes';
 import { DeviceItem, phones } from 'components/Simulator/devices';
 import { StoreWithUtils } from './utils';
+import { pagesStore } from './pages';
 
 const defaultUser = { id: -1, name: 'vize-user', createdTime: new Date(), bizs: [], isAdmin: 0, isDeveloper: 0 };
 
@@ -31,7 +32,22 @@ export class EditStore extends StoreWithUtils<EditStore> {
 
   public readonly debugPorts: number[];
 
+  @observable
   public layoutMode: LayoutMode = LayoutMode.STREAM;
+
+  @action.bound
+  public toggleLayoutMode = (mode: LayoutMode) => {
+    if (mode === LayoutMode.FREE) {
+      pagesStore.setState(({ pages }) => {
+        pages.forEach(({ componentInstances }) => {
+          componentInstances.forEach((instance, index) => {
+            instance.layout = { position: { x: 0, y: index * 50 } };
+          });
+        });
+      });
+    }
+    this.layoutMode = mode;
+  };
 
   public pageMode: PageMode = PageMode.SINGLE;
 

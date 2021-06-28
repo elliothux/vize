@@ -29,6 +29,7 @@ import {
 import { componentEventDepsMap, DepsFromType, generateEventDepFromItem, pluginEventDepsMap } from '../../depsMap';
 import { parseDSL } from './parse';
 import { filterComponent, filterPlugin } from './utils';
+import { LayoutMode } from '@vize/types';
 
 export async function restore() {
   if (isDebugMode()) {

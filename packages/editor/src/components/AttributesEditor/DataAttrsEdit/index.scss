@@ -11,4 +11,51 @@
     width: 100%;
     font-size: 12px;
   }
+
+  .edit-info-item {
+    .edit-info-item-title {
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .mode-items {
+    }
+
+    .mode-item {
+      text-align: left;
+      display: block;
+      background-color: white;
+      padding: 0 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      transition: all ease 600ms;
+
+      h3 {
+        margin-top: 12px;
+        margin-bottom: 0;
+        font-weight: bold;
+      }
+
+      &:hover {
+        box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+      }
+
+      svg {
+        width: 48px;
+        height: auto;
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        opacity: 0.15;
+        transform: rotate(10deg);
+      }
+
+      p {
+        margin-top: 6px;
+        margin-bottom: 0;
+      }
+    }
+  }
 }

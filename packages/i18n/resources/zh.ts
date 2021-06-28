@@ -350,6 +350,7 @@ export const zh = {
     'Select {{type}}': '选择$t({{type}})',
     Select: '选择',
     'Long term': '长期在线',
+    'Edit info of page': '页面编辑信息',
     'Meta info of page': '页面基础信息',
     'Global info of container': '容器全局配置',
     'Error occurred': '出错啦',
@@ -376,5 +377,8 @@ export const zh = {
     'Failed to get logs': '获取日志列表失败',
     'Select log': '选择日志',
     'No logs': '暂无日志',
+    'Layout Mode': '布局模式',
+    'Confirm toggle layout-mode?': '确定要切换布局模式？',
+    'Some existing layout information may be lost': '可能会丢失某些已有的布局信息'
   },
 };

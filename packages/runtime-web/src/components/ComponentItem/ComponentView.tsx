@@ -32,7 +32,7 @@ export function ComponentView({
 }: PropsWithChildren<Props>) {
   const { key, component, data, style, commonStyle, wrapperStyle, events } = instance;
   const ComponentRender = useMemo(() => getMaterialsComponent(component)!, [component]);
-  const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle), [commonStyle]);
+  const iCommonStyle = useMemo(() => mergeCommonStyle(commonStyle, false), [commonStyle]);
   const iWrapperStyle = useMemo(() => mergeCommonStyle(wrapperStyle), [wrapperStyle]);
 
   const on = useCallback(

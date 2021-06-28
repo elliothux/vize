@@ -43,4 +43,7 @@ export interface ISchema<T = SchemaTypes, V = SchemaValueTypes> {
   props?: { [key: string]: any };
   properties?: JsonSchemaProperties;
   inject?: StyleInjectSchema | StyleInjectSchema[];
+  'x-component'?: string;
+  'x-decorator'?: string;
+  'x-component-props'?: { [key: string]: any };
 }

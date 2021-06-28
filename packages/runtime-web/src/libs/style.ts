@@ -31,7 +31,7 @@ export function calcPosition(position: PositionStyle): IPositionStyle {
   return style;
 }
 
-export function mergeCommonStyle(commonStyle: CommonStyle): MergedCommonStyles {
+export function mergeCommonStyle(commonStyle: CommonStyle, mergePosition = true): MergedCommonStyles {
   const { size, transform, text, border, background, margin, padding, zIndex, position } = commonStyle;
 
   const style: MergedCommonStyles = {};
@@ -102,7 +102,7 @@ export function mergeCommonStyle(commonStyle: CommonStyle): MergedCommonStyles {
     style.backgroundPosition = position;
   }
 
-  if (position) {
+  if (position && mergePosition) {
     Object.assign(style, calcPosition(position));
   }
 

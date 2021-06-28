@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { ComponentItem } from 'components/ComponentItem';
 import { Position, ResizableDelta, Rnd } from 'react-rnd';
-import { ComponentInstance, ComponentSize } from 'types';
+import { ComponentInstance, ComponentSize, ComponentLayout } from 'types';
 import { componentsStore, pagesStore, selectStore } from 'states';
 import { DraggableData, DraggableEvent } from 'react-draggable';
 import { ResizeDirection } from 're-resizable';
@@ -13,9 +13,13 @@ interface Props {
   instance: ComponentInstance;
 }
 
+const defaultLayout: ComponentLayout = {
+  position: { x: 0, y: 0 },
+};
+
 function IDraggableComponentItem({ instance, index }: Props) {
   const { selectMode, selectModeSelectedComponent, pageIndex } = selectStore;
-  const { position, size } = instance.layout!;
+  const { position, size } = instance.layout || defaultLayout;
   const { pages } = pagesStore;
 
   const style = useMemo(() => ({ zIndex: index }), [index]);
