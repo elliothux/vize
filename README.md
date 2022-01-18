@@ -22,10 +22,6 @@ Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 
 [Vize Docs](https://vize-team.github.io/)
 
-## 🤟 体验
-
-体验站点：[vize.cool](https://vize.cool)
-
 ## 🛠 部署
 
 参考：[部署服务](https://vize-team.github.io/deploy/intro.html)
