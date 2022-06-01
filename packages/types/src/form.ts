@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { createSchemaField } from '@formily/react/esm/components/SchemaFieid';
+import { createSchemaField } from '@formily/react';
 import { JsonSchemaProperties } from './schema';
 
 export interface SchemaFormProps<T extends object = object> {
