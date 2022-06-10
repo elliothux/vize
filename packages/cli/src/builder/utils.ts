@@ -116,9 +116,11 @@ export async function prepareEditor(local: boolean, registry?: string): Promise<
 
   const staticPath = path.resolve(tempPath, 'static');
   const target = path.resolve(staticPath, 'editor');
-  const { isDirectory, isSymbolicLink } = fs.lstatSync(target);
-  if (isDirectory || isSymbolicLink) {
-    fs.unlinkSync(target);
+  if (fs.existsSync(target)) {
+    const { isDirectory, isSymbolicLink } = fs.lstatSync(target);
+    if (isDirectory || isSymbolicLink) {
+      fs.unlinkSync(target);
+    }
   }
   await fs.ensureDir(staticPath);
   await fs.symlink(filesPath, target);

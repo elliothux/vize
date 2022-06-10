@@ -59,7 +59,7 @@ export class Builder {
       libPaths: this.libPaths,
       libConfig: this.libConfig,
       isProd,
-      useSWC: false,
+      useSWC: true,
       withForms: this.withForms,
     });
   };
@@ -137,6 +137,9 @@ export class Builder {
         this.runHotReloadServer(this.port + 1);
       },
       after: () => {
+        if (!this.open) {
+          return;
+        }
         openEditor({
           debugPorts: this.port.toString(),
           libs: this.libConfig.libName,

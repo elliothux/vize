@@ -5,7 +5,7 @@ import { ColorResult, SketchPicker } from 'react-color';
 import { Popover } from 'antd';
 import classnames from 'classnames';
 import { ColorFormat, isAlphaSupported, parseColor, stringifyColor } from 'utils';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { FormProps } from '../../types';
 
 const commonColors = [

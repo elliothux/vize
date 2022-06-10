@@ -4,7 +4,7 @@ import { Menu, Item, theme, Separator, Submenu, animation } from 'react-contexif
 import { useCallback } from 'react';
 import { componentsStore, selectStore, sharedStore } from 'states';
 import { preventSyntheticEvent, showContextMenu } from 'utils';
-import { ComponentInstance, PageInstance } from 'types';
+import { ComponentInstance, PageInstance } from '@vize/types';
 import { Trans } from 'react-i18next';
 import { unImplemented } from 'utils';
 import { createMouseEventFromIframe } from '../utils';

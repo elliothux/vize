@@ -1,6 +1,6 @@
 import { action, computed } from 'mobx';
-import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from 'types';
-import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from 'runtime';
+import { ComponentInstance, ComponentPosition, ComponentSize, EventInstance, HotArea, LayoutMode, Maybe } from '@vize/types';
+import { getMaterialsComponentMeta, getMaxNodeBottomOffset } from '@vize/runtime-web';
 import { isNumber } from 'utils';
 import {
   createComponentInstance,

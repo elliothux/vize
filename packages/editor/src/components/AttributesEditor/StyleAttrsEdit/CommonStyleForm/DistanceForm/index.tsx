@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { DistanceStyle, DistanceStyleWithAuto, MarginAndPaddingStyle } from 'types';
+import { DistanceStyle, DistanceStyleWithAuto, MarginAndPaddingStyle } from '@vize/types';
 import { StyleFormProps } from '../types';
 import { BoxEditor } from './BoxEdit';
 import { MarginPaddingField } from './types';

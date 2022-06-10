@@ -1,4 +1,4 @@
-import { InstanceKeyType } from 'types';
+import { InstanceKeyType } from '@vize/types';
 import { isNumber } from 'utils';
 
 const keyMap = new Map<InstanceKeyType, number>();

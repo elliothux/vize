@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EventTargetType, EventTriggerName, Maybe } from 'types';
+import { EventTargetType, EventTriggerName, Maybe } from '@vize/types';
 import { ActionTargetSelector } from './ActionTargetSelector';
 import { ComponentTargetSelector } from './ComponentTargetSelector';
 import { PluginTargetSelector } from './PluginTargetSelector';

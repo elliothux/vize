@@ -2,12 +2,11 @@ import './index.scss';
 import * as React from 'react';
 import { Button, message, Pagination } from 'antd';
 import { FlexPlaceholder } from 'widgets/FlexPlaceholder';
-import { ResourceRecord, ResourceType } from 'sharedTypes';
-import { Maybe } from 'types';
+import { ResourceRecord, ResourceType, Maybe } from '@vize/types';
 import { queryResources } from 'api';
 import { EventEmitTypes, events } from 'libs';
 import { throttle } from 'throttle-debounce';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import classNames from 'classnames';
 import { ResourceItem } from './Item';
 

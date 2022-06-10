@@ -1,6 +1,6 @@
 import { GeneratorInfo } from 'types';
 import { MaterialsRecord } from '../types';
-import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from './utils';
+import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from '@vize/utils';
 
 export function queryLibs(keywords?: string): Promise<ParsedCGIResponse<MaterialsRecord[]>> {
   return getCGIJSON<MaterialsRecord[]>(prefix('materials', { keywords }));

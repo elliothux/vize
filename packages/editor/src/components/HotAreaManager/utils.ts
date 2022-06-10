@@ -2,7 +2,7 @@ import * as React from 'react';
 import { contextMenu } from 'react-contexify';
 import { preventSyntheticEvent } from 'utils';
 import { generateKey } from 'libs';
-import { HotArea, Maybe, Percent, PX, InstanceKeyType } from 'types';
+import { HotArea, Maybe, Percent, PX, InstanceKeyType } from '@vize/types';
 import { MoveHotAreaDirection, IHotAreaPosition, IHotAreaSize, IHotArea } from './types';
 import { componentsStore } from 'states';
 

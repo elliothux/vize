@@ -1,10 +1,10 @@
 import './index.scss';
 import * as React from 'react';
 import { ErrorInfo, useCallback } from 'react';
-import { WithReactChildren } from 'types';
+import { WithReactChildren } from '@vize/types';
 import { ErrorBoundary } from 'widgets/ErrorBoundary';
 import { events, EventEmitTypes, getMaterialsContainerMeta } from 'libs';
-import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
+import { getMaterialsComponentMeta, getMaterialsPluginMeta } from '@vize/runtime-web';
 import { BiError } from 'react-icons/bi';
 import { useTranslation } from 'react-i18next';
 import { editStore } from 'states';

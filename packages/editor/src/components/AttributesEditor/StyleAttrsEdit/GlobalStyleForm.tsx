@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { getMaterialsContainerMeta, EventEmitTypes, events } from 'libs';
 import { globalStore } from 'states';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { Empty } from 'widgets/Empty';
 import { SchemaForm } from 'widgets/Form';
 import { MaterialsErrorBoundary } from 'components/MaterialsErrorBoundary';

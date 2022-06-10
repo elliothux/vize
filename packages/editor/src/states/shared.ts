@@ -7,7 +7,7 @@ import {
   componentEventDepsMap,
   DepsTargetType,
 } from 'libs';
-import { ComponentInstance } from 'types';
+import { ComponentInstance } from '@vize/types';
 import { StoreWithUtils } from './utils';
 import { componentsStore } from './components';
 import { selectStore } from './select';

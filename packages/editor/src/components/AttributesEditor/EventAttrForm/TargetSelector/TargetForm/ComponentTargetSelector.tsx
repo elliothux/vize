@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { ComponentEventTarget, EventTargetType, EventTriggerName, Maybe } from 'types';
+import { ComponentEventTarget, EventTargetType, EventTriggerName, Maybe } from '@vize/types';
 import { observer } from 'mobx-react';
 import { eventStore, selectStore } from 'states';
 import { Button, Select } from 'antd';

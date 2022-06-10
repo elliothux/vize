@@ -1,5 +1,5 @@
 import hotkeys from 'hotkeys-js';
-import { EventProxy } from 'runtime/utils/eventProxy';
+import { EventProxy } from '@vize/runtime-web';
 import { preventSyntheticEvent } from 'utils';
 
 export enum HotKeyEventTypes {

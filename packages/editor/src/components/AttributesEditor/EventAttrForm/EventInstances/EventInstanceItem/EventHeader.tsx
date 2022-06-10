@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Popconfirm } from 'antd';
 import { FiTrash2 } from 'react-icons/fi';
-import { EventInstance, MaterialsCustomEvent } from 'types';
+import { EventInstance, MaterialsCustomEvent } from '@vize/types';
 import { SortableHandle } from 'react-sortable-hoc';
 import { useTranslation } from 'react-i18next';
 import { EventInstanceTrigger } from './EventInstanceTrigger';

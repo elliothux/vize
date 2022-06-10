@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SelectType } from 'states';
-import { EventTriggerType, PageUniversalEventTrigger } from 'types';
+import { EventTriggerType, PageUniversalEventTrigger } from '@vize/types';
 import { getMaterialsContainerMeta } from 'libs';
 import { EventTriggerSelector } from './TriggerSelector';
 import { Props } from './types';

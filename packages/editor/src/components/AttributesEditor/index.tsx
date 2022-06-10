@@ -6,7 +6,7 @@ import { componentsStore, globalStore, hotAreaStore, pagesStore, pluginsStore, s
 import { EventEmitTypes, events } from 'libs';
 import { Badge, Tabs } from 'antd';
 import { FiDatabase, FiFeather, FiGrid } from 'react-icons/fi';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { Trans } from 'react-i18next';
 import classnames from 'classnames';
 import { DataAttrsEdit } from './DataAttrsEdit';

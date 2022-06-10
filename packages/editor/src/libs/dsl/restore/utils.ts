@@ -1,5 +1,5 @@
-import { ComponentInstance, PluginInstance } from 'types';
-import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
+import { ComponentInstance, PluginInstance } from '@vize/types';
+import { getMaterialsComponentMeta, getMaterialsPluginMeta } from '@vize/runtime-web';
 
 export function filterComponent(i: ComponentInstance) {
   const meta = getMaterialsComponentMeta(i.component);

@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { getMaterialsIdentityName } from 'runtime';
+import { getMaterialsIdentityName } from '@vize/runtime-web';
 import {
   MaterialsActionMeta,
   MaterialsComponentMeta,
@@ -7,7 +7,7 @@ import {
   MaterialsMeta,
   MaterialsPluginMeta,
   Maybe,
-} from 'types';
+} from '@vize/types';
 import { promiseWrapper } from 'utils';
 import {
   getMaterialsFileInfo,
@@ -20,15 +20,7 @@ import {
 
 export async function loadMaterials(libName: string, containerName: string, debugPort?: number) {
   const [[meta, forms], containerHTML, main, entry] = await Promise.all([
-    new Promise<[MaterialsMeta, Maybe<MaterialsForms>]>(async resolve => {
-      const meta = await loadMeta(libName, containerName, debugPort);
-      if (!meta.withForms) {
-        resolve([meta, null]);
-        return;
-      }
-      const forms = await loadForms(libName, containerName, debugPort);
-      resolve([meta, forms]);
-    }),
+    loadMetaAndForms(libName, containerName, debugPort),
     loadContainerHTML(libName, containerName, debugPort),
     loadMain(libName, containerName, debugPort),
     loadEntry(libName, containerName, debugPort),
@@ -50,6 +42,18 @@ function loadMain(libName: string, containerName: string, debugPort?: number): P
 
 function loadEntry(libName: string, containerName: string, debugPort?: number): Promise<StringMaterialsFile> {
   return loadFileAsString(MaterialsFileType.Entry, libName, containerName, debugPort);
+}
+
+function loadMetaAndForms(libName: string, containerName: string, debugPort?: number) {
+  return new Promise<[MaterialsMeta, Maybe<MaterialsForms>]>(async resolve => {
+    const meta = await loadMeta(libName, containerName, debugPort);
+    if (!meta.withForms) {
+      resolve([meta, null]);
+      return;
+    }
+    const forms = await loadForms(libName, containerName, debugPort);
+    resolve([meta, forms]);
+  });
 }
 
 async function loadForms(libName: string, containerName: string, debugPort?: number): Promise<MaterialsForms> {

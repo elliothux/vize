@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { Command } from 'commander';
-import updateNotifier from 'update-notifier';
+// import updateNotifier from 'update-notifier';
 import { cleanArgs } from './utils';
 import {
   createLib,
@@ -22,7 +22,7 @@ initSentryReport();
 // eslint-disable-next-line
 const packageJson = require('../package.json');
 
-updateNotifier({ pkg: packageJson, shouldNotifyInNpmScript: true }).notify();
+// updateNotifier({ pkg: packageJson, shouldNotifyInNpmScript: true }).notify();
 
 const program = new Command()
   .version(packageJson.version)

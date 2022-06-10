@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { Select } from 'antd';
-import { EventTargetType, MaterialsCustomEvent, Maybe } from 'types';
+import { EventTargetType, MaterialsCustomEvent, Maybe } from '@vize/types';
 import { Trans } from 'react-i18next';
 
 interface Props {

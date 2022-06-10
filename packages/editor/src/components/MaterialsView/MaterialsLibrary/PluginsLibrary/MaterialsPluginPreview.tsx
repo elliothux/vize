@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { MaterialsPluginMeta } from 'types';
+import { MaterialsPluginMeta } from '@vize/types';
 import { SVGRender } from 'widgets/SVGRender';
-import { getMaterialsLibInfo } from 'runtime';
+import { getMaterialsLibInfo } from '@vize/runtime-web';
 import { useMemo } from 'react';
 import { Trans } from 'react-i18next';
 

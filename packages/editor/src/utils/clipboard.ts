@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { PromiseResult, promiseWrapper } from './common';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 
 function fallbackCopyTextToClipboard(text: string) {
   const textArea = document.createElement('textarea');

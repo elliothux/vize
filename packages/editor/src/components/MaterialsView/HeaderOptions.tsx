@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { events, EventEmitTypes } from 'libs';
-import { WithReactChildren } from 'types';
+import { WithReactChildren } from '@vize/types';
 import { Trans } from 'react-i18next';
 import { FiColumns, FiLayers, FiPackage } from 'react-icons/fi';
 

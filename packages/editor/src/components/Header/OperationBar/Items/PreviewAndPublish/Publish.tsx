@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { editStore, globalStore } from 'states';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useState } from 'react';
-import { Maybe, PublisherResult } from 'types';
+import { Maybe, PublisherResult } from '@vize/types';
 import { getPublishStatus, PublishStatus, startPublishPage } from 'api';
 import { message } from 'antd';
 import { hotkeyEvents, HotKeyEventTypes } from 'libs';

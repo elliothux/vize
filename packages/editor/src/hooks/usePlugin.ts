@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { MaterialsPluginMeta, Maybe, PluginInstance } from 'types';
+import { MaterialsPluginMeta, Maybe, PluginInstance } from '@vize/types';
 import { pluginsStore, selectStore, SelectType } from 'states';
 import { isNumber } from 'utils';
 import { getCurrentPagePluginIndex } from 'libs';
-import { getMaterialsPluginMeta } from 'runtime';
+import { getMaterialsPluginMeta } from '@vize/runtime-web';
 
 export function usePluginInstance(key: number): Maybe<PluginInstance> {
   const { pluginInstances } = pluginsStore;

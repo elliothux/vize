@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { ComponentProps } from 'react';
-import { ComponentInstance, HotArea, PluginInstance } from 'types';
-import { getMaterialsComponentMeta, getMaterialsPluginMeta } from 'runtime';
+import { ComponentInstance, HotArea, PluginInstance } from '@vize/types';
+import { getMaterialsComponentMeta, getMaterialsPluginMeta } from '@vize/runtime-web';
 import { FiArchive, FiLayers, FiPackage, FiSquare } from 'react-icons/fi';
 import { Tree } from 'antd';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import classnames from 'classnames';
 
 const { DirectoryTree } = Tree;

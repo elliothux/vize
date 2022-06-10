@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Collapse } from 'antd';
-import { CommonStyle } from 'types';
+import { CommonStyle } from '@vize/types';
 import { useTranslation } from 'react-i18next';
 import { PositionForm } from './PositionForm';
 import { TransformForm } from './TransformForm';

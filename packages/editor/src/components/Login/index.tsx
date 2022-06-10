@@ -12,6 +12,7 @@ function ILogin() {
 
   useEffect(() => {
     if (user) {
+      debugger;
       editStore.setState(store => {
         store.user = user;
       }, true);

@@ -1,4 +1,4 @@
-import { EventInstance, HotArea, Maybe } from 'types';
+import { EventInstance, HotArea, Maybe } from '@vize/types';
 import { actionWithSnapshot } from 'mobx-time-traveler';
 import { componentsStore } from './components';
 import { selectStore } from './select';

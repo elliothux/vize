@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { memo, useEffect, useState } from 'react';
-import { WithReactChildren } from 'types';
+import { WithReactChildren } from '@vize/types';
 import { EventEmitTypes, events } from 'libs';
 import { Spin } from 'antd';
 

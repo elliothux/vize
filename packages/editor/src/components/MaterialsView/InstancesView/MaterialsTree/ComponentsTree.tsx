@@ -5,11 +5,11 @@ import { Tree } from 'antd';
 import { FiFolder } from 'react-icons/fi';
 import { observer } from 'mobx-react';
 import { componentsStore, selectStore, SelectType, sharedStore } from 'states';
-import { ComponentInstance, FirstParameter, Maybe, MustBe } from 'types';
+import { ComponentInstance, FirstParameter, Maybe, MustBe } from '@vize/types';
 import { showComponentContextMenu, showHotAreaContextMenu } from 'components/ContextMenu';
 import { isString, isNumber } from 'utils';
 import { ComponentIndex, findComponentInstanceByIndex } from 'libs';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import classNames from 'classnames';
 import { generateComponentTreeData } from './utils';
 

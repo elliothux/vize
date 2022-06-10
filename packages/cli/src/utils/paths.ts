@@ -120,6 +120,10 @@ export function getLibPaths(rootPath?: string, containerName?: string): LibPaths
 }
 
 function getItemList(folderPath: string): MaterialsList {
+  if (!fs.existsSync(folderPath)) {
+    return [];
+  }
+
   const items = fs.readdirSync(folderPath);
   return items.filter(isItemPathNameValid).map(name => {
     const itemPath = path.resolve(folderPath, name);

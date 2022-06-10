@@ -18,7 +18,7 @@ import {
   PluginEventTarget,
   PluginInstance,
   PluginUniversalEventTrigger,
-} from 'types';
+} from '@vize/types';
 import {
   DepFrom,
   DepsFromType,
@@ -29,7 +29,7 @@ import {
   regenerateAllEventDeps,
 } from 'libs';
 import { timeTraveler, actionWithSnapshot } from 'mobx-time-traveler';
-import { getMaterialsActionMeta } from 'runtime';
+import { getMaterialsActionMeta } from '@vize/runtime-web';
 import { selectStore, SelectType } from './select';
 import { componentsStore } from './components';
 import { pluginsStore } from './plugins';

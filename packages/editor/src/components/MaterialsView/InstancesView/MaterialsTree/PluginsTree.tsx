@@ -3,10 +3,10 @@ import { Tree } from 'antd';
 import { observer } from 'mobx-react';
 import { ComponentProps, useMemo } from 'react';
 import { pluginsStore, selectStore, SelectType } from 'states';
-import { FirstParameter, MustBe, PluginInstance } from 'types';
+import { FirstParameter, MustBe, PluginInstance } from '@vize/types';
 import { FiFolder } from 'react-icons/fi';
 import { PluginContextMenu, showPluginContextMenu } from 'components/ContextMenu';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { generatePluginTreeData } from './utils';
 
 const { DirectoryTree } = Tree;

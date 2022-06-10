@@ -6,6 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [reactRefresh(), tsconfigPaths()],
   css: {
+    devSourcemap: true,
     preprocessorOptions: {
       less: {
         javascriptEnabled: true,

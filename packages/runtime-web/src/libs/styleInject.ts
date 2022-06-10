@@ -1,6 +1,6 @@
 import { JsonSchemaProperties, StyleInjectSchema } from '@vize/types';
 import { pxWithAuto, percent } from './style';
-import { withMemo } from '../utils/memo';
+import { withMemo } from '../utils';
 
 interface InjectMap {
   key: string;

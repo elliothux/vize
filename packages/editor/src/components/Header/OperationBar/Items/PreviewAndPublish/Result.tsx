@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Maybe, PublisherResult } from 'types';
+import { Maybe, PublisherResult } from '@vize/types';
 import { Button, Modal } from 'antd';
 import { BiLink, BiLinkExternal, BiScan } from 'react-icons/bi';
 import { Trans } from 'react-i18next';

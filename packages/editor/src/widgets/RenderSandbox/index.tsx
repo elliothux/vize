@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { ComponentInstance, Maybe } from 'types';
+import { ComponentInstance, Maybe } from '@vize/types';
 import { noop } from 'utils';
 
 interface Props {

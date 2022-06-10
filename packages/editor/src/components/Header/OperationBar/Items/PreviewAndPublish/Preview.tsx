@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { message } from 'antd';
 import { Trans, useTranslation } from 'react-i18next';
-import { Maybe, PublisherResult } from 'types';
+import { Maybe, PublisherResult } from '@vize/types';
 import { previewPage } from 'api';
 import { editStore } from 'states';
 import { hotkeyEvents, HotKeyEventTypes } from 'libs';

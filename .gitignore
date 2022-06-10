@@ -295,3 +295,4 @@ lerna-debug.log*
 /packages/types/docs/
 /packages/materials-universal/.vize/
 !/packages/management-ui/src/pages/logs/
+/packages/*/.parcel-cache

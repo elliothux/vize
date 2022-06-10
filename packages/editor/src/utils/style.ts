@@ -1,6 +1,5 @@
 import * as R from 'ramda';
-import { CommonStyle, CommonStyleMeta, DistanceStyle, FixedOutset, PositionStyle } from 'types';
-import { Maybe } from 'types';
+import { CommonStyle, CommonStyleMeta, DistanceStyle, FixedOutset, PositionStyle, Maybe } from '@vize/types';
 import { isNumber } from './is';
 
 export const defaultDistance = { top: 0, left: 0, bottom: 0, right: 0 };

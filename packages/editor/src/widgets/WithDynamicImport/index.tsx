@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ComponentType, useCallback, useMemo, useState } from 'react';
 import { useAsyncEffect } from 'hooks';
 import { Spin, Result, Button } from 'antd';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { Trans } from 'react-i18next';
 
 interface Props {

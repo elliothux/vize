@@ -1,5 +1,5 @@
 import { pagesStore } from 'states';
-import { PluginInstance, Maybe } from 'types';
+import { PluginInstance, Maybe } from '@vize/types';
 
 type PluginIndex = number;
 

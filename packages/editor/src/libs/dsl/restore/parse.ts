@@ -1,4 +1,4 @@
-import { ComponentInstance, ComponentInstanceDSL, DSL, PageInstanceDSL, PageInstance, HotArea } from 'types';
+import { ComponentInstance, ComponentInstanceDSL, DSL, PageInstanceDSL, PageInstance, HotArea } from '@vize/types';
 
 export function parseDSL(dsl: DSL) {
   const { pageInstances, sharedComponentInstances } = dsl;

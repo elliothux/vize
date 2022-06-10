@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ComponentInstance } from 'types';
+import { ComponentInstance } from '@vize/types';
 import { PropsWithChildren } from 'react';
 import { observer } from 'mobx-react';
-import { ComponentView as RuntimeComponentView } from 'runtime';
+import { ComponentView as RuntimeComponentView } from '@vize/runtime-web';
 import { editStore, globalStore, pagesStore } from 'states';
 import { MaterialsErrorBoundary } from 'components/MaterialsErrorBoundary';
 

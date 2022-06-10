@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { MaterialsForm, JsonSchemaProperties, OverrideFormComponent } from 'types';
+import { MaterialsForm, JsonSchemaProperties, OverrideFormComponent } from '@vize/types';
 import { isFunction } from 'utils';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { OverrideForm } from './OverrideForm';
 import { SchemaForm as ISchemaForm } from './SchemaForm';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { MaterialsPluginMeta, Maybe } from 'types';
-import { materialsPluginMetaMap } from 'runtime';
+import { MaterialsPluginMeta, Maybe } from '@vize/types';
+import { materialsPluginMetaMap } from '@vize/runtime-web';
 import { WithTagsList } from '../WithTagsList';
 import { MaterialsViewType } from '../../HeaderOptions';
 import { MaterialsPluginItem } from './MaterialsPluginItem';

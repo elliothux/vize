@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SelectType } from 'states';
-import { HotAreaUniversalEventTrigger, EventTriggerType } from 'types';
+import { HotAreaUniversalEventTrigger, EventTriggerType } from '@vize/types';
 import { EventTriggerSelector } from './TriggerSelector';
 import { Props } from './types';
 

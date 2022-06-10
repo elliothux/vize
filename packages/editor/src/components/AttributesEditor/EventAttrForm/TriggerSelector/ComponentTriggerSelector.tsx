@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCurrentComponentMeta } from 'hooks';
 import { SelectType } from 'states';
-import { ComponentUniversalEventTrigger, EventTriggerType } from 'types';
+import { ComponentUniversalEventTrigger, EventTriggerType } from '@vize/types';
 import { EventTriggerSelector } from './TriggerSelector';
 import { Props } from './types';
 

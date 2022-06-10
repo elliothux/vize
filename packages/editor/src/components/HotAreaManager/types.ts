@@ -1,4 +1,4 @@
-import { PX } from 'types';
+import { PX } from '@vize/types';
 
 export interface IHotAreaPosition {
   x: PX;

@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import * as R from 'ramda';
-import { MaterialsComponentMeta, MaterialsPluginMeta } from 'types';
+import { MaterialsComponentMeta, MaterialsPluginMeta } from '@vize/types';
 import { FiList } from 'react-icons/fi';
 import { Empty } from 'widgets/Empty';
 import { TagItem } from './TagItem';

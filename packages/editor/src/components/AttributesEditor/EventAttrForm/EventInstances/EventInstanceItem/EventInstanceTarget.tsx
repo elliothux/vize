@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { ActionEventTarget, ComponentEventTarget, EventTarget, EventTargetType, MaterialsCustomEvent } from 'types';
+import { ActionEventTarget, ComponentEventTarget, EventTarget, EventTargetType, MaterialsCustomEvent } from '@vize/types';
 import { useActionMetaById, useComponentMeta, usePluginMeta } from 'hooks';
 import { FiLayers } from 'react-icons/fi';
 import { getMaterialsContainerMeta } from 'libs';

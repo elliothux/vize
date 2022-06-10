@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { MaterialsComponentMeta, Maybe } from 'types';
+import { MaterialsComponentMeta, Maybe } from '@vize/types';
 import { selectStore } from 'states';
-import { materialsComponentMetaMap } from 'runtime';
+import { materialsComponentMetaMap } from '@vize/runtime-web';
 import { WithTagsList } from '../WithTagsList';
 import { MaterialsViewType } from '../../HeaderOptions';
 import { MaterialsComponentItem } from './MaterialsComponentItem';

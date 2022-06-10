@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "ES6",
+    "target": "ES5",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "allowJs": false,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "incremental": true,
+    "types": ["node"],
+    "lib": ["es2015", "es2017", "dom", "dom.iterable", "esnext"]
+  },
+  "compileOnSave": true,
+  "include": ["src"]
+}

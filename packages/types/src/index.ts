@@ -1,3 +1,4 @@
+export * from './record';
 export * from './action';
 export * from './biz';
 export * from './component';

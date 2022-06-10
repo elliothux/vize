@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { FixedOutset, IPositionStyle, PositionStyle } from 'types';
+import { FixedOutset, IPositionStyle, PositionStyle } from '@vize/types';
 import { Radio } from 'antd';
 import { Trans } from 'react-i18next';
 import classnames from 'classnames';

@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { ComponentItem } from 'components/ComponentItem';
 import { Position, ResizableDelta, Rnd } from 'react-rnd';
-import { ComponentInstance, ComponentSize } from 'types';
+import { ComponentInstance, ComponentSize } from '@vize/types';
 import { componentsStore, pagesStore, selectStore } from 'states';
 import { DraggableData, DraggableEvent } from 'react-draggable';
 import { ResizeDirection } from 're-resizable';

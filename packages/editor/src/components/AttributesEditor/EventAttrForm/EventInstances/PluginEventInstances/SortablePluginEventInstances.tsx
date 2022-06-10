@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SortableContainer } from 'react-sortable-hoc';
-import { EventInstance, MaterialsPluginMeta } from 'types';
+import { EventInstance, MaterialsPluginMeta } from '@vize/types';
 import { eventStore } from 'states';
 import { EventInstanceItem } from '../EventInstanceItem';
 

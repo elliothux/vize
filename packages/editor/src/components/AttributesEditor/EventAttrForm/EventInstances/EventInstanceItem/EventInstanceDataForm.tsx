@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { ActionEventTarget, EventInstance } from 'types';
+import { ActionEventTarget, EventInstance } from '@vize/types';
 import { useActionMetaById } from 'hooks';
 import { SchemaForm } from 'widgets/Form';
 

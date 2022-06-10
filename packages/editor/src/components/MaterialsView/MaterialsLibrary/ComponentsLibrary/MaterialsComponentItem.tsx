@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { MaterialsComponentMeta, Maybe } from 'types';
+import { MaterialsComponentMeta, Maybe } from '@vize/types';
 import { useCallback, useRef } from 'react';
 import { FiLayers, FiPlus } from 'react-icons/fi';
 import { componentsStore } from 'states';

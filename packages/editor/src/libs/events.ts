@@ -1,4 +1,4 @@
-import { EventProxy } from 'runtime';
+import { EventProxy } from '@vize/runtime-web';
 
 export enum EventEmitTypes {
   GLOBAL_CLICK = 'global_click',

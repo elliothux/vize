@@ -3,7 +3,7 @@ import { memo, useMemo } from 'react';
 import { message, Tag, Upload } from 'antd';
 import { UploadChangeParam } from 'antd/es/upload/interface';
 import { BiArchiveOut } from 'react-icons/bi';
-import { ResourceType } from 'sharedTypes';
+import { ResourceType } from '@vize/types';
 import { Trans, useTranslation } from 'react-i18next';
 
 interface Props {

@@ -2,7 +2,7 @@ import { action, observable } from 'mobx';
 import { getFormDefaultValue, getQueryParams } from 'utils';
 import { actionWithSnapshot, withTimeTravel } from 'mobx-time-traveler';
 import { getMaterialsContainerMeta } from 'libs';
-import { EventInstance, GlobalMeta } from 'types';
+import { EventInstance, GlobalMeta } from '@vize/types';
 import { StoreWithUtils } from './utils';
 
 @withTimeTravel

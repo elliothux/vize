@@ -1,6 +1,5 @@
-import { Maybe } from 'types';
-import { UserRecord } from 'sharedTypes';
-import { CGIResponse, getCGIJSON, ParsedCGIResponse } from './utils';
+import { Maybe, UserRecord } from '@vize/types';
+import { CGIResponse, getCGIJSON, ParsedCGIResponse } from '@vize/utils';
 import { isDebugMode } from '../utils';
 
 let user: Maybe<ParsedCGIResponse<UserRecord>> = null;
@@ -11,7 +10,7 @@ const DEBUG_USER = {
   id: 1,
   name: 'vize-developer',
   createdTime: new Date(),
-  bizs: [],
+  bizs: [] as number[],
   isAdmin: 1,
   isDeveloper: 0,
 };

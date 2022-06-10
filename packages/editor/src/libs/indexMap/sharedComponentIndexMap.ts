@@ -1,5 +1,5 @@
 import { ComponentIndex, ComponentIndexMapEntries } from './componentIndexMap';
-import { ComponentInstance, Maybe } from 'types';
+import { ComponentInstance, Maybe } from '@vize/types';
 
 let sharedComponentIndexMap = new Map<number, ComponentIndex>();
 

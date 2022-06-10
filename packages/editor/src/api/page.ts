@@ -1,6 +1,5 @@
-import { DSL, GeneratorResult, PublisherResult } from 'types';
-import { PageRecordWithHistory } from 'sharedTypes';
-import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from './utils';
+import { DSL, GeneratorResult, PublisherResult, PageRecordWithHistory } from '@vize/types';
+import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix } from '@vize/utils';
 
 export function getPage(pageKey: string) {
   return getCGIJSON<PageRecordWithHistory>(`${prefix('page')}/${pageKey}`);

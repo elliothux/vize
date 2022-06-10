@@ -1,5 +1,5 @@
 import { selectStore } from 'states';
-import { HotArea, Maybe } from 'types';
+import { HotArea, Maybe } from '@vize/types';
 import { useCurrentComponentInstance } from './useComponent';
 
 export function useCurrentHotArea(): Maybe<HotArea> {

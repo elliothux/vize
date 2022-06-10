@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { editStore } from 'states';
-import { ComponentInstance, LayoutMode } from 'types';
+import { ComponentInstance, LayoutMode } from '@vize/types';
 import { StreamLayoutRender } from './StreamLayoutRender';
 import { FreeLayoutRender } from './FreeLayoutRender';
 

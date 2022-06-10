@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BorderStyle } from 'types';
+import { BorderStyle } from '@vize/types';
 import { Radio, Slider } from 'antd';
 import { ColorFormat, getSliderValue } from 'utils';
 import { Color } from 'widgets/Form/Fields/Color';

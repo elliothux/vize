@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { SelectType } from 'states';
-import { EventTargetType, EventTriggerName, Maybe } from 'types';
+import { EventTargetType, EventTriggerName, Maybe } from '@vize/types';
 import { TargetSelector, TargetForm } from './TargetSelector';
 import { EventInstances } from './EventInstances';
 import { TriggerSelector } from './TriggerSelector';

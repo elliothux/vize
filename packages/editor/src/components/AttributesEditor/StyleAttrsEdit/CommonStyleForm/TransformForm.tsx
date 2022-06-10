@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TransformStyle } from 'types';
+import { TransformStyle } from '@vize/types';
 import { Slider } from 'antd';
 import { getSliderValue } from 'utils';
 import { Trans } from 'react-i18next';

@@ -2,7 +2,7 @@ import './index.scss';
 import * as React from 'react';
 import { memo, useMemo } from 'react';
 import { throttle } from 'throttle-debounce';
-import { SchemaFormProps } from 'types';
+import { SchemaFormProps } from '@vize/types';
 import { createSchema } from 'libs';
 import { createForm, onFormValuesChange, onFormSubmit } from '@formily/core';
 import { Submit } from '@formily/antd';

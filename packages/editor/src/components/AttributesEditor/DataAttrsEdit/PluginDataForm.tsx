@@ -4,7 +4,7 @@ import { pluginsStore } from 'states';
 import { observer } from 'mobx-react';
 import { SchemaForm } from 'widgets/Form';
 import { useCurrentPluginInstance } from 'hooks';
-import { getMaterialsPluginMeta } from 'runtime';
+import { getMaterialsPluginMeta } from '@vize/runtime-web';
 import { EventEmitTypes, events } from 'libs';
 import { MaterialsErrorBoundary } from 'components/MaterialsErrorBoundary';
 

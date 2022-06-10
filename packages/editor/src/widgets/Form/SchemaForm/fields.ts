@@ -23,7 +23,7 @@ import {
   Transfer,
   TreeSelect,
 } from '@formily/antd';
-import { Maybe, FormilySchemaField } from 'types';
+import { Maybe, FormilySchemaField } from '@vize/types';
 import { FormItem } from './WithLayout';
 import { fieldWidgets } from '../Fields';
 

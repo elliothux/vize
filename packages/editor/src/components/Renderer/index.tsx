@@ -12,7 +12,7 @@ import {
   Router,
   GlobalUniversalEventTrigger,
   RenderTemplateParams,
-} from 'types';
+} from '@vize/types';
 import { loadUMDModuleFromString, injectStyle, registerHotkey, initDocument } from 'libs';
 import {
   setMaterialsMap,
@@ -22,7 +22,7 @@ import {
   emitCustomEvent,
   generateGlobalEventHandlers,
   setIframeWindow,
-} from 'runtime';
+} from '@vize/runtime-web';
 import tpl from 'lodash.template';
 import { LayoutRender } from '../LayoutRender';
 import { InjectedStylesRender } from '../InjectedStylesRender';

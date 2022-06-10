@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { HotArea } from '@vize/types';
 import { NodeEventProxy } from '../NodeEventProxy';
 import { PageRenderProps } from '../PageRender/types';
+import { percent } from '../../libs';
 
 interface Props
   extends Omit<
@@ -36,11 +37,7 @@ export function HotAreaItem({ hotArea, globalData, globalStyle, pageData, pageSt
       pageStyle={pageStyle}
       router={router}
       previewMode={false}
-      style={style}
+      style={{ ...style, position: 'absolute' }}
     />
   );
-}
-
-export function percent(percent: number): string {
-  return `${percent}%`;
 }

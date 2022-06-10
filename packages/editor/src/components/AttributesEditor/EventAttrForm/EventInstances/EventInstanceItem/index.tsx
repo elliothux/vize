@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { memo, useCallback } from 'react';
-import { EventInstance, EventTargetType, MaterialsCustomEvent } from 'types';
+import { EventInstance, EventTargetType, MaterialsCustomEvent } from '@vize/types';
 import { Card } from 'antd';
 import { EventInstanceDataForm } from './EventInstanceDataForm';
 import { EventHeader } from './EventHeader';

@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import { message } from 'antd';
-import { PageInstance, PageRouter } from 'types';
-import { i18n } from 'i18n';
+import { PageInstance, PageRouter } from '@vize/types';
+import { i18n } from '@vize/i18n';
 import {
   addPagePluginInstanceIndexMap,
   addPageComponentInstanceIndexMap,
@@ -12,7 +12,7 @@ import {
   pagesPluginIndexMap,
 } from 'libs';
 import { actionWithSnapshot, timeTraveler, withTimeTravel } from 'mobx-time-traveler';
-import { onCustomEvent, cancelCustomEvent, emitCustomEvent, generatePageEventHandlers } from 'runtime';
+import { onCustomEvent, cancelCustomEvent, emitCustomEvent, generatePageEventHandlers } from '@vize/runtime-web';
 import { PageUniversalEventTrigger } from '@vize/types';
 import { StoreWithUtils } from './utils';
 import { selectStore } from './select';
@@ -36,7 +36,9 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
     });
   }
 
+  @action
   public init = () => {
+    this.pages.push(createPageInstance('default page', true));
     this.pages.forEach(({ key }) => {
       addPageComponentInstanceIndexMap(key);
       addPagePluginInstanceIndexMap(key);
@@ -44,7 +46,7 @@ export class PagesStore extends StoreWithUtils<PagesStore> {
   };
 
   @observable
-  public pages: PageInstance[] = [createPageInstance('default page', true)];
+  public pages: PageInstance[] = [];
 
   @computed
   public get currentPage(): PageInstance {

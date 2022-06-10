@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { ComponentInstance, MaterialsComponentMeta, Function, WithReactChildren } from 'types';
+import { ComponentInstance, MaterialsComponentMeta, Function, WithReactChildren } from '@vize/types';
 import { useMemo } from 'react';
-import { getMaterialsComponentMeta } from 'runtime';
+import { getMaterialsComponentMeta } from '@vize/runtime-web';
 import { observer } from 'mobx-react';
 import { editStore } from 'states';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 
 interface Props {
   instance: ComponentInstance;

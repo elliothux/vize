@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { OverrideFormProps, SchemaFormProps } from 'types';
+import { OverrideFormProps, SchemaFormProps } from '@vize/types';
 import { SchemaForm, Formily } from '../SchemaForm';
 
 function IOverrideForm({ onChange, children: Form, value, instanceKey }: OverrideFormProps) {

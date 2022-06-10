@@ -1,4 +1,4 @@
-import { MaterialsContainerMeta, Maybe } from 'types';
+import { MaterialsContainerMeta, Maybe } from '@vize/types';
 
 let containerMeta: Maybe<MaterialsContainerMeta> = null;
 

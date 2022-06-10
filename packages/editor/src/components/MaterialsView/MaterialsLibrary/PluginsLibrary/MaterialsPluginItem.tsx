@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import classNames from 'classnames';
-import { MaterialsPluginMeta, Maybe } from 'types';
+import { MaterialsPluginMeta, Maybe } from '@vize/types';
 import { FiPlus } from 'react-icons/fi';
 import { SVGRender } from 'widgets/SVGRender';
 import { pluginsStore } from 'states';

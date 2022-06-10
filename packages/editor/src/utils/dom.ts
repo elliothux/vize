@@ -1,4 +1,4 @@
-import { Maybe } from 'types';
+import { Maybe } from '@vize/types';
 
 function getOffsetTopToViewport(e: HTMLElement): number {
   let location = 0;

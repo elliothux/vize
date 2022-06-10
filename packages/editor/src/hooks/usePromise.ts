@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Maybe } from 'types';
+import { Maybe } from '@vize/types';
 
 export function usePromise<T>(promiseCreator: () => Promise<T>, deps?: any[]) {
   const [state, setPromiseState] = useState<[boolean, Maybe<T>]>([false, null]);

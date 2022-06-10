@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ResourceRecord } from 'sharedTypes';
+import { ResourceRecord } from '@vize/types';
 import { BiFileBlank } from 'react-icons/bi';
 
 export interface PreviewProps {

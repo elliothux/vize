@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { FiPlus } from 'react-icons/fi';
 import { pagesStore } from 'states';
 import { Tooltip } from 'antd';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { PageItem } from './PageItem';
 import { HeaderOptions, MaterialsViewType } from '../../HeaderOptions';
 

@@ -8,10 +8,10 @@ import {
   MaterialsCustomEvent,
   PageUniversalEventTrigger,
   PluginUniversalEventTrigger,
-} from 'types';
+} from '@vize/types';
 import { FiMousePointer, FiLayers, FiEye, FiEyeOff } from 'react-icons/fi';
 import { MdCallReceived, MdCallMade, MdBlurCircular, MdPanTool } from 'react-icons/md';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 
 const ComponentUniversalEventTriggerDisplayMap: { [key: string]: [string, ComponentType] } = {
   [ComponentUniversalEventTrigger.CLICK]: [i18n.t('click'), FiMousePointer],

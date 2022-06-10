@@ -1,6 +1,5 @@
-import { Maybe } from 'types';
-import { ResourceRecord, ResourceType } from 'sharedTypes';
-import { deleteCGIJSON, getCGIJSON, ParsedCGIResponse, prefix, WithPagination } from './utils';
+import { Maybe, ResourceRecord, ResourceType } from '@vize/types';
+import { deleteCGIJSON, getCGIJSON, ParsedCGIResponse, prefix, WithPagination } from '@vize/utils';
 
 export function queryResources(
   type: ResourceType,

@@ -29,6 +29,10 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/workspace" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/runtime-web/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/cli/.parcel-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/i18n/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/utils/dist" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

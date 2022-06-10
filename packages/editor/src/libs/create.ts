@@ -12,7 +12,7 @@ import {
   PageInstance,
   PluginInstance,
   InstanceKeyType,
-} from 'types';
+} from '@vize/types';
 import { getFormDefaultValue, getDefaultCommonStyle } from 'utils';
 import { getMaterialsContainerMeta } from './container';
 import { generateKey } from './key';

@@ -1,0 +1,25 @@
+{
+  "name": "@vize/utils",
+  "version": "0.1.15",
+  "main": "./dist/cjs/index.js",
+  "modules": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "../../node_modules/.bin/concurrently --kill-others \"npm run dev:esm\" \"npm run dev:cjs\"",
+    "dev:esm": "../../node_modules/.bin/tsc -w --p tsconfig.esm.json",
+    "dev:cjs": "../../node_modules/.bin/tsc -w --p ./tsconfig.cjs.json",
+    "dist": "../../node_modules/.bin/rimraf ./dist/*; npm run dist:esm; npm run dist:cjs",
+    "dist:esm": "../../node_modules/.bin/tsc --p tsconfig.esm.json",
+    "dist:cjs": "../../node_modules/.bin/tsc --p ./tsconfig.cjs.json",
+    "publish": "npm publish --access public;"
+  },
+  "files": [
+    "src",
+    "dist"
+  ]
+}

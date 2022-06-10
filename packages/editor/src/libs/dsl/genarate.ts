@@ -9,7 +9,7 @@ import {
   HotArea,
   HotAreaDSL,
   PageInstanceDSL,
-} from 'types';
+} from '@vize/types';
 import { editStore, globalStore, pagesStore, sharedStore } from 'states';
 import { toJS } from 'mobx';
 import { getMaxKey } from '../key';

@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { Maybe } from 'types';
+import { Maybe } from '@vize/types';
 import { getFileString, promiseWrapper } from 'utils';
 
 export enum MaterialsFileType {

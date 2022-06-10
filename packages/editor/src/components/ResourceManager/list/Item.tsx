@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { memo, useCallback, useMemo } from 'react';
-import { ResourceRecord, ResourceType } from 'sharedTypes';
+import { ResourceRecord, ResourceType } from '@vize/types';
 import { FiCheck } from 'react-icons/fi';
 import { Trans } from 'react-i18next';
 import { AudioPreview, getResourceURL, ImagePreview, VideoPreview, OtherPreview } from './Preview';

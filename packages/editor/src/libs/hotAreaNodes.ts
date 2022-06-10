@@ -1,4 +1,4 @@
-import { Maybe } from 'types';
+import { Maybe } from '@vize/types';
 import { getHotAreaId } from 'utils';
 
 // TODO

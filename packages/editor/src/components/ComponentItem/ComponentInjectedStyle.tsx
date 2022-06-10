@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import { observer } from 'mobx-react';
-import { ComponentInstance, Maybe } from 'types';
-import { getMaterialsComponentMeta, formatInjectedStyles } from 'runtime';
+import { ComponentInstance, Maybe } from '@vize/types';
+import { getMaterialsComponentMeta, formatInjectedStyles } from '@vize/runtime-web';
 
 interface Props {
   instance: ComponentInstance;

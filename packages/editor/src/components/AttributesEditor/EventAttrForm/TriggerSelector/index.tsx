@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SelectType } from 'states';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { Empty } from 'widgets/Empty';
 import { Props } from './types';
 import { ComponentTriggerSelector } from './ComponentTriggerSelector';

@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import { editStore, globalStore, pagesStore, sharedStore } from 'states';
 import { getPage } from 'api';
 import { message } from 'antd';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import {
   ComponentEventTarget,
   ComponentInstance,
@@ -15,8 +15,8 @@ import {
   PageInstance,
   PluginEventTarget,
   PluginInstance,
-} from 'types';
-import { UserRecord } from 'sharedTypes';
+  UserRecord,
+} from '@vize/types';
 import { isDebugMode } from 'utils';
 import { setMaxKey } from '../../key';
 import {
@@ -132,6 +132,7 @@ interface ExtraInfo {
 }
 
 function restoreExtraInfo({ owner }: ExtraInfo) {
+  debugger;
   return editStore.setState(store => {
     store.owner = owner;
   }, true);

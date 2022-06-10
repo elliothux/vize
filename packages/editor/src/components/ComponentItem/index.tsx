@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildren } from 'types';
+import { ComponentInstance, Maybe, PageInstance, PositionStyle, WithReactChildren } from '@vize/types';
 import { editStore, SelectStore, selectStore, SelectType } from 'states';
 import { withPreventEvent } from 'utils';
 import { events, EventEmitTypes } from 'libs';
@@ -10,7 +10,7 @@ import {
   deleteComponentSelectedCallback,
   calcPosition,
   getMaterialsComponentMeta,
-} from 'runtime';
+} from '@vize/runtime-web';
 import { ComponentContextMenu, showComponentContextMenu } from 'components/ContextMenu';
 import classNames from 'classnames';
 import { ComponentMask } from './ComponentMask';

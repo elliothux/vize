@@ -1,5 +1,5 @@
 import { UserRecord, Maybe } from 'types';
-import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix, WithPagination } from './utils';
+import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix, WithPagination } from '@vize/utils';
 
 export function queryUser(
   startPage: number,

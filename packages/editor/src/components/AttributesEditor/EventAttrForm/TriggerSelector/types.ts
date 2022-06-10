@@ -1,5 +1,5 @@
 import { SelectType } from 'states';
-import { EventTriggerName, EventTriggerType, MaterialsCustomEvent, Maybe, UniversalEventTrigger } from 'types';
+import { EventTriggerName, EventTriggerType, MaterialsCustomEvent, Maybe, UniversalEventTrigger } from '@vize/types';
 
 export interface TriggerSelectorProps extends Props {
   customEvents?: MaterialsCustomEvent[];

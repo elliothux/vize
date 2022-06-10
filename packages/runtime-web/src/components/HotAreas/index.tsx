@@ -1,4 +1,3 @@
-import './index.scss';
 import * as React from 'react';
 import { HotArea } from '@vize/types';
 import { HotAreaItem } from './HotAreaItem';
@@ -14,7 +13,7 @@ interface Props
 
 export function HotAreas({ hotAreas, globalData, globalStyle, pageData, pageStyle, meta, router }: Props) {
   return (
-    <div className="vize-hotareas-container">
+    <div className="vize-hotareas-container" style={{ width: '100%', height: '100%', position: 'absolute' }}>
       {hotAreas.map(hotArea => (
         <HotAreaItem
           key={hotArea.key}

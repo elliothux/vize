@@ -1,5 +1,5 @@
 import { componentsStore, pagesStore } from 'states';
-import { ComponentInstance, Maybe } from 'types';
+import { ComponentInstance, Maybe } from '@vize/types';
 import { isNumber } from 'utils';
 
 export interface ComponentIndex {

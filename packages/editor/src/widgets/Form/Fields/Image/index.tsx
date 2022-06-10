@@ -5,7 +5,7 @@ import { Input } from 'antd';
 import { isEmpty, getResourceURL } from 'utils';
 import { EventEmitTypes, events } from 'libs';
 import { FiArrowUp } from 'react-icons/fi';
-import { ResourceRecord, ResourceType } from 'sharedTypes';
+import { ResourceRecord, ResourceType } from '@vize/types';
 import classnames from 'classnames';
 import { FormProps } from '../../types';
 

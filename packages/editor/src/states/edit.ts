@@ -1,11 +1,17 @@
 import { action, computed, observable } from 'mobx';
-import { getQueryParams } from 'utils';
-import { LayoutMode, Maybe, PageMode } from 'types';
-import { UserRecord } from 'sharedTypes';
+import { LayoutMode, Maybe, PageMode, UserRecord } from '@vize/types';
 import { DeviceItem, phones } from 'components/Simulator/devices';
+import { getQueryParams } from 'utils';
 import { StoreWithUtils } from './utils';
 
-const defaultUser = { id: -1, name: 'vize-user', createdTime: new Date(), bizs: [], isAdmin: 0, isDeveloper: 0 };
+const defaultUser: UserRecord = {
+  id: -1,
+  name: 'vize-user',
+  createdTime: new Date(),
+  bizs: [],
+  isAdmin: 0,
+  isDeveloper: 0,
+};
 
 export class EditStore extends StoreWithUtils<EditStore> {
   constructor() {
@@ -17,6 +23,7 @@ export class EditStore extends StoreWithUtils<EditStore> {
     this.containerName = container;
     this.debugPorts = debugPorts;
     this.mainLib = libs[0];
+    console.log(phones[0], this);
   }
 
   public readonly pageId: Maybe<number>;

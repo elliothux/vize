@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import { Tag } from 'antd';
 import { editStore, pagesStore, selectStore } from 'states';
-import { PageInstance } from 'types';
+import { PageInstance } from '@vize/types';
 import { PageContextMenu, showPageContextMenu } from 'components/ContextMenu';
 import { useCallback } from 'react';
 import { FiHome } from 'react-icons/fi';

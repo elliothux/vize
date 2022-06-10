@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { componentsStore, selectStore, SelectType, sharedStore } from 'states';
-import { ComponentInstance, MaterialsComponentMeta, Maybe } from 'types';
-import { getMaterialsComponentMeta } from 'runtime';
+import { ComponentInstance, MaterialsComponentMeta, Maybe } from '@vize/types';
+import { getMaterialsComponentMeta } from '@vize/runtime-web';
 import { isNumber } from 'utils';
 import { getCurrentPageComponentIndex, getSharedComponentIndex } from 'libs';
 

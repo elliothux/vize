@@ -1,6 +1,6 @@
 import { action, observable, computed, toJS, runInAction } from 'mobx';
-import { Maybe } from 'types';
-import { setMaterialsMetaMap } from 'runtime';
+import { Maybe } from '@vize/types';
+import { setMaterialsMetaMap } from '@vize/runtime-web';
 import { initMaterialsForms } from 'widgets/Form/utils';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
 import { loadMaterials, setMaterialsContainerMeta } from 'libs';

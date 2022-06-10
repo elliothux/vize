@@ -3,13 +3,12 @@ import * as React from 'react';
 import { useCallback, useMemo } from 'react';
 import { editStore, globalStore, pagesStore, selectStore } from 'states';
 import classnames from 'classnames';
-import { FirstParameter, HotArea } from 'types';
+import { FirstParameter, HotArea } from '@vize/types';
 import { preventSyntheticEvent } from 'utils';
 import { observer } from 'mobx-react';
-import { NodeEventProxy } from 'runtime/components/NodeEventProxy';
-import { percent } from 'runtime/libs/style';
+import { NodeEventProxy, percent } from '@vize/runtime-web';
 import { Trans } from 'react-i18next';
-import { showHotAreaContextMenu } from '../ContextMenu/HotAreaContextMenu';
+import { showHotAreaContextMenu } from '../ContextMenu';
 
 interface Props {
   index: number;

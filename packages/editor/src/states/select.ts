@@ -1,7 +1,7 @@
 import { action, observable, toJS } from 'mobx';
-import { getComponentSelectedCallback } from 'runtime';
+import { getComponentSelectedCallback } from '@vize/runtime-web';
 import { PageUniversalEventTrigger } from '@vize/types';
-import { Maybe } from 'types';
+import { Maybe } from '@vize/types';
 import { injectGlobalReadonlyGetter, isDev } from 'utils';
 import { withTimeTravel } from 'mobx-time-traveler';
 import { EventEmitTypes, events } from '../libs';

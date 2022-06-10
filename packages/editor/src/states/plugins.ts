@@ -1,6 +1,6 @@
 import { action, computed } from 'mobx';
-import { EventInstance, Maybe, PluginInstance } from 'types';
-import { getMaterialsPluginMeta } from 'runtime';
+import { EventInstance, Maybe, PluginInstance } from '@vize/types';
+import { getMaterialsPluginMeta } from '@vize/runtime-web';
 import {
   createPluginInstance,
   getCurrentPagePluginIndex,

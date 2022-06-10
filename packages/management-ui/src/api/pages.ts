@@ -1,6 +1,6 @@
 import { BizRecord, Maybe, PageRecord, PageRecordWithHistory } from 'types';
 import { HistoryRecord } from 'types';
-import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix, WithPagination } from './utils';
+import { getCGIJSON, ParsedCGIResponse, postCGIJSON, prefix, WithPagination } from '@vize/utils';
 
 export function queryPages(
   biz: Maybe<BizRecord['id']>,

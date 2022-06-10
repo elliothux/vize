@@ -5,7 +5,7 @@ import { default as useMount } from 'react-use/esm/useMount';
 import { message, Spin } from 'antd';
 import { editStore, materialsStore } from 'states';
 import { I18nextProvider } from 'react-i18next';
-import { i18n, useCurrentLanguage } from 'i18n';
+import { i18n, useCurrentLanguage } from '@vize/i18n';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { EventEmitTypes, events, init } from 'libs';
 import { Header } from 'components/Header';
@@ -66,13 +66,13 @@ function IApp() {
         <Header />
         <main className={classNames(`vize-main language-${language}`, { 'preview-mode': previewMode })}>
           <MaterialsView loading={loading} />
-          <Simulator>
-            {loading ? null : (
+          {loading ? null : (
+            <Simulator>
               <WithRerender>
                 <Renderer />
               </WithRerender>
-            )}
-          </Simulator>
+            </Simulator>
+          )}
           <AttributesEditor loading={loading} />
         </main>
         <HotAreaManager />

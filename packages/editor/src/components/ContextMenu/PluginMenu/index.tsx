@@ -4,7 +4,7 @@ import { Menu, Item, theme, animation } from 'react-contexify';
 import { useCallback } from 'react';
 import { pluginsStore, selectStore } from 'states';
 import { preventSyntheticEvent, showContextMenu } from 'utils';
-import { PluginInstance } from 'types';
+import { PluginInstance } from '@vize/types';
 import { Trans } from 'react-i18next';
 
 interface Props {

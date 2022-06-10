@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { debounce } from 'throttle-debounce';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import { EventEmitTypes, events } from 'libs';
 
 enum HotReloadCommand {

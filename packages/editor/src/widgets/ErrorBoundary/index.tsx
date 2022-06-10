@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ErrorInfo, PureComponent } from 'react';
-import { WithReactChildren, Maybe } from 'types';
+import { WithReactChildren, Maybe } from '@vize/types';
 
 interface State {
   error: Maybe<Error>;

@@ -1,5 +1,5 @@
 import { BizRecord } from 'types';
-import { getCGIJSON, postCGIJSON, prefix } from './utils';
+import { getCGIJSON, postCGIJSON, prefix } from '@vize/utils';
 
 export function queryBiz(keywords?: string) {
   return getCGIJSON<BizRecord[]>(prefix('biz', { keywords }));

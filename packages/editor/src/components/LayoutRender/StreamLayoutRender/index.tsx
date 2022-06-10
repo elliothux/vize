@@ -5,7 +5,7 @@ import {
   SortEnd,
   SortStart,
 } from 'react-sortable-hoc';
-import { ComponentInstance, WithReactChildren } from 'types';
+import { ComponentInstance, WithReactChildren } from '@vize/types';
 import { ComponentItem } from 'components/ComponentItem';
 import { componentsStore, editStore, pagesStore, selectStore } from 'states';
 import { observer } from 'mobx-react';

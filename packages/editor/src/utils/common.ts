@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { message } from 'antd';
 import { parseUrl } from 'query-string';
-import { ComponentInstance, JsonSchemaProperties, MaterialsForm, Maybe } from 'types';
+import { ComponentInstance, JsonSchemaProperties, MaterialsForm, Maybe } from '@vize/types';
 import { createSchema } from 'libs';
 import { editStore } from 'states';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import getDefaults from 'json-schema-defaults';
 import { isFunction } from './is';
 
@@ -22,7 +22,7 @@ export function isMacOS() {
 }
 
 export function isDev() {
-  return process.env['NODE_ENV'] === 'development';
+  return import.meta.env.DEV;
 }
 
 export function isDebugMode() {

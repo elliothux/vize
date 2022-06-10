@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Fragment } from 'react';
 import { HotAreaItem } from 'components/HotAreaItem';
-import { ComponentInstance } from 'types';
+import { ComponentInstance } from '@vize/types';
 import { HotAreaContextMenu } from 'components/ContextMenu';
 
 interface Props {

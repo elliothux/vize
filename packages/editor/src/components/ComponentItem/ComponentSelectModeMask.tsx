@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FiCheck } from 'react-icons/fi';
-import { ComponentInstance, Function } from 'types';
-import { i18n } from 'i18n';
+import { ComponentInstance, Function } from '@vize/types';
+import { i18n } from '@vize/i18n';
 
 interface Props {
   instance: ComponentInstance;

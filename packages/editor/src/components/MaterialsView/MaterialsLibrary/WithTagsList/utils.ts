@@ -1,7 +1,7 @@
 import * as R from 'ramda';
-import { getMaterialsLibInfo } from 'runtime';
-import { MaterialsComponentMeta, MaterialsPluginMeta } from 'types';
-import { i18n } from 'i18n';
+import { getMaterialsLibInfo } from '@vize/runtime-web';
+import { MaterialsComponentMeta, MaterialsPluginMeta } from '@vize/types';
+import { i18n } from '@vize/i18n';
 
 export type MaterialsTagsList<T> = { tag: string; items: T[] }[];
 

@@ -3,7 +3,7 @@ import { FiDelete } from 'react-icons/fi';
 import { animation, Item, Menu, theme } from 'react-contexify';
 import { hotAreaStore, selectStore } from 'states';
 import { preventSyntheticEvent, showContextMenu } from 'utils';
-import { HotArea } from 'types';
+import { HotArea } from '@vize/types';
 import { useCallback } from 'react';
 import { Trans } from 'react-i18next';
 import { createMouseEventFromIframe } from '../utils';

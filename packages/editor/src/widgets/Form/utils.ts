@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { FirstParameter, MaterialsForms, Maybe } from 'types';
+import { FirstParameter, MaterialsForms, Maybe } from '@vize/types';
 import { registerFormFieldWidgets } from './Fields';
 import { FormProps } from './types';
 

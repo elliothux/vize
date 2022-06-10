@@ -1,5 +1,5 @@
 import { ResourceRecord, ResourceType } from 'types';
-import { deleteCGIJSON, getCGIJSON, ParsedCGIResponse, prefix, WithPagination } from './utils';
+import { deleteCGIJSON, getCGIJSON, ParsedCGIResponse, prefix, WithPagination } from '@vize/utils';
 
 export function queryResources(
   type: ResourceType,

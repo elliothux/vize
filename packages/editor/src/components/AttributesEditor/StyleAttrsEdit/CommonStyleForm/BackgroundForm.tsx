@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BackgroundStyle } from 'types';
+import { BackgroundStyle } from '@vize/types';
 import { Radio, Select } from 'antd';
 import { isEmpty, ColorFormat } from 'utils';
 import { Color } from 'widgets/Form/Fields/Color';

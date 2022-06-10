@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { editStore } from 'states';
 import { observer } from 'mobx-react';
-import { ComponentInstance } from 'types';
+import { ComponentInstance } from '@vize/types';
 import { DraggableComponentItem } from './DraggableComponentItem';
 import iframeStyle from './index.iframe.scss';
 

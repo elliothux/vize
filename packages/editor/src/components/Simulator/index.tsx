@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { memo, useCallback, useEffect, useRef } from 'react';
-import { WithReactChildren } from 'types';
+import { WithReactChildren } from '@vize/types';
 import { getOffsetToViewport } from 'utils';
 import { DeviceSimulator } from './DeviceSimulator';
 

@@ -2,12 +2,12 @@
 import './index.scss';
 import * as React from 'react';
 import * as R from 'ramda';
-import { ComponentInstance, Maybe } from 'types';
+import { ComponentInstance, Maybe } from '@vize/types';
 import { IHotArea, IHotAreaPosition, IHotAreaSize, MoveHotAreaDirection } from './types';
 import { Modal, Spin } from 'antd';
 import { getImageSrc, getOffsetToViewport } from 'utils';
 import { events, EventEmitTypes } from 'libs';
-import { i18n } from 'i18n';
+import { i18n } from '@vize/i18n';
 import {
   createHotArea,
   copyHotArea as iCopyHotArea,

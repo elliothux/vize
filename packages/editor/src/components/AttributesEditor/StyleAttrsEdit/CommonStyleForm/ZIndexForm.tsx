@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ZIndexStyle } from 'types';
+import { ZIndexStyle } from '@vize/types';
 import { InputNumber, Switch } from 'antd';
 import { Trans } from 'react-i18next';
 import { StyleFormProps } from './types';

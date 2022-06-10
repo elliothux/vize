@@ -70,7 +70,7 @@ specifiers:
   markdown-it-html5-embed: ^1.0.0
   mobx: ^5.15.4
   mobx-react: ^6.1.8
-  mobx-time-traveler: ^0.1.1
+  mobx-time-traveler: 0.1.4
   node-watch: ^0.7.1
   prettier: ^1.19.1
   promise-timeout: ^1.3.0
@@ -92,6 +92,8 @@ specifiers:
   react-scripts: 3.4.1
   react-sortable-hoc: ^1.11.0
   react-use: ^13.27.1
+  reflect-metadata: ^0.1.13
+  rimraf: ^3.0.2
   sass: ^1.32.12
   sass-loader: ^8.0.2
   slate: ^0.63.0
@@ -123,8 +125,8 @@ dependencies:
   '@udecode/slate-plugins': 1.0.0-alpha.25_l6gyxhslnd4cagqtttvdogeis4
   '@vitejs/plugin-react-refresh': 1.3.6
   '@vize/richtext-editor': 0.1.6_kydtdozuyuhqxt2dbucrndqpnm
-  '@vize/runtime-web': 0.1.4
-  '@vize/types': 0.1.15
+  '@vize/runtime-web': link:packages/runtime-web
+  '@vize/types': link:packages/types
   antd: 4.20.7_prpqlkd37azqwypxturxi7uyci
   axios: 0.21.4
   classnames: 2.3.1
@@ -141,7 +143,7 @@ dependencies:
   lodash.template: 4.5.0
   mobx: 5.15.7
   mobx-react: 6.3.1_s567jfbytf3u4herzxmcfr7gh4
-  mobx-time-traveler: 0.1.2_mobx@5.15.7
+  mobx-time-traveler: link:../mobx-time-traveler
   promise-timeout: 1.3.0
   qrcode.react: 1.0.1_react@17.0.2
   query-string: 6.14.1
@@ -159,6 +161,7 @@ dependencies:
   react-scripts: 3.4.1_7h76rw473xyeqf7ck5whazqr24
   react-sortable-hoc: 1.11.0_prpqlkd37azqwypxturxi7uyci
   react-use: 13.27.1_prpqlkd37azqwypxturxi7uyci
+  reflect-metadata: 0.1.13
   slate: 0.63.0
   slate-history: 0.62.0_slate@0.63.0
   slate-hyperscript: 0.62.0_slate@0.63.0
@@ -217,6 +220,7 @@ devDependencies:
   prettier: 1.19.1
   raw-loader: 4.0.2_webpack@4.42.0
   react-app-rewired: 2.2.1_react-scripts@3.4.1
+  rimraf: 3.0.2
   sass: 1.52.1
   sass-loader: 8.0.2_sass@1.52.1+webpack@4.42.0
   typedoc: 0.20.37_typescript@4.3.5
@@ -6020,14 +6024,6 @@ packages:
       slate-react: 0.63.0_cqwdgy6vixbgajrdh6qgthwhie
     transitivePeerDependencies:
       - react-native
-    dev: false
-
-  /@vize/runtime-web/0.1.4:
-    resolution: {integrity: sha512-I5/9P3ATJaFs0QqXJPk1kiBDBg0TsDWbBZxwIqoPFKJjIBU9YJ4ol4fq6JeBofNzUEjROQxth+FvY4vxKKOLzg==}
-    dev: false
-
-  /@vize/types/0.1.15:
-    resolution: {integrity: sha512-wmQJnAGKtHV95uvJsweFj4hlsqgYpZdUfRhVI4obxAR8Ffp1EFe52TZ7lUcBUhms2zxoH8pwP2lLfj9sp7WFPg==}
     dev: false
 
   /@vue/babel-helper-vue-jsx-merge-props/1.2.1:
@@ -14833,14 +14829,6 @@ packages:
       - react-native
     dev: false
 
-  /mobx-time-traveler/0.1.2_mobx@5.15.7:
-    resolution: {integrity: sha512-5IaZV5kW9cb2rtWLbvWDjoE4rEbLmEA+c6awVRUBxi86ZcwZbdJqN4J52uBccbjrmB+4iqfVUxyn3ak8/OdraA==}
-    peerDependencies:
-      mobx: '*'
-    dependencies:
-      mobx: 5.15.7
-    dev: false
-
   /mobx/5.15.7:
     resolution: {integrity: sha512-wyM3FghTkhmC+hQjyPGGFdpehrcX1KOXsDuERhfK2YbJemkUhEB+6wzEN639T21onxlfYBmriA1PFnvxTUhcKw==}
     dev: false
@@ -18104,6 +18092,10 @@ packages:
       '@babel/runtime': 7.18.3
     dev: false
 
+  /reflect-metadata/0.1.13:
+    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
+    dev: false
+
   /regenerate-unicode-properties/10.0.1:
     resolution: {integrity: sha512-vn5DU6yg6h8hP/2OkQo3K7uVILvY4iu0oI4t3HFa81UPkhGJwkRwM10JEc3upjdhHjs/k8GJY1sRBhk5sr69Bw==}
     engines: {node: '>=4'}
@@ -18429,6 +18421,13 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
+
+  /rimraf/3.0.2:
+    resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    hasBin: true
+    dependencies:
+      glob: 7.2.3
+    dev: true
 
   /ripemd160/2.0.2:
     resolution: {integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==}

@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { preventSyntheticEvent } from 'utils';
-import { Maybe } from 'types';
+import { Maybe } from '@vize/types';
 
 interface Props {
   children: string;
