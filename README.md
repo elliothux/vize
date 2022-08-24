@@ -34,10 +34,6 @@ Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 
 - [Copyes@github](https://github.com/Copyes)
 
-## 🙌 帮助和交流
-
-<img src="./packages/doc/src/welcome/wechat.jpg" class="zoom" alt="Preview" style="width:128px;height:auto;border-radius:3px;margin-top:14px;"/>
-
 ## 📦 核心包 Core Packages
 
 | Description    | Package                                                                                           | NPM Package                                                              | Status                                                                                                                      |
