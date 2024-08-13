@@ -1,8 +1,10 @@
 # Vize：现代化的 Web 可视化编排引擎
 
-Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
+## ⚠️ 警告 Warning
 
-![stars] ![forks] ![issues] ![pr] ![closed-pr]
+此项目仍处于开发状态，某些功能可能不稳定，部分 API 也可能会有变动。
+
+This is an **experimental** project and is still in development. BUGs may exist. APIs and features may change.
 
 ## ✨ 特性
 
@@ -77,8 +79,3 @@ Github: [https://github.com/vize-team/vize](https://github.com/vize-team/vize)
 [pr]: https://img.shields.io/github/issues-pr/vize-team/vize?style=social&label=PullRequests&style=plastic
 [closed-pr]: https://img.shields.io/github/issues-pr-closed/vize-team/vize?style=social&label=PullRequests&style=plastic
 
-## ⚠️ 警告 Warning
-
-此项目仍处于开发状态，某些功能可能不稳定，部分 API 也可能会有变动。
-
-This is an **experimental** project and is still in development. BUGs may exist. APIs and features may change.
